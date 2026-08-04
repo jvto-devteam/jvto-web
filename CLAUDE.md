@@ -243,7 +243,14 @@ the help/preview box, and then **stops at `READY FOR OWNER`** — it does not ta
   post-promotion (`PRODUCTION-VERIFIED`) check are owner actions.
 - **No automated merge scheduling.** No workflow auto-merges (the `sync-artifacts.yml` auto-merge
   was removed), and the assistant does not schedule `send_later`/check-in wake-ups to merge, promote,
-  or deploy. Do not schedule another check-in after reporting completion.
+  or deploy. Do not schedule another check-in after reporting completion. **Scope caveat:** this is a
+  workflow-level + behavioral lock — it removes the automation and the agent instruction to merge. It
+  does **not** technically revoke GitHub merge permission from the connected identity; hard
+  enforcement (branch protection requiring owner review/approval, restricting who can merge) remains
+  an **owner UI / account-level configuration**.
+- **Reporting honesty on scheduled tasks.** Never assert automation is "all cancelled" absolutely —
+  a stale one-shot check-in can still surface after a 0-pending reading. Report only what is
+  verifiable: **"No pending scheduled task is visible to this session."**
 - **Follow-up PRs only when the active implementation requires them** — not to "finish" a merge/
   deploy the owner hasn't taken.
 - **Promotion-status vocabulary** (used in `docs/architecture/public-content-migration-status.md`):

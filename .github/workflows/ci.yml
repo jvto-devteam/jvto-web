@@ -78,6 +78,13 @@ jobs:
         # prebuild on the non-required build-develop job; it is required now.
         run: npm run content:check
 
+      - name: Docs-only classifier self-test (blocking)
+        # Asserts the true-documentation-only classifier verdict for the full
+        # case matrix AND that ci.yml/deploy.yml still carry the exact predicate
+        # / paths-ignore — so a future edit that widens "docs" (e.g. back to a
+        # blanket **/*.md that sweeps in served content Markdown) fails here.
+        run: bash scripts/ci/docs-only-selftest.sh
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:
@@ -137,14 +144,15 @@ jobs:
           fetch-depth: 0
 
       - name: Detect docs-only change
-        # A TRUE-documentation-only PR does not affect the build, so it must not
+        # A true-documentation-only PR does not affect the build, so it must not
         # run the flaky VPS-SSH develop build (automation-governance hardening
-        # 2026-08-04). "Documentation" is ONLY: docs/**, root-level *.md
-        # (README.md / CLAUDE.md), and .github/**/*.md. Served content Markdown
-        # is production output and MUST build — content/pages/**/*.md renders via
-        # loadStaticPage and src/data/blog/**/*.md via src/lib/blog.ts — so a
-        # blanket `.md` rule would wrongly skip the only full build check. Any
-        # changed file that is not documentation sets code=true.
+        # 2026-08-04). "Documentation" is ONLY `docs/**` and root-level *.md
+        # (README.md / CLAUDE.md). Served content Markdown is production output
+        # and MUST build — content/pages/**/*.md renders via loadStaticPage and
+        # src/data/blog/**/*.md via src/lib/blog.ts — so a blanket `.md` rule
+        # would wrongly skip the only full build check. Any changed file that is
+        # not documentation sets code=true. This exact predicate is asserted by
+        # scripts/ci/docs-only-selftest.sh (run in the verify job above).
         id: changes
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -153,13 +161,13 @@ jobs:
           set -euo pipefail
           files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
           echo "changed files:"; echo "$files"
-          nondoc="$(echo "$files" | grep -vE '^docs/|^[^/]+\.md$|^\.github/.*\.md$' || true)"
+          nondoc="$(printf '%s\n' "$files" | grep -vE '(^docs/|^[^/]+\.md$)' || true)"
           if [ -n "$nondoc" ]; then
             echo "code=true" >> "$GITHUB_OUTPUT"
             echo "non-documentation files changed -> running develop build"
           else
             echo "code=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::True-documentation-only PR (docs/**, root *.md, .github/**/*.md) — skipping the develop-server build."
+            echo "::notice::True-documentation-only PR (docs/** or root-level *.md) — skipping the develop-server build."
           fi
 
       - name: Check develop-server secrets are configured

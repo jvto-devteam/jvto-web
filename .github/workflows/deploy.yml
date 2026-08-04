@@ -4,19 +4,20 @@ on:
   push:
     branches:
       - main
-    # TRUE-documentation-only pushes do not change what the help box serves, so
+    # True-documentation-only pushes do not change what the help box serves, so
     # they must not trigger a deploy (automation-governance hardening
-    # 2026-08-04). "Documentation" here is ONLY: docs/**, root-level *.md
-    # (README.md / CLAUDE.md), and .github/**/*.md. Served content Markdown is
-    # production output and must still deploy — content/pages/**/*.md is
-    # rendered via loadStaticPage and src/data/blog/**/*.md via src/lib/blog.ts,
-    # so a blanket `**/*.md` would wrongly skip a real content deploy. A push
-    # that also touches a non-doc file still deploys; workflow_dispatch stays
-    # available for a manual re-run.
+    # 2026-08-04). "Documentation" here is ONLY root-level Markdown
+    # (README.md / CLAUDE.md — `*.md` matches the repo root, not nested paths)
+    # and `docs/**`. Served content Markdown is production output and MUST still
+    # deploy — `content/pages/**/*.md` renders via loadStaticPage and
+    # `src/data/blog/**/*.md` via src/lib/blog.ts — so a blanket `**/*.md` would
+    # wrongly skip a real content deploy. A push that also touches any non-doc
+    # file still deploys; workflow_dispatch stays available for a manual re-run.
+    # (Kept in sync with the ci.yml build-develop classifier + its self-test,
+    # scripts/ci/docs-only-selftest.sh.)
     paths-ignore:
-      - 'docs/**'
       - '*.md'
-      - '.github/**/*.md'
+      - 'docs/**'
   workflow_dispatch:   # allow manual re-run of the help/develop deploy on demand
 
 # Serialize deploys. Without this, near-simultaneous pushes run concurrent SSH
