@@ -72,6 +72,8 @@ export const FaqKeySchema = z
 export const PageMetaSchema = z.object({
   route: RouteSchema,
   title: z.string().min(1, "title is required"),
+  /** Optional browser-tab/SEO <title> override when it differs from the H1 (parity with legacy pages). */
+  browserTitle: z.string().min(1).optional(),
   description: z.string().min(1, "description is required"),
   section: SectionSchema,
   status: z.enum(["draft", "published"]),

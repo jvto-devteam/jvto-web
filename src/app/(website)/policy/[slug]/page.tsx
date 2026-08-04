@@ -6,36 +6,24 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
-import {
   buildJvtoTravelCreditAnnouncementSchema,
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
 import {
-  getCustomerCopy,
-  getPolicyNotes,
-  getPolicyEvidenceText,
-  type CustomerCopyKey,
-} from "@/lib/policy-bundle";
+  listPublishedStaticPages,
+  loadStaticPage,
+  PRODUCTION_ORIGIN,
+  type Block,
+  type StaticPage,
+  type StructuredSection,
+} from "@/lib/static-content";
 
-// Canonical Lifetime Package Guarantee blocks (compiled from the llm-wiki YAML
-// SSOT via customer-copy.json). Rendered on /policy/booking-payment-cancellation
-// so the binding summary comes from the policy bundle, not hand-written copy.
-const GUARANTEE_BLOCKS: { key: CustomerCopyKey; label: string }[] = [
-  { key: "package_guarantee_summary", label: "Lifetime Package Guarantee" },
-  { key: "before_48_full_cancellation", label: "Cancel your booking 48h+ before Day 1" },
-  { key: "after_48_full_cancellation", label: "Cancel within 48h of Day 1" },
-  { key: "partial_cancellation", label: "One traveller cancels (booking continues)" },
-  { key: "flight_disruption", label: "Flight disruption" },
-  { key: "destination_force_majeure", label: "Destination force majeure" },
-  { key: "package_transfer", label: "Transferring Package Credit" },
-  { key: "package_redemption", label: "Using Package Credit" },
-];
+// PACKAGE 03 (2026-08-04): Policy routes are served from content/pages/policy/
+// (the static-content SSOT). No content_pages / snapshot / cms-seed / FAQ-resolver
+// / policy-bundle reader is consulted at runtime — the complete visible policy
+// wording (including the formerly bundle-injected booking/payment/guarantee
+// blocks) lives in the content files. See docs/architecture/public-content-*.md.
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -44,91 +32,142 @@ type Props = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/policy").map((route) => ({
-    slug: route.replace("/policy/", ""),
-  }));
+  return listPublishedStaticPages({ section: "policy" })
+    .filter((p) => p.meta.route !== "/policy")
+    .map((p) => ({ slug: p.meta.route.replace("/policy/", "") }));
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: true,
-    requiredContentFields: ["body_md"],
-  });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return {
-      title: "Page Not Found",
-    };
+  const page = loadStaticPage(`/policy/${slug}`);
+  if (!page || page.meta.status !== "published") {
+    return { title: "Page Not Found" };
   }
-
-  // The snapshot seo.description for the cancellation policy still says the retired
-  // "Travel Credit"; source a fresh v2 description from the policy-bundle SSOT.
-  const description =
-    slug === "booking-payment-cancellation"
-      ? "How to book, pay, and cancel with JVTO: website-only booking, 20% deposit, and the Lifetime Package Guarantee — cancel your whole booking 48h+ before Day 1 for 100% Lifetime Package Credit (never expires, not cash)."
-      : (seo.description ?? undefined);
-
   return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   };
+}
+
+function GuaranteeGrid({ block }: { block: Extract<Block, { type: "grid" }> }) {
+  return (
+    <dl className="space-y-4">
+      {block.items.map((item, i) => (
+        <div key={i}>
+          <dt className="font-bold text-jvto-navy">{String(item.title ?? "")}</dt>
+          <dd className="text-jvto-navy/80">{String(item.text ?? "")}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function StructuredPolicySection({ section }: { section: StructuredSection }) {
+  const isGuaranteeBox = section.id === "lifetime-package-guarantee";
+  const heading = section.title ? (
+    <h2
+      className={`font-black text-xl md:text-2xl text-jvto-navy ${isGuaranteeBox ? "mb-5" : "mb-4"}`}
+      style={{ fontFamily: "var(--font-heading)" }}
+    >
+      {section.title}
+    </h2>
+  ) : null;
+
+  const blocks = (section.blocks ?? []).map((block, i) => {
+    if (block.type === "grid") return <GuaranteeGrid key={i} block={block} />;
+    if (block.type === "markdown") {
+      // Inside the guarantee box the trailing markdown is the precedence note —
+      // rendered small, exactly as the pre-migration layout did.
+      return isGuaranteeBox ? (
+        <p key={i} className="mt-5 text-xs text-jvto-navy/60">
+          {block.body_md}
+        </p>
+      ) : (
+        <div key={i} className="text-jvto-navy/80">
+          <MarkdownRenderer markdown={block.body_md} />
+        </div>
+      );
+    }
+    return null;
+  });
+
+  if (isGuaranteeBox) {
+    return (
+      <section className="mb-12 rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-6 md:p-8">
+        {heading}
+        {blocks}
+      </section>
+    );
+  }
+  return (
+    <section>
+      {heading}
+      {blocks}
+      {section.body_md ? (
+        <div className="text-jvto-navy/80">
+          <MarkdownRenderer markdown={section.body_md} />
+        </div>
+      ) : null}
+    </section>
+  );
 }
 
 export default async function PolicyDynamicPage({ params }: Props) {
   const { slug } = await params;
   const route = `/policy/${slug}`;
+  const page = loadStaticPage(route);
+  if (!page || page.meta.status !== "published") return notFound();
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: true,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Policy";
-  const body = content?.body_md ?? "";
-
-  // Prefer the resolved canonical/narrative FAQ (fresh) over the stale snapshot
-  // content.faq. resolveFaqsForPage already suppresses the CMS FAQ when a
-  // higher-precedence source exists, so this keeps the visible list in sync with
-  // the JSON-LD.
-  const faqItems: { q: string; a: string }[] = faqResolution.faqs.length
-    ? faqResolution.faqs.map((f) => ({ q: f.question, a: f.answer }))
-    : Array.isArray(content?.faq)
-      ? content.faq
-      : [];
+  const h1 = page.meta.title;
   const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
-    name: seo.title ?? h1,
-    description: seo.description ?? `JVTO ${h1} policy.`,
+    name: page.meta.browserTitle ?? h1,
+    description: page.meta.description,
     mentionsTermIds,
   });
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
+  const faqItems = page.faq ?? [];
+  const faqSchema = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
   const announcementSchema =
     slug === "booking-payment-cancellation"
       ? buildJvtoTravelCreditAnnouncementSchema()
       : null;
 
-  const slugExtraSchemas = [
-    policyAnchorSchema,
-    faqSchema,
-    announcementSchema,
-  ].filter(Boolean);
-
-  if (!body.trim().length) return notFound();
+  const slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
 
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={staticPageRow(page)}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
       <Sidebar />
 
@@ -159,73 +198,17 @@ export default async function PolicyDynamicPage({ params }: Props) {
         </section>
 
         <div className="container mx-auto px-4 max-w-4xl pt-12">
-          {slug === "booking-payment-cancellation" && (
+          {page.format === "structured" ? (
             <div className="mb-10 space-y-8">
-              {/* Fresh booking + payment copy from the policy-bundle SSOT (not the
-                  stale page snapshot). Cancellation follows in the box below. */}
-              <section>
-                <h2
-                  className="font-black text-xl md:text-2xl text-jvto-navy mb-4"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  How booking works
-                </h2>
-                <div className="text-jvto-navy/80">
-                  <MarkdownRenderer markdown={getPolicyNotes("booking-paths")} />
-                </div>
-              </section>
-              <section>
-                <h2
-                  className="font-black text-xl md:text-2xl text-jvto-navy mb-4"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  Deposit &amp; payment
-                </h2>
-                <div className="text-jvto-navy/80">
-                  <MarkdownRenderer
-                    markdown={
-                      getPolicyEvidenceText("payment-rules") ||
-                      getPolicyNotes("payment-rules")
-                    }
-                  />
-                </div>
-              </section>
+              {(page.sections ?? []).map((section) => (
+                <StructuredPolicySection key={section.id} section={section} />
+              ))}
             </div>
-          )}
-          {slug === "booking-payment-cancellation" && (
-            <section className="mb-12 rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-6 md:p-8">
-              <h2
-                className="font-black text-xl md:text-2xl text-jvto-navy mb-5"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                Lifetime Package Guarantee — the rules in plain language
-              </h2>
-              <dl className="space-y-4">
-                {GUARANTEE_BLOCKS.map(({ key, label }) => {
-                  const text = getCustomerCopy(key);
-                  if (!text) return null;
-                  return (
-                    <div key={key}>
-                      <dt className="font-bold text-jvto-navy">{label}</dt>
-                      <dd className="text-jvto-navy/80">{text}</dd>
-                    </div>
-                  );
-                })}
-              </dl>
-              <p className="mt-5 text-xs text-jvto-navy/60">
-                These summaries are generated from JVTO&rsquo;s canonical policy source and take
-                precedence. The detailed policy sections follow below.
-              </p>
-            </section>
-          )}
-          {/* For the cancellation policy the visible body is composed above from
-              the v2 bundle SSOT; skip the stale snapshot body_md. Other policy
-              slugs still render their body_md. */}
-          {slug !== "booking-payment-cancellation" && (
-            <MarkdownRenderer markdown={body} />
+          ) : (
+            <MarkdownRenderer markdown={page.body ?? ""} />
           )}
           {faqItems.length > 0 && (
-            <Faq items={faqItems} title={content?.faq_title ?? "FAQ"} />
+            <Faq items={faqItems.map((f) => ({ q: f.question, a: f.answer }))} title="FAQ" />
           )}
         </div>
       </main>

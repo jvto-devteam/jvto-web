@@ -6,14 +6,22 @@
 > Audited at baseline `a7892e66` (2026-08-04). See
 > [public-content-ownership.md](public-content-ownership.md) for the resolution model.
 
-## Policy (Package 03)
+## Policy (Package 03) — **CUTOVER 2026-08-04, parity verified**
 
-| route | currentPageFile | currentEffectiveSource | currentShape | targetFormat | specialSchema | faqSource | pkg | status | blocker |
-|---|---|---|---|---|---|---|---|---|---|
-| /policy | `policy/page.tsx` | cms-seed/snapshot | body_md | markdown | hub ItemList | resolver (cms-seed tier) | 03 | pending | none |
-| /policy/booking-payment-cancellation | `policy/[slug]/page.tsx` | **policy-bundle** (binding copy; snapshot body skipped) | mixed (bundle blocks + tsx) | markdown | PolicyWebPage + SpecialAnnouncement (`buildPolicySchemas.ts`) | canonical `POLICY_BOOKING_CANCELLATION_FAQS` (built from policy-bundle) | 03 | pending | consolidate bundle wording into one file — do not leave dual owner |
-| /policy/inclusions-exclusions | `policy/[slug]/page.tsx` | cms-seed/snapshot | body_md | markdown | PolicyWebPage | resolver | 03 | pending | none |
-| /policy/privacy | `policy/[slug]/page.tsx` | cms-seed/snapshot | body_md | markdown | PolicyWebPage | resolver | 03 | pending | none |
+| route | file | format | specialSchema kept | status | notes |
+|---|---|---|---|---|---|
+| /policy | `content/pages/policy/index.md` | markdown (meta + canonical hub copy; card layout stays TSX chrome) | hub ItemList | **verified** | FAQ removed from render path (resolver returned 0 — parity) |
+| /policy/booking-payment-cancellation | `content/pages/policy/booking-payment-cancellation.json` | **structured** — bundle wording consolidated verbatim (booking-paths, payment-rules, 8 guarantee blocks in a grid + precedence note); lime-box styling keyed on section id `lifetime-package-guarantee` | PolicyWebPage + SpecialAnnouncement | **verified** | the stale 10,977-char snapshot body was already skipped pre-migration — not resurrected |
+| /policy/inclusions-exclusions | `content/pages/policy/inclusions-exclusions.md` | markdown | PolicyWebPage | **verified** | AD-07: leading in-body `# H1` stripped (was double-rendered) |
+| /policy/privacy | `content/pages/policy/privacy.md` | markdown | PolicyWebPage | **verified** | AD-07: leading in-body `# H1` stripped (was double-rendered) |
+
+Policy routes call **zero** obsolete readers (`getPublicPageSnapshot` / `getContentPage` /
+`resolveFaqsForPage` / `getPolicyNotes` / `getCustomerCopy` / `getPolicyEvidenceText` /
+`getPageSeo` / `listPublicPageRoutesByPrefix` — grep-verified empty). `buildPolicySchemas.ts`
+still reads `getCustomerCopy` internally for the SpecialAnnouncement node (schema import,
+allowed by the blueprint; audit again in Package 09). `browserTitle` meta field added for
+H1 ≠ `<title>` parity. Parity proof: all 4 routes byte-compared against the pre-cutover
+resolver dumps (H1/titles/descriptions/bodies/bundle blocks/no-FAQ) — PASS.
 
 ## Travel Guide (Package 04) — DUAL PATH
 
@@ -93,5 +101,6 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 |---|---|---|
 | 00 | audit + this ledger | **done** (#141) |
 | 01 | loader + validation gates + drift-scan extension | **done** (#141) |
-| 02 | shared entities + review-stats SSOT relocation | **done (this PR)** |
-| 03–11 | per blueprint | pending, one PR each |
+| 02 | shared entities + review-stats SSOT relocation | **done** (#142) |
+| 03 | Policy migration + cutover (4 routes, parity verified) | **done (this PR)** |
+| 04–11 | per blueprint | pending, one PR each |
