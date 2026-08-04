@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+    # Docs-only pushes (Markdown + docs/) do not change what the help box
+    # serves, so they must not trigger a deploy (automation-governance
+    # hardening 2026-08-04). A push that also touches a non-docs file still
+    # deploys. workflow_dispatch stays available for a manual re-run.
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
   workflow_dispatch:   # allow manual re-run of the help/develop deploy on demand
 
 # Serialize deploys. Without this, near-simultaneous pushes run concurrent SSH

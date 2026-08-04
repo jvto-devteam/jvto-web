@@ -131,8 +131,35 @@ jobs:
     # PRs only (needs PR number + head SHA), same-repo only (forks lack SSH secrets).
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     steps:
+      - name: Checkout (for docs-only detection)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect docs-only change
+        # A Markdown/docs-only PR does not affect the build, so it must not run
+        # the flaky VPS-SSH develop build (automation-governance hardening
+        # 2026-08-04). Any changed file outside `*.md` / `docs/` sets code=true.
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          echo "changed files:"; echo "$files"
+          nondoc="$(echo "$files" | grep -vE '(\.md$|^docs/)' || true)"
+          if [ -n "$nondoc" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            echo "non-docs files changed -> running develop build"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Docs-only PR (Markdown/docs) — skipping the develop-server build."
+          fi
+
       - name: Check develop-server secrets are configured
         id: cfg
+        if: steps.changes.outputs.code == 'true'
         env:
           HOST: ${{ secrets.DEVELOP_SSH_HOST }}
         run: |
@@ -144,7 +171,7 @@ jobs:
           fi
 
       - name: Build PR on develop server (dev DB, isolated)
-        if: steps.cfg.outputs.configured == 'true'
+        if: steps.changes.outputs.code == 'true' && steps.cfg.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DEVELOP_SSH_HOST }}
