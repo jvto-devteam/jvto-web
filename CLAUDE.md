@@ -250,8 +250,11 @@ the help/preview box, and then **stops at `READY FOR OWNER`** — it does not ta
   **IMPLEMENTED** (merged to `main`) → **PREVIEW-VERIFIED** (proven on the help box) →
   **PRODUCTION-VERIFIED** (proven on `live` after the owner promote). The assistant may reach
   PREVIEW-VERIFIED; only the owner reaches PRODUCTION-VERIFIED.
-- **CI/deploy efficiency:** docs-only PRs skip `build-develop` and docs-only `main` pushes skip the
-  help deploy (Markdown/`docs/` path filters) — so a docs change never rides the flaky VPS-SSH path.
+- **CI/deploy efficiency:** true-documentation-only PRs skip `build-develop` and true-documentation-only
+  `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**`, root-level `*.md`
+  (README/CLAUDE), and `.github/**/*.md` — **served content Markdown still builds and deploys**
+  (`content/pages/**/*.md` renders via `loadStaticPage`; `src/data/blog/**/*.md` via `src/lib/blog.ts`),
+  so a content change is never mistaken for docs and skipped.
 
 ## Session Operating Rules
 
