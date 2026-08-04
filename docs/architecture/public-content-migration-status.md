@@ -2,7 +2,11 @@
 
 > Regenerate the raw signal table anytime with:
 > `npx tsx scripts/static-content/audit-current-sources.ts`
-> Status values: `pending` → `extracted` → `cutover` → `verified` → `retired`.
+> Per-route status values: `pending` → `extracted` → `cutover` → `verified` → `retired`.
+> **Promotion status** (a package's release state, 2026-08-04): **IMPLEMENTED** = merged to
+> `main`; **PREVIEW-VERIFIED** = proven live on the help/preview box; **PRODUCTION-VERIFIED** =
+> proven on `live`/production after the owner's `main → live` promote. A package is never marked
+> PRODUCTION-VERIFIED by this workspace — production promotion + verification is an owner action.
 > Audited at baseline `a7892e66` (2026-08-04). See
 > [public-content-ownership.md](public-content-ownership.md) for the resolution model.
 
@@ -62,9 +66,9 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 
 | route | currentEffectiveSource | currentShape | targetFormat | specialSchema | pkg | status | blocker |
 |---|---|---|---|---|---|---|---|
-| /why-jvto (hub) | content/pages/why-jvto/index.json (+ content/entities/*) | structured-json + entities | structured-json + entities | hub ItemList + narrative-claims ItemList (content/entities/narrative-claims.json) + FAQPage | 05 | **done** (help/preview-verified) | 05c: ALL hub narrative moved to content/ (trust cards, proof docs, hero meta, chips, §01-05, press, DIFF/QUOTES/STORY/STANDARDS, CTA); TSX = layout/icons/interaction only; crew stats COMPUTED from the our-team crew_grid (11/7/4); zero DB reads (claims ItemList from content/) |
-| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | content/pages/why-jvto/*.json | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | **done** (help/preview-verified) | `prefersDbForSlug()` DB-preferred path removed (AD-10); `sectionId` constants preserved verbatim from source |
-| /why-jvto/reviews | content/pages/why-jvto/reviews.json + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | **done** (help/preview-verified) | AD-08 gap **closed** — visible FAQ + FAQPage JSON-LD now both built from the single `page.faq` array |
+| /why-jvto (hub) | content/pages/why-jvto/index.json (+ content/entities/*) | structured-json + entities | structured-json + entities | hub ItemList + narrative-claims ItemList (content/entities/narrative-claims.json) + FAQPage | 05 | **IMPLEMENTED · PREVIEW-VERIFIED** | 05c: ALL hub narrative moved to content/ (trust cards, proof docs, hero meta, chips, §01-05, press, DIFF/QUOTES/STORY/STANDARDS, CTA); TSX = layout/icons/interaction only; crew stats COMPUTED from the our-team crew_grid (11/7/4); zero DB reads (claims ItemList from content/) |
+| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | content/pages/why-jvto/*.json | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | **IMPLEMENTED · PREVIEW-VERIFIED** | `prefersDbForSlug()` DB-preferred path removed (AD-10); `sectionId` constants preserved verbatim from source |
+| /why-jvto/reviews | content/pages/why-jvto/reviews.json + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | **IMPLEMENTED · PREVIEW-VERIFIED** | AD-08 gap **closed** — visible FAQ + FAQPage JSON-LD now both built from the single `page.faq` array |
 | /why-jvto/reviews/[id] | Prisma (dynamic) | dynamic | **stays DB** | Review | — | n/a | out of scope (dynamic) |
 
 ## Verify JVTO / Team / Destinations (Package 06)
@@ -115,9 +119,9 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
 | 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done** (#144) |
 | 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
-| 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **done** (#145 cutover) |
-| 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **done** (#145) |
-| 05c | Total legacy-source removal + enforcement gate (below) | **done** (#145, merged `1c22c770`) — help/preview-verified |
+| 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
+| 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
+| 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
 | 06–11 | per blueprint | pending, one PR each |
 
 **Deploy proof (help/preview box, merge `1c22c770`, 2026-08-04) — NOT production:** deploy run
