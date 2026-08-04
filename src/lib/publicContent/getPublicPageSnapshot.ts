@@ -1,5 +1,6 @@
 import { getContentPage } from "@/lib/content/getContentPage";
 import { SEED_COVERED_ROUTES } from "@/lib/cms/seedResolver";
+import { loadStaticPage } from "@/lib/static-content";
 import { publicPageSnapshots } from "./pageSnapshots";
 import type {
   PublicPageResolution,
@@ -172,8 +173,32 @@ export async function getPublicPageSnapshot(
   },
 ): Promise<PublicPageResolution> {
   const requiredContentFields = options?.requiredContentFields ?? [];
-  const snapshot =
-    publicPageSnapshots[route] ?? options?.fallbackSnapshot ?? null;
+
+  // Migrated-route guard (PACKAGE 05c): a route served by content/ NEVER reads
+  // the DB and never uses legacy snapshots — its snapshot is synthesized from
+  // the content file so legacy call sites (CMS console resolvePageContent,
+  // sitemap lastmod) still see real title/description, marked
+  // meta.source = "static-content". Without this, deleting a route's cms-seed
+  // rows would silently re-open the runtime DB-override path below.
+  const staticPage = loadStaticPage(route);
+  const contentOwnsRoute =
+    staticPage != null && staticPage.meta.status === "published";
+
+  const snapshot: PublicPageSnapshot | null = contentOwnsRoute
+    ? {
+        route: staticPage.meta.route,
+        lang: "en",
+        seo: {
+          title: staticPage.meta.browserTitle ?? staticPage.meta.title,
+          description: staticPage.meta.description,
+        },
+        content: { h1: staticPage.meta.title },
+        meta: {
+          generatedAt: `${staticPage.meta.lastReviewed}T00:00:00.000Z`,
+          source: "static-content",
+        },
+      }
+    : (publicPageSnapshots[route] ?? options?.fallbackSnapshot ?? null);
 
   const snapshotIsComplete =
     !!snapshot && hasRequiredContentFields(snapshot, requiredContentFields);
@@ -184,9 +209,10 @@ export async function getPublicPageSnapshot(
   // it. Non-covered routes keep byte-identical behavior below.
   const seedOwnsRoute = SEED_COVERED_ROUTES.has(route);
 
-  const allowDatabaseFallback = seedOwnsRoute
-    ? false
-    : (options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv());
+  const allowDatabaseFallback =
+    contentOwnsRoute || seedOwnsRoute
+      ? false
+      : (options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv());
 
   // Build-vs-runtime split.
   //   Build/SSG (allowDatabaseFallback === false): NEVER touch the DB — the static

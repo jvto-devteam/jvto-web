@@ -320,6 +320,19 @@ export const ReviewPlatformsEntitySchema = z
     }
   });
 
+export const NarrativeClaimsEntitySchema = z.looseObject({
+  claims: z
+    .array(
+      z.looseObject({
+        id: z.string().regex(/^C[1-9]$/),
+        pillar: z.string().min(1),
+        primary_page: RouteSchema.optional(),
+      }),
+    )
+    .min(9),
+  lastReviewed: IsoDateSchema,
+});
+
 /** Strict schema per known entity file name — validate.ts applies these on top of the base contract. */
 export const ENTITY_SCHEMAS: Record<string, z.ZodType> = {
   organization: OrganizationEntitySchema,
@@ -327,6 +340,7 @@ export const ENTITY_SCHEMAS: Record<string, z.ZodType> = {
   people: PeopleEntitySchema,
   partners: PartnersEntitySchema,
   "review-platforms": ReviewPlatformsEntitySchema,
+  "narrative-claims": NarrativeClaimsEntitySchema,
 };
 
 /* ------------------------------------------------------------------ */

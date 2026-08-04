@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getPublicPageSnapshotUpdatedAt } from "@/lib/publicContent/pageSnapshots";
+import { loadStaticPage } from "@/lib/static-content";
 
 export type LastModifiedMap = Map<string, Date>;
 
@@ -9,6 +10,11 @@ export async function getContentPageLastModifiedMap(
 ): Promise<LastModifiedMap> {
   const snapshotEntries = routes
     .map((route) => {
+      // Static-content SSOT routes: lastmod = meta.lastReviewed (fs, no DB).
+      const staticPage = loadStaticPage(route);
+      if (staticPage?.meta.status === "published") {
+        return [route, new Date(`${staticPage.meta.lastReviewed}T00:00:00Z`)];
+      }
       const updatedAt = getPublicPageSnapshotUpdatedAt(route);
       return updatedAt ? [route, new Date(updatedAt)] : null;
     })

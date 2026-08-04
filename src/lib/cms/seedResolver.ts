@@ -108,7 +108,10 @@ for (const e of entities) {
 
 /**
  * Authoritative "seed owns this route" set — every route that has a page_content
- * section, excluding the scaffold-only blog routes. Expected size: 50.
+ * section, excluding the scaffold-only blog routes. Routes migrated to the
+ * static-content SSOT (content/pages/**) are REMOVED from the seed files, so
+ * they are never in this set — content/ owns them outright (PACKAGE 05c) and
+ * scripts/validate-static-route-ownership.mjs fails CI if one reappears here.
  */
 export const SEED_COVERED_ROUTES: Set<string> = new Set(
   pageContentByRoute.keys(),

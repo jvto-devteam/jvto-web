@@ -7,12 +7,13 @@
 // render as visibly NON-editable so an admin can see WHY a CMS FAQ edit may not
 // render (precedence made visible). Server Component.
 import Link from "@/components/website/AppLink";
-import { ArrowLeft, Lock, Pencil } from "lucide-react";
+import { ArrowLeft, GitBranch, Lock, Pencil } from "lucide-react";
 import {
   resolvePageContent,
   type AtomSource,
   type ContentAtom,
 } from "@/lib/content/resolvePageContent";
+import { isMigratedStaticRoute, loadStaticPage } from "@/lib/static-content";
 import ContentPageEditor from "@/components/cms/ContentPageEditor";
 import NarrativeClaimEditor from "@/components/cms/NarrativeClaimEditor";
 import SectionsBlockEditor from "@/components/cms/SectionsBlockEditor";
@@ -54,6 +55,49 @@ export default async function RouteConsoleDetailPage({
     segments.length === 1 && segments[0] === ROOT_SENTINEL
       ? "/"
       : "/" + segments.map((s) => decodeURIComponent(s)).join("/");
+
+  // Git-managed routes (static-content SSOT): no editors — the CMS cannot
+  // change what renders (AD-10), and pretending otherwise misleads admins.
+  if (isMigratedStaticRoute(route)) {
+    const staticPage = loadStaticPage(route);
+    return (
+      <div className="space-y-6">
+        <div className="min-w-0">
+          <Link
+            href="/cms/pages"
+            className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> All routes
+          </Link>
+          <h1 className="mt-1 text-lg font-semibold text-slate-50 truncate">{route}</h1>
+        </div>
+        <div className="rounded-xl border border-cyan-500/40 bg-cyan-500/10 p-4 md:p-5 space-y-2">
+          <div className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-200">
+            <GitBranch className="h-4 w-4" /> Git-managed route (read-only in the CMS)
+          </div>
+          <p className="text-xs text-cyan-100/80">
+            This route is served from the static content SSOT
+            {staticPage ? (
+              <>
+                {" "}— <code className="font-mono">content/{staticPage.sourceFile}</code>
+              </>
+            ) : null}
+            . Page copy, SEO metadata, FAQ, and JSON-LD all render from that file;
+            <code className="font-mono"> content_pages</code> rows for this route never render,
+            and the write API rejects edits to it. To change this page, edit the content file
+            in the repository and open a pull request.
+          </p>
+          {staticPage && (
+            <p className="text-[11px] text-cyan-100/60">
+              title: <span className="font-mono">{staticPage.meta.title}</span> · lastReviewed:{" "}
+              <span className="font-mono">{staticPage.meta.lastReviewed}</span> · status:{" "}
+              <span className="font-mono">{staticPage.meta.status}</span>
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   let composition;
   let resolveError: string | null = null;

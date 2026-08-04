@@ -2,81 +2,65 @@
 
 // src/app/(website)/why-jvto/HubInteractive.tsx
 // Client islands for the /why-jvto hub page — small interactive widgets
-// (chip selector, quote rotator, timeline tabs, accordion) ported from the
-// design-reference spec (docs/design-reference/why-jvto.html). The parent
+// (chip selector, quote rotator, timeline tabs, accordion). The parent
 // page.tsx stays a Server Component per the server/client split rule;
 // only these self-contained UI islands need "use client".
 //
-// Copy here is either (a) static credential summaries matching
-// docs/CANONICAL_FACTS.md, or (b) the same real, named guest quotes already
-// present in the design-reference spec's why-jvto.html / why-jvto-reviews.html
-// (John Joyce, Karthika TS, Wing Shan Lui, Jiang Tianjian, Divya_Stri) — not
-// the fabricated animated-testimonials.js widget flagged separately in
-// docs/design-reference (that file is unused by this cluster).
+// PACKAGE 05c (2026-08-04): all narrative data (differentiators, guest
+// quotes, story milestones, standards) moved to
+// content/pages/why-jvto/index.json — these components receive it as props
+// and keep only layout, styling, the icon map, and interaction state.
+// TSX must not carry company claims (owner directive: content/ is the only
+// public-narrative source for migrated routes).
 import { useState } from "react";
-import { ShieldCheck, Car, PackageCheck, Stethoscope, FileCheck2, RadioTower } from "lucide-react";
+import {
+  ShieldCheck,
+  Car,
+  PackageCheck,
+  Stethoscope,
+  FileCheck2,
+  RadioTower,
+  type LucideIcon,
+} from "lucide-react";
+
+export type DiffItem = {
+  key: string;
+  label: string;
+  title: string;
+  text: string;
+  cred: string;
+};
+export type QuoteItem = { text: string; attribution: string };
+export type StoryTab = { tab: string; title: string; body: string };
+export type StandardItem = { heading: string; body: string };
 
 // ─────────────────────────────────────────────
 // 01 · Difference chips
 // ─────────────────────────────────────────────
 
-const DIFF_DATA = [
-  {
-    label: "Police-led",
-    icon: ShieldCheck,
-    title: "Police-Led Safety Authority",
-    text: "Our founder is an active officer in Ditpamobvit — the directorate securing vital objects including Ijen Crater. No other East Java operator is led by an active Tourist Police officer.",
-    cred: "Proof · SPRIN documents + independent press",
-  },
-  {
-    label: "100% private",
-    icon: Car,
-    title: "100% Private Tours",
-    text: "A dedicated vehicle, driver, and guide assigned to your group only. No shared groups, no mixed itineraries, no timing compromises.",
-    cred: "Proof · NIB + TDUP, OSS-verifiable",
-  },
-  {
-    label: "All-inclusive",
-    icon: PackageCheck,
-    title: "All-Inclusive Clarity",
-    text: "Transport, accommodation, permits, water and safety gear written into the price. If it is not on the E-Voucher, it is not included.",
-    cred: "Proof · Inclusions & Exclusions Policy",
-  },
-  {
-    label: "Ijen screening",
-    icon: Stethoscope,
-    title: "Ijen Health-Screening",
-    text: "Mandatory for every guest under BBKSDA SE.1658/KSA.9/2024 — we coordinate a QR-verified surat sehat through an SIP-licensed doctor, scannable at the crater gate.",
-    cred: "Proof · BBKSDA SE.1658/KSA.9/2024",
-  },
-  {
-    label: "Licenses",
-    icon: FileCheck2,
-    title: "Verifiable Licenses",
-    text: "NIB, TDUP, HPWKI-credentialed guides, BBKSDA clearance, ISIC provider and ecotourism alignment — a proof library, not a logo wall.",
-    cred: "Proof · /verify-jvto/legal",
-  },
-  {
-    label: "Plan B",
-    icon: RadioTower,
-    title: "Plan B Framework",
-    text: "Documented alternative routes activated when a site closes or conditions change — a written SOP published before you book.",
-    cred: "Proof · Travel Guide, pre-booking",
-  },
-];
+/** Design-side icon mapping — keyed by the content item's `key` (not narrative). */
+const DIFF_ICONS: Record<string, LucideIcon> = {
+  "police-led": ShieldCheck,
+  private: Car,
+  "all-inclusive": PackageCheck,
+  screening: Stethoscope,
+  licenses: FileCheck2,
+  "plan-b": RadioTower,
+};
 
-export function DifferenceChips() {
+export function DifferenceChips({ items }: { items: DiffItem[] }) {
   const [active, setActive] = useState(0);
-  const d = DIFF_DATA[active];
+  const d = items[active];
+  if (!d) return null;
   return (
     <div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.5rem" }}>
-        {DIFF_DATA.map((item, i) => {
-          const Icon = item.icon;
+        {items.map((item, i) => {
+          const Icon = DIFF_ICONS[item.key] ?? ShieldCheck;
           const isActive = i === active;
           return (
             <button
-              key={item.label}
+              key={item.key}
               type="button"
               onClick={() => setActive(i)}
               style={{
@@ -121,28 +105,10 @@ export function DifferenceChips() {
 // 02 · Review quote rotator
 // ─────────────────────────────────────────────
 
-const QUOTES: Array<[string, string]> = [
-  [
-    "I don't think there is a better tour guide anywhere than Anjas — head and shoulders above the rest.",
-    "John Joyce · Trustpilot · guide Anjas",
-  ],
-  ["Being a solo traveler it was safe and stress free with JVTO.", "Karthika TS · Trustpilot"],
-  [
-    "When we went down the steep crater, he held our hands to prevent us from falling.",
-    "Wing Shan Lui · Google · guide Rendi",
-  ],
-  [
-    "One of our friends was injured and they helped him as well. Fantastic planning.",
-    "Jiang Tianjian · Trustpilot",
-  ],
-  [
-    "Our driver Yandi was really reliable and friendly. He briefed us on what to expect.",
-    "Divya_Stri · Trustpilot · driver Yandi",
-  ],
-];
-
-export function ReviewQuoteRotator() {
+export function ReviewQuoteRotator({ quotes }: { quotes: QuoteItem[] }) {
   const [i, setI] = useState(0);
+  const q = quotes[i];
+  if (!q) return null;
   return (
     <div
       style={{
@@ -169,11 +135,11 @@ export function ReviewQuoteRotator() {
           margin: "0.4rem 0 0.75rem",
         }}
       >
-        {QUOTES[i][0]}
+        {q.text}
       </p>
-      <div className="jw-micro">{QUOTES[i][1]}</div>
+      <div className="jw-micro">{q.attribution}</div>
       <div style={{ display: "flex", gap: "5px", marginTop: "1rem" }}>
-        {QUOTES.map((_, idx) => (
+        {quotes.map((_, idx) => (
           <button
             key={idx}
             type="button"
@@ -197,43 +163,20 @@ export function ReviewQuoteRotator() {
 
 // ─────────────────────────────────────────────
 // 03 · Story timeline tabs
-// Fact-corrected: docs/CANONICAL_FACTS.md forbids inventing a PT
-// incorporation year (2016/2019/2020/2023). The design-reference spec's
-// middle tab ("'16 · PT formed", "incorporated on 2016-01-01") is dropped — drift-ok: contoh terlarang dikutip sengaja
-// the legal entity is named only in the 2023 TDUP-formalization context,
-// with no fabricated incorporation date, matching the already-published
-// adjudication in the (unused) why-jvto/our-story/"page copy.tsx" reference
-// and src/lib/schemas/entityGraph.ts.
 // ─────────────────────────────────────────────
 
-const STORY_DATA: Array<[string, string, string]> = [
-  [
-    "'15",
-    "The Guesthouse",
-    "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102 — the same address JVTO operates from today. Booking.com guests rate the property 9.4 / 10.",
-  ],
-  [
-    "Legal",
-    "PT Java Volcano Rendezvous",
-    "The guesthouse grows into PT Java Volcano Rendezvous — the licensed legal entity behind JVTO today, verifiable via NIB 1102230032918.",
-  ],
-  [
-    "'23",
-    "TDUP Formalization",
-    "The Tourism Business Permit is formalized, completing the regulatory chain. NIB 1102230032918 is OSS-verifiable through Indonesia's government system.",
-  ],
-];
-
-export function StoryTimelineTabs() {
+export function StoryTimelineTabs({ tabs }: { tabs: StoryTab[] }) {
   const [i, setI] = useState(0);
+  const activeTab = tabs[i];
+  if (!activeTab) return null;
   return (
     <div>
       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.25rem" }}>
-        {STORY_DATA.map((d, idx) => {
+        {tabs.map((d, idx) => {
           const isActive = idx === i;
           return (
             <button
-              key={d[0]}
+              key={d.tab}
               type="button"
               onClick={() => setI(idx)}
               style={{
@@ -258,7 +201,7 @@ export function StoryTimelineTabs() {
                   lineHeight: 1,
                 }}
               >
-                {d[0]}
+                {d.tab}
               </div>
               <span
                 style={{
@@ -270,7 +213,7 @@ export function StoryTimelineTabs() {
                   display: "block",
                 }}
               >
-                {d[1]}
+                {d.title}
               </span>
             </button>
           );
@@ -287,10 +230,10 @@ export function StoryTimelineTabs() {
         }}
       >
         <h4 style={{ fontFamily: "var(--jw-font-display)", color: "#fff", fontSize: "20px", margin: "0 0 0.5rem", letterSpacing: "-0.01em" }}>
-          {STORY_DATA[i][1]}
+          {activeTab.title}
         </h4>
         <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "15px", fontWeight: 300, lineHeight: 1.6, margin: 0 }}>
-          {STORY_DATA[i][2]}
+          {activeTab.body}
         </p>
       </div>
     </div>
@@ -301,33 +244,14 @@ export function StoryTimelineTabs() {
 // 05 · Standards accordion
 // ─────────────────────────────────────────────
 
-const STANDARDS: Array<[string, string]> = [
-  [
-    "We don't operate shared groups",
-    "Every tour is private to your booking — a dedicated vehicle, driver, and guide for your group alone.",
-  ],
-  [
-    "We don't make verbal promises",
-    "The E-Voucher is the binding document. If it is not on the voucher, it is not included.",
-  ],
-  [
-    "We don't guarantee natural phenomena",
-    "Blue Fire is a natural phenomenon subject to weather and gas activity — it cannot be guaranteed. We plan around the viewing window; we don't promise outcomes we can't control.",
-  ],
-  [
-    "We don't source crew from marketplaces",
-    "Every guide and driver is a named, registered team member recruited from local communities — aligned with national ecotourism principles (INDECON).",
-  ],
-];
-
-export function StandardsAccordion() {
+export function StandardsAccordion({ items }: { items: StandardItem[] }) {
   const [open, setOpen] = useState(0);
   return (
     <div style={{ borderTop: "1px solid #E3E0DA" }}>
-      {STANDARDS.map(([q, a], i) => {
+      {items.map((item, i) => {
         const isOpen = open === i;
         return (
-          <div key={q} style={{ borderBottom: "1px solid #E3E0DA" }}>
+          <div key={item.heading} style={{ borderBottom: "1px solid #E3E0DA" }}>
             <button
               type="button"
               onClick={() => setOpen(isOpen ? -1 : i)}
@@ -364,7 +288,7 @@ export function StandardsAccordion() {
               >
                 +
               </span>
-              {q}
+              {item.heading}
             </button>
             {isOpen && (
               <p
@@ -377,7 +301,7 @@ export function StandardsAccordion() {
                   margin: 0,
                 }}
               >
-                {a}
+                {item.body}
               </p>
             )}
           </div>

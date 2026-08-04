@@ -67,6 +67,17 @@ jobs:
         # docs/CANONICAL_FACTS.md to quote forbidden examples deliberately).
         run: npm run validate:content
 
+      - name: Validate static content + migrated-route ownership (blocking)
+        # content:check = static-content structure (Zod + fixtures) + internal
+        # links + the migrated-route ownership gate
+        # (scripts/validate-static-route-ownership.mjs): a route migrated to
+        # content/pages/** that reverts to ANY legacy source — pageSnapshots,
+        # CMS seed, content_pages, the FAQ resolver, or a DB narrative-claims
+        # read — fails the build, and forbidden claims (14 crew, ISIC Partner,
+        # INDECON-as-partnership) are rejected. Previously this only ran via
+        # prebuild on the non-required build-develop job; it is required now.
+        run: npm run content:check
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:

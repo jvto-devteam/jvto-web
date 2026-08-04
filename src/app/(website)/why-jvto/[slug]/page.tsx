@@ -3,26 +3,34 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import SidebarDesktop from "../SidebarDesktop";
 import { WHY_MENU } from "../sidebarMenu";
 import { WHY_JVTO_STYLES } from "../whyJvtoTokens";
-import { ChevronRight, Home, Star } from "lucide-react";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import { Home, Star } from "lucide-react";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
 import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import {
+  listPublishedStaticPages,
+  loadStaticPage,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from "@/lib/static-content";
+
+// PACKAGE 05 (2026-08-04): why-jvto structured pages are served from
+// content/pages/why-jvto/ (static-content SSOT). The former DB-preferred path
+// (prefersDbForSlug — a live content_pages row could override the seed at
+// runtime) is removed per AD-10: a migrated route reads only content/. CMS
+// edits to these routes no longer surface — content changes go through the
+// content files (Package 09 formally disables CMS editing for migrated routes).
+// Dynamic review records (Prisma) remain for the reviews page's schema nodes —
+// dynamic data is allowed to stay DB-owned (AD-02).
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,84 +38,51 @@ type Props = {
 
 export const dynamicParams = false;
 
-// ── DB-preferred rendering (widened from the community-standards pilot) ──────
-// why-jvto pages prefer the live content_pages row at runtime, so a CMS block
-// edit + Publish (revalidatePath) surfaces on the live page. This is now enabled
-// for ALL why-jvto slugs, not just the pilot: getPublicPageSnapshot only serves a
-// DB row when it carries the required content fields ("sections"); any slug whose
-// DB row is missing/incomplete falls back to the static snapshot (now v2-clean),
-// so widening is regression-safe by construction. The snapshot is also DB-free at
-// build (CI) time and the DB read is try/caught, so the build never depends on it.
-function prefersDbForSlug(): boolean {
-  return true;
+export function generateStaticParams() {
+  return listPublishedStaticPages({ section: "why-jvto" })
+    .filter((p) => p.meta.route !== "/why-jvto")
+    .map((p) => ({ slug: p.meta.route.replace("/why-jvto/", "") }));
 }
 
-export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/why-jvto").map((route) => ({
-    slug: route.replace("/why-jvto/", ""),
-  }));
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      // Non-default schema classification from the content file (null = WebPage only).
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
-    allowDatabaseFallback: prefersDbForSlug(),
-    requiredContentFields: ["sections"],
-  });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-  if (!Array.isArray(content.sections) || content.sections.length === 0) {
+  const page = loadStaticPage(`/why-jvto/${slug}`);
+  if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
   return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   };
-}
-
-function SectionNav({
-  items,
-}: {
-  items?: Array<{ id: string; label: string; href: string }>;
-}) {
-  if (!items?.length) return null;
-  return (
-    <nav className="jw-data-box" style={{ display: "block" }}>
-      <div className="jw-micro" style={{ marginBottom: "0.75rem" }}>
-        ◆ On this page
-      </div>
-      <ul
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "0.375rem",
-          listStyle: "none",
-          padding: 0,
-          margin: 0,
-        }}
-      >
-        {items.map((it) => (
-          <li key={it.id}>
-            <a
-              href={it.href}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.3rem",
-                fontSize: "0.82rem",
-                fontWeight: 500,
-                color: "#1C2E40",
-                textDecoration: "none",
-              }}
-            >
-              <ChevronRight size={12} color="#E8650A" />
-              {it.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
 }
 
 /** Aggregate rating cards for /why-jvto/reviews — real canonical platform data, HTML-only (not schema). */
@@ -141,22 +116,17 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
   const route = `/why-jvto/${slug}`;
 
-  const [page, reviewsData, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: prefersDbForSlug(),
-      requiredContentFields: ["sections"],
-    }),
-    slug === "reviews" ? getReviewsForSchema().catch(() => []) : Promise.resolve([]),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  if (!Array.isArray(content?.sections) || content.sections.length === 0) {
+  const page = loadStaticPage(route);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
     return notFound();
   }
 
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
-  const faqSchemaNode = buildResolvedFaqSchema(faqResolution, route);
+  const reviewsData =
+    slug === "reviews" ? await getReviewsForSchema().catch(() => []) : [];
+
+  const h1 = page.meta.title;
+  const faqItems = page.faq ?? [];
+  const faqSchemaNode = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
 
   const slugExtraSchemas = [
     faqSchemaNode,
@@ -177,9 +147,9 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
       <div className="jw-root" style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}>
         <SidebarDesktop currentPath={`/why-jvto/${slug}`} />
         <PageJsonLdCombined
-          pageRow={page.pageRow}
+          pageRow={staticPageRow(page)}
           extraSchemas={slugExtraSchemas}
-          suppressCmsFaq={faqResolution.suppressCmsFaq}
+          suppressCmsFaq
         />
 
         <main
@@ -220,13 +190,8 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
                 <h1 className="jw-hero-h1" style={{ maxWidth: "26ch" }}>
                   {h1}
                 </h1>
-                {content?.hero_subhead && (
-                  <p className="jw-hero-lede" style={{ marginBottom: "0.5rem" }}>
-                    {content.hero_subhead}
-                  </p>
-                )}
-                {Array.isArray(content?.lede) && content.lede.length > 0 && (
-                  <p className="jw-hero-lede">{content.lede[0]}</p>
+                {Array.isArray(page.lede) && page.lede.length > 0 && (
+                  <p className="jw-hero-lede">{page.lede[0]}</p>
                 )}
               </div>
             </header>
@@ -285,51 +250,43 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
               </aside>
 
               <div style={{ minWidth: 0 }}>
-                {/* ── Section nav (optional) ── */}
-                <SectionNav items={content?.section_nav} />
-
                 {/* ── Reviews-only aggregate score cards ── */}
                 {slug === "reviews" && <ReviewsAggregateCards />}
 
                 {/* ── Sections ── */}
-                {Array.isArray(content?.sections) &&
-                  content.sections.map((sec: any) => (
-                    <section
-                      key={sec.id}
-                      id={sec.id}
-                      style={{ marginBottom: "3.5rem", scrollMarginTop: "7rem" }}
-                    >
-                      <div className="jw-section-head">
-                        <h2 className="jw-section-h2">{sec.title}</h2>
-                        {sec.summary && <p className="jw-section-sub">{sec.summary}</p>}
-                      </div>
+                {page.sections.map((sec) => (
+                  <section
+                    key={sec.id}
+                    id={sec.id}
+                    style={{ marginBottom: "3.5rem", scrollMarginTop: "7rem" }}
+                  >
+                    <div className="jw-section-head">
+                      <h2 className="jw-section-h2">{sec.title}</h2>
+                      {(sec as any).summary && (
+                        <p className="jw-section-sub">{(sec as any).summary}</p>
+                      )}
+                    </div>
 
-                      <div>
-                        {sec.blocks ? (
-                          <BlocksRenderer blocks={sec.blocks} sectionId={sec.id} />
-                        ) : sec.body_md ? (
-                          <MarkdownRenderer markdown={sec.body_md} />
-                        ) : null}
-                      </div>
+                    <div>
+                      {sec.blocks ? (
+                        <BlocksRenderer blocks={sec.blocks as any} sectionId={sec.id} />
+                      ) : null}
+                    </div>
 
-                      <EvidenceBox
-                        evidence={sec.evidence}
-                        title="Evidence"
-                        description="Open the Proof Library for documents and verification links related to this claim."
-                      />
-                    </section>
-                  ))}
-
-                {/* ── Fallback body_md ── */}
-                {content?.body_md && (
-                  <section style={{ marginTop: "2.5rem" }}>
-                    <MarkdownRenderer markdown={content.body_md} />
+                    <EvidenceBox
+                      evidence={(sec as any).evidence}
+                      title="Evidence"
+                      description="Open the Proof Library for documents and verification links related to this claim."
+                    />
                   </section>
-                )}
+                ))}
 
-                {/* ── FAQ ── */}
-                {content?.faq && (
-                  <Faq items={content.faq} title={content?.faq_title ?? "FAQ"} />
+                {/* ── FAQ — same array as the FAQPage JSON-LD (AD-08) ── */}
+                {faqItems.length > 0 && (
+                  <Faq
+                    items={faqItems.map((f) => ({ q: f.question, a: f.answer }))}
+                    title="FAQ"
+                  />
                 )}
 
                 {slug === "our-team" && (
