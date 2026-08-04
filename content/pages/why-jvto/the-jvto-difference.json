@@ -77,7 +77,7 @@
       "blocks": [
         {
           "type": "markdown",
-          "body_md": "JVTO holds and publishes the following credentials:\n\n- **NIB 1102230032918** — national business registration number (OSS-verifiable)\n- **TDUP** — Tourism Business Permit, issued 2023-02-11\n- **HPWKI membership** — AHU-0001072.AH.01.07.TAHUN 2024, state-recognized Ijen crater operator association\n- **BBKSDA clearance** — operator permit for Kawah Ijen access\n- **ISIC provider 259268** — UNESCO-endorsed student identity verification\n- **INDECON member** — Indonesian Ecotourism Network, confirming community-based tourism practices\n\nEach credential is listed with verification instructions at /verify-jvto. SHA-256 anchors are on file for key documents.\n\n**Verifiable credential**: /verify-jvto/legal — AHU link for HPWKI, OSS link for NIB, ISIC provider page for student verification\n\n---"
+          "body_md": "JVTO holds and publishes the following credentials:\n\n- **NIB 1102230032918** — national business registration number (OSS-verifiable)\n- **TDUP** — Tourism Business Permit, issued 2023-02-11\n- **HPWKI membership** — AHU-0001072.AH.01.07.TAHUN 2024, state-recognized Ijen crater operator association\n- **BBKSDA clearance** — operator permit for Kawah Ijen access\n- **ISIC provider 259268** — UNESCO-endorsed student identity verification\n- **INDECON network listing** — publicly listed in the Indonesian Ecotourism Network directory\n\nEach credential is listed with verification instructions at /verify-jvto. SHA-256 anchors are on file for key documents.\n\n**Verifiable credential**: /verify-jvto/legal — AHU link for HPWKI, OSS link for NIB, ISIC provider page for student verification\n\n---"
         }
       ]
     },

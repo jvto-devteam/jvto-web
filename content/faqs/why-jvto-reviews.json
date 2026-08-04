@@ -3,11 +3,11 @@
   "items": [
     {
       "question": "Can JVTO edit or delete reviews on Tripadvisor or Trustpilot?",
-      "answer": "No. Reviews on independent platforms (Tripadvisor, Trustpilot, Google, ISIC, Indecon) cannot be edited or deleted by JVTO. What you see is what guests submitted."
+      "answer": "No. Reviews on independent platforms (Trustpilot, Google Maps, Tripadvisor) cannot be edited or deleted by JVTO. What you see is what guests submitted."
     },
     {
       "question": "Where can I read JVTO reviews?",
-      "answer": "Independent review platforms: Tripadvisor, Trustpilot, Google Maps, ISIC provider listing, and Indecon spotlight. Direct links are listed on this page."
+      "answer": "Independent review platforms: Trustpilot, Google Maps, and Tripadvisor. Direct links are listed on this page."
     },
     {
       "question": "What should I look for when reading reviews?",
@@ -19,7 +19,7 @@
     },
     {
       "question": "Are there reviews from student travellers?",
-      "answer": "Yes. JVTO is listed as an official ISIC provider, and student reviews are visible on the ISIC platform. Link is on this page."
+      "answer": "JVTO is a registered ISIC provider — that is a provider listing, not a review platform. Guest reviews, including from student travellers, are on the independent platforms above: Trustpilot, Google Maps, and Tripadvisor. Student-package details: /isic/student-package."
     }
   ]
 }

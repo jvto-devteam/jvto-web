@@ -3,7 +3,7 @@
     "route": "/why-jvto/community-standards",
     "title": "Community Standards: Partners, Ethics & Operational Rules",
     "browserTitle": "Community Standards – Partners, Ethics & Operational Rules | JVTO",
-    "description": "JVTO community standards: professional partnerships (HPWKI, ISIC, INDECON), ethical travel commitments, and health screening compliance for Ijen tours.",
+    "description": "JVTO community standards: HPWKI membership, ISIC provider listing, INDECON network listing, ethical travel commitments, and health screening compliance for Ijen tours.",
     "section": "why-jvto",
     "status": "published",
     "owner": "company",
@@ -56,7 +56,7 @@
       "blocks": [
         {
           "type": "markdown",
-          "body_md": "JVTO recruits guides and drivers from local Bondowoso and Banyuwangi communities. The roster is not sourced from freelance marketplaces or external agencies.\n\nThis commitment is validated by INDECON membership — the Indonesian Ecotourism Network. INDECON listing explicitly validates JVTO's Local Boys employment policy and confirms community-based tourism practices. Verifiable at https://www.indecon.id/spotlight-networks/java-volcano-tour-operator.\n\n14 field crew members appear in the current roster — all with names, photos, and languages listed on the team roster page.\n\n---"
+          "body_md": "JVTO recruits guides and drivers from local Bondowoso and Banyuwangi communities. The roster is not sourced from freelance marketplaces or external agencies.\n\nJVTO is publicly listed in the INDECON (Indonesian Ecotourism Network) spotlight network. The listing is verifiable at https://www.indecon.id/spotlight-networks/java-volcano-tour-operator.\n\n11 field crew members appear in the current roster — all with names, photos, and languages listed on the team roster page.\n\n---"
         }
       ]
     },

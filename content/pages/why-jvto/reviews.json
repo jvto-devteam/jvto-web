@@ -3,7 +3,7 @@
     "route": "/why-jvto/reviews",
     "title": "Guest Voices: Real Experiences, Independently Verified",
     "browserTitle": "Guest Reviews – Independent Voices on JVTO Tours | JVTO",
-    "description": "Independent reviews of JVTO on Tripadvisor, Trustpilot, Google, ISIC and Indecon. Verified voices — we cannot edit or remove any review on those platforms.",
+    "description": "Independent reviews of JVTO on Trustpilot, Google Maps and Tripadvisor. Verified voices — we cannot edit or remove any review on those platforms.",
     "section": "why-jvto",
     "status": "published",
     "owner": "company",
@@ -26,7 +26,7 @@
       "blocks": [
         {
           "type": "markdown",
-          "body_md": "- Tripadvisor: https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html\n- Trustpilot: https://trustpilot.com/review/javavolcano-touroperator.com\n- ISIC (International Student Identity Card): https://www.isic.org/discounts/?providerId=259268\n- Indecon (Ecotourism): https://www.indecon.id/spotlight-networks/java-volcano-tour-operator\n- Google Maps: https://www.google.com/maps?cid=1266403973589689021"
+          "body_md": "- Tripadvisor: https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html\n- Trustpilot: https://trustpilot.com/review/javavolcano-touroperator.com\n- Google Maps: https://www.google.com/maps?cid=1266403973589689021"
         }
       ]
     },
