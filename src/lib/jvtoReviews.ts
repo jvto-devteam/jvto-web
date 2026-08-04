@@ -5,7 +5,9 @@
 // Platform counts + cross-platform rating come from ONE machine-readable file so
 // the runtime (here) and the generated snapshot (scripts/export-public-review-api-
 // snapshots.mjs) can never diverge. Update review counts in that JSON only.
-import CANONICAL_REVIEW_STATS from '@/data/reviewStats.canonical.json';
+// PACKAGE 02 (2026-08-04): the SSOT moved to content/entities/review-platforms.json
+// (validated by ENTITY_SCHEMAS["review-platforms"], incl. counts↔profiles parity).
+import CANONICAL_REVIEW_STATS from '../../content/entities/review-platforms.json';
 
 export interface ReviewPlatform {
   platform: string;
@@ -72,7 +74,7 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
 //
 // IMPORTANT: these are the authoritative PLATFORM totals (what a visitor sees on
 // the Google Maps / Trustpilot / TripAdvisor pages themselves), from the single
-// source src/data/reviewStats.canonical.json (per the facts lock,
+// source content/entities/review-platforms.json (per the facts lock,
 // docs/CANONICAL_FACTS.md). They are NOT `SELECT COUNT(*) FROM reviews` — the DB
 // only holds the ingested subset (currently 92/44/21), so counting rows would
 // publish the forbidden stale value 92. The export script reads the SAME JSON, so

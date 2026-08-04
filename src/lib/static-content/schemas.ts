@@ -182,6 +182,151 @@ export const EntityDocumentSchema = z
   });
 export type EntityDocument = z.infer<typeof EntityDocumentSchema>;
 
+const YearSchema = z.string().regex(/^\d{4}$/, "must be a 4-digit year");
+const Sha256Schema = z.string().regex(/^[0-9a-f]{64}$/, "must be a lowercase hex SHA-256");
+
+export const OrganizationEntitySchema = z.looseObject({
+  legalName: z.string().min(1),
+  brandName: z.string().min(1),
+  websiteUrl: z.url(),
+  telephone: z.string().regex(/^\+\d{8,15}$/, "must be E.164-style (+digits)"),
+  email: z.email(),
+  foundingDate: YearSchema,
+  address: z.looseObject({
+    streetAddress: z.string().min(1),
+    addressLocality: z.string().min(1),
+    addressRegion: z.string().min(1),
+    postalCode: z.string().min(1),
+    addressCountry: z.string().length(2),
+  }),
+  identifiers: z
+    .array(z.looseObject({ type: z.string().min(1), value: z.string().min(1) }))
+    .min(1),
+  lastReviewed: IsoDateSchema,
+});
+
+export const CredentialsEntitySchema = z.looseObject({
+  credentials: z
+    .array(
+      z.looseObject({
+        key: z.string().regex(/^[a-z0-9-]+$/),
+        name: z.string().min(1),
+        category: z.string().min(1),
+        recognizedBy: z.string().min(1),
+        sha256: Sha256Schema.optional(),
+        documentUrl: z.url().optional(),
+        dateIssued: IsoDateSchema.optional(),
+      }),
+    )
+    .min(1),
+  lastReviewed: IsoDateSchema,
+});
+
+export const PeopleEntitySchema = z
+  .looseObject({
+    founder: z.looseObject({
+      name: z.string().min(1),
+      jobTitle: z.string().min(1),
+    }),
+    doctor: z.looseObject({
+      name: z.string().min(1),
+      sip: z.string().min(1),
+      str: z.string().min(1),
+      strValidTo: IsoDateSchema,
+      claimBoundary: z.string().min(1),
+    }),
+    crew: z.looseObject({
+      total: z.int().positive(),
+      guides: z.int().positive(),
+      drivers: z.int().positive(),
+    }),
+    lastReviewed: IsoDateSchema,
+  })
+  .refine((p) => p.crew.guides + p.crew.drivers === p.crew.total, {
+    message: "crew.total must equal guides + drivers",
+    path: ["crew"],
+  });
+
+export const PartnersEntitySchema = z.looseObject({
+  partners: z
+    .array(
+      z.looseObject({
+        key: z.string().regex(/^[a-z0-9-]+$/),
+        name: z.string().min(1),
+        relationship: z.string().min(1),
+        // OKF working contract: every partner record carries its claim boundary.
+        claimBoundary: z.string().min(1),
+      }),
+    )
+    .min(1),
+  lastReviewed: IsoDateSchema,
+});
+
+export const ReviewPlatformsEntitySchema = z
+  .looseObject({
+    platforms: z.object({
+      trustpilot: z.int().positive(),
+      google: z.int().positive(),
+      tripadvisor: z.int().positive(),
+    }),
+    average_rating: z.number().min(1).max(5),
+    profiles: z
+      .array(
+        z.looseObject({
+          platform: z.string().min(1),
+          rating: z.number().min(1).max(5).nullable(),
+          reviewCount: z.int().positive().nullable(),
+          profileUrl: z.url(),
+          verifiedAt: IsoDateSchema.nullable(),
+          isPrimary: z.boolean(),
+        }),
+      )
+      .min(1),
+    lastReviewed: IsoDateSchema,
+  })
+  .superRefine((doc, ctx) => {
+    // A rating is never presented without a verification date (blueprint §Package 02).
+    for (const p of doc.profiles) {
+      if (p.rating != null && p.verifiedAt == null) {
+        ctx.addIssue({
+          code: "custom",
+          message: `profile "${p.platform}" has a rating but no verifiedAt`,
+          path: ["profiles"],
+        });
+      }
+    }
+    if (doc.profiles.filter((p) => p.isPrimary).length !== 1) {
+      ctx.addIssue({ code: "custom", message: "exactly one profile must be isPrimary", path: ["profiles"] });
+    }
+    // The machine-readable counts map and the profiles must agree.
+    const byName: Record<string, number> = {
+      Trustpilot: doc.platforms.trustpilot,
+      "Google Maps": doc.platforms.google,
+      TripAdvisor: doc.platforms.tripadvisor,
+    };
+    for (const [name, count] of Object.entries(byName)) {
+      const profile = doc.profiles.find((p) => p.platform === name);
+      if (!profile) {
+        ctx.addIssue({ code: "custom", message: `platforms map names "${name}" but profiles has no such platform`, path: ["profiles"] });
+      } else if (profile.reviewCount !== count) {
+        ctx.addIssue({
+          code: "custom",
+          message: `count mismatch for "${name}": platforms map says ${count}, profile says ${profile.reviewCount}`,
+          path: ["profiles"],
+        });
+      }
+    }
+  });
+
+/** Strict schema per known entity file name — validate.ts applies these on top of the base contract. */
+export const ENTITY_SCHEMAS: Record<string, z.ZodType> = {
+  organization: OrganizationEntitySchema,
+  credentials: CredentialsEntitySchema,
+  people: PeopleEntitySchema,
+  partners: PartnersEntitySchema,
+  "review-platforms": ReviewPlatformsEntitySchema,
+};
+
 /* ------------------------------------------------------------------ */
 /* Content-quality rules used by the validator (not pure shape checks) */
 /* ------------------------------------------------------------------ */

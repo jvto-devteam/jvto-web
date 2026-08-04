@@ -31,7 +31,7 @@ import {
   buildRouteIndex,
   clearRouteIndexCache,
 } from "../../src/lib/static-content/loadStaticPage";
-import { markdownHasH1, PLACEHOLDER_RE } from "../../src/lib/static-content/schemas";
+import { ENTITY_SCHEMAS, markdownHasH1, PLACEHOLDER_RE } from "../../src/lib/static-content/schemas";
 
 const REPO_ROOT = join(__dirname, "..", "..");
 const FIXTURES_ROOT = join(__dirname, "fixtures");
@@ -93,11 +93,21 @@ function validateContentRoot(contentRoot: string): Problem[] {
     }
   }
 
-  // Entities: base contract (valid JSON + lastReviewed date).
+  // Entities: base contract (valid JSON + lastReviewed) + strict per-name schema.
   for (const e of discoverEntityFiles(contentRoot)) {
     const name = e.relPath.replace(/^entities\//, "").replace(/\.json$/, "");
     try {
-      loadEntity(name, contentRoot);
+      const doc = loadEntity(name, contentRoot);
+      const strict = ENTITY_SCHEMAS[name];
+      if (doc && strict) {
+        const result = strict.safeParse(doc);
+        if (!result.success) {
+          const details = result.error.issues
+            .map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`)
+            .join("; ");
+          problems.push({ file: e.relPath, message: `strict entity schema failed — ${details}` });
+        }
+      }
     } catch (err) {
       problems.push({ file: e.relPath, message: (err as Error).message });
     }

@@ -1,0 +1,27 @@
+{
+  "_comment": "Public people profiles (AD-03). Values copied verbatim from src/lib/schemas/entityGraph.ts + the locked evidence wording (llm-wiki E007/E019, OKF Dr.-Irwandanu claim boundary). Do not assert private-practice details; do not certify individual guest screening certificates.",
+  "founder": {
+    "name": "Agung Sambuko",
+    "alternateNames": ["Mr. Sam", "Bripka Agung Sambuko"],
+    "jobTitle": "Active Tourist Police Officer, Ditpamobvit East Java",
+    "unit": "Direktorat Pengamanan Objek Vital (Ditpamobvit) — Indonesian National Police",
+    "memberOf": "HPWKI (Himpunan Pelaku Wisata Khusus Ijen)",
+    "namingRule": "legal → Agung Sambuko · guest-facing → Mr. Sam · press/police → Bripka Agung Sambuko"
+  },
+  "doctor": {
+    "name": "Dr. Ahmad Irwandanu",
+    "role": "SIP-licensed physician (Dokter Umum) coordinating the mandatory pre-hike Ijen health screening for every guest; screening is included in the tour and conducted at the guest's hotel before the guide briefing",
+    "sip": "503.446/664/DRU/4/430.9.13/2026",
+    "str": "QN00001073380217",
+    "strValidTo": "2031-01-06",
+    "verifiableVia": "Kemenkes SatuSehat / KKI (publicly checkable)",
+    "claimBoundary": "License validity is evidenced. Do not assert private-practice marketing details and do not certify individual guest screening certificates."
+  },
+  "crew": {
+    "total": 14,
+    "guides": 7,
+    "drivers": 7,
+    "note": "KTA identifiers live in the crew_members DB table (11/14 populated; yusuf/dika/pras pending by design). Crew params stay DB-owned — this entity carries only the stable public counts."
+  },
+  "lastReviewed": "2026-08-04"
+}
