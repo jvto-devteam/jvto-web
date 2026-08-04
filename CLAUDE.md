@@ -258,8 +258,8 @@ the help/preview box, and then **stops at `READY FOR OWNER`** — it does not ta
   **PRODUCTION-VERIFIED** (proven on `live` after the owner promote). The assistant may reach
   PREVIEW-VERIFIED; only the owner reaches PRODUCTION-VERIFIED.
 - **CI/deploy efficiency:** true-documentation-only PRs skip `build-develop` and true-documentation-only
-  `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**`, root-level `*.md`
-  (README/CLAUDE), and `.github/**/*.md` — **served content Markdown still builds and deploys**
+  `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**` and root-level `*.md`
+  (README/CLAUDE) — **served content Markdown still builds and deploys**
   (`content/pages/**/*.md` renders via `loadStaticPage`; `src/data/blog/**/*.md` via `src/lib/blog.ts`),
   so a content change is never mistaken for docs and skipped.
 

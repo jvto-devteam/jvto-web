@@ -23,7 +23,13 @@ on:
 # Serialize deploys. Without this, near-simultaneous pushes run concurrent SSH
 # jobs mutating the same /var/www/jvto-help checkout + .next (documented race
 # hazard), and the SHA verification below could compare against another run's
-# deploy. Queued, never cancelled: every push still deploys, in order.
+# deploy. `cancel-in-progress: false` keeps the in-flight deploy from being
+# cancelled, so at most ONE deploy runs at a time. This only SERIALIZES deploys
+# — it does NOT guarantee FIFO or that every push deploys: GitHub holds at most
+# one running + one pending run per group, and a newer push REPLACES the older
+# PENDING run (pending-run coalescing). So a mid-burst commit can be superseded
+# before it ever deploys; the newest queued push is what ultimately lands.
+# Confirm the deployed commit via /api/build-info.
 concurrency:
   group: deploy-help-main
   cancel-in-progress: false
