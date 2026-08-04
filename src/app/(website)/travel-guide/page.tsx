@@ -6,12 +6,8 @@ import { ArrowRight } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
+import { loadStaticPage } from "@/lib/static-content";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -163,17 +159,14 @@ const travelGuideData = {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
+// PACKAGE 04 (2026-08-04): hub meta/H1 come from content/pages/travel-guide/index.md
+// (static-content SSOT); the rich hub layout below stays TSX. The former hub
+// FAQPage JSON-LD node was schema-only (no visible FAQ) and is dropped per AD-08.
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot("/travel-guide", {
-    allowDatabaseFallback: true,
-  });
-  const title = page.snapshot.seo.title;
-  const description =
-    page.snapshot.seo.description ?? travelGuideData.seo.metaDescription;
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : "Travel Guide";
+  const page = loadStaticPage("/travel-guide");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? travelGuideData.h1;
+  const description = page?.meta.description ?? travelGuideData.seo.metaDescription;
+  const h1 = page?.meta.title ?? "Travel Guide";
 
   return {
     title,
@@ -204,29 +197,29 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TravelGuideHubPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/travel-guide", {
-      allowDatabaseFallback: true,
-    }),
-    resolveFaqsForPage("/travel-guide"),
-  ]);
-  const tgHubExtraSchemas = [
-    buildTgHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
-  ].filter(Boolean);
+  const page = loadStaticPage("/travel-guide");
+  const tgHubExtraSchemas = [buildTgHubItemListSchema()].filter(Boolean);
 
   const { hero, latestUpdate, operatingStatus, toc, panels } = travelGuideData;
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : travelGuideData.h1;
+  const h1 = page?.meta.title ?? travelGuideData.h1;
 
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/travel-guide",
+          lang: "en",
+          seo: {
+            title: page?.meta.browserTitle ?? page?.meta.title,
+            description: page?.meta.description,
+            // Non-default schema classification from the content file (Codex #144 P2:
+            // the hub's CollectionPage node must survive the SSOT cutover).
+            schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+          },
+          content: { h1 },
+        }}
         extraSchemas={tgHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">

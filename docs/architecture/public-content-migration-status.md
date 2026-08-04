@@ -23,18 +23,28 @@ allowed by the blueprint; audit again in Package 09). `browserTitle` meta field 
 H1 ≠ `<title>` parity. Parity proof: all 4 routes byte-compared against the pre-cutover
 resolver dumps (H1/titles/descriptions/bodies/bundle blocks/no-FAQ) — PASS.
 
-## Travel Guide (Package 04) — DUAL PATH
+## Travel Guide (Package 04) — Path A **CUTOVER 2026-08-04, parity verified**
 
-**Path A — `[slug]` dynamic (snapshot chain, `body_md` → `MarkdownRendererTravelGuide`):**
+| route | file | status | notes |
+|---|---|---|---|
+| /travel-guide (hub) | `travel-guide/index.md` | **verified** | meta/H1 from SSOT; rich TSX layout kept; the former hub `FAQPage` node was **schema-only** (no visible FAQ) and is dropped per **AD-08** |
+| /travel-guide/booking-information | `booking-information.md` + `faqs/travel-guide-booking-information.json` (7) | **verified** | FAQ: one array → visible + JSON-LD |
+| /travel-guide/ijen-health-screening | `ijen-health-screening.md` + faq (5) | **verified** | `MedicalWebPage` + `HowTo` preserved; **dangling doctor `@id` FIXED** (DOCTOR_SCHEMA now injected); an embedded llm-wiki authoring block (`profile:/sources:` + duplicate `# H1`) that rendered as junk on the live page was stripped (documented hygiene fix) |
+| /travel-guide/packing-and-fitness | `packing-and-fitness.md` + faq (5) | **verified** | |
+| /travel-guide/safety-on-tours | `safety-on-tours.md` + faq (5) | **verified** | |
+| /travel-guide/weather-and-closures | `weather-and-closures.md` + faq (5) | **verified** | canonical blue-fire negation carries a same-line `drift-ok` marker (scanner is line-based; the "No" answer is facts-lock compliant) |
 
-| route | currentEffectiveSource | targetFormat | specialSchema | pkg | status | blocker |
-|---|---|---|---|---|---|---|
-| /travel-guide (hub) | cms-seed/snapshot | markdown | — | 04 | pending | none |
-| /travel-guide/[slug] snapshot routes (booking-information, ijen-health-screening, safety-on-tours, packing-and-fitness, weather-and-closures, …) | cms-seed/snapshot | markdown | **ijen-health-screening: `MedicalWebPage` + `HowTo` (`buildTravelGuideSchemas.ts:73,102`)** — also fix dangling `reviewedBy` doctor `@id` | 04 | pending | none |
-| /travel-guide/faq | `travel-guide/faq/page.tsx` (folder) | markdown + faqKey | FAQPage | 04 | pending | none |
-| /travel-guide/rijik-monthly-closure | folder page, resolver FAQ only | markdown | — | 04 | pending | none |
-| /travel-guide/best-time-to-visit | folder page, resolver FAQ only (no DB row exists) | markdown | — | 04 | pending | content needed (pre-existing open item) |
-| /travel-guide/police-escort-for-groups | folder page: `getContentPage` (SEO) + hand-rolled body | markdown | — | 04 | pending | none |
+**Path A capture safety:** every route above is **seed-covered** (`SEED_COVERED_ROUTES`), so the
+seed/snapshot is authoritative even at runtime — the DB can never override → offline capture ==
+production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies/FAQs).
+
+**Deferred to 04b (documented blockers — do NOT fold into 04a):**
+
+| route | blocker |
+|---|---|
+| /travel-guide/faq | content comes from the **FAQ-manager snapshot** (`getPublicFaqCategories()` / `faqSnapshot`), a distinct generated system — needs its own capture + parity plan |
+| /travel-guide/police-escort-for-groups | folder page; TSX body + `getContentPage` **SEO override from the DB** — a live DB row may differ from offline fallbacks; needs a verified DB export before its SEO migrates |
+| /travel-guide/rijik-monthly-closure, /travel-guide/best-time-to-visit | folder pages, TSX-bodied (not snapshot-driven); best-time-to-visit additionally has no DB row (pre-existing open item) |
 
 **Path B — 13 OKF-backed folder pages (`AgentGuide` body from `src/data/okf` via `AGENT_GUIDES`; `getContentPage` for SEO only):**
 `blue-fire-and-sunrise`, `booking-safety`, `bromo-sunrise`, `cancellation-travel-credit`,
@@ -102,5 +112,7 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 00 | audit + this ledger | **done** (#141) |
 | 01 | loader + validation gates + drift-scan extension | **done** (#141) |
 | 02 | shared entities + review-stats SSOT relocation | **done** (#142) |
-| 03 | Policy migration + cutover (4 routes, parity verified) | **done (this PR)** |
-| 04–11 | per blueprint | pending, one PR each |
+| 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
+| 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done (this PR)** |
+| 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
+| 05–11 | per blueprint | pending, one PR each |

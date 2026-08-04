@@ -45,6 +45,8 @@ function staticPageRow(page: StaticPage) {
     seo: {
       title: page.meta.browserTitle ?? page.meta.title,
       description: page.meta.description,
+      // Non-default schema classification from the content file (null = WebPage only).
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
     },
     content: { h1: page.meta.title },
   };
