@@ -126,7 +126,11 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record
  * Signals to AI that the hub page IS the authoritative index of all JVTO trust pillars.
  * Each claim links to its primary_page where the evidence is concentrated.
  */
-export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
+export function buildNarrativeClaimsItemList(
+  // Only these two fields feed the ItemList. The hub (its only caller) now
+  // supplies them from content/entities/narrative-claims.json — never the DB.
+  claims: Array<Pick<NarrativeClaim, "pillar" | "primary_page">>,
+) {
   const usable = claims.filter((c) => c.pillar);
   return {
     '@context': 'https://schema.org',

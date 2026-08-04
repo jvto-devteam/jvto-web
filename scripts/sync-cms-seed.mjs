@@ -2,10 +2,18 @@
 // Sync the jvto_cms bootstrap seed (plain JSON) → src/data/cms/.
 // Pure ESM, no external deps. Idempotent. Manifest-gated.
 //
-// This is the editorial content-plane for the (website) render path: the 50
-// fully-rendered routes in the seed become the single source of page copy / FAQ
-// / SEO at BOTH build and runtime (see src/lib/cms/seedResolver.ts). It mirrors
-// scripts/sync-trust-bundle.mjs in shape.
+// WARNING (PACKAGE 05c, 2026-08-04): routes migrated to the static-content
+// SSOT (content/pages/** — policy, travel-guide Path A, why-jvto) were
+// STRIPPED from src/data/cms/{pages,page_sections}.json. A verbatim re-run of
+// this script against an old seed export would RESTORE those rows — CI
+// (scripts/validate-static-route-ownership.mjs) fails any PR that re-adds a
+// migrated route to the seed. If you must re-sync, re-strip migrated routes
+// before committing.
+//
+// This is the editorial content-plane for the (website) render path: the
+// remaining fully-rendered routes in the seed are the source of page copy /
+// FAQ / SEO at BOTH build and runtime (see src/lib/cms/seedResolver.ts). It
+// mirrors scripts/sync-trust-bundle.mjs in shape.
 //
 // Usage:
 //   npm run sync:cms-seed

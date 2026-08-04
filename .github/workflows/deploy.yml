@@ -72,35 +72,22 @@ jobs:
       # The SSH step exiting 0 only proves the script ran; these steps prove the
       # box is serving THIS commit and the migrated routes actually respond.
 
-      - name: Verify deployed commit SHA
-        run: |
-          set -euo pipefail
-          EXPECTED="${{ github.sha }}"
-          URL="https://help.javavolcano-touroperator.com/api/build-info"
-          for i in $(seq 1 12); do
-            ACTUAL="$(curl -fsS --max-time 15 "$URL" | jq -r '.commitSha' 2>/dev/null || echo "")"
-            if [ "$ACTUAL" = "$EXPECTED" ]; then
-              echo "Deployed SHA verified: $ACTUAL"
-              exit 0
-            fi
-            echo "attempt $i/12: build-info reports '${ACTUAL:-<unreachable>}', expected '$EXPECTED' — retrying in 10s"
-            sleep 10
-          done
-          echo "::error::/api/build-info never reported ${EXPECTED} — deployment NOT verified"
-          exit 1
+      - name: Checkout (for the smoke script)
+        uses: actions/checkout@v4
 
-      - name: Smoke-test Why JVTO routes
-        run: |
-          set -euo pipefail
-          BASE="https://help.javavolcano-touroperator.com"
-          FAIL=0
-          for r in /why-jvto /why-jvto/our-story /why-jvto/the-jvto-difference /why-jvto/our-team /why-jvto/community-standards /why-jvto/reviews; do
-            CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$BASE$r")"
-            if [ "$CODE" = "200" ]; then
-              echo "200 OK  $r"
-            else
-              echo "::error::HTTP $CODE on $r"
-              FAIL=1
-            fi
-          done
-          exit $FAIL
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify deployment + Why JVTO live smoke
+        # scripts/smoke-why-jvto.mjs (zero deps, built-in fetch): waits for
+        # /api/build-info to report THIS commit's SHA, then asserts all six
+        # why-jvto routes return 200 with the production canonical + exactly one
+        # FAQPage node, and that the hub shows 11 active crew / 7 guides /
+        # 4 drivers and none of "14 … crew", "guidebook 2016", "ISIC Partner",
+        # or an INDECON validation/partnership claim.
+        env:
+          BASE_URL: https://help.javavolcano-touroperator.com
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/smoke-why-jvto.mjs

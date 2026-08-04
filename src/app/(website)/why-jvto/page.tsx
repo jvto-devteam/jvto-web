@@ -1,3 +1,15 @@
+// src/app/(website)/why-jvto/page.tsx
+//
+// PACKAGE 05c (2026-08-04): the hub is fully content-driven. Every company
+// claim, number, badge, quote, and description renders from
+// content/pages/why-jvto/index.json (+ content/entities/*); this file keeps
+// only layout, styling, icon mapping, and interaction wiring (owner
+// directive: TSX must not store public narrative for migrated routes).
+// Crew stats are COMPUTED from the published crew_grid roster in
+// content/pages/why-jvto/our-team.json — never TSX literals. Review ratings
+// come from the review-platforms entity via @/lib/jvtoReviews. The
+// narrative-claims ItemList reads content/entities/narrative-claims.json —
+// this route performs zero database reads.
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
@@ -20,15 +32,19 @@ import {
   ChevronRight,
   Fingerprint,
   Newspaper,
+  type LucideIcon,
 } from "lucide-react";
-import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import {
   buildWhyJvtoHubItemListSchema,
   buildNarrativeClaimsItemList,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
-import { loadStaticPage, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
+import {
+  loadEntity,
+  loadStaticPage,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from "@/lib/static-content";
 import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
-import { CREW_PORTRAITS, FOUNDER_LEADERSHIP, HISTORY_HERITAGE } from "@/lib/imageAssets";
 import SidebarDesktop from "./SidebarDesktop";
 import { WHY_JVTO_STYLES } from "./whyJvtoTokens";
 import {
@@ -36,20 +52,67 @@ import {
   ReviewQuoteRotator,
   StoryTimelineTabs,
   StandardsAccordion,
+  type DiffItem,
+  type QuoteItem,
+  type StoryTab,
+  type StandardItem,
 } from "./HubInteractive";
 
-const siteUrl = "https://javavolcano-touroperator.com";
+const siteUrl = PRODUCTION_ORIGIN;
 
-const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
-const defaultWhyDescription =
-  "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
+/* ── Design-side icon maps (keyed by content item `key` — never narrative) ── */
+const TRUST_CARD_ICONS: Record<string, LucideIcon> = {
+  difference: ShieldAlert,
+  story: Scale,
+  team: Mountain,
+  reviews: Star,
+  standards: Handshake,
+  verify: Search,
+};
+const CHIP_ICONS: Record<string, LucideIcon> = {
+  isic: CheckCircle2,
+  hpwki: ShieldCheck,
+};
 
-// PACKAGE 05 (2026-08-04): the Why-JVTO hub's meta/SEO/hero-lede/FAQ come from
-// content/pages/why-jvto/index.json (static-content SSOT). The former
-// snapshot + FAQ-resolver + content_pages.faq chain is gone (AD-10: a migrated
-// route reads only content/). The visible FAQ and the FAQPage JSON-LD are built
-// from the single page.faq array (AD-08). getAllNarrativeClaims() stays — the
-// ItemList of brand claims is dynamic data and remains DB-owned (AD-02).
+/* ── Content access helpers — throw at build so missing content fails the
+      SSG build (prebuild gates + deploy build), never silently drops copy. ── */
+type HubSection = NonNullable<StaticPage["sections"]>[number];
+
+function requireSection(page: StaticPage, id: string): HubSection {
+  const sec = page.sections?.find((s) => s.id === id);
+  if (!sec) {
+    throw new Error(
+      `why-jvto hub: required section "${id}" missing from content/pages/why-jvto/index.json`,
+    );
+  }
+  return sec;
+}
+
+function sectionText(sec: HubSection, key: string): string {
+  const v = (sec as Record<string, unknown>)[key];
+  if (typeof v !== "string" || v.length === 0) {
+    throw new Error(`why-jvto hub: section "${sec.id}" is missing text field "${key}"`);
+  }
+  return v;
+}
+
+function gridItems<T>(sec: HubSection, role: string): T[] {
+  const block = (sec.blocks ?? []).find(
+    (b) => b.type === "grid" && (b as Record<string, unknown>).role === role,
+  );
+  if (!block) {
+    throw new Error(`why-jvto hub: section "${sec.id}" is missing its grid block (role="${role}")`);
+  }
+  return (block as { items: unknown[] }).items as T[];
+}
+
+function sectionImage(sec: HubSection): { src: string; alt: string } {
+  const block = (sec.blocks ?? []).find((b) => b.type === "image");
+  if (!block) {
+    throw new Error(`why-jvto hub: section "${sec.id}" is missing its image block`);
+  }
+  return block as { src: string; alt: string };
+}
 
 /** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
 function staticPageRow(page: StaticPage) {
@@ -59,7 +122,6 @@ function staticPageRow(page: StaticPage) {
     seo: {
       title: page.meta.browserTitle ?? page.meta.title,
       description: page.meta.description,
-      // Non-default schema classification from the content file (null = WebPage only).
       schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
     },
     content: { h1: page.meta.title },
@@ -82,9 +144,9 @@ function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage("/why-jvto");
-  const title = page?.meta.browserTitle ?? page?.meta.title ?? defaultWhyTitle;
-  const description = page?.meta.description ?? defaultWhyDescription;
-  const h1 = page?.meta.title ?? "Why JVTO";
+  if (!page || page.meta.status !== "published") return { title: "Why JVTO" };
+  const title = page.meta.browserTitle ?? page.meta.title;
+  const description = page.meta.description;
 
   return {
     title,
@@ -98,10 +160,10 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: siteUrl + "/assets/img/og/why-jvto.webp",
+          url: `${siteUrl}/assets/img/og/why-jvto.webp`,
           width: 1200,
           height: 630,
-          alt: h1,
+          alt: page.meta.title,
         },
       ],
     },
@@ -109,101 +171,102 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [siteUrl + "/assets/img/og/why-jvto.webp"],
+      images: [`${siteUrl}/assets/img/og/why-jvto.webp`],
     },
   };
 }
-
-const trustStackCards = [
-  {
-    icon: ShieldAlert,
-    title: "The JVTO Difference",
-    desc: "Police-led safety mindset, documented operational discipline, and proof you can verify.",
-    href: "/why-jvto/the-jvto-difference",
-  },
-  {
-    icon: Scale,
-    title: "Our Story: Roots Since 2015",
-    desc: "Booking.com award, documented continuity, and artifacts tracing our history in Bondowoso.",
-    href: "/why-jvto/our-story",
-  },
-  {
-    icon: Mountain,
-    title: "Our Team: Local Crew",
-    desc: "14 named guides and drivers, HPWKI KTA-credentialed, recruited locally — no freelancers.",
-    href: "/why-jvto/our-team",
-  },
-  {
-    icon: Star,
-    title: "Guest Reviews (Independent Platforms)",
-    desc: "Independent reviews across Trustpilot, Google Maps and TripAdvisor.",
-    href: "/why-jvto/reviews",
-  },
-  {
-    icon: Handshake,
-    title: "Community Standards & Partners",
-    desc: "HPWKI, ISIC, INDECON partnerships plus operational ethics and cancellation rules.",
-    href: "/why-jvto/community-standards",
-  },
-  {
-    icon: Search,
-    title: "Verify JVTO",
-    desc: "Legal docs, safety docs, press, and history artifacts — organized for easy checking.",
-    href: "/verify-jvto",
-  },
-];
-
-const proofDocs = [
-  {
-    title: "NIB Entity",
-    img: `${siteUrl}/legal/NIB-1102230032918-preview.webp`,
-    hash: "FA20DDE3...",
-  },
-  {
-    title: "Police SPRIN",
-    img: `${siteUrl}/legal/SPRIN-POLPAR.webp`,
-    hash: "03C8578D...",
-  },
-  {
-    title: "Health Screening",
-    img: `${siteUrl}/screening/ijen-screening-hotel-01.webp`,
-    hash: "C52194BB...",
-  },
-  {
-    title: "HPWKI License",
-    img: `${siteUrl}/uploads/1763205255605-141795118-kiki.webp`,
-    hash: "CA1FB1A4...",
-  },
-];
 
 export default async function WhyJvtoPage() {
   const page = loadStaticPage("/why-jvto");
   if (!page || page.meta.status !== "published") return notFound();
 
-  const narrativeClaims = await getAllNarrativeClaims().catch(() => []);
+  // Crew stats + portrait rail — computed from the published crew_grid roster
+  // (content/pages/why-jvto/our-team.json). Counts are never TSX literals.
+  const teamPage = loadStaticPage("/why-jvto/our-team");
+  const crew = (teamPage?.sections ?? [])
+    .flatMap((s) => s.blocks ?? [])
+    .filter((b) => b.type === "crew_grid")
+    .flatMap(
+      (b) =>
+        ((b as { items?: unknown[] }).items ?? []) as Array<{
+          name: string;
+          role: string;
+          photo_url?: string;
+        }>,
+    );
+  if (crew.length === 0) {
+    throw new Error(
+      "why-jvto hub: crew_grid items missing from content/pages/why-jvto/our-team.json",
+    );
+  }
+  const crewStats: Record<string, number> = {
+    guides: crew.filter((m) => m.role === "Guide").length,
+    drivers: crew.filter((m) => m.role === "Driver").length,
+    total: crew.length,
+  };
+  const crewRail = crew.filter((m) => m.photo_url).slice(0, 8);
+
+  // Narrative claims — evergreen public knowledge, served from content/
+  // (content/entities/narrative-claims.json), never the DB on this route.
+  const claimsEntity = loadEntity("narrative-claims") as {
+    claims?: Array<{ pillar?: string; primary_page?: string }>;
+  } | null;
+  if (!claimsEntity?.claims?.length) {
+    throw new Error("why-jvto hub: content/entities/narrative-claims.json missing or empty");
+  }
+  const narrativeClaims = claimsEntity.claims.map((c) => ({
+    pillar: c.pillar ?? null,
+    primary_page: c.primary_page ?? null,
+  }));
+
+  // Sections (throw at build when absent — content is the contract).
+  const heroSignals = requireSection(page, "hero-signals");
+  const difference = requireSection(page, "difference");
+  const press = requireSection(page, "press-evidence");
+  const reviewsSec = requireSection(page, "reviews-signal");
+  const story = requireSection(page, "story-timeline");
+  const team = requireSection(page, "team-strip");
+  const standards = requireSection(page, "standards-accordion");
+  const trustStack = requireSection(page, "trust-stack");
+  const proofLocker = requireSection(page, "proof-locker");
+  const cta = requireSection(page, "cta");
+
+  const heroMetaRows = gridItems<{ key: string; label: string; value: string }>(heroSignals, "meta-rows");
+  const credentialChips = gridItems<{ key: string; label: string }>(heroSignals, "credential-chips");
+  const diffItems = gridItems<DiffItem>(difference, "differentiators");
+  const quotes = gridItems<QuoteItem>(reviewsSec, "quotes");
+  const storyTabs = gridItems<StoryTab>(story, "timeline-tabs");
+  const statLabels = gridItems<{ key: string; label: string }>(team, "stat-labels");
+  const standardItems = gridItems<StandardItem>(standards, "standards");
+  const trustCards = gridItems<{ key: string; href: string; title: string; summary: string }>(trustStack, "cards");
+  const proofDocs = gridItems<{ key: string; title: string; img: string; sha256_short: string }>(proofLocker, "docs");
+  const ctaLinks = gridItems<{ key: string; href: string; label: string; variant: string }>(cta, "cta-links");
+
+  const differenceImage = sectionImage(difference);
+  const pressImage = sectionImage(press);
+  const storyImage = sectionImage(story);
 
   const heroH1 = page.meta.title;
   const heroLede = page.lede ?? [];
+  const teamHeading = sectionText(team, "heading_template").replace(
+    "{count}",
+    String(crewStats.total),
+  );
+
+  // Review ratings/counts — content entity via @/lib/jvtoReviews (dynamic data
+  // stays entity/DB-owned; no literal fallbacks in TSX).
+  const ratedPlatforms = REVIEW_PLATFORMS.filter((p) => p.rating != null && p.count != null);
+  const primaryPlatform =
+    ratedPlatforms.find((p) => p.platform === "Trustpilot") ?? ratedPlatforms[0];
 
   const faqSource = page.faq ?? [];
-  const faqSchemaNode = faqSource.length
-    ? buildStaticFaqSchema("/why-jvto", faqSource)
-    : null;
+  const faqSchemaNode = faqSource.length ? buildStaticFaqSchema("/why-jvto", faqSource) : null;
   const extraSchemas = [
     buildWhyJvtoHubItemListSchema(),
     buildNarrativeClaimsItemList(narrativeClaims),
     faqSchemaNode,
   ].filter(Boolean);
-
   const visibleFaqs = faqSource.map((f) => ({ q: f.question, a: f.answer }));
-
-  const trustpilot = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
-  const googleMaps = REVIEW_PLATFORMS.find((p) => p.platform === "Google Maps");
-  const tripAdvisor = REVIEW_PLATFORMS.find((p) => p.platform === "TripAdvisor");
-
-  const founderPhoto = FOUNDER_LEADERSHIP[0];
-  const historyPhoto = HISTORY_HERITAGE[0];
-  const crewPreview = CREW_PORTRAITS.slice(0, 8);
 
   return (
     <>
@@ -234,8 +297,8 @@ export default async function WhyJvtoPage() {
             <header className="jw-hero">
               <div className="jw-hero-inner">
                 <div className="jw-hero-eyebrow-row">
-                  <span className="jw-eyebrow-pill">Why JVTO — Hub</span>
-                  <span className="jw-eyebrow-meta">Six pillars, each verifiable</span>
+                  <span className="jw-eyebrow-pill">{sectionText(heroSignals, "eyebrow_pill")}</span>
+                  <span className="jw-eyebrow-meta">{sectionText(heroSignals, "eyebrow_meta")}</span>
                 </div>
                 <h1 className="jw-hero-h1" style={{ maxWidth: "24ch" }}>
                   {heroH1}
@@ -246,27 +309,17 @@ export default async function WhyJvtoPage() {
                   </p>
                 ))}
                 <div className="jw-hero-meta">
-                  <div className="jw-meta-row">
-                    <span>Legal entity</span>
-                    <strong>PT Java Volcano Rendezvous</strong>
-                  </div>
-                  <div className="jw-meta-row">
-                    <span>NIB</span>
-                    <strong>1102230032918</strong>
-                  </div>
-                  <div className="jw-meta-row">
-                    <span>Founder</span>
-                    <strong>Active Tourist Police</strong>
-                  </div>
-                  <div className="jw-meta-row">
-                    <span>Tour format</span>
-                    <strong>100% private</strong>
-                  </div>
+                  {heroMetaRows.map((row) => (
+                    <div key={row.key} className="jw-meta-row">
+                      <span>{row.label}</span>
+                      <strong>{row.value}</strong>
+                    </div>
+                  ))}
                 </div>
               </div>
             </header>
 
-            {/* Trust bar */}
+            {/* Trust bar — platform chips from the review-platforms entity; credential chips from content */}
             <div
               style={{
                 display: "flex",
@@ -277,21 +330,27 @@ export default async function WhyJvtoPage() {
                 marginTop: "-1px",
               }}
             >
-              {[
-                { Icon: Star, label: `Trustpilot ${trustpilot?.rating ?? "4.8"}` },
-                { Icon: Star, label: `Google Maps ${googleMaps?.rating ?? "4.9"}` },
-                { Icon: Star, label: `TripAdvisor ${tripAdvisor?.rating ?? "4.95"}` },
-                { Icon: CheckCircle2, label: "ISIC Partner" },
-                { Icon: ShieldCheck, label: "HPWKI Member" },
-              ].map(({ Icon, label }) => (
+              {ratedPlatforms.map((p) => (
                 <div
-                  key={label}
+                  key={p.platform}
                   style={{ display: "flex", alignItems: "center", gap: "0.45rem", color: "#0D1B2A", fontWeight: 700, fontSize: "0.85rem" }}
                 >
-                  <Icon size={15} color="#E8650A" />
-                  {label}
+                  <Star size={15} color="#E8650A" />
+                  {p.platform} {p.rating}
                 </div>
               ))}
+              {credentialChips.map((chip) => {
+                const Icon = CHIP_ICONS[chip.key] ?? CheckCircle2;
+                return (
+                  <div
+                    key={chip.key}
+                    style={{ display: "flex", alignItems: "center", gap: "0.45rem", color: "#0D1B2A", fontWeight: 700, fontSize: "0.85rem" }}
+                  >
+                    <Icon size={15} color="#E8650A" />
+                    {chip.label}
+                  </div>
+                );
+              })}
             </div>
           </section>
 
@@ -300,29 +359,28 @@ export default async function WhyJvtoPage() {
             <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div className="jw-feat-media">
                 <figure className="jw-media-frame">
-                  {founderPhoto && <img src={founderPhoto.url} alt={founderPhoto.alt} loading="lazy" />}
-                  <span className="jw-media-tag">Ditpamobvit · operational authority</span>
+                  <img src={differenceImage.src} alt={differenceImage.alt} loading="lazy" />
+                  <span className="jw-media-tag">{sectionText(difference, "media_tag")}</span>
                   <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
                     <ShieldCheck />
                     <div>
-                      <div className="jw-fb-title">Official Safety Authority</div>
-                      <div className="jw-fb-sub">Active Tourist Police officer</div>
+                      <div className="jw-fb-title">{sectionText(difference, "badge_title")}</div>
+                      <div className="jw-fb-sub">{sectionText(difference, "badge_sub")}</div>
                     </div>
                   </div>
                 </figure>
               </div>
               <div className="jw-feat-body">
                 <span className="jw-feat-eyebrow">
-                  <span className="jw-fe-num">§ 01</span> · The JVTO Difference
+                  <span className="jw-fe-num">{sectionText(difference, "eyebrow_num")}</span> ·{" "}
+                  {sectionText(difference, "eyebrow_label")}
                 </span>
                 <h3>
-                  Six differentiators, <span className="jw-accent-orange">each verifiable.</span>
+                  {sectionText(difference, "heading")}{" "}
+                  <span className="jw-accent-orange">{sectionText(difference, "heading_accent")}</span>
                 </h3>
-                <p className="jw-feat-lede">
-                  Not marketing language — every one is backed by a credential you can check. Tap a pillar to see
-                  what proves it.
-                </p>
-                <DifferenceChips />
+                <p className="jw-feat-lede">{sectionText(difference, "lede_text")}</p>
+                <DifferenceChips items={diffItems} />
                 <Link href="/why-jvto/the-jvto-difference" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
                   Read the difference →
                 </Link>
@@ -330,28 +388,27 @@ export default async function WhyJvtoPage() {
             </div>
           </section>
 
-          {/* ══════════ Press evidence (real, national media) ══════════ */}
+          {/* ══════════ Press evidence ══════════ */}
           <section style={{ background: "#0D1B2A", padding: "3.5rem 1.5rem" }}>
             <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }} className="jw-press-grid">
               <div>
                 <div className="jw-micro" style={{ color: "#8CC63F", display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "1rem" }}>
-                  <Newspaper size={13} /> National Media Verification
+                  <Newspaper size={13} /> {sectionText(press, "eyebrow")}
                 </div>
                 <h3 style={{ fontFamily: "var(--jw-font-display)", fontSize: "clamp(1.5rem, 3vw, 2.2rem)", color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.1, margin: "0 0 1rem" }}>
-                  Duty first, business second.
+                  {sectionText(press, "heading")}
                 </h3>
                 <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-                  Our founder, Bripka Agung Sambuko, was covered by national media (Detik.com) for his dedication as
-                  a Tourist Police officer keeping visitors safe in the extreme conditions of Kawah Ijen.
+                  {sectionText(press, "body_text")}
                 </p>
                 <div className="jw-cred jw-dark" style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.1)" }}>
                   <span className="jw-cred-text" style={{ fontFamily: "var(--jw-font-display)", fontStyle: "italic", fontSize: "1rem", color: "#fff" }}>
-                    &ldquo;The important thing is that the people who travel are safe.&rdquo;
+                    &ldquo;{sectionText(press, "quote")}&rdquo;
                   </span>
-                  <span className="jw-cred-label">— Bripka Agung Sambuko (Detik News)</span>
+                  <span className="jw-cred-label">{sectionText(press, "quote_attribution")}</span>
                 </div>
                 <a
-                  href="https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin"
+                  href={sectionText(press, "article_url")}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   className="jw-inline-link jw-light"
@@ -363,18 +420,18 @@ export default async function WhyJvtoPage() {
               <div>
                 <div style={{ borderRadius: "18px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "var(--jw-shadow-hover)" }}>
                   <img
-                    src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.webp`}
-                    alt="Detik.com article screenshot"
+                    src={pressImage.src}
+                    alt={pressImage.alt}
                     loading="lazy"
                     decoding="async"
                     style={{ width: "100%", display: "block" }}
                   />
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.5rem 0.9rem", background: "rgba(0,0,0,0.4)" }}>
                     <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontFamily: "var(--jw-font-mono)", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>
-                      <Fingerprint size={11} /> SHA-256: B257B7...
+                      <Fingerprint size={11} /> SHA-256: {sectionText(press, "sha256_short")}
                     </span>
                     <span style={{ fontFamily: "var(--jw-font-mono)", fontSize: "10px", background: "rgba(140,198,63,0.15)", color: "#8CC63F", padding: "2px 8px", borderRadius: "4px" }}>
-                      14 Mar 2021
+                      {sectionText(press, "article_date")}
                     </span>
                   </div>
                 </div>
@@ -387,42 +444,51 @@ export default async function WhyJvtoPage() {
             <div className="jw-feat" style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div className="jw-feat-media">
                 <figure className="jw-media-frame">
-                  {crewPreview[0] && <img src={crewPreview[0].url} alt={crewPreview[0].alt} loading="lazy" />}
-                  <span className="jw-media-tag">Verified across 3 platforms</span>
-                  <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
-                    <Star fill="#F5A623" color="#F5A623" />
-                    <div>
-                      <div className="jw-fb-title">{trustpilot?.rating ?? "4.8"} ★ Trustpilot</div>
-                      <div className="jw-fb-sub">{trustpilot?.count ?? 51} verified reviews</div>
+                  {crewRail[0]?.photo_url && (
+                    <img
+                      src={crewRail[0].photo_url}
+                      alt={`${crewRail[0].name} — ${crewRail[0].role}, Java Volcano Tour Operator crew`}
+                      loading="lazy"
+                    />
+                  )}
+                  <span className="jw-media-tag">{sectionText(reviewsSec, "media_tag")}</span>
+                  {primaryPlatform && (
+                    <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
+                      <Star fill="#F5A623" color="#F5A623" />
+                      <div>
+                        <div className="jw-fb-title">
+                          {primaryPlatform.rating} ★ {primaryPlatform.platform}
+                        </div>
+                        <div className="jw-fb-sub">{primaryPlatform.count} verified reviews</div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </figure>
               </div>
               <div className="jw-feat-body">
                 <span className="jw-feat-eyebrow">
-                  <span className="jw-fe-num">§ 02</span> · Reviews
+                  <span className="jw-fe-num">{sectionText(reviewsSec, "eyebrow_num")}</span> ·{" "}
+                  {sectionText(reviewsSec, "eyebrow_label")}
                 </span>
                 <h3>
-                  Patterns, not a <span className="jw-accent-orange">quote wall.</span>
+                  {sectionText(reviewsSec, "heading")}{" "}
+                  <span className="jw-accent-orange">{sectionText(reviewsSec, "heading_accent")}</span>
                 </h3>
-                <p className="jw-feat-lede">
-                  Feedback grouped by what it proves, across three independent platforms — verified, not
-                  cherry-picked.
-                </p>
+                <p className="jw-feat-lede">{sectionText(reviewsSec, "lede_text")}</p>
                 <div className="jw-agg-grid" style={{ marginBottom: "1.25rem" }}>
-                  {[trustpilot, googleMaps, tripAdvisor].filter(Boolean).map((p) => (
-                    <div key={p!.platform} className="jw-agg" style={{ padding: "1rem 1.1rem" }}>
-                      <span className="jw-agg-plat">{p!.platform}</span>
+                  {ratedPlatforms.map((p) => (
+                    <div key={p.platform} className="jw-agg" style={{ padding: "1rem 1.1rem" }}>
+                      <span className="jw-agg-plat">{p.platform}</span>
                       <span className="jw-agg-score" style={{ fontSize: "1.6rem" }}>
-                        {p!.rating}
+                        {p.rating}
                       </span>
                       <span className="jw-agg-meta" style={{ border: 0, paddingTop: 0 }}>
-                        {p!.count} reviews
+                        {p.count} reviews
                       </span>
                     </div>
                   ))}
                 </div>
-                <ReviewQuoteRotator />
+                <ReviewQuoteRotator quotes={quotes} />
                 <Link href="/why-jvto/reviews" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
                   Read all reviews →
                 </Link>
@@ -435,13 +501,13 @@ export default async function WhyJvtoPage() {
             <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div className="jw-feat-media">
                 <figure className="jw-media-frame">
-                  {historyPhoto && <img src={historyPhoto.url} alt={historyPhoto.alt} loading="lazy" />}
-                  <span className="jw-media-tag">Bondowoso · since 2015</span>
+                  <img src={storyImage.src} alt={storyImage.alt} loading="lazy" />
+                  <span className="jw-media-tag">{sectionText(story, "media_tag")}</span>
                   <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
                     <BookOpen />
                     <div>
-                      <div className="jw-fb-title">Est. 2015</div>
-                      <div className="jw-fb-sub">Ijen Bondowoso Homestay</div>
+                      <div className="jw-fb-title">{sectionText(story, "badge_title")}</div>
+                      <div className="jw-fb-sub">{sectionText(story, "badge_sub")}</div>
                     </div>
                   </div>
                 </figure>
@@ -449,17 +515,16 @@ export default async function WhyJvtoPage() {
               <div className="jw-feat-body jw-on-dark" style={{ background: "#0D1B2A", borderRadius: "28px", padding: "2.5rem" }}>
                 <span className="jw-feat-eyebrow">
                   <span className="jw-fe-num" style={{ color: "rgba(255,255,255,0.5)" }}>
-                    § 03
+                    {sectionText(story, "eyebrow_num")}
                   </span>{" "}
-                  · Our Story
+                  · {sectionText(story, "eyebrow_label")}
                 </span>
                 <h3>
-                  From a homestay to a <span className="jw-accent-orange">licensed operator.</span>
+                  {sectionText(story, "heading")}{" "}
+                  <span className="jw-accent-orange">{sectionText(story, "heading_accent")}</span>
                 </h3>
-                <p className="jw-feat-lede">
-                  Documented operational continuity at one Bondowoso address — tap a milestone.
-                </p>
-                <StoryTimelineTabs />
+                <p className="jw-feat-lede">{sectionText(story, "lede_text")}</p>
+                <StoryTimelineTabs tabs={storyTabs} />
                 <Link href="/why-jvto/our-story" prefetch={false} className="jw-inline-link jw-light" style={{ marginTop: "1.5rem" }}>
                   Read our story →
                 </Link>
@@ -483,26 +548,25 @@ export default async function WhyJvtoPage() {
                 <div>
                   <span className="jw-feat-eyebrow" style={{ color: "#8CC63F" }}>
                     <span className="jw-fe-num" style={{ color: "rgba(255,255,255,0.5)" }}>
-                      § 04
+                      {sectionText(team, "eyebrow_num")}
                     </span>{" "}
-                    · Our Team
+                    · {sectionText(team, "eyebrow_label")}
                   </span>
                   <h3 style={{ fontFamily: "var(--jw-font-display)", fontSize: "clamp(24px,3.2vw,38px)", color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.08, maxWidth: "18ch", margin: 0 }}>
-                    14 named crew. <span className="jw-accent-orange">No freelancers.</span>
+                    {teamHeading} <span className="jw-accent-orange">{sectionText(team, "heading_accent")}</span>
                   </h3>
                 </div>
-                <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
-                  {[
-                    ["7", "Guides"],
-                    ["7", "Drivers"],
-                    ["5", "HPWKI KTA"],
-                  ].map(([n, l]) => (
-                    <div key={l}>
+                <div
+                  style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}
+                  aria-label={`Crew composition: ${crewStats.total} active crew — ${crewStats.guides} guides, ${crewStats.drivers} drivers`}
+                >
+                  {statLabels.map((stat) => (
+                    <div key={stat.key}>
                       <div style={{ fontFamily: "var(--jw-font-display)", fontSize: "34px", fontWeight: 800, letterSpacing: "-0.02em", color: "#8CC63F", lineHeight: 1 }}>
-                        {n}
+                        {crewStats[stat.key] ?? 0}
                       </div>
                       <div className="jw-micro" style={{ color: "rgba(255,255,255,0.55)", marginTop: "0.35rem" }}>
-                        {l}
+                        {stat.label}
                       </div>
                     </div>
                   ))}
@@ -510,9 +574,9 @@ export default async function WhyJvtoPage() {
               </div>
 
               <div style={{ display: "flex", gap: "1rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
-                {crewPreview.map((m) => (
+                {crewRail.map((m) => (
                   <div
-                    key={m.url}
+                    key={m.photo_url}
                     style={{
                       position: "relative",
                       width: "150px",
@@ -523,7 +587,12 @@ export default async function WhyJvtoPage() {
                       flexShrink: 0,
                     }}
                   >
-                    <img src={m.url} alt={m.alt} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img
+                      src={m.photo_url}
+                      alt={`${m.name} — ${m.role}, Java Volcano Tour Operator crew`}
+                      loading="lazy"
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
                     <div
                       style={{
                         position: "absolute",
@@ -533,14 +602,14 @@ export default async function WhyJvtoPage() {
                     />
                     <div style={{ position: "absolute", left: "12px", bottom: "10px" }}>
                       <div style={{ fontFamily: "var(--jw-font-display)", fontWeight: 700, fontSize: "14px", color: "#fff" }}>
-                        {m.caption.split(" - ")[0]}
+                        {m.name}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
               <p className="jw-micro" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1.25rem" }}>
-                Individually photographed &amp; license-linked · recruited from Bondowoso &amp; Banyuwangi
+                {sectionText(team, "footer_note")}
               </p>
               <Link href="/why-jvto/our-team" prefetch={false} className="jw-inline-link jw-light" style={{ marginTop: "1rem" }}>
                 Meet the full team →
@@ -553,28 +622,34 @@ export default async function WhyJvtoPage() {
             <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div className="jw-feat-media">
                 <figure className="jw-media-frame">
-                  {crewPreview[1] && <img src={crewPreview[1].url} alt={crewPreview[1].alt} loading="lazy" />}
-                  <span className="jw-media-tag">Kawah Ijen · shared working path</span>
+                  {crewRail[1]?.photo_url && (
+                    <img
+                      src={crewRail[1].photo_url}
+                      alt={`${crewRail[1].name} — ${crewRail[1].role}, Java Volcano Tour Operator crew`}
+                      loading="lazy"
+                    />
+                  )}
+                  <span className="jw-media-tag">{sectionText(standards, "media_tag")}</span>
                   <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
                     <Handshake />
                     <div>
-                      <div className="jw-fb-title">Ecotourism-aligned</div>
-                      <div className="jw-fb-sub">Local crew policy</div>
+                      <div className="jw-fb-title">{sectionText(standards, "badge_title")}</div>
+                      <div className="jw-fb-sub">{sectionText(standards, "badge_sub")}</div>
                     </div>
                   </div>
                 </figure>
               </div>
               <div className="jw-feat-body">
                 <span className="jw-feat-eyebrow">
-                  <span className="jw-fe-num">§ 05</span> · Community Standards
+                  <span className="jw-fe-num">{sectionText(standards, "eyebrow_num")}</span> ·{" "}
+                  {sectionText(standards, "eyebrow_label")}
                 </span>
                 <h3>
-                  Read the rulebook <span className="jw-accent-orange">before you book.</span>
+                  {sectionText(standards, "heading")}{" "}
+                  <span className="jw-accent-orange">{sectionText(standards, "heading_accent")}</span>
                 </h3>
-                <p className="jw-feat-lede">
-                  We publish what we don&rsquo;t do as plainly as what we do. Every policy is online before you pay.
-                </p>
-                <StandardsAccordion />
+                <p className="jw-feat-lede">{sectionText(standards, "lede_text")}</p>
+                <StandardsAccordion items={standardItems} />
                 <Link href="/why-jvto/community-standards" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
                   See the standards →
                 </Link>
@@ -587,11 +662,11 @@ export default async function WhyJvtoPage() {
             <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div className="jw-section-head" style={{ textAlign: "center" }}>
                 <div className="jw-section-eyebrow" style={{ justifyContent: "center" }}>
-                  <span className="jw-micro">◆ Verification Registry</span>
+                  <span className="jw-micro">{sectionText(trustStack, "eyebrow")}</span>
                 </div>
-                <h2 className="jw-section-h2">The JVTO Trust Stack</h2>
+                <h2 className="jw-section-h2">{trustStack.title}</h2>
                 <p className="jw-section-sub" style={{ margin: "0.6rem auto 0" }}>
-                  Navigate our proof library. Marketing promises are cheap; operational discipline is verifiable.
+                  {sectionText(trustStack, "sub")}
                 </p>
               </div>
               <div
@@ -602,11 +677,11 @@ export default async function WhyJvtoPage() {
                   marginTop: "2.5rem",
                 }}
               >
-                {trustStackCards.map((card, i) => {
-                  const Icon = card.icon;
+                {trustCards.map((card) => {
+                  const Icon = TRUST_CARD_ICONS[card.key] ?? ShieldCheck;
                   return (
                     <Link
-                      key={i}
+                      key={card.key}
                       href={card.href}
                       prefetch={false}
                       style={{
@@ -638,7 +713,7 @@ export default async function WhyJvtoPage() {
                         {card.title}
                       </div>
                       <div style={{ fontSize: "0.8rem", color: "#6B7280", lineHeight: 1.6, marginBottom: "1rem" }}>
-                        {card.desc}
+                        {card.summary}
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.75rem", fontWeight: 700, color: "#E8650A" }}>
                         Explore proof <ChevronRight size={14} />
@@ -655,23 +730,23 @@ export default async function WhyJvtoPage() {
             <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", marginBottom: "2rem" }}>
                 <div>
-                  <h2 className="jw-section-h2">Don&rsquo;t guess. Verify.</h2>
-                  <p className="jw-section-sub">In an industry of ghost operators, we publish credentials with cryptographic proofs.</p>
+                  <h2 className="jw-section-h2">{sectionText(proofLocker, "heading")}</h2>
+                  <p className="jw-section-sub">{sectionText(proofLocker, "sub")}</p>
                 </div>
                 <Link href="/verify-jvto" prefetch={false} className="jw-inline-link">
                   <Lock size={14} /> Enter proof library
                 </Link>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1rem" }} className="jw-proof-grid">
-                {proofDocs.map((doc, i) => (
-                  <div key={i} style={{ background: "#fff", border: "1px solid #E3E0DA", borderRadius: "14px", padding: "0.75rem" }}>
+                {proofDocs.map((doc) => (
+                  <div key={doc.key} style={{ background: "#fff", border: "1px solid #E3E0DA", borderRadius: "14px", padding: "0.75rem" }}>
                     <div style={{ background: "#eceae4", borderRadius: "8px", overflow: "hidden", height: "9rem", position: "relative", marginBottom: "0.75rem" }}>
                       <img src={doc.img} alt={doc.title} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }} />
                       <FileDigit size={26} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", color: "#9aa08e" }} />
                     </div>
                     <div style={{ fontWeight: 700, fontSize: "0.8rem", color: "#0D1B2A", marginBottom: "0.3rem" }}>{doc.title}</div>
                     <span style={{ fontFamily: "var(--jw-font-mono)", fontSize: "0.6rem", color: "#6B7280", background: "#F6F5F2", padding: "0.25rem 0.5rem", borderRadius: "4px", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      SHA-256: {doc.hash}
+                      SHA-256: {doc.sha256_short}
                     </span>
                   </div>
                 ))}
@@ -679,7 +754,7 @@ export default async function WhyJvtoPage() {
             </div>
           </section>
 
-          {/* ══════════ FAQ ══════════ */}
+          {/* ══════════ FAQ — same array as the FAQPage JSON-LD (AD-08) ══════════ */}
           {visibleFaqs.length > 0 && (
             <section style={{ padding: "5rem 1.5rem" }}>
               <div style={{ maxWidth: "820px", margin: "0 auto" }}>
@@ -731,19 +806,26 @@ export default async function WhyJvtoPage() {
           <div style={{ padding: "0 1.5rem 2rem" }}>
             <div className="jw-cta-block" style={{ marginTop: 0 }}>
               <h2>
-                Don&rsquo;t guess. <span className="jw-accent-orange">Verify.</span>
+                {sectionText(cta, "heading")} <span className="jw-accent-orange">{sectionText(cta, "heading_accent")}</span>
               </h2>
               <div className="jw-cta-ctas">
-                <Link href="/verify-jvto" prefetch={false} className="jw-primary">
-                  Open the proof library <ArrowRight size={14} />
-                </Link>
-                <Link href="/tours" prefetch={false} className="jw-ghost">
-                  Explore private tours
-                </Link>
+                {ctaLinks.map((link) => (
+                  <Link
+                    key={link.key}
+                    href={link.href}
+                    prefetch={false}
+                    className={link.variant === "primary" ? "jw-primary" : "jw-ghost"}
+                  >
+                    {link.label}
+                    {link.variant === "primary" && <ArrowRight size={14} />}
+                  </Link>
+                ))}
               </div>
               <p className="jw-micro" style={{ color: "rgba(255,255,255,0.5)", marginTop: "2rem" }}>
-                PT Java Volcano Rendezvous · NIB 1102230032918 · Trustpilot {trustpilot?.rating ?? "4.8"} / 5 (
-                {trustpilot?.count ?? 51} reviews{trustpilot?.lastVerified ? `, verified ${trustpilot.lastVerified}` : ""})
+                {sectionText(cta, "footer_identity")}
+                {primaryPlatform
+                  ? ` · ${primaryPlatform.platform} ${primaryPlatform.rating} / 5 (${primaryPlatform.count} reviews${primaryPlatform.lastVerified ? `, verified ${primaryPlatform.lastVerified}` : ""})`
+                  : ""}
               </p>
             </div>
           </div>

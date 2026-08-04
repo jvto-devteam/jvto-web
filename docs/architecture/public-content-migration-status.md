@@ -62,9 +62,9 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 
 | route | currentEffectiveSource | currentShape | targetFormat | specialSchema | pkg | status | blocker |
 |---|---|---|---|---|---|---|---|
-| /why-jvto (hub) | content/pages/why-jvto/index.json | structured-json + entities | structured-json + entities | hub ItemList + narrative claims ItemList (DB, AD-02) + FAQPage | 05 | **done** | none — hub reads only content/; `getAllNarrativeClaims()` stays as dynamic ItemList (AD-02) |
-| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | content/pages/why-jvto/*.json | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | **done** | `prefersDbForSlug()` DB-preferred path removed (AD-10); `sectionId` constants preserved verbatim from source |
-| /why-jvto/reviews | content/pages/why-jvto/reviews.json + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | **done** | AD-08 gap **closed** — visible FAQ + FAQPage JSON-LD now both built from the single `page.faq` array |
+| /why-jvto (hub) | content/pages/why-jvto/index.json (+ content/entities/*) | structured-json + entities | structured-json + entities | hub ItemList + narrative-claims ItemList (content/entities/narrative-claims.json) + FAQPage | 05 | **ready-to-deploy** | 05c: ALL hub narrative moved to content/ (trust cards, proof docs, hero meta, chips, §01-05, press, DIFF/QUOTES/STORY/STANDARDS, CTA); TSX = layout/icons/interaction only; crew stats COMPUTED from the our-team crew_grid (11/7/4); zero DB reads (claims ItemList from content/) |
+| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | content/pages/why-jvto/*.json | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | **ready-to-deploy** | `prefersDbForSlug()` DB-preferred path removed (AD-10); `sectionId` constants preserved verbatim from source |
+| /why-jvto/reviews | content/pages/why-jvto/reviews.json + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | **ready-to-deploy** | AD-08 gap **closed** — visible FAQ + FAQPage JSON-LD now both built from the single `page.faq` array |
 | /why-jvto/reviews/[id] | Prisma (dynamic) | dynamic | **stays DB** | Review | — | n/a | out of scope (dynamic) |
 
 ## Verify JVTO / Team / Destinations (Package 06)
@@ -115,5 +115,41 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
 | 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done** (#144) |
 | 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
-| 05 | Why JVTO migration + cutover (hub + 5 sub-pages, parity verified; AD-08 gap closed) | **done (this PR)** |
+| 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **done** (#145 cutover) |
+| 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **done** (#145) |
+| 05c | Total legacy-source removal + enforcement gate (below) | **ready-to-deploy** (#145) — **mark `done` only after live proof** |
 | 06–11 | per blueprint | pending, one PR each |
+
+### Package 05c — legacy-source removal + enforcement (owner directive 2026-08-04)
+
+Owner rule: a migrated route's PR must ALSO remove its legacy sources and block their return —
+no "migrated now, remove later".
+
+- **All hub narrative → content/.** `why-jvto/page.tsx` (was 754 lines of hardcoded copy) +
+  `HubInteractive.tsx` (4 data arrays) now render entirely from `content/pages/why-jvto/index.json`
+  (10 hub sections) + `content/entities/narrative-claims.json`. TSX keeps layout, styling, the icon
+  map, and interaction only. Crew stats are **computed** from the published `our-team` crew_grid
+  (11 total / 7 guides / 4 drivers) — never TSX literals. ISIC → "Registered ISIC Provider";
+  INDECON → public network listing, separated from the Local-Boys employment policy.
+- **Legacy sources deleted for the 6 why-jvto routes** (and the 10 policy/travel-guide migrated
+  routes are covered by the same registry): 16 `manualPageSnapshots` entries removed from
+  `pageSnapshots.ts`; 43 `page_sections.json` + 16 `pages.json` seed rows removed (so
+  `SEED_COVERED_ROUTES` auto-drops them); 7 dead legacy components deleted
+  (`WhyJVTOPage`/`OurStoryPage`/`OurTeamPage`/`ReviewsPage`/`JVTODifferencePage`/`CommunityStandardsPage`,
+  `TriangulationReviews`). `why-jvto/sidebar.tsx` KEPT (Navbar mobile menu imports it).
+- **Runtime guard:** `getPublicPageSnapshot` now recognizes any content/-served route
+  (`loadStaticPage`, fs-only) and forces `allowDatabaseFallback = false` + serves a
+  content-synthesized snapshot — so deleting the cms-seed rows cannot re-open the DB-override path.
+  `sitemap-utils` reads `meta.lastReviewed` for those routes (no DB).
+- **Narrative claims:** hub JSON-LD ItemList reads `content/entities/narrative-claims.json`
+  (pillar + primary_page, exported from the DB), not `getAllNarrativeClaims()`. The DB stays the
+  source only for dynamic data (individual reviews, ratings) and the two tour `[slug]` families.
+- **CMS block:** central registry `MIGRATED_STATIC_ROUTES`
+  (`src/lib/static-content/migratedRoutes.ts`, derived from published content/) — the content-pages
+  write API rejects create/update on those routes (403), and the CMS console renders them
+  Git-managed/read-only.
+- **Enforcement gate:** `scripts/validate-static-route-ownership.mjs` (blocking in ci.yml `verify`
+  via `content:check`) fails the build when a migrated route regains a snapshot/seed/resolver/DB
+  source, when the CMS guard is missing, or when a forbidden claim (14 crew, 7 drivers, ISIC
+  Partner, INDECON-as-partnership) reappears. Live proof: `scripts/smoke-why-jvto.mjs` in deploy.yml
+  (SHA match + 6×200 + canonical + single FAQPage + 11/7/4 crew + no forbidden claims).

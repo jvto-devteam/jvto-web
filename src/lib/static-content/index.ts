@@ -8,6 +8,7 @@
  */
 export { loadStaticPage, normalizeRoute, canonicalUrlForRoute, clearRouteIndexCache, DuplicateRouteError } from "./loadStaticPage";
 export { listStaticPages, listPublishedStaticPages } from "./listStaticPages";
+export { getMigratedStaticRoutes, isMigratedStaticRoute, migratedRouteEditMessage } from "./migratedRoutes";
 export { loadFaqSet } from "./loadFaqSet";
 export { loadEntity } from "./loadEntity";
 export { loadMarkdownPage, ContentFileError } from "./loadMarkdownPage";

@@ -127,18 +127,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
       h1: "Surabaya Tours",
     },
   ),
-  "/travel-guide": createPageSnapshot(
-    "/travel-guide",
-    {
-      title:
-        "Travel Guide — Booking, Safety & Practical Info | Java Volcano Tour Operator",
-      description:
-        "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
-    },
-    {
-      h1: "Travel Guide — Booking, Safety & Practical Info",
-    },
-  ),
   "/travel-guide/faq": createPageSnapshot(
     "/travel-guide/faq",
     {
@@ -150,39 +138,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
       h1: "Frequently Asked Questions",
     },
   ),
-  "/travel-guide/booking-information": createPageSnapshot(
-    "/travel-guide/booking-information",
-    {
-      title: "Booking Information | Payments, Changes & Inclusions | JVTO",
-      description:
-        "How JVTO tours work: booking steps, payments, cancellations, logistics, inclusions, safety, and support. Ijen health certificate is included.",
-    },
-    {
-      h1: "Booking, Payment & Cancellation",
-    },
-  ),
-  "/travel-guide/ijen-health-screening": createPageSnapshot(
-    "/travel-guide/ijen-health-screening",
-    {
-      title: "Ijen Health Screening | Real Checks, Digital Proof | JVTO",
-      description:
-        "Learn how JVTO handles real pre-hike screening for Ijen, including health checks, digital verification, and guest safety procedures.",
-    },
-    {
-      h1: "Ijen Health Screening — Real Checks, Digital Proof",
-    },
-  ),
-  "/travel-guide/packing-and-fitness": createPageSnapshot(
-    "/travel-guide/packing-and-fitness",
-    {
-      title: "Packing & Fitness Guide | JVTO",
-      description:
-        "What to bring, what JVTO provides, and how fit you should be for Bromo, Ijen, Tumpak Sewu, and related East Java adventures.",
-    },
-    {
-      h1: "Packing & Fitness Guide",
-    },
-  ),
   "/travel-guide/police-escort-for-groups": createPageSnapshot(
     "/travel-guide/police-escort-for-groups",
     {
@@ -192,127 +147,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     },
     {
       h1: "Police Escort for Tourist Groups in East Java",
-    },
-  ),
-  "/travel-guide/safety-on-tours": createPageSnapshot(
-    "/travel-guide/safety-on-tours",
-    {
-      title: "Safety on Our Tours | JVTO",
-      description:
-        "Vehicle standards, guide protocols, Ijen-specific safety rules, and the guest responsibilities that shape every JVTO tour.",
-    },
-    {
-      h1: "Safety on Our Tours",
-    },
-  ),
-  "/travel-guide/weather-and-closures": createPageSnapshot(
-    "/travel-guide/weather-and-closures",
-    {
-      title: "Weather, Volcanic Alerts & Closures | JVTO",
-      description:
-        "How JVTO handles itinerary changes when weather, volcanic alerts, or official closures affect East Java travel conditions.",
-    },
-    {
-      h1: "Weather, Volcanic Alerts & Closures",
-    },
-  ),
-  "/policy": createPageSnapshot(
-    "/policy",
-    {
-      title: "JVTO Policies | Booking, Privacy & Inclusions",
-      description:
-        "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
-    },
-    {
-      h1: "JVTO Policies",
-    },
-  ),
-  "/policy/booking-payment-cancellation": createPageSnapshot(
-    "/policy/booking-payment-cancellation",
-    {
-      title: "Booking, Payment & Cancellation Policy | JVTO",
-      description:
-        "Rules for confirming a booking, payment timing, reschedules, package credit, and cancellation handling for JVTO private tours.",
-    },
-    {
-      h1: "Booking, Payment & Cancellation",
-    },
-  ),
-  "/policy/inclusions-exclusions": createPageSnapshot(
-    "/policy/inclusions-exclusions",
-    {
-      title: "Inclusions & Exclusions Policy | JVTO",
-      description:
-        "Clarifies what is included, conditionally included, or excluded in JVTO private tour packages.",
-    },
-    {
-      h1: "Inclusions & Exclusions",
-    },
-  ),
-  "/policy/privacy": createPageSnapshot(
-    "/policy/privacy",
-    {
-      title: "Privacy Policy | JVTO Tours",
-      description:
-        "How JVTO collects, uses, stores, and protects personal data for bookings, guest safety, and tour operations.",
-    },
-    {
-      h1: "Privacy Policy",
-    },
-  ),
-  "/why-jvto/community-standards": createPageSnapshot(
-    "/why-jvto/community-standards",
-    {
-      title: "Community & Sustainability Standards | JVTO",
-      description:
-        "Our commitment to local hiring, sustainability, fair operations, and responsible tourism across East Java.",
-    },
-    {
-      h1: "Community & Sustainability Standards",
-    },
-  ),
-  "/why-jvto/our-story": createPageSnapshot(
-    "/why-jvto/our-story",
-    {
-      title: "Our Story | JVTO",
-      description:
-        "How JVTO grew from local hosting roots into a licensed, police-led East Java tour operator with documented safety systems.",
-    },
-    {
-      h1: "Our Story — From Homestay Host to Police-Led Tour Operator",
-    },
-  ),
-  "/why-jvto/our-team": createPageSnapshot(
-    "/why-jvto/our-team",
-    {
-      title: "Meet Our Team | JVTO",
-      description:
-        "Meet the local JVTO guides and team members who operate private volcano tours across East Java.",
-    },
-    {
-      h1: "Meet Our Team",
-    },
-  ),
-  "/why-jvto/reviews": createPageSnapshot(
-    "/why-jvto/reviews",
-    {
-      title: "Guest Reviews & Social Proof | JVTO",
-      description:
-        "Read the recurring themes across independent guest reviews and social proof signals for Java Volcano Tour Operator.",
-    },
-    {
-      h1: "Reviews",
-    },
-  ),
-  "/why-jvto/the-jvto-difference": createPageSnapshot(
-    "/why-jvto/the-jvto-difference",
-    {
-      title: "The JVTO Difference — Verified, Private, Responsible",
-      description:
-        "A clear breakdown of the standards, proof signals, and operating principles that make JVTO different.",
-    },
-    {
-      h1: "The JVTO Difference — Verified, Private, Responsible",
     },
   ),
   "/verify-jvto": createPageSnapshot(
@@ -368,39 +202,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     },
     {
       h1: "Press Recognition",
-    },
-  ),
-  "/why-jvto": createPageSnapshot(
-    "/why-jvto",
-    {
-      title: "Why Choose Java Volcano Tour Operator",
-      description:
-        "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
-    },
-    {
-      h1: "Why Choose Java Volcano Tour Operator",
-      faq: [
-        {
-          q: "Do you mix strangers into one car?",
-          a: "No. JVTO runs private tours only.",
-        },
-        {
-          q: "What if weather or closures change the plan?",
-          a: "We adapt early and communicate clearly.",
-        },
-        {
-          q: "Where can I verify legality and proof?",
-          a: "Everything is organized in our Proof Library.",
-        },
-        {
-          q: "Where are your booking/payment terms?",
-          a: "Full terms are on the booking & payment policy page.",
-        },
-        {
-          q: "How do you handle personal data?",
-          a: "All data handling is documented in our privacy policy.",
-        },
-      ],
     },
   ),
 };
