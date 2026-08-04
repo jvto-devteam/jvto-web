@@ -62,9 +62,9 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 
 | route | currentEffectiveSource | currentShape | targetFormat | specialSchema | pkg | status | blocker |
 |---|---|---|---|---|---|---|---|
-| /why-jvto (hub) | snapshot + bespoke TSX modules | hardcoded + narrative_claims | structured-json + entities | hub ItemList + narrative claims ItemList | 05 | pending | none |
-| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | snapshot/seed, DB-preferred at runtime (`prefersDbForSlug()`≡true) | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | pending | preserve `sectionId` constants `timeline-highlights-artifact-backed`, `where-to-check-reviews-official-links` |
-| /why-jvto/reviews | same + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | pending | **close AD-08 gap:** visible FAQ uses `content.faq` while JSON-LD uses resolved source |
+| /why-jvto (hub) | content/pages/why-jvto/index.json | structured-json + entities | structured-json + entities | hub ItemList + narrative claims ItemList (DB, AD-02) + FAQPage | 05 | **done** | none — hub reads only content/; `getAllNarrativeClaims()` stays as dynamic ItemList (AD-02) |
+| /why-jvto/[slug] (our-story, the-jvto-difference, our-team, community-standards) | content/pages/why-jvto/*.json | sections/blocks (`BlocksRenderer`: markdown, image, grid, crew_grid; `sectionId`-keyed Timeline/ReviewLinks specials) | structured-json | — | 05 | **done** | `prefersDbForSlug()` DB-preferred path removed (AD-10); `sectionId` constants preserved verbatim from source |
+| /why-jvto/reviews | content/pages/why-jvto/reviews.json + Prisma reviews (schema only) | sections + dynamic | structured-json + DB reviews (stays) | individual `Review` + `AggregateRating` (`buildWhyJvtoSchemas.ts:96,153`) | 05 | **done** | AD-08 gap **closed** — visible FAQ + FAQPage JSON-LD now both built from the single `page.faq` array |
 | /why-jvto/reviews/[id] | Prisma (dynamic) | dynamic | **stays DB** | Review | — | n/a | out of scope (dynamic) |
 
 ## Verify JVTO / Team / Destinations (Package 06)
@@ -113,6 +113,7 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 01 | loader + validation gates + drift-scan extension | **done** (#141) |
 | 02 | shared entities + review-stats SSOT relocation | **done** (#142) |
 | 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
-| 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done (this PR)** |
+| 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done** (#144) |
 | 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
-| 05–11 | per blueprint | pending, one PR each |
+| 05 | Why JVTO migration + cutover (hub + 5 sub-pages, parity verified; AD-08 gap closed) | **done (this PR)** |
+| 06–11 | per blueprint | pending, one PR each |

@@ -1,6 +1,7 @@
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import {
   ShieldCheck,
   BookOpen,
@@ -20,16 +21,12 @@ import {
   Fingerprint,
   Newspaper,
 } from "lucide-react";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
 import {
   buildWhyJvtoHubItemListSchema,
   buildNarrativeClaimsItemList,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
+import { loadStaticPage, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
 import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
 import { CREW_PORTRAITS, FOUNDER_LEADERSHIP, HISTORY_HERITAGE } from "@/lib/imageAssets";
 import SidebarDesktop from "./SidebarDesktop";
@@ -47,16 +44,47 @@ const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
 const defaultWhyDescription =
   "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
 
+// PACKAGE 05 (2026-08-04): the Why-JVTO hub's meta/SEO/hero-lede/FAQ come from
+// content/pages/why-jvto/index.json (static-content SSOT). The former
+// snapshot + FAQ-resolver + content_pages.faq chain is gone (AD-10: a migrated
+// route reads only content/). The visible FAQ and the FAQPage JSON-LD are built
+// from the single page.faq array (AD-08). getAllNarrativeClaims() stays — the
+// ItemList of brand claims is dynamic data and remains DB-owned (AD-02).
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      // Non-default schema classification from the content file (null = WebPage only).
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot("/why-jvto", {
-    allowDatabaseFallback: true,
-  });
-  const title = page.snapshot.seo.title;
-  const description = page.snapshot.seo.description ?? defaultWhyDescription;
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : "Why JVTO";
+  const page = loadStaticPage("/why-jvto");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? defaultWhyTitle;
+  const description = page?.meta.description ?? defaultWhyDescription;
+  const h1 = page?.meta.title ?? "Why JVTO";
 
   return {
     title,
@@ -149,33 +177,25 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const [page, faqResolution, narrativeClaims] = await Promise.all([
-    getPublicPageSnapshot("/why-jvto", { allowDatabaseFallback: true }),
-    resolveFaqsForPage("/why-jvto"),
-    getAllNarrativeClaims().catch(() => []),
-  ]);
-  const heroH1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : defaultWhyTitle;
-  const heroLede = Array.isArray(page.snapshot.content.lede)
-    ? (page.snapshot.content.lede as string[])
-    : [];
+  const page = loadStaticPage("/why-jvto");
+  if (!page || page.meta.status !== "published") return notFound();
 
-  const faqSchemaNode = buildResolvedFaqSchema(faqResolution, "/why-jvto");
+  const narrativeClaims = await getAllNarrativeClaims().catch(() => []);
+
+  const heroH1 = page.meta.title;
+  const heroLede = page.lede ?? [];
+
+  const faqSource = page.faq ?? [];
+  const faqSchemaNode = faqSource.length
+    ? buildStaticFaqSchema("/why-jvto", faqSource)
+    : null;
   const extraSchemas = [
     buildWhyJvtoHubItemListSchema(),
     buildNarrativeClaimsItemList(narrativeClaims),
     faqSchemaNode,
   ].filter(Boolean);
 
-  const faqItems = faqResolution.faqs.length
-    ? faqResolution.faqs.map((f) => ({ q: f.question, a: f.answer }))
-    : null;
-  const cmsContentFaq = Array.isArray((page.pageRow.content as any)?.faq)
-    ? ((page.pageRow.content as any).faq as Array<{ q: string; a: string }>)
-    : [];
-  const visibleFaqs = faqItems ?? cmsContentFaq;
+  const visibleFaqs = faqSource.map((f) => ({ q: f.question, a: f.answer }));
 
   const trustpilot = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
   const googleMaps = REVIEW_PLATFORMS.find((p) => p.platform === "Google Maps");
@@ -203,9 +223,9 @@ export default async function WhyJvtoPage() {
       <div className="jw-root flex min-h-screen bg-white">
         <SidebarDesktop currentPath="/why-jvto" />
         <PageJsonLdCombined
-          pageRow={page.pageRow}
+          pageRow={staticPageRow(page)}
           extraSchemas={extraSchemas}
-          suppressCmsFaq={faqResolution.suppressCmsFaq}
+          suppressCmsFaq
         />
 
         <main className="pt-24 w-full" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>

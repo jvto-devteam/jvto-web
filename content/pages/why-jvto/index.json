@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "route": "/why-jvto",
+    "title": "Why Travel with Java Volcano Tour Operator (JVTO)",
+    "browserTitle": "Why Travel with Java Volcano Tour Operator (JVTO)",
+    "description": "Tourist Police-led safety, licensed operator, private-only tours, all-inclusive pricing. Why travellers from SG, MY & HK choose JVTO for Bromo and Ijen.",
+    "section": "why-jvto",
+    "status": "published",
+    "owner": "company",
+    "lastReviewed": "2026-08-04",
+    "schemaTypes": [
+      "WebPage"
+    ],
+    "faqKey": "why-jvto-hub",
+    "summary": "Why travelers choose JVTO: police-led safety, verifiable credentials, private-only tours, and documented history."
+  },
+  "lede": [
+    "Java Volcano Tour Operator (JVTO) is a registered Indonesian tour operator based in Bondowoso, East Java. We specialize in private volcano trips—Bromo, Ijen, and selected extensions.",
+    "In a landscape where volcanic nature is uncertain, JVTO sells operational certainty—built on disciplined safety, documented proof, and local execution.",
+    "If you want the practical rulebook (clear steps, what to bring, safety, payments), start with /travel-guide.",
+    "For binding terms, use /policy/.",
+    "Official channels: Website https://javavolcano-touroperator.com • WhatsApp +6282244788833 • Email hello@javavolcano-touroperator.com."
+  ],
+  "sections": [
+    {
+      "id": "trust-stack",
+      "title": "The JVTO Trust Stack",
+      "blocks": [
+        {
+          "type": "grid",
+          "items": [
+            {
+              "href": "/why-jvto/the-jvto-difference",
+              "type": "card",
+              "title": "Safety Leadership & The JVTO Difference",
+              "summary": "Police-led safety mindset, documented operational discipline, and proof you can verify."
+            },
+            {
+              "href": "/why-jvto/our-story",
+              "type": "card",
+              "title": "Our Story: Roots Since 2015",
+              "summary": "Booking.com award, Stefan Loose guidebook feature, and artifacts tracing our documented history."
+            },
+            {
+              "href": "/why-jvto/our-team",
+              "type": "card",
+              "title": "Our Team: 14 Local Crew",
+              "summary": "A local operations team trained for real East Java logistics."
+            },
+            {
+              "href": "/why-jvto/reviews",
+              "type": "card",
+              "title": "Guest Reviews (Independent Platforms)",
+              "summary": "Independent reviews across Tripadvisor, Trustpilot, Google, ISIC and Indecon."
+            },
+            {
+              "href": "/why-jvto/community-standards",
+              "type": "card",
+              "title": "Community Standards & Partners",
+              "summary": "HPWKI, ISIC, INDECON partnerships plus operational ethics and cancellation rules."
+            },
+            {
+              "href": "/verify-jvto",
+              "type": "card",
+              "title": "Verify JVTO",
+              "summary": "Legal docs, safety docs, press, and history artifacts—organized for easy checking."
+            }
+          ],
+          "columns": 3
+        },
+        {
+          "type": "markdown",
+          "body_md": "Pick what matters most to you. Each card links to proof-backed details."
+        }
+      ]
+    },
+    {
+      "id": "how-to-verify-us-in-60-seconds",
+      "title": "How to verify us in 60 seconds",
+      "blocks": [
+        {
+          "type": "markdown",
+          "body_md": "Open our Proof Library. Check the legal documents first, then the safety and history artifacts.\n\n- Start here: /why-jvto/the-jvto-difference\n- Quick checklist: /why-jvto/the-jvto-difference#how-proof-works\n- Full proof library: /verify-jvto"
+        }
+      ]
+    },
+    {
+      "id": "quick-answers-with-the-right-link",
+      "title": "Quick answers (with the right link)",
+      "blocks": [
+        {
+          "type": "markdown",
+          "body_md": "Short answers here. Full details live on the owner page or policy page.\n\n**Q:** Do you mix strangers into one car?\n\n**A:** No. JVTO runs private tours only. Details: /travel-guide/booking-information\n\n**Q:** What if weather or closures change the plan?\n\n**A:** We adapt early and communicate clearly. Safety approach: /why-jvto/the-jvto-difference • Practical rules: /travel-guide\n\n**Q:** Where can I verify legality and proof?\n\n**A:** Proof Library: /why-jvto/the-jvto-difference\n\n**Q:** Where are your booking/payment terms?\n\n**A:** Booking & payment policy: /policy/booking-payment-cancellation\n\n**Q:** How do you handle personal data?\n\n**A:** Privacy policy: /policy/privacy"
+        }
+      ]
+    }
+  ]
+}
