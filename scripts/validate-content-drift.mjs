@@ -98,6 +98,17 @@ function walk(dir, out = []) {
 function collectTargets() {
   const targets = [];
   targets.push(...walk(path.join(ROOT, 'src')));
+  // content/ — the static-content SSOT plane (public-content migration, 2026-08-04).
+  // It sits outside src/ and outside the CI src/data drift gate by design, but its
+  // pages/entities/faqs are public copy and MUST obey docs/CANONICAL_FACTS.md.
+  // (Validator fixtures live in scripts/static-content/fixtures/, not here, so
+  // deliberately-invalid fixture content is never scanned.)
+  const contentDir = path.join(ROOT, 'content');
+  try {
+    if (statSync(contentDir).isDirectory()) targets.push(...walk(contentDir));
+  } catch {
+    /* content/ not created yet — nothing to scan */
+  }
   // Root-level brand-config JSON files (the jvto-config.json pattern this
   // validator exists to prevent recurring — see CONTRIBUTING.md §5). Matches
   // "*-config.json" specifically (hyphen/underscore before "config") so it
