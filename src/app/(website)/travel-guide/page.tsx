@@ -212,6 +212,9 @@ export default async function TravelGuideHubPage() {
           seo: {
             title: page?.meta.browserTitle ?? page?.meta.title,
             description: page?.meta.description,
+            // Non-default schema classification from the content file (Codex #144 P2:
+            // the hub's CollectionPage node must survive the SSOT cutover).
+            schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
           },
           content: { h1 },
         }}
