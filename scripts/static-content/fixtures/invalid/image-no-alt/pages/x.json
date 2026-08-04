@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "route": "/why-jvto/image-no-alt-fixture",
+    "title": "Image Without Alt Fixture",
+    "description": "An image block without alt text must fail.",
+    "section": "why-jvto",
+    "status": "published",
+    "owner": "company",
+    "lastReviewed": "2026-08-04",
+    "summary": "Image-no-alt case."
+  },
+  "sections": [
+    {
+      "id": "images",
+      "blocks": [{ "type": "image", "src": "/images/sample.jpg" }]
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+/**
+ * Zod contracts for the static-content SSOT (public-content migration, PACKAGE 01).
+ *
+ * These schemas are the validation gate for everything under `content/`
+ * (pages, faqs, entities). Blueprint §5.5. They deliberately mirror the
+ * CURRENT `BlocksRenderer` block union (src/components/content/BlocksRenderer.tsx)
+ * so structured pages migrate without a new block system (AD-11).
+ *
+ * NOTE: content facts are additionally policed by scripts/validate-content-drift.mjs
+ * (docs/CANONICAL_FACTS.md lock), which scans `content/` — these schemas check
+ * structure, the drift scanner checks facts.
+ */
+import { z } from "zod";
+
+/** Allowed page sections (AD-01 surface). Extend only with an owner decision. */
+export const SectionSchema = z.enum([
+  "policy",
+  "travel-guide",
+  "why-jvto",
+  "verify-jvto",
+  "destinations",
+  "team",
+  "blog",
+]);
+
+/** Allowed schema.org types (AD editors must not enter arbitrary type names). */
+export const SchemaTypeSchema = z.enum([
+  "WebPage",
+  "AboutPage",
+  "CollectionPage",
+  "FAQPage",
+  "ProfilePage",
+  "Article",
+  "BlogPosting",
+  "TouristAttraction",
+]);
+
+export const OwnerSchema = z.enum([
+  "company",
+  "legal",
+  "operations",
+  "editorial",
+]);
+
+/** `/` or `/seg/seg2` — lowercase, no trailing slash (AD-06). */
+export const RouteSchema = z
+  .string()
+  .regex(
+    /^\/$|^\/[a-z0-9-]+(?:\/[a-z0-9-]+)*$/,
+    "route must start with '/', use lowercase a-z0-9- segments, no trailing slash",
+  );
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+/**
+ * YYYY-MM-DD, as a STRING. loadMarkdownPage parses frontmatter with the YAML
+ * 1.2 CORE schema so unquoted dates stay strings — never accept a JS Date
+ * here: YAML 1.1 timestamp parsing rolls impossible dates (2026-13-45) into
+ * "valid" ones before validation could catch them.
+ */
+export const IsoDateSchema = z
+  .string()
+  .regex(ISO_DATE_RE, "must be YYYY-MM-DD")
+  .refine((s) => {
+    const d = new Date(`${s}T00:00:00Z`);
+    return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
+  }, "must be a real calendar date (YYYY-MM-DD)");
+
+export const FaqKeySchema = z
+  .string()
+  .regex(/^[a-z0-9-]+$/, "faqKey must be lowercase a-z0-9-");
+
+export const PageMetaSchema = z.object({
+  route: RouteSchema,
+  title: z.string().min(1, "title is required"),
+  description: z.string().min(1, "description is required"),
+  section: SectionSchema,
+  status: z.enum(["draft", "published"]),
+  owner: OwnerSchema,
+  lastReviewed: IsoDateSchema,
+  schemaTypes: z.array(SchemaTypeSchema).min(1).default(["WebPage"]),
+  faqKey: FaqKeySchema.optional(),
+  summary: z.string().min(1, "summary is required"),
+});
+export type PageMeta = z.infer<typeof PageMetaSchema>;
+
+/* ------------------------------------------------------------------ */
+/* Structured blocks — MUST stay compatible with BlocksRenderer        */
+/* (markdown | image | grid | crew_grid). Extra keys are allowed so    */
+/* current seed shapes migrate losslessly; critical fields are strict. */
+/* ------------------------------------------------------------------ */
+
+export const MarkdownBlockSchema = z
+  .looseObject({
+    type: z.literal("markdown"),
+    body_md: z.string().min(1, "markdown block needs body_md"),
+  });
+
+export const ImageBlockSchema = z
+  .looseObject({
+    type: z.literal("image"),
+    src: z.string().min(1, "image block needs src"),
+    alt: z.string().min(1, "image block needs alt text"),
+  });
+
+export const GridBlockSchema = z
+  .looseObject({
+    type: z.literal("grid"),
+    items: z.array(z.looseObject({})).min(1, "grid block needs items"),
+  });
+
+export const CrewGridBlockSchema = z
+  .looseObject({
+    type: z.literal("crew_grid"),
+  });
+
+export const BlockSchema = z.discriminatedUnion("type", [
+  MarkdownBlockSchema,
+  ImageBlockSchema,
+  GridBlockSchema,
+  CrewGridBlockSchema,
+]);
+export type Block = z.infer<typeof BlockSchema>;
+
+export const StructuredSectionSchema = z
+  .looseObject({
+    id: z.string().regex(/^[a-z0-9-]+$/, "section id must be lowercase a-z0-9-"),
+    title: z.string().optional(),
+    blocks: z.array(BlockSchema).optional(),
+    body_md: z.string().optional(),
+  })
+  .refine(
+    (s) => (s.blocks && s.blocks.length > 0) || (s.body_md && s.body_md.length > 0),
+    "section needs blocks or body_md",
+  );
+export type StructuredSection = z.infer<typeof StructuredSectionSchema>;
+
+export const StructuredPageSchema = z
+  .object({
+    meta: PageMetaSchema,
+    lede: z.array(z.string().min(1)).optional(),
+    sections: z.array(StructuredSectionSchema).min(1),
+  })
+  .superRefine((page, ctx) => {
+    const seen = new Set<string>();
+    for (const sec of page.sections) {
+      if (seen.has(sec.id)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `duplicate section id "${sec.id}"`,
+          path: ["sections"],
+        });
+      }
+      seen.add(sec.id);
+    }
+  });
+export type StructuredPageDocument = z.infer<typeof StructuredPageSchema>;
+
+/* ------------------------------------------------------------------ */
+/* FAQ — one object feeds both visible HTML and FAQPage JSON-LD (AD-08) */
+/* ------------------------------------------------------------------ */
+
+export const FaqItemSchema = z.object({
+  question: z.string().min(1),
+  answer: z.string().min(1),
+});
+export type FaqItem = z.infer<typeof FaqItemSchema>;
+
+export const FaqSetSchema = z.object({
+  key: FaqKeySchema,
+  items: z.array(FaqItemSchema).min(1),
+});
+export type FaqSet = z.infer<typeof FaqSetSchema>;
+
+/* ------------------------------------------------------------------ */
+/* Entities — stable cross-page facts (AD-03). PACKAGE 02 adds the     */
+/* per-entity strict schemas; the base contract requires lastReviewed. */
+/* ------------------------------------------------------------------ */
+
+export const EntityDocumentSchema = z
+  .looseObject({
+    lastReviewed: IsoDateSchema,
+  });
+export type EntityDocument = z.infer<typeof EntityDocumentSchema>;
+
+/* ------------------------------------------------------------------ */
+/* Content-quality rules used by the validator (not pure shape checks) */
+/* ------------------------------------------------------------------ */
+
+/** Placeholder text that must never ship on a published page. */
+export const PLACEHOLDER_RE = /\b(?:TODO|TBD|FIXME|XXX)\b|Lorem ipsum/i;
+
+/**
+ * True when a Markdown body contains a level-one heading (AD-07 violation).
+ * Fenced code blocks are stripped first so `# comment` inside ``` fences
+ * doesn't false-positive.
+ */
+export function markdownHasH1(body: string): boolean {
+  const withoutFences = body.replace(/```[\s\S]*?```/g, "");
+  return /^#(?!#)\s?/m.test(withoutFences);
+}
+
+/** Extract internal link targets (`](/path...)`) from a Markdown body. */
+export function extractInternalLinks(body: string): string[] {
+  const out: string[] = [];
+  const re = /\]\((\/[^)\s#?]*)(?:[^)]*)\)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body)) !== null) out.push(m[1]);
+  return out;
+}
