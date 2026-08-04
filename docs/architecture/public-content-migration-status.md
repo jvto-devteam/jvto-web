@@ -64,14 +64,19 @@
 |---|---|---|---|---|---|
 | /blog + /blog/[slug] (2 posts) | `src/data/blog/*.md` + `_manifest.json` via `src/lib/blog.ts` (hand-rolled frontmatter; synced from llm-wiki via `sync:blog`) | move to `content/pages/blog/` (gray-matter), keep URLs + `BlogPosting` JSON-LD | 08 | pending | remove `sync:blog` only after parity |
 
-## Cross-cutting facts (Package 02 — entities)
+## Cross-cutting facts (Package 02 — entities) — **DONE 2026-08-04**
 
-| entity | current duplicated locations (examples) | blocker |
+| entity | status | notes |
 |---|---|---|
-| organization (legal name, NIB, AHU, address, contacts) | `entityGraph.ts`, `site-config.ts`, CMS seed, verify pages | copy `docs/CANONICAL_FACTS.md` values only; no incorporation year (owner decision 2026-08-03) |
-| review-platforms (4.8/51 TP · 4.9/123 G · 4.95/21 TA · 195 total) | `jvtoReviews.ts` (`AGGREGATE_RATING`, `REVIEW_PLATFORMS`), `reviewStats.canonical.json` | must carry `verifiedAt`; values locked by facts lock |
-| people (founder, Dr. Ahmad Irwandanu SIP/STR) | `entityGraph.ts` FOUNDER/DOCTOR schema, team pages | keep claim boundaries (SIP/STR evidenced wording) |
-| credentials (NIB/TDUP/HPWKI/KTA/POLPAR/BBKSDA/SE1658/ISIC/INDECON) | `DEFINED_TERMS` in `entityGraph.ts` | ISIC = "registered provider" (not "verified partner") |
+| `entities/organization.json` | extracted | values verbatim from `entityGraph.ts` + facts lock; no incorporation year; foundingDate 2015 |
+| `entities/review-platforms.json` | **cutover** | the review-stats SSOT **relocated** here from `src/data/reviewStats.canonical.json` (deleted); both consumers now read the entity: `src/lib/jvtoReviews.ts` (runtime `AGGREGATE_RATING`/`REVIEW_PLATFORMS`) + `scripts/export-public-review-api-snapshots.mjs`. Strict schema enforces counts↔profiles parity, rating⇒verifiedAt, exactly one primary |
+| `entities/people.json` | extracted | founder + Dr. Irwandanu (SIP/STR + claim boundary) + crew counts (14 = 7+7; KTA stays DB) |
+| `entities/credentials.json` | extracted | NIB/TDUP/HPWKI/SPRIN×2/BBKSDA-SE1658 with SHA-256 anchors verbatim |
+| `entities/partners.json` | extracted | HPWKI/INDECON/ISIC with OKF claim boundaries (ISIC = registered provider) |
+
+Remaining consumers (`entityGraph.ts` org block, verify pages, `DEFINED_TERMS`) migrate with
+their route packages (03–06) — per blueprint §Package 02, only one low-risk shared consumer
+(the review-stats SSOT) was cut over now.
 
 ## Non-goals / stays as-is
 
@@ -86,6 +91,7 @@
 
 | package | scope | status |
 |---|---|---|
-| 00 | audit + this ledger | **done (this PR)** |
-| 01 | loader + validation gates + drift-scan extension | **done (this PR)** |
-| 02–11 | per blueprint | pending, one PR each |
+| 00 | audit + this ledger | **done** (#141) |
+| 01 | loader + validation gates + drift-scan extension | **done** (#141) |
+| 02 | shared entities + review-stats SSOT relocation | **done (this PR)** |
+| 03–11 | per blueprint | pending, one PR each |
