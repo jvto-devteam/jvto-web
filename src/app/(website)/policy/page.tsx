@@ -1,29 +1,22 @@
 // src/app/(website)/policy/page.tsx
+// PACKAGE 03 (2026-08-04): the hub's meta/SEO comes from content/pages/policy/index.md
+// (static-content SSOT); the card layout below is navigational chrome and stays TSX.
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { Faq } from "@/components/content/Faq";
-import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-const fallbackSeo = {
-  title: "JVTO Policies | Booking, Privacy & Inclusions",
-  h1: "JVTO Policies",
-  description:
-    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
-};
+import { loadStaticPage } from "@/lib/static-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/policy", fallbackSeo);
-
+  const page = loadStaticPage("/policy");
+  if (!page || page.meta.status !== "published") {
+    return { title: "JVTO Policies | Booking, Privacy & Inclusions" };
+  }
   return {
-    title: seo.title,
-    description: seo.description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   };
 }
 export default async function PolicyHubPage() {
@@ -71,27 +64,26 @@ export default async function PolicyHubPage() {
       lastUpdated: "17 January 2026",
     },
   ] as const;
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/policy", {
-      allowDatabaseFallback: true,
-    }),
-    resolveFaqsForPage("/policy"),
-  ]);
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = page.pageRow.content as any;
-  const h1 = content?.h1 ?? seo.title ?? fallbackSeo.h1;
-  const policyHubExtraSchemas = [
-    buildPolicyHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/policy"),
-  ].filter(Boolean);
+  const page = loadStaticPage("/policy");
+  if (!page || page.meta.status !== "published") return notFound();
+  const h1 = page.meta.title;
+  const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
 
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/policy",
+          lang: "en",
+          seo: {
+            title: page.meta.browserTitle ?? page.meta.title,
+            description: page.meta.description,
+          },
+          content: { h1: page.meta.title },
+        }}
         extraSchemas={policyHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
@@ -212,9 +204,6 @@ export default async function PolicyHubPage() {
                 </div>
               ))}
             </div>
-            {content?.faq && (
-              <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
-            )}
           </div>
         </section>
       </main>
