@@ -2,7 +2,10 @@
   "_comment": "Public people profiles (AD-03). Values copied verbatim from src/lib/schemas/entityGraph.ts + the locked evidence wording (llm-wiki E007/E019, OKF Dr.-Irwandanu claim boundary). Do not assert private-practice details; do not certify individual guest screening certificates.",
   "founder": {
     "name": "Agung Sambuko",
-    "alternateNames": ["Mr. Sam", "Bripka Agung Sambuko"],
+    "alternateNames": [
+      "Mr. Sam",
+      "Bripka Agung Sambuko"
+    ],
     "jobTitle": "Active Tourist Police Officer, Ditpamobvit East Java",
     "unit": "Direktorat Pengamanan Objek Vital (Ditpamobvit) — Indonesian National Police",
     "memberOf": "HPWKI (Himpunan Pelaku Wisata Khusus Ijen)",
@@ -18,10 +21,10 @@
     "claimBoundary": "License validity is evidenced. Do not assert private-practice marketing details and do not certify individual guest screening certificates."
   },
   "crew": {
-    "total": 14,
+    "total": 11,
     "guides": 7,
-    "drivers": 7,
-    "note": "KTA identifiers live in the crew_members DB table (11/14 populated; yusuf/dika/pras pending by design). Crew params stay DB-owned — this entity carries only the stable public counts."
+    "drivers": 4,
+    "note": "11 active published crew profiles (7 guides + 4 drivers), individually named and photographed. 3 additional drivers (Yusuf, Dika, Pras) are confirmed in the operational database (credential_state: pending) but not yet published. KTA identifiers live in the crew_members DB table, published per credentialed crew member."
   },
   "lastReviewed": "2026-08-04"
 }

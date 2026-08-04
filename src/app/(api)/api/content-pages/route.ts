@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { isMigratedStaticRoute, migratedRouteEditMessage } from "@/lib/static-content";
 
 function serialize(row: any) {
   return {
@@ -60,6 +61,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { message: "route wajib diisi dan harus diawali '/'" },
         { status: 400 },
+      );
+    }
+
+    // Migrated-route block (PACKAGE 05c): content/ owns these routes — the CMS
+    // must not create/update rows that would never render (and would mislead
+    // editors into thinking their edit shipped).
+    if (isMigratedStaticRoute(route)) {
+      return NextResponse.json(
+        { message: migratedRouteEditMessage(route) },
+        { status: 403 },
       );
     }
 

@@ -43,7 +43,12 @@ export const RULES = [
     // Widened again 2026-08-03 (Codex #140 P2): the founding-date alternative
     // matched only camelCase `foundingDate`; the SSOT dataset carried snake_case
     // `"founding_date": "2016-01-01"`. `founding[_]?[Dd]ate` now covers both.
-    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|incorporat(?:ed|ion)[^.]{0,60}20(16|19|20)-\d\d-\d\d|EST\.? 20(16|19|20)|founding[_]?[Dd]ate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
+    // Widened 2026-08-04 (PKG-05c): llms-full.txt said "Founded PT Java Volcano
+    // Rendezvous 2016" — the verb "founded/established … <entity> … 20XX" that
+    // the incorporation-only pattern missed. `founded`/`established` within a
+    // short window of a forbidden year now trips (2015 is deliberately excluded
+    // from the alternation, so "founded … 2015" stays clean).
+    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|incorporat(?:ed|ion)[^.]{0,60}20(16|19|20)-\d\d-\d\d|EST\.? 20(16|19|20)|(?:founded|established)[^.]{0,60}\b20(16|19|20)\b|founding[_]?[Dd]ate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
   },
   {
     name: "brand-config-json-pattern",

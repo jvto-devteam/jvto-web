@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { isMigratedStaticRoute, migratedRouteEditMessage } from "@/lib/static-content";
 
 function parseId(idParam: string) {
   const n = Number(idParam);
@@ -90,6 +91,29 @@ export async function PATCH(
       return NextResponse.json(
         { message: "No valid fields to update" },
         { status: 400 },
+      );
+    }
+
+    // Migrated-route block (PACKAGE 05c): reject edits when the row's CURRENT
+    // route is Git-managed, and reject renames that would land ON a
+    // Git-managed route. content/ owns those routes (AD-10).
+    const existing = await prisma.content_pages.findUnique({
+      where: { id },
+      select: { route: true },
+    });
+    if (!existing) {
+      return NextResponse.json(
+        { message: "Content page not found" },
+        { status: 404 },
+      );
+    }
+    const blockedRoute = [existing.route, data.route].find(
+      (r): r is string => typeof r === "string" && isMigratedStaticRoute(r),
+    );
+    if (blockedRoute) {
+      return NextResponse.json(
+        { message: migratedRouteEditMessage(blockedRoute) },
+        { status: 403 },
       );
     }
 

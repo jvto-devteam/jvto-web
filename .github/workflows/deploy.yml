@@ -6,6 +6,14 @@ on:
       - main
   workflow_dispatch:   # allow manual re-run of the help/develop deploy on demand
 
+# Serialize deploys. Without this, near-simultaneous pushes run concurrent SSH
+# jobs mutating the same /var/www/jvto-help checkout + .next (documented race
+# hazard), and the SHA verification below could compare against another run's
+# deploy. Queued, never cancelled: every push still deploys, in order.
+concurrency:
+  group: deploy-help-main
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -35,18 +43,51 @@ jobs:
             # Explicitly select 20 here (installed on the box) for the build.
             nvm use 20
             set -u
+            # The commit this run deploys. Exported BEFORE the build and kept in
+            # the shell for the pm2 --update-env restart, so the running server
+            # reports it at /api/build-info and the verify step below can prove
+            # the box is actually serving this commit.
+            export APP_COMMIT_SHA="${{ github.sha }}"
             cd /var/www/jvto-help
-            # Force the working tree to exactly origin/main. A plain `git pull`
-            # does not fast-forward a dirty/diverged VPS tree, so the build below
-            # would silently compile STALE code while the job still exits 0.
+            # Force the working tree to exactly the triggering commit. A plain
+            # `git pull` does not fast-forward a dirty/diverged VPS tree, and
+            # resetting to a moving origin/main could deploy a NEWER commit than
+            # the one this run stamps into APP_COMMIT_SHA — the SHA gate needs
+            # code and stamp to always match. The commit is on main, so the
+            # branch fetch below contains it.
             # `reset --hard` only touches tracked files -> untracked env files
             # (.env.local with CMS_ADMIN_EMAILS, DB creds) are left intact.
             # Do NOT add `git clean` here (it would delete those env files).
             git fetch --prune origin main
-            git reset --hard origin/main
+            git reset --hard "$APP_COMMIT_SHA"
             npm ci
             npm run build
-            # --update-env so pm2 picks up newly-added env (e.g. CMS_ADMIN_EMAILS).
-            # $PM2_BIN (captured pre-`nvm use 20`) so switching Node for the build
-            # can't hide a Node-18-global pm2 from PATH -> command-not-found.
+            # --update-env so pm2 picks up newly-added env (APP_COMMIT_SHA above,
+            # CMS_ADMIN_EMAILS, ...). $PM2_BIN (captured pre-`nvm use 20`) so
+            # switching Node for the build can't hide a Node-18-global pm2 from
+            # PATH -> command-not-found.
             "$PM2_BIN" restart jvto-help --update-env
+
+      # ── Post-deploy proof ─────────────────────────────────────────────────
+      # The SSH step exiting 0 only proves the script ran; these steps prove the
+      # box is serving THIS commit and the migrated routes actually respond.
+
+      - name: Checkout (for the smoke script)
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify deployment + Why JVTO live smoke
+        # scripts/smoke-why-jvto.mjs (zero deps, built-in fetch): waits for
+        # /api/build-info to report THIS commit's SHA, then asserts all six
+        # why-jvto routes return 200 with the production canonical + exactly one
+        # FAQPage node, and that the hub shows 11 active crew / 7 guides /
+        # 4 drivers and none of "14 … crew", "guidebook 2016", "ISIC Partner",
+        # or an INDECON validation/partnership claim.
+        env:
+          BASE_URL: https://help.javavolcano-touroperator.com
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/smoke-why-jvto.mjs
