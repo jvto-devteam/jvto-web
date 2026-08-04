@@ -5,7 +5,8 @@ import { PrismaClient } from "../src/generated/prisma/index.js";
 // Single source of truth for the review aggregate, shared with the runtime
 // (src/lib/jvtoReviews.ts). Importing it here — instead of inlining the counts —
 // guarantees the generated snapshot and the runtime can never diverge.
-import canonicalReviewStats from "../src/data/reviewStats.canonical.json" with { type: "json" };
+// PACKAGE 02 (2026-08-04): review-stats SSOT relocated to the entity plane.
+import canonicalReviewStats from "../content/entities/review-platforms.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

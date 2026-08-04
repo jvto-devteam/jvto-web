@@ -1,9 +1,0 @@
-{
-  "_comment": "SINGLE SOURCE OF TRUTH for the public review aggregate. These are the authoritative PLATFORM totals shown on the Google Maps / Trustpilot / TripAdvisor pages (per docs/CANONICAL_FACTS.md), NOT `SELECT COUNT(*) FROM reviews` (the DB holds only the ingested subset). Consumed by BOTH src/lib/jvtoReviews.ts (runtime + REVIEW_PLATFORMS + AGGREGATE_RATING) and scripts/export-public-review-api-snapshots.mjs (generated snapshot). Update counts HERE only — both paths pick them up, so the snapshot and runtime can never diverge.",
-  "platforms": {
-    "trustpilot": 51,
-    "google": 123,
-    "tripadvisor": 21
-  },
-  "average_rating": 4.8
-}
