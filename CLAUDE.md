@@ -160,7 +160,7 @@ Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the tr
 
 **CI drift gate (`ci.yml` → `verify`)** checks out llm-wiki@master + OKF@main, runs **all five** syncs, and `git diff --exit-code src/data/{package-readiness,trust-bundle,blog,policy-bundle,okf}`. If **any** bundle is stale it fails *"Synced bundles drifted from source."* So `main` must always be in full sync with **both** producers simultaneously.
 
-**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all five** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR and auto-merges once `verify` is green (`build-develop` non-required — flaky VPS SSH).
+**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all five** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. `build-develop` stays non-required (flaky VPS SSH) and now self-skips on docs-only PRs.
 
 **Why one workflow (deadlock-proof):** because a single PR always carries all five bundles from the current producer heads, the `verify` drift gate is satisfiable in one commit — the two old failure modes are gone: (1) two producers changing together no longer deadlock (both slices land in the same PR), and (2) `policy-bundle` is now covered (the old `sync-llm-wiki.yml` never synced it). Any producer push re-syncs everything from both producers.
 
@@ -229,6 +229,39 @@ Update memory when significant work completes. They persist across sessions.
 - **Prisma nullable field type narrowing**: a `where: { star: { not: null } }` clause does NOT narrow the TypeScript return type — the field stays `number | null`. In schema builders, always `.filter(r => r.field != null)` before `.map()` even when the DB query already excludes nulls. Use `r.field!` inside the filtered map. See `buildIndividualReviewSchemas()` for the pattern.
 - **Adding a new AI crawler to `public/robots.txt`** = also update `next.config.mjs` `images.remotePatterns` if their bot fetches avatars from external CDNs.
 - **The CCR git proxy blocks branch/ref deletion and repo-settings writes** — `git push --delete` fails `send-pack: unexpected disconnect`, and the GitHub API returns *"Repository settings writes are not permitted through this proxy."* Closing a PR does **not** delete its head branch here; enabling "Automatically delete head branches" and deleting leftover branches are **owner UI actions** a session cannot perform. (That setting also only fires on *merge*, not *close*.)
+
+## Automation governance — owner-gated actions (locked 2026-08-04)
+
+These actions are **the owner's, never the assistant's**. The assistant implements, verifies on
+the help/preview box, and then **stops at `READY FOR OWNER`** — it does not take the release step.
+
+- **Never merge a PR.** Open it, drive its own required check (`verify`) to green, address review
+  comments, and report `READY FOR OWNER`. **Non-required CI (e.g. `build-develop`) does not grant
+  merge authority, and docs-only scope does not grant merge authority** — neither is a reason to
+  self-merge.
+- **Never promote `main → live`** and **never deploy production.** Production promotion + the
+  post-promotion (`PRODUCTION-VERIFIED`) check are owner actions.
+- **No automated merge scheduling.** No workflow auto-merges (the `sync-artifacts.yml` auto-merge
+  was removed), and the assistant does not schedule `send_later`/check-in wake-ups to merge, promote,
+  or deploy. Do not schedule another check-in after reporting completion. **Scope caveat:** this is a
+  workflow-level + behavioral lock — it removes the automation and the agent instruction to merge. It
+  does **not** technically revoke GitHub merge permission from the connected identity; hard
+  enforcement (branch protection requiring owner review/approval, restricting who can merge) remains
+  an **owner UI / account-level configuration**.
+- **Reporting honesty on scheduled tasks.** Never assert automation is "all cancelled" absolutely —
+  a stale one-shot check-in can still surface after a 0-pending reading. Report only what is
+  verifiable: **"No pending scheduled task is visible to this session."**
+- **Follow-up PRs only when the active implementation requires them** — not to "finish" a merge/
+  deploy the owner hasn't taken.
+- **Promotion-status vocabulary** (used in `docs/architecture/public-content-migration-status.md`):
+  **IMPLEMENTED** (merged to `main`) → **PREVIEW-VERIFIED** (proven on the help box) →
+  **PRODUCTION-VERIFIED** (proven on `live` after the owner promote). The assistant may reach
+  PREVIEW-VERIFIED; only the owner reaches PRODUCTION-VERIFIED.
+- **CI/deploy efficiency:** true-documentation-only PRs skip `build-develop` and true-documentation-only
+  `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**` and root-level `*.md`
+  (README/CLAUDE) — **served content Markdown still builds and deploys**
+  (`content/pages/**/*.md` renders via `loadStaticPage`; `src/data/blog/**/*.md` via `src/lib/blog.ts`),
+  so a content change is never mistaken for docs and skipped.
 
 ## Session Operating Rules
 
