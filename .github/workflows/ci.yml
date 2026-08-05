@@ -114,6 +114,26 @@ jobs:
           npm run validate:architecture
           npm run test:outbox
 
+      - name: Milestone 2 public knowledge gates (blocking)
+        # (1) Compiler self-test (determinism + referential integrity + digest).
+        # (2) Manifest drift — regenerate public-knowledge.json from content/ and fail on
+        #     any non-empty git diff (deterministic; same pattern as the M0 authority
+        #     manifest). (3) Consumer gate — every compiled route is consistent across the
+        #     sitemap + the /api/knowledge-feed route + content/entities. The physical
+        #     content/ SSOT is the sole authority; the feed records the source commit at
+        #     serve time (APP_COMMIT_SHA), so nothing DB is read for public knowledge.
+        run: |
+          npm run test:knowledge
+          npm run knowledge:compile
+          git diff --exit-code src/lib/publicContent/generated/public-knowledge.json \
+            || { echo "::error::public-knowledge.json drifted from content/ — run 'npm run knowledge:compile' and commit."; exit 1; }
+          npm run validate:knowledge
+          # People trust-graph acceptance gates (record-level): crew count 11/7/4, no legacy
+          # 14/7-driver, leadership+medical never inflate crew, per-guide KTA evidence,
+          # KTA membership-not-govt-licence, review→existing-person, privacy allowlist,
+          # supported relationships. (Render-parity gates land with the /team cutover.)
+          npm run validate:people
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:

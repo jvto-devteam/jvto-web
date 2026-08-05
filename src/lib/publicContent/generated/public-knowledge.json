@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "generator": "scripts/compile-public-knowledge.ts",
+  "productionOrigin": "https://javavolcano-touroperator.com",
+  "routes": [
+    {
+      "route": "/policy",
+      "section": "policy",
+      "canonicalUrl": "https://javavolcano-touroperator.com/policy",
+      "title": "JVTO Policy Hub",
+      "browserTitle": "Legal & Transparency",
+      "description": "JVTO publishes its booking, payment, cancellation, inclusions, and privacy terms in full — so you know exactly what you are buying, what the rules are if…",
+      "summary": "Navigation hub for the JVTO policy documents: privacy, booking/payment/cancellation, and inclusions/exclusions.",
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-04",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/policy/booking-payment-cancellation",
+      "section": "policy",
+      "canonicalUrl": "https://javavolcano-touroperator.com/policy/booking-payment-cancellation",
+      "title": "JVTO Booking, Payment & Cancellation Policy",
+      "browserTitle": "Booking, Payment & Cancellation",
+      "description": "How to book, pay, and cancel with JVTO: website-only booking, 20% deposit, and the Lifetime Package Guarantee — cancel your whole booking 48h+ before Day 1 for 100% Lifetime Package Credit (never expires, not cash).",
+      "summary": "Booking is website-only with a 20% deposit; full cancellation 48h+ before Day 1 converts to 100% Lifetime Package Credit.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-04",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/policy/inclusions-exclusions",
+      "section": "policy",
+      "canonicalUrl": "https://javavolcano-touroperator.com/policy/inclusions-exclusions",
+      "title": "JVTO Inclusions & Exclusions Policy",
+      "browserTitle": "Inclusions & Exclusions",
+      "description": "This policy defines what is included and not included in JVTO private tour packages. Only inclusions written on your specific Official E-Voucher / Invoice…",
+      "summary": "What is included vs not included in JVTO private tour packages, under the 'Write-it-to-bind-it' principle.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-04",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/policy/privacy",
+      "section": "policy",
+      "canonicalUrl": "https://javavolcano-touroperator.com/policy/privacy",
+      "title": "JVTO Privacy & Data Protection Policy",
+      "browserTitle": "Privacy Policy",
+      "description": "This policy explains what personal data JVTO collects, why it is collected, how it is used, and when it may be shared to operate your tour booking and…",
+      "summary": "How JVTO collects, uses, stores, and shares the personal data required to operate a tour booking.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-04",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/travel-guide",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide",
+      "title": "Travel Guide – Safety, Health & Practical Information",
+      "browserTitle": "Travel Guide – Safety, Booking & Practical Info | JVTO",
+      "description": "JVTO's official travel guide: booking steps, safety rules, Ijen health screening, weather and closures, packing list, and police escort for groups.",
+      "summary": "Hub for JVTO travel guidance: booking, safety, health screening, packing, weather and closures.",
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/travel-guide/booking-information",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/booking-information",
+      "title": "Booking Information – How JVTO Private Tours Work",
+      "browserTitle": "Booking Information – Payments, Changes & Package Credit | JVTO",
+      "description": "How to book, pay, and cancel a JVTO private tour: website-only booking, 20% deposit (up to 100% within 14 days), card ≤5d / bank·Wise ≤3d balance deadlines, and 100% Lifetime Package Credit for whole-booking cancellations 48h+ before Day 1.",
+      "summary": "How JVTO private tour booking works: website-only booking, payments, changes, and Lifetime Package Credit.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "travel-guide-booking-information",
+      "faqCount": 7
+    },
+    {
+      "route": "/travel-guide/ijen-health-screening",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
+      "title": "Ijen Health Screening – Real Checks, Digital Proof",
+      "browserTitle": "Ijen Health Screening – Real Checks, Digital Proof & QR | JVTO",
+      "description": "The Ijen night hike requires a mandatory health certificate for every guest before crater entry. JVTO arranges the screening; if you're advised not to hike, the climb is cancelled for you (not the group) with safe-zone alternatives.",
+      "summary": "The mandatory Ijen health screening: real checks at your hotel, a BSrE-signed digital certificate, and QR verification.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "travel-guide-ijen-health-screening",
+      "faqCount": 5
+    },
+    {
+      "route": "/travel-guide/packing-and-fitness",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
+      "title": "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
+      "browserTitle": "Packing & Fitness for Bromo, Ijen & Tumpak Sewu | JVTO",
+      "description": "What to pack and how fit you need to be for Bromo, Ijen, and Tumpak Sewu tours. Specific gear list, fitness expectations, and what JVTO provides.",
+      "summary": "What to pack and the fitness needed for Bromo, Ijen, and Tumpak Sewu.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "travel-guide-packing-and-fitness",
+      "faqCount": 5
+    },
+    {
+      "route": "/travel-guide/safety-on-tours",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+      "title": "Safety on JVTO Tours",
+      "browserTitle": "Safety on JVTO Tours – How We Plan & What You Should Know",
+      "description": "JVTO safety approach: Tourist Police-led planning, gear requirements, Ijen gas mask sterilisation, emergency protocols, and what guests must follow.",
+      "summary": "How JVTO plans for safety on private volcano tours and what guests should know.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "travel-guide-safety-on-tours",
+      "faqCount": 5
+    },
+    {
+      "route": "/travel-guide/weather-and-closures",
+      "section": "travel-guide",
+      "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/weather-and-closures",
+      "title": "Weather, Volcano Alerts & Closures",
+      "browserTitle": "Weather, Volcano Alerts & Closures – How JVTO Handles Changes",
+      "description": "How JVTO handles weather, volcano alerts and closures. Blue Fire and sunrise are natural phenomena and cannot be guaranteed; guides assess conditions daily and may delay or reroute for safety.",
+      "summary": "How weather, volcano alerts, and closures affect tours and how JVTO handles changes.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "travel-guide-weather-and-closures",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto",
+      "title": "Why Travel with Java Volcano Tour Operator (JVTO)",
+      "browserTitle": "Why Travel with Java Volcano Tour Operator (JVTO)",
+      "description": "Tourist Police-led safety, licensed operator, private-only tours, all-inclusive pricing. Why travellers from SG, MY & HK choose JVTO for Bromo and Ijen.",
+      "summary": "Why travelers choose JVTO: police-led safety, verifiable credentials, private-only tours, and documented history.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-hub",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto/community-standards",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto/community-standards",
+      "title": "Community Standards: Partners, Ethics & Operational Rules",
+      "browserTitle": "Community Standards – Partners, Ethics & Operational Rules | JVTO",
+      "description": "JVTO community standards: HPWKI membership, ISIC provider listing, INDECON network listing, ethical travel commitments, and health screening compliance for Ijen tours.",
+      "summary": "The standards JVTO holds itself and guests to on every private tour.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-community-standards",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto/our-story",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto/our-story",
+      "title": "Our Story: Roots & Continuity Since 2015",
+      "browserTitle": "Our Story – JVTO History & Roots Since 2015 | JVTO",
+      "description": "Documented JVTO history: Booking.com award 2015, the Stefan Loose guidebook listing, and physical artifacts tracing the operator's roots in Bondowoso, East Java.",
+      "summary": "JVTO's documented development from the 2015 guesthouse era to a registered East Java tour operator.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-our-story",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto/our-team",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto/our-team",
+      "title": "Local Team, Daily Execution",
+      "browserTitle": "Our Team – Local East Java Guides & Drivers | JVTO",
+      "description": "Meet JVTO's local East Java team: 11 active crew profiles — experienced guides and drivers who handle daily volcano tour logistics for Bromo, Ijen, and Tumpak Sewu.",
+      "summary": "JVTO's active crew — 11 published profiles (7 guides + 4 drivers) — their credentials, and how the team operates.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-our-team",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto/reviews",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto/reviews",
+      "title": "Guest Voices: Real Experiences, Independently Verified",
+      "browserTitle": "Guest Reviews – Independent Voices on JVTO Tours | JVTO",
+      "description": "Independent reviews of JVTO on Trustpilot, Google Maps and Tripadvisor. Verified voices — we cannot edit or remove any review on those platforms.",
+      "summary": "Verified guest reviews across Trustpilot, Google Maps, and TripAdvisor with canonical counts.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-reviews",
+      "faqCount": 5
+    },
+    {
+      "route": "/why-jvto/the-jvto-difference",
+      "section": "why-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto/the-jvto-difference",
+      "title": "The JVTO Difference: Safety Leadership and Verified Proof",
+      "browserTitle": "The JVTO Difference: Safety Leadership & Verified Proof",
+      "description": "What sets JVTO apart: Tourist Police-led safety mindset, documented operational discipline, and a full proof library anyone can verify independently.",
+      "summary": "What sets JVTO apart: police-led operations, mandatory Ijen health screening, and written, verifiable rules.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-04",
+      "faqKey": "why-jvto-the-jvto-difference",
+      "faqCount": 5
+    }
+  ],
+  "entities": [
+    "credentials",
+    "narrative-claims",
+    "organization",
+    "partners",
+    "people",
+    "review-platforms"
+  ],
+  "counts": {
+    "routes": 16,
+    "entities": 6,
+    "sections": {
+      "policy": 4,
+      "travel-guide": 6,
+      "why-jvto": 6
+    }
+  },
+  "contentDigest": "d8ad92df04bed7a4c80fcc07ffb2af51cfed976bcdd3f34db011f57f2f5ca3fb"
+}
