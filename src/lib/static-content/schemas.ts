@@ -224,29 +224,67 @@ export const CredentialsEntitySchema = z.looseObject({
   lastReviewed: IsoDateSchema,
 });
 
+/** One canonical crew member (operational). KTA is an HPWKI MEMBERSHIP credential — never a licence. */
+const CrewMemberSchema = z.looseObject({
+  code: z.string().regex(/^[a-z0-9-]+$/),
+  name: z.string().min(1),
+  role: z.enum(["guide", "driver"]),
+  languages: z.array(z.string().min(1)).min(1),
+  specialties: z.array(z.string().min(1)).min(1),
+  kta: z.looseObject({
+    id: z.string().regex(/^KTA-[GD]-\d{4}-\d{3}$/, "KTA id must be KTA-G/D-YYYY-NNN"),
+    credentialType: z.string().min(1),
+    issuer: z.string().min(1),
+    credentialState: z.enum(["confirmed", "pending"]),
+  }),
+  image: z.looseObject({ src: z.string().min(1), alt: z.string().min(1) }),
+});
+
 export const PeopleEntitySchema = z
   .looseObject({
-    founder: z.looseObject({
-      name: z.string().min(1),
-      jobTitle: z.string().min(1),
+    lastReviewed: IsoDateSchema,
+    disclaimer: z.looseObject({
+      policeIndependence: z.string().min(1),
+      directManagedCrew: z.string().min(1),
     }),
-    doctor: z.looseObject({
+    leadership: z
+      .array(
+        z.looseObject({
+          id: z.string().min(1),
+          name: z.string().min(1),
+          relationship: z.literal("leadership"),
+          roles: z.array(z.string().min(1)).min(1),
+          countsAsCrew: z.literal(false),
+        }),
+      )
+      .min(1),
+    medicalPartner: z.looseObject({
+      id: z.string().min(1),
       name: z.string().min(1),
-      sip: z.string().min(1),
-      str: z.string().min(1),
-      strValidTo: IsoDateSchema,
+      relationship: z.string().min(1),
+      credentials: z.looseObject({ str: z.string().min(1), strValidTo: IsoDateSchema }),
       claimBoundary: z.string().min(1),
+      countsAsCrew: z.literal(false),
     }),
     crew: z.looseObject({
       total: z.int().positive(),
       guides: z.int().positive(),
       drivers: z.int().positive(),
+      roster: z.array(CrewMemberSchema).min(1),
     }),
-    lastReviewed: IsoDateSchema,
   })
-  .refine((p) => p.crew.guides + p.crew.drivers === p.crew.total, {
-    message: "crew.total must equal guides + drivers",
-    path: ["crew"],
+  .superRefine((p, ctx) => {
+    const c = p.crew;
+    if (c.guides + c.drivers !== c.total)
+      ctx.addIssue({ code: "custom", message: "crew.total must equal guides + drivers", path: ["crew"] });
+    if (c.roster.length !== c.total)
+      ctx.addIssue({ code: "custom", message: `roster length ${c.roster.length} != crew.total ${c.total}`, path: ["crew", "roster"] });
+    const g = c.roster.filter((r) => r.role === "guide").length;
+    const d = c.roster.filter((r) => r.role === "driver").length;
+    if (g !== c.guides)
+      ctx.addIssue({ code: "custom", message: `roster has ${g} guides but crew.guides = ${c.guides}`, path: ["crew", "roster"] });
+    if (d !== c.drivers)
+      ctx.addIssue({ code: "custom", message: `roster has ${d} drivers but crew.drivers = ${c.drivers}`, path: ["crew", "roster"] });
   });
 
 export const PartnersEntitySchema = z.looseObject({
