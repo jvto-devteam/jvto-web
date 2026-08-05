@@ -1,5 +1,9 @@
 # Domain Ownership Matrix (repo-grounded)
 
+> **Note on terminology:** `Package NN` names the **completed** content-SSOT sub-effort and
+> appears only as historical evidence. All **forward** work is expressed as **Milestones 1–8**
+> per the handoff §16.
+
 > **Milestone 0 baseline artifact** grounded in
 > [JVTO_TECHNICAL_PROJECT_HANDOFF.md](JVTO_TECHNICAL_PROJECT_HANDOFF.md) §6 (domain ownership
 > matrix), §4 (binding principles P-01..P-09), §13 (data classes). This adapts the handoff's
@@ -40,7 +44,7 @@ provider (P-03); generated outputs are never authorities (P-05).
   legacy source: `scripts/validate-static-route-ownership.mjs` (blocking in `ci.yml` `verify`).
 - **Prisma is a data-access layer, not a content source** (AD-02). `content_pages` and
   `narrative_claims` currently hold public narrative → classified legacy in the classification doc;
-  they retire per AD-10 (Package 09/10, owner-gated). Dynamic reviews (`/why-jvto/reviews[/id]`) and
+  they retire per AD-10 (Milestone 8, owner-gated). Dynamic reviews (`/why-jvto/reviews[/id]`) and
   tour/destination `[slug]` params legitimately stay DB.
 - **Operational vs public split for volcanic status.** `public/ops/volcanic-status.json` is public
   operational status (operational-intelligence), bot-maintained — the one data-only artifact allowed
