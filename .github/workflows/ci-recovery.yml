@@ -1,0 +1,114 @@
+name: CI Recovery
+
+# Deterministic, log-based recovery for the two workflows whose only recurring
+# failure mode is a transient VPS-SSH transport timeout ("Deploy to VPS" help
+# deploy + "CI" build-develop). This workflow NEVER classifies from history: it
+# downloads the FAILED run's logs and runs scripts/ci/classify-workflow-failure.mjs
+# against scripts/ci/failure-signatures.json. It performs AT MOST ONE bounded
+# re-run, and only for an SSH_TCP_TIMEOUT on run_attempt 1. Every other class
+# (auth, remote-build, deploy-proof, database, unknown) is written to the job
+# summary with its evidence + owner action and is NOT retried.
+#
+# Safety: the classifier is run from THIS repo's default branch (trusted). The
+# workflow NEVER checks out or executes code from the failed (possibly PR) run —
+# the downloaded logs are inert data, not code. It cannot merge, deploy another
+# commit, or promote production (permissions below).
+on:
+  workflow_run:
+    workflows: ["Deploy to VPS", "CI"]
+    types: [completed]
+
+# Least privilege. `actions: write` is ONLY for the bounded rerun-failed-jobs
+# call (write implies the read needed to download the failed run's logs).
+# `contents: read` is ONLY to check out the classifier from the default branch.
+# No pull-requests / deployments / id-token / packages — this workflow has no
+# path to merge, deploy, or promote.
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  classify-and-maybe-retry:
+    name: classify-and-maybe-retry
+    # Act ONLY on a FAILED upstream run. success / cancelled / skipped are ignored.
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout classifier from the default branch (trusted, never PR head)
+        uses: actions/checkout@v4
+        with:
+          # A workflow_run checkout already defaults to the repo's default branch,
+          # never the triggering run's head ref; pin it explicitly so the
+          # classifier + signatures can only ever come from trusted `main`.
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Classify the failed run (log signatures only)
+        id: classify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          WF_NAME: ${{ github.event.workflow_run.name }}
+        run: |
+          set -euo pipefail
+          echo "Classifying ${WF_NAME} run ${RUN_ID} (attempt ${RUN_ATTEMPT})"
+          # Download the failed jobs' logs. This is DATA — no downloaded code is executed.
+          gh run view "$RUN_ID" --repo "$GH_REPO" --log-failed > failed.log 2>/dev/null || true
+          if [ ! -s failed.log ]; then
+            echo "log-failed empty; falling back to the full run log"
+            gh run view "$RUN_ID" --repo "$GH_REPO" --log > failed.log 2>/dev/null || true
+          fi
+          node scripts/ci/classify-workflow-failure.mjs \
+            --log failed.log --attempt "$RUN_ATTEMPT" --workflow "$WF_NAME" \
+            --out classification.json > /dev/null
+          RETRY=$(node -e "process.stdout.write(String(require('./classification.json').retryAllowed===true))")
+          CLASS=$(node -e "process.stdout.write(String(require('./classification.json').classification))")
+          echo "retry=$RETRY" >> "$GITHUB_OUTPUT"
+          echo "classification=$CLASS" >> "$GITHUB_OUTPUT"
+          # Job summary (classification + decision + evidence + owner action) — always written.
+          node -e '
+            const c = require("./classification.json");
+            const fs = require("fs");
+            const L = [];
+            L.push(`## CI Recovery — ${process.env.WF_NAME} · run ${process.env.RUN_ID} · attempt ${process.env.RUN_ATTEMPT}`);
+            L.push("");
+            L.push(`- **Classification:** \`${c.classification}\``);
+            L.push(`- **Matched signature:** ${c.matchedSignature ? "`" + c.matchedSignature + "`" : "_none_"}`);
+            L.push(`- **Transient:** ${c.transient}`);
+            L.push(`- **Retry allowed:** ${c.retryAllowed} — ${c.retryReason}`);
+            L.push("");
+            L.push(`**Owner action:** ${c.ownerAction}`);
+            L.push("");
+            L.push("**Evidence (log signatures):**");
+            L.push("```");
+            L.push(c.evidence && c.evidence.length ? c.evidence.join("\n") : "(no matching evidence lines)");
+            L.push("```");
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, L.join("\n") + "\n");
+          '
+
+      - name: Bounded re-run (SSH transport timeout, attempt 1 only)
+        if: ${{ steps.classify.outputs.retry == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          echo "Transient SSH transport timeout on attempt 1 → re-running failed jobs exactly once."
+          gh api -X POST "repos/${GH_REPO}/actions/runs/${RUN_ID}/rerun-failed-jobs"
+          echo "::notice::CI Recovery re-ran failed jobs once for run ${RUN_ID} (SSH_TCP_TIMEOUT, attempt 1). The re-run's own completion re-enters this workflow at attempt 2, which is never retried."
+
+      - name: No automatic retry (record only)
+        if: ${{ steps.classify.outputs.retry != 'true' }}
+        env:
+          CLASS: ${{ steps.classify.outputs.classification }}
+        run: |
+          echo "::notice::CI Recovery took no action (classification=${CLASS}); it is either non-transient or beyond the one bounded attempt. See the job summary for evidence + owner action."

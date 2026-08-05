@@ -202,6 +202,12 @@ Slug shape: both cities use full-path format — `tours/from-surabaya/{slug}` an
 - `build-develop` (ci.yml, `scripts/build-pr.sh`) is a pre-merge build on the develop server — **non-required** (flaky VPS SSH); `verify` is the only required check.
 - **Secrets topology:** `deploy.yml` uses `VPS_HOST`/`VPS_USER`/`VPS_SSH_KEY`; `GH_PAT` (on jvto-web) reads the producer repos for the drift gate + sync; the producers fire `repository_dispatch` at jvto-web via `JVTO_WEB_DISPATCH_TOKEN`. jvto-web is a **public** repo — never commit credentials.
 
+### CI failure recovery (deterministic, log-classified)
+
+**CI failures are classified from logs, never from memory. Only the recovery workflow may perform one bounded transient retry. Agents must not create timers, scheduled check-ins, or additional retries.**
+
+The recurring red is a transient VPS-SSH transport timeout (`dial tcp ***:22: i/o timeout`) on the help deploy + `build-develop`. Recovery is mechanical: the **`CI Recovery` workflow** (`.github/workflows/ci-recovery.yml`, `workflow_run` on *Deploy to VPS* + *CI*) downloads the failed run's logs and runs `scripts/ci/classify-workflow-failure.mjs` against `scripts/ci/failure-signatures.json` → a class (`SSH_TCP_TIMEOUT | SSH_AUTH | REMOTE_BUILD | DEPLOY_PROOF | DATABASE_INFRA | UNKNOWN`) + `retryAllowed`. It re-runs failed jobs **exactly once**, and **only** for `SSH_TCP_TIMEOUT` on `run_attempt == 1`; everything else is written to the job summary with evidence + owner action and is **not** retried. The retry ceiling is data (`maxRetry`; only `SSH_TCP_TIMEOUT` is transient, nothing may exceed 1) and is asserted by `npm run test:ci-classifier` (blocking in `verify`). The classifier is run from trusted `main`, never from PR code; the workflow cannot merge/deploy/promote (`actions: write` + `contents: read` only). Agent guidance lives in the **`jvto-ci-recovery`** skill: do **not** say "known flaky" without a matched signature, and do **not** poll/re-run a transient timeout yourself — the workflow owns that one retry. SSH connect/command timeouts are tuned in `deploy.yml` + `build-develop` (`timeout: 120s` connect, `command_timeout: 30m`) so a pre-remote-command transport failure is cleanly distinct from a remote build failure.
+
 ## Auto-Memory
 
 Persistent memory at `~/.claude/projects/f--jvto-web/memory/`. Two tiers:

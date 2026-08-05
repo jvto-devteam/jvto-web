@@ -134,6 +134,15 @@ jobs:
           # supported relationships. (Render-parity gates land with the /team cutover.)
           npm run validate:people
 
+      - name: CI failure classifier self-test (blocking)
+        # Deterministic recovery classifier (scripts/ci/classify-workflow-failure.mjs
+        # + scripts/ci/failure-signatures.json). Asserts every fixture category
+        # classifies as expected, registry integrity (exactly one transient class,
+        # no maxRetry > 1, UNKNOWN + the retry-granting class evaluated last), and
+        # the retry bound (SSH timeout retryable on attempt 1 only, UNKNOWN never).
+        # Fails if a signature change breaks a fixture or would grant >1 retry.
+        run: npm run test:ci-classifier
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:
@@ -184,6 +193,8 @@ jobs:
   build-develop:
     needs: verify
     runs-on: ubuntu-latest
+    # Bounded job timeout so a wedged SSH build fails fast (above command_timeout).
+    timeout-minutes: 40
     # PRs only (needs PR number + head SHA), same-repo only (forks lack SSH secrets).
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     steps:
@@ -239,6 +250,11 @@ jobs:
           host: ${{ secrets.DEVELOP_SSH_HOST }}
           username: ${{ secrets.DEVELOP_SSH_USER }}
           key: ${{ secrets.DEVELOP_SSH_KEY }}
+          # Explicit CONNECT window (default 30s): a briefly-unreachable develop
+          # box fails with `dial tcp ...:22: i/o timeout` (SSH_TCP_TIMEOUT — the
+          # one class CI Recovery re-runs once), cleanly distinct from a remote
+          # build failure. command_timeout stays the remote-command budget.
+          timeout: 120s
           command_timeout: 30m
           # Fixed, pre-installed trusted script. PR number + commit SHA are the
           # only inputs; the script re-validates them. Runs the build of the

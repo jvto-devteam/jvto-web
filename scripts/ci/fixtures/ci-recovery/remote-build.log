@@ -1,0 +1,13 @@
+2026-08-05T15:30:01.0000000Z ======CMD======
+2026-08-05T15:30:02.0000000Z + nvm use 20
+2026-08-05T15:30:05.0000000Z + npm ci
+2026-08-05T15:30:40.0000000Z + npm run build
+2026-08-05T15:30:41.0000000Z > jvto-web@0.1.0 build
+2026-08-05T15:30:41.0000000Z > next build --turbopack
+2026-08-05T15:31:10.0000000Z   Creating an optimized production build ...
+2026-08-05T15:31:30.0000000Z Failed to compile.
+2026-08-05T15:31:30.1000000Z ./src/components/website/HomePage.tsx:3:1
+2026-08-05T15:31:30.2000000Z Type error: Cannot find module './Hero' or its corresponding type declarations.
+2026-08-05T15:31:31.0000000Z npm error Lifecycle script `build` failed with error:
+2026-08-05T15:31:31.1000000Z npm error command failed with exit code 1
+2026-08-05T15:31:31.2000000Z Cleaning up orphan processes

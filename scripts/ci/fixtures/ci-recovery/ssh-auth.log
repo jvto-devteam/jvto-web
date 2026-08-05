@@ -1,0 +1,9 @@
+2026-08-05T15:27:01.0753099Z   host: ***
+2026-08-05T15:27:01.0753099Z   port: 22
+2026-08-05T15:27:01.0753334Z   timeout: 30s
+2026-08-05T15:27:01.3091529Z ======CMD======
+2026-08-05T15:27:01.3184077Z npm ci
+2026-08-05T15:27:01.3186892Z ======END======
+2026-08-05T15:27:02.1000000Z 2026/08/05 15:27:02 ssh: handshake failed: ssh: unable to authenticate, attempted methods [none publickey], no supported methods remain
+2026-08-05T15:27:02.2000000Z Permission denied (publickey).
+2026-08-05T15:27:02.4071402Z Cleaning up orphan processes

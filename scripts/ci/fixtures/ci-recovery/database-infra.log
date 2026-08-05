@@ -1,0 +1,6 @@
+2026-08-05T16:00:00.0000000Z Run npm run test:outbox:db
+2026-08-05T16:00:01.0000000Z [outbox-db-itest] Fail fast if the test would be skipped (Postgres must be reachable)
+2026-08-05T16:00:31.0000000Z Error: P1001: Can't reach database server at `localhost:5432`
+2026-08-05T16:00:31.1000000Z could not connect to server: Connection timed out
+2026-08-05T16:00:31.2000000Z 	Is the server running on host "localhost" and accepting TCP/IP connections on port 5432?
+2026-08-05T16:00:31.9000000Z ##[error]Process completed with exit code 1.

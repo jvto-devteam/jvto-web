@@ -1,0 +1,96 @@
+{
+  "note": "Deterministic CI failure signature registry. Consumed by scripts/ci/classify-workflow-failure.mjs and the CI Recovery workflow (.github/workflows/ci-recovery.yml). Classification is derived ONLY from log signatures present in the failed run's logs — never from history, run count, or narrative. Matchers are lowercase substrings; the classifier lowercases the log before comparing. Categories are evaluated in `priority` order and the FIRST whose matchers hit wins. UNKNOWN has no matchers and is the terminal fallback. The ONLY category that may grant an automatic retry is SSH_TCP_TIMEOUT (transient=true, maxRetry=1); it is deliberately evaluated LAST among the real categories, so any more-specific, non-transient signature pre-empts a retry. A retry is allowed only when the matched category is transient AND maxRetry>=1 AND run_attempt===1.",
+  "version": 1,
+  "priority": [
+    "SSH_AUTH",
+    "DATABASE_INFRA",
+    "DEPLOY_PROOF",
+    "REMOTE_BUILD",
+    "SSH_TCP_TIMEOUT",
+    "UNKNOWN"
+  ],
+  "categories": {
+    "SSH_AUTH": {
+      "transient": false,
+      "maxRetry": 0,
+      "description": "SSH authentication/handshake was rejected. The host was reachable but the key/username was not accepted. Not transient — a retry cannot fix a bad credential.",
+      "matchers": [
+        "unable to authenticate",
+        "ssh: handshake failed",
+        "no supported methods remain",
+        "permission denied (publickey",
+        "authentication failed",
+        "invalid privatekey",
+        "ssh: no key found"
+      ],
+      "ownerAction": "SSH authentication failed — the box was reachable but rejected the credential. Verify/rotate the VPS_SSH_KEY / DEVELOP_SSH_KEY secret and the matching VPS_USER / DEVELOP_SSH_USER + authorized_keys on the box. No automatic retry (a retry cannot fix a credential)."
+    },
+    "DATABASE_INFRA": {
+      "transient": false,
+      "maxRetry": 0,
+      "description": "A database / service-container was unreachable or unhealthy (e.g. the outbox-db Postgres service container in CI). Not auto-retried here: recovery only re-runs SSH transport timeouts, and a DB-infra failure needs the runner/service inspected.",
+      "matchers": [
+        "could not connect to server",
+        "connection to server at",
+        "database system is starting up",
+        "pg_isready",
+        "postgres must be reachable",
+        "can't reach database server",
+        "p1001"
+      ],
+      "ownerAction": "Database / service-container was unreachable or unhealthy. Inspect the Postgres service container health (outbox-db job) or the target DB availability. No automatic retry — re-run manually once the DB is confirmed healthy."
+    },
+    "DEPLOY_PROOF": {
+      "transient": false,
+      "maxRetry": 0,
+      "description": "The SSH transport SUCCEEDED and the remote script ran, but the post-deploy proof failed: /api/build-info reported the wrong commit SHA, or the live smoke (routes / canonical / single-FAQPage / crew) failed. A retry re-runs the same code and would fail the same way.",
+      "matchers": [
+        "[smoke-why-jvto] fail",
+        "deployment not landed",
+        "!= expected",
+        "expected exactly 1 faqpage",
+        "(expected 200)",
+        "forbidden claim"
+      ],
+      "ownerAction": "SSH succeeded but the deployed box did not verify (build-info SHA mismatch or live smoke failure). Inspect the box: did `pm2 restart --update-env` pick up APP_COMMIT_SHA, is .env.local intact, did `npm run build` actually complete? No automatic retry — the code/box state must be fixed first."
+    },
+    "REMOTE_BUILD": {
+      "transient": false,
+      "maxRetry": 0,
+      "description": "The SSH transport SUCCEEDED and the remote command ran, but the build/install failed on the box (npm ci / next build / typecheck / lint). Not a transport issue — a retry re-runs the same failing build.",
+      "matchers": [
+        "npm err!",
+        "npm error",
+        "failed to compile",
+        "command failed with exit code",
+        "module not found",
+        "cannot find module",
+        "build failed",
+        "type error:",
+        "elifecycle"
+      ],
+      "ownerAction": "Remote build/install failed on the box (npm ci / next build / typecheck). Fix the build and push a corrected commit — a re-run of the same commit would fail identically. No automatic retry."
+    },
+    "SSH_TCP_TIMEOUT": {
+      "transient": true,
+      "maxRetry": 1,
+      "description": "The SSH client could not establish the TCP connection to the box before the remote command ran (e.g. `dial tcp ***:22: i/o timeout`). This is a transport-layer blip — the box may be momentarily unreachable or the runner had a network hiccup. Eligible for exactly ONE bounded automatic re-run, only on run_attempt 1.",
+      "matchers": [
+        "dial tcp",
+        ":22: i/o timeout",
+        "i/o timeout",
+        "connection timed out",
+        "ssh: connect to host",
+        "operation timed out"
+      ],
+      "ownerAction": "Transient SSH transport timeout (could not reach the box before the remote command ran). The recovery workflow re-runs the failed jobs exactly once on run_attempt 1. If it recurs on attempt >= 2, the box is likely genuinely unreachable on :22 — verify the VPS is up, port 22 is open to GitHub runner egress, then re-run the deploy manually."
+    },
+    "UNKNOWN": {
+      "transient": false,
+      "maxRetry": 0,
+      "description": "No known signature matched. Deliberately never auto-retried — an unrecognized failure must be inspected, not blindly re-run. If it becomes a recurring class, add a signature above.",
+      "matchers": [],
+      "ownerAction": "No known failure signature matched this log. Inspect the full run manually. If this is a new, recurring failure class, add a matcher to scripts/ci/failure-signatures.json (with a fixture + expected verdict in scripts/ci/fixtures/ci-recovery/) so it classifies deterministically next time. No automatic retry."
+    }
+  }
+}

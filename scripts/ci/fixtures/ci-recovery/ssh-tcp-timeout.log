@@ -1,0 +1,15 @@
+2026-08-05T15:27:01.0753099Z   host: ***
+2026-08-05T15:27:01.0753099Z   port: 22
+2026-08-05T15:27:01.0753334Z   timeout: 30s
+2026-08-05T15:27:01.0753593Z   command_timeout: 10m
+2026-08-05T15:27:01.3091529Z ======CMD======
+2026-08-05T15:27:01.3162202Z set -eo pipefail
+2026-08-05T15:27:01.3169188Z PM2_BIN="$(command -v pm2 || echo pm2)"
+2026-08-05T15:27:01.3171066Z # Next.js 16 default on this box is 18, so `next build` aborted every deploy.
+2026-08-05T15:27:01.3172553Z nvm use 20
+2026-08-05T15:27:01.3183500Z git fetch --prune origin main
+2026-08-05T15:27:01.3184077Z npm ci
+2026-08-05T15:27:01.3184300Z npm run build
+2026-08-05T15:27:01.3186892Z ======END======
+2026-08-05T15:27:31.3092803Z 2026/08/05 15:27:31 dial tcp ***:22: i/o timeout
+2026-08-05T15:27:31.4071402Z Cleaning up orphan processes

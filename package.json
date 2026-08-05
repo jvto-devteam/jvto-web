@@ -42,7 +42,8 @@
     "test:knowledge": "tsx scripts/compile-public-knowledge.ts --selftest",
     "validate:knowledge": "node scripts/validate-public-knowledge.mjs",
     "test:people": "node scripts/validate-people-graph.mjs --selftest",
-    "validate:people": "node scripts/validate-people-graph.mjs"
+    "validate:people": "node scripts/validate-people-graph.mjs",
+    "test:ci-classifier": "node scripts/ci/classify-workflow-failure.mjs --selftest"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

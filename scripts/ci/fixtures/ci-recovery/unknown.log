@@ -1,0 +1,4 @@
+2026-08-05T17:00:00.0000000Z Run some-third-party-action@v2
+2026-08-05T17:00:03.0000000Z The runner has received a shutdown signal.
+2026-08-05T17:00:03.5000000Z ##[error]The operation was canceled by an unexpected internal condition.
+2026-08-05T17:00:04.0000000Z ##[error]Process completed with exit code 137.

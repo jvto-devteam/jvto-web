@@ -37,6 +37,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Bounded job timeout so a wedged deploy fails fast instead of hanging the
+    # concurrency group. Comfortably above command_timeout below (build + npm ci).
+    timeout-minutes: 40
     steps:
       - name: Deploy jvto-help
         uses: appleboy/ssh-action@v1.0.3
@@ -44,6 +47,15 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          # Explicit, tuned timeouts (previously the action defaults 30s/10m).
+          # `timeout` is the TCP+handshake CONNECT window: a box that is briefly
+          # unreachable now fails with `dial tcp ...:22: i/o timeout` after 120s
+          # (classified SSH_TCP_TIMEOUT — the one class CI Recovery re-runs once).
+          # `command_timeout` is the REMOTE-command budget: npm ci + next build
+          # need well over the 10m default, so a slow-but-healthy build is no
+          # longer killed mid-flight and mis-read as a failure.
+          timeout: 120s
+          command_timeout: 30m
           script: |
             # Fail-fast + pipefail from the very top. nounset (-u) is enabled only
             # AFTER sourcing nvm: nvm.sh references unset vars (MANPATH/PREFIX/...)

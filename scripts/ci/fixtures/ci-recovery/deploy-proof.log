@@ -1,0 +1,7 @@
+2026-08-05T15:40:00.0000000Z [smoke-why-jvto] BASE=https://help.javavolcano-touroperator.com
+2026-08-05T15:40:01.0000000Z   build-info attempt 1/12: got "41257536876650e25c448621410d5434ac248f77", want "fdc6ff8753229d44207acbe423b8fed02c001822"
+2026-08-05T15:42:00.0000000Z   build-info attempt 12/12: got "41257536876650e25c448621410d5434ac248f77", want "fdc6ff8753229d44207acbe423b8fed02c001822"
+2026-08-05T15:42:00.5000000Z
+2026-08-05T15:42:00.6000000Z [smoke-why-jvto] FAIL — 1 problem(s):
+2026-08-05T15:42:00.7000000Z   ✗ /api/build-info SHA "41257536876650e25c448621410d5434ac248f77" != expected "fdc6ff8753229d44207acbe423b8fed02c001822" — deployment not landed
+2026-08-05T15:42:00.9000000Z ##[error]Process completed with exit code 1.
