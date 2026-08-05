@@ -1,5 +1,5 @@
 {
-  "_comment": "Canonical JVTO people trust graph (AD-03, Milestone 2 people cluster). ONE authority — visible HTML, JSON-LD, feed entries, and internal links are all generated from this record. Every value is cited to approved evidence: buildCrewSchemas.ts NAMED_GUIDE_PERSONAS + knowsAbout, content/pages/why-jvto/our-team.json, OKF curation/approved/people.yaml (kta + credential_state), llm-wiki wiki/people/{crew-registry,agung-sambuko,dr-ahmad-irwandanu}.md, entityGraph.ts FOUNDER_SCHEMA/DOCTOR_SCHEMA. Review correlation is derived deterministically from src/lib/publicContent/generated/reviewApiSnapshots.json feed[].crews[] — not hand-authored. NO fabrication: fields with no approved evidence are omitted, never invented.",
+  "_comment": "Canonical JVTO people record — GROUNDWORK (AD-03, Milestone 2 people cluster). This record is the intended input for the later Team render cutover; the public feed, JSON-LD, rendered DOM, and FAQ projection are NOT active in this PR and no public route reads this file yet. When that projection is built, crew.unpublished must be excluded from it. Records carry ATTRIBUTED evidence references (buildCrewSchemas.ts NAMED_GUIDE_PERSONAS + knowsAbout, content/pages/why-jvto/our-team.json, OKF curation/approved/people.yaml, llm-wiki wiki/people/{crew-registry,agung-sambuko,dr-ahmad-irwandanu}.md, entityGraph.ts FOUNDER_SCHEMA/DOCTOR_SCHEMA); in this PR, CI validates reference PRESENCE and record consistency — external source matching is not performed. Review correlation uses src/lib/publicContent/generated/reviewApiSnapshots.json feed[].crews[] (not hand-authored quotes).",
   "lastReviewed": "2026-08-05",
   "disclaimer": {
     "policeIndependence": "JVTO (PT Java Volcano Rendezvous) is a private tour operator. References to the founder's role as an active Indonesian Tourist Police officer describe his personal professional background only; they do not represent, imply, or constitute endorsement by the Indonesian National Police or any government body.",
@@ -49,7 +49,7 @@
     "total": 11,
     "guides": 7,
     "drivers": 4,
-    "note": "11 active published operational crew profiles (7 guides + 4 drivers), individually named, credentialed, and photographed. Additional drivers with HPWKI KTA credential_state: pending are listed under `unpublished` — never rendered, never public, never in the feed or JSON-LD.",
+    "note": "11 published operational crew profiles (7 guides + 4 drivers). Additional drivers with HPWKI KTA credential_state: pending are listed under `unpublished` and carry rendered:false/public:false so the later Team render/feed/JSON-LD projection MUST exclude them; that projection is not part of this PR.",
     "unpublished": [
       { "code": "yusuf", "name": "Yusuf", "role": "driver", "reason": "HPWKI KTA credential_state: pending", "rendered": false, "public": false },
       { "code": "dika", "name": "Dika", "role": "driver", "reason": "HPWKI KTA credential_state: pending", "rendered": false, "public": false },
@@ -125,9 +125,9 @@
     ]
   },
   "reviewCorrelation": {
-    "note": "Deterministic person↔review links are derived at build time from src/lib/publicContent/generated/reviewApiSnapshots.json feed[].crews[] (DB-linked). Each link retains the review's stable id, platform, reviewer display name (already public on the source platform), date, exact person match by roster code, tour/destination context via package, and the review's public permalink. No quote is fabricated or paraphrased; no per-person aggregateRating is asserted.",
+    "note": "When the Team projection is built, person↔review links will retain each review's stable id, platform, reviewer display name (already public on the source platform), date, tour/destination context via package, and the public permalink; no quote is fabricated or paraphrased and no per-person aggregateRating is asserted. In THIS PR the validator only checks that every review-named crew resolves to a canonical person.",
     "evidenceSource": "src/lib/publicContent/generated/reviewApiSnapshots.json",
-    "guidesToPersonBy": "code"
+    "matchMethod": "reviewApiSnapshots.json feed[].crews[].name is matched to a canonical person by EXACT normalized display name; a first-name fallback is used only because every crew + unpublished first name is unique (the gate fails on any first-name ambiguity). The review snapshot does NOT carry a canonical people code."
   },
   "publicFieldAllowlist": {
     "crew": ["code", "name", "role", "languages", "specialties", "kta.id", "kta.credentialType", "kta.issuer", "kta.credentialState", "image.src", "image.alt"],
