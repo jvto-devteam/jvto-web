@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # Deterministic self-test for the "true-documentation-only" classifier used to
-# skip build-develop (ci.yml) and the help deploy (deploy.yml) — automation-
-# governance hardening 2026-08-04, per the owner's docs-only spec + Codex P1/P2.
+# skip the help deploy (deploy.yml) — automation-governance hardening 2026-08-04,
+# per the owner's docs-only spec + Codex P1/P2. (The rule formerly also skipped
+# the SSH build-develop job; that job was removed with the runner cutover, so the
+# predicate now lives ONLY in deploy.yml's paths-ignore.)
 #
 # "Documentation" is ONLY `docs/**` and root-level *.md (README.md / CLAUDE.md).
 # Served content Markdown is production output and MUST build/deploy —
 # content/pages/**/*.md renders via loadStaticPage; src/data/blog/**/*.md via
 # src/lib/blog.ts. This test asserts (a) the classifier verdict for the full
-# case matrix and (b) that ci.yml + deploy.yml still carry the exact predicate /
-# paths-ignore, so a future edit that widens the rule fails CI here.
+# case matrix and (b) that deploy.yml still carries the exact paths-ignore, so a
+# future edit that widens the rule fails CI here.
 set -euo pipefail
 
 # The single canonical predicate. classify() prints "code" (build required) or
@@ -54,15 +56,12 @@ check code "src/app/page.tsx"
 check code "docs/architecture/example.md" "content/pages/policy/privacy.md"
 check code "CLAUDE.md" "src/data/blog/example.md"
 
-echo "[docs-only-selftest] drift guards (workflows must carry the exact rule)"
-ci="$(dirname "$0")/../../.github/workflows/ci.yml"
+echo "[docs-only-selftest] drift guards (deploy.yml must carry the exact rule)"
 dep="$(dirname "$0")/../../.github/workflows/deploy.yml"
 guard() { # <file> <grep-args...>
   local f="$1"; shift
   if grep -qE "$@" "$f"; then echo "  ok    $f carries: $*"; else echo "  FAIL  $f missing: $*"; fail=1; fi
 }
-# ci.yml build-develop must use the exact predicate regex.
-guard "$ci" "grep -vE '\(\^docs/\|\^\[\^/\]\+\\\\\.md\\\$\)'"
 # deploy.yml paths-ignore must be root *.md + docs/**, and must NOT be the
 # over-broad **/*.md that swept in served content Markdown (the Codex P1 bug).
 guard "$dep" "^ *- '\*\.md'"
