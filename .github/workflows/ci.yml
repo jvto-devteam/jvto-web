@@ -85,6 +85,18 @@ jobs:
         # blanket **/*.md that sweeps in served content Markdown) fails here.
         run: bash scripts/ci/docs-only-selftest.sh
 
+      - name: Milestone 0 baseline gates (blocking)
+        # (1) Canonical checkout Ijen-notice self-test — mandatory wording present,
+        # Ijen-only targeting, retired wording absent. (2) Authority/consumer
+        # manifest drift — regenerate and fail if it differs from the committed
+        # copy (deterministic; keeps the baseline honest). The freeze gate itself
+        # runs inside content:check (validate-static-route-ownership check #7).
+        run: |
+          npm run test:ijen-notice
+          npm run baseline:manifest
+          git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
+            || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:

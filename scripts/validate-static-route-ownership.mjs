@@ -35,6 +35,14 @@ const CMS_API = [
   join(REPO_ROOT, "src", "app", "(api)", "api", "content-pages", "[id]", "route.ts"),
 ];
 
+const SRC_ROOT = join(REPO_ROOT, "src");
+const GENERATED_DIR = join(REPO_ROOT, "src", "generated"); // prisma client types — excluded
+
+/** FREEZE (M0, handoff §16): a write to content_pages, the frozen public-narrative
+ * DB store. The only sanctioned writers are the guarded CMS API routes below. */
+const CONTENT_PAGES_WRITE_RE =
+  /prisma\.content_pages\.(create|update|upsert|createMany|updateMany|delete|deleteMany)\b/;
+
 const failures = [];
 const fail = (msg) => failures.push(msg);
 
@@ -186,6 +194,25 @@ function runChecks() {
     }
   }
 
+  // 7. FREEZE (M0, handoff §16 "freeze new public-content writers in old producer
+  //    paths"; §27 "Old producer restores stale public facts"). content_pages is a
+  //    frozen store; a write outside the guarded CMS API routes is a NEW producer
+  //    writer and must fail — regardless of route.
+  const allowedWriters = new Set(CMS_API);
+  for (const file of walk(SRC_ROOT)) {
+    if (!/\.(ts|tsx|mjs)$/.test(file)) continue;
+    if (file.startsWith(GENERATED_DIR)) continue; // generated prisma types (doc comments)
+    if (allowedWriters.has(file)) continue;
+    const src = stripComments(readFileSync(file, "utf8"));
+    if (CONTENT_PAGES_WRITE_RE.test(src)) {
+      fail(
+        `${file.replace(REPO_ROOT + "/", "")}: writes content_pages outside the guarded CMS API ` +
+          `— content_pages is a FROZEN producer path (handoff §16). Public narrative is Git-owned ` +
+          `(content/pages/**); do not add a new writer.`,
+      );
+    }
+  }
+
   return routes;
 }
 
@@ -201,6 +228,12 @@ function selftest() {
     ["validated by INDECON membership", FORBIDDEN_CLAIMS[3].re, true],
     ["INDECON network listing", FORBIDDEN_CLAIMS[3].re, false],
     ["HPWKI, ISIC, INDECON partnerships", FORBIDDEN_CLAIMS[3].re, true],
+    // FREEZE matcher (check #7): content_pages writes vs reads.
+    ["await prisma.content_pages.upsert({", CONTENT_PAGES_WRITE_RE, true],
+    ["prisma.content_pages.update({ where: { id } })", CONTENT_PAGES_WRITE_RE, true],
+    ["prisma.content_pages.delete({ where: { id } })", CONTENT_PAGES_WRITE_RE, true],
+    ["const rows = await prisma.content_pages.findMany()", CONTENT_PAGES_WRITE_RE, false],
+    ["import { content_pages } from '@/generated'", CONTENT_PAGES_WRITE_RE, false],
   ];
   let ok = true;
   for (const [text, re, expected] of cases) {
@@ -214,7 +247,7 @@ function selftest() {
     console.error("[static-route-ownership] SELF-TEST FAILED — matcher gap");
     process.exit(1);
   }
-  console.log("[static-route-ownership] self-test PASS (10 matcher cases)");
+  console.log("[static-route-ownership] self-test PASS (15 matcher cases)");
 }
 
 if (process.argv.includes("--selftest")) {
