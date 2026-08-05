@@ -42,12 +42,13 @@ function sitemapRouteSet(appDir = APP_DIR) {
   collect(appDir);
   for (const f of files) {
     const text = readFileSync(f, "utf8");
+    // Only URLs the sitemap actually EMITS via url("…") count. Deliberately NOT the
+    // getContentPageLastModifiedMap([...]) lastmod list in sitemap.ts — a route can sit
+    // in that array yet be dropped from emission, and this gate must catch that (a
+    // compiled route silently missing from /sitemap.xml), not be fooled by it.
     const re = /url\(\s*["'](\/[^"']*)["']/g;
     let m;
     while ((m = re.exec(text))) set.add(m[1].replace(/\/$/, "") || "/");
-    // The orchestrator also lists routes as plain strings in getContentPageLastModifiedMap([...]).
-    const re2 = /["'](\/[a-z0-9/-]*)["']/g;
-    while ((m = re2.exec(text))) set.add(m[1].replace(/\/$/, "") || "/");
   }
   return set;
 }
