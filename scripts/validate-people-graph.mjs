@@ -1,29 +1,41 @@
 #!/usr/bin/env node
 /**
- * validate-people-graph.mjs — People trust-graph acceptance gates (Milestone 2 people cluster).
+ * validate-people-graph.mjs — People trust-graph acceptance gates (Milestone 2 groundwork).
  *
- * Deterministic, record-level checks against the ONE canonical people record
+ * Deterministic, RECORD-LEVEL checks against the ONE canonical people record
  * (content/entities/people.json) + the review-evidence source
  * (src/lib/publicContent/generated/reviewApiSnapshots.json). Pure Node (fs only).
+ * There is NO hardcoded people data here — every classification (published roster vs
+ * known-but-unpublished crew) is read from people.json.
  *
- * Gates implemented here (owner acceptance list):
+ * IMPLEMENTED here (record-level):
  *   1. operational crew count is exactly 11 = 7 guides + 4 drivers;
  *   2. no legacy "14" / "7 drivers" crew claim returns;
- *   3. leadership + medical partner never inflate the crew count (countsAsCrew:false,
- *      not present in the roster);
- *   4. every guide credential has matching evidence (kta.id + issuer + evidenceSource +
- *      credentialState=confirmed);
+ *   3. leadership + medical partner never inflate the crew count (countsAsCrew:false, not
+ *      in the roster);
+ *   4. every crew credential carries a KTA EVIDENCE-REFERENCE (id format + issuer +
+ *      evidenceSource + credentialState=confirmed) — this proves the reference is PRESENT
+ *      and well-formed, NOT that it was matched against a source record (no machine-readable
+ *      KTA source ships in this repo to compare against);
  *   5. HPWKI KTA is a MEMBERSHIP credential, never a "government licence";
- *   6. every crew name a review points to resolves to a real person (roster code or a
- *      known unpublished-pending crew) — no review names a nonexistent/mismatched person;
- *   9. no do-not-publish / private field appears on any published crew record (feed safety);
+ *   6. every crew name a review points to resolves through people.json (published roster
+ *      OR the explicit crew.unpublished classification) — no review names an unknown person,
+ *      and the resolver uses NO hardcoded exception list;
+ *   7. crew.unpublished entries are rendered:false + public:false and never appear in the
+ *      published roster (they must never reach a public surface);
+ *   8. canonical-record privacy allowlist: no do-not-publish/private field is present on a
+ *      published crew record;
  *  10. Mr. Sam (leadership) and Dr. Ahmad Irwandanu (medical partner) carry only supported
- *      relationships — never "employee"/"worksFor JVTO" for the doctor, and the police
+ *      relationships (never employee/worksFor-JVTO for the doctor) and the police
  *      non-endorsement disclaimer is present.
  *
- * Gates 7 (JSON-LD == visible) and 8 (FAQ == canonical records) are render-parity checks;
- * they are activated with the /team render cutover (a rendered-DOM snapshot compare) — this
- * script asserts the DATA the render must reproduce. `--selftest` proves the checks.
+ * DEFERRED to the separate Team render-cutover PR (people are not projected to the public
+ * feed and /team is not cut over in this PR):
+ *   - gate 7 (JSON-LD == visible profile content),
+ *   - gate 8 (FAQ == canonical records),
+ *   - gate 9 as FEED/RENDER privacy (private fields kept out of the projected feed + DOM).
+ *
+ * `--selftest` proves the checks.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -33,30 +45,28 @@ const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PEOPLE_PATH = join(REPO_ROOT, "content", "entities", "people.json");
 const REVIEWS_PATH = join(REPO_ROOT, "src", "lib", "publicContent", "generated", "reviewApiSnapshots.json");
 
-/** Crew known to exist but intentionally unpublished (KTA pending) — valid review targets. */
-const KNOWN_PENDING = ["yusuf", "dika", "pras"];
 const GOVT_LICENCE_RE = /government\s+licen[cs]e/i;
 const LEGACY_14_RE = /\b14\b\s*(?:crew|guides?|members?|\+)/i;
 const LEGACY_7_DRIVERS_RE = /\b7\s+drivers?\b/i;
 const PRIVATE_KEYS = ["phone", "personalInstagram", "personalFacebook", "homeAddress", "signature", "internalDbId", "package_id", "reviewerProfilePhoto"];
 
 const norm = (s) => String(s).trim().toLowerCase();
+const firstToken = (s) => norm(s).split(/[\s(]/)[0];
 
-/** Run all record-level checks. Returns { failures: string[] }. */
+/** Run all record-level checks. Returns { failures, checkedLinks }. */
 export function checkPeople(people, reviewsSnapshot) {
   const failures = [];
   const fail = (m) => failures.push(m);
   const crew = people?.crew;
   const roster = crew?.roster ?? [];
+  const unpublished = crew?.unpublished ?? [];
 
   // 1. count 11 / 7 / 4
   if (!(crew?.total === 11 && crew?.guides === 7 && crew?.drivers === 4))
     fail(`crew count must be 11/7/4, got total=${crew?.total} guides=${crew?.guides} drivers=${crew?.drivers}`);
   if (roster.length !== 11) fail(`roster must have 11 entries, got ${roster.length}`);
-  const guides = roster.filter((r) => r.role === "guide");
-  const drivers = roster.filter((r) => r.role === "driver");
-  if (guides.length !== 7) fail(`roster must have 7 guides, got ${guides.length}`);
-  if (drivers.length !== 4) fail(`roster must have 4 drivers, got ${drivers.length}`);
+  if (roster.filter((r) => r.role === "guide").length !== 7) fail(`roster must have 7 guides`);
+  if (roster.filter((r) => r.role === "driver").length !== 4) fail(`roster must have 4 drivers`);
 
   // 2. no legacy 14 / 7-driver claim anywhere in the record text
   const recordText = JSON.stringify(people);
@@ -75,37 +85,42 @@ export function checkPeople(people, reviewsSnapshot) {
     if (rosterCodes.has(norm(mp.id))) fail(`medicalPartner ${mp.id} must not appear in the crew roster`);
   }
 
-  // 4 + 5. per-guide (and driver) KTA evidence + membership-not-licence wording
+  // 4 (evidence-reference PRESENCE, not a source match) + 5 (membership-not-licence)
   for (const m of roster) {
     const k = m.kta;
     if (!k?.id || !k?.issuer || !k?.evidenceSource) fail(`crew ${m.code}: KTA lacks id/issuer/evidenceSource`);
     if (k?.credentialState !== "confirmed") fail(`crew ${m.code}: published crew must have KTA credentialState=confirmed`);
-    if (m.role === "guide" && !/^KTA-G-/.test(k?.id ?? "")) fail(`guide ${m.code}: KTA id must be a guide code (KTA-G-…)`);
-    if (m.role === "driver" && !/^KTA-D-/.test(k?.id ?? "")) fail(`driver ${m.code}: KTA id must be a driver code (KTA-D-…)`);
+    if (m.role === "guide" && !/^KTA-G-\d{4}-\d{3}$/.test(k?.id ?? "")) fail(`guide ${m.code}: KTA id must be a well-formed guide code (KTA-G-YYYY-NNN)`);
+    if (m.role === "driver" && !/^KTA-D-\d{4}-\d{3}$/.test(k?.id ?? "")) fail(`driver ${m.code}: KTA id must be a well-formed driver code (KTA-D-YYYY-NNN)`);
     if (!/member/i.test(k?.credentialType ?? "")) fail(`crew ${m.code}: KTA credentialType must state it is a membership credential`);
     if (GOVT_LICENCE_RE.test(k?.credentialType ?? "")) fail(`crew ${m.code}: KTA must NOT be described as a government licence`);
   }
   if (GOVT_LICENCE_RE.test(recordText)) fail(`the people record describes a KTA/HPWKI as a "government licence" — forbidden`);
 
-  // 6. every review-named crew resolves to a real person
-  const allowedNames = new Set([...roster.map((r) => norm(r.name)), ...KNOWN_PENDING]);
-  const allowedFirstWords = new Set([...roster.map((r) => norm(r.name).split(/[\s(]/)[0]), ...KNOWN_PENDING]);
+  // 7. unpublished crew are non-public / non-rendered and never in the published roster
+  for (const u of unpublished) {
+    if (u.rendered !== false || u.public !== false) fail(`unpublished crew ${u.code} must be rendered:false + public:false`);
+    if (rosterCodes.has(norm(u.code))) fail(`unpublished crew ${u.code} must NOT also appear in the published roster`);
+  }
+
+  // 6. every review-named crew resolves through people.json (roster OR explicit unpublished).
+  //    Resolution set is read from people.json — no hardcoded exception list.
+  const knownNames = new Set([...roster.map((r) => norm(r.name)), ...unpublished.map((u) => norm(u.name))]);
+  const knownFirst = new Set([...roster.map((r) => firstToken(r.name)), ...unpublished.map((u) => firstToken(u.name))]);
   const feed = reviewsSnapshot?.feed ?? [];
   let checkedLinks = 0;
   for (const rev of feed) {
     for (const c of rev.crews ?? []) {
       checkedLinks++;
-      const n = norm(c.name);
-      const first = n.split(/[\s(]/)[0];
-      if (!allowedNames.has(n) && !allowedFirstWords.has(first))
-        fail(`review ${rev.id} names crew "${c.name}" that resolves to no known person`);
+      if (!knownNames.has(norm(c.name)) && !knownFirst.has(firstToken(c.name)))
+        fail(`review ${rev.id} names crew "${c.name}" that resolves to no person in people.json`);
     }
   }
 
-  // 9. no private field key on a published crew record
+  // 8. canonical-record privacy allowlist (feed/render privacy is deferred to the Team cutover)
   for (const m of roster) {
     for (const key of PRIVATE_KEYS) {
-      if (Object.prototype.hasOwnProperty.call(m, key)) fail(`crew ${m.code}: private field "${key}" must not be published`);
+      if (Object.prototype.hasOwnProperty.call(m, key)) fail(`crew ${m.code}: private field "${key}" must not be on the canonical record`);
     }
   }
 
@@ -116,8 +131,6 @@ export function checkPeople(people, reviewsSnapshot) {
   if (!disc?.directManagedCrew || /employee|full-time|exclusive/i.test(disc.directManagedCrew))
     fail(`direct-managed-crew claim must not assert employee/full-time/exclusive`);
   if (mp) {
-    // Only a POSITIVE employment assertion is forbidden — the `relationship`/`worksFor`
-    // fields, not the word "employee" inside a disclaimer like "Not an employee…".
     if (/employee|works?.?for/i.test(String(mp.relationship ?? ""))) fail(`medical partner relationship must not assert employment`);
     if (mp.worksFor && /jvto|java volcano/i.test(String(mp.worksFor))) fail(`medical partner must not assert worksFor JVTO`);
   }
@@ -134,15 +147,17 @@ function selftest() {
     console.log(`  ${cond ? "ok  " : "FAIL"}  ${label}`);
     if (!cond) ok = false;
   };
+  const kta = (p) => ({ id: `KTA-${p}-2024-001`, issuer: "HPWKI", evidenceSource: "OKF", credentialState: "confirmed", credentialType: "HPWKI membership credential (KTA)" });
   const good = {
     disclaimer: { policeIndependence: "JVTO is a private tour operator; no endorsement by police or government.", directManagedCrew: "assigned and managed directly by JVTO, not sourced ad hoc" },
     leadership: [{ id: "agung-sambuko", name: "Agung Sambuko", relationship: "leadership", roles: ["Founder"], countsAsCrew: false }],
     medicalPartner: { id: "dr-x", name: "Dr X", relationship: "medical-screening-coordination", countsAsCrew: false },
     crew: {
       total: 11, guides: 7, drivers: 4,
+      unpublished: [{ code: "yusuf", name: "Yusuf", role: "driver", rendered: false, public: false }],
       roster: [
-        ...Array.from({ length: 7 }, (_, i) => ({ code: `g${i}`, name: `Guide${i}`, role: "guide", kta: { id: "KTA-G-2024-001", issuer: "HPWKI", evidenceSource: "OKF", credentialState: "confirmed", credentialType: "HPWKI membership credential (KTA)" } })),
-        ...Array.from({ length: 4 }, (_, i) => ({ code: `d${i}`, name: `Driver${i}`, role: "driver", kta: { id: "KTA-D-2024-001", issuer: "HPWKI", evidenceSource: "OKF", credentialState: "confirmed", credentialType: "HPWKI membership credential (KTA)" } })),
+        ...Array.from({ length: 7 }, (_, i) => ({ code: `g${i}`, name: `Guide${i}`, role: "guide", kta: kta("G") })),
+        ...Array.from({ length: 4 }, (_, i) => ({ code: `d${i}`, name: `Driver${i}`, role: "driver", kta: kta("D") })),
       ],
     },
   };
@@ -151,14 +166,14 @@ function selftest() {
   check(checkPeople({ ...good, crew: { ...good.crew, total: 14, guides: 7, drivers: 7 } }, feed).failures.length > 0, "14/7-driver count fails");
   check(checkPeople({ ...good, crew: { ...good.crew, roster: good.crew.roster.map((r, i) => (i === 0 ? { ...r, kta: { ...r.kta, credentialType: "government licence" } } : r)) } }, feed).failures.length > 0, "KTA as government licence fails");
   check(checkPeople({ ...good, leadership: [{ ...good.leadership[0], countsAsCrew: true }] }, feed).failures.length > 0, "leadership counted as crew fails");
-  check(checkPeople(good, { feed: [{ id: 9, crews: [{ name: "Nobody" }] }] }).failures.length > 0, "review naming nonexistent person fails");
-  const withPrivate = { ...good, crew: { ...good.crew, roster: good.crew.roster.map((r, i) => (i === 0 ? { ...r, phone: "+62..." } : r)) } };
-  check(checkPeople(withPrivate, feed).failures.length > 0, "private field on crew fails");
+  check(checkPeople(good, { feed: [{ id: 9, crews: [{ name: "Nobody" }] }] }).failures.length > 0, "review naming a person absent from people.json fails");
+  check(checkPeople({ ...good, crew: { ...good.crew, unpublished: [{ code: "g0", name: "Yusuf", role: "driver", rendered: false, public: false }] } }, feed).failures.length > 0, "unpublished crew that is also in the roster fails");
+  check(checkPeople({ ...good, crew: { ...good.crew, roster: good.crew.roster.map((r, i) => (i === 0 ? { ...r, phone: "+62..." } : r)) } }, feed).failures.length > 0, "private field on crew fails");
   if (!ok) {
     console.error("[people-graph] SELF-TEST FAILED");
     process.exit(1);
   }
-  console.log("[people-graph] self-test PASS (6 cases)");
+  console.log("[people-graph] self-test PASS (7 cases)");
 }
 
 if (process.argv.includes("--selftest")) {
@@ -180,6 +195,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(
-  `[people-graph] PASS — 11 crew (7 guides + 4 drivers), leadership + medical partner separate, ` +
-    `${checkedLinks} review→person links all resolve, KTA membership-not-licence, privacy allowlist clean.`,
+  `[people-graph] PASS (record-level) — 11 crew (7 guides + 4 drivers); leadership + medical partner separate; ` +
+    `KTA evidence-reference presence + membership-not-licence; ${checkedLinks} review→person links checked, all resolve via people.json; ` +
+    `canonical-record privacy allowlist clean. Feed/render/JSON-LD/FAQ parity gates DEFERRED to the Team cutover PR.`,
 );

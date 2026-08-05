@@ -271,6 +271,18 @@ export const PeopleEntitySchema = z
       guides: z.int().positive(),
       drivers: z.int().positive(),
       roster: z.array(CrewMemberSchema).min(1),
+      /** Known-but-unpublished crew (e.g. KTA pending) — never rendered/public/fed/JSON-LD. */
+      unpublished: z
+        .array(
+          z.looseObject({
+            code: z.string().regex(/^[a-z0-9-]+$/),
+            name: z.string().min(1),
+            role: z.enum(["guide", "driver"]),
+            rendered: z.literal(false),
+            public: z.literal(false),
+          }),
+        )
+        .optional(),
     }),
   })
   .superRefine((p, ctx) => {
