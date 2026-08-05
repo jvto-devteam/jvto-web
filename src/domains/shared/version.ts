@@ -22,5 +22,17 @@ export interface SourceProvenance {
   generatedAt?: ISODateTime;
 }
 
-export const isEffectiveAt = (ref: VersionRef, at: ISODateTime): boolean =>
-  ref.effectiveFrom <= at && (ref.effectiveTo === undefined || at < ref.effectiveTo);
+/**
+ * True when `at` falls in `[effectiveFrom, effectiveTo)`. Compares parsed INSTANTS,
+ * not raw strings — RFC 3339 offsets (`+08:00` vs `Z`) make lexicographic comparison
+ * order the wrong instant, and these refs gate product/price/policy versions.
+ */
+export function isEffectiveAt(ref: VersionRef, at: ISODateTime): boolean {
+  const t = Date.parse(at);
+  const from = Date.parse(ref.effectiveFrom);
+  const to = ref.effectiveTo === undefined ? undefined : Date.parse(ref.effectiveTo);
+  if (Number.isNaN(t) || Number.isNaN(from) || (to !== undefined && Number.isNaN(to))) {
+    throw new TypeError("isEffectiveAt: unparseable ISODateTime");
+  }
+  return from <= t && (to === undefined || t < to);
+}

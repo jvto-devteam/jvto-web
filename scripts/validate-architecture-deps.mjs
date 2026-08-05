@@ -92,9 +92,14 @@ function walk(dir) {
 
 function importsOf(text) {
   const out = [];
-  const re = /(?:from|import)\s+["']([^"']+)["']/g;
+  // static: `import x from "y"`, `export … from "y"`, bare `import "y"`.
+  const staticRe = /(?:from|import)\s+["']([^"']+)["']/g;
+  // dynamic: `import("y")` / `await import("y")` — a forbidden dep hidden here must
+  // still be caught, or the gate can pass while a boundary is violated.
+  const dynRe = /\bimport\s*\(\s*["']([^"']+)["']\s*\)/g;
   let m;
-  while ((m = re.exec(text))) out.push(m[1]);
+  while ((m = staticRe.exec(text))) out.push(m[1]);
+  while ((m = dynRe.exec(text))) out.push(m[1]);
   return out;
 }
 
@@ -145,11 +150,19 @@ function selftest() {
       console.error(`✗ SELF-TEST: ${imp} → ${imported} expected fail=${shouldFail}, got ${got}`);
     }
   }
+  // importsOf must capture BOTH static and dynamic imports.
+  const parsed = importsOf('import a from "@/x";\nawait import("@/app/foo");\nconst y = import ( "@/lib/prisma" );');
+  for (const need of ["@/x", "@/app/foo", "@/lib/prisma"]) {
+    if (!parsed.includes(need)) {
+      ok = false;
+      console.error(`✗ SELF-TEST: importsOf missed "${need}" (static/dynamic parse gap)`);
+    }
+  }
   if (!ok) {
     console.error("[architecture-deps] SELF-TEST FAILED");
     process.exit(1);
   }
-  console.log(`[architecture-deps] self-test PASS (${cases.length} cases)`);
+  console.log(`[architecture-deps] self-test PASS (${cases.length} boundary cases + static/dynamic import parse)`);
 }
 
 if (process.argv.includes("--selftest")) {

@@ -107,13 +107,51 @@ async function main() {
     check(after.processed === 0 && after.failed === 0, "dead event no longer retried");
   }
 
-  // 6. Unregistered event type is skipped, not lost.
+  // 6. Unregistered event type is deferred (parked), not lost, not left blocking.
   {
     const store = new InMemoryOutboxStore();
     await store.append(evt("e4", "trip.ready"));
     const worker = new OutboxWorker(store); // no handler
     const r = await worker.runOnce();
-    check(r.skipped === 1 && store.byStatus("pending").length === 1, "no handler → skipped, stays pending");
+    check(
+      r.skipped === 1 && store.byStatus("deferred").length === 1 && store.byStatus("pending").length === 0,
+      "no handler → deferred (parked), not left pending",
+    );
+  }
+
+  // 7. Deferred events do not starve later handled events (head-of-line blocking).
+  {
+    const store = new InMemoryOutboxStore();
+    let calls = 0;
+    const worker = new OutboxWorker(store, { batchSize: 1 }).register("deposit.paid", async () => {
+      calls += 1;
+    });
+    await store.append(evt("unknown", "trip.ready")); // no handler, enqueued first
+    await store.append(evt("known", "deposit.paid")); // handled, behind it
+    await worker.runOnce(); // claims the unknown (batchSize 1) → deferred
+    await worker.runOnce(); // now claims the handled event → processed
+    check(
+      calls === 1 && store.byStatus("processed").length === 1,
+      "handled event not starved by an unhandled one ahead of it (batchSize 1)",
+    );
+  }
+
+  // 8. A handler registered later reactivates its deferred events.
+  {
+    const store = new InMemoryOutboxStore();
+    let calls = 0;
+    const worker = new OutboxWorker(store);
+    await store.append(evt("late", "crew.assigned"));
+    await worker.runOnce(); // no handler yet → deferred
+    check(store.byStatus("deferred").length === 1, "event deferred while no handler");
+    worker.register("crew.assigned", async () => {
+      calls += 1;
+    });
+    await worker.runOnce(); // reactivate + process
+    check(
+      calls === 1 && store.byStatus("processed").length === 1,
+      "late-registered handler reactivates + processes deferred event",
+    );
   }
 
   if (failed) {
