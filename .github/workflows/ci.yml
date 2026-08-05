@@ -85,6 +85,14 @@ jobs:
         # blanket **/*.md that sweeps in served content Markdown) fails here.
         run: bash scripts/ci/docs-only-selftest.sh
 
+      - name: Deploy script self-test (blocking)
+        # Asserts scripts/ops/deploy-jvto-help.sh invariants so they can't regress:
+        # pm2 is resolved BEFORE `nvm use 20` (default-Node global drop bug), PM2_BIN
+        # is absolute+executable, the SHA is 40-hex and must equal origin/main
+        # (fail-closed), flock serialization, no `git clean`, build-before-restart,
+        # $PM2_BIN --update-env restart, and no `pm2 update`.
+        run: npm run test:deploy-script
+
       - name: Milestone 0 baseline gates (blocking)
         # (1) Canonical checkout Ijen-notice self-test — mandatory wording present,
         # Ijen-only targeting, retired wording absent. (2) Authority/consumer

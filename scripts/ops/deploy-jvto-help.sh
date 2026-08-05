@@ -49,14 +49,26 @@ if ! flock -n 9; then
   die "another jvto-help deploy holds $LOCK_FILE; aborting" 3
 fi
 
-# ── 3. Node 20 via root's nvm (Next.js 16 needs >=20.9; box default is 18) ────
+# ── 3. Resolve pm2 BEFORE switching Node, THEN select Node 20 ────────────────
+# ORDER IS LOAD-BEARING (asserted by scripts/ci/deploy-script-selftest.sh):
+# pm2 is a global binary from the box's DEFAULT Node (18). `nvm use 20` can drop
+# that global from PATH, so we must capture pm2's ABSOLUTE path FIRST — while the
+# default env still has it — and call it by that absolute path at restart. If we
+# resolved pm2 AFTER `nvm use 20`, the restart could become command-not-found even
+# after a green build (the exact bug the proven manual deploy avoids).
 # shellcheck disable=SC1091
 if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; else die "nvm not found at $NVM_DIR/nvm.sh" 5; fi
-nvm use 20 >/dev/null || die "nvm use 20 failed (is Node 20 installed on the box?)" 5
-# Resolve pm2 once, now (before any PATH change), and call it by absolute path so
-# the restart can't become command-not-found.
+# (a) resolve + validate pm2 in the pre-switch env
 PM2_BIN="$(command -v pm2 || true)"
-[ -n "$PM2_BIN" ] || die "pm2 not found on PATH" 5
+if [ -z "$PM2_BIN" ] || [ ! -x "$PM2_BIN" ]; then
+  die "pm2 not found as an executable on PATH before 'nvm use 20' (is pm2 installed globally on the box?)" 5
+fi
+case "$PM2_BIN" in
+  /*) : ;;                                       # absolute path — required
+  *) die "resolved pm2 path '$PM2_BIN' is not absolute" 5 ;;
+esac
+# (b) only now switch Node for the build (Next.js 16 needs >=20.9; box default 18)
+nvm use 20 >/dev/null || die "nvm use 20 failed (is Node 20 installed on the box?)" 5
 
 cd "$DEPLOY_DIR" || die "cannot cd to $DEPLOY_DIR" 6
 
