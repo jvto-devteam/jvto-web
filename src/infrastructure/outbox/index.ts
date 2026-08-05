@@ -14,7 +14,8 @@ import type { Logger } from "../observability";
 
 export interface OutboxRecord {
   event: DomainEvent;
-  status: "pending" | "processed" | "dead";
+  /** `deferred` = no handler registered yet; parked so it can't starve the batch. */
+  status: "pending" | "processed" | "dead" | "deferred";
   attempts: number;
   lastError?: string;
 }
@@ -22,11 +23,15 @@ export interface OutboxRecord {
 export interface OutboxStore {
   /** Idempotent enqueue — a duplicate eventId is ignored (append-once). */
   append(event: DomainEvent): Promise<void>;
-  /** Claim up to `limit` pending records for processing. */
+  /** Claim up to `limit` PENDING records for processing (deferred/dead excluded). */
   claimBatch(limit: number): Promise<OutboxRecord[]>;
   markProcessed(eventId: string): Promise<void>;
   /** Record a failed attempt; when attempts reach `maxAttempts`, mark dead. */
   markFailed(eventId: string, error: string, maxAttempts: number): Promise<void>;
+  /** Park a record with no registered handler so it stops being re-claimed. */
+  markDeferred(eventId: string): Promise<void>;
+  /** Return deferred records of `eventType` to pending (a handler now exists). */
+  reactivate(eventType: string): Promise<number>;
 }
 
 export class InMemoryOutboxStore implements OutboxStore {
@@ -54,6 +59,20 @@ export class InMemoryOutboxStore implements OutboxStore {
     r.attempts += 1;
     r.lastError = error;
     if (r.attempts >= maxAttempts) r.status = "dead";
+  }
+  async markDeferred(eventId: string): Promise<void> {
+    const r = this.records.get(eventId);
+    if (r && r.status === "pending") r.status = "deferred";
+  }
+  async reactivate(eventType: string): Promise<number> {
+    let n = 0;
+    for (const r of this.records.values()) {
+      if (r.status === "deferred" && r.event.eventType === eventType) {
+        r.status = "pending";
+        n += 1;
+      }
+    }
+    return n;
   }
   /** Test/inspection helpers. */
   all(): OutboxRecord[] {
@@ -110,6 +129,8 @@ export class OutboxWorker {
   /** Process one batch. Respects the `outbox-worker` flag (OFF ⇒ no-op). */
   async runOnce(): Promise<{ processed: number; failed: number; skipped: number }> {
     if (!isEnabled("outbox-worker")) return { processed: 0, failed: 0, skipped: 0 };
+    // A handler may have been registered since a record was deferred — reclaim those.
+    for (const type of this.handlers.keys()) await this.store.reactivate(type);
     let processed = 0;
     let failed = 0;
     let skipped = 0;
@@ -117,7 +138,10 @@ export class OutboxWorker {
       const handler = this.handlers.get(record.event.eventType);
       if (!handler) {
         skipped += 1;
-        continue; // no handler registered → leave pending
+        // Park it: without this, unhandled events sit pending at the head of the
+        // batch and starve later handled events (head-of-line blocking).
+        await this.store.markDeferred(record.event.eventId);
+        continue;
       }
       try {
         await handler(record.event);
