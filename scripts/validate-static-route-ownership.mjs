@@ -71,7 +71,7 @@ const FROZEN = [
     allowed: new Set(["scripts/sync-cms-seed.mjs", "scripts/validate-static-route-ownership.mjs"]),
   },
   {
-    id: "legacy narrative snapshots (pageSnapshots.ts / publicContent/generated)",
+    id: "narrative snapshots + compiled knowledge (pageSnapshots.ts / publicContent/generated)",
     hit: (src) => WRITE_OP_RE.test(src) && SNAPSHOT_PATH_RE.test(src),
     allowed: new Set([
       "scripts/export-public-review-snapshots.mjs",
@@ -80,6 +80,8 @@ const FROZEN = [
       "scripts/export-public-faq-snapshots.mjs",
       "scripts/export-public-review-api-snapshots.mjs",
       "scripts/export-public-list-snapshots.mjs",
+      // Milestone 2 Public Knowledge Compiler — sole writer of public-knowledge.json.
+      "scripts/compile-public-knowledge.ts",
       "scripts/validate-content-drift.mjs",
       "scripts/validate-static-route-ownership.mjs",
     ]),
