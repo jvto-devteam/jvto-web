@@ -100,8 +100,32 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           RUN_ID: ${{ github.event.workflow_run.id }}
+          WF_NAME: ${{ github.event.workflow_run.name }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
+          # Stale-deploy guard (deploy only). A re-run replays the run's ORIGINAL
+          # github.sha, and deploy.yml does `git reset --hard "$APP_COMMIT_SHA"`.
+          # If main advanced past this run's head_sha before recovery fired,
+          # re-running would roll the help box BACK to superseded code. So for
+          # "Deploy to VPS" only, retry ONLY when head_sha is the confirmed
+          # current default-branch tip; otherwise skip and let the newer commit's
+          # own deploy land. Fail CLOSED — if the tip can't be confirmed, skip
+          # (no rollback risk) and leave it to the owner. build-develop rebuilds a
+          # PR head in an isolated dir with no rollback risk, so it is exempt.
+          if [ "$WF_NAME" = "Deploy to VPS" ]; then
+            CURRENT_MAIN="$(gh api "repos/${GH_REPO}/commits/${DEFAULT_BRANCH}" --jq .sha 2>/dev/null || true)"
+            if [ -z "$CURRENT_MAIN" ] || [ "$CURRENT_MAIN" != "$HEAD_SHA" ]; then
+              REASON="superseded by ${DEFAULT_BRANCH} ${CURRENT_MAIN:-<unresolved>}"
+              echo "::notice::CI Recovery skipped the retry: deploy run head ${HEAD_SHA} is ${REASON}. Re-running would risk deploying stale code; the current tip's own deploy will land instead."
+              {
+                echo "";
+                echo "**Retry skipped — stale/unconfirmed deploy SHA.** This run's head \`${HEAD_SHA}\` is ${REASON}. Re-running a timed-out deploy replays its original SHA (\`git reset --hard\`), which could roll the help box back to superseded code, so no automatic retry was issued. Re-run the CURRENT tip's deploy manually if it did not land.";
+              } >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          fi
           echo "Transient SSH transport timeout on attempt 1 → re-running failed jobs exactly once."
           gh api -X POST "repos/${GH_REPO}/actions/runs/${RUN_ID}/rerun-failed-jobs"
           echo "::notice::CI Recovery re-ran failed jobs once for run ${RUN_ID} (SSH_TCP_TIMEOUT, attempt 1). The re-run's own completion re-enters this workflow at attempt 2, which is never retried."

@@ -74,14 +74,15 @@
     "SSH_TCP_TIMEOUT": {
       "transient": true,
       "maxRetry": 1,
-      "description": "The SSH client could not establish the TCP connection to the box before the remote command ran (e.g. `dial tcp ***:22: i/o timeout`). This is a transport-layer blip — the box may be momentarily unreachable or the runner had a network hiccup. Eligible for exactly ONE bounded automatic re-run, only on run_attempt 1.",
+      "description": "The SSH client could not establish the TCP connection to the box before the remote command ran (e.g. `dial tcp ***:22: i/o timeout`). This is a transport-layer blip — the box may be momentarily unreachable or the runner had a network hiccup. Eligible for exactly ONE bounded automatic re-run, only on run_attempt 1. Matchers are deliberately SSH/port-22-anchored (`dial tcp` is the appleboy SSH dialer; the rest carry `:22`/`port 22`/`ssh:`): a generic non-SSH timeout in the CI `verify` job (npm registry / test / download) must NOT satisfy this class and trigger a retry — those fall to REMOTE_BUILD or UNKNOWN.",
       "matchers": [
         "dial tcp",
         ":22: i/o timeout",
-        "i/o timeout",
-        "connection timed out",
-        "ssh: connect to host",
-        "operation timed out"
+        ":22: connection timed out",
+        ":22: operation timed out",
+        "port 22: connection timed out",
+        "port 22: operation timed out",
+        "ssh: connect to host"
       ],
       "ownerAction": "Transient SSH transport timeout (could not reach the box before the remote command ran). The recovery workflow re-runs the failed jobs exactly once on run_attempt 1. If it recurs on attempt >= 2, the box is likely genuinely unreachable on :22 — verify the VPS is up, port 22 is open to GitHub runner egress, then re-run the deploy manually."
     },

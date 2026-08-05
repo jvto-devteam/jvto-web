@@ -156,6 +156,9 @@ const SELFTEST_CASES = [
   { fixture: "deploy-proof.log", attempt: 1, expectClass: "DEPLOY_PROOF", expectRetry: false },
   { fixture: "database-infra.log", attempt: 1, expectClass: "DATABASE_INFRA", expectRetry: false },
   { fixture: "unknown.log", attempt: 1, expectClass: "UNKNOWN", expectRetry: false },
+  // Codex P2 guard: a generic CI network timeout (no SSH/port-22 marker) must NOT
+  // be SSH_TCP_TIMEOUT and must never trigger a retry, even on attempt 1.
+  { fixture: "ci-generic-timeout.log", attempt: 1, expectClass: "UNKNOWN", expectRetry: false },
 ];
 
 function selftest() {

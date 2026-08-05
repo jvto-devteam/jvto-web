@@ -1,0 +1,6 @@
+2026-08-05T16:20:00.0000000Z Run npm run validate:okf
+2026-08-05T16:20:01.0000000Z Fetching remote reference data ...
+2026-08-05T16:20:31.0000000Z Error: request to https://example.invalid/data.json failed
+2026-08-05T16:20:31.1000000Z reason: connect ETIMEDOUT — the operation timed out
+2026-08-05T16:20:31.2000000Z (a generic connection timed out, NOT an SSH/port-22 transport failure)
+2026-08-05T16:20:31.9000000Z ##[error]Process completed with exit code 1.
