@@ -56,6 +56,12 @@ fi
 # default env still has it — and call it by that absolute path at restart. If we
 # resolved pm2 AFTER `nvm use 20`, the restart could become command-not-found even
 # after a green build (the exact bug the proven manual deploy avoids).
+# nounset (-u) is turned OFF only across the nvm load + node select: nvm.sh
+# references unset vars (MANPATH/PREFIX/...) while sourcing, so `set -u` across it
+# would abort the deploy on any environment where those are unset (the removed
+# workflow kept -u off here for exactly this reason). It is re-enabled right after
+# `nvm use 20`, before the git/build/restart steps. Order asserted by the self-test.
+set +u
 # shellcheck disable=SC1091
 if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; else die "nvm not found at $NVM_DIR/nvm.sh" 5; fi
 # (a) resolve + validate pm2 in the pre-switch env
@@ -69,6 +75,8 @@ case "$PM2_BIN" in
 esac
 # (b) only now switch Node for the build (Next.js 16 needs >=20.9; box default 18)
 nvm use 20 >/dev/null || die "nvm use 20 failed (is Node 20 installed on the box?)" 5
+# re-enable nounset for the remaining git / build / restart steps
+set -u
 
 cd "$DEPLOY_DIR" || die "cannot cd to $DEPLOY_DIR" 6
 

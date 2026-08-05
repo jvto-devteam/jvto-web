@@ -70,5 +70,18 @@ if noncomment | grep -qE 'pm2 update'; then bad "must not run 'pm2 update'"; els
 # 9. strict mode.
 grep -qE '^set -euo pipefail' "$SCRIPT" && ok "bash strict mode" || bad "missing 'set -euo pipefail'"
 
+# 10. nounset turned OFF across the nvm load (nvm.sh references unset vars while
+#     sourcing), then re-enabled after `nvm use 20` (Codex P1). Required order:
+#     set +u  <  . nvm.sh  <  nvm use 20  <  set -u.
+plusu_line="$(line_of '^[[:space:]]*set \+u')"
+src_line="$(line_of 'nvm\.sh"')"
+reu_line="$(line_of '^[[:space:]]*set -u$')"
+if [ -n "$plusu_line" ] && [ -n "$src_line" ] && [ -n "$reu_line" ] && [ -n "$nvm_line" ] \
+   && [ "$plusu_line" -lt "$src_line" ] && [ "$nvm_line" -lt "$reu_line" ]; then
+  ok "nounset OFF (set +u line $plusu_line) before nvm source (line $src_line); re-enabled (set -u line $reu_line) after 'nvm use 20' (line $nvm_line)"
+else
+  bad "nounset must be OFF across the nvm load: set +u before source, set -u after 'nvm use 20' (plusu=${plusu_line:-none} src=${src_line:-none} nvm=${nvm_line:-none} reu=${reu_line:-none})"
+fi
+
 if [ "$fail" -ne 0 ]; then echo "[deploy-script-selftest] FAIL"; exit 1; fi
 echo "[deploy-script-selftest] PASS"
