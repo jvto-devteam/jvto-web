@@ -1950,3 +1950,32 @@ model narrative_claims {
 
   @@index([primary_page])
 }
+
+/// Transactional outbox (Milestone 1, handoff §7.7). Business state + the outbox
+/// event are written in ONE transaction; a leased worker drains it at-least-once
+/// with idempotent handlers. Additive; worker stays disabled at runtime.
+model domain_outbox {
+  id                BigInt    @id @default(autoincrement())
+  event_id          String    @unique @db.VarChar(64)
+  event_type        String    @db.VarChar(120)
+  aggregate_type    String    @db.VarChar(120)
+  aggregate_id      String    @db.VarChar(64)
+  aggregate_version Int
+  occurred_at       DateTime  @db.Timestamptz(6)
+  correlation_id    String    @db.VarChar(64)
+  causation_id      String?   @db.VarChar(64)
+  actor_id          String?   @db.VarChar(64)
+  payload           Json      @db.JsonB
+  schema_version    Int       @default(1)
+  status            String    @default("pending") @db.VarChar(20)
+  attempts          Int       @default(0)
+  available_at      DateTime  @default(now()) @db.Timestamptz(6)
+  locked_at         DateTime? @db.Timestamptz(6)
+  locked_by         String?   @db.VarChar(64)
+  processed_at      DateTime? @db.Timestamptz(6)
+  last_error        String?   @db.Text
+  created_at        DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([status, available_at], map: "idx_domain_outbox_pending")
+  @@index([locked_at], map: "idx_domain_outbox_locked_at")
+}

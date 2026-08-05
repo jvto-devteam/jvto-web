@@ -101,9 +101,15 @@ jobs:
       - name: Milestone 1 architecture gates (blocking)
         # (1) Architecture dependency gate — blocks forbidden cross-domain / cross-layer
         # imports in the new modular tree (src/domains, src/application, src/infrastructure).
-        # (2) Outbox integration test — atomic unit-of-work, exactly-once, idempotent
-        # re-run, dedup, retry→dead-letter, flag-off no-op (handoff §7.7). In-memory;
-        # the physical domain_outbox table is a later owner-gated migration.
+        # (2) Outbox self-test (in-memory adapter) — atomic unit-of-work, at-least-once
+        # delivery with an idempotent consumer, dedup, retry→dead-letter, deferred/
+        # anti-starvation, flag-off no-op (handoff §7.7). The DURABLE Prisma-backed store
+        # (src/infrastructure/outbox/prisma-outbox.ts) + its additive domain_outbox table
+        # (prisma/schema.prisma + sql/2026-08-05_domain_outbox.sql) ship in this PR but the
+        # worker stays disabled at runtime; the two-way-rollback / concurrency / dead-letter
+        # proof runs against a real Postgres out-of-band via `npm run test:outbox:db`
+        # (needs a local Postgres server build + root, so it is not wired into this
+        # non-privileged required gate). The table is applied by an owner-gated migration.
         run: |
           npm run validate:architecture
           npm run test:outbox

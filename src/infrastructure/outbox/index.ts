@@ -1,12 +1,16 @@
 /**
- * Transactional outbox — interface + in-memory store + worker skeleton (handoff §7.7,
- * §16 M1). Milestone 1: NO database. Business state + the outbox event are written in
- * one unit of work; a worker drains events with bounded retries + idempotent handlers,
- * dead-lettering after max attempts. The worker is gated by the `outbox-worker` flag
- * (OFF by default → importing this changes no runtime behavior).
+ * Outbox interface + worker + IN-MEMORY TEST ADAPTER (handoff §7.7, §16 M1).
  *
- * The durable Prisma-backed `domain_outbox` table is deferred to a later owner-gated
- * migration (§14.2/§14.3). This module defines the contract the DB impl will satisfy.
+ * The DURABLE, transactional store lives in `./prisma-outbox` (`PrismaOutboxStore` +
+ * `runInOutboxTransaction`), where the business mutation and the outbox event share one
+ * Prisma `$transaction`. This module holds only the shared `OutboxStore` contract, the
+ * `OutboxWorker`, and `InMemoryOutboxStore` — a **test adapter**, not proof of a durable
+ * transactional outbox.
+ *
+ * Delivery semantics: **at-least-once**. A leased worker may re-deliver after a crash,
+ * so handlers must be **idempotent**; `event_id` is unique so enqueue is append-once.
+ * The worker is gated by the `outbox-worker` flag (OFF by default → importing this
+ * changes no runtime behavior).
  */
 import type { DomainEvent } from "../../domains/shared/events";
 import { isEnabled } from "../flags";
@@ -34,6 +38,7 @@ export interface OutboxStore {
   reactivate(eventType: string): Promise<number>;
 }
 
+/** In-memory OutboxStore — a TEST ADAPTER only (no durability, no real transaction). */
 export class InMemoryOutboxStore implements OutboxStore {
   private readonly records = new Map<string, OutboxRecord>();
 
@@ -86,9 +91,10 @@ export class InMemoryOutboxStore implements OutboxStore {
 export type EventHandler = (event: DomainEvent) => Promise<void>;
 
 /**
- * Atomic unit of work (§7.7 "one database transaction"). In M1 the store is
- * in-memory; the same shape wraps a real Prisma `$transaction` later. If either the
- * business mutation or the append throws, neither is applied (all-or-nothing).
+ * In-memory unit-of-work helper for the TEST ADAPTER only. This is NOT a database
+ * transaction — the real two-way-rollback boundary is `runInOutboxTransaction` in
+ * `./prisma-outbox` (one Prisma `$transaction`). Here, if `mutate` throws, nothing is
+ * enqueued; there is no business state to roll back because the store is in-memory.
  */
 export async function withOutbox(
   store: OutboxStore,

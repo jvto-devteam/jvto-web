@@ -66,7 +66,7 @@ async function main() {
     check(threw && store.all().length === 0, "mutation throws → no event enqueued (rollback)");
   }
 
-  // 3. Exactly-once + idempotent re-run.
+  // 3. Idempotent consumer: a processed event is not re-processed on re-run.
   {
     const store = new InMemoryOutboxStore();
     let calls = 0;
@@ -76,8 +76,8 @@ async function main() {
     await store.append(evt("e2", "deposit.paid"));
     const first = await worker.runOnce();
     const second = await worker.runOnce();
-    check(first.processed === 1 && calls === 1, "handler runs exactly once");
-    check(second.processed === 0 && calls === 1, "re-run does not re-process (idempotent)");
+    check(first.processed === 1 && calls === 1, "handler runs once, then event is marked processed");
+    check(second.processed === 0 && calls === 1, "processed event not re-processed on re-run (idempotent consumer)");
     check(store.byStatus("processed").length === 1, "event marked processed");
   }
 

@@ -35,7 +35,8 @@
     "baseline:manifest-check": "npm run baseline:manifest && git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md",
     "test:manifest": "tsx scripts/ci/manifest-selftest.ts",
     "validate:architecture": "node scripts/validate-architecture-deps.mjs",
-    "test:outbox": "tsx scripts/ci/outbox-selftest.ts"
+    "test:outbox": "tsx scripts/ci/outbox-selftest.ts",
+    "test:outbox:db": "bash scripts/ci/run-outbox-db-itest.sh"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
