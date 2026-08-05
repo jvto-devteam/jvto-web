@@ -1,5 +1,19 @@
 name: Deploy to VPS
 
+# Help/preview deploy runs on a DEDICATED SELF-HOSTED RUNNER on the VPS
+# (label `jvto-help-deploy`), replacing the former inbound GitHub -> VPS SSH
+# action. There is NO SSH connection from GitHub to the box and no inbound
+# host/user/key deploy secrets at all: the runner pulls the job locally and
+# invokes a single, fixed, root-owned, sudoers-restricted deploy script. The
+# runner process itself runs as the unprivileged `jvto-deploy` user and escalates
+# ONLY to run `/usr/local/sbin/deploy-jvto-help <sha>` via a narrow sudoers rule.
+# /api/build-info + scripts/smoke-why-jvto.mjs remain the deployment proof.
+#
+# Only this workflow requests the `jvto-help-deploy` label, and it triggers only
+# on push-to-main + workflow_dispatch — never on pull_request. So PR CI (verify /
+# outbox-db / build-develop, all `ubuntu-latest`) never runs on the self-hosted
+# runner.
+
 on:
   push:
     branches:
@@ -19,78 +33,80 @@ on:
       - '*.md'
       - 'docs/**'
   workflow_dispatch:   # allow manual re-run of the help/develop deploy on demand
+    inputs:
+      deploy_sha:
+        description: >-
+          Optional 40-char lowercase hex commit SHA to deploy. Must equal the
+          current origin/main tip (the VPS script fail-closes otherwise).
+          Defaults to the triggering commit when omitted.
+        required: false
+        type: string
 
-# Serialize deploys. Without this, near-simultaneous pushes run concurrent SSH
-# jobs mutating the same /var/www/jvto-help checkout + .next (documented race
-# hazard), and the SHA verification below could compare against another run's
-# deploy. `cancel-in-progress: false` keeps the in-flight deploy from being
-# cancelled, so at most ONE deploy runs at a time. This only SERIALIZES deploys
-# — it does NOT guarantee FIFO or that every push deploys: GitHub holds at most
-# one running + one pending run per group, and a newer push REPLACES the older
-# PENDING run (pending-run coalescing). So a mid-burst commit can be superseded
-# before it ever deploys; the newest queued push is what ultimately lands.
-# Confirm the deployed commit via /api/build-info.
+# Serialize deploys. Without this, near-simultaneous pushes run concurrent jobs
+# mutating the same /var/www/jvto-help checkout + .next (documented race hazard),
+# and the SHA verification below could compare against another run's deploy.
+# `cancel-in-progress: false` keeps the in-flight deploy from being cancelled, so
+# at most ONE deploy runs at a time. This only SERIALIZES deploys — it does NOT
+# guarantee FIFO or that every push deploys: GitHub holds at most one running +
+# one pending run per group, and a newer push REPLACES the older PENDING run
+# (pending-run coalescing). So a mid-burst commit can be superseded before it
+# ever deploys; the newest queued push is what ultimately lands. Confirm the
+# deployed commit via /api/build-info. (The VPS script also fail-closes if its
+# target SHA is no longer origin/main, so a superseded deploy never rolls back.)
 concurrency:
   group: deploy-help-main
   cancel-in-progress: false
 
+# Least privilege: the deploy runs locally on the VPS via a sudoers-restricted
+# script; the only GitHub API this workflow needs is repo read for the
+# post-deploy checkout of the smoke script.
+permissions:
+  contents: read
+
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    # Dedicated VPS runner. Only this job requests `jvto-help-deploy`.
+    runs-on: [self-hosted, Linux, X64, jvto-help-deploy]
+    timeout-minutes: 40
     steps:
-      - name: Deploy jvto-help
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            # Fail-fast + pipefail from the very top. nounset (-u) is enabled only
-            # AFTER sourcing nvm: nvm.sh references unset vars (MANPATH/PREFIX/...)
-            # while loading, so `set -u` before it would abort every deploy.
-            set -eo pipefail
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            # Resolve pm2 in the pre-switch env (where it has always been
-            # reachable — the deploy worked here before Next 16). If pm2 is a
-            # global under the box's default Node 18, `nvm use 20` below would
-            # drop it from PATH and `pm2 restart` would be command-not-found,
-            # leaving the site frozen despite a green build. Call it by this
-            # captured path at the end instead.
-            PM2_BIN="$(command -v pm2 || echo pm2)"
-            # Next.js 16 requires Node >=20.9.0. nvm is sourced above but its
-            # default on this box is 18, so `next build` aborted every deploy.
-            # Explicitly select 20 here (installed on the box) for the build.
-            nvm use 20
-            set -u
-            # The commit this run deploys. Exported BEFORE the build and kept in
-            # the shell for the pm2 --update-env restart, so the running server
-            # reports it at /api/build-info and the verify step below can prove
-            # the box is actually serving this commit.
-            export APP_COMMIT_SHA="${{ github.sha }}"
-            cd /var/www/jvto-help
-            # Force the working tree to exactly the triggering commit. A plain
-            # `git pull` does not fast-forward a dirty/diverged VPS tree, and
-            # resetting to a moving origin/main could deploy a NEWER commit than
-            # the one this run stamps into APP_COMMIT_SHA — the SHA gate needs
-            # code and stamp to always match. The commit is on main, so the
-            # branch fetch below contains it.
-            # `reset --hard` only touches tracked files -> untracked env files
-            # (.env.local with CMS_ADMIN_EMAILS, DB creds) are left intact.
-            # Do NOT add `git clean` here (it would delete those env files).
-            git fetch --prune origin main
-            git reset --hard "$APP_COMMIT_SHA"
-            npm ci
-            npm run build
-            # --update-env so pm2 picks up newly-added env (APP_COMMIT_SHA above,
-            # CMS_ADMIN_EMAILS, ...). $PM2_BIN (captured pre-`nvm use 20`) so
-            # switching Node for the build can't hide a Node-18-global pm2 from
-            # PATH -> command-not-found.
-            "$PM2_BIN" restart jvto-help --update-env
+      - name: Resolve + validate target SHA
+        id: target
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_SHA: ${{ github.event.inputs.deploy_sha }}
+          PUSH_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          # push -> the triggering commit; workflow_dispatch with deploy_sha ->
+          # that SHA (else the dispatch ref's head). Validate 40-char lowercase
+          # hex here so a bad input fails fast BEFORE any deploy; the VPS script
+          # re-validates and additionally requires it to be origin/main.
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "${INPUT_SHA:-}" ]; then
+            TARGET="$INPUT_SHA"
+          else
+            TARGET="$PUSH_SHA"
+          fi
+          if ! printf '%s' "$TARGET" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::Target SHA '$TARGET' is not a 40-char lowercase hex commit SHA."
+            exit 1
+          fi
+          echo "sha=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "Target deploy SHA: $TARGET"
 
-      # ── Post-deploy proof ─────────────────────────────────────────────────
-      # The SSH step exiting 0 only proves the script ran; these steps prove the
-      # box is serving THIS commit and the migrated routes actually respond.
+      - name: Deploy jvto-help (local runner, sudoers-restricted script)
+        env:
+          TARGET_SHA: ${{ steps.target.outputs.sha }}
+        run: |
+          set -euo pipefail
+          # The ONLY privileged call. The runner user (jvto-deploy) may run just
+          # this one root command via /etc/sudoers.d/jvto-deploy-help; the script
+          # takes exactly one SHA (no free command/path) and fail-closes unless
+          # it is the current origin/main tip.
+          sudo /usr/local/sbin/deploy-jvto-help "$TARGET_SHA"
+
+      # ── Post-deploy proof (same VPS runner) ───────────────────────────────
+      # The deploy step exiting 0 only proves the script ran; these steps prove
+      # the box is serving THIS commit and the migrated routes actually respond.
 
       - name: Checkout (for the smoke script)
         uses: actions/checkout@v4
@@ -102,12 +118,13 @@ jobs:
 
       - name: Verify deployment + Why JVTO live smoke
         # scripts/smoke-why-jvto.mjs (zero deps, built-in fetch): waits for
-        # /api/build-info to report THIS commit's SHA, then asserts all six
-        # why-jvto routes return 200 with the production canonical + exactly one
-        # FAQPage node, and that the hub shows 11 active crew / 7 guides /
-        # 4 drivers and none of "14 … crew", "guidebook 2016", "ISIC Partner",
-        # or an INDECON validation/partnership claim.
+        # /api/build-info to report the target SHA, then asserts all six why-jvto
+        # routes return 200 with the production canonical + exactly one FAQPage
+        # node, and that the hub shows 11 active crew / 7 guides / 4 drivers and
+        # none of "14 … crew", "guidebook 2016", "ISIC Partner", or an INDECON
+        # validation/partnership claim. EXPECTED_SHA is the SAME target SHA the
+        # deploy used.
         env:
           BASE_URL: https://help.javavolcano-touroperator.com
-          EXPECTED_SHA: ${{ github.sha }}
+          EXPECTED_SHA: ${{ steps.target.outputs.sha }}
         run: node scripts/smoke-why-jvto.mjs
