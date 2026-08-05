@@ -98,6 +98,16 @@ jobs:
           git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
             || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }
 
+      - name: Milestone 1 architecture gates (blocking)
+        # (1) Architecture dependency gate — blocks forbidden cross-domain / cross-layer
+        # imports in the new modular tree (src/domains, src/application, src/infrastructure).
+        # (2) Outbox integration test — atomic unit-of-work, exactly-once, idempotent
+        # re-run, dedup, retry→dead-letter, flag-off no-op (handoff §7.7). In-memory;
+        # the physical domain_outbox table is a later owner-gated migration.
+        run: |
+          npm run validate:architecture
+          npm run test:outbox
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:
