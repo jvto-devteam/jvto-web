@@ -7,6 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Providers } from "@/app/providers";
 import { getPolicyDomain, getCustomerCopy } from "@/lib/policy-bundle";
+import { isIjenPackageLabel, IJEN_HEALTH_NOTICE } from "@/lib/checkout/ijenNotice";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -1046,6 +1047,13 @@ const StepTwoPayment = ({
             </div>
           )}
         </div>
+        {/* Ijen health-screening notice — canonical mandatory wording, shown only
+            for itineraries that include Kawah Ijen (src/lib/checkout/ijenNotice.ts). */}
+        {isIjenPackageLabel(payload.packageLabel) && (
+          <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+            <strong>{IJEN_HEALTH_NOTICE.heading}:</strong> {IJEN_HEALTH_NOTICE.body}
+          </div>
+        )}
         <div className="mt-8 border-t border-slate-100 pt-6">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
