@@ -32,7 +32,8 @@
     "validate:okf": "node scripts/validate-okf-consumption.mjs",
     "test:ijen-notice": "tsx scripts/ci/ijen-notice-selftest.ts",
     "baseline:manifest": "tsx scripts/baseline/authority-consumer-manifest.ts",
-    "baseline:manifest-check": "npm run baseline:manifest && git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md"
+    "baseline:manifest-check": "npm run baseline:manifest && git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md",
+    "test:manifest": "tsx scripts/ci/manifest-selftest.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
