@@ -35,6 +35,7 @@ import {
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
+import { deriveIjenRelevant } from "@/lib/ijenRelevance";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -413,16 +414,8 @@ export async function generateMetadata(
 // --- 6. MAIN PAGE COMPONENT ---
 const getReviewsData = cache(async () => getPublicHomeReviews());
 
-// AEO/GEO PORT (2026-04-29): destinations-based ijenRelevant (route[] preferred over name regex).
-function deriveIjenRelevant(
-  name: string,
-  slug: string | string[],
-  route: string[] | undefined,
-): boolean {
-  if (route?.some((r) => /ijen/i.test(r))) return true;
-  const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
-  return /ijen/i.test(name) || /ijen/i.test(slugStr);
-}
+// deriveIjenRelevant (route[]-preferred Ijen detection) is the single source in
+// src/lib/ijenRelevance.ts — imported above, unit-tested in scripts/ci.
 
 function adaptToTourDetailSeed(
   data: TourPackageDetailResponse,
