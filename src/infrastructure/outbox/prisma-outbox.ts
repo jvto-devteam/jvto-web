@@ -107,66 +107,59 @@ export class PrismaOutboxStore implements OutboxStore {
   /**
    * Atomically lease up to `limit` due records. `FOR UPDATE SKIP LOCKED` guarantees two
    * concurrent workers never claim the same active record; an expired lease is reclaimable.
+   * Uses a parameterized tagged template (`$queryRaw`) — every interpolation is a bind
+   * value, never string-concatenated SQL.
    */
   async claimBatch(limit: number): Promise<OutboxRecord[]> {
-    const leaseMs = this.opts.leaseMs ?? 30000;
-    const rows = await this.prisma.$queryRawUnsafe<DbRow[]>(
-      `UPDATE domain_outbox
-          SET locked_at = now(), locked_by = $1
-        WHERE id IN (
-          SELECT id FROM domain_outbox
-           WHERE status = 'pending'
-             AND available_at <= now()
-             AND (locked_at IS NULL OR locked_at < now() - ($2 || ' milliseconds')::interval)
-           ORDER BY available_at ASC, id ASC
-           LIMIT $3
-           FOR UPDATE SKIP LOCKED
-        )
-        RETURNING *;`,
-      this.opts.workerId,
-      String(leaseMs),
-      limit,
-    );
+    const leaseMs = String(this.opts.leaseMs ?? 30000);
+    const rows = await this.prisma.$queryRaw<DbRow[]>`
+      UPDATE domain_outbox
+         SET locked_at = now(), locked_by = ${this.opts.workerId}
+       WHERE id IN (
+         SELECT id FROM domain_outbox
+          WHERE status = 'pending'
+            AND available_at <= now()
+            AND (locked_at IS NULL OR locked_at < now() - (${leaseMs} || ' milliseconds')::interval)
+          ORDER BY available_at ASC, id ASC
+          LIMIT ${limit}
+          FOR UPDATE SKIP LOCKED
+       )
+       RETURNING *;`;
     return rows.map(rowToRecord);
   }
 
   async markProcessed(eventId: string): Promise<void> {
-    await this.prisma.$executeRawUnsafe(
-      `UPDATE domain_outbox SET status='processed', processed_at=now(), locked_at=NULL, locked_by=NULL WHERE event_id=$1;`,
-      eventId,
-    );
+    await this.prisma.$executeRaw`
+      UPDATE domain_outbox
+         SET status = 'processed', processed_at = now(), locked_at = NULL, locked_by = NULL
+       WHERE event_id = ${eventId};`;
   }
 
   async markFailed(eventId: string, error: string, maxAttempts: number): Promise<void> {
-    const backoffMs = this.opts.backoffMs ?? 1000;
+    const backoffMs = String(this.opts.backoffMs ?? 1000);
     // attempts+1 ≥ max → dead; else back to pending, retryable after a backoff. Lease released.
-    await this.prisma.$executeRawUnsafe(
-      `UPDATE domain_outbox
-          SET attempts = attempts + 1,
-              last_error = $2,
-              locked_at = NULL, locked_by = NULL,
-              status = CASE WHEN attempts + 1 >= $3 THEN 'dead' ELSE 'pending' END,
-              available_at = CASE WHEN attempts + 1 >= $3 THEN available_at
-                                  ELSE now() + ($4 || ' milliseconds')::interval END
-        WHERE event_id = $1;`,
-      eventId,
-      error,
-      maxAttempts,
-      String(backoffMs),
-    );
+    await this.prisma.$executeRaw`
+      UPDATE domain_outbox
+         SET attempts = attempts + 1,
+             last_error = ${error},
+             locked_at = NULL, locked_by = NULL,
+             status = CASE WHEN attempts + 1 >= ${maxAttempts} THEN 'dead' ELSE 'pending' END,
+             available_at = CASE WHEN attempts + 1 >= ${maxAttempts} THEN available_at
+                                 ELSE now() + (${backoffMs} || ' milliseconds')::interval END
+       WHERE event_id = ${eventId};`;
   }
 
   async markDeferred(eventId: string): Promise<void> {
-    await this.prisma.$executeRawUnsafe(
-      `UPDATE domain_outbox SET status='deferred', locked_at=NULL, locked_by=NULL WHERE event_id=$1 AND status='pending';`,
-      eventId,
-    );
+    await this.prisma.$executeRaw`
+      UPDATE domain_outbox
+         SET status = 'deferred', locked_at = NULL, locked_by = NULL
+       WHERE event_id = ${eventId} AND status = 'pending';`;
   }
 
   async reactivate(eventType: string): Promise<number> {
-    return this.prisma.$executeRawUnsafe(
-      `UPDATE domain_outbox SET status='pending', available_at=now() WHERE status='deferred' AND event_type=$1;`,
-      eventType,
-    );
+    return this.prisma.$executeRaw`
+      UPDATE domain_outbox
+         SET status = 'pending', available_at = now()
+       WHERE status = 'deferred' AND event_type = ${eventType};`;
   }
 }
