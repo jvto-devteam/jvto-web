@@ -93,6 +93,7 @@ jobs:
         # runs inside content:check (validate-static-route-ownership check #7).
         run: |
           npm run test:ijen-notice
+          npm run test:manifest
           npm run baseline:manifest
           git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
             || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }

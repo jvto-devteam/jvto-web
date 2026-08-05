@@ -3,12 +3,21 @@
     "surface": "/",
     "kind": "route",
     "file": "src/app/(website)/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -21,9 +30,11 @@
     "kind": "generated",
     "file": "src/app/(api)/api/build-info/route.ts",
     "authority": "generated (deploy SHA)",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "deploy verification"
     ]
@@ -33,9 +44,11 @@
     "kind": "generated",
     "file": "src/app/(api)/api/tours-feed/route.ts",
     "authority": "generated (DB projection)",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "declared feed consumers"
     ]
@@ -44,11 +57,18 @@
     "surface": "/blog",
     "kind": "route",
     "file": "src/app/(website)/blog/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -61,13 +81,15 @@
     "kind": "route",
     "file": "src/app/(website)/blog/[slug]/page.tsx",
     "authority": "tsx-embedded narrative",
+    "resolution": "direct",
     "resolvers": [
       "jsonld"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -75,25 +97,33 @@
     "surface": "/checkout",
     "kind": "route",
     "file": "src/app/(website)/checkout/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki (via import)",
+    "resolution": "transitive",
     "resolvers": [
-      "tsx-only"
+      "policy-bundle"
     ],
+    "private": true,
     "consumers": [
-      "AI/llms",
-      "sitemap",
-      "web"
+      "private",
+      "web (auth)"
     ]
   },
   {
     "surface": "/contact",
     "kind": "route",
     "file": "src/app/(website)/contact/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
+      "jsonld",
+      "prisma",
       "snapshot",
-      "jsonld"
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -105,11 +135,19 @@
     "surface": "/destinations",
     "kind": "route",
     "file": "src/app/(website)/destinations/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -122,14 +160,17 @@
     "kind": "route",
     "file": "src/app/(website)/destinations/[slug]/page.tsx",
     "authority": "legacy: content_pages (DB)",
+    "resolution": "direct",
     "resolvers": [
       "content_pages",
-      "jsonld"
+      "jsonld",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -137,11 +178,18 @@
     "surface": "/isic/student-package",
     "kind": "route",
     "file": "src/app/(website)/isic/student-package/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -154,9 +202,11 @@
     "kind": "generated",
     "file": "public/llms-full.txt",
     "authority": "authored (static)",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "AI crawlers"
     ]
@@ -166,9 +216,11 @@
     "kind": "generated",
     "file": "src/app/llms.txt/route.ts",
     "authority": "generated/authored",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "AI crawlers"
     ]
@@ -177,12 +229,21 @@
     "surface": "/markets/malaysia",
     "kind": "route",
     "file": "src/app/(website)/markets/malaysia/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -194,12 +255,21 @@
     "surface": "/markets/singapore",
     "kind": "route",
     "file": "src/app/(website)/markets/singapore/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -211,28 +281,30 @@
     "surface": "/my-booking",
     "kind": "route",
     "file": "src/app/(website)/my-booking/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": true,
     "consumers": [
-      "AI/llms",
-      "sitemap",
-      "web"
+      "private",
+      "web (auth)"
     ]
   },
   {
     "surface": "/my-booking/[slug]",
     "kind": "route",
     "file": "src/app/(website)/my-booking/[slug]/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": true,
     "consumers": [
-      "AI/llms",
-      "sitemap",
-      "web"
+      "private",
+      "web (auth)"
     ]
   },
   {
@@ -240,13 +312,14 @@
     "kind": "route",
     "file": "src/app/(website)/my-booking/[slug]/bank-transfer/page.tsx",
     "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
       "policy-bundle"
     ],
+    "private": true,
     "consumers": [
-      "AI/llms",
-      "sitemap",
-      "web"
+      "private",
+      "web (auth)"
     ]
   },
   {
@@ -254,10 +327,15 @@
     "kind": "route",
     "file": "src/app/(website)/policy/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
-      "jsonld"
+      "content_pages",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -270,16 +348,19 @@
     "kind": "route",
     "file": "src/app/(website)/policy/[slug]/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
-      "policy-bundle",
       "content_pages",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -288,9 +369,11 @@
     "kind": "generated",
     "file": "src/app/robots.ts",
     "authority": "generated (route registry + owner policy)",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "crawlers"
     ]
@@ -300,9 +383,11 @@
     "kind": "generated",
     "file": "src/app/sitemap.ts",
     "authority": "generated (per-cluster route lists + DB lastmod fallback)",
+    "resolution": "n/a",
     "resolvers": [
       "n/a"
     ],
+    "private": false,
     "consumers": [
       "search crawlers"
     ]
@@ -311,15 +396,20 @@
     "surface": "/student-deals/isic",
     "kind": "route",
     "file": "src/app/(website)/student-deals/isic/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
       "search/schema",
-      "sitemap",
       "web"
     ]
   },
@@ -328,14 +418,16 @@
     "kind": "route",
     "file": "src/app/(website)/team/page.tsx",
     "authority": "legacy: content_pages (DB)",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
       "getContentPage",
-      "jsonld"
+      "jsonld",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
       "search/schema",
-      "sitemap",
       "web"
     ]
   },
@@ -344,16 +436,16 @@
     "kind": "route",
     "file": "src/app/(website)/team/[slug]/page.tsx",
     "authority": "legacy: content_pages (DB)",
+    "resolution": "direct",
     "resolvers": [
-      "getContentPage",
       "content_pages",
+      "getContentPage",
       "jsonld",
       "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
       "search/schema",
-      "sitemap",
       "web"
     ]
   },
@@ -361,13 +453,13 @@
     "surface": "/tour-from-bali",
     "kind": "route",
     "file": "src/app/(website)/tour-from-bali/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
       "web"
     ]
   },
@@ -375,13 +467,13 @@
     "surface": "/tour-from-surabaya",
     "kind": "route",
     "file": "src/app/(website)/tour-from-surabaya/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
       "web"
     ]
   },
@@ -389,11 +481,20 @@
     "surface": "/tours",
     "kind": "route",
     "file": "src/app/(website)/tours/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -405,13 +506,13 @@
     "surface": "/tours-from-bali",
     "kind": "route",
     "file": "src/app/(website)/tours-from-bali/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
       "web"
     ]
   },
@@ -419,13 +520,13 @@
     "surface": "/tours-from-surabaya",
     "kind": "route",
     "file": "src/app/(website)/tours-from-surabaya/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "unresolved (no reachable resolver)",
+    "resolution": "unresolved",
     "resolvers": [
-      "tsx-only"
+      "none"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
       "web"
     ]
   },
@@ -433,11 +534,20 @@
     "surface": "/tours/from-bali",
     "kind": "route",
     "file": "src/app/(website)/tours/from-bali/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -449,14 +559,18 @@
     "surface": "/tours/from-bali/[slug]",
     "kind": "route",
     "file": "src/app/(website)/tours/from-bali/[slug]/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -464,11 +578,20 @@
     "surface": "/tours/from-surabaya",
     "kind": "route",
     "file": "src/app/(website)/tours/from-surabaya/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -480,14 +603,18 @@
     "surface": "/tours/from-surabaya/[slug]",
     "kind": "route",
     "file": "src/app/(website)/tours/from-surabaya/[slug]/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -495,14 +622,16 @@
     "surface": "/tours/student-package/[slug]",
     "kind": "route",
     "file": "src/app/(website)/tours/student-package/[slug]/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
       "search/schema",
-      "sitemap",
       "web"
     ]
   },
@@ -511,10 +640,14 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
-      "jsonld"
+      "content_pages",
+      "jsonld",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -527,14 +660,18 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/[slug]/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
-      "jsonld"
+      "content_pages",
+      "jsonld",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -542,11 +679,16 @@
     "surface": "/travel-guide/best-time-to-visit",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/best-time-to-visit/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
       "faq-resolver",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -559,13 +701,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/blue-fire-and-sunrise/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -574,13 +720,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/booking-safety/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -589,13 +739,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/bromo-sunrise/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -604,13 +758,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/cancellation-travel-credit/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -618,11 +776,19 @@
     "surface": "/travel-guide/faq",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/faq/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -635,13 +801,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/finish-in-bali/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -650,13 +820,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/how-booking-works/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -665,13 +839,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/malang-batu/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -680,13 +858,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/payment-and-deposit/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -695,10 +877,14 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/police-escort-for-groups/page.tsx",
     "authority": "legacy: content_pages (DB)",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
       "getContentPage",
-      "jsonld"
+      "jsonld",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -711,13 +897,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/private-tour/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -725,15 +915,18 @@
     "surface": "/travel-guide/rijik-monthly-closure",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "producer: llm-wiki",
+    "resolution": "direct",
     "resolvers": [
+      "cms-seed",
       "faq-resolver",
-      "jsonld"
+      "jsonld",
+      "policy-bundle",
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
       "search/schema",
-      "sitemap",
       "web"
     ]
   },
@@ -742,13 +935,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/rooming-and-accommodation/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -757,13 +954,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/vehicle-and-luggage/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -772,13 +973,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/what-is-included/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -787,13 +992,17 @@
     "kind": "route",
     "file": "src/app/(website)/travel-guide/why-stay-near-ijen/page.tsx",
     "authority": "producer: OKF",
+    "resolution": "direct",
     "resolvers": [
+      "content_pages",
+      "getContentPage",
+      "jsonld",
       "okf-agent-guides",
-      "getContentPage"
+      "prisma"
     ],
+    "private": false,
     "consumers": [
-      "AI/llms",
-      "sitemap",
+      "search/schema",
       "web"
     ]
   },
@@ -801,12 +1010,19 @@
     "surface": "/trust",
     "kind": "route",
     "file": "src/app/(website)/trust/page.tsx",
-    "authority": "producer: llm-wiki",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "trust-bundle",
+      "cms-seed",
+      "content_pages",
+      "getContentPage",
       "getPageSeo",
-      "jsonld"
+      "jsonld",
+      "snapshot",
+      "static-content",
+      "trust-bundle"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -818,12 +1034,21 @@
     "surface": "/verify-jvto",
     "kind": "route",
     "file": "src/app/(website)/verify-jvto/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -835,13 +1060,21 @@
     "surface": "/verify-jvto/history-artifacts",
     "kind": "route",
     "file": "src/app/(website)/verify-jvto/history-artifacts/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
       "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -853,12 +1086,21 @@
     "surface": "/verify-jvto/legal",
     "kind": "route",
     "file": "src/app/(website)/verify-jvto/legal/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -870,12 +1112,21 @@
     "surface": "/verify-jvto/police-safety",
     "kind": "route",
     "file": "src/app/(website)/verify-jvto/police-safety/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -887,12 +1138,21 @@
     "surface": "/verify-jvto/press-recognition",
     "kind": "route",
     "file": "src/app/(website)/verify-jvto/press-recognition/page.tsx",
-    "authority": "legacy: snapshot/seed",
+    "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "getPageSeo",
+      "cms-seed",
+      "content_pages",
       "faq-resolver",
-      "jsonld"
+      "getContentPage",
+      "getPageSeo",
+      "jsonld",
+      "policy-bundle",
+      "prisma",
+      "snapshot",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -905,10 +1165,14 @@
     "kind": "route",
     "file": "src/app/(website)/why-jvto/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
-      "jsonld"
+      "content_pages",
+      "jsonld",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
@@ -921,15 +1185,18 @@
     "kind": "route",
     "file": "src/app/(website)/why-jvto/[slug]/page.tsx",
     "authority": "content/ (Git SSOT)",
+    "resolution": "direct",
     "resolvers": [
-      "static-content",
       "content_pages",
-      "jsonld"
+      "jsonld",
+      "prisma",
+      "static-content"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   },
@@ -938,14 +1205,16 @@
     "kind": "route",
     "file": "src/app/(website)/why-jvto/reviews/[id]/page.tsx",
     "authority": "Postgres (DB)",
+    "resolution": "direct",
     "resolvers": [
       "jsonld",
       "prisma"
     ],
+    "private": false,
     "consumers": [
       "AI/llms",
       "search/schema",
-      "sitemap",
+      "sitemap (dynamic)",
       "web"
     ]
   }
