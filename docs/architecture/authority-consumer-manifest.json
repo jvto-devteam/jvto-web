@@ -1,0 +1,952 @@
+[
+  {
+    "surface": "/",
+    "kind": "route",
+    "file": "src/app/(website)/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/api/build-info",
+    "kind": "generated",
+    "file": "src/app/(api)/api/build-info/route.ts",
+    "authority": "generated (deploy SHA)",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "deploy verification"
+    ]
+  },
+  {
+    "surface": "/api/tours-feed",
+    "kind": "generated",
+    "file": "src/app/(api)/api/tours-feed/route.ts",
+    "authority": "generated (DB projection)",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "declared feed consumers"
+    ]
+  },
+  {
+    "surface": "/blog",
+    "kind": "route",
+    "file": "src/app/(website)/blog/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/blog/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/blog/[slug]/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/checkout",
+    "kind": "route",
+    "file": "src/app/(website)/checkout/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/contact",
+    "kind": "route",
+    "file": "src/app/(website)/contact/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "snapshot",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/destinations",
+    "kind": "route",
+    "file": "src/app/(website)/destinations/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/destinations/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/destinations/[slug]/page.tsx",
+    "authority": "legacy: content_pages (DB)",
+    "resolvers": [
+      "content_pages",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/isic/student-package",
+    "kind": "route",
+    "file": "src/app/(website)/isic/student-package/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/llms-full.txt",
+    "kind": "generated",
+    "file": "public/llms-full.txt",
+    "authority": "authored (static)",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "AI crawlers"
+    ]
+  },
+  {
+    "surface": "/llms.txt",
+    "kind": "generated",
+    "file": "src/app/llms.txt/route.ts",
+    "authority": "generated/authored",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "AI crawlers"
+    ]
+  },
+  {
+    "surface": "/markets/malaysia",
+    "kind": "route",
+    "file": "src/app/(website)/markets/malaysia/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/markets/singapore",
+    "kind": "route",
+    "file": "src/app/(website)/markets/singapore/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/my-booking",
+    "kind": "route",
+    "file": "src/app/(website)/my-booking/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/my-booking/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/my-booking/[slug]/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/my-booking/[slug]/bank-transfer",
+    "kind": "route",
+    "file": "src/app/(website)/my-booking/[slug]/bank-transfer/page.tsx",
+    "authority": "producer: llm-wiki",
+    "resolvers": [
+      "policy-bundle"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/policy",
+    "kind": "route",
+    "file": "src/app/(website)/policy/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/policy/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/policy/[slug]/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "policy-bundle",
+      "content_pages",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/robots.txt",
+    "kind": "generated",
+    "file": "src/app/robots.ts",
+    "authority": "generated (route registry + owner policy)",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "crawlers"
+    ]
+  },
+  {
+    "surface": "/sitemap.xml",
+    "kind": "generated",
+    "file": "src/app/sitemap.ts",
+    "authority": "generated (per-cluster route lists + DB lastmod fallback)",
+    "resolvers": [
+      "n/a"
+    ],
+    "consumers": [
+      "search crawlers"
+    ]
+  },
+  {
+    "surface": "/student-deals/isic",
+    "kind": "route",
+    "file": "src/app/(website)/student-deals/isic/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/team",
+    "kind": "route",
+    "file": "src/app/(website)/team/page.tsx",
+    "authority": "legacy: content_pages (DB)",
+    "resolvers": [
+      "getContentPage",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/team/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/team/[slug]/page.tsx",
+    "authority": "legacy: content_pages (DB)",
+    "resolvers": [
+      "getContentPage",
+      "content_pages",
+      "jsonld",
+      "prisma"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tour-from-bali",
+    "kind": "route",
+    "file": "src/app/(website)/tour-from-bali/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tour-from-surabaya",
+    "kind": "route",
+    "file": "src/app/(website)/tour-from-surabaya/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours",
+    "kind": "route",
+    "file": "src/app/(website)/tours/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours-from-bali",
+    "kind": "route",
+    "file": "src/app/(website)/tours-from-bali/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours-from-surabaya",
+    "kind": "route",
+    "file": "src/app/(website)/tours-from-surabaya/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "tsx-only"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours/from-bali",
+    "kind": "route",
+    "file": "src/app/(website)/tours/from-bali/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours/from-bali/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/tours/from-bali/[slug]/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours/from-surabaya",
+    "kind": "route",
+    "file": "src/app/(website)/tours/from-surabaya/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours/from-surabaya/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/tours/from-surabaya/[slug]/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/tours/student-package/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/tours/student-package/[slug]/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/[slug]/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/best-time-to-visit",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/best-time-to-visit/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/blue-fire-and-sunrise",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/blue-fire-and-sunrise/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/booking-safety",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/booking-safety/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/bromo-sunrise",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/bromo-sunrise/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/cancellation-travel-credit",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/cancellation-travel-credit/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/faq",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/faq/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/finish-in-bali",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/finish-in-bali/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/how-booking-works",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/how-booking-works/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/malang-batu",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/malang-batu/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/payment-and-deposit",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/payment-and-deposit/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/police-escort-for-groups",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/police-escort-for-groups/page.tsx",
+    "authority": "legacy: content_pages (DB)",
+    "resolvers": [
+      "getContentPage",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/private-tour",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/private-tour/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/rijik-monthly-closure",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx",
+    "authority": "tsx-embedded narrative",
+    "resolvers": [
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/rooming-and-accommodation",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/rooming-and-accommodation/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/vehicle-and-luggage",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/vehicle-and-luggage/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/what-is-included",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/what-is-included/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/travel-guide/why-stay-near-ijen",
+    "kind": "route",
+    "file": "src/app/(website)/travel-guide/why-stay-near-ijen/page.tsx",
+    "authority": "producer: OKF",
+    "resolvers": [
+      "okf-agent-guides",
+      "getContentPage"
+    ],
+    "consumers": [
+      "AI/llms",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/trust",
+    "kind": "route",
+    "file": "src/app/(website)/trust/page.tsx",
+    "authority": "producer: llm-wiki",
+    "resolvers": [
+      "trust-bundle",
+      "getPageSeo",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/verify-jvto",
+    "kind": "route",
+    "file": "src/app/(website)/verify-jvto/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/verify-jvto/history-artifacts",
+    "kind": "route",
+    "file": "src/app/(website)/verify-jvto/history-artifacts/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "content_pages",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/verify-jvto/legal",
+    "kind": "route",
+    "file": "src/app/(website)/verify-jvto/legal/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/verify-jvto/police-safety",
+    "kind": "route",
+    "file": "src/app/(website)/verify-jvto/police-safety/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/verify-jvto/press-recognition",
+    "kind": "route",
+    "file": "src/app/(website)/verify-jvto/press-recognition/page.tsx",
+    "authority": "legacy: snapshot/seed",
+    "resolvers": [
+      "getPageSeo",
+      "faq-resolver",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/why-jvto",
+    "kind": "route",
+    "file": "src/app/(website)/why-jvto/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/why-jvto/[slug]",
+    "kind": "route",
+    "file": "src/app/(website)/why-jvto/[slug]/page.tsx",
+    "authority": "content/ (Git SSOT)",
+    "resolvers": [
+      "static-content",
+      "content_pages",
+      "jsonld"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  },
+  {
+    "surface": "/why-jvto/reviews/[id]",
+    "kind": "route",
+    "file": "src/app/(website)/why-jvto/reviews/[id]/page.tsx",
+    "authority": "Postgres (DB)",
+    "resolvers": [
+      "jsonld",
+      "prisma"
+    ],
+    "consumers": [
+      "AI/llms",
+      "search/schema",
+      "sitemap",
+      "web"
+    ]
+  }
+]
