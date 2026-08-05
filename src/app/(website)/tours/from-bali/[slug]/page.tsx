@@ -35,6 +35,7 @@ import {
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
+import { deriveIjenRelevant } from "@/lib/ijenRelevance";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -407,17 +408,8 @@ export async function generateMetadata(
 }
 
 // --- 6. AEO/GEO PORT (2026-04-29): FAQPage + narrative_claims composition ---
-// Better-than-regex Ijen detection: prefer pkg.route[] (destinations array) which carries
-// canonical destination names like "Kawah Ijen". Fallback to name/slug regex for resilience.
-function deriveIjenRelevant(
-  name: string,
-  slug: string | string[],
-  route: string[] | undefined,
-): boolean {
-  if (route?.some((r) => /ijen/i.test(r))) return true;
-  const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
-  return /ijen/i.test(name) || /ijen/i.test(slugStr);
-}
+// deriveIjenRelevant (route[]-preferred Ijen detection) is the single source in
+// src/lib/ijenRelevance.ts — imported above, unit-tested in scripts/ci.
 
 // Adapter: live's TourPackageDetailResponse → ported builders' minimal seed contracts.
 function adaptToTourDetailSeed(

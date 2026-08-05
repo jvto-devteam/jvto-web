@@ -35,6 +35,63 @@ const CMS_API = [
   join(REPO_ROOT, "src", "app", "(api)", "api", "content-pages", "[id]", "route.ts"),
 ];
 
+const SRC_ROOT = join(REPO_ROOT, "src");
+const SCRIPTS_ROOT = join(REPO_ROOT, "scripts");
+const GENERATED_DIR = join(REPO_ROOT, "src", "generated"); // prisma client types — excluded
+
+/**
+ * FREEZE (M0, handoff §16 "freeze new public-content writers in old producer
+ * paths"). Three frozen source classes, each with an explicit allowed-writer
+ * REGISTRY — static regex flags a write; the registry decides ownership (which
+ * writers are sanctioned) where a regex alone cannot. Any writer NOT in the
+ * registry that writes a frozen surface fails CI. Scanned across src/ AND scripts/.
+ */
+// Receiver-agnostic → catches prisma.content_pages.*, an alias like db.content_pages.*,
+// and a destructured `const { content_pages } = prisma; content_pages.update(...)`.
+const CONTENT_PAGES_WRITE_RE =
+  /\bcontent_pages\.(create|update|upsert|createMany|updateMany|delete|deleteMany)\b/;
+const WRITE_OP_RE = /writeFileSync|writeFile\(|createWriteStream|cpSync|copyFileSync/;
+const CMS_SEED_PATH_RE = /data\/cms\b/;
+const SNAPSHOT_PATH_RE = /pageSnapshots|publicContent\/generated/;
+
+const FROZEN = [
+  {
+    id: "content_pages (frozen DB public-narrative store)",
+    hit: (src) => CONTENT_PAGES_WRITE_RE.test(src),
+    allowed: new Set([
+      "src/app/(api)/api/content-pages/route.ts",
+      "src/app/(api)/api/content-pages/[id]/route.ts",
+      "scripts/ingest-workstream-c.mjs", // grandfathered legacy ingest — retire in a later milestone
+      "scripts/validate-static-route-ownership.mjs", // this gate's own self-test fixtures
+    ]),
+  },
+  {
+    id: "CMS seed bundle (src/data/cms/*)",
+    hit: (src) => WRITE_OP_RE.test(src) && CMS_SEED_PATH_RE.test(src),
+    allowed: new Set(["scripts/sync-cms-seed.mjs", "scripts/validate-static-route-ownership.mjs"]),
+  },
+  {
+    id: "legacy narrative snapshots (pageSnapshots.ts / publicContent/generated)",
+    hit: (src) => WRITE_OP_RE.test(src) && SNAPSHOT_PATH_RE.test(src),
+    allowed: new Set([
+      "scripts/export-public-review-snapshots.mjs",
+      "scripts/export-package-activity-snapshots.mjs",
+      "scripts/export-public-detail-snapshots.mjs",
+      "scripts/export-public-faq-snapshots.mjs",
+      "scripts/export-public-review-api-snapshots.mjs",
+      "scripts/export-public-list-snapshots.mjs",
+      "scripts/validate-content-drift.mjs",
+      "scripts/validate-static-route-ownership.mjs",
+    ]),
+  },
+];
+
+/** Returns the violated frozen-class id for (rel, comment-stripped src), or null. */
+function frozenWriterViolation(rel, src) {
+  for (const f of FROZEN) if (f.hit(src) && !f.allowed.has(rel)) return f.id;
+  return null;
+}
+
 const failures = [];
 const fail = (msg) => failures.push(msg);
 
@@ -186,11 +243,34 @@ function runChecks() {
     }
   }
 
+  // 7. FREEZE (M0, handoff §16 "freeze new public-content writers in old producer
+  //    paths"; §27 "Old producer restores stale public facts"). Scan src/ AND
+  //    scripts/ for writers to any frozen source class (content_pages, CMS seed
+  //    bundle, legacy narrative snapshots). Ownership is decided by the explicit
+  //    allowed-writer REGISTRY (FROZEN) — a write from any other file fails,
+  //    covering prisma aliases / repository wrappers a plain regex can't attribute.
+  for (const root of [SRC_ROOT, SCRIPTS_ROOT]) {
+    for (const file of walk(root)) {
+      if (!/\.(ts|tsx|mjs|js)$/.test(file)) continue;
+      if (file.startsWith(GENERATED_DIR)) continue; // generated prisma types (doc comments)
+      const rel = file.replace(REPO_ROOT + "/", "");
+      const violated = frozenWriterViolation(rel, stripComments(readFileSync(file, "utf8")));
+      if (violated) {
+        fail(
+          `${rel}: new writer to a FROZEN producer path — ${violated} (handoff §16). ` +
+            `Public narrative is Git-owned (content/pages/**). If this writer is legitimate, ` +
+            `add it to the allowed-writer registry in scripts/validate-static-route-ownership.mjs with justification.`,
+        );
+      }
+    }
+  }
+
   return routes;
 }
 
 function selftest() {
-  const cases = [
+  // (a) forbidden-claim matchers.
+  const reCases = [
     ["14 named crew. No freelancers.", FORBIDDEN_CLAIMS[0].re, true],
     ["11 active crew — 7 guides, 4 drivers", FORBIDDEN_CLAIMS[0].re, false],
     ["(7 guides + 7 drivers)", FORBIDDEN_CLAIMS[1].re, true],
@@ -202,19 +282,46 @@ function selftest() {
     ["INDECON network listing", FORBIDDEN_CLAIMS[3].re, false],
     ["HPWKI, ISIC, INDECON partnerships", FORBIDDEN_CLAIMS[3].re, true],
   ];
+  // (b) FREEZE registry — negative-test EVERY frozen source class + its allow-list.
+  const NEW = "src/lib/__new__/x.ts"; // on no allow-list
+  const NEWS = "scripts/__new__/x.mjs";
+  const freezeCases = [
+    // content_pages: receiver-agnostic (alias / wrapper / destructure), write vs read.
+    [NEW, "await db.content_pages.upsert({})", "content_pages"], // prisma alias
+    [NEW, "const { content_pages } = prisma; content_pages.update({})", "content_pages"], // destructured wrapper
+    [NEW, "prisma.content_pages.delete({})", "content_pages"],
+    [NEW, "const r = await prisma.content_pages.findMany()", null], // read → ok
+    ["src/app/(api)/api/content-pages/route.ts", "prisma.content_pages.upsert({})", null], // allowed CMS API
+    ["scripts/ingest-workstream-c.mjs", "await prisma.content_pages.update({})", null], // grandfathered
+    // CMS seed bundle writers.
+    [NEWS, "writeFileSync('src/data/cms/pages.json', x)", "CMS seed"],
+    ["scripts/sync-cms-seed.mjs", "writeFileSync('src/data/cms/pages.json', x)", null], // allowed generator
+    [NEW, "const p = 'src/data/cms/pages.json'; readFileSync(p)", null], // read → ok
+    // Legacy narrative snapshot writers.
+    [NEWS, "writeFileSync('src/lib/publicContent/pageSnapshots.ts', x)", "snapshots"],
+    [NEWS, "writeFileSync('src/lib/publicContent/generated/xSnapshot.json', x)", "snapshots"],
+    ["scripts/export-public-detail-snapshots.mjs", "writeFileSync('publicContent/generated/x.json', x)", null], // allowed
+  ];
   let ok = true;
-  for (const [text, re, expected] of cases) {
-    const got = re.test(text);
-    if (got !== expected) {
+  for (const [text, re, expected] of reCases) {
+    if (re.test(text) !== expected) {
       ok = false;
-      console.error(`✗ SELF-TEST: ${JSON.stringify(text)} expected match=${expected}, got ${got}`);
+      console.error(`✗ SELF-TEST claim: ${JSON.stringify(text)} expected ${expected}`);
+    }
+  }
+  for (const [rel, src, expectedClass] of freezeCases) {
+    const got = frozenWriterViolation(rel, src);
+    const good = expectedClass === null ? got === null : !!got && got.includes(expectedClass);
+    if (!good) {
+      ok = false;
+      console.error(`✗ SELF-TEST freeze: ${rel} ${JSON.stringify(src)} expected ${expectedClass}, got ${got}`);
     }
   }
   if (!ok) {
     console.error("[static-route-ownership] SELF-TEST FAILED — matcher gap");
     process.exit(1);
   }
-  console.log("[static-route-ownership] self-test PASS (10 matcher cases)");
+  console.log(`[static-route-ownership] self-test PASS (${reCases.length} claim + ${freezeCases.length} freeze cases)`);
 }
 
 if (process.argv.includes("--selftest")) {

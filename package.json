@@ -29,7 +29,11 @@
     "validate:cms-seed": "node scripts/validate-cms-seed.mjs",
     "validate:packages": "node scripts/validate-package-readiness-consumption.mjs",
     "validate:itinerary": "node scripts/validate-itinerary-intelligence.mjs",
-    "validate:okf": "node scripts/validate-okf-consumption.mjs"
+    "validate:okf": "node scripts/validate-okf-consumption.mjs",
+    "test:ijen-notice": "tsx scripts/ci/ijen-notice-selftest.ts",
+    "baseline:manifest": "tsx scripts/baseline/authority-consumer-manifest.ts",
+    "baseline:manifest-check": "npm run baseline:manifest && git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md",
+    "test:manifest": "tsx scripts/ci/manifest-selftest.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

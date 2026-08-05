@@ -475,6 +475,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       ...basePayload,
       packageCategory: pkg.category_id,
       packageLabel: pkg.name,
+      // Stable Ijen relevance (derived from destination route[] on the server,
+      // carried here) — the checkout notice targets this boolean, not a label.
+      ijenRelevant,
       paxMin: pkg.channelMetadata.minPaxOperational,
       priceTiers: pkg.offers.tiers,
       allAddOns: pkg.addOns,
