@@ -9,6 +9,9 @@
  *
  * Delivery semantics: **at-least-once**. A leased worker may re-deliver after a crash,
  * so handlers must be **idempotent**; `event_id` is unique so enqueue is append-once.
+ * Acks are **lease-fenced** in the durable store: `markProcessed`/`markFailed`/
+ * `markDeferred` only apply when the caller still holds the lease (`locked_by`), so a
+ * worker whose lease expired and was reclaimed can never mutate another worker's record.
  * The worker is gated by the `outbox-worker` flag (OFF by default → importing this
  * changes no runtime behavior).
  */
@@ -22,6 +25,8 @@ export interface OutboxRecord {
   status: "pending" | "processed" | "dead" | "deferred";
   attempts: number;
   lastError?: string;
+  /** The worker that currently holds the lease on this record (`locked_by`), if any. */
+  leaseOwner?: string;
 }
 
 export interface OutboxStore {
@@ -29,16 +34,32 @@ export interface OutboxStore {
   append(event: DomainEvent): Promise<void>;
   /** Claim up to `limit` PENDING records for processing (deferred/dead excluded). */
   claimBatch(limit: number): Promise<OutboxRecord[]>;
-  markProcessed(eventId: string): Promise<void>;
-  /** Record a failed attempt; when attempts reach `maxAttempts`, mark dead. */
-  markFailed(eventId: string, error: string, maxAttempts: number): Promise<void>;
-  /** Park a record with no registered handler so it stops being re-claimed. */
-  markDeferred(eventId: string): Promise<void>;
+  /**
+   * Acknowledge success. Returns `true` iff this worker still held the lease and the
+   * record was transitioned; `false` means the lease was lost/stale (another worker
+   * reclaimed it, or it is no longer pending) and NOTHING was changed. `eventId` alone
+   * is never authorization — the durable store also matches the lease owner.
+   */
+  markProcessed(eventId: string): Promise<boolean>;
+  /**
+   * Record a failed attempt; when attempts reach `maxAttempts`, mark dead. Returns
+   * `false` (no change) if this worker no longer holds the lease.
+   */
+  markFailed(eventId: string, error: string, maxAttempts: number): Promise<boolean>;
+  /**
+   * Park a record with no registered handler so it stops being re-claimed. Returns
+   * `false` (no change) if this worker no longer holds the lease.
+   */
+  markDeferred(eventId: string): Promise<boolean>;
   /** Return deferred records of `eventType` to pending (a handler now exists). */
   reactivate(eventType: string): Promise<number>;
 }
 
-/** In-memory OutboxStore — a TEST ADAPTER only (no durability, no real transaction). */
+/**
+ * In-memory OutboxStore — a TEST ADAPTER only (no durability, no real transaction, and
+ * no lease fencing: it is single-worker, so an ack applies whenever the record is still
+ * pending). Lease-owner fencing is a durable-store concern — see `PrismaOutboxStore`.
+ */
 export class InMemoryOutboxStore implements OutboxStore {
   private readonly records = new Map<string, OutboxRecord>();
 
@@ -54,20 +75,25 @@ export class InMemoryOutboxStore implements OutboxStore {
     }
     return out;
   }
-  async markProcessed(eventId: string): Promise<void> {
+  async markProcessed(eventId: string): Promise<boolean> {
     const r = this.records.get(eventId);
-    if (r) r.status = "processed";
+    if (!r || r.status !== "pending") return false; // already terminal → no-op
+    r.status = "processed";
+    return true;
   }
-  async markFailed(eventId: string, error: string, maxAttempts: number): Promise<void> {
+  async markFailed(eventId: string, error: string, maxAttempts: number): Promise<boolean> {
     const r = this.records.get(eventId);
-    if (!r) return;
+    if (!r || r.status !== "pending") return false; // only a leased/pending record can fail
     r.attempts += 1;
     r.lastError = error;
     if (r.attempts >= maxAttempts) r.status = "dead";
+    return true;
   }
-  async markDeferred(eventId: string): Promise<void> {
+  async markDeferred(eventId: string): Promise<boolean> {
     const r = this.records.get(eventId);
-    if (r && r.status === "pending") r.status = "deferred";
+    if (!r || r.status !== "pending") return false;
+    r.status = "deferred";
+    return true;
   }
   async reactivate(eventType: string): Promise<number> {
     let n = 0;
@@ -151,15 +177,29 @@ export class OutboxWorker {
       }
       try {
         await handler(record.event);
-        await this.store.markProcessed(record.event.eventId);
-        processed += 1;
+        // Fenced ack: applies only if this worker still holds the lease. A `false`
+        // means another worker reclaimed the record (at-least-once — it will/did run
+        // there); do not count it and do not treat it as an error.
+        if (await this.store.markProcessed(record.event.eventId)) {
+          processed += 1;
+        } else {
+          this.logger?.warn("outbox ack skipped — lease not held", {
+            eventType: record.event.eventType,
+            errorCode: "OUTBOX_LEASE_LOST",
+            result: "skip",
+          });
+        }
       } catch (err) {
-        failed += 1;
-        await this.store.markFailed(
-          record.event.eventId,
-          err instanceof Error ? err.message : String(err),
-          this.maxAttempts,
-        );
+        // Fenced failure record: only the lease holder may retry/dead-letter it.
+        if (
+          await this.store.markFailed(
+            record.event.eventId,
+            err instanceof Error ? err.message : String(err),
+            this.maxAttempts,
+          )
+        ) {
+          failed += 1;
+        }
         this.logger?.warn("outbox handler failed", {
           eventType: record.event.eventType,
           errorCode: "OUTBOX_HANDLER_ERROR",

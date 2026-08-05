@@ -68,6 +68,22 @@ async function statusOf(eventId: string): Promise<string | null> {
   );
   return rows[0]?.status ?? null;
 }
+async function rowOf(
+  eventId: string,
+): Promise<{ status: string; locked_by: string | null; attempts: number } | null> {
+  const rows = await prisma.$queryRawUnsafe<{ status: string; locked_by: string | null; attempts: number }[]>(
+    `SELECT status, locked_by, attempts FROM domain_outbox WHERE event_id = $1;`,
+    eventId,
+  );
+  return rows[0] ?? null;
+}
+/** Age a record's lease so a worker with a shorter lease window will reclaim it. */
+async function expireLease(eventId: string): Promise<void> {
+  await prisma.$executeRawUnsafe(
+    `UPDATE domain_outbox SET locked_at = now() - interval '1 hour' WHERE event_id = $1;`,
+    eventId,
+  );
+}
 async function reset(): Promise<void> {
   await prisma.$executeRawUnsafe(`TRUNCATE domain_outbox RESTART IDENTITY;`);
   await prisma.$executeRawUnsafe(`TRUNCATE ${BIZ} RESTART IDENTITY;`);
@@ -194,6 +210,54 @@ async function main() {
     const r = await worker.runOnce();
     check(r.processed === 0, "flag OFF → worker processes nothing (no-op)");
     check((await statusOf("e-off")) === "pending", "flag OFF → event stays pending");
+  }
+
+  // 7. Lease fencing: a worker that lost its lease cannot mutate another worker's record,
+  //    and eventId alone is never authorization to acknowledge.
+  {
+    await reset();
+    const a = new PrismaOutboxStore(prisma, { workerId: "A", leaseMs: 30000, backoffMs: 0 });
+    const b = new PrismaOutboxStore(prisma, { workerId: "B", leaseMs: 30000, backoffMs: 0 });
+    await a.append(evt("fence", "booking.created"));
+
+    const claimedByA = await a.claimBatch(1);
+    check(
+      claimedByA.length === 1 && claimedByA[0]?.leaseOwner === "A",
+      "claimBatch returns the lease owner (A)",
+    );
+
+    // A's lease expires; B reclaims the record.
+    await expireLease("fence");
+    const claimedByB = await b.claimBatch(1);
+    check(
+      claimedByB.length === 1 && claimedByB[0]?.leaseOwner === "B",
+      "expired lease is reclaimed by B (leaseOwner now B)",
+    );
+
+    // Stale A can no longer acknowledge or fail — B holds the lease.
+    const staleAck = await a.markProcessed("fence");
+    let r = await rowOf("fence");
+    check(
+      staleAck === false && r?.status === "pending" && r?.locked_by === "B",
+      "stale worker A markProcessed → false, record unchanged (still leased by B)",
+    );
+    const staleFail = await a.markFailed("fence", "A boom", 3);
+    r = await rowOf("fence");
+    check(
+      staleFail === false && r?.status === "pending" && r?.locked_by === "B" && r?.attempts === 0,
+      "stale worker A markFailed → false, no attempt recorded, lease still B's",
+    );
+
+    // The current lease holder B acknowledges successfully.
+    const okAck = await b.markProcessed("fence");
+    check(okAck === true && (await statusOf("fence")) === "processed", "lease holder B markProcessed → processed");
+
+    // A processed event cannot be reverted to pending/dead by a stale worker.
+    const revert = await a.markFailed("fence", "A late boom", 3);
+    check(
+      revert === false && (await statusOf("fence")) === "processed",
+      "stale worker cannot revert a processed event to pending/dead",
+    );
   }
 
   if (failed) {

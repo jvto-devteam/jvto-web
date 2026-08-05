@@ -68,6 +68,7 @@ interface DbRow {
   status: OutboxRecord["status"];
   attempts: number;
   last_error: string | null;
+  locked_by: string | null;
 }
 
 function rowToRecord(r: DbRow): OutboxRecord {
@@ -84,7 +85,13 @@ function rowToRecord(r: DbRow): OutboxRecord {
     payload: r.payload,
     schemaVersion: r.schema_version,
   } as unknown as DomainEvent;
-  return { event, status: r.status, attempts: r.attempts, lastError: r.last_error ?? undefined };
+  return {
+    event,
+    status: r.status,
+    attempts: r.attempts,
+    lastError: r.last_error ?? undefined,
+    leaseOwner: r.locked_by ?? undefined,
+  };
 }
 
 export interface PrismaOutboxStoreOptions {
@@ -128,17 +135,27 @@ export class PrismaOutboxStore implements OutboxStore {
     return rows.map(rowToRecord);
   }
 
-  async markProcessed(eventId: string): Promise<void> {
-    await this.prisma.$executeRaw`
+  /**
+   * Lease-fenced ack. The `AND status='pending' AND locked_by=<me>` guard means only the
+   * worker that currently holds the lease can transition the record — a worker whose lease
+   * expired and was reclaimed by another matches 0 rows and changes nothing. Returns
+   * whether a row was actually updated (`$executeRaw` → affected-row count).
+   */
+  async markProcessed(eventId: string): Promise<boolean> {
+    const n = await this.prisma.$executeRaw`
       UPDATE domain_outbox
          SET status = 'processed', processed_at = now(), locked_at = NULL, locked_by = NULL
-       WHERE event_id = ${eventId};`;
+       WHERE event_id = ${eventId}
+         AND status = 'pending'
+         AND locked_by = ${this.opts.workerId};`;
+    return n > 0;
   }
 
-  async markFailed(eventId: string, error: string, maxAttempts: number): Promise<void> {
+  async markFailed(eventId: string, error: string, maxAttempts: number): Promise<boolean> {
     const backoffMs = String(this.opts.backoffMs ?? 1000);
     // attempts+1 ≥ max → dead; else back to pending, retryable after a backoff. Lease released.
-    await this.prisma.$executeRaw`
+    // Fenced: only the lease holder (locked_by = me) on a still-pending record may fail it.
+    const n = await this.prisma.$executeRaw`
       UPDATE domain_outbox
          SET attempts = attempts + 1,
              last_error = ${error},
@@ -146,14 +163,20 @@ export class PrismaOutboxStore implements OutboxStore {
              status = CASE WHEN attempts + 1 >= ${maxAttempts} THEN 'dead' ELSE 'pending' END,
              available_at = CASE WHEN attempts + 1 >= ${maxAttempts} THEN available_at
                                  ELSE now() + (${backoffMs} || ' milliseconds')::interval END
-       WHERE event_id = ${eventId};`;
+       WHERE event_id = ${eventId}
+         AND status = 'pending'
+         AND locked_by = ${this.opts.workerId};`;
+    return n > 0;
   }
 
-  async markDeferred(eventId: string): Promise<void> {
-    await this.prisma.$executeRaw`
+  async markDeferred(eventId: string): Promise<boolean> {
+    const n = await this.prisma.$executeRaw`
       UPDATE domain_outbox
          SET status = 'deferred', locked_at = NULL, locked_by = NULL
-       WHERE event_id = ${eventId} AND status = 'pending';`;
+       WHERE event_id = ${eventId}
+         AND status = 'pending'
+         AND locked_by = ${this.opts.workerId};`;
+    return n > 0;
   }
 
   async reactivate(eventType: string): Promise<number> {
