@@ -106,10 +106,10 @@ jobs:
         # anti-starvation, flag-off no-op (handoff §7.7). The DURABLE Prisma-backed store
         # (src/infrastructure/outbox/prisma-outbox.ts) + its additive domain_outbox table
         # (prisma/schema.prisma + sql/2026-08-05_domain_outbox.sql) ship in this PR but the
-        # worker stays disabled at runtime; the two-way-rollback / concurrency / dead-letter
-        # proof runs against a real Postgres out-of-band via `npm run test:outbox:db`
-        # (needs a local Postgres server build + root, so it is not wired into this
-        # non-privileged required gate). The table is applied by an owner-gated migration.
+        # worker stays disabled at runtime; the two-way-rollback / lease-fencing /
+        # concurrency / dead-letter proof runs against a REAL Postgres in the separate
+        # blocking `outbox-db` job (service container). The physical table is applied to
+        # develop/production by an owner-gated migration, never by CI.
         run: |
           npm run validate:architecture
           npm run test:outbox
@@ -225,3 +225,53 @@ jobs:
           # exact PR head SHA against the dev DB in an isolated dir.
           script: |
             bash "$HOME/jvto-build-control/scripts/build-pr.sh" "${{ github.event.pull_request.number }}" "${{ github.event.pull_request.head.sha }}"
+
+  # Blocking proof of the DURABLE transactional outbox (handoff §7.7) against a REAL
+  # Postgres — not the in-memory adapter, and not out-of-band. A disposable `postgres:16`
+  # service container is created fresh per run; the additive migration is applied to it;
+  # the Prisma client is generated; `npm run test:outbox:db` proves two-way transaction
+  # rollback, lease fencing, dead-letter, and concurrent-claim disjointness. The job fails
+  # (never skips) if the test is skipped or Postgres is unavailable. It runs as the normal
+  # unprivileged runner user — no root, no runuser — and never touches develop/production.
+  outbox-db:
+    name: outbox-db
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: outbox
+          POSTGRES_PASSWORD: outbox
+          POSTGRES_DB: outbox_itest
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U outbox -d outbox_itest"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      # A throwaway service-container DB — distinct from any project/develop/production DB.
+      DATABASE_URL: postgresql://outbox:outbox@localhost:5432/outbox_itest
+      OUTBOX_ITEST_DATABASE_URL: postgresql://outbox:outbox@localhost:5432/outbox_itest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Fail fast if the test would be skipped (Postgres must be reachable)
+        run: |
+          set -euo pipefail
+          command -v psql >/dev/null 2>&1 || { echo "::error::psql missing on runner"; exit 1; }
+          psql "$OUTBOX_ITEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'SELECT 1;' >/dev/null \
+            || { echo "::error::Postgres service container unavailable — DB proof cannot be skipped."; exit 1; }
+      - name: Generate Prisma client
+        run: npx prisma generate
+      - name: Durable outbox DB integration test (blocking, real Postgres)
+        # CI mode: run-outbox-db-itest.sh sees OUTBOX_ITEST_DATABASE_URL, applies the
+        # additive migration to the service container, and runs the integration test.
+        # No throwaway cluster, no root/runuser.
+        run: npm run test:outbox:db

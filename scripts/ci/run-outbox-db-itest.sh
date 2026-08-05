@@ -1,18 +1,48 @@
 #!/usr/bin/env bash
 #
-# run-outbox-db-itest.sh — spin up a DISPOSABLE Postgres, apply the additive outbox
-# migration, run the Prisma-backed outbox DB integration test, then tear it all down.
+# run-outbox-db-itest.sh — apply the additive outbox migration to a DISPOSABLE Postgres,
+# run the Prisma-backed outbox DB integration test, then tear down. Two modes:
 #
-# The database is a throwaway cluster in a temp dir; nothing here touches the project's
-# configured database or production/live. Postgres refuses to run as root, so the cluster
-# runs as the `postgres` OS user via runuser; the test client connects over TCP (trust).
+#   CI mode  (OUTBOX_ITEST_DATABASE_URL set) — use an externally-provided disposable
+#            database (e.g. a GitHub Actions `services: postgres` container). No cluster,
+#            no root, no runuser. Fails hard if the DB is unreachable — it NEVER skips.
+#
+#   Local mode (no OUTBOX_ITEST_DATABASE_URL) — spin up a throwaway cluster in a temp dir
+#            as the `postgres` OS user via runuser (Postgres refuses root). Developer
+#            convenience; may `exit 2` (skip) if no local Postgres server build exists.
+#
+# Neither mode touches the project's configured database or develop/production.
 #
 # Usage:  scripts/ci/run-outbox-db-itest.sh
-# Requires: a local postgres server build (initdb/pg_ctl/psql) + npx tsx.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MIGRATION="$REPO/sql/2026-08-05_domain_outbox.sql"
+
+# ---------------------------------------------------------------------------
+# CI mode: external disposable Postgres (service container). No root, no cluster.
+# ---------------------------------------------------------------------------
+if [ -n "${OUTBOX_ITEST_DATABASE_URL:-}" ]; then
+  echo "[db-itest] CI mode — external disposable Postgres (service container)"
+  if ! command -v psql >/dev/null 2>&1; then
+    echo "ERROR: psql not found; cannot apply the additive migration in CI mode." >&2
+    exit 1
+  fi
+  # Fail (never skip) if the database is not reachable.
+  if ! psql "$OUTBOX_ITEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'SELECT 1;' >/dev/null 2>&1; then
+    echo "ERROR: cannot connect to OUTBOX_ITEST_DATABASE_URL — Postgres unavailable." >&2
+    exit 1
+  fi
+  echo "[db-itest] apply additive migration …"
+  psql "$OUTBOX_ITEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f "$MIGRATION" >/dev/null
+  echo "[db-itest] run integration test …"
+  DATABASE_URL="$OUTBOX_ITEST_DATABASE_URL" npx tsx "$REPO/scripts/ci/outbox-db-itest.ts"
+  exit $?
+fi
+
+# ---------------------------------------------------------------------------
+# Local mode: throwaway cluster via runuser (needs root). Developer convenience.
+# ---------------------------------------------------------------------------
 PORT="${OUTBOX_ITEST_PORT:-55432}"
 DB="outbox_itest"
 
@@ -22,10 +52,11 @@ for c in "$(pg_config --bindir 2>/dev/null || true)" /usr/lib/postgresql/*/bin; 
   if [ -n "$c" ] && [ -x "$c/initdb" ] && [ -x "$c/pg_ctl" ]; then PGBIN="$c"; break; fi
 done
 if [ -z "$PGBIN" ]; then
-  echo "SKIP: no local Postgres server build (initdb/pg_ctl) found — DB itest needs one." >&2
+  echo "SKIP: no local Postgres server build (initdb/pg_ctl) found — local mode needs one." >&2
+  echo "      (In CI, set OUTBOX_ITEST_DATABASE_URL to a service-container DB instead.)" >&2
   exit 2
 fi
-echo "[db-itest] using postgres bin: $PGBIN"
+echo "[db-itest] local mode — using postgres bin: $PGBIN"
 
 PGDATA="$(mktemp -d /tmp/outbox-itest-pg.XXXXXX)"
 LOG="$PGDATA/server.log"
