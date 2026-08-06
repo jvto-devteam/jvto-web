@@ -8,6 +8,7 @@
  *   - leadership + medical partner never count as crew.
  */
 import {
+  getCanonicalPeople,
   getPublicCrew,
   getPublicGuides,
   getPublicDrivers,
@@ -15,8 +16,8 @@ import {
   getPublicCrewCodes,
   getUnpublishedCrewCodes,
   getCrewCounts,
-  getLeadership,
-  getMedicalPartner,
+  getPublicLeadership,
+  getPublicMedicalPartner,
   getPublicFieldAllowlist,
 } from "../../src/lib/people/canonicalPeople";
 
@@ -77,11 +78,40 @@ for (const m of getPublicCrew() as unknown as Record<string, any>[]) {
 }
 ok("public crew projected to allowlisted fields only (no evidenceSource/reviewedDate)");
 
-// 5. leadership + medical partner never crew.
-if (getLeadership().every((l) => l.countsAsCrew === false)) ok("leadership countsAsCrew=false");
+// 5. leadership + medical partner never crew (fact, from the raw record).
+const rec = getCanonicalPeople() as any;
+if (rec.leadership.every((l: any) => l.countsAsCrew === false)) ok("leadership countsAsCrew=false");
 else bad("leadership must not count as crew");
-if (getMedicalPartner().countsAsCrew === false) ok("medical partner countsAsCrew=false");
+if (rec.medicalPartner.countsAsCrew === false) ok("medical partner countsAsCrew=false");
 else bad("medical partner must not count as crew");
+
+// 5b. leadership + medicalPartner PROJECTIONS carry ONLY allowlisted fields.
+const collectPaths = (obj: Record<string, any>): string[] => {
+  const out: string[] = [];
+  for (const [k, v] of Object.entries(obj)) {
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      for (const sk of Object.keys(v)) out.push(`${k}.${sk}`);
+    } else out.push(k);
+  }
+  return out;
+};
+const leadAllow = new Set(getPublicFieldAllowlist().leadership);
+for (const l of getPublicLeadership() as unknown as Record<string, any>[]) {
+  for (const p of collectPaths(l)) if (!leadAllow.has(p)) bad(`leadership projection exposes non-allowlisted '${p}'`);
+  for (const forbidden of ["namingRule", "evidence", "countsAsCrew"]) {
+    if (forbidden in l) bad(`leadership projection leaked '${forbidden}'`);
+  }
+}
+ok("leadership projection = allowlisted fields only (no namingRule/evidence/countsAsCrew)");
+
+const medAllow = new Set(getPublicFieldAllowlist().medicalPartner);
+const mp = getPublicMedicalPartner() as unknown as Record<string, any>;
+for (const p of collectPaths(mp)) if (!medAllow.has(p)) bad(`medicalPartner projection exposes non-allowlisted '${p}'`);
+for (const forbidden of ["relationshipNote", "countsAsCrew"]) {
+  if (forbidden in mp) bad(`medicalPartner projection leaked '${forbidden}'`);
+}
+if (mp.credentials && "lastVerified" in mp.credentials) bad("medicalPartner projection leaked credentials.lastVerified");
+ok("medicalPartner projection = allowlisted fields only (no relationshipNote/lastVerified/countsAsCrew)");
 
 // 6. doNotPublish list is present + non-empty (data-driven privacy source).
 if (allowlist.doNotPublish.length > 0) ok(`doNotPublish declares ${allowlist.doNotPublish.length} keys`);

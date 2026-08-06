@@ -39,18 +39,31 @@ export interface PublicCrewMember {
   kta: PublicKta;
   image: { src: string; alt: string };
 }
-export interface LeadershipMember {
+export interface PublicLeadership {
   id: string;
   name: string;
+  alternateNames?: string[];
+  relationship?: string;
   roles: string[];
-  countsAsCrew: false;
-  [k: string]: unknown;
+  background?: string;
+  memberOf?: string;
 }
-export interface MedicalPartner {
+export interface PublicMedicalPartner {
   id: string;
   name: string;
-  countsAsCrew: false;
-  [k: string]: unknown;
+  relationship?: string;
+  jobTitle?: string;
+  role?: string;
+  claimBoundary?: string;
+  credentials?: {
+    sip?: string;
+    sipIssuer?: string;
+    str?: string;
+    strValidTo?: string;
+    facility?: string;
+    verifiableVia?: string;
+    verificationUrls?: string[];
+  };
 }
 export interface CrewCounts {
   total: number;
@@ -105,16 +118,46 @@ function projectPublicCrew(raw: Record<string, any>): PublicCrewMember {
 /** The public field allowlist as declared in the record (data-driven privacy). */
 export function getPublicFieldAllowlist(): {
   crew: string[];
+  leadership: string[];
+  medicalPartner: string[];
   review: string[];
   doNotPublish: string[];
 } {
   const rec = getCanonicalPeople() as any;
   const a = rec.publicFieldAllowlist ?? {};
+  const arr = (v: unknown) => (Array.isArray(v) ? (v as string[]) : []);
   return {
-    crew: Array.isArray(a.crew) ? a.crew : [],
-    review: Array.isArray(a.review) ? a.review : [],
-    doNotPublish: Array.isArray(a.doNotPublish) ? a.doNotPublish : [],
+    crew: arr(a.crew),
+    leadership: arr(a.leadership),
+    medicalPartner: arr(a.medicalPartner),
+    review: arr(a.review),
+    doNotPublish: arr(a.doNotPublish),
   };
+}
+
+/**
+ * Project an object to EXACTLY the allowlisted paths. Supports one level of
+ * dot-nesting (e.g. "credentials.sip"). Any field not listed is dropped — so
+ * evidence / namingRule / source notes / reviewedDate / lastVerified never reach
+ * the DOM / JSON-LD / feed.
+ */
+function pickAllowlist(src: Record<string, any>, paths: string[]): Record<string, any> {
+  const clone = (v: unknown) => (v == null ? v : JSON.parse(JSON.stringify(v)));
+  const out: Record<string, any> = {};
+  for (const p of paths) {
+    const dot = p.indexOf(".");
+    if (dot === -1) {
+      if (src[p] !== undefined) out[p] = clone(src[p]);
+    } else {
+      const top = p.slice(0, dot);
+      const sub = p.slice(dot + 1);
+      if (src[top] && typeof src[top] === "object" && src[top][sub] !== undefined) {
+        out[top] = out[top] ?? {};
+        out[top][sub] = clone(src[top][sub]);
+      }
+    }
+  }
+  return out;
 }
 
 /** Codes that must NEVER be public (crew.unpublished). */
@@ -158,12 +201,21 @@ export function getCrewCounts(): CrewCounts {
   return { total: c.total, guides: c.guides, drivers: c.drivers };
 }
 
-export function getLeadership(): LeadershipMember[] {
-  return getCanonicalPeople().leadership as unknown as LeadershipMember[];
+/** Leadership (Founder / Ops-Safety), projected to publicFieldAllowlist.leadership. */
+export function getPublicLeadership(): PublicLeadership[] {
+  const allow = getPublicFieldAllowlist().leadership;
+  return (getCanonicalPeople().leadership as unknown as Record<string, any>[]).map(
+    (l) => pickAllowlist(l, allow) as unknown as PublicLeadership,
+  );
 }
 
-export function getMedicalPartner(): MedicalPartner {
-  return getCanonicalPeople().medicalPartner as unknown as MedicalPartner;
+/** Medical-screening partner, projected to publicFieldAllowlist.medicalPartner. */
+export function getPublicMedicalPartner(): PublicMedicalPartner {
+  const allow = getPublicFieldAllowlist().medicalPartner;
+  return pickAllowlist(
+    getCanonicalPeople().medicalPartner as unknown as Record<string, any>,
+    allow,
+  ) as unknown as PublicMedicalPartner;
 }
 
 export function getDisclaimer(): { policeIndependence: string; directManagedCrew: string } {

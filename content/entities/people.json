@@ -131,6 +131,8 @@
   },
   "publicFieldAllowlist": {
     "crew": ["code", "name", "role", "languages", "specialties", "kta.id", "kta.credentialType", "kta.issuer", "kta.credentialState", "image.src", "image.alt"],
+    "leadership": ["id", "name", "alternateNames", "relationship", "roles", "background", "memberOf"],
+    "medicalPartner": ["id", "name", "relationship", "jobTitle", "role", "claimBoundary", "credentials.sip", "credentials.sipIssuer", "credentials.str", "credentials.strValidTo", "credentials.facility", "credentials.verifiableVia", "credentials.verificationUrls"],
     "review": ["id", "platform", "reviewerDisplayName", "date", "star", "personCode", "packageContext", "url"],
     "doNotPublish": ["phone", "personalInstagram", "personalFacebook", "homeAddress", "rawKtaCardImage", "signature", "internalDbId", "package_id", "reviewerProfilePhoto", "unpublishedDbField", "guestScreeningCertificate"]
   }
