@@ -6,7 +6,7 @@ description: "How to book, pay, and cancel a JVTO private tour: website-only boo
 section: "travel-guide"
 status: "published"
 owner: "operations"
-lastReviewed: "2026-08-04"
+lastReviewed: "2026-08-06"
 schemaTypes:
   - WebPage
 faqKey: "travel-guide-booking-information"
@@ -30,6 +30,21 @@ Bookings are made **only on the official JVTO website** (javavolcano-touroperato
 **WhatsApp (+62 822 4478 8833) and email are support-only channels** — they help you plan and answer questions before and during the tour, but they never create, confirm, modify, cancel, or transfer a booking.
 
 Booking is confirmed only when: (1) a package has been selected, (2) the required payment has been processed, and (3) the Official E-Voucher / Invoice (PDF) has been issued by JVTO.
+
+---
+
+## Book With a Licensed, Verifiable Operator
+
+Not every business advertising East Java volcano trips is a registered tour operator. This matters because unlicensed operators are a documented, police-charged fraud risk in East Java — a category-level risk, not a claim about any particular company. In one case reported by the Indonesian National Police, the owner of an unlicensed ("bodong") Banyuwangi travel agency was arrested over a fake overseas-tour scheme: around 18 travellers each paid roughly 10 million rupiah for tours that never ran, and police said the packages were "merely his cover to get money." He was charged with fraud and embezzlement under the Indonesian Criminal Code (Polres Sukoharjo, Indonesian National Police, 2019).
+
+Separately — and as an unrelated matter of ordinary crime rather than operator conduct — travellers in the region face the everyday theft risk present at any destination, which is why dealing with accountable, identifiable people matters. Police, for example, investigated the theft of foreign tourists' luggage from a vehicle near Mount Bromo in early 2026; the local police chief noted the incident "affects the image of Mount Bromo as a safe destination" and pledged professional handling (ANTARA News, 2026).
+
+JVTO is the opposite of an anonymous, unverifiable operator. Every booking is made only through the official JVTO website, on the record — never through informal chat or a cash-first arrangement. PT Java Volcano Rendezvous is a licensed business you can check for yourself: national business registration NIB 1102230032918, a TDUP tourism business permit, HPWKI Ijen-operator membership, and BBKSDA conservation-area compliance. The company has operated in East Java since 2015 and is founder-led by an active Indonesian Tourist Police officer, with every credential listed and independently verifiable. When an operator is registered and named, someone is accountable — the basic protection an unverifiable "bodong" operator cannot offer.
+
+**Sources:**
+
+- Polres Sukoharjo (Indonesian National Police), 2019 — "Berkedok Tour ke Jepang, Agen Travel Bodong Asal Banyuwangi Diamankan Polisi." https://polressukoharjo.com/berkedok-tour-ke-jepang-agen-travel-bodong-asal-banyuwangi-diamankan-polisi/
+- ANTARA News, 2026 — "Police investigate theft of Thai tourists' suitcases at Mount Bromo." https://en.antaranews.com/news/404798/police-investigate-theft-of-thai-tourists-suitcases-at-mount-bromo
 
 ---
 
