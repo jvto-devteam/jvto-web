@@ -414,7 +414,7 @@ export default async function LegalPage() {
               <p className="text-slate-500 text-xs leading-relaxed">
                 Ministry of Health-licensed clinic coordinating on-site screenings for JVTO guests.
                 Screening checks SpO₂ and blood pressure before ascent. Certificate issued
-                digitally with QR code.
+                digitally as a BSrE-signed document.
               </p>
             </div>
 

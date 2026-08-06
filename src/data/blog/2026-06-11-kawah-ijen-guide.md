@@ -35,14 +35,14 @@ The trail is not technical climbing. It is steep, uneven, and done in darkness, 
 
 ## Health Certificates: The Regulatory Reality
 
-Since 2024, BBKSDA East Java (Surat Edaran SE.1658/KSA.9/2024) has established conditions under which crater access requires a recent local health certificate. When those conditions apply, a valid QR code is the entry requirement: **no certificate, no crater access**.
+Since 2024, BBKSDA East Java (Surat Edaran SE.1658/KSA.9/2024) requires a recent local health certificate for every guest before crater entry. A valid health certificate is the entry requirement: **no valid health certificate, no crater-zone access**.
 
 JVTO coordinates the health-screening workflow through the Ijen Digital Health Security System (health.mountijen.com). The process before your hike:
 
 1. Pre-hike health check — SpO₂, blood pressure, resting heart rate, respiratory history
 2. Results recorded digitally
-3. QR-verified *surat sehat* (health certificate) issued by Dr. Ahmad Irwandanu, a licensed medical doctor with a publicly verifiable SIP via Kemenkes SatuSehat
-4. Certificate presented at the crater gate for BBKSDA QR verification
+3. *surat sehat* (health certificate) issued by Dr. Ahmad Irwandanu, a licensed medical doctor with a publicly verifiable SIP via Kemenkes SatuSehat — BSrE electronically signed and traceable to that SIP
+4. A valid certificate is checked by BBKSDA at the crater access gate
 
 The data above is not bureaucratic overhead. Of the four fatal incidents at Kawah Ijen since 2015, two were fitness-related: a 68-year-old who died from exhaustion and respiratory distress, and a 64-year-old cardiac arrest at the mid-trail rest post. The screening is built to identify exactly these risk profiles before the trailhead — not after.
 

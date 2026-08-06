@@ -82,6 +82,36 @@ export const RULES = [
     re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,60}BBKSDA[^.]{0,40}(require|rules)|when (it|access rules?) (applies|require)|(screening|certificate)[^.]{0,60}(when|where)[^.]{0,40}(require|regulations?|rules?)|(when|where)[^.]{0,40}(regulations?|rules?)[^.]{0,20}(in effect|apply|applies)/i,
   },
   {
+    name: "health-cert-qr",
+    // Owner decision 2026-08-06: the Ijen surat-sehat / health-screening flow must
+    // NOT claim QR verification — there is no evidence of a guest-facing QR flow or
+    // QR acceptance at the crater gate. Canonical framing: the certificate is BSrE
+    // (BSSN) electronically signed + traceable to the doctor's SIP, and is CHECKED at
+    // the gate (a BBKSDA requirement) WITHOUT a QR mechanism ("no valid health
+    // certificate, no crater access"). This catches the health-cert QR idioms so they
+    // can't silently return. Each alternative REQUIRES a real separator or a health
+    // word, so the AHU registry `/qrcode/?kode=` verification URLs (one token, no
+    // separator) and QRIS payments never false-trigger. src/data/* mirrors still carry
+    // this wording until the producer (llm-wiki) fix merges + the bundles re-sync;
+    // those hits stay in the committed baseline (upstream-owned) and clear on resync.
+    //
+    // SCOPED to the health-cert context (this rule also runs in the runtime CMS gate
+    // /api/content-validate on every draft). It fires on a BARE \bQR\b only when a
+    // health-cert / surat-sehat / crater / BBKSDA / Ijen token sits within ~80 chars
+    // (either order): that catches EVERY construction — "QR code", "scan the
+    // certificate's QR", "verify by scanning its QR", "QR-verifiable", "no valid QR" —
+    // not just QR+suffix (Codex OKF #41 P1, applied here for parity); and it does NOT
+    // fire on an unrelated ticket / booking / payment "QR code" (P2). \bQR\b never
+    // matches the AHU/SABH `/qrcode/?kode=` URL token (qr+c) or "QRIS" (qr+i). No
+    // `allow` list: the scoped `re` IS the exemption — legit payment/QRIS,
+    // WhatsApp-login, and AHU-registry QR carry no health token within 80 chars, so
+    // they never match. A whole-line `allow` was removed (Codex #154 P2): scanText
+    // applies `allow` to the ENTIRE physical line, so an unrelated "payment"/"WhatsApp"
+    // token could mask a real health-QR violation elsewhere on the same line (CMS
+    // paragraphs and stringified JSON routinely put many sentences/fields on one line).
+    re: /(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)[^.\n]{0,80}\bQR\b|\bQR\b[^.\n]{0,80}(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)/i,
+  },
+  {
     name: "non-idr-currency",
     // prices are IDR-only, format `IDR 1,550,000/person`
     re: /\$\s?\d|EUR\s?\d|USD\s?\d{2,}|Rp\s?\d/,

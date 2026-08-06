@@ -96,8 +96,8 @@ const TourRequirements = () => {
               Yes. A recent local health certificate is mandatory for every guest under BBKSDA Surat
               Edaran SE.1658/KSA.9/2024. JVTO coordinates the clinic workflow — conducted by licensed
               medical staff (Dr. Ahmad Irwandanu, SIP) — so there is nothing for you to arrange
-              separately. The certificate carries a QR code checked at the crater access gate; without a
-              valid code, the crater zone is not accessible that day.
+              separately. The certificate is checked at the crater access gate; without a
+              valid health certificate, the crater zone is not accessible that day.
             </p>
           </details>
 

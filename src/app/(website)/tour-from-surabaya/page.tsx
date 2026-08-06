@@ -293,7 +293,7 @@ const FAQ_ITEMS = [
   {
     question: "How does the Ijen health screening work?",
     answer:
-      "For tours that include the Ijen night hike, JVTO includes a mandatory health screening by approved medical staff. It takes place at your hotel in Banyuwangi the evening before the trek. The check covers blood pressure, oxygen saturation, and a brief medical history review. Everyone who passes receives a digital QR certificate that is verified at the Ijen gate. Included in your package at no extra cost.",
+      "For tours that include the Ijen night hike, JVTO includes a mandatory health screening by approved medical staff. It takes place at your hotel in Banyuwangi the evening before the trek. The check covers blood pressure, oxygen saturation, and a brief medical history review. Everyone who passes receives a BSrE-signed digital certificate that is checked at the Ijen gate. Included in your package at no extra cost.",
   },
   {
     question: "What happens if Bromo or Ijen is closed on my dates?",
@@ -679,7 +679,7 @@ export default async function TourFromSurabayaPage() {
                 <ul className="space-y-2 mb-5">
                   {[
                     "Included in your package cost",
-                    "Digital QR verification at the Ijen gate",
+                    "BSrE-signed certificate checked at the Ijen gate",
                     "Done at your hotel lobby — no extra travel",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-gray-800 text-sm">

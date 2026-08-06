@@ -131,7 +131,6 @@ const Home = async () => {
     ],
     featureList: [
       "Digital recording of SpO₂ and blood pressure",
-      "QR-based clearance flow",
       "Supports go/no-go safety decisions",
     ],
     inLanguage: "en",

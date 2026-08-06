@@ -27,7 +27,7 @@
     },
     {
       "question": "Ijen Health-Screening Coordination",
-      "answer": "A health certificate is mandatory for every Ijen guest — screening by SIP-licensed Dr. Ahmad Irwandanu (STR publicly verifiable via Kemenkes / KKI), included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed, QR-verifiable, and traceable to that named doctor — a real, tamper-evident, accountable certificate rather than a self-issued form.",
+      "answer": "A health certificate is mandatory for every Ijen guest — screening by SIP-licensed Dr. Ahmad Irwandanu (STR publicly verifiable via Kemenkes / KKI), included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed and traceable to that named doctor — a real, tamper-evident, accountable certificate rather than a self-issued form.",
       "source_claim_id": "C4",
       "target_pages": [
         "output/website/pages/travel-guide/"
