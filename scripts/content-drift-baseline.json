@@ -5,7 +5,6 @@
   "src/app/(website)/tours-from-bali/page.tsx :: non-idr-currency": 2,
   "src/app/(website)/tours-from-surabaya/page.tsx :: non-idr-currency": 1,
   "src/components/website/Navbar.tsx :: wrong-founding-year": 1,
-  "src/data/cms/page_sections.json :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 2,
   "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/deprecated-wording-report.json :: unverified-press-names": 2,

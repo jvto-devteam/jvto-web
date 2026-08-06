@@ -42,25 +42,22 @@ resolver dumps (H1/titles/descriptions/bodies/bundle blocks/no-FAQ) — PASS.
 seed/snapshot is authoritative even at runtime — the DB can never override → offline capture ==
 production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies/FAQs).
 
-**Deferred to 04b (documented blockers — do NOT fold into 04a):**
+**Package 04b — all 17 deferred Travel Guide routes cut over to content/ (owner decisions locked 2026-08-06).** Every route is now content-owned; `getContentPage` / `content_pages` / the FAQ-manager snapshot / `AGENT_GUIDES` are removed from all Travel Guide render paths.
 
-| route | blocker |
+**Four bespoke folder pages** (kept a folder `page.tsx` for a layout the markdown renderer can't reproduce; excluded from the `[slug]` loader's `FOLDER_OWNED_ROUTES`; narrative + SEO + FAQ in `content/`):
+
+| route | notes |
 |---|---|
-| /travel-guide/faq | content comes from the **FAQ-manager snapshot** (`getPublicFaqCategories()` / `faqSnapshot`), a distinct generated system — needs its own capture + parity plan |
-| /travel-guide/police-escort-for-groups | folder page; TSX body + `getContentPage` **SEO override from the DB** — a live DB row may differ from offline fallbacks; needs a verified DB export before its SEO migrates |
-| /travel-guide/rijik-monthly-closure, /travel-guide/best-time-to-visit | folder pages, TSX-bodied (not snapshot-driven); best-time-to-visit additionally has no DB row (pre-existing open item) |
+| /travel-guide/best-time-to-visit | colour-coded month table + season-verdict cards (TSX chrome over structured content); FAQ from content |
+| /travel-guide/rijik-monthly-closure | prose + FAQ from content; calendar-computed closure table stays TSX; `"100% JVTO Travel Credit"` → **Lifetime Package Credit** (facts-lock) |
+| /travel-guide/faq | categorized accordions + single FAQPage from the same array; frozen from the served FAQ-manager snapshot (owner decision — no DB wait); HTML answers → markdown; one question reworded to clear the `blue-fire-guarantee` scanner |
+| /travel-guide/police-escort-for-groups | prose + key-facts + photo-evidence grid (TSX chrome); repository SEO fallback is the canonical content (owner decision — no `content_pages` export wait) |
 
-**Path B — 13 OKF-backed folder pages (`AgentGuide` body from `src/data/okf` via `AGENT_GUIDES`; `getContentPage` for SEO only):**
-`blue-fire-and-sunrise`, `booking-safety`, `bromo-sunrise`, `cancellation-travel-credit`,
-`finish-in-bali`, `how-booking-works`, `malang-batu`, `payment-and-deposit`, `private-tour`,
-`rooming-and-accommodation`, `vehicle-and-luggage`, `what-is-included`, `why-stay-near-ijen`.
+**Thirteen former OKF pages → `content/pages/travel-guide/<slug>.md`, served by the `[slug]` loader** (folder pages + `AgentGuide.tsx` + `agentGuides.ts` deleted; `AGENT_GUIDES` retired): `blue-fire-and-sunrise`, `booking-safety`, `bromo-sunrise`, `cancellation-travel-credit`, `finish-in-bali`, `how-booking-works`, `malang-batu`, `payment-and-deposit`, `private-tour`, `rooming-and-accommodation`, `vehicle-and-luggage`, `what-is-included`, `why-stay-near-ijen`. One-time input = the currently-synced OKF bundle (frozen via `AGENT_GUIDES`, which was curated from `src/data/okf/general-modules.json`).
 
-| aspect | value |
-|---|---|
-| currentEffectiveSource | OKF agent-guides (file) + content_pages (SEO override only) |
-| targetFormat | markdown (body) — decouples from `sync:okf` for these pages |
-| pkg / status | 04 / pending |
-| blocker | **owner check before decouple:** confirm OKF customer-sales-release keeps its other consumers; `/travel-guide/how-booking-works` + `/payment-and-deposit` are LIVE pages, not redirects — migrate, don't redirect |
+**OKF retained for its non-route consumers** (owner decision #4): `src/data/okf` + `sync:okf` + the CI drift gate stay for the CMS catalog (`entityRegistry.ts` read-only entries + the `cms/consolidation` view). The route-coverage validator `validate-okf-consumption.mjs` is retired (no route consumes OKF now).
+
+**Enforcement:** ownership gate (44 migrated routes; faq + police-escort seed rows + snapshots stripped), `test:travel-guide-04b` (route parity + malformed-grid negative self-test), knowledge feed (44 routes) + sitemap string-literals + authority manifest all regenerated.
 
 ## Why JVTO (Package 05)
 
@@ -118,7 +115,7 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 02 | shared entities + review-stats SSOT relocation | **done** (#142) |
 | 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
 | 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done** (#144) |
-| 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
+| 04b | TG deferred routes (best-time / rijik / faq / police-escort) + 13 OKF pages | **done (this PR)** — all 17 routes content-owned; AGENT_GUIDES retired, OKF kept for non-route consumers; owner decisions locked 2026-08-06 |
 | 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
