@@ -5,6 +5,7 @@ import { PageJsonLdCombined } from '@/components/seo/PageJsonLdCombined';
 import Sidebar from '../sidebar';
 import { Faq } from '@/components/content/Faq';
 import { MarkdownRendererTravelGuide } from '@/components/content/MarkdownRendererTravelGuide';
+import { z } from 'zod';
 import {
   loadStaticPage,
   PRODUCTION_ORIGIN,
@@ -23,16 +24,26 @@ const ROUTE = '/travel-guide/best-time-to-visit';
 export const revalidate = 86400;
 
 type Sec = NonNullable<StaticPage['sections']>[number] & Record<string, unknown>;
-type SeasonPoint = { positive: boolean; text: string };
-type SeasonCard = { kind: string; label: string; range: string; points: SeasonPoint[] };
-type MonthRow = {
-  month: string;
-  bromo: string;
-  ijen: string;
-  tumpak: string;
-  crowd: string;
-  sweet: boolean;
-};
+
+// The bespoke grids are looseObjects in the shared content schema, so validate them
+// against a route-specific shape at render time — a malformed content edit then fails
+// the build with a clear message instead of a runtime `undefined.map()` on the page.
+const SeasonCardSchema = z.object({
+  kind: z.enum(['dry', 'wet']),
+  label: z.string().min(1),
+  range: z.string().min(1),
+  points: z.array(z.object({ positive: z.boolean(), text: z.string().min(1) })).min(1),
+});
+const MonthRowSchema = z.object({
+  month: z.string().min(1),
+  bromo: z.string().min(1),
+  ijen: z.string().min(1),
+  tumpak: z.string().min(1),
+  crowd: z.string().min(1),
+  sweet: z.boolean(),
+});
+type SeasonCard = z.infer<typeof SeasonCardSchema>;
+type MonthRow = z.infer<typeof MonthRowSchema>;
 
 function findSection(page: StaticPage, id: string): Sec | undefined {
   return page.sections?.find((s) => s.id === id) as Sec | undefined;
@@ -45,6 +56,19 @@ function sectionGrid(sec: Sec | undefined, role: string): Record<string, unknown
 }
 function sectionBody(sec: Sec | undefined): string {
   return typeof sec?.body_md === 'string' ? sec.body_md : '';
+}
+function sectionTitle(sec: Sec | undefined): string {
+  return typeof sec?.title === 'string' ? sec.title : '';
+}
+function parseGrid<T>(schema: z.ZodType<T>, items: Record<string, unknown>[], label: string): T[] {
+  const parsed = z.array(schema).safeParse(items);
+  if (!parsed.success) {
+    const detail = parsed.error.issues
+      .map((i) => `${i.path.join('.')}: ${i.message}`)
+      .join('; ');
+    throw new Error(`best-time-to-visit content: malformed "${label}" grid — ${detail}`);
+  }
+  return parsed.data;
 }
 
 function ratingClass(rating: string): string {
@@ -99,17 +123,19 @@ export default async function BestTimeToVisitPage() {
   const faqItems = page.faq ?? [];
   const faqSchema = faqItems.length ? buildStaticFaqSchema(ROUTE, faqItems) : null;
 
+  const monthSec = findSection(page, 'month-reference');
+  const perDestSec = findSection(page, 'per-destination');
+  const notesSec = findSection(page, 'operating-notes');
+
   const intro = sectionBody(findSection(page, 'intro'));
-  const seasonCards = sectionGrid(
-    findSection(page, 'season-verdict'),
+  const seasonCards = parseGrid(
+    SeasonCardSchema,
+    sectionGrid(findSection(page, 'season-verdict'), 'season-cards'),
     'season-cards',
-  ) as unknown as SeasonCard[];
-  const monthRows = sectionGrid(
-    findSection(page, 'month-reference'),
-    'month-table',
-  ) as unknown as MonthRow[];
-  const perDestination = sectionBody(findSection(page, 'per-destination'));
-  const operatingNotes = sectionBody(findSection(page, 'operating-notes'));
+  );
+  const monthRows = parseGrid(MonthRowSchema, sectionGrid(monthSec, 'month-table'), 'month-table');
+  const perDestination = sectionBody(perDestSec);
+  const operatingNotes = sectionBody(notesSec);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -174,7 +200,7 @@ export default async function BestTimeToVisitPage() {
 
           {/* Month-by-month table */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold mb-4">Month-by-Month Quick Reference</h2>
+            <h2 className="text-xl font-bold mb-4">{sectionTitle(monthSec)}</h2>
             <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50">
@@ -207,13 +233,13 @@ export default async function BestTimeToVisitPage() {
 
           {/* Per-destination breakdown */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold mb-4">Per-Destination Breakdown</h2>
+            <h2 className="text-xl font-bold mb-4">{sectionTitle(perDestSec)}</h2>
             <MarkdownRendererTravelGuide markdown={perDestination} />
           </section>
 
           {/* JVTO operating notes */}
           <section className="mb-10 rounded-lg border border-gray-200 bg-gray-50 p-5">
-            <h2 className="text-base font-bold mb-3 text-gray-900">JVTO Operating Notes</h2>
+            <h2 className="text-base font-bold mb-3 text-gray-900">{sectionTitle(notesSec)}</h2>
             <MarkdownRendererTravelGuide markdown={operatingNotes} />
           </section>
 
