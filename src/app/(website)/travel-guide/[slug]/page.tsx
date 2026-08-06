@@ -17,11 +17,14 @@ import {
   type StaticPage,
 } from "@/lib/static-content";
 
-// PACKAGE 04 (2026-08-04): the seed-owned Travel Guide slug routes are served from
-// content/pages/travel-guide/ (static-content SSOT). Routes still owned by folder
-// pages (faq, police-escort-for-groups, rijik-monthly-closure, best-time-to-visit)
-// and the 13 OKF-backed agent-guide pages are NOT in this loader's param set — they
-// keep their current behavior until their migration lands (see the ledger).
+// PACKAGE 04 (2026-08-04) + 04b (2026-08-06): the Travel Guide slug routes are served
+// from content/pages/travel-guide/ (static-content SSOT). This includes the 13 former
+// OKF-backed agent-guide pages, now frozen to markdown here (AGENT_GUIDES retired). The
+// four routes with a bespoke layout the markdown renderer can't reproduce — faq (category
+// accordions), police-escort-for-groups (photo grid), rijik-monthly-closure (computed
+// closure table), best-time-to-visit (colour-coded month table) — keep their own folder
+// page and are excluded from this loader's param set (FOLDER_OWNED_ROUTES) to avoid a
+// duplicate-path collision.
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -45,7 +48,12 @@ const TRAVEL_GUIDE_DEST_LINKS: Record<
 // can't reproduce — e.g. best-time-to-visit's colour-coded month table + season cards
 // (PACKAGE 04b). They are served from their folder page, so they must be excluded here or
 // Next.js would try to statically generate the same path from both routes.
-const FOLDER_OWNED_ROUTES = new Set<string>(["/travel-guide/best-time-to-visit"]);
+const FOLDER_OWNED_ROUTES = new Set<string>([
+  "/travel-guide/best-time-to-visit",
+  "/travel-guide/rijik-monthly-closure",
+  "/travel-guide/faq",
+  "/travel-guide/police-escort-for-groups",
+]);
 
 export function generateStaticParams() {
   return listPublishedStaticPages({ section: "travel-guide" })

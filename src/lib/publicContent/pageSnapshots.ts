@@ -116,28 +116,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
       h1: "Surabaya Tours",
     },
   ),
-  "/travel-guide/faq": createPageSnapshot(
-    "/travel-guide/faq",
-    {
-      title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
-      description:
-        "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
-    },
-    {
-      h1: "Frequently Asked Questions",
-    },
-  ),
-  "/travel-guide/police-escort-for-groups": createPageSnapshot(
-    "/travel-guide/police-escort-for-groups",
-    {
-      title: "Police Escort for Tourist Groups in East Java | JVTO",
-      description:
-        "Understand how official police escort requests work for large tourist groups traveling with JVTO in East Java.",
-    },
-    {
-      h1: "Police Escort for Tourist Groups in East Java",
-    },
-  ),
 };
 
 // Seed WINS for its covered routes; manualPageSnapshots is the fallback for the

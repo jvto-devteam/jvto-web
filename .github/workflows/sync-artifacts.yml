@@ -90,11 +90,6 @@ jobs:
           npm run sync:policy-bundle
           npm run sync:okf
 
-      - name: Validate OKF consumption
-        # Same gate as ci.yml's verify job — a route diverging from its OKF source
-        # must block the sync PR too, not just a manually-triggered PR.
-        run: npm run validate:okf
-
       - name: Detect artifact changes
         id: diff
         run: |

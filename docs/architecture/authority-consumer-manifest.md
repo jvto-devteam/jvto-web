@@ -10,16 +10,14 @@
 > checkout / my-booking money surface. Authority follows the import closure; `unresolved`
 > means no known resolver was reachable (recorded, not guessed).
 
-**Public routes:** 56  ·  **private:** 4  ·  **generated surfaces:** 6
+**Public routes:** 43  ·  **private:** 4  ·  **generated surfaces:** 6
 
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **28**
-- legacy: content_pages (DB): **1**
-- producer: OKF: **13**
+- content/ (Git SSOT): **30**
 - producer: llm-wiki (via import): **1**
-- producer: llm-wiki: **5**
+- producer: llm-wiki: **4**
 - tsx-embedded narrative: **1**
 - unresolved (no reachable resolver): **6**
 
@@ -56,24 +54,11 @@
 | `/tours/from-surabaya/[slug]` | `src/app/(website)/tours/from-surabaya/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/tours/student-package/[slug]` | `src/app/(website)/tours/student-package/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | search/schema, web |
 | `/travel-guide` | `src/app/(website)/travel-guide/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/travel-guide/[slug]` | `src/app/(website)/travel-guide/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
+| `/travel-guide/[slug]` | `src/app/(website)/travel-guide/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, okf-agent-guides, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/travel-guide/best-time-to-visit` | `src/app/(website)/travel-guide/best-time-to-visit/page.tsx` | content/ (Git SSOT) | direct | content_pages, faq-resolver, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/travel-guide/blue-fire-and-sunrise` | `src/app/(website)/travel-guide/blue-fire-and-sunrise/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/booking-safety` | `src/app/(website)/travel-guide/booking-safety/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/bromo-sunrise` | `src/app/(website)/travel-guide/bromo-sunrise/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/cancellation-travel-credit` | `src/app/(website)/travel-guide/cancellation-travel-credit/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/faq` | `src/app/(website)/travel-guide/faq/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/travel-guide/finish-in-bali` | `src/app/(website)/travel-guide/finish-in-bali/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/how-booking-works` | `src/app/(website)/travel-guide/how-booking-works/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/malang-batu` | `src/app/(website)/travel-guide/malang-batu/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/payment-and-deposit` | `src/app/(website)/travel-guide/payment-and-deposit/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/police-escort-for-groups` | `src/app/(website)/travel-guide/police-escort-for-groups/page.tsx` | legacy: content_pages (DB) | direct | content_pages, getContentPage, jsonld, prisma | no | AI/llms, search/schema, sitemap, web |
-| `/travel-guide/private-tour` | `src/app/(website)/travel-guide/private-tour/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/rijik-monthly-closure` | `src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx` | producer: llm-wiki | direct | cms-seed, faq-resolver, jsonld, policy-bundle, prisma | no | search/schema, web |
-| `/travel-guide/rooming-and-accommodation` | `src/app/(website)/travel-guide/rooming-and-accommodation/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/vehicle-and-luggage` | `src/app/(website)/travel-guide/vehicle-and-luggage/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/what-is-included` | `src/app/(website)/travel-guide/what-is-included/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
-| `/travel-guide/why-stay-near-ijen` | `src/app/(website)/travel-guide/why-stay-near-ijen/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
+| `/travel-guide/faq` | `src/app/(website)/travel-guide/faq/page.tsx` | content/ (Git SSOT) | direct | content_pages, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/travel-guide/police-escort-for-groups` | `src/app/(website)/travel-guide/police-escort-for-groups/page.tsx` | content/ (Git SSOT) | direct | content_pages, getContentPage, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/travel-guide/rijik-monthly-closure` | `src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx` | content/ (Git SSOT) | direct | content_pages, faq-resolver, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/trust` | `src/app/(website)/trust/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content, trust-bundle | no | AI/llms, search/schema, sitemap, web |
 | `/verify-jvto` | `src/app/(website)/verify-jvto/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/verify-jvto/history-artifacts` | `src/app/(website)/verify-jvto/history-artifacts/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |

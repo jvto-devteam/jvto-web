@@ -5,12 +5,12 @@ import { PageJsonLdCombined } from '@/components/seo/PageJsonLdCombined';
 import Sidebar from '../sidebar';
 import { Faq } from '@/components/content/Faq';
 import { MarkdownRendererTravelGuide } from '@/components/content/MarkdownRendererTravelGuide';
-import { z } from 'zod';
 import {
   loadStaticPage,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from '@/lib/static-content';
+import { SeasonCardSchema, MonthRowSchema, parseGrid } from '@/lib/content/travelGuideGrids';
 
 // PACKAGE 04b (2026-08-06): evergreen narrative + SEO + FAQ come from the static-content
 // SSOT (content/pages/travel-guide/best-time-to-visit.json + content/faqs/…). The bespoke
@@ -24,26 +24,6 @@ const ROUTE = '/travel-guide/best-time-to-visit';
 export const revalidate = 86400;
 
 type Sec = NonNullable<StaticPage['sections']>[number] & Record<string, unknown>;
-
-// The bespoke grids are looseObjects in the shared content schema, so validate them
-// against a route-specific shape at render time — a malformed content edit then fails
-// the build with a clear message instead of a runtime `undefined.map()` on the page.
-const SeasonCardSchema = z.object({
-  kind: z.enum(['dry', 'wet']),
-  label: z.string().min(1),
-  range: z.string().min(1),
-  points: z.array(z.object({ positive: z.boolean(), text: z.string().min(1) })).min(1),
-});
-const MonthRowSchema = z.object({
-  month: z.string().min(1),
-  bromo: z.string().min(1),
-  ijen: z.string().min(1),
-  tumpak: z.string().min(1),
-  crowd: z.string().min(1),
-  sweet: z.boolean(),
-});
-type SeasonCard = z.infer<typeof SeasonCardSchema>;
-type MonthRow = z.infer<typeof MonthRowSchema>;
 
 function findSection(page: StaticPage, id: string): Sec | undefined {
   return page.sections?.find((s) => s.id === id) as Sec | undefined;
@@ -59,16 +39,6 @@ function sectionBody(sec: Sec | undefined): string {
 }
 function sectionTitle(sec: Sec | undefined): string {
   return typeof sec?.title === 'string' ? sec.title : '';
-}
-function parseGrid<T>(schema: z.ZodType<T>, items: Record<string, unknown>[], label: string): T[] {
-  const parsed = z.array(schema).safeParse(items);
-  if (!parsed.success) {
-    const detail = parsed.error.issues
-      .map((i) => `${i.path.join('.')}: ${i.message}`)
-      .join('; ');
-    throw new Error(`best-time-to-visit content: malformed "${label}" grid — ${detail}`);
-  }
-  return parsed.data;
 }
 
 function ratingClass(rating: string): string {
