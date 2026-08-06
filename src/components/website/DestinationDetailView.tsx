@@ -539,8 +539,8 @@ function SignatureSection({
                   nothing for you to arrange separately.
                 </p>
                 <p className="text-white/74 text-base font-light leading-relaxed">
-                  The QR-verified surat sehat is issued through Dr. Ahmad Irwandanu (SIP, Kemenkes
-                  RI) and is scannable at the crater access gate.
+                  The BSrE-signed surat sehat is issued through Dr. Ahmad Irwandanu (SIP, Kemenkes
+                  RI) and is checked at the crater access gate.
                 </p>
                 <Link
                   href="/travel-guide/ijen-health-screening"
@@ -552,7 +552,7 @@ function SignatureSection({
               <Callout icon={CheckCircle2} title="Coordinated when rules require it" tone="lime" dark>
                 This is a regulatory step under BBKSDA, not a JVTO-imposed formality. When the rule
                 is active, oxygen saturation, blood pressure, heart rate and respiratory history
-                are recorded before crater access. No valid QR, no crater entry — that rule is
+                are recorded before crater access. No valid health certificate, no crater entry — that rule is
                 BBKSDA&apos;s.
               </Callout>
             </div>

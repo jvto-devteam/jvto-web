@@ -91,7 +91,7 @@ export const faqData = {
               <li>Screening takes place before the hike, often at your accommodation or a partner clinic.</li>
               <li>Basic checks are done (for example blood pressure, oxygen saturation and relevant medical history).</li>
               <li>Results are recorded and can be used to confirm whether the hike is appropriate.</li>
-              <li>A digital system with QR verification is used to help prevent fake certificates.</li>
+              <li>The certificate is BSrE (Balai Sertifikasi Elektronik / BSSN) electronically signed and traceable to the licensed doctor's SIP, which helps prevent fake or self-issued certificates.</li>
             </ul>
             <p>Full details, including what happens if you are not cleared, are explained on Ijen Health Screening.</p>
           `

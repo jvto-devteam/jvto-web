@@ -23,7 +23,7 @@ That is precisely why BBKSDA East Java — the government authority controlling 
 
 This is the first thing to understand: JVTO does not unilaterally impose a health screening requirement. The rule originates with **BBKSDA East Java** (Balai Besar Konservasi Sumber Daya Alam), the Nature Conservation Agency that manages the Kawah Ijen nature reserve.
 
-Under SE.1658/KSA.9/2024, BBKSDA requires every visitor to carry a verifiable health certificate. No valid certificate = no crater access. The gate has a QR reader.
+Under SE.1658/KSA.9/2024, BBKSDA requires every visitor to carry a verifiable health certificate. No valid health certificate = no crater-zone access. BBKSDA staff check the certificate at the Paltuding gate.
 
 JVTO's role is coordination: JVTO arranges the mandatory screening workflow so guests arrive at Paltuding ready to enter. The session is included in the package price and scheduled before the night departure. It is a service, not an arbitrary gatekeeping policy.
 
@@ -40,7 +40,7 @@ The Ijen health screening runs through the **Ijen Digital Health Security System
 | **Resting Heart Rate** | Cardiovascular baseline — elevated resting HR signals reduced cardiac reserve |
 | **Respiratory History Check** | Asthma, bronchitis, or chronic lung conditions increase risk from SO₂ and HCl gas exposure |
 
-If all four metrics are within safe parameters, the doctor issues a **surat sehat** (health certificate): a QR-coded document linked to the licensed physician's identity. The QR code is scanned by the BBKSDA gate officer at Paltuding. The certificate cannot be forged — it carries the doctor's SIP number and is tied to a government-verifiable registry.
+If all four metrics are within safe parameters, the doctor issues a **surat sehat** (health certificate): a BSrE (Balai Sertifikasi Elektronik) electronically signed document linked to the licensed physician's identity. A valid certificate is checked by the BBKSDA gate officer at Paltuding. The certificate cannot be forged — its BSrE electronic signature carries the doctor's SIP number and is tied to a government-verifiable registry.
 
 ## Who Issues the Certificate — Dr. Ahmad Irwandanu
 
@@ -51,7 +51,7 @@ His credentials are publicly verifiable — no trust required:
 - **STR lookup (Kemenkes SatuSehat)**: https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217
 - **KKI license check**: https://www.kki.go.id/cekdokter/form
 
-This matters because the certificate he issues carries real legal weight. An illegitimate practitioner's QR code would fail at the BBKSDA gate reader. The auditable credential chain — KKI registry → Kemenkes SatuSehat → SIP number → QR certificate → BBKSDA gate scan — is what makes the system tamper-resistant.
+This matters because the certificate he issues carries real legal weight. An illegitimate practitioner cannot produce the BSrE electronic signature the certificate depends on. The auditable credential chain — KKI registry → Kemenkes SatuSehat → SIP number → BSrE-signed certificate → BBKSDA gate check — is what makes the system tamper-resistant.
 
 The screening takes place at one of two partner facilities:
 
@@ -89,8 +89,8 @@ For guests on an Ijen-relevant JVTO package, the screening workflow runs as foll
 
 1. JVTO schedules the health screening session — at a partner clinic or hotel/office, before the night departure
 2. Dr. Ahmad Irwandanu (or partner physician) conducts the four-metric vitals assessment
-3. QR-verified surat sehat issued digitally through health.mountijen.com
-4. On arrival at Paltuding gate: certificate scanned by BBKSDA officer, access granted
+3. BSrE-signed surat sehat issued digitally through health.mountijen.com
+4. On arrival at Paltuding gate: certificate checked by BBKSDA officer, access granted
 5. Hike proceeds with licensed guide; gas masks and headlamps provided as standard package inclusions
 
 The session adds roughly 15–20 minutes to pre-hike logistics. JVTO builds this into the departure timeline so it does not affect the midnight climb window targeting the blue-fire viewing slot.
@@ -99,7 +99,7 @@ Of JVTO's 16 tour packages, 12 are Ijen-relevant and include this mandatory heal
 
 ## The Short Version
 
-A BBKSDA-mandated local health certificate is required for every guest before Ijen crater access. JVTO coordinates the certification workflow through licensed physician Dr. Ahmad Irwandanu — credentials publicly verifiable via Kemenkes SatuSehat and KKI. The screening measures four vitals, takes 15–20 minutes, and issues a QR-verified certificate. Guests who do not pass cannot enter the crater zone — individual cancellation, not group cancellation. The screening cost is non-refundable.
+A BBKSDA-mandated local health certificate is required for every guest before Ijen crater access. JVTO coordinates the certification workflow through licensed physician Dr. Ahmad Irwandanu — credentials publicly verifiable via Kemenkes SatuSehat and KKI. The screening measures four vitals, takes 15–20 minutes, and issues a BSrE-signed certificate. Guests who do not pass cannot enter the crater zone — individual cancellation, not group cancellation. The screening cost is non-refundable.
 
 This is not a bureaucratic formality. It is the mechanism designed to catch the fitness risks that have historically ended in fatalities on this trail.
 

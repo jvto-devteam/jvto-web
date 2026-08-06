@@ -68,6 +68,18 @@ jobs:
         # docs/CANONICAL_FACTS.md to quote forbidden examples deliberately).
         run: npm run validate:content
 
+      - name: Validate health-cert QR in DB snapshots (blocking)
+        # The main drift gate (validate-content-drift.mjs) deliberately EXCLUDES
+        # src/lib/publicContent/generated/ (machine snapshots regenerated from the
+        # DB by scripts/export-*.mjs). This targeted gate re-scans those snapshots
+        # with ONLY the shared `health-cert-qr` rule (imported from
+        # scripts/lib/contentDriftRules.mjs — no parallel regex), so a future FAQ /
+        # snapshot DB export cannot reintroduce a health-certificate QR claim (e.g.
+        # faqSnapshots.json → /travel-guide/faq + its FAQPage JSON-LD) without CI
+        # catching it. It does NOT weaken the broad generated/ exclusion — every
+        # other rule still ignores these snapshots.
+        run: npm run validate:health-qr-snapshots
+
       - name: Validate static content + migrated-route ownership (blocking)
         # content:check = static-content structure (Zod + fixtures) + internal
         # links + the migrated-route ownership gate

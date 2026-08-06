@@ -584,7 +584,7 @@ export default function ToursFromBaliLP() {
                 <ul className="space-y-3 mb-8">
                   {[
                     "Done at your hotel in Banyuwangi or Bondowoso, evening before trek",
-                    "Digital QR certificate verified at Ijen gate",
+                    "BSrE-signed certificate checked at Ijen gate",
                     "Reduces fake letters & preventable accidents",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-gray-800">

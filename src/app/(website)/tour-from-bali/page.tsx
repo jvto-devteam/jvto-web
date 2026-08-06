@@ -245,7 +245,7 @@ const FAQ_ITEMS = [
   {
     question: "How does the Ijen health screening work?",
     answer:
-      "For tours that include the Ijen night hike, JVTO includes a mandatory health screening by approved medical staff. It takes place at your hotel in Banyuwangi the evening before the trek. The check covers blood pressure, oxygen saturation, and a brief medical history review. Everyone who passes receives a digital QR certificate that is verified at the Ijen gate.",
+      "For tours that include the Ijen night hike, JVTO includes a mandatory health screening by approved medical staff. It takes place at your hotel in Banyuwangi the evening before the trek. The check covers blood pressure, oxygen saturation, and a brief medical history review. Everyone who passes receives a BSrE-signed digital certificate that is checked at the Ijen gate.",
   },
   {
     question: "Can I return to Bali at the end of the tour?",
@@ -623,7 +623,7 @@ export default async function TourFromBaliPage() {
                 <ul className="space-y-2 mb-6">
                   {[
                     "Done at your hotel — no extra travel",
-                    "Digital QR certificate verified at the gate",
+                    "BSrE-signed certificate checked at the gate",
                     "Prevents accidents, not just paperwork",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-gray-800 text-sm">

@@ -26,12 +26,21 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
   evidence — bukan sebagai syarat pemicu kondisional. Adjudikasi ulang 2026-07-06 (menggantikan
   keputusan kondisional 2026-07-05); lihat commit history untuk detail.
   Sertifikat (surat sehat) = **BSrE (Balai Sertifikasi Elektronik / BSSN) electronically-signed**
-  (tanda tangan elektronik sah menurut UU ITE), **verifiable via QR** dan traceable ke SIP dokter;
-  screening included dalam paket & dilakukan di hotel tamu sebelum guide briefing. Wording
-  BSrE/QR/electronic-signature ini **canonical** — akuntabel & tamper-evident, safeguard terhadap
-  surat sehat palsu (self-issued). Batas: sample hanya membuktikan **format tanda tangan** — jangan
-  klaim "diterima/diverifikasi di gerbang" tanpa evidence otoritas gerbang. Evidence anchors: OKF
-  `policies/ijen-health-screening` + llm-wiki E019 (BSrE-signed sample certificate on file).
+  (tanda tangan elektronik sah menurut UU ITE) — **standar nasional e-signature**, sehingga
+  sertifikat **tercatat, terlisensi, tamper-evident, sah**, traceable ke SIP dokter; screening
+  included dalam paket & dilakukan di hotel tamu sebelum guide briefing. JVTO **tidak** mengklaim
+  adanya pengecekan elektronik apa pun di gerbang tiket Ijen (tidak dapat dipastikan); poin BSrE
+  hanya membuktikan surat sehat diterbitkan sungguh oleh tenaga medis (Dr. Danu), bukan
+  self-issued/palsu. Wording BSrE/electronic-signature
+  ini **canonical** — akuntabel & tamper-evident, safeguard terhadap surat sehat palsu (self-issued).
+  Sertifikat yang valid **diperiksa** di gerbang kawah (persyaratan BBKSDA); gunakan
+  "no valid health certificate, no crater access".
+  **QR RETIRED — keputusan owner 2026-08-06: dilarang memakai "QR", "QR code", "QR-verifiable", <!-- drift-ok: contoh terlarang dikutip sengaja -->
+  "QR-verified", "digital QR certificate", atau "scan di gerbang" pada alur surat sehat / health <!-- drift-ok: contoh terlarang dikutip sengaja -->
+  screening (tidak ada evidence QR-flow tamu maupun penerimaan QR di gerbang); ganti "no valid QR" <!-- drift-ok: contoh terlarang dikutip sengaja -->
+  → "no valid health certificate".** Batas: sample hanya membuktikan **format tanda tangan** —
+  jangan klaim "diterima/diverifikasi di gerbang" tanpa evidence otoritas gerbang. Evidence
+  anchors: OKF `policies/ijen-health-screening` + llm-wiki E019 (BSrE-signed sample certificate on file).
 - **Police escort**: threshold ≈18 guests, "approval not guaranteed", unit Ditlantas.
 - **Deposit 20%**; cancellation = **100% Lifetime Package Credit** (bukan cash refund).
 - **Harga IDR-only** format `IDR 1,550,000/person`.

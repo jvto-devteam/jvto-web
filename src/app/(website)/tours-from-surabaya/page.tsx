@@ -150,7 +150,7 @@ const FAQ_ITEMS = [
   {
     question: "Bagaimana proses health screening Ijen?",
     answer:
-      "Screening dilakukan oleh tenaga medis terlatih di hotel Anda atau kantor JVTO, biasanya malam sebelum pendakian. Ini termasuk pengecekan tekanan darah, kondisi pernafasan, dan riwayat kesehatan. Hasilnya dikirim digital dengan QR code yang diverifikasi di gerbang Ijen.",
+      "Screening dilakukan oleh tenaga medis terlatih di hotel Anda atau kantor JVTO, biasanya malam sebelum pendakian. Ini termasuk pengecekan tekanan darah, kondisi pernafasan, dan riwayat kesehatan. Hasilnya berupa surat sehat bertanda tangan elektronik BSrE yang diperiksa di gerbang Ijen.",
   },
   {
     question: "Bagaimana cara booking?",
@@ -457,7 +457,7 @@ export default function ToursFromSurabayaLP() {
                 <ul className="space-y-3 mb-8">
                   {[
                     "Included in your package cost",
-                    "Digital QR verification at the gate",
+                    "BSrE-signed certificate checked at the gate",
                     "Done at your hotel lobby — no extra travel",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-gray-800">

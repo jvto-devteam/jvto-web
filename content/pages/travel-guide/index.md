@@ -92,7 +92,7 @@ summary: "Hub for JVTO travel guidance: booking, safety, health screening, packi
 
 **Expect Ijen night hikes to require screening and to remain subject to safety decisions even after clearance.** Kawah Ijen is described here as a night hike at altitude with possible sulfur gas exposure.
 
-**Expect screening to be included for eligible JVTO guests and to be digitally verifiable.** For JVTO guests joining Ijen hikes, the package includes a formal health screening by trained medical staff, recorded digitally and verifiable via QR code.
+**Expect screening to be included for eligible JVTO guests and to be digitally verifiable.** For JVTO guests joining Ijen hikes, the package includes a formal health screening by trained medical staff, recorded digitally on a BSrE-signed certificate.
 
 **Expect the public tool to exist, and expect hikes to be modified or cancelled if conditions are unsafe.** The same digital system is described as available to other travellers via a public tool. A cleared screening reduces risk but does not remove it; hikes may still be cancelled or modified based on conditions.
 
