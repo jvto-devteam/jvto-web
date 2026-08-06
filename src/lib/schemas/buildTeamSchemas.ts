@@ -16,9 +16,14 @@ const ORG_ID = `${BASE}/#organization`;
 const FOUNDER_ID = `${BASE}/#agung-sambuko`;
 const DOCTOR_ID = `${BASE}/#dr-ahmad-irwandanu`;
 
-/** Role → public job-title label (a role label, not a fabricated biography). */
+/**
+ * Role → public job-title label. A plain role label, NOT a credential claim: the
+ * canonical record establishes only an HPWKI MEMBERSHIP credential (KTA), never a
+ * government/professional licence, so we must not label crew "Licensed" (the page
+ * itself states the KTA is not a government licence).
+ */
 export function crewJobTitle(role: "guide" | "driver"): string {
-  return role === "guide" ? "Licensed Tour Guide" : "Professional Tour Driver";
+  return role === "guide" ? "Tour Guide" : "Tour Driver";
 }
 
 function imageObject(member: PublicCrewMember) {
@@ -74,7 +79,7 @@ export function buildTeamItemListSchema(crew: PublicCrewMember[]) {
     "@id": `${BASE}/team#crew-index`,
     name: "JVTO Field Crew — East Java",
     description:
-      "Complete registry of JVTO's directly-managed East Java field crew: licensed guides and drivers on Bromo, Ijen, and Tumpak Sewu tours.",
+      "Complete registry of JVTO's directly-managed East Java field crew: guides and drivers on Bromo, Ijen, and Tumpak Sewu tours.",
     numberOfItems: crew.length,
     itemListElement: crew.map((m, i) => ({
       "@type": "ListItem",
@@ -96,7 +101,7 @@ export function buildTeamAboutPageSchema() {
     "@type": "AboutPage",
     "@id": `${BASE}/team#aboutpage`,
     url: `${BASE}/team`,
-    name: "JVTO Field Team — Licensed Guides, Drivers, Leadership & Medical Screening",
+    name: "JVTO Field Team — Guides, Drivers, Leadership & Medical Screening",
     about: [{ "@id": ORG_ID }, { "@id": FOUNDER_ID }, { "@id": DOCTOR_ID }],
     mainEntity: { "@id": `${BASE}/team#crew-index` },
   };

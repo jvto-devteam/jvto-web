@@ -29,7 +29,7 @@ export function buildTeamFaqs(): TeamFaq[] {
   const faqs: TeamFaq[] = [
     {
       question: "How many guides and drivers does JVTO have?",
-      answer: `JVTO operates with ${total} directly-managed field crew — ${guides} licensed guides and ${drivers} drivers.`,
+      answer: `JVTO operates with ${total} directly-managed field crew — ${guides} guides and ${drivers} drivers.`,
     },
     {
       question: "Are JVTO crew employees or freelancers hired per booking?",

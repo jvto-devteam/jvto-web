@@ -30,6 +30,18 @@ const bad = (m: string) => {
 const eq = (a: unknown, b: unknown, m: string) =>
   JSON.stringify(a) === JSON.stringify(b) ? ok(m) : bad(`${m} (got ${JSON.stringify(a)}, want ${JSON.stringify(b)})`);
 
+/** One level of dot-nesting: {a, kta:{id}, langs:[…]} → ["a","kta.id","langs"]. */
+const collectPaths = (obj: Record<string, any>): string[] => {
+  const out: string[] = [];
+  for (const [k, v] of Object.entries(obj)) {
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      for (const sk of Object.keys(v)) out.push(`${k}.${sk}`);
+    } else out.push(k);
+  }
+  return out;
+};
+const sortedEq = (a: string[], b: string[]) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+
 console.log("[canonical-people-selftest]");
 
 // 1. counts 11 / 7 / 4, consistent with the projected roster.
@@ -56,19 +68,16 @@ else bad("getPublicCrewByCode('anjas') should resolve");
 if (getPublicCrewByCode("does-not-exist") === null) ok("unknown code → null");
 else bad("unknown code should be null");
 
-// 4. allowlist projection: public crew carry ONLY the allowlisted fields.
+// 4. allowlist projection is EXACT + BIDIRECTIONAL: the projected leaf paths (incl.
+//    image.src/image.alt subpaths) equal publicFieldAllowlist.crew — no extra field
+//    (evidenceSource/reviewedDate never leak) AND no allowlisted field silently omitted.
+//    Because the projection is derived from the allowlist, an allowlist edit can't
+//    diverge from what renders; this proves it can't.
 const allowlist = getPublicFieldAllowlist();
-const allowedTop = new Set(allowlist.crew.map((f) => f.split(".")[0]));
-const allowedKta = new Set(
-  allowlist.crew.filter((f) => f.startsWith("kta.")).map((f) => f.split(".")[1]),
-);
 for (const m of getPublicCrew() as unknown as Record<string, any>[]) {
-  for (const k of Object.keys(m)) {
-    if (!allowedTop.has(k)) bad(`public crew '${m.code}' exposes non-allowlisted top field '${k}'`);
-  }
-  for (const k of Object.keys(m.kta)) {
-    if (!allowedKta.has(k)) bad(`public crew '${m.code}' exposes non-allowlisted kta.${k}`);
-  }
+  const paths = collectPaths(m);
+  if (!sortedEq(paths, allowlist.crew))
+    bad(`public crew '${m.code}' projection paths ${JSON.stringify([...paths].sort())} != allowlist.crew ${JSON.stringify([...allowlist.crew].sort())}`);
   // explicit: internal provenance never public
   if ("evidenceSource" in m.kta) bad(`public crew '${m.code}' leaked kta.evidenceSource`);
   if ("reviewedDate" in m.kta) bad(`public crew '${m.code}' leaked kta.reviewedDate`);
@@ -76,7 +85,7 @@ for (const m of getPublicCrew() as unknown as Record<string, any>[]) {
   if (/licen[cs]e|government/i.test(String(m.kta.credentialType)))
     bad(`crew '${m.code}' kta.credentialType must not read as a government licence`);
 }
-ok("public crew projected to allowlisted fields only (no evidenceSource/reviewedDate)");
+ok("public crew projection == allowlist.crew exactly (bidirectional, incl. image subpaths)");
 
 // 5. leadership + medical partner never crew (fact, from the raw record).
 const rec = getCanonicalPeople() as any;
@@ -86,15 +95,6 @@ if (rec.medicalPartner.countsAsCrew === false) ok("medical partner countsAsCrew=
 else bad("medical partner must not count as crew");
 
 // 5b. leadership + medicalPartner PROJECTIONS carry ONLY allowlisted fields.
-const collectPaths = (obj: Record<string, any>): string[] => {
-  const out: string[] = [];
-  for (const [k, v] of Object.entries(obj)) {
-    if (v && typeof v === "object" && !Array.isArray(v)) {
-      for (const sk of Object.keys(v)) out.push(`${k}.${sk}`);
-    } else out.push(k);
-  }
-  return out;
-};
 const leadAllow = new Set(getPublicFieldAllowlist().leadership);
 for (const l of getPublicLeadership() as unknown as Record<string, any>[]) {
   for (const p of collectPaths(l)) if (!leadAllow.has(p)) bad(`leadership projection exposes non-allowlisted '${p}'`);

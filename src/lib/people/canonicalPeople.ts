@@ -93,26 +93,16 @@ export function getCanonicalPeople(): PeopleRecord {
 // ── The allowlist projection (the ONLY way a crew member becomes public) ──────
 
 /**
- * Project one raw roster member to exactly the public-allowlisted fields. Any
- * field not listed here (e.g. kta.evidenceSource, kta.reviewedDate) is dropped,
- * so it can never reach the DOM / JSON-LD / feed. Keep this in sync with
- * `publicFieldAllowlist.crew` — assertPublicProjectionMatchesAllowlist() proves it.
+ * Project one raw roster member to EXACTLY the fields declared in
+ * `publicFieldAllowlist.crew` — derived from that list, never hardcoded, so it
+ * can never drift from the declared allowlist (removing a path drops it from
+ * output; adding one includes it). Any field not listed (e.g. kta.evidenceSource,
+ * kta.reviewedDate) is dropped, so it can never reach the DOM / JSON-LD / feed.
+ * canonical-people-selftest.ts asserts the projected leaf paths equal the
+ * allowlist exactly (both directions, incl. image subpaths).
  */
 function projectPublicCrew(raw: Record<string, any>): PublicCrewMember {
-  return {
-    code: raw.code,
-    name: raw.name,
-    role: raw.role,
-    languages: [...raw.languages],
-    specialties: [...raw.specialties],
-    kta: {
-      id: raw.kta.id,
-      credentialType: raw.kta.credentialType,
-      issuer: raw.kta.issuer,
-      credentialState: raw.kta.credentialState,
-    },
-    image: { src: raw.image.src, alt: raw.image.alt },
-  };
+  return pickAllowlist(raw, getPublicFieldAllowlist().crew) as unknown as PublicCrewMember;
 }
 
 /** The public field allowlist as declared in the record (data-driven privacy). */

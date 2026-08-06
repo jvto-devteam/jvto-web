@@ -21,7 +21,7 @@ import {
 export const revalidate = 3600;
 
 const SITE_URL = "https://javavolcano-touroperator.com";
-const TITLE = "JVTO Field Team — Licensed Guides, Drivers, Leadership & Medical Screening";
+const TITLE = "JVTO Field Team — Guides, Drivers, Leadership & Medical Screening";
 const DESCRIPTION =
   "Meet JVTO's directly-managed East Java field team: 11 HPWKI KTA-holding guides and drivers, plus founder-led operations and a licensed doctor coordinating mandatory Ijen health screening.";
 
@@ -137,7 +137,7 @@ export default function TeamHubPage() {
 
         {/* Guides */}
         <section className="mb-12">
-          <h2 className="text-xs font-black uppercase tracking-widest text-slate-500 mb-5">Licensed Guides ({guides.length})</h2>
+          <h2 className="text-xs font-black uppercase tracking-widest text-slate-500 mb-5">Guides ({guides.length})</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {guides.map((m) => <CrewCard key={m.code} member={m} accent />)}
           </div>

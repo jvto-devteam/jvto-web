@@ -174,7 +174,7 @@ async function main() {
       hubText.includes(`${counts.drivers} drivers`),
     "hub header renders 11 active crew — 7 guides, 4 drivers",
   );
-  assert(hubText.includes(`Licensed Guides (${guides.length})`), `hub shows "Licensed Guides (${guides.length})"`);
+  assert(hubText.includes(`Guides (${guides.length})`), `hub shows "Guides (${guides.length})"`);
   assert(hubText.includes(`Drivers (${drivers.length})`), `hub shows "Drivers (${drivers.length})"`);
 
   // visible crew names == ItemList JSON-LD names == record
