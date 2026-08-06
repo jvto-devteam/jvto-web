@@ -95,7 +95,7 @@
         "WebPage"
       ],
       "owner": "operations",
-      "lastReviewed": "2026-08-04",
+      "lastReviewed": "2026-08-06",
       "faqKey": "travel-guide-booking-information",
       "faqCount": 7
     },
@@ -277,5 +277,5 @@
       "why-jvto": 6
     }
   },
-  "contentDigest": "3dce5fada89ba5a68dd1db1db6e24e63dc9eb58639fbcf934faefd473ca71d3d"
+  "contentDigest": "500cab9152cb65905b86ed7335fa7105db2a288ef888d02c987fa319499175ed"
 }
