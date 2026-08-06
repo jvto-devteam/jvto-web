@@ -20,6 +20,86 @@
       "faqCount": 3
     },
     {
+      "route": "/destinations/ijen-crater",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/ijen-crater",
+      "title": "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+      "browserTitle": "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+      "description": "Private Ijen blue fire hike from Surabaya or Bali. Gas mask, BBKSDA permit & health certificate coordinated. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Kawah Ijen — the world's highest-volume acidic crater lake, a pre-dawn blue-fire phenomenon, and a working sulfur-miner trail in Banyuwangi, East Java.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/madakaripura-waterfall",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
+      "title": "Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+      "browserTitle": "Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+      "description": "Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Madakaripura — Java's tallest waterfall, reached through a narrow canyon gorge in Probolinggo, and held in tradition to be Gajah Mada's final retreat.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/mount-bromo",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/mount-bromo",
+      "title": "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+      "browserTitle": "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+      "description": "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Mount Bromo — the smoking crater and Penanjakan sunrise inside the Tengger caldera, Probolinggo, East Java, reached by private 4WD jeep.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/papuma-beach",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/papuma-beach",
+      "title": "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
+      "browserTitle": "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
+      "description": "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
+      "summary": "Papuma Beach — white sand, offshore rock formations, and a cape headland in Jember; the only coastal stop on a JVTO East Java circuit.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/tumpak-sewu-waterfall",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+      "title": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+      "browserTitle": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+      "description": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Tumpak Sewu — a multi-tiered curtain waterfall known as Java's Niagara, seen from the rim or from its misted base, in Lumajang, East Java.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
       "route": "/policy",
       "section": "policy",
       "canonicalUrl": "https://javavolcano-touroperator.com/policy",
@@ -365,15 +445,15 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 22,
+    "routes": 27,
     "entities": 6,
     "sections": {
-      "destinations": 1,
+      "destinations": 6,
       "policy": 4,
       "travel-guide": 6,
       "verify-jvto": 5,
       "why-jvto": 6
     }
   },
-  "contentDigest": "43f8168bfc0e40d46ff5c258cd68c39bae1c3806073ae0502d61309d13e71372"
+  "contentDigest": "e878afc8776afb1d2ff134b4a75a4da72691ccd0051cf5ea24b9c68eba462d78"
 }

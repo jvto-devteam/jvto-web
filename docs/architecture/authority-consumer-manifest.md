@@ -15,8 +15,8 @@
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **26**
-- legacy: content_pages (DB): **2**
+- content/ (Git SSOT): **27**
+- legacy: content_pages (DB): **1**
 - producer: OKF: **13**
 - producer: llm-wiki (via import): **1**
 - producer: llm-wiki: **6**
@@ -33,7 +33,7 @@
 | `/checkout` | `src/app/(website)/checkout/page.tsx` | producer: llm-wiki (via import) | transitive | policy-bundle | yes | private, web (auth) |
 | `/contact` | `src/app/(website)/contact/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/destinations` | `src/app/(website)/destinations/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/destinations/[slug]` | `src/app/(website)/destinations/[slug]/page.tsx` | legacy: content_pages (DB) | direct | content_pages, jsonld, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |
+| `/destinations/[slug]` | `src/app/(website)/destinations/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/isic/student-package` | `src/app/(website)/isic/student-package/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/markets/malaysia` | `src/app/(website)/markets/malaysia/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/markets/singapore` | `src/app/(website)/markets/singapore/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |

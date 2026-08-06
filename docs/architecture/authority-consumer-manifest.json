@@ -155,12 +155,13 @@
     "surface": "/destinations/[slug]",
     "kind": "route",
     "file": "src/app/(website)/destinations/[slug]/page.tsx",
-    "authority": "legacy: content_pages (DB)",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
       "jsonld",
-      "prisma"
+      "prisma",
+      "static-content"
     ],
     "private": false,
     "consumers": [
