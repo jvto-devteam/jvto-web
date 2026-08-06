@@ -1,34 +1,36 @@
-import { getDocsByGroup } from "@/lib/data-loader";
-import VerifyJvtoClient from "../VerifyJvtoClient";
+// src/app/(website)/verify-jvto/history-artifacts/page.tsx
+//
+// PACKAGE 06 (2026-08-06): served from the static-content SSOT
+// (content/pages/verify-jvto/history-artifacts.json). Copy, SEO, and FAQ come from
+// content/; this file keeps only layout + the JSON-LD projection. The evidence
+// locker (VerifyJvtoClient + getDocsByGroup) remains its own Master_Dataset SSOT.
+//
+// The timeline Event graph below is kept here (not in content/) because it is
+// structured JSON-LD, not prose. The Stefan Loose anchor is deliberately YEAR-FREE
+// (no startDate, no "2016" @id fragment): per docs/CANONICAL_FACTS.md the guidebook
+// citation asserts no publication year or edition.
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { notFound } from "next/navigation";
+import VerifyJvtoClient from "../VerifyJvtoClient";
+import VerifyNarrative, { staticPageRow, buildStaticFaqSchema } from "../verifyShared";
+import { getDocsByGroup } from "@/lib/data-loader";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
-import Image from "next/image";
-import { ExternalLink, CheckCircle2 } from "lucide-react";
+import { loadStaticPage } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
+const ROUTE = "/verify-jvto/history-artifacts";
+const BREADCRUMB_LABEL = "History & Artifacts";
 const BASE_URL = "https://javavolcano-touroperator.com";
 
-const fallbackSeo = {
-  title: "JVTO History Artifacts — Documented Origins Since 2015",
-  h1: "History Artifacts: Documented Origins Since 2015",
-  description:
-    "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT incorporation.",
-};
-
-// ── Timeline ItemList schema — 5 anchors ──────────────────────────────────────
-// Per cluster_role_contracts.md Cluster 4 /history-artifacts MH:
-// Timeline ItemList with Event per anchor — entity age + longevity signal for AEO.
 const HISTORY_TIMELINE_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   "@id": `${BASE_URL}/verify-jvto/history-artifacts#timeline`,
   name: "JVTO Operational History Timeline",
   description:
-    "Documented history of Java Volcano Tour Operator from 2015 guesthouse era through PT incorporation and current operations.",
+    "Documented history of Java Volcano Tour Operator from the 2015 guesthouse era through PT formalization and current operations.",
   itemListOrder: "ItemListOrderAscending",
   numberOfItems: 5,
   itemListElement: [
@@ -70,11 +72,10 @@ const HISTORY_TIMELINE_SCHEMA = {
       position: 2,
       item: {
         "@type": "Event",
-        "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-2016-stefan-loose`,
+        "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-guesthouse-stefan-loose`,
         name: "Stefan Loose European Travel Guide — First Editorial Mention",
-        startDate: "2016",
         description:
-          "Earliest independent editorial citation of the founder as operator for Ijen tours, appearing in a European travel guide — pre-digital third-party corroboration that predates social media review platforms.",
+          "The earliest independent editorial citation of the founder as operator for Ijen tours, appearing in a European travel guide — pre-digital third-party corroboration from the guesthouse era. Publication year and edition are not asserted.",
         about: { "@id": `${BASE_URL}/#organization` },
         image: [
           `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
@@ -104,10 +105,10 @@ const HISTORY_TIMELINE_SCHEMA = {
       item: {
         "@type": "Event",
         "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-2023-pt`,
-        name: "PT Java Volcano Rendezvous Incorporated",
+        name: "PT Java Volcano Rendezvous Formalized",
         startDate: "2023-02",
         description:
-          "Formal PT incorporation: NIB 1102230032918 registered via OSS Indonesia and TDUP (tourism business license) issued by Kementerian Pariwisata dan Ekonomi Kreatif.",
+          "PT formalization: NIB 1102230032918 registered via OSS Indonesia and TDUP (tourism business licence) issued 2023-02-11 by Kementerian Pariwisata dan Ekonomi Kreatif.",
         about: { "@id": `${BASE_URL}/#organization` },
         url: "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
       },
@@ -120,7 +121,7 @@ const HISTORY_TIMELINE_SCHEMA = {
         "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-today-active`,
         name: "Active Licensed Operator — Police-Led",
         description:
-          "PT Java Volcano Rendezvous operates today under NIB + TDUP (No. 1102230032918), HPWKI certified guides, ISIC Provider 259268, and INDECON Spotlight membership — all verifiable via public registries.",
+          "PT Java Volcano Rendezvous operates today under NIB + TDUP (No. 1102230032918), HPWKI-certified guides, a registered ISIC provider listing (259268), and an INDECON network listing — all verifiable via public registries.",
         about: { "@id": `${BASE_URL}/#organization` },
         mentions: [{ "@id": `${BASE_URL}/#agung-sambuko` }],
       },
@@ -128,232 +129,50 @@ const HISTORY_TIMELINE_SCHEMA = {
   ],
 };
 
-// ── Timeline display data (HTML only — not schema) ────────────────────────────
-
-const TIMELINE_ENTRIES: Array<{
-  year: string;
-  event: string;
-  detail: string;
-  images: Array<{ src: string; alt: string }> | null;
-  verifyHref: string | null;
-  verifyLabel: string | null;
-}> = [
-  {
-    year: "2015",
-    event: "Booking.com Guest Review Award",
-    detail:
-      "Score 9.4/10 — independently calculated by Booking.com. Issued to the guesthouse at Jl. Khairil Anwar 102A, Bondowoso. Physical plaque and award letter retained on-site.",
-    images: [
-      { src: `/history/booking-2015-plaque.jpg`, alt: "Booking.com Guest Review Award 2015 plaque" },
-      { src: `/history/booking-2015-shipping-label.jpg`, alt: "Booking.com award shipping label addressed to Ijen Bondowoso Homestay" },
-    ],
-    verifyHref: null,
-    verifyLabel: null,
-  },
-  {
-    year: "2016",
-    event: "Stefan Loose Travel Guide — First Mention",
-    detail:
-      "Earliest European travel guide editorial citation naming the founder as operator for Ijen crater tours. Pre-digital corroboration from an independent editorial source.",
-    images: [
-      { src: `/history/stefan-loose-ijen-bondowoso-page.png`, alt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso" },
-      { src: `/history/stefan_loose_crop_enh.jpg`, alt: "Cropped view of Stefan Loose guide entry for Ijen Bondowoso Homestay" },
-      { src: `/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`, alt: "Mr. Sam with guests inspired by Stefan Loose travel guide" },
-    ],
-    verifyHref: null,
-    verifyLabel: null,
-  },
-  {
-    year: "2021",
-    event: "Detik.com Press Article",
-    detail:
-      '"Suka Duka Polisi Pariwisata Bondowoso" — national-reach press coverage identifying the founder (Bripka Agung Sambuko) in his Tourist Police role, independently confirming the police-led model.',
-    images: null,
-    verifyHref:
-      "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin",
-    verifyLabel: "Read article on Detik.com",
-  },
-  {
-    year: "2023",
-    event: "PT Java Volcano Rendezvous Incorporated",
-    detail:
-      "Formal business incorporation: NIB 1102230032918 registered via OSS Indonesia (February 2023). TDUP tourism license issued by Ministry of Tourism. All registrations publicly verifiable.",
-    images: null,
-    verifyHref:
-      "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
-    verifyLabel: "Verify PT on AHU registry",
-  },
-  {
-    year: "Today",
-    event: "Active Licensed Operator",
-    detail:
-      "PT Java Volcano Rendezvous operates under NIB + TDUP No. 1102230032918, HPWKI-certified guides, ISIC Provider ID 259268, and INDECON Spotlight membership. Led by an active Tourist Police officer.",
-    images: null,
-    verifyHref: "/verify-jvto/legal",
-    verifyLabel: "See full credential verification",
-  },
-];
-
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
-  return { title: seo.title, description: seo.description };
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  return {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+  };
 }
 
-export default async function HistoryArtifactsPage() {
-  const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
+export default async function VerifyHistoryArtifactsPage() {
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
+
   const docs = getDocsByGroup("historyArtifacts");
+  const faqItems = page.faq ?? [];
+  const faqNode = faqItems.length ? buildStaticFaqSchema(ROUTE, faqItems) : null;
 
-  // FAQ resolver: no narrative_claims + no canonical registered for this route
-  // → falls through to CMS content.faq (3 items) → suppressCmsFaq stays false.
-  const faqResolution = await resolveFaqsForPage("/verify-jvto/history-artifacts");
-  const faqResolvedNode = buildResolvedFaqSchema(
-    faqResolution,
-    "/verify-jvto/history-artifacts"
-  );
-
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: "/verify-jvto/history-artifacts",
-        lang: "en",
-        seo: { title: seo.title, description: seo.description },
-        content: { h1: seo.h1 },
-      };
+  const extraSchemas = [
+    buildVerifySubpageSchema({
+      pathname: ROUTE,
+      title: page.meta.title,
+      description: page.meta.description,
+      breadcrumbLabel: BREADCRUMB_LABEL,
+      docs,
+    }),
+    HISTORY_TIMELINE_SCHEMA,
+    faqNode,
+  ].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={pageRow as any}
-        extraSchemas={[
-          buildVerifySubpageSchema({
-            pathname: "/verify-jvto/history-artifacts",
-            title: seo.title,
-            description: seo.description,
-            breadcrumbLabel: seo.h1,
-            docs,
-          }),
-          // Timeline ItemList — 5 Event anchors (MH per cluster_role_contracts.md Cluster 4)
-          HISTORY_TIMELINE_SCHEMA,
-          // CMS FAQ resolver (3 items from content_pages.content.faq)
-          faqResolvedNode,
-        ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        pageRow={staticPageRow(page)}
+        extraSchemas={extraSchemas}
+        suppressCmsFaq
       />
       <VerifyJvtoClient
         initialDocs={docs}
-        groupTitle={seo.h1}
-        heroTitle={seo.h1}
-        heroDescription={seo.description}
+        heroTitle={page.meta.title}
+        heroDescription={page.lede?.[0]}
       />
-
-      {/* ── Documented History Timeline ── */}
-      <section className="bg-slate-950 border-t border-slate-800">
-        <div className="container mx-auto px-6 py-14">
-          <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-10">
-            Operational Continuity — Artifact-Anchored Timeline
-          </p>
-
-          <div className="relative">
-            <div
-              className="absolute left-[72px] top-0 bottom-0 w-px bg-slate-800 hidden md:block"
-              aria-hidden
-            />
-
-            <div className="space-y-10">
-              {TIMELINE_ENTRIES.map((entry, i) => (
-                <div key={entry.year} className="flex gap-6 md:gap-10 items-start">
-                  <div className="shrink-0 w-[72px] flex flex-col items-center md:items-end">
-                    <span
-                      className={`text-[10px] font-black px-2 py-1 rounded-sm leading-none ${
-                        entry.year === "Today"
-                          ? "text-white bg-jvto-green text-black"
-                          : "text-jvto-green bg-jvto-green/10"
-                      }`}
-                    >
-                      {entry.year}
-                    </span>
-                    <div className="hidden md:block w-2 h-2 rounded-full bg-slate-700 mt-3 mr-[-5px] self-end border border-slate-600" />
-                  </div>
-
-                  <div className="flex-1 border border-slate-800 rounded-lg bg-slate-900/50 overflow-hidden">
-                    {entry.images && entry.images.length > 0 && (
-                      <div className={`grid gap-0.5 bg-slate-950 ${entry.images.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
-                        {entry.images.map((img, imgIdx) => (
-                          <div
-                            key={imgIdx}
-                            className={`relative h-36 ${entry.images!.length === 3 && imgIdx === 2 ? "col-span-2" : ""}`}
-                          >
-                            <Image
-                              src={img.src}
-                              alt={img.alt}
-                              fill
-                              className="object-cover object-center opacity-80"
-                              sizes="(max-width: 768px) 100vw, 300px"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="p-5">
-                      <h3 className="text-white font-bold text-sm mb-2">
-                        {entry.event}
-                      </h3>
-                      <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                        {entry.detail}
-                      </p>
-                      {entry.verifyHref && entry.verifyLabel && (
-                        <a
-                          href={entry.verifyHref}
-                          target={entry.verifyHref.startsWith("http") ? "_blank" : undefined}
-                          rel={
-                            entry.verifyHref.startsWith("http")
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          className="inline-flex items-center gap-1.5 text-[10px] font-bold text-jvto-green hover:text-white transition-colors uppercase tracking-widest"
-                        >
-                          {entry.verifyLabel}
-                          {entry.verifyHref.startsWith("http") && (
-                            <ExternalLink size={10} />
-                          )}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Continuity Note ── */}
-      <section className="bg-slate-900 border-t border-slate-800">
-        <div className="container mx-auto px-6 py-10">
-          <div className="flex items-start gap-4 max-w-2xl">
-            <CheckCircle2 size={18} className="text-jvto-green shrink-0 mt-0.5" />
-            <div>
-              <p className="text-slate-300 text-sm font-semibold mb-1">
-                Same address. Same founder. Same operation.
-              </p>
-              <p className="text-slate-500 text-xs leading-relaxed">
-                The Booking.com award (2015), the travel guide mention (2016), the press
-                article (2021), and the PT registration (2023) all reference the same
-                location — Jl. Khairil Anwar 102A, Bondowoso — and the same person,
-                Agung Sambuko. Continuity is observable, not just claimed.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <VerifyNarrative page={page} />
     </>
   );
 }

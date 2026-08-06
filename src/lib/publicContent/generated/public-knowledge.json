@@ -4,6 +4,22 @@
   "productionOrigin": "https://javavolcano-touroperator.com",
   "routes": [
     {
+      "route": "/destinations",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations",
+      "title": "East Java Destinations",
+      "browserTitle": "East Java Destinations | Bromo, Ijen & More | JVTO",
+      "description": "Explore breathtaking destinations in East Java with JVTO: Kawah Ijen, Mount Bromo, Tumpak Sewu, Madakaripura, and Papuma Beach — each reached by dedicated private vehicle with BBKSDA park clearance in hand.",
+      "summary": "The five East Java sites on JVTO's private circuit — volcano craters, canyon waterfalls, and a coastal headland.",
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "destinations",
+      "faqCount": 3
+    },
+    {
       "route": "/policy",
       "section": "policy",
       "canonicalUrl": "https://javavolcano-touroperator.com/policy",
@@ -164,6 +180,86 @@
       "faqCount": 5
     },
     {
+      "route": "/verify-jvto",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto",
+      "title": "Verify JVTO: A Proof Library You Can Check",
+      "browserTitle": "Verify JVTO — Credentials, Police Authority, Press & History | JVTO",
+      "description": "Independently verify PT Java Volcano Rendezvous: NIB/TDUP registration, the founder's Tourist Police authority, SHA-256-signed document scans, press recognition, and operating history since 2015. Check every claim against government registries before you book.",
+      "summary": "The evidence locker for PT Java Volcano Rendezvous — legal, police-authority, press, and history documents, each checkable against an independent source.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto",
+      "faqCount": 5
+    },
+    {
+      "route": "/verify-jvto/history-artifacts",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/history-artifacts",
+      "title": "History Artifacts: Documented Origins Since 2015",
+      "browserTitle": "History Artifacts — Documented JVTO Origins Since 2015 | JVTO",
+      "description": "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT formalization.",
+      "summary": "An artifact-anchored timeline of JVTO's continuity — same address, same founder, same operation — from the 2015 guesthouse era to today.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-history-artifacts",
+      "faqCount": 3
+    },
+    {
+      "route": "/verify-jvto/legal",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/legal",
+      "title": "JVTO Legal Licenses & Verifiable Credentials",
+      "browserTitle": "Legal & Licenses — NIB, TDUP & PT Registration | JVTO",
+      "description": "JVTO legal documents: NIB 1102230032918, TDUP tourism licence, and PT Java Volcano Rendezvous registration — all verifiable on Indonesian government registries.",
+      "summary": "PT Java Volcano Rendezvous's business registration, tourism licence, and association membership — each checkable on an independent government registry.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-legal",
+      "faqCount": 4
+    },
+    {
+      "route": "/verify-jvto/police-safety",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/police-safety",
+      "title": "JVTO Police Integration & Safety Authority",
+      "browserTitle": "Police & Safety — Tourist Police Authority | JVTO",
+      "description": "JVTO's Tourist Police authority: SPRIN POLPAR documents, health screening coordination, and safety protocols for Bromo and Ijen volcano tours.",
+      "summary": "The founder's active Tourist Police commission — assignment orders, rank, and independent press confirmation — and what police-standard discipline means for your tour.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-police-safety",
+      "faqCount": 3
+    },
+    {
+      "route": "/verify-jvto/press-recognition",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/press-recognition",
+      "title": "JVTO Press & Media Recognition",
+      "browserTitle": "Press & Recognition — Detik.com & Stefan Loose | JVTO",
+      "description": "Independent press coverage confirming JVTO's identity: Detik.com Tourist Police article, the Stefan Loose Indonesia guidebook, and the 2015 Booking.com Guest Review Award.",
+      "summary": "Third-party editorial coverage of JVTO: the Stefan Loose guidebook citation, Detik.com and Radar Jember articles, and the 2015 Booking.com award.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-press-recognition",
+      "faqCount": 3
+    },
+    {
       "route": "/why-jvto",
       "section": "why-jvto",
       "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto",
@@ -269,13 +365,15 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 16,
+    "routes": 22,
     "entities": 6,
     "sections": {
+      "destinations": 1,
       "policy": 4,
       "travel-guide": 6,
+      "verify-jvto": 5,
       "why-jvto": 6
     }
   },
-  "contentDigest": "500cab9152cb65905b86ed7335fa7105db2a288ef888d02c987fa319499175ed"
+  "contentDigest": "43f8168bfc0e40d46ff5c258cd68c39bae1c3806073ae0502d61309d13e71372"
 }
