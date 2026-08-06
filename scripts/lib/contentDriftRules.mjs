@@ -96,13 +96,15 @@ export const RULES = [
     // those hits stay in the committed baseline (upstream-owned) and clear on resync.
     //
     // SCOPED to the health-cert context (this rule also runs in the runtime CMS gate
-    // /api/content-validate on every draft): the generic `QR code` alternative fires
-    // ONLY when a health/cert/crater/BBKSDA/Ijen token sits within ~80 chars, and the
-    // `allow` line exempts the repo's legitimate non-health QR (QRIS payments, the
-    // WhatsApp login QR, the AHU/SABH `/qrcode/?kode=` registry URLs) so a valid draft
-    // like "scan the QR code to pay with QRIS" is never blocked. The strongly
-    // health-cert idioms (QR-verifiable, digital QR, no valid QR, …) stay unscoped.
-    re: /(?:surat[- ]?sehat|health[- ]?(?:cert|certificate|screening|clearance)|crater|BBKSDA|Ijen)[^.\n]{0,80}QR[- ]?code|QR[- ]?code[^.\n]{0,80}(?:surat[- ]?sehat|health[- ]?(?:cert|certificate|screening|clearance)|crater|BBKSDA|Ijen)|QR[- ]?verif|QR[- ]?coded|digital QR|valid QR\b|QR verification|QR reader|no valid QR/i,
+    // /api/content-validate on every draft). It fires on a BARE \bQR\b only when a
+    // health-cert / surat-sehat / crater / BBKSDA / Ijen token sits within ~80 chars
+    // (either order): that catches EVERY construction — "QR code", "scan the
+    // certificate's QR", "verify by scanning its QR", "QR-verifiable", "no valid QR" —
+    // not just QR+suffix (Codex OKF #41 P1, applied here for parity); and it does NOT
+    // fire on an unrelated ticket / booking / payment "QR code" (P2). \bQR\b never
+    // matches the AHU/SABH `/qrcode/?kode=` URL token (qr+c) or "QRIS" (qr+i); the
+    // `allow` line still exempts QRIS/WhatsApp/registry/Xendit as belt-and-suspenders.
+    re: /(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)[^.\n]{0,80}\bQR\b|\bQR\b[^.\n]{0,80}(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)/i,
     allow: /QRIS|whats?app|wa[- ]?login|\/qrcode|ahu\.go\.id|sabh|xendit|payment/i,
   },
   {

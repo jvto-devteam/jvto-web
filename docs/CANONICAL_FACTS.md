@@ -26,8 +26,12 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
   evidence — bukan sebagai syarat pemicu kondisional. Adjudikasi ulang 2026-07-06 (menggantikan
   keputusan kondisional 2026-07-05); lihat commit history untuk detail.
   Sertifikat (surat sehat) = **BSrE (Balai Sertifikasi Elektronik / BSSN) electronically-signed**
-  (tanda tangan elektronik sah menurut UU ITE), traceable ke SIP dokter; screening included
-  dalam paket & dilakukan di hotel tamu sebelum guide briefing. Wording BSrE/electronic-signature
+  (tanda tangan elektronik sah menurut UU ITE) — **standar nasional e-signature**, sehingga
+  sertifikat **tercatat, terlisensi, tamper-evident, sah**, traceable ke SIP dokter; screening
+  included dalam paket & dilakukan di hotel tamu sebelum guide briefing. JVTO **tidak** mengklaim
+  adanya pengecekan elektronik apa pun di gerbang tiket Ijen (tidak dapat dipastikan); poin BSrE
+  hanya membuktikan surat sehat diterbitkan sungguh oleh tenaga medis (Dr. Danu), bukan
+  self-issued/palsu. Wording BSrE/electronic-signature
   ini **canonical** — akuntabel & tamper-evident, safeguard terhadap surat sehat palsu (self-issued).
   Sertifikat yang valid **diperiksa** di gerbang kawah (persyaratan BBKSDA); gunakan
   "no valid health certificate, no crater access".
