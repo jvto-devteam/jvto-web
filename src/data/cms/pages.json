@@ -341,23 +341,6 @@
     "status": "published"
   },
   {
-    "route": "/destinations",
-    "file_group": "003",
-    "sort_order": 1,
-    "cluster": "travel",
-    "page_type": "hub",
-    "template": "collection",
-    "visual_mode": "travel",
-    "hub_route": null,
-    "title": "Destinations — Bromo, Ijen, Tumpak Sewu, Madakaripura, Papuma",
-    "h1": "/destinations — Hub Page Copy",
-    "seo": {
-      "title": "Destinations — Bromo, Ijen, Tumpak Sewu, Madakaripura, Papuma",
-      "description": "Five destinations. One licensed operator for all of them."
-    },
-    "status": "published"
-  },
-  {
     "route": "/destinations/bromo",
     "file_group": "003",
     "sort_order": 2,
@@ -473,93 +456,6 @@
     "seo": {
       "title": "Traffic Police Escort for Tourist Groups in East Java | JVTO",
       "description": "For large groups (around 18+ paying guests) JVTO can coordinate an official Traffic Police escort on certain road segments when approved, plus a Free-of-Charge group incentive (1–3 FOC seats) on direct bookings."
-    },
-    "status": "published"
-  },
-  {
-    "route": "/verify-jvto",
-    "file_group": "006",
-    "sort_order": 1,
-    "cluster": "trust",
-    "page_type": "hub",
-    "template": "verify",
-    "visual_mode": "trust",
-    "hub_route": null,
-    "title": "Verify JVTO — Proof Library",
-    "h1": "Verify JVTO: A Proof Library You Can Check",
-    "seo": {
-      "title": "Verify JVTO – Credentials, Safety, Press & History",
-      "description": "Review JVTO's proof library: legal identity, historical continuity, police and safety context, and third-party references that support the company's trust architecture.",
-      "schema_type": "WebPage"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/verify-jvto/legal",
-    "file_group": "006",
-    "sort_order": 2,
-    "cluster": "trust",
-    "page_type": "verify",
-    "template": "verify",
-    "visual_mode": "trust",
-    "hub_route": "/verify-jvto",
-    "title": "Legal & Licenses",
-    "h1": "JVTO Legal Licenses & Verifiable Credentials",
-    "seo": {
-      "title": "Legal & Licenses",
-      "description": "All credentials below are publicly verifiable. SHA-256 hashes of source documents are published in public/llms.txt on the JVTO website for forensic…"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/verify-jvto/police-safety",
-    "file_group": "006",
-    "sort_order": 3,
-    "cluster": "trust",
-    "page_type": "verify",
-    "template": "verify",
-    "visual_mode": "trust",
-    "hub_route": "/verify-jvto",
-    "title": "Police & Safety",
-    "h1": "JVTO Police Integration",
-    "seo": {
-      "title": "Police & Safety",
-      "description": "Consolidated evidence chain for JVTO's police-led model: official police documents, operational field photos, independent press coverage, and a…"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/verify-jvto/press-recognition",
-    "file_group": "006",
-    "sort_order": 4,
-    "cluster": "trust",
-    "page_type": "verify",
-    "template": "verify",
-    "visual_mode": "trust",
-    "hub_route": "/verify-jvto",
-    "title": "Press & Recognition",
-    "h1": "JVTO Press & Media Coverage",
-    "seo": {
-      "title": "Press & Recognition",
-      "description": "Consolidated record of all third-party press, guidebook, and institutional media coverage. Every item here is independently authored — not JVTO marketing…"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/verify-jvto/history-artifacts",
-    "file_group": "006",
-    "sort_order": 5,
-    "cluster": "trust",
-    "page_type": "verify",
-    "template": "verify",
-    "visual_mode": "trust",
-    "hub_route": "/verify-jvto",
-    "title": "History & Artifacts",
-    "h1": "History Artifacts: Documented Origins Since 2015",
-    "seo": {
-      "title": "History Artifacts — Documented JVTO Origins Since 2015 | JVTO",
-      "description": "Verifiable artifacts: Booking.com 2015 award (9.4/10), Stefan Loose 2018 guidebook, Detik.com 2021 press, NIB registration 2023. SHA-256 verified.",
-      "schema_type": "WebPage"
     },
     "status": "published"
   },

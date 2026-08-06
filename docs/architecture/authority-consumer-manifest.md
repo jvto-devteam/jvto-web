@@ -15,8 +15,8 @@
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **26**
-- legacy: content_pages (DB): **2**
+- content/ (Git SSOT): **27**
+- legacy: content_pages (DB): **1**
 - producer: OKF: **13**
 - producer: llm-wiki (via import): **1**
 - producer: llm-wiki: **6**
@@ -32,8 +32,8 @@
 | `/blog/[slug]` | `src/app/(website)/blog/[slug]/page.tsx` | tsx-embedded narrative | direct | jsonld | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/checkout` | `src/app/(website)/checkout/page.tsx` | producer: llm-wiki (via import) | transitive | policy-bundle | yes | private, web (auth) |
 | `/contact` | `src/app/(website)/contact/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/destinations` | `src/app/(website)/destinations/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/destinations/[slug]` | `src/app/(website)/destinations/[slug]/page.tsx` | legacy: content_pages (DB) | direct | content_pages, jsonld, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |
+| `/destinations` | `src/app/(website)/destinations/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/destinations/[slug]` | `src/app/(website)/destinations/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/isic/student-package` | `src/app/(website)/isic/student-package/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/markets/malaysia` | `src/app/(website)/markets/malaysia/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/markets/singapore` | `src/app/(website)/markets/singapore/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
@@ -75,11 +75,11 @@
 | `/travel-guide/what-is-included` | `src/app/(website)/travel-guide/what-is-included/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
 | `/travel-guide/why-stay-near-ijen` | `src/app/(website)/travel-guide/why-stay-near-ijen/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
 | `/trust` | `src/app/(website)/trust/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content, trust-bundle | no | AI/llms, search/schema, sitemap, web |
-| `/verify-jvto` | `src/app/(website)/verify-jvto/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/verify-jvto/history-artifacts` | `src/app/(website)/verify-jvto/history-artifacts/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/verify-jvto/legal` | `src/app/(website)/verify-jvto/legal/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/verify-jvto/police-safety` | `src/app/(website)/verify-jvto/police-safety/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/verify-jvto/press-recognition` | `src/app/(website)/verify-jvto/press-recognition/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/verify-jvto` | `src/app/(website)/verify-jvto/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/verify-jvto/history-artifacts` | `src/app/(website)/verify-jvto/history-artifacts/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/verify-jvto/legal` | `src/app/(website)/verify-jvto/legal/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/verify-jvto/police-safety` | `src/app/(website)/verify-jvto/police-safety/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/verify-jvto/press-recognition` | `src/app/(website)/verify-jvto/press-recognition/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/why-jvto` | `src/app/(website)/why-jvto/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/why-jvto/[slug]` | `src/app/(website)/why-jvto/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/why-jvto/reviews/[id]` | `src/app/(website)/why-jvto/reviews/[id]/page.tsx` | Postgres (DB) | direct | jsonld, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |

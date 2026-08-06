@@ -138,13 +138,9 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
       "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -159,12 +155,13 @@
     "surface": "/destinations/[slug]",
     "kind": "route",
     "file": "src/app/(website)/destinations/[slug]/page.tsx",
-    "authority": "legacy: content_pages (DB)",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
       "jsonld",
-      "prisma"
+      "prisma",
+      "static-content"
     ],
     "private": false,
     "consumers": [
@@ -1035,15 +1032,8 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "faq-resolver",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
-      "policy-bundle",
-      "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -1061,15 +1051,8 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "faq-resolver",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
-      "policy-bundle",
-      "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -1087,15 +1070,10 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "faq-resolver",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
       "policy-bundle",
       "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -1113,15 +1091,9 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "faq-resolver",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
       "policy-bundle",
-      "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -1139,15 +1111,9 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "faq-resolver",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
       "policy-bundle",
-      "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,

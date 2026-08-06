@@ -304,6 +304,75 @@ function runChecks() {
     }
   }
 
+  // 9. Destinations DETAIL cluster is content-SSOT-sourced (PACKAGE 06). Every published
+  //    /destinations/<slug> content record must (a) have a matching detail-snapshot slug
+  //    (content <-> SSG-param parity, both directions — dynamicParams=false), and (b) the
+  //    detail render path (destinations/[slug]/page.tsx + DestinationDetailView.tsx +
+  //    buildDestinationsSchemas.ts) must NOT carry the hardcoded per-slug narrative/SEO
+  //    maps, and the page must read the static-content SSOT for narrative + SEO.
+  const DEST_CONTENT_DIR = join(CONTENT_PAGES, "destinations");
+  const detailContentSlugs = new Set();
+  if (existsSync(DEST_CONTENT_DIR)) {
+    for (const file of walk(DEST_CONTENT_DIR)) {
+      if (!file.endsWith(".json")) continue;
+      const meta = JSON.parse(readFileSync(file, "utf8")).meta ?? {};
+      if (meta.status !== "published") continue;
+      const m = typeof meta.route === "string" && meta.route.match(/^\/destinations\/([^/]+)$/);
+      if (m) detailContentSlugs.add(m[1]);
+    }
+  }
+  const DETAIL_SNAPSHOT = join(
+    REPO_ROOT, "src", "lib", "publicContent", "generated", "destinationDetailSnapshots.json",
+  );
+  const snapSlugs = new Set();
+  if (existsSync(DETAIL_SNAPSHOT)) {
+    for (const it of JSON.parse(readFileSync(DETAIL_SNAPSHOT, "utf8")).items ?? []) {
+      if (it && typeof it.slug === "string") snapSlugs.add(it.slug);
+    }
+  } else {
+    fail("destinationDetailSnapshots.json missing — cannot verify content <-> SSG-param parity");
+  }
+  for (const s of snapSlugs) {
+    if (!detailContentSlugs.has(s)) {
+      fail(`/destinations/${s} renders (detail snapshot slug) but has no published content/pages/destinations/${s}.json — every detail route must have a canonical content record (Package 06)`);
+    }
+  }
+  for (const s of detailContentSlugs) {
+    if (!snapSlugs.has(s)) {
+      fail(`content/pages/destinations/${s}.json is published but /destinations/${s} is not a detail-snapshot slug (dynamicParams=false → it would 404). Remove the content record or add the destination.`);
+    }
+  }
+  const DETAIL_NARRATIVE_BANNED = [
+    "DEST_TITLE_OVERRIDES", "DEST_DESC_OVERRIDES", "DEST_CHROME", "DEST_QUICK_FACTS",
+    "DEST_ELEVATION_STAT", "DEST_TRAVEL_GUIDE_LINKS", "DEST_RELATED",
+    "TOURIST_ATTRACTION_DATA", "DESTINATION_TO_TRAVEL_GUIDE",
+  ];
+  const DETAIL_RENDER_FILES = [
+    join(WEBSITE_ROOT, "destinations", "[slug]", "page.tsx"),
+    join(SRC_ROOT, "components", "website", "DestinationDetailView.tsx"),
+    join(SRC_ROOT, "lib", "schemas", "buildDestinationsSchemas.ts"),
+  ];
+  for (const f of DETAIL_RENDER_FILES) {
+    const rel = f.replace(REPO_ROOT + "/", "");
+    if (!existsSync(f)) {
+      fail(`destination detail render file missing: ${rel}`);
+      continue;
+    }
+    const src = stripComments(readFileSync(f, "utf8"));
+    for (const ident of DETAIL_NARRATIVE_BANNED) {
+      if (new RegExp(`\\b${ident}\\b`).test(src)) {
+        fail(`${rel}: destination detail narrative/SEO must come from content/ — remove hardcoded "${ident}" (Package 06, DB-narrative fallback banned)`);
+      }
+    }
+  }
+  const detailPageFile = join(WEBSITE_ROOT, "destinations", "[slug]", "page.tsx");
+  if (existsSync(detailPageFile)) {
+    const src = stripComments(readFileSync(detailPageFile, "utf8"));
+    if (!/loadStaticPage|@\/lib\/static-content/.test(src)) {
+      fail("destinations/[slug]/page.tsx: must read the static-content SSOT (loadStaticPage / @/lib/static-content) — detail narrative/SEO is Git-owned (Package 06)");
+    }
+  }
+
   return routes;
 }
 

@@ -1,31 +1,33 @@
 // src/app/(website)/verify-jvto/page.tsx
+//
+// PACKAGE 06 (2026-08-06): served from the static-content SSOT
+// (content/pages/verify-jvto/index.json). Hero copy, SEO, and FAQ come from content/;
+// this file keeps layout + the JSON-LD projection (the hub's stitched entity/asset
+// @graph). The evidence locker (VerifyJvtoClient) reads its own Master_Dataset SSOT.
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import VerifyJvtoClient from "./VerifyJvtoClient";
+import VerifyNarrative, { staticPageRow, buildStaticFaqSchema } from "./verifyShared";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
-import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import { loadStaticPage } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
-const fallbackSeo = {
-  title: "Verify: Forensic Evidence Locker & Legal Documents",
-  h1: "Trust Through Transparency.",
-  description:
-    "Forensic verification of JVTO's Tourist Police authority, NIB legality, and operational safety protocols. Download official SHA256-signed documents.",
-};
-
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
+  const page = loadStaticPage("/verify-jvto");
+  if (!page || page.meta.status !== "published") return { title: "Verify JVTO" };
+  const title = page.meta.browserTitle ?? page.meta.title;
+  const description = page.meta.description;
   return {
-    title: seo.title,
-    description: seo.description,
+    title,
+    description,
     openGraph: {
-      title: seo.title,
-      description: seo.description,
+      title,
+      description,
       url: `${siteUrl}/verify-jvto`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
@@ -35,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${siteUrl}/assets/img/og/verify-jvto.webp`,
           width: 1200,
           height: 630,
-          alt: seo.h1,
+          alt: page.meta.title,
         },
       ],
     },
@@ -43,27 +45,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VerifyJvtoPage() {
-  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: "/verify-jvto",
-        lang: "en",
-        seo: {
-          title: seo.title,
-          description: seo.description,
-        },
-        content: {
-          h1: seo.h1,
-        },
-      };
+  const page = loadStaticPage("/verify-jvto");
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
   const orgProfile: any = (ssotData as any).organization_profile;
   const visibleAssets = (ssotData as any).assets_inventory.filter(
     (a: any) => a.is_show === true,
@@ -574,12 +559,12 @@ export default async function VerifyJvtoPage() {
     // Review triangulation placeholder
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "200",
+      ratingValue: "4.8",
+      reviewCount: "195",
       bestRating: "5",
       worstRating: "1",
       description:
-        "Consolidated rating from Trustpilot, Google, and TripAdvisor.",
+        "Consolidated cross-platform rating from Trustpilot, Google, and TripAdvisor.",
     },
 
     amenityFeature: [
@@ -660,46 +645,9 @@ export default async function VerifyJvtoPage() {
   };
 
   // BREADCRUMB comes from PageJsonLdCombined (was emitted twice before).
-
-  // FAQ
-  const faqSchema = {
-    "@type": "FAQPage",
-    "@id": `${siteUrl}/verify-jvto#faq`,
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Is Java Volcano Tour Operator a legal business in Indonesia?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918. Verification materials are available on the Verify JVTO page.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does JVTO have official Police authority?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "JVTO is founded by an active Tourist Police officer (Ditpamobvit). Official coordination evidence is provided via SPRIN (Assignment Orders) documents in the Verification Locker.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How can I verify the documents provided by JVTO?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Documents in the Evidence Locker include a SHA256 hash. Download the original file and compare its hash to the published value to detect tampering.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What safety standards does JVTO follow for Ijen Crater tours?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Every climber undergoes mandatory health screening before ascent. JVTO guides are licensed for Ijen operations and credentials are included as evidence assets on this page.",
-        },
-      },
-    ],
-  };
+  // FAQPage comes from content/ (content/faqs/verify-jvto.json) via
+  // buildStaticFaqSchema below — the same array rendered visibly by VerifyNarrative
+  // (AD-08). No inline FAQ node here (single-FAQPage rule).
 
   // HOW-TO
   const howToSchema = {
@@ -774,7 +722,6 @@ export default async function VerifyJvtoPage() {
 
       // page-level
       collectionPageSchema,
-      faqSchema,
       howToSchema,
 
       // credential nodes (SSOT-derived)
@@ -782,23 +729,23 @@ export default async function VerifyJvtoPage() {
     ],
   };
 
-  // Phase 5 (2026-04-29): canonical hub Q&A via resolver. /verify-jvto has 2 narrative_claims wired
-  // → narrative_claims overrides VERIFY_HUB_FAQS canonical (which would otherwise apply) → suppresses CMS FAQ.
-  // Per cluster_role_contracts.md Cluster 4 hub MH.
-  const hubFaqResolution = await resolveFaqsForPage("/verify-jvto");
-  const hubFaqResolvedNode = buildResolvedFaqSchema(hubFaqResolution, "/verify-jvto");
+  // FAQPage from content/ (content/faqs/verify-jvto.json) — the same array
+  // VerifyNarrative renders visibly (AD-08). suppressCmsFaq guarantees a single FAQPage.
+  const faqItems = page.faq ?? [];
+  const faqNode = faqItems.length ? buildStaticFaqSchema("/verify-jvto", faqItems) : null;
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={pageRow as any}
-        extraSchemas={[jsonLd, hubFaqResolvedNode]}
-        suppressCmsFaq={hubFaqResolution.suppressCmsFaq}
+        pageRow={staticPageRow(page)}
+        extraSchemas={[jsonLd, faqNode].filter(Boolean)}
+        suppressCmsFaq
       />
       <VerifyJvtoClient
-        heroTitle={seo.h1}
-        heroDescription={seo.description}
+        heroTitle={page.meta.title}
+        heroDescription={page.lede?.[0]}
       />
+      <VerifyNarrative page={page} />
     </>
   );
 }

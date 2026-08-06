@@ -73,12 +73,12 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 
 ## Verify JVTO / Team / Destinations (Package 06)
 
-| route | currentEffectiveSource | targetFormat | pkg | status | blocker |
+| route | currentEffectiveSource | targetFormat | pkg | status | notes |
 |---|---|---|---|---|---|
-| /verify-jvto + legal, police-safety, press-recognition | TSX-embedded narrative + `getPageSeo` (snapshot SEO) | structured-json | 06 | pending | none |
-| /verify-jvto/history-artifacts | `content_pages` + resolver | structured-json | 06 | pending | none |
-| /team (hub) + /team/[slug] | `crew_members` (DB params) + `getContentPage` SEO | entities/people.json narrative; **params stay DB** | 06 | pending | do not migrate crew params |
-| /destinations + /destinations/[slug] | `destinations` table (dynamic) + `content_pages` SEO | markdown narrative; **dynamic data stays DB** | 06 | pending | compose static+dynamic at page level |
+| /verify-jvto (hub) + legal, police-safety, press-recognition, history-artifacts | `content/pages/verify-jvto/*.json` (+ `content/faqs/verify-jvto*.json`) | structured-json | 06 | **cutover (this PR)** | copy/SEO/FAQ from content/; TSX keeps layout + the JSON-LD projection (`buildVerifySubpageSchema`, `LEGAL_/POLICE_SAFETY_DIGITAL_DOCUMENTS`, `PRESS_RECOGNITION_SCHEMAS`, in-file `HISTORY_TIMELINE_SCHEMA`) + the evidence locker (`VerifyJvtoClient` + `getDocsByGroup` = Master_Dataset SSOT, **not** migrated). Legacy removed for all 5 routes: 5 `manualPageSnapshots` + 5 `pages.json` + 11 `page_sections.json` seed rows; no `getPageSeo`/`resolveFaqsForPage`. Facts fixed in-flight: hub aggregateRating `4.9/200` → canonical `4.8/195`; Stefan Loose timeline **de-yeared** (no "2016", no startDate); incorporation reframed to 2023 formalization (TDUP 2023-02-11). FAQ single-array (visible==FAQPage, AD-08); FAQ now rendered visibly on every verify page |
+| /team (hub) + /team/[slug] | `content/entities/people.json` via `@/lib/people/canonicalPeople` | people-entity (11 crew: 7 guides + 4 drivers); params **people.json-sourced, NOT `crew_members`** | 06 | **IMPLEMENTED** | people-entity-sourced already on `main`; enforced by ownership gate check 8 + `validate:people` + `test:team-parity`. KTA is an HPWKI **membership** credential carried in people.json, never DB params. (Corrected 2026-08-06 — the prior "crew_members (DB params) … pending" row was stale.) |
+| /destinations (hub) | `content/pages/destinations/index.json` (hero + per-slug feature copy + transport + CTA) **+** DB snapshot (`getPublicDestinationList`) for cards, counts, and the `CollectionPage`/`ItemList` JSON-LD | structured-json narrative **+** dynamic DB | 06 | **cutover (this PR)** | static + dynamic composed at page level, no duplicated facts; **no package/price/booking/availability migrated**; 1 `manualPageSnapshot` + 1 `pages.json` + 3 `page_sections.json` seed rows removed; `getPageSeo` replaced by `loadStaticPage` |
+| /destinations/[slug] | `destinations` table (dynamic) + detail snapshot | **stays DB (dynamic)** | 06 | n/a | detail route unchanged — dynamic data + volcanic status; its sitemap uses a template literal (outside the content/ knowledge-feed scope), so only the hub migrates this PR |
 
 ## Blog (Package 08)
 
@@ -92,7 +92,7 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 |---|---|---|
 | `entities/organization.json` | extracted | values verbatim from `entityGraph.ts` + facts lock; no incorporation year; foundingDate 2015 |
 | `entities/review-platforms.json` | **cutover** | the review-stats SSOT **relocated** here from `src/data/reviewStats.canonical.json` (deleted); both consumers now read the entity: `src/lib/jvtoReviews.ts` (runtime `AGGREGATE_RATING`/`REVIEW_PLATFORMS`) + `scripts/export-public-review-api-snapshots.mjs`. Strict schema enforces counts↔profiles parity, rating⇒verifiedAt, exactly one primary |
-| `entities/people.json` | extracted | founder + Dr. Irwandanu (SIP/STR + claim boundary) + crew counts (14 = 7+7; KTA stays DB) |
+| `entities/people.json` | **cutover** | founder + Dr. Irwandanu (SIP/STR + claim boundary) + crew counts (**11 = 7 guides + 4 drivers**; KTA is an HPWKI membership credential carried in people.json, not DB params). Read live by the Team routes via `@/lib/people/canonicalPeople` (Package 06). Corrected 2026-08-06 (was "14 = 7+7; KTA stays DB") |
 | `entities/credentials.json` | extracted | NIB/TDUP/HPWKI/SPRIN×2/BBKSDA-SE1658 with SHA-256 anchors verbatim |
 | `entities/partners.json` | extracted | HPWKI/INDECON/ISIC with OKF claim boundaries (ISIC = registered provider) |
 
@@ -122,7 +122,8 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
-| 06–11 | per blueprint | pending, one PR each |
+| 06 | Verify JVTO (hub + 4 sub-pages) + Destinations hub → content/; Team people-entity-sourced | **cutover (this PR)** — Verify + Destinations hub; Team **IMPLEMENTED** (already on `main`, ledger corrected) |
+| 07–11 | per blueprint | pending, one PR each |
 
 **Deploy proof (help/preview box, merge `1c22c770`, 2026-08-04) — NOT production:** deploy run
 30901548524 green (its in-CI `smoke-why-jvto.mjs` step passed) + independent re-verification:

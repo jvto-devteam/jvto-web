@@ -4,6 +4,102 @@
   "productionOrigin": "https://javavolcano-touroperator.com",
   "routes": [
     {
+      "route": "/destinations",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations",
+      "title": "East Java Destinations",
+      "browserTitle": "East Java Destinations | Bromo, Ijen & More | JVTO",
+      "description": "Explore breathtaking destinations in East Java with JVTO: Kawah Ijen, Mount Bromo, Tumpak Sewu, Madakaripura, and Papuma Beach — each reached by dedicated private vehicle with BBKSDA park clearance in hand.",
+      "summary": "The five East Java sites on JVTO's private circuit — volcano craters, canyon waterfalls, and a coastal headland.",
+      "schemaTypes": [
+        "CollectionPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "destinations",
+      "faqCount": 3
+    },
+    {
+      "route": "/destinations/ijen-crater",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/ijen-crater",
+      "title": "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+      "browserTitle": "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+      "description": "Private Ijen blue fire hike from Surabaya or Bali. Gas mask, BBKSDA permit & health certificate coordinated. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Kawah Ijen — the world's highest-volume acidic crater lake, a pre-dawn blue-fire phenomenon, and a working sulfur-miner trail in Banyuwangi, East Java.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/madakaripura-waterfall",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
+      "title": "Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+      "browserTitle": "Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+      "description": "Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Madakaripura — Java's tallest waterfall, reached through a narrow canyon gorge in Probolinggo, and held in tradition to be Gajah Mada's final retreat.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/mount-bromo",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/mount-bromo",
+      "title": "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+      "browserTitle": "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+      "description": "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Mount Bromo — the smoking crater and Penanjakan sunrise inside the Tengger caldera, Probolinggo, East Java, reached by private 4WD jeep.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/papuma-beach",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/papuma-beach",
+      "title": "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
+      "browserTitle": "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
+      "description": "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
+      "summary": "Papuma Beach — white sand, offshore rock formations, and a cape headland in Jember; the only coastal stop on a JVTO East Java circuit.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/destinations/tumpak-sewu-waterfall",
+      "section": "destinations",
+      "canonicalUrl": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+      "title": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+      "browserTitle": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+      "description": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led. 4.8★ Trustpilot.",
+      "summary": "Tumpak Sewu — a multi-tiered curtain waterfall known as Java's Niagara, seen from the rim or from its misted base, in Lumajang, East Java.",
+      "schemaTypes": [
+        "TouristAttraction"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
       "route": "/policy",
       "section": "policy",
       "canonicalUrl": "https://javavolcano-touroperator.com/policy",
@@ -164,6 +260,86 @@
       "faqCount": 5
     },
     {
+      "route": "/verify-jvto",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto",
+      "title": "Verify JVTO: A Proof Library You Can Check",
+      "browserTitle": "Verify JVTO — Credentials, Police Authority, Press & History | JVTO",
+      "description": "Independently verify PT Java Volcano Rendezvous: NIB/TDUP registration, the founder's Tourist Police authority, SHA-256-signed document scans, press recognition, and operating history since 2015. Check every claim against government registries before you book.",
+      "summary": "The evidence locker for PT Java Volcano Rendezvous — legal, police-authority, press, and history documents, each checkable against an independent source.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto",
+      "faqCount": 5
+    },
+    {
+      "route": "/verify-jvto/history-artifacts",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/history-artifacts",
+      "title": "History Artifacts: Documented Origins Since 2015",
+      "browserTitle": "History Artifacts — Documented JVTO Origins Since 2015 | JVTO",
+      "description": "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT formalization.",
+      "summary": "An artifact-anchored timeline of JVTO's continuity — same address, same founder, same operation — from the 2015 guesthouse era to today.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-history-artifacts",
+      "faqCount": 3
+    },
+    {
+      "route": "/verify-jvto/legal",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/legal",
+      "title": "JVTO Legal Licenses & Verifiable Credentials",
+      "browserTitle": "Legal & Licenses — NIB, TDUP & PT Registration | JVTO",
+      "description": "JVTO legal documents: NIB 1102230032918, TDUP tourism licence, and PT Java Volcano Rendezvous registration — all verifiable on Indonesian government registries.",
+      "summary": "PT Java Volcano Rendezvous's business registration, tourism licence, and association membership — each checkable on an independent government registry.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-legal",
+      "faqCount": 4
+    },
+    {
+      "route": "/verify-jvto/police-safety",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/police-safety",
+      "title": "JVTO Police Integration & Safety Authority",
+      "browserTitle": "Police & Safety — Tourist Police Authority | JVTO",
+      "description": "JVTO's Tourist Police authority: SPRIN POLPAR documents, health screening coordination, and safety protocols for Bromo and Ijen volcano tours.",
+      "summary": "The founder's active Tourist Police commission — assignment orders, rank, and independent press confirmation — and what police-standard discipline means for your tour.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "legal",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-police-safety",
+      "faqCount": 3
+    },
+    {
+      "route": "/verify-jvto/press-recognition",
+      "section": "verify-jvto",
+      "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto/press-recognition",
+      "title": "JVTO Press & Media Recognition",
+      "browserTitle": "Press & Recognition — Detik.com & Stefan Loose | JVTO",
+      "description": "Independent press coverage confirming JVTO's identity: Detik.com Tourist Police article, the Stefan Loose Indonesia guidebook, and the 2015 Booking.com Guest Review Award.",
+      "summary": "Third-party editorial coverage of JVTO: the Stefan Loose guidebook citation, Detik.com and Radar Jember articles, and the 2015 Booking.com award.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": "verify-jvto-press-recognition",
+      "faqCount": 3
+    },
+    {
       "route": "/why-jvto",
       "section": "why-jvto",
       "canonicalUrl": "https://javavolcano-touroperator.com/why-jvto",
@@ -269,13 +445,15 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 16,
+    "routes": 27,
     "entities": 6,
     "sections": {
+      "destinations": 6,
       "policy": 4,
       "travel-guide": 6,
+      "verify-jvto": 5,
       "why-jvto": 6
     }
   },
-  "contentDigest": "500cab9152cb65905b86ed7335fa7105db2a288ef888d02c987fa319499175ed"
+  "contentDigest": "e878afc8776afb1d2ff134b4a75a4da72691ccd0051cf5ea24b9c68eba462d78"
 }

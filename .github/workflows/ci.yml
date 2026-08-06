@@ -169,6 +169,13 @@ jobs:
           # (HTTP 200, visible==JSON-LD, FAQ==record, no-leak, unpublished 404) runs in the
           # `build` job against `next start`, since it needs a running server.
           npm run test:people-reader
+          # Destination-DETAIL render-parity (PACKAGE 06): every /destinations/<slug>
+          # detail route is content-owned (narrative + SEO from content/pages/destinations/
+          # <slug>.json), content records <-> the SSG-param snapshot are 1:1 (dynamicParams
+          # =false), TouristAttraction JSON-LD sources from the same record, and the Ijen
+          # facts-lock holds (2,386 m, mandatory health). HTTP-200 + dynamic volcanic/tour
+          # rendering are proven on the help box post-deploy.
+          npm run test:destinations-parity
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
