@@ -23,6 +23,28 @@ The certificate requirement is regulatory, set by BBKSDA East Java. It is not un
 
 ---
 
+## Why the Screening Is Real — and Why That Matters
+
+The Kawah Ijen ascent is genuinely demanding, and the authorities have attributed multiple visitor deaths on the trail to exhaustion and pre-existing conditions — a 49-year-old visitor from Bogor in 2015, a 64-year-old visitor from Jakarta in 2023, and a 53-year-old Polish visitor in 2024, each of whom collapsed on the climb ([detikNews, 2015](https://news.detik.com/berita-jawa-timur/d-3040438/lagi-wisatawan-asal-bogor-meninggal-saat-mendaki-gunung-ijen); [detikJatim, 2023](https://www.detik.com/jatim/wisata/d-7116796/wisatawan-asal-jakarta-meninggal-usai-daki-kawah-ijen-banyuwangi); [kumparan, 2024](https://kumparan.com/kumparannews/turis-asal-polandia-tewas-saat-mendaki-kawah-ijen-diduga-kelelahan-22B6m8T4WRj)). It is a steep, gas-exposed route with limited evacuation options, and physical fitness genuinely matters.
+
+That is why BBKSDA Jawa Timur has, since January 2024, required a doctor-issued health certificate (surat keterangan sehat) for every Kawah Ijen visitor — to keep people who are unwell or who have conditions such as asthma or heart disease from being cleared to force the ascent ([TIMES Indonesia, 2024](https://banyuwangi.times.co.id/news/peristiwa/e1oqyrujmv/pengunjung-kawah-ijen-wajib-bawa-surat-keterangan-sehat); [Liputan6, 2024](https://www.liputan6.com/surabaya/read/5510716/terkuak-pemalsu-surat-sehat-ke-kawah-ijen-adalah-mantan-pegawai-puskesmas-kabat-banyuwangi)).
+
+But a certificate only protects anyone if the screening behind it is real. Within weeks of the rule, authorities found counterfeit surat sehat in circulation: BBKSDA and TWA Ijen ticket-counter staff flagged two forged certificates, and the Banyuwangi Health Office (Dinkes) confirmed the doctor signatures were not genuine. The forgeries were traced to a former employee of Puskesmas Kabat, who had scanned a doctor's signature onto certificates carrying the clinic's letterhead; the Health Office responded with a circular barring any certificate issued without a genuine medical examination ([Liputan6, 2024](https://www.liputan6.com/surabaya/read/5510716/terkuak-pemalsu-surat-sehat-ke-kawah-ijen-adalah-mantan-pegawai-puskesmas-kabat-banyuwangi); [Kabar Banyuwangi, 2024](https://kabarbanyuwangi.co.id/suket-sehat-diduga-abalabal-beredar-digunakan-wisatawan-masuk-ke-twa-ijen); [BWI24JAM, 2024](https://bwi24jam.co.id/temukan-dugaan-pemalsuan-sks-untuk-mendaki-kawah-ijen-dinkes-banyuwangi-beri-peringatan)).
+
+JVTO's screening is the real thing. It is an actual examination by a named, SIP-licensed doctor — Dr. Ahmad Irwandanu — that produces a genuine, BSrE-signed certificate traceable to that doctor, not a scanned signature or a purchased form. The screening is included in the package and carried out at your hotel before departure. That is exactly the safeguard the BBKSDA rule exists to protect: no valid health certificate, no crater access.
+
+**Sources**
+
+- detikNews (2015) — visitor death on the Gunung Ijen ascent: https://news.detik.com/berita-jawa-timur/d-3040438/lagi-wisatawan-asal-bogor-meninggal-saat-mendaki-gunung-ijen
+- detikJatim (2023) — visitor death after the Kawah Ijen climb: https://www.detik.com/jatim/wisata/d-7116796/wisatawan-asal-jakarta-meninggal-usai-daki-kawah-ijen-banyuwangi
+- kumparan (2024) — visitor death on the Kawah Ijen ascent: https://kumparan.com/kumparannews/turis-asal-polandia-tewas-saat-mendaki-kawah-ijen-diduga-kelelahan-22B6m8T4WRj
+- TIMES Indonesia (2024) — Kawah Ijen visitors required to carry a health certificate: https://banyuwangi.times.co.id/news/peristiwa/e1oqyrujmv/pengunjung-kawah-ijen-wajib-bawa-surat-keterangan-sehat
+- Portal Kabar Banyuwangi (2024) — counterfeit health certificates used to enter TWA Ijen: https://kabarbanyuwangi.co.id/suket-sehat-diduga-abalabal-beredar-digunakan-wisatawan-masuk-ke-twa-ijen
+- Liputan6 (2024) — forged Ijen health certificate traced to a former Puskesmas Kabat employee: https://www.liputan6.com/surabaya/read/5510716/terkuak-pemalsu-surat-sehat-ke-kawah-ijen-adalah-mantan-pegawai-puskesmas-kabat-banyuwangi
+- BWI24JAM (2024) — Dinkes Banyuwangi warning after suspected certificate forgery: https://bwi24jam.co.id/temukan-dugaan-pemalsuan-sks-untuk-mendaki-kawah-ijen-dinkes-banyuwangi-beri-peringatan
+
+---
+
 ## What the Screening Checks
 
 The health screening is conducted by licensed medical staff. Vitals measured include:
