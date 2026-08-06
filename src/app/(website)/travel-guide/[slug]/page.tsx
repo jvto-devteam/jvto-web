@@ -40,9 +40,17 @@ const TRAVEL_GUIDE_DEST_LINKS: Record<
   ],
 };
 
+// Travel-guide routes that are content-owned (in content/pages/travel-guide/) but keep
+// their own folder page.tsx because they render a bespoke layout the markdown renderer
+// can't reproduce — e.g. best-time-to-visit's colour-coded month table + season cards
+// (PACKAGE 04b). They are served from their folder page, so they must be excluded here or
+// Next.js would try to statically generate the same path from both routes.
+const FOLDER_OWNED_ROUTES = new Set<string>(["/travel-guide/best-time-to-visit"]);
+
 export function generateStaticParams() {
   return listPublishedStaticPages({ section: "travel-guide" })
     .filter((p) => p.meta.route !== "/travel-guide")
+    .filter((p) => !FOLDER_OWNED_ROUTES.has(p.meta.route))
     .map((p) => ({ slug: p.meta.route.replace("/travel-guide/", "") }));
 }
 

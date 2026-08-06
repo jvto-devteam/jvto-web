@@ -42,13 +42,14 @@ resolver dumps (H1/titles/descriptions/bodies/bundle blocks/no-FAQ) — PASS.
 seed/snapshot is authoritative even at runtime — the DB can never override → offline capture ==
 production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies/FAQs).
 
-**Deferred to 04b (documented blockers — do NOT fold into 04a):**
+**Package 04b (blocker-free routes cut over; blocked routes still deferred):**
 
-| route | blocker |
+| route | status |
 |---|---|
-| /travel-guide/faq | content comes from the **FAQ-manager snapshot** (`getPublicFaqCategories()` / `faqSnapshot`), a distinct generated system — needs its own capture + parity plan |
-| /travel-guide/police-escort-for-groups | folder page; TSX body + `getContentPage` **SEO override from the DB** — a live DB row may differ from offline fallbacks; needs a verified DB export before its SEO migrates |
-| /travel-guide/rijik-monthly-closure, /travel-guide/best-time-to-visit | folder pages, TSX-bodied (not snapshot-driven); best-time-to-visit additionally has no DB row (pre-existing open item) |
+| /travel-guide/best-time-to-visit | **cutover (this PR)** — narrative + SEO + FAQ → `content/pages/travel-guide/best-time-to-visit.json` + `content/faqs/travel-guide-best-time-to-visit.json`; bespoke colour-coded month table + season-verdict cards stay as TSX chrome rendering the structured content; folder page kept (excluded from the `[slug]` loader's params) and content-owned (no `getPageSeo` / `resolveFaqsForPage`); was blocker-free (no `content_pages` row, in-file SEO, canonical FAQ) |
+| /travel-guide/rijik-monthly-closure | pending — blocker-free (TSX-bodied, in-file SEO, canonical FAQ; calendar-computed closure table would stay TSX chrome). Not folded into this PR to keep the first 04b cut single-route |
+| /travel-guide/faq | **BLOCKED** — content comes from the **FAQ-manager snapshot** (`getPublicFaqCategories()` / `faqSnapshot`), a distinct generated system — needs its own capture + parity plan |
+| /travel-guide/police-escort-for-groups | **BLOCKED** — folder page; TSX body + `getContentPage` **SEO override from the DB** — a live DB row may differ from offline fallbacks; needs a verified DB export before its SEO migrates |
 
 **Path B — 13 OKF-backed folder pages (`AgentGuide` body from `src/data/okf` via `AGENT_GUIDES`; `getContentPage` for SEO only):**
 `blue-fire-and-sunrise`, `booking-safety`, `bromo-sunrise`, `cancellation-travel-credit`,
@@ -118,7 +119,7 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 02 | shared entities + review-stats SSOT relocation | **done** (#142) |
 | 03 | Policy migration + cutover (4 routes, parity verified) | **done** (#143) |
 | 04a | Travel Guide Path A (hub + 5 seed-owned slugs, parity verified) | **done** (#144) |
-| 04b | TG deferred routes (faq / police-escort / rijik / best-time) + 13 OKF pages | pending — blockers documented above |
+| 04b | TG deferred routes (best-time / rijik / faq / police-escort) + 13 OKF pages | **in progress** — best-time-to-visit cut over (this PR); rijik blocker-free but deferred to keep first cut single-route; faq / police-escort / 13 OKF pages BLOCKED (documented above) |
 | 05 | Why JVTO migration + cutover (hub + 5 sub-pages; AD-08 gap closed) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |

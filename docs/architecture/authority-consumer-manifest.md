@@ -15,11 +15,11 @@
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **27**
+- content/ (Git SSOT): **28**
 - legacy: content_pages (DB): **1**
 - producer: OKF: **13**
 - producer: llm-wiki (via import): **1**
-- producer: llm-wiki: **6**
+- producer: llm-wiki: **5**
 - tsx-embedded narrative: **1**
 - unresolved (no reachable resolver): **6**
 
@@ -57,7 +57,7 @@
 | `/tours/student-package/[slug]` | `src/app/(website)/tours/student-package/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | search/schema, web |
 | `/travel-guide` | `src/app/(website)/travel-guide/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/travel-guide/[slug]` | `src/app/(website)/travel-guide/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
-| `/travel-guide/best-time-to-visit` | `src/app/(website)/travel-guide/best-time-to-visit/page.tsx` | producer: llm-wiki | direct | cms-seed, faq-resolver, jsonld, policy-bundle, prisma | no | AI/llms, search/schema, sitemap, web |
+| `/travel-guide/best-time-to-visit` | `src/app/(website)/travel-guide/best-time-to-visit/page.tsx` | content/ (Git SSOT) | direct | content_pages, faq-resolver, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/travel-guide/blue-fire-and-sunrise` | `src/app/(website)/travel-guide/blue-fire-and-sunrise/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
 | `/travel-guide/booking-safety` | `src/app/(website)/travel-guide/booking-safety/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |
 | `/travel-guide/bromo-sunrise` | `src/app/(website)/travel-guide/bromo-sunrise/page.tsx` | producer: OKF | direct | content_pages, getContentPage, jsonld, okf-agent-guides, prisma | no | search/schema, web |

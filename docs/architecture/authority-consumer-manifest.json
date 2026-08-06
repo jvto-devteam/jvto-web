@@ -674,14 +674,14 @@
     "surface": "/travel-guide/best-time-to-visit",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/best-time-to-visit/page.tsx",
-    "authority": "producer: llm-wiki",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
+      "content_pages",
       "faq-resolver",
+      "getPageSeo",
       "jsonld",
-      "policy-bundle",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [
