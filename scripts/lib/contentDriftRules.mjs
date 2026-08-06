@@ -94,7 +94,16 @@ export const RULES = [
     // separator) and QRIS payments never false-trigger. src/data/* mirrors still carry
     // this wording until the producer (llm-wiki) fix merges + the bundles re-sync;
     // those hits stay in the committed baseline (upstream-owned) and clear on resync.
-    re: /QR[- ]code|QR[- ]?verif|QR[- ]?based|digital QR|valid QR\b|QR verification|no valid QR/i,
+    //
+    // SCOPED to the health-cert context (this rule also runs in the runtime CMS gate
+    // /api/content-validate on every draft): the generic `QR code` alternative fires
+    // ONLY when a health/cert/crater/BBKSDA/Ijen token sits within ~80 chars, and the
+    // `allow` line exempts the repo's legitimate non-health QR (QRIS payments, the
+    // WhatsApp login QR, the AHU/SABH `/qrcode/?kode=` registry URLs) so a valid draft
+    // like "scan the QR code to pay with QRIS" is never blocked. The strongly
+    // health-cert idioms (QR-verifiable, digital QR, no valid QR, …) stay unscoped.
+    re: /(?:surat[- ]?sehat|health[- ]?(?:cert|certificate|screening|clearance)|crater|BBKSDA|Ijen)[^.\n]{0,80}QR[- ]?code|QR[- ]?code[^.\n]{0,80}(?:surat[- ]?sehat|health[- ]?(?:cert|certificate|screening|clearance)|crater|BBKSDA|Ijen)|QR[- ]?verif|QR[- ]?coded|digital QR|valid QR\b|QR verification|QR reader|no valid QR/i,
+    allow: /QRIS|whats?app|wa[- ]?login|\/qrcode|ahu\.go\.id|sabh|xendit|payment/i,
   },
   {
     name: "non-idr-currency",
