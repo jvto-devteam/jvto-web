@@ -6,7 +6,7 @@ description: "How to book, pay, and cancel a JVTO private tour: website-only boo
 section: "travel-guide"
 status: "published"
 owner: "operations"
-lastReviewed: "2026-08-04"
+lastReviewed: "2026-08-06"
 schemaTypes:
   - WebPage
 faqKey: "travel-guide-booking-information"
