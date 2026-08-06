@@ -102,10 +102,14 @@ export const RULES = [
     // certificate's QR", "verify by scanning its QR", "QR-verifiable", "no valid QR" —
     // not just QR+suffix (Codex OKF #41 P1, applied here for parity); and it does NOT
     // fire on an unrelated ticket / booking / payment "QR code" (P2). \bQR\b never
-    // matches the AHU/SABH `/qrcode/?kode=` URL token (qr+c) or "QRIS" (qr+i); the
-    // `allow` line still exempts QRIS/WhatsApp/registry/Xendit as belt-and-suspenders.
+    // matches the AHU/SABH `/qrcode/?kode=` URL token (qr+c) or "QRIS" (qr+i). No
+    // `allow` list: the scoped `re` IS the exemption — legit payment/QRIS,
+    // WhatsApp-login, and AHU-registry QR carry no health token within 80 chars, so
+    // they never match. A whole-line `allow` was removed (Codex #154 P2): scanText
+    // applies `allow` to the ENTIRE physical line, so an unrelated "payment"/"WhatsApp"
+    // token could mask a real health-QR violation elsewhere on the same line (CMS
+    // paragraphs and stringified JSON routinely put many sentences/fields on one line).
     re: /(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)[^.\n]{0,80}\bQR\b|\bQR\b[^.\n]{0,80}(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)/i,
-    allow: /QRIS|whats?app|wa[- ]?login|\/qrcode|ahu\.go\.id|sabh|xendit|payment/i,
   },
   {
     name: "non-idr-currency",
