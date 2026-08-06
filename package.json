@@ -42,6 +42,7 @@
     "test:knowledge": "tsx scripts/compile-public-knowledge.ts --selftest",
     "validate:knowledge": "node scripts/validate-public-knowledge.mjs",
     "test:people": "node scripts/validate-people-graph.mjs --selftest",
+    "test:people-reader": "tsx scripts/ci/canonical-people-selftest.ts",
     "validate:people": "node scripts/validate-people-graph.mjs",
     "test:deploy-script": "bash scripts/ci/deploy-script-selftest.sh",
     "test:workflow-security": "bash scripts/ci/workflow-security-selftest.sh"
