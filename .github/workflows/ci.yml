@@ -176,6 +176,10 @@ jobs:
           # facts-lock holds (2,386 m, mandatory health). HTTP-200 + dynamic volcanic/tour
           # rendering are proven on the help box post-deploy.
           npm run test:destinations-parity
+          # PACKAGE 04b: the 17 Travel Guide deferred routes are content-owned (4 bespoke
+          # folder pages + 13 former OKF pages via the [slug] loader), each a sitemap
+          # string-literal, and the shared bespoke-grid validators reject malformed content.
+          npm run test:travel-guide-04b
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
@@ -208,13 +212,6 @@ jobs:
           npm run sync:okf
           git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle src/data/okf \
             || { echo "::error::Synced bundles drifted from source. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle && npm run sync:okf' and commit."; exit 1; }
-
-      - name: Validate OKF consumption (blocking)
-        # scripts/validate-okf-consumption.mjs: every AGENT_GUIDES route (src/lib/
-        # content/agentGuides.ts) must map to at least one OKF module, and its
-        # copy must not diverge from OKF on any canonical-facts rule — catches
-        # hand-edits away from the mandatory/canonical wording OKF ships.
-        run: npm run validate:okf
 
       - name: Typecheck (non-blocking)
         continue-on-error: true

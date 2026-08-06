@@ -426,40 +426,6 @@
     "status": "published"
   },
   {
-    "route": "/travel-guide/faq",
-    "file_group": "005",
-    "sort_order": 2,
-    "cluster": "hybrid",
-    "page_type": "faq",
-    "template": "travel-guide",
-    "visual_mode": "hybrid",
-    "hub_route": "/travel-guide",
-    "title": "Frequently Asked Questions",
-    "h1": "Frequently Asked Questions",
-    "seo": {
-      "title": "FAQ – Private Bromo & Ijen Tours | JVTO",
-      "description": "Answers to common questions about JVTO private tours: inclusions, payments, Package Credit policy, Ijen health screening, closures, and student discounts."
-    },
-    "status": "published"
-  },
-  {
-    "route": "/travel-guide/police-escort-for-groups",
-    "file_group": "005",
-    "sort_order": 6,
-    "cluster": "hybrid",
-    "page_type": "travel_guide",
-    "template": "travel-guide",
-    "visual_mode": "hybrid",
-    "hub_route": "/travel-guide",
-    "title": "Police Escort for Groups",
-    "h1": "Traffic Police Escort for Tourist Groups in East Java",
-    "seo": {
-      "title": "Traffic Police Escort for Tourist Groups in East Java | JVTO",
-      "description": "For large groups (around 18+ paying guests) JVTO can coordinate an official Traffic Police escort on certain road segments when approved, plus a Free-of-Charge group incentive (1–3 FOC seats) on direct bookings."
-    },
-    "status": "published"
-  },
-  {
     "route": "/contact",
     "file_group": "007",
     "sort_order": 1,

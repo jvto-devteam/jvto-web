@@ -659,6 +659,7 @@
     "resolvers": [
       "content_pages",
       "jsonld",
+      "okf-agent-guides",
       "prisma",
       "static-content"
     ],
@@ -674,113 +675,13 @@
     "surface": "/travel-guide/best-time-to-visit",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/best-time-to-visit/page.tsx",
-    "authority": "producer: llm-wiki",
-    "resolution": "direct",
-    "resolvers": [
-      "cms-seed",
-      "faq-resolver",
-      "jsonld",
-      "policy-bundle",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "AI/llms",
-      "search/schema",
-      "sitemap",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/blue-fire-and-sunrise",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/blue-fire-and-sunrise/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/booking-safety",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/booking-safety/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/bromo-sunrise",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/bromo-sunrise/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/cancellation-travel-credit",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/cancellation-travel-credit/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/faq",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/faq/page.tsx",
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "getContentPage",
+      "faq-resolver",
       "getPageSeo",
       "jsonld",
-      "prisma",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -792,92 +693,16 @@
     ]
   },
   {
-    "surface": "/travel-guide/finish-in-bali",
+    "surface": "/travel-guide/faq",
     "kind": "route",
-    "file": "src/app/(website)/travel-guide/finish-in-bali/page.tsx",
-    "authority": "producer: OKF",
+    "file": "src/app/(website)/travel-guide/faq/page.tsx",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
-      "getContentPage",
+      "getPageSeo",
       "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/how-booking-works",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/how-booking-works/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/malang-batu",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/malang-batu/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/payment-and-deposit",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/payment-and-deposit/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/police-escort-for-groups",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/police-escort-for-groups/page.tsx",
-    "authority": "legacy: content_pages (DB)",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [
@@ -888,21 +713,22 @@
     ]
   },
   {
-    "surface": "/travel-guide/private-tour",
+    "surface": "/travel-guide/police-escort-for-groups",
     "kind": "route",
-    "file": "src/app/(website)/travel-guide/private-tour/page.tsx",
-    "authority": "producer: OKF",
+    "file": "src/app/(website)/travel-guide/police-escort-for-groups/page.tsx",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
       "getContentPage",
       "jsonld",
-      "okf-agent-guides",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [
+      "AI/llms",
       "search/schema",
+      "sitemap",
       "web"
     ]
   },
@@ -910,94 +736,20 @@
     "surface": "/travel-guide/rijik-monthly-closure",
     "kind": "route",
     "file": "src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx",
-    "authority": "producer: llm-wiki",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
+      "content_pages",
       "faq-resolver",
+      "getPageSeo",
       "jsonld",
-      "policy-bundle",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [
+      "AI/llms",
       "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/rooming-and-accommodation",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/rooming-and-accommodation/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/vehicle-and-luggage",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/vehicle-and-luggage/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/what-is-included",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/what-is-included/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
-      "web"
-    ]
-  },
-  {
-    "surface": "/travel-guide/why-stay-near-ijen",
-    "kind": "route",
-    "file": "src/app/(website)/travel-guide/why-stay-near-ijen/page.tsx",
-    "authority": "producer: OKF",
-    "resolution": "direct",
-    "resolvers": [
-      "content_pages",
-      "getContentPage",
-      "jsonld",
-      "okf-agent-guides",
-      "prisma"
-    ],
-    "private": false,
-    "consumers": [
-      "search/schema",
+      "sitemap",
       "web"
     ]
   },

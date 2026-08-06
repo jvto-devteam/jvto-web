@@ -1,18 +1,64 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Link from '@/components/website/AppLink';
 import { PageJsonLdCombined } from '@/components/seo/PageJsonLdCombined';
 import Sidebar from '../sidebar';
-import { resolveFaqsForPage, buildResolvedFaqSchema } from '@/lib/content/resolveFaqs';
 import { Faq } from '@/components/content/Faq';
+import { MarkdownRendererTravelGuide } from '@/components/content/MarkdownRendererTravelGuide';
+import {
+  loadStaticPage,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from '@/lib/static-content';
+
+// PACKAGE 04b (2026-08-06): the evergreen narrative + SEO + FAQ come from the static-content
+// SSOT (content/pages/travel-guide/rijik-monthly-closure.json + content/faqs/…). The only
+// dynamic element — the "Upcoming Rijik Closure Dates" table — is computed from the calendar
+// here, so this route keeps its folder page (excluded from the [slug] loader's params). No
+// getPageSeo / resolveFaqsForPage: the route is content-owned.
 
 const ROUTE = '/travel-guide/rijik-monthly-closure';
 
-const PAGE_META = {
-  title: "Ijen Rijik: The Monthly Closure Day at Kawah Ijen | JVTO",
-  description:
-    'TWA Ijen closes to all visitors on the first Friday of every month, since March 2019, for "Rijik" — a volunteer cleanup that removes an estimated 100–150 kg of trash from the crater. JVTO schedules every Ijen-inclusive itinerary around it.',
-  h1: 'Ijen Rijik: The Monthly Closure Day at Kawah Ijen',
-};
+export const revalidate = 86400;
+
+type Sec = NonNullable<StaticPage['sections']>[number] & Record<string, unknown>;
+function findSection(page: StaticPage, id: string): Sec | undefined {
+  return page.sections?.find((s) => s.id === id) as Sec | undefined;
+}
+function sectionBody(sec: Sec | undefined): string {
+  return typeof sec?.body_md === 'string' ? sec.body_md : '';
+}
+function sectionTitle(sec: Sec | undefined): string {
+  return typeof sec?.title === 'string' ? sec.title : '';
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: 'en',
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      schema_type: page.meta.schemaTypes.find((t) => t !== 'WebPage') ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage['faq']>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  };
+}
 
 /** First Friday of the given (UTC) year/month (month is 0-indexed). */
 function getFirstFridayOfMonth(year: number, month: number): Date {
@@ -63,33 +109,36 @@ function formatClosureDate(d: Date): string {
   });
 }
 
-export const revalidate = 86400;
-
-export const metadata: Metadata = {
-  title: PAGE_META.title,
-  description: PAGE_META.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== 'published') return { title: 'Page Not Found' };
+  return {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+  };
+}
 
 export default async function RijikMonthlyClosurePage() {
-  const faqResolution = await resolveFaqsForPage(ROUTE);
-  const faqSchema = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== 'published') return notFound();
 
-  const pageRow = {
-    route: ROUTE,
-    lang: 'en',
-    seo: { title: PAGE_META.title, description: PAGE_META.description },
-    content: { h1: PAGE_META.h1 },
-  };
+  const h1 = page.meta.title;
+  const faqItems = page.faq ?? [];
+  const faqSchema = faqItems.length ? buildStaticFaqSchema(ROUTE, faqItems) : null;
 
-  const faqItems = faqResolution.faqs.map((p) => ({ q: p.question, a: p.answer }));
+  const intro = sectionBody(findSection(page, 'intro'));
+  const whatIsRijik = findSection(page, 'what-is-rijik');
+  const whyItMatters = findSection(page, 'why-it-matters');
+  const howJvtoHandles = findSection(page, 'how-jvto-handles');
+
   const upcomingClosures = getUpcomingRijikClosures(6);
 
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={pageRow as any}
+        pageRow={staticPageRow(page) as any}
         extraSchemas={[faqSchema].filter(Boolean) as any[]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
       <Sidebar />
 
@@ -114,109 +163,36 @@ export default async function RijikMonthlyClosurePage() {
               className="font-black text-3xl md:text-5xl text-white"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              {PAGE_META.h1}
+              {h1}
             </h1>
           </div>
         </section>
 
         <div className="container mx-auto px-4 max-w-4xl pt-12">
           {/* Intro / lede */}
-          <div className="prose max-w-none mb-8 text-gray-700">
-            <p className="text-lg text-muted-foreground">
-              Kawah Ijen closes to <strong>all</strong> visitors — not just JVTO guests — on the
-              first Friday of every month. It has run this way since{' '}
-              <strong>March 2019</strong>, for a volunteer conservation program called{' '}
-              <strong>&ldquo;Rijik&rdquo;</strong> (Javanese for &ldquo;tidy&rdquo; / &ldquo;clean&rdquo;), during which
-              park staff and volunteers descend into the crater area to remove an estimated{' '}
-              <strong>100–150 kg of trash</strong> accumulated from tourism and mining traffic.
-            </p>
-            <p>
-              It is a small, easily-missed fact — most independent travelers and even some
-              tour operators don&rsquo;t track it — but arriving on a Rijik day means being turned
-              away at the gate after a 01:00 AM wake-up call and a night trek to the crater rim.
-              JVTO checks this calendar before confirming any Ijen-inclusive itinerary, so it
-              never becomes a guest&rsquo;s problem.
-            </p>
+          <div className="mb-8">
+            <MarkdownRendererTravelGuide markdown={intro} />
           </div>
 
           {/* What is Rijik */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold mb-3">What Is the Rijik Cleanup Program?</h2>
-            <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
-              <p>
-                Rijik is a scheduled ecosystem-cleaning day at TWA Ijen (the Ijen Nature Tourism
-                Park). On the first Friday of every month, the park closes to tourism and mining
-                traffic so park staff and community volunteers can clear trash from the crater
-                rim, the descent trail, and the shoreline of the sulfur lake — waste that
-                accumulates from the steady flow of tourists and traditional sulfur miners
-                between cleanups.
-              </p>
-              <p>
-                Each session typically collects an estimated <strong>100–150 kg of trash</strong>.
-                The program has run on this fixed monthly cadence since{' '}
-                <strong>March 2019</strong>, making it a predictable, recurring closure rather
-                than an emergency or unplanned event.
-              </p>
-            </div>
+            <h2 className="text-xl font-bold mb-3">{sectionTitle(whatIsRijik)}</h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(whatIsRijik)} />
           </section>
 
           {/* Why it matters */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold mb-3">Why It Matters for Travelers</h2>
-            <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
-              <p>
-                Ijen night hikes are logistically unforgiving: guests are typically picked up
-                from Bondowoso-area hotels around midnight to reach the crater rim in time for
-                the blue-fire window before dawn. If a self-planned or unlicensed itinerary lands
-                on a Rijik closure day, the outcome is a wasted pre-dawn wake-up and a turned-away
-                group at the gate — with no advance warning, because the closure is a park
-                operations detail, not something advertised on ticket-booking pages.
-              </p>
-              <p>
-                No competitor operator publishes this fact in a dedicated guide. It is exactly
-                the kind of operational detail that separates a licensed operator who tracks park
-                administration from an itinerary assembled purely from generic travel-blog
-                research.
-              </p>
-            </div>
+            <h2 className="text-xl font-bold mb-3">{sectionTitle(whyItMatters)}</h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(whyItMatters)} />
           </section>
 
           {/* How JVTO handles it */}
           <section className="mb-10 rounded-lg border border-jvto-lime/30 bg-jvto-lime/5 p-5">
-            <h2 className="text-base font-bold mb-3 text-gray-900">How JVTO Handles It</h2>
-            <ul className="text-sm space-y-2.5 text-gray-700">
-              <li>
-                <strong>Checked before confirmation.</strong> JVTO checks the TWA Ijen closure
-                calendar before confirming any Ijen-inclusive itinerary against a guest&rsquo;s
-                requested travel dates.
-              </li>
-              <li>
-                <strong>Rerouted, not cancelled.</strong> If a preferred travel window falls on
-                the first Friday of the month, JVTO reorders the itinerary — for example,
-                visiting Bromo or Madakaripura first — so the Rijik closure day never disrupts a
-                confirmed booking. This follows the same alternative-route approach used for
-                PVMBG-driven closures; see{' '}
-                <Link href="/travel-guide/weather-and-closures" className="text-primary hover:underline font-medium">
-                  Weather &amp; Closures
-                </Link>.
-              </li>
-              <li>
-                <strong>Not the same as a safety closure.</strong> Rijik is a fixed conservation
-                closure, unrelated to PVMBG (volcanology) alert-status closures, which are
-                unscheduled and driven by real-time gas and seismic monitoring.
-              </li>
-              <li>
-                <strong>Covered by the same cancellation terms.</strong> In the rare case a
-                closure makes a program genuinely unworkable, the standard 100% JVTO Travel
-                Credit terms apply — see{' '}
-                <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline font-medium">
-                  Booking, Payment &amp; Cancellation Policy
-                </Link>.
-              </li>
-            </ul>
+            <h2 className="text-base font-bold mb-3 text-gray-900">{sectionTitle(howJvtoHandles)}</h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(howJvtoHandles)} />
           </section>
 
-          {/* Upcoming closure dates */}
+          {/* Upcoming closure dates — computed from the calendar (dynamic) */}
           <section className="mb-10">
             <h2 className="text-xl font-bold mb-4">Upcoming Rijik Closure Dates</h2>
             <p className="text-sm text-muted-foreground mb-4">
@@ -256,7 +232,10 @@ export default async function RijikMonthlyClosurePage() {
           </div>
 
           {/* FAQ */}
-          <Faq items={faqItems} title="Ijen Rijik Closure: Common Questions" />
+          <Faq
+            items={faqItems.map((f) => ({ q: f.question, a: f.answer }))}
+            title="Ijen Rijik Closure: Common Questions"
+          />
         </div>
       </main>
     </div>
