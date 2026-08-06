@@ -19,7 +19,6 @@
     "export:activity-snapshots": "node scripts/export-package-activity-snapshots.mjs",
     "sync:trust": "node scripts/sync-trust-bundle.mjs",
     "sync:packages": "node scripts/sync-package-readiness.mjs",
-    "sync:blog": "node scripts/sync-blog.mjs",
     "sync:itinerary": "node scripts/sync-itinerary-intelligence.mjs",
     "sync:policy-bundle": "node scripts/sync-policy-bundle.mjs",
     "sync:cms-seed": "node scripts/sync-cms-seed.mjs",
@@ -46,6 +45,7 @@
     "test:team-parity": "tsx scripts/ci/team-render-parity.ts",
     "test:destinations-parity": "tsx scripts/ci/destinations-detail-parity.ts",
     "test:travel-guide-04b": "tsx scripts/ci/travel-guide-04b-parity.ts",
+    "test:blog": "tsx scripts/ci/blog-parity.ts",
     "validate:people": "node scripts/validate-people-graph.mjs",
     "test:deploy-script": "bash scripts/ci/deploy-script-selftest.sh",
     "test:workflow-security": "bash scripts/ci/workflow-security-selftest.sh"

@@ -81,7 +81,7 @@ production truth. All routes byte-parity-verified (H1/titles/descriptions/bodies
 
 | route | currentEffectiveSource | targetFormat | pkg | status | blocker |
 |---|---|---|---|---|---|
-| /blog + /blog/[slug] (2 posts) | `src/data/blog/*.md` + `_manifest.json` via `src/lib/blog.ts` (hand-rolled frontmatter; synced from llm-wiki via `sync:blog`) | move to `content/pages/blog/` (gray-matter), keep URLs + `BlogPosting` JSON-LD | 08 | pending | remove `sync:blog` only after parity |
+| /blog + /blog/[slug] (2 posts) | **`content/pages/blog/`** — `index.md` hub + 2 post `.md` (gray-matter) via the static-content loader | move to `content/pages/blog/`, keep URLs + `BlogPosting` JSON-LD | 08 | **cutover (this PR)** | DONE — `sync:blog` + `src/data/blog` + `src/lib/blog.ts` retired; **`/blog` un-deprecated** (removed the `next.config` 301 → `/travel-guide` + flipped the registry `dead`→`live`); CMS-seed blog rows stripped; hub `CollectionPage` + posts `BlogPosting` + `publishedDate`; `test:blog` parity + negative self-test |
 
 ## Cross-cutting facts (Package 02 — entities) — **DONE 2026-08-04**
 
@@ -120,7 +120,8 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 05b | 5 owner-flagged fact fixes + /api/build-info + deploy SHA/smoke gate | **IMPLEMENTED · PREVIEW-VERIFIED** (#145) |
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
 | 06 | Verify JVTO (hub + 4 sub-pages) + Destinations hub → content/; Team people-entity-sourced | **cutover (this PR)** — Verify + Destinations hub; Team **IMPLEMENTED** (already on `main`, ledger corrected) |
-| 07–11 | per blueprint | pending, one PR each |
+| 08 | Blog (hub + 2 posts) → content/; `/blog` un-deprecated; `sync:blog` retired | **cutover (this PR)** — content-owned, `BlogPosting`/`CollectionPage` JSON-LD, `test:blog` parity. **Routing note:** `/blog` no longer 301s to `/travel-guide` (the redirect is removed; the registry entry is now `live`) |
+| 07, 09–11 | per blueprint | pending, one PR each |
 
 **Deploy proof (help/preview box, merge `1c22c770`, 2026-08-04) — NOT production:** deploy run
 30901548524 green (its in-CI `smoke-why-jvto.mjs` step passed) + independent re-verification:

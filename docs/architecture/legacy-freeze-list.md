@@ -93,7 +93,7 @@ authority + controlled interface (see the classification doc, class operational-
 
 | Path | Status | Ladder position | Detail |
 |---|---|---|---|
-| `sync:blog` (`scripts/sync-blog.mjs`) → `src/data/blog/*.md` + `_manifest.json` → `src/lib/blog.ts` | active-writer | FROZEN (target relocate Milestone 2) | 2 posts. Relocate to `content/pages/blog/` (gray-matter), keep URLs + `BlogPosting` JSON-LD. **Remove `sync:blog` only after parity** (Milestone 2). |
+| ~~`sync:blog` (`scripts/sync-blog.mjs`) → `src/data/blog/*.md` + `_manifest.json` → `src/lib/blog.ts`~~ | **RETIRED (Package 08, 2026-08-06)** | removed from ladder | Blog relocated to `content/pages/blog/` (gray-matter) as Git-SSOT; `sync:blog` + `scripts/sync-blog.mjs` + `src/data/blog` + `src/lib/blog.ts` deleted; `/blog` un-deprecated (redirect removed, registry `live`); parity guarded by `test:blog`. |
 
 ### 8. Trust / policy / OKF public-content consumers (§15)
 

@@ -156,22 +156,22 @@ Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt
 
 ## Cross-Repo SSOT Sync (llm-wiki + OKF → jvto-web)
 
-Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the trust-bundle / package-readiness / blog / policy-bundle; `sambuko82/knowledge-catalog-jvto-bootstrap` (`main`) builds the OKF customer-sales-release. jvto-web is a **read-only consumer** of the compiled artifacts under `src/data/`. **Never hand-edit** `src/data/{trust-bundle,okf,package-readiness,blog,policy-bundle}` — fix the producer, recompile there, re-sync (a hand edit re-drifts and fails CI).
+Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the trust-bundle / package-readiness / policy-bundle; `sambuko82/knowledge-catalog-jvto-bootstrap` (`main`) builds the OKF customer-sales-release. jvto-web is a **read-only consumer** of the compiled artifacts under `src/data/`. **Never hand-edit** `src/data/{trust-bundle,okf,package-readiness,policy-bundle}` — fix the producer, recompile there, re-sync (a hand edit re-drifts and fails CI). (Blog is no longer synced — as of 2026-08-06 `/blog` is content/ Git-SSOT under `content/pages/blog/`.)
 
-**Sync scripts** (`package.json`): `sync:trust` / `sync:packages` / `sync:blog` (source env `LLM_WIKI_PATH`), `sync:policy-bundle` (source env **`LLM_WIKI_ROOT`** — a *different* var, easy to miss), `sync:okf` (source env `OKF_PATH`). Consumed via `src/lib/trust-bundle.ts` (`/trust`) and `src/lib/content/agentGuides.ts` (~13 `/travel-guide/*` routes ← `src/data/okf`).
+**Sync scripts** (`package.json`): `sync:trust` / `sync:packages` (source env `LLM_WIKI_PATH`), `sync:policy-bundle` (source env **`LLM_WIKI_ROOT`** — a *different* var, easy to miss), `sync:okf` (source env `OKF_PATH`). Consumed via `src/lib/trust-bundle.ts` (`/trust`); the OKF bundle now feeds only CMS-catalog consumers (the `/travel-guide/*` runtime OKF path via `agentGuides.ts` was retired in Package 04b — those routes are content-owned). **`sync:blog` was retired 2026-08-06** — `/blog` is now content/ Git-SSOT (`content/pages/blog/`).
 
-**CI drift gate (`ci.yml` → `verify`)** checks out llm-wiki@master + OKF@main, runs **all five** syncs, and `git diff --exit-code src/data/{package-readiness,trust-bundle,blog,policy-bundle,okf}`. If **any** bundle is stale it fails *"Synced bundles drifted from source."* So `main` must always be in full sync with **both** producers simultaneously.
+**CI drift gate (`ci.yml` → `verify`)** checks out llm-wiki@master + OKF@main, runs **all four** syncs, and `git diff --exit-code src/data/{package-readiness,trust-bundle,policy-bundle,okf}`. If **any** bundle is stale it fails *"Synced bundles drifted from source."* So `main` must always be in full sync with **both** producers simultaneously.
 
-**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all five** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. The former SSH `build-develop` job was replaced (2026-08-05) by a GitHub-hosted `build` job (disposable `pgvector/pgvector:pg16` service container) — a required, no-SSH pre-merge production build.
+**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all four** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. The former SSH `build-develop` job was replaced (2026-08-05) by a GitHub-hosted `build` job (disposable `pgvector/pgvector:pg16` service container) — a required, no-SSH pre-merge production build.
 
-**Why one workflow (deadlock-proof):** because a single PR always carries all five bundles from the current producer heads, the `verify` drift gate is satisfiable in one commit — the two old failure modes are gone: (1) two producers changing together no longer deadlock (both slices land in the same PR), and (2) `policy-bundle` is now covered (the old `sync-llm-wiki.yml` never synced it). Any producer push re-syncs everything from both producers.
+**Why one workflow (deadlock-proof):** because a single PR always carries all four bundles from the current producer heads, the `verify` drift gate is satisfiable in one commit — the two old failure modes are gone: (1) two producers changing together no longer deadlock (both slices land in the same PR), and (2) `policy-bundle` is now covered (the old `sync-llm-wiki.yml` never synced it). Any producer push re-syncs everything from both producers.
 
 **`live` is intentionally NOT auto-synced.** Per `docs/CONTRIBUTING.md`, `live` receives only owner-commanded `main → live` promote PRs — which carry main's already-synced `src/data`, so `live` stays correct without a separate auto-sync (auto-writing bundles to `live` would bypass that gate; `policy-bundle` in particular never had a live auto-sync). The old workflows' `live` legs are removed.
 
-**Manual fallback** (recovery / local re-sync) — run all five from the current producer heads. The inline `VAR=x cmd` form applies only to the first command, so **`export` the vars** first:
+**Manual fallback** (recovery / local re-sync) — run all four from the current producer heads. The inline `VAR=x cmd` form applies only to the first command, so **`export` the vars** first:
 ```bash
 export LLM_WIKI_PATH=/path/llm-wiki LLM_WIKI_ROOT=/path/llm-wiki OKF_PATH=/path/okf
-npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle && npm run sync:okf
+npm run sync:packages && npm run sync:trust && npm run sync:policy-bundle && npm run sync:okf
 # red-flag check: only src/data/* changed + a 2nd run adds no diff (idempotent) => verify will pass
 ```
 
@@ -262,7 +262,7 @@ the help/preview box, and then **stops at `READY FOR OWNER`** — it does not ta
 - **CI/deploy efficiency:** true-documentation-only
   `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**` and root-level `*.md`
   (README/CLAUDE) — **served content Markdown still builds and deploys**
-  (`content/pages/**/*.md` renders via `loadStaticPage`; `src/data/blog/**/*.md` via `src/lib/blog.ts`),
+  (`content/pages/**/*.md` — including the blog at `content/pages/blog/**/*.md` — renders via `loadStaticPage`),
   so a content change is never mistaken for docs and skipped.
 
 ## Session Operating Rules

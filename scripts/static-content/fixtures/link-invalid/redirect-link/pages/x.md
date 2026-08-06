@@ -11,4 +11,4 @@ summary: Redirect-target link case.
 
 ## Body
 
-This links to [the old blog hub](/blog), which the registry marks as dead/redirected to /travel-guide.
+This links to [the old student-deals hub](/student-deals/isic), which the registry marks as dead/redirected to /isic/student-package.

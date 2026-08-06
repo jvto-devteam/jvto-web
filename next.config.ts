@@ -230,7 +230,6 @@ const nextConfig = {
       { source: "/office", destination: "/contact", permanent: true },
       { source: "/how-to-book", destination: "/travel-guide/booking-information", permanent: true },
       { source: "/terms-and-condition", destination: "/policy", permanent: true },
-      { source: "/blog", destination: "/travel-guide", permanent: true },
       { source: "/packages/yogyakarta", destination: "/tours", permanent: true },
       // Note: /packages/surabaya/3d2n/{N} skipped — legacy IDs need verification from GSC/server logs first.
     ];

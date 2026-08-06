@@ -441,38 +441,5 @@
       "description": "WhatsApp is the fastest way to reach us. Most questions are answered within a few hours — often faster. If you want to book, check availability, or…"
     },
     "status": "published"
-  },
-  {
-    "route": "/blog",
-    "file_group": "008",
-    "sort_order": 1,
-    "cluster": "hybrid",
-    "page_type": "hub",
-    "template": "collection",
-    "visual_mode": "hybrid",
-    "hub_route": null,
-    "title": "Blog",
-    "h1": "JVTO Blog",
-    "seo": {
-      "title": "Blog",
-      "description": "East Java is not a destination you improvise. Crater access rules change. Volcanic gas levels shift overnight. A waterfall canyon that was passable last…"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/blog/why-not-unlicensed-ijen-operator",
-    "file_group": "008",
-    "sort_order": 2,
-    "cluster": "hybrid",
-    "page_type": "blog",
-    "template": "narrative",
-    "visual_mode": "hybrid",
-    "hub_route": "/blog",
-    "title": "Why Not an Unlicensed Ijen Operator",
-    "h1": "Why Not an Unlicensed Ijen Operator",
-    "seo": {
-      "title": "Why Not an Unlicensed Ijen Operator"
-    },
-    "status": "published"
   }
 ]
