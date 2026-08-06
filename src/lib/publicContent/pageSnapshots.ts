@@ -61,17 +61,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
       h1: "Contact Us",
     },
   ),
-  "/destinations": createPageSnapshot(
-    "/destinations",
-    {
-      title: "East Java Destinations | Bromo, Ijen & More",
-      description:
-        "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
-    },
-    {
-      h1: "Destinations",
-    },
-  ),
   "/isic/student-package": createPageSnapshot(
     "/isic/student-package",
     {
@@ -147,61 +136,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     },
     {
       h1: "Police Escort for Tourist Groups in East Java",
-    },
-  ),
-  "/verify-jvto": createPageSnapshot(
-    "/verify-jvto",
-    {
-      title: "Verify: Forensic Evidence Locker & Legal Documents",
-      description:
-        "Forensic verification of JVTO's Tourist Police authority, NIB legality, and operational safety protocols. Download official SHA256-signed documents.",
-    },
-    {
-      h1: "Trust Through Transparency.",
-    },
-  ),
-  "/verify-jvto/history-artifacts": createPageSnapshot(
-    "/verify-jvto/history-artifacts",
-    {
-      title: "JVTO History Artifacts — Documented Origins Since 2015",
-      description:
-        "JVTO timeline: Booking.com award (2015), Stefan Loose guide (2016), Detik.com press (2021), PT registration (2023). All independently verifiable.",
-    },
-    {
-      h1: "History Artifacts: Documented Origins Since 2015",
-    },
-  ),
-  "/verify-jvto/legal": createPageSnapshot(
-    "/verify-jvto/legal",
-    {
-      title: "JVTO Legal Documents — NIB, TDUP & PT Registration | JVTO",
-      description:
-        "Verify NIB 1102230032918, TDUP license & PT Java Volcano Rendezvous registration. SHA256-verified PDFs. Police-led East Java operator since 2015.",
-    },
-    {
-      h1: "Legal Documents",
-    },
-  ),
-  "/verify-jvto/police-safety": createPageSnapshot(
-    "/verify-jvto/police-safety",
-    {
-      title: "Verify: Police Authority & Safety Protocols | JVTO",
-      description:
-        "Verify JVTO Tourist Police (POLPAR) authority. SPRIN POLPAR docs, Satlantas escort coordination, BBKSDA SE.1658 compliance, and health screening records.",
-    },
-    {
-      h1: "Police & Safety",
-    },
-  ),
-  "/verify-jvto/press-recognition": createPageSnapshot(
-    "/verify-jvto/press-recognition",
-    {
-      title: "JVTO Press Recognition — Detik.com & Stefan Loose | JVTO",
-      description:
-        "Detik.com, Stefan Loose travel guide & Radar Jember coverage of JVTO — third-party verification of police-led East Java tour operator credentials.",
-    },
-    {
-      h1: "Press Recognition",
     },
   ),
 };
