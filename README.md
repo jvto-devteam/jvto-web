@@ -53,9 +53,12 @@ Model branch (otoritatif: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)):
   (`DATABASE_URL`, Mailgun API key, PgBouncer, dll.). File ini bertahan saat
   deploy karena `git reset --hard` hanya menyentuh file tracked.
 - **GitHub Actions Secrets** — CI/deploy:
-  - `VPS_HOST` / `VPS_USER` / `VPS_SSH_KEY` — dipakai `deploy.yml`.
   - `GH_PAT` — checkout repo produsen (llm-wiki + OKF) untuk drift gate & sync.
-  - `DEVELOP_SSH_HOST` / `DEVELOP_SSH_USER` / `DEVELOP_SSH_KEY` — build-develop.
+  - `VPS_HOST` / `VPS_USER` / `VPS_SSH_KEY` — **retired**: help deploy kini jalan di
+    self-hosted runner `jvto-help-deploy` (tanpa inbound SSH). Owner boleh menghapusnya.
+  - `DEVELOP_SSH_HOST` / `DEVELOP_SSH_USER` / `DEVELOP_SSH_KEY` — **retired**: job
+    `build-develop` dihapus; build produksi kini jalan GitHub-hosted (Postgres service
+    container). Owner boleh menghapusnya.
 
 Titik akses (host/URL saja — kredensial di password manager):
 

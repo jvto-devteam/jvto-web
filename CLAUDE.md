@@ -162,7 +162,7 @@ Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the tr
 
 **CI drift gate (`ci.yml` → `verify`)** checks out llm-wiki@master + OKF@main, runs **all five** syncs, and `git diff --exit-code src/data/{package-readiness,trust-bundle,blog,policy-bundle,okf}`. If **any** bundle is stale it fails *"Synced bundles drifted from source."* So `main` must always be in full sync with **both** producers simultaneously.
 
-**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all five** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. `build-develop` stays non-required (flaky VPS SSH) and now self-skips on docs-only PRs.
+**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all five** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. The former SSH `build-develop` job was replaced (2026-08-05) by a GitHub-hosted `build` job (disposable `pgvector/pgvector:pg16` service container) — a required, no-SSH pre-merge production build.
 
 **Why one workflow (deadlock-proof):** because a single PR always carries all five bundles from the current producer heads, the `verify` drift gate is satisfiable in one commit — the two old failure modes are gone: (1) two producers changing together no longer deadlock (both slices land in the same PR), and (2) `policy-bundle` is now covered (the old `sync-llm-wiki.yml` never synced it). Any producer push re-syncs everything from both producers.
 
@@ -199,7 +199,7 @@ Slug shape: both cities use full-path format — `tours/from-surabaya/{slug}` an
 - **Build needs Postgres.** `DATABASE_URL` comes from the untracked VPS-local `.env.local` (survives `git reset --hard`), never a repo secret. The `verify` job (ci.yml) only runs `prisma generate` with a dummy URL — it never builds.
 - **Indexability** is set per box by `NEXT_PUBLIC_SITE_URL` (`src/lib/site.ts` + `next.config.ts`): only the production origin is indexable; every other box gets a global `X-Robots-Tag: noindex, nofollow`.
 - **Deploy verification endpoint: `/api/build-info`** (added 2026-08-04, PKG-05b — `src/app/(api)/api/build-info/route.ts`, `force-dynamic` + `no-store`). Returns `{commitSha, environment, siteOrigin, nodeEnv}`; `commitSha` comes from `APP_COMMIT_SHA`, which `deploy.yml` exports before `npm run build` and carries into the `pm2 restart --update-env`. `deploy.yml` fails the workflow unless `/api/build-info` reports the pushed SHA, then runs `scripts/smoke-why-jvto.mjs` (6×200 + canonical + single FAQPage + crew + forbidden-claim checks). Manual check: `curl -s https://help.javavolcano-touroperator.com/api/build-info` — `commitSha` must match the deployed commit; `curl -sI …/` must still show `x-robots-tag: noindex`. **Race hazard is now mitigated:** deploy.yml has `concurrency: deploy-help-main` (`cancel-in-progress: false`) so at most one deploy runs at a time — no more concurrent SSH jobs interleaving `git reset`/`npm ci`/`build` on the same checkout. This *serializes* deploys but does **not** guarantee FIFO or that every intermediate SHA deploys: the group keeps one running + one pending, and a newer push replaces the pending run (pending-run coalescing), so mid-burst commits can be skipped. The final deploy always reflects the newest queued push — confirm which commit actually landed via `/api/build-info`.
-- `build-develop` (ci.yml, `scripts/build-pr.sh`) is a pre-merge build on the develop server — **non-required** (flaky VPS SSH); `verify` is the only required check.
+- The pre-merge production build runs **GitHub-hosted** in the ci.yml `build` job (disposable `pgvector/pgvector:pg16` service container → `CREATE EXTENSION vector`/`pg_trgm` → `prisma db push` → `npm run build`) — no SSH, no dev-server dependency. It replaced the former SSH `build-develop` job + `scripts/build-pr.sh` (both removed 2026-08-05). Pre-merge checks are now `verify` + `build` + `outbox-db`; the SSH secrets `DEVELOP_SSH_*`/`VPS_*` are retired.
 - **Secrets topology:** `deploy.yml` uses `VPS_HOST`/`VPS_USER`/`VPS_SSH_KEY`; `GH_PAT` (on jvto-web) reads the producer repos for the drift gate + sync; the producers fire `repository_dispatch` at jvto-web via `JVTO_WEB_DISPATCH_TOKEN`. jvto-web is a **public** repo — never commit credentials.
 
 ## Auto-Memory
@@ -238,7 +238,7 @@ These actions are **the owner's, never the assistant's**. The assistant implemen
 the help/preview box, and then **stops at `READY FOR OWNER`** — it does not take the release step.
 
 - **Never merge a PR.** Open it, drive its own required check (`verify`) to green, address review
-  comments, and report `READY FOR OWNER`. **Non-required CI (e.g. `build-develop`) does not grant
+  comments, and report `READY FOR OWNER`. **Non-required or informational CI does not grant
   merge authority, and docs-only scope does not grant merge authority** — neither is a reason to
   self-merge.
 - **Never promote `main → live`** and **never deploy production.** Production promotion + the
@@ -259,7 +259,7 @@ the help/preview box, and then **stops at `READY FOR OWNER`** — it does not ta
   **IMPLEMENTED** (merged to `main`) → **PREVIEW-VERIFIED** (proven on the help box) →
   **PRODUCTION-VERIFIED** (proven on `live` after the owner promote). The assistant may reach
   PREVIEW-VERIFIED; only the owner reaches PRODUCTION-VERIFIED.
-- **CI/deploy efficiency:** true-documentation-only PRs skip `build-develop` and true-documentation-only
+- **CI/deploy efficiency:** true-documentation-only
   `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**` and root-level `*.md`
   (README/CLAUDE) — **served content Markdown still builds and deploys**
   (`content/pages/**/*.md` renders via `loadStaticPage`; `src/data/blog/**/*.md` via `src/lib/blog.ts`),

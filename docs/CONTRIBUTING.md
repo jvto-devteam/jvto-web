@@ -93,7 +93,7 @@ makes it indexable again. Owner sets these values on the VPS — they are not st
 | Lint | `npm run lint:gate` | PASS — no bucket in the committed per-file/per-rule baseline (`scripts/lint-baseline.json`, 141 pre-existing errors) may grow; fixing legacy errors elsewhere cannot offset a new one. Fixed legacy errors → `node scripts/lint-gate.mjs --update` + commit. |
 | Typecheck | `npx tsc --noEmit` | Does **not exceed baseline**: exactly **3 dead-import errors** (`HomePage.tsx`/`ReviewsPage.tsx`). The historical "+42 in checkout/booking flow" was re-measured 2026-07-05 on `main` (post-#62/#63/#64): **0 remain** — any checkout/booking tsc error today is NEW, not legacy. Any new error = regression, fix before PR. |
 | Validators | `npm run validate && npm run validate:packages` | Green |
-| Build | — | Do **not** run full `npm run build` in a sandbox (SSG needs Postgres). Build verification happens via the CI `build-develop` job and the help deploy after merge — by design. |
+| Build | — | Do **not** run full `npm run build` in a sandbox (SSG needs Postgres). Build verification happens via the CI `build` job (disposable pgvector service container) and the help deploy after merge — by design. |
 
 ## Database guardrails
 

@@ -1,9 +1,10 @@
 name: CI
 
 # Pre-merge checks. Production deploy stays owned by deploy.yml (push -> main).
-# The `verify` job runs lint/typecheck/drift on a GitHub runner (no build: SSG
-# build needs Postgres). The `build-develop` job runs a real `npm run build` on
-# the DEVELOP server (dev DB) over SSH — verification only, never production.
+# The `verify` job runs lint/typecheck/drift on a GitHub runner. The `build` job
+# runs the real `npm run build` against a disposable pgvector/pgvector:pg16
+# service container (SSG prerender needs Postgres) — GitHub-hosted, no SSH. The
+# `outbox-db` job proves the durable outbox against a Postgres service container.
 # `live` is included so promote PRs (live <- main) pass the same verify gate
 # before production picks them up — see docs/CONTRIBUTING.md (branch model).
 on:
@@ -75,7 +76,7 @@ jobs:
         # CMS seed, content_pages, the FAQ resolver, or a DB narrative-claims
         # read — fails the build, and forbidden claims (14 crew, ISIC Partner,
         # INDECON-as-partnership) are rejected. Previously this only ran via
-        # prebuild on the non-required build-develop job; it is required now.
+        # prebuild on the (now-removed) build-develop job; it is required now.
         run: npm run content:check
 
       - name: Docs-only classifier self-test (blocking)
@@ -84,6 +85,21 @@ jobs:
         # / paths-ignore — so a future edit that widens "docs" (e.g. back to a
         # blanket **/*.md that sweeps in served content Markdown) fails here.
         run: bash scripts/ci/docs-only-selftest.sh
+
+      - name: Deploy script self-test (blocking)
+        # Asserts scripts/ops/deploy-jvto-help.sh invariants so they can't regress:
+        # pm2 is resolved BEFORE `nvm use 20` (default-Node global drop bug), PM2_BIN
+        # is absolute+executable, the SHA is 40-hex and must equal origin/main
+        # (fail-closed), flock serialization, no `git clean`, build-before-restart,
+        # $PM2_BIN --update-env restart, and no `pm2 update`.
+        run: npm run test:deploy-script
+
+      - name: Workflow security self-test (blocking)
+        # Proves the PR + help-deploy workflows carry NO inbound SSH: no
+        # appleboy/ssh-action, no DEVELOP_SSH_*/VPS_* secrets; the help deploy runs
+        # only on the jvto-help-deploy local runner; and ci.yml has a `build` job
+        # running npm ci + npm run build (the GitHub-hosted production build gate).
+        run: npm run test:workflow-security
 
       - name: Milestone 0 baseline gates (blocking)
         # (1) Canonical checkout Ijen-notice self-test — mandatory wording present,
@@ -177,74 +193,66 @@ jobs:
         continue-on-error: true
         run: npx tsc --noEmit
 
-  # Full `npm run build` against the dev DB on the develop server, over SSH.
-  # Gated on `verify`. Runs a FIXED server-side script (scripts/build-pr.sh,
-  # installed on the server from main) — not an arbitrary remote command.
-  # Verification only: isolated per-PR build dir, dev DB, never touches production.
-  build-develop:
-    needs: verify
+  # Real production-build gate — GitHub-hosted, NO SSH. Replaces the former
+  # `build-develop` job that ran `npm run build` on the develop server over
+  # appleboy/ssh-action (removed: it produced recurring flaky-SSH non-required
+  # failures on every PR). `verify` deliberately skips the build because Next.js
+  # SSG prerenders DB-backed pages, so the build needs Postgres — provided here
+  # by a disposable `pgvector/pgvector:pg16` service container (the schema uses a
+  # pgvector `vector` column + a pg_trgm GIN index). The schema is applied with
+  # `prisma db push`; no seed data is needed — every DB-backed page prerenders
+  # cleanly against an empty schema (verified: `npm run build` exits 0). This
+  # proves `npm ci` + the real `npm run build` actually compile and prerender
+  # before merge. It never uses an SSH secret and never touches develop/production.
+  build:
+    name: build
     runs-on: ubuntu-latest
-    # PRs only (needs PR number + head SHA), same-repo only (forks lack SSH secrets).
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-    steps:
-      - name: Checkout (for docs-only detection)
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Detect docs-only change
-        # A true-documentation-only PR does not affect the build, so it must not
-        # run the flaky VPS-SSH develop build (automation-governance hardening
-        # 2026-08-04). "Documentation" is ONLY `docs/**` and root-level *.md
-        # (README.md / CLAUDE.md). Served content Markdown is production output
-        # and MUST build — content/pages/**/*.md renders via loadStaticPage and
-        # src/data/blog/**/*.md via src/lib/blog.ts — so a blanket `.md` rule
-        # would wrongly skip the only full build check. Any changed file that is
-        # not documentation sets code=true. This exact predicate is asserted by
-        # scripts/ci/docs-only-selftest.sh (run in the verify job above).
-        id: changes
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          POSTGRES_USER: build
+          POSTGRES_PASSWORD: build
+          POSTGRES_DB: jvto_build
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U build -d jvto_build"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      # Disposable service-container DB — never a project/develop/production DB.
+      DATABASE_URL: postgresql://build:build@localhost:5432/jvto_build
+      # Non-production origin (noindex) + a placeholder public token (the site is
+      # not served in CI). APP_COMMIT_SHA only feeds /api/build-info at runtime.
+      NEXT_PUBLIC_SITE_URL: https://help.javavolcano-touroperator.com
+      NEXT_PUBLIC_MAPBOX_TOKEN: pk.ci.placeholder.not-a-secret
+      APP_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Apply schema to the disposable Postgres (pgvector + pg_trgm)
+        # The schema declares a pgvector `vector` column and a pg_trgm GIN index,
+        # so BOTH extensions must exist before `prisma db push` creates them.
+        # Empty data is sufficient — the DB-backed pages prerender against it.
         run: |
           set -euo pipefail
-          files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
-          echo "changed files:"; echo "$files"
-          nondoc="$(printf '%s\n' "$files" | grep -vE '(^docs/|^[^/]+\.md$)' || true)"
-          if [ -n "$nondoc" ]; then
-            echo "code=true" >> "$GITHUB_OUTPUT"
-            echo "non-documentation files changed -> running develop build"
-          else
-            echo "code=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::True-documentation-only PR (docs/** or root-level *.md) — skipping the develop-server build."
-          fi
-
-      - name: Check develop-server secrets are configured
-        id: cfg
-        if: steps.changes.outputs.code == 'true'
-        env:
-          HOST: ${{ secrets.DEVELOP_SSH_HOST }}
-        run: |
-          if [ -z "$HOST" ]; then
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::DEVELOP_SSH_* secrets not set — develop build gate is pending setup (see issue #16). Skipping."
-          else
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build PR on develop server (dev DB, isolated)
-        if: steps.changes.outputs.code == 'true' && steps.cfg.outputs.configured == 'true'
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.DEVELOP_SSH_HOST }}
-          username: ${{ secrets.DEVELOP_SSH_USER }}
-          key: ${{ secrets.DEVELOP_SSH_KEY }}
-          command_timeout: 30m
-          # Fixed, pre-installed trusted script. PR number + commit SHA are the
-          # only inputs; the script re-validates them. Runs the build of the
-          # exact PR head SHA against the dev DB in an isolated dir.
-          script: |
-            bash "$HOME/jvto-build-control/scripts/build-pr.sh" "${{ github.event.pull_request.number }}" "${{ github.event.pull_request.head.sha }}"
+          command -v psql >/dev/null 2>&1 || { echo "::error::psql missing on runner"; exit 1; }
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+            -c 'CREATE EXTENSION IF NOT EXISTS vector; CREATE EXTENSION IF NOT EXISTS pg_trgm;'
+          npx prisma db push --skip-generate
+          npx prisma generate
+      - name: Production build (npm run build)
+        # The real `next build` — compiles + prerenders every route (SSG pages
+        # query the service-container DB). Any build failure blocks the PR.
+        run: npm run build
 
   # Blocking proof of the DURABLE transactional outbox (handoff §7.7) against a REAL
   # Postgres — not the in-memory adapter, and not out-of-band. A disposable `postgres:16`
