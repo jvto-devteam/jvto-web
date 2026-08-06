@@ -1,7 +1,7 @@
 ---
 route: "/travel-guide/ijen-health-screening"
 title: "Ijen Health Screening – Real Checks, Digital Proof"
-browserTitle: "Ijen Health Screening – Real Checks, Digital Proof & QR | JVTO"
+browserTitle: "Ijen Health Screening – Real Checks, Digital Proof & BSrE Signature | JVTO"
 description: "The Ijen night hike requires a mandatory health certificate for every guest before crater entry. JVTO arranges the screening; if you're advised not to hike, the climb is cancelled for you (not the group) with safe-zone alternatives."
 section: "travel-guide"
 status: "published"
@@ -10,7 +10,7 @@ lastReviewed: "2026-08-04"
 schemaTypes:
   - WebPage
 faqKey: "travel-guide-ijen-health-screening"
-summary: "The mandatory Ijen health screening: real checks at your hotel, a BSrE-signed digital certificate, and QR verification."
+summary: "The mandatory Ijen health screening: real checks at your hotel, a BSrE-signed digital certificate, checked at the crater access gate."
 ---
 
 ## What the Access Rule Is
@@ -19,7 +19,7 @@ BBKSDA Jawa Timur — the government conservation agency responsible for the Kaw
 
 **A health certificate is mandatory for every guest before Kawah Ijen crater entry, per BBKSDA SE.1658/KSA.9/2024.** JVTO coordinates the mandatory clinic workflow under this regulation.
 
-The certificate requirement is regulatory, set by BBKSDA East Java. It is not unilaterally imposed by JVTO — BBKSDA sets the rule; JVTO coordinates the workflow so every crater-zone guest can satisfy it. At the crater access gate, checkpoint staff verify the QR code on the certificate. No valid QR code means no crater zone access.
+The certificate requirement is regulatory, set by BBKSDA East Java. It is not unilaterally imposed by JVTO — BBKSDA sets the rule; JVTO coordinates the workflow so every crater-zone guest can satisfy it. At the crater access gate, checkpoint staff check the certificate. No valid health certificate means no crater-zone access.
 
 ---
 
@@ -32,9 +32,9 @@ The health screening is conducted by licensed medical staff. Vitals measured inc
 - Heart rate
 - Respiratory history
 
-Results are recorded digitally and generate a QR code. The QR code allows BBKSDA checkpoint staff at the crater gate to verify that a real screening was completed by a licensed provider — not a paper copy that could be forged.
+Results are recorded digitally on a BSrE-signed certificate. The BSrE (Balai Sertifikasi Elektronik / BSSN) electronic signature — a legally valid e-signature under UU ITE, traceable to the doctor's SIP — makes the certificate accountable and tamper-evident, a safeguard against a forged or self-issued paper copy. A valid certificate is checked at the crater access gate.
 
-The QR system is available beyond JVTO guests: participating clinics and hotels in the Ijen area can provide the same screening to non-JVTO travellers. This is not a competitive restriction — it raises the safety standard for all visitors.
+The same screening is available beyond JVTO guests: participating clinics and hotels in the Ijen area can provide it to non-JVTO travellers. This is not a competitive restriction — it raises the safety standard for all visitors.
 
 ---
 
@@ -44,8 +44,8 @@ For every guest on an Ijen crater route, JVTO arranges the following mandatory s
 
 1. **The nurse visits your hotel** the evening before the Ijen hike — in the Bondowoso or Banyuwangi area.
 2. **Vitals are checked** at your accommodation. No travel to a clinic is required.
-3. **The digital certificate with QR code is issued** for verified guests.
-4. **At the Paltuding trailhead**, BBKSDA checkpoint staff scan the QR code before permitting crater zone access.
+3. **The BSrE-signed digital certificate is issued** for cleared guests.
+4. **At the Paltuding trailhead**, BBKSDA checkpoint staff check the certificate before permitting crater-zone access.
 
 The entire session takes place at your hotel before departure, not on the trail.
 

@@ -104,9 +104,9 @@
       "section": "travel-guide",
       "canonicalUrl": "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
       "title": "Ijen Health Screening – Real Checks, Digital Proof",
-      "browserTitle": "Ijen Health Screening – Real Checks, Digital Proof & QR | JVTO",
+      "browserTitle": "Ijen Health Screening – Real Checks, Digital Proof & BSrE Signature | JVTO",
       "description": "The Ijen night hike requires a mandatory health certificate for every guest before crater entry. JVTO arranges the screening; if you're advised not to hike, the climb is cancelled for you (not the group) with safe-zone alternatives.",
-      "summary": "The mandatory Ijen health screening: real checks at your hotel, a BSrE-signed digital certificate, and QR verification.",
+      "summary": "The mandatory Ijen health screening: real checks at your hotel, a BSrE-signed digital certificate, checked at the crater access gate.",
       "schemaTypes": [
         "WebPage"
       ],
@@ -277,5 +277,5 @@
       "why-jvto": 6
     }
   },
-  "contentDigest": "d8ad92df04bed7a4c80fcc07ffb2af51cfed976bcdd3f34db011f57f2f5ca3fb"
+  "contentDigest": "3dce5fada89ba5a68dd1db1db6e24e63dc9eb58639fbcf934faefd473ca71d3d"
 }
