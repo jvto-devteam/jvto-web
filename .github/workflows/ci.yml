@@ -1,9 +1,10 @@
 name: CI
 
 # Pre-merge checks. Production deploy stays owned by deploy.yml (push -> main).
-# The `verify` job runs lint/typecheck/drift on a GitHub runner (no build: SSG
-# build needs Postgres). The `build-develop` job runs a real `npm run build` on
-# the DEVELOP server (dev DB) over SSH — verification only, never production.
+# The `verify` job runs lint/typecheck/drift on a GitHub runner. The `build` job
+# runs the real `npm run build` against a disposable pgvector/pgvector:pg16
+# service container (SSG prerender needs Postgres) — GitHub-hosted, no SSH. The
+# `outbox-db` job proves the durable outbox against a Postgres service container.
 # `live` is included so promote PRs (live <- main) pass the same verify gate
 # before production picks them up — see docs/CONTRIBUTING.md (branch model).
 on:
@@ -75,7 +76,7 @@ jobs:
         # CMS seed, content_pages, the FAQ resolver, or a DB narrative-claims
         # read — fails the build, and forbidden claims (14 crew, ISIC Partner,
         # INDECON-as-partnership) are rejected. Previously this only ran via
-        # prebuild on the non-required build-develop job; it is required now.
+        # prebuild on the (now-removed) build-develop job; it is required now.
         run: npm run content:check
 
       - name: Docs-only classifier self-test (blocking)

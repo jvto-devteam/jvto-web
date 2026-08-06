@@ -11,7 +11,7 @@ name: Deploy to VPS
 #
 # Only this workflow requests the `jvto-help-deploy` label, and it triggers only
 # on push-to-main + workflow_dispatch — never on pull_request. So PR CI (verify /
-# outbox-db / build-develop, all `ubuntu-latest`) never runs on the self-hosted
+# outbox-db / build, all `ubuntu-latest`) never runs on the self-hosted
 # runner.
 
 on:
@@ -27,8 +27,7 @@ on:
     # `src/data/blog/**/*.md` via src/lib/blog.ts — so a blanket `**/*.md` would
     # wrongly skip a real content deploy. A push that also touches any non-doc
     # file still deploys; workflow_dispatch stays available for a manual re-run.
-    # (Kept in sync with the ci.yml build-develop classifier + its self-test,
-    # scripts/ci/docs-only-selftest.sh.)
+    # (The docs-only rule + its self-test live in scripts/ci/docs-only-selftest.sh.)
     paths-ignore:
       - '*.md'
       - 'docs/**'
