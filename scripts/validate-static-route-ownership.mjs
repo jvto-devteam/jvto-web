@@ -267,6 +267,43 @@ function runChecks() {
     }
   }
 
+  // 8. Team cluster is PEOPLE-ENTITY-sourced. /team + /team/[slug] must read the
+  //    canonical people record (content/entities/people.json via
+  //    @/lib/people/canonicalPeople) and NEVER Prisma / content_pages /
+  //    crew_members / getContentPage / the old hardcoded personas.
+  const TEAM_PAGES = [
+    join(WEBSITE_ROOT, "team", "page.tsx"),
+    join(WEBSITE_ROOT, "team", "[slug]", "page.tsx"),
+  ];
+  const TEAM_BANNED = [
+    "@/lib/prisma",
+    "prisma.",
+    "content_pages",
+    "crew_members",
+    "getContentPage",
+    "getActiveCrewMembers",
+    "@/lib/queries/crewMembers",
+    "getPersonaByCode",
+    "buildNamedGuidePersonaSchema",
+    "employmentType",
+  ];
+  for (const f of TEAM_PAGES) {
+    const rel = f.replace(REPO_ROOT + "/", "");
+    if (!existsSync(f)) {
+      fail(`Team route file missing: ${rel}`);
+      continue;
+    }
+    const src = stripComments(readFileSync(f, "utf8"));
+    for (const ident of TEAM_BANNED) {
+      if (src.includes(ident)) {
+        fail(`${rel}: Team route must be people-entity-sourced — remove "${ident}" (read content/entities/people.json via @/lib/people/canonicalPeople)`);
+      }
+    }
+    if (!src.includes("@/lib/people/canonicalPeople")) {
+      fail(`${rel}: Team route must read @/lib/people/canonicalPeople (the people SSOT)`);
+    }
+  }
+
   return routes;
 }
 

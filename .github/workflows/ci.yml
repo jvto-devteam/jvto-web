@@ -147,8 +147,16 @@ jobs:
           # People trust-graph acceptance gates (record-level): crew count 11/7/4, no legacy
           # 14/7-driver, leadership+medical never inflate crew, per-guide KTA evidence,
           # KTA membership-not-govt-licence, review→existing-person, privacy allowlist,
-          # supported relationships. (Render-parity gates land with the /team cutover.)
+          # supported relationships.
           npm run validate:people
+          # Canonical people READER self-test (src/lib/people/canonicalPeople.ts): the
+          # DB-free accessor the /team routes + JSON-LD + FAQ + feed read through — proves
+          # 11/7/4, crew.unpublished (yusuf/dika/pras) resolve null + produce nothing, and
+          # public/leadership/medical projections carry ONLY publicFieldAllowlist fields
+          # (no evidence/namingRule/reviewedDate/lastVerified leak). The SERVED render-parity
+          # (HTTP 200, visible==JSON-LD, FAQ==record, no-leak, unpublished 404) runs in the
+          # `build` job against `next start`, since it needs a running server.
+          npm run test:people-reader
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
@@ -253,6 +261,27 @@ jobs:
         # The real `next build` — compiles + prerenders every route (SSG pages
         # query the service-container DB). Any build failure blocks the PR.
         run: npm run build
+
+      - name: Team render-parity (serve the build + curl /team)
+        # Boots the built app with `next start` and asserts, against real HTTP 200
+        # responses, that /team + the 11 /team/[code] pages are a faithful projection
+        # of content/entities/people.json: counts 11/7/4, visible crew names == ItemList
+        # JSON-LD, the Team FAQ == buildTeamFaqs() == FAQPage JSON-LD, KTA renders as a
+        # MEMBERSHIP credential, crew.unpublished (yusuf/dika/pras) 404 + are absent from
+        # the hub and /api/knowledge-feed, and no doNotPublish value leaks into HTML/feed.
+        # This is the SERVED half of the people gate (the DB-free reader self-test runs in
+        # `verify`); Team routes are DB-free but the server boots against the same DB.
+        run: |
+          set -euo pipefail
+          npx next start -p 3000 > /tmp/team-serve.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3000/team; then echo "server ready (${i}s)"; break; fi
+            if ! kill -0 "$SERVER_PID" 2>/dev/null; then echo "::error::next start exited early"; cat /tmp/team-serve.log; exit 1; fi
+            sleep 1
+          done
+          TEAM_PARITY_BASE_URL=http://127.0.0.1:3000 npm run test:team-parity
 
   # Blocking proof of the DURABLE transactional outbox (handoff §7.7) against a REAL
   # Postgres — not the in-memory adapter, and not out-of-band. A disposable `postgres:16`
