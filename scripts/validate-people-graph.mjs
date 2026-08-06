@@ -30,9 +30,12 @@
  *  10. Mr. Sam (leadership) and Dr. Ahmad Irwandanu (medical partner) carry only supported
  *      relationships and the police non-endorsement disclaimer is present.
  *
- * NOT active in this PR (deferred to the separate Team render-cutover PR — people are not
- * projected to any public surface here): JSON-LD == visible (gate 7), FAQ == canonical
- * records (gate 8), and FEED/RENDER privacy. This guard checks the canonical record only.
+ * This guard checks the canonical RECORD only. The SERVED-projection gates — JSON-LD ==
+ * visible, FAQ == record, feed/render privacy (no allowlist-stripped internal value leaks),
+ * and crew.unpublished producing no route/HTML/JSON-LD/feed — are proven against a running
+ * build by scripts/ci/team-render-parity.ts (npm run test:team-parity, in the CI `build`
+ * job), plus the DB-free reader self-test scripts/ci/canonical-people-selftest.ts
+ * (npm run test:people-reader, in `verify`).
  *
  * `--selftest` proves the checks.
  */
@@ -229,5 +232,5 @@ if (failures.length) {
 console.log(
   `[people-graph] PASS (record-level) — 11 crew (7 guides + 4 drivers); leadership + medical partner separate; ` +
     `KTA evidence-reference presence + membership-not-licence; ${checkedLinks} review→person links checked, all resolve via people.json (exact name, no first-name ambiguity); ` +
-    `canonical-record do-not-publish field guard clean (recursive). Feed/render/JSON-LD/FAQ projection gates DEFERRED to the Team cutover PR.`,
+    `canonical-record do-not-publish field guard clean (recursive). Served-projection parity (visible==JSON-LD, FAQ==record, no-leak, unpublished→nothing) is proven by npm run test:team-parity.`,
 );

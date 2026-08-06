@@ -417,13 +417,12 @@
     "surface": "/team",
     "kind": "route",
     "file": "src/app/(website)/team/page.tsx",
-    "authority": "legacy: content_pages (DB)",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
-      "getContentPage",
       "jsonld",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [
@@ -435,13 +434,12 @@
     "surface": "/team/[slug]",
     "kind": "route",
     "file": "src/app/(website)/team/[slug]/page.tsx",
-    "authority": "legacy: content_pages (DB)",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
       "content_pages",
-      "getContentPage",
       "jsonld",
-      "prisma"
+      "static-content"
     ],
     "private": false,
     "consumers": [

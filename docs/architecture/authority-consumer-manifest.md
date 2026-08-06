@@ -15,8 +15,8 @@
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **24**
-- legacy: content_pages (DB): **4**
+- content/ (Git SSOT): **26**
+- legacy: content_pages (DB): **2**
 - producer: OKF: **13**
 - producer: llm-wiki (via import): **1**
 - producer: llm-wiki: **6**
@@ -43,8 +43,8 @@
 | `/policy` | `src/app/(website)/policy/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/policy/[slug]` | `src/app/(website)/policy/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/student-deals/isic` | `src/app/(website)/student-deals/isic/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | search/schema, web |
-| `/team` | `src/app/(website)/team/page.tsx` | legacy: content_pages (DB) | direct | content_pages, getContentPage, jsonld, prisma | no | search/schema, web |
-| `/team/[slug]` | `src/app/(website)/team/[slug]/page.tsx` | legacy: content_pages (DB) | direct | content_pages, getContentPage, jsonld, prisma | no | search/schema, web |
+| `/team` | `src/app/(website)/team/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
+| `/team/[slug]` | `src/app/(website)/team/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
 | `/tour-from-bali` | `src/app/(website)/tour-from-bali/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
 | `/tour-from-surabaya` | `src/app/(website)/tour-from-surabaya/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
 | `/tours` | `src/app/(website)/tours/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |

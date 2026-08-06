@@ -12,8 +12,41 @@
 // Together they let a consumer pin exactly which content commit produced the feed.
 //
 // No secrets, no env dump, no request echo.
+//
+// People projection: served ONLY through the canonical people reader
+// (src/lib/people/canonicalPeople.ts), which is allowlist-projected and excludes
+// crew.unpublished by construction — so yusuf/dika/pras and any doNotPublish field
+// (evidence, reviewedDate, namingRule, …) can never reach the feed.
 import { NextResponse } from "next/server";
 import { getPublicKnowledgeManifest } from "@/lib/publicContent/publicKnowledge";
+import {
+  getPublicCrew,
+  getCrewCounts,
+  getPublicLeadership,
+  getPublicMedicalPartner,
+} from "@/lib/people/canonicalPeople";
+
+/**
+ * Public-crew-only projection for the feed: the minimal, already-allowlisted subset
+ * (crew code/name/role, counts, leadership names+roles, medical partner name+jobTitle+role).
+ * Reads exclusively via the canonical people accessors, so unpublished crew and any
+ * doNotPublish field are structurally absent.
+ */
+function buildPeopleProjection() {
+  const counts = getCrewCounts();
+  const leadership = getPublicLeadership();
+  const medical = getPublicMedicalPartner();
+  return {
+    crew: {
+      counts,
+      members: getPublicCrew().map((m) => ({ code: m.code, name: m.name, role: m.role })),
+    },
+    leadership: leadership.map((l) => ({ name: l.name, roles: l.roles ?? [] })),
+    medicalPartner: medical?.name
+      ? { name: medical.name, jobTitle: medical.jobTitle ?? null, role: medical.role ?? null }
+      : null,
+  };
+}
 
 // Evaluated at request time so `sourceCommit` reflects the running process env, never a
 // value frozen into a static render at build time (same contract as /api/build-info).
@@ -32,6 +65,8 @@ export function GET() {
       productionOrigin: manifest.productionOrigin,
       routeCount: manifest.counts.routes,
       entities: manifest.entities,
+      // People trust graph — public crew only (unpublished + doNotPublish structurally absent).
+      people: buildPeopleProjection(),
       routes: manifest.routes.map((r) => ({
         route: r.route,
         canonicalUrl: r.canonicalUrl,
