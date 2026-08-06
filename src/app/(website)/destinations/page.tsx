@@ -19,7 +19,8 @@ import {
   buildBreadcrumbJsonLd,
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { loadStaticPage, type StaticPage } from "@/lib/static-content";
+import { loadStaticPage, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
+import { Faq } from "@/components/content/Faq";
 import Link from "@/components/website/AppLink";
 
 const SITE_URL =
@@ -145,9 +146,25 @@ export default async function DestinationsPage() {
     SITE_URL,
   );
 
+  // FAQ from content/ (content/faqs/destinations.json) — one array feeds both the
+  // visible FAQ section and the FAQPage node (AD-08). @context is omitted here (the
+  // @graph root wrapper supplies it, matching the other builders).
+  const faqItems = page.faq ?? [];
+  const faqNode = faqItems.length
+    ? {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+
   const schema = {
     "@context": "https://schema.org",
-    "@graph": [orgNode, siteNode, collection, breadcrumb].filter(Boolean),
+    "@graph": [orgNode, siteNode, collection, faqNode, breadcrumb].filter(Boolean),
   };
 
   const volcanoCount = destinations.filter((d) => deriveCategory(d) === "volcano").length;
@@ -379,6 +396,18 @@ export default async function DestinationsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── FAQ — same array as the FAQPage JSON-LD (AD-08) ─────────────── */}
+      {faqItems.length > 0 && (
+        <section className="bg-jvto-off py-20 md:py-28">
+          <div className="max-w-3xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems.map((f) => ({ q: f.question, a: f.answer }))}
+              title="Frequently Asked Questions"
+            />
+          </div>
+        </section>
+      )}
 
       {/* ── 4. CTA ────────────────────────────────────────────────────── */}
       <section className="bg-jvto-navy text-white py-24 text-center">
