@@ -2,7 +2,11 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import type { PublicReviewApiFeedItem } from "@/lib/publicContent/types";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import type {
+  PublicReviewApiFeedItem,
+  PublicReviewMediaItem,
+} from "@/lib/publicContent/types";
 
 function timeAgo(dateStr: string): string {
   const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -20,7 +24,8 @@ function initials(name: string | null): string {
   return name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
-const TRUNCATE = 200;
+const TEXT_TRUNCATE_WITH_MEDIA = 150;
+const TEXT_TRUNCATE_TEXT_ONLY = 430;
 
 const GoogleGIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" aria-label="Google" role="img">
@@ -38,74 +43,127 @@ const VerifiedBadge = () => (
   </svg>
 );
 
-const StarIcon = ({ filled }: { filled: boolean }) => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill={filled ? "#F59E0B" : "#E5E7EB"} aria-hidden="true">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-);
+function getMediaImage(media: PublicReviewMediaItem) {
+  return media.thumbnailUrl || media.videoUrl || "";
+}
+
+function ReviewMediaGrid({ media }: { media: PublicReviewMediaItem[] }) {
+  if (media.length === 0) return null;
+
+  const visibleMedia = media.slice(0, 4);
+  const remainingCount = Math.max(0, media.length - visibleMedia.length);
+
+  return (
+    <div className="mt-2 grid grid-cols-2 gap-1.5">
+      {visibleMedia.map((item, index) => {
+        const src = getMediaImage(item);
+        if (!src) return null;
+
+        return (
+          <div
+            key={item.id}
+            className="relative aspect-square overflow-hidden rounded-[10px] bg-slate-100"
+          >
+            <Image
+              src={src}
+              alt={item.thumbnailLabel || "Guest photo from Google review"}
+              fill
+              sizes="(min-width: 1024px) 170px, 45vw"
+              className="object-cover"
+            />
+            {index === visibleMedia.length - 1 && remainingCount > 0 ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-3xl font-black text-white">
+                +{remainingCount}
+              </div>
+            ) : null}
+            {item.type === "video" ? (
+              <div className="absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                Video
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
   const [expanded, setExpanded] = useState(false);
   const text = review.review ?? "";
-  const canExpand = text.length > TRUNCATE;
+  const media = review.review_media ?? [];
+  const textLimit =
+    media.length > 0 ? TEXT_TRUNCATE_WITH_MEDIA : TEXT_TRUNCATE_TEXT_ONLY;
+  const canExpand = text.length > textLimit;
   const displayText =
-    expanded || !canExpand ? text : `${text.slice(0, TRUNCATE)}…`;
+    expanded || !canExpand ? text : `${text.slice(0, textLimit)}…`;
 
   return (
-    <div className="bg-white rounded-2xl p-5 flex flex-col gap-3 w-[272px] flex-shrink-0 snap-start"
-      style={{ boxShadow: "0 2px 20px rgba(0,0,0,0.10)" }}>
-      {/* Header */}
+    <article
+      className="flex min-h-[520px] w-[320px] flex-shrink-0 snap-start flex-col rounded-[18px] bg-[#f7f7f9] p-6 text-[#202124] sm:w-[360px] lg:w-[392px]"
+      style={{ boxShadow: "0 2px 24px rgba(0,0,0,0.12)" }}
+    >
       <div className="flex items-start gap-3">
-        <div className="flex-shrink-0">
+        <div className="relative flex-shrink-0">
           {review.profile_photo ? (
             <Image
               src={review.profile_photo}
               alt={review.customer_name ?? "Reviewer"}
-              width={40}
-              height={40}
-              className="rounded-full object-cover"
+              width={50}
+              height={50}
+              className="h-[50px] w-[50px] rounded-full object-cover"
             />
           ) : (
-            <div className="w-10 h-10 rounded-full bg-[#0D1B2A] flex items-center justify-center text-white text-[13px] font-bold">
+            <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#69a341] text-[24px] font-medium text-white">
               {initials(review.customer_name)}
             </div>
           )}
+          <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm">
+            <GoogleGIcon />
+          </span>
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1 min-w-0">
-            <span className="font-semibold text-[13px] text-[#111827] truncate max-w-[130px] leading-tight">
+            <span className="truncate text-[18px] font-bold leading-tight text-[#202124]">
               {review.customer_name ?? "Anonymous"}
             </span>
             <VerifiedBadge />
           </div>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="text-[11px] text-[#9ca3af]">{timeAgo(review.date)}</span>
-            <GoogleGIcon />
+          <div className="mt-1 flex items-center gap-1.5">
+            <span className="text-[15px] text-[#8b8b8b]">{timeAgo(review.date)}</span>
           </div>
         </div>
       </div>
 
-      {/* Stars */}
-      <div className="flex gap-0.5" aria-label={`${review.star} out of 5 stars`}>
+      <div
+        className="mt-6 flex gap-0.5"
+        aria-label={`${review.star} out of 5 stars`}
+      >
         {Array.from({ length: 5 }).map((_, i) => (
-          <StarIcon key={i} filled={i < review.star} />
+          <Star
+            key={i}
+            className={`h-7 w-7 ${i < review.star ? "fill-[#fbbc04] text-[#fbbc04]" : "fill-[#e5e7eb] text-[#e5e7eb]"}`}
+            strokeWidth={0}
+            aria-hidden="true"
+          />
         ))}
       </div>
 
-      {/* Review text */}
-      <p className="text-[13px] text-[#374151] leading-relaxed">
+      <p className="mt-4 text-[20px] leading-[1.38] text-[#202124]">
         {displayText}
         {canExpand && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="ml-1 text-[#4285F4] text-[12px] font-medium hover:underline focus-visible:outline-none"
+            className="ml-1 whitespace-nowrap text-[20px] font-normal text-[#1a73e8] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]"
           >
             {expanded ? "Show less" : "Read more"}
           </button>
         )}
       </p>
-    </div>
+
+      <ReviewMediaGrid media={media} />
+    </article>
   );
 }
 
@@ -117,38 +175,37 @@ export function GoogleReviewsCarouselClient({ reviews }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
 
   function scroll(dir: "left" | "right") {
-    trackRef.current?.scrollBy({ left: dir === "right" ? 288 : -288, behavior: "smooth" });
+    trackRef.current?.scrollBy({
+      left: dir === "right" ? 408 : -408,
+      behavior: "smooth",
+    });
   }
 
   return (
-    <div>
-      {/* Scrollable track */}
+    <div className="relative">
       <div
         ref={trackRef}
-        className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
+        className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2"
       >
         {reviews.map((r) => (
           <ReviewCard key={r.id} review={r} />
         ))}
       </div>
 
-      {/* Navigation arrows — below carousel, right-aligned */}
-      <div className="flex justify-end gap-2 mt-5">
-        <button
-          onClick={() => scroll("left")}
-          className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-          aria-label="Previous reviews"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M15 19l-7-7 7-7"/></svg>
-        </button>
-        <button
-          onClick={() => scroll("right")}
-          className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-          aria-label="Next reviews"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
-      </div>
+      <button
+        onClick={() => scroll("left")}
+        className="absolute left-0 top-1/2 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60 md:flex"
+        aria-label="Previous reviews"
+      >
+        <ChevronLeft className="h-6 w-6" strokeWidth={2.6} />
+      </button>
+      <button
+        onClick={() => scroll("right")}
+        className="absolute right-0 top-1/2 flex h-11 w-11 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60"
+        aria-label="Next reviews"
+      >
+        <ChevronRight className="h-6 w-6" strokeWidth={2.6} />
+      </button>
     </div>
   );
 }
