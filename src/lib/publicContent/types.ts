@@ -118,6 +118,15 @@ export type PublicReviewItem = {
   verified?: boolean;
 };
 
+export type PublicReviewMediaItem = {
+  id: string;
+  type: "photo" | "video";
+  thumbnailUrl: string | null;
+  thumbnailLabel?: string | null;
+  videoUrl?: string | null;
+  source?: string | null;
+};
+
 export type PublicReviewSnapshotCollection = {
   generatedAt: string;
   items: PublicReviewItem[];
@@ -154,6 +163,7 @@ export type PublicReviewApiFeedItem = {
   review: string | null;
   url: string | null;
   profile_photo: string | null;
+  review_media?: PublicReviewMediaItem[];
   package_id: string | null;
   crews: Array<{
     id: string;

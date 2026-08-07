@@ -1,7 +1,59 @@
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { GoogleReviewsCarouselClient } from "./GoogleReviewsCarouselClient";
-import type { PublicReviewApiFeedItem } from "@/lib/publicContent/types";
+import type {
+  PublicReviewApiFeedItem,
+  PublicReviewMediaItem,
+} from "@/lib/publicContent/types";
+
+function parseReviewMedia(photos: string | null): PublicReviewMediaItem[] {
+  if (!photos) return [];
+
+  try {
+    const parsed = JSON.parse(photos) as unknown;
+    if (!parsed || typeof parsed !== "object") return [];
+
+    const items = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray((parsed as { items?: unknown }).items)
+        ? (parsed as { items: unknown[] }).items
+        : [];
+
+    return items
+      .map((item, index) => {
+        if (!item || typeof item !== "object") return null;
+        const media = item as Record<string, unknown>;
+        const thumbnailUrl =
+          typeof media.thumbnailUrl === "string"
+            ? media.thumbnailUrl
+            : typeof media.url === "string"
+              ? media.url
+              : null;
+        const videoUrl =
+          typeof media.videoUrl === "string" ? media.videoUrl : null;
+
+        if (!thumbnailUrl && !videoUrl) return null;
+
+        return {
+          id: typeof media.id === "string" ? media.id : `review-media-${index + 1}`,
+          type: media.type === "video" ? "video" : "photo",
+          thumbnailUrl,
+          thumbnailLabel:
+            typeof media.thumbnailLabel === "string"
+              ? media.thumbnailLabel
+              : null,
+          videoUrl,
+          source:
+            typeof media.source === "string"
+              ? media.source
+              : "Google Business Profile reviewMediaItems",
+        } satisfies PublicReviewMediaItem;
+      })
+      .filter((item): item is PublicReviewMediaItem => item !== null);
+  } catch {
+    return [];
+  }
+}
 
 // Query DB directly so we always show the latest Google reviews
 // (the static snapshot is regenerated infrequently; the DB is synced daily
@@ -18,6 +70,7 @@ const getLatestGoogleReviews = cache(async (): Promise<PublicReviewApiFeedItem[]
       date: true,
       star: true,
       review: true,
+      photos: true,
       url: true,
       url_reference: true,
       profile_photo: true,
@@ -33,6 +86,7 @@ const getLatestGoogleReviews = cache(async (): Promise<PublicReviewApiFeedItem[]
     review: r.review,
     url: r.url || r.url_reference || null,
     profile_photo: r.profile_photo,
+    review_media: parseReviewMedia(r.photos),
     package_id: null,
     crews: [],
     has_internal_crew: false,
