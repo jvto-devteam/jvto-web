@@ -16,7 +16,7 @@ import VerifyNarrative, { staticPageRow, buildStaticFaqSchema } from "../verifyS
 import { getDocsByGroup } from "@/lib/data-loader";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
@@ -135,6 +135,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 

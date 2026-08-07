@@ -6,6 +6,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   loadStaticPage,
   listPublishedStaticPages,
+  staticRouteCanonical,
   type StaticPage,
 } from "@/lib/static-content";
 
@@ -40,6 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 

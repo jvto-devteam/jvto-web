@@ -15,7 +15,7 @@ import {
   PRESS_RECOGNITION_SCHEMAS,
   PRESS_ORGANIZATION_SUBJECTS,
 } from "@/lib/schemas/buildVerifySchemas";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 

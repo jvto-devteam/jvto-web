@@ -7,6 +7,7 @@
  *  - nothing in this module touches Prisma or the network.
  */
 export { loadStaticPage, normalizeRoute, canonicalUrlForRoute, clearRouteIndexCache, DuplicateRouteError } from "./loadStaticPage";
+export { staticRouteCanonical, buildStaticRouteMetadata } from "./staticRouteMetadata";
 export { listStaticPages, listPublishedStaticPages } from "./listStaticPages";
 export { getMigratedStaticRoutes, isMigratedStaticRoute, migratedRouteEditMessage } from "./migratedRoutes";
 export { loadFaqSet } from "./loadFaqSet";

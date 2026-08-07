@@ -41,6 +41,7 @@ import {
 import {
   loadEntity,
   loadStaticPage,
+  staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/static-content";
@@ -151,6 +152,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: staticRouteCanonical("/why-jvto") },
     openGraph: {
       title,
       description,

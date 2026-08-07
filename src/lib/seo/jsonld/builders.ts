@@ -283,6 +283,12 @@ export function buildSchemaTypeJsonLd(
   siteUrl = DEFAULT_SITE,
 ) {
   if (!schemaType || GLOBAL_SCHEMA_TYPES.has(schemaType)) return null;
+  // FAQPage is never emitted by this generic per-page builder: a valid FAQPage MUST carry
+  // `mainEntity` (the Q&A), which this stub can't supply. Pages that are FAQ pages emit the
+  // one FAQPage themselves, built from the same array they render visibly (AD-08). Emitting a
+  // mainEntity-less stub here produced a SECOND, duplicate FAQPage node (same @id) alongside
+  // the real one — see travel-guide-faq-schema-parity.ts.
+  if (schemaType === "FAQPage") return null;
 
   const pageUrl = absUrl(siteUrl, page.route);
   const seo: Seo = page.seo || {};

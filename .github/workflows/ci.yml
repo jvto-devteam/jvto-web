@@ -184,6 +184,15 @@ jobs:
           # (content/pages/blog/), each a sitemap string-literal, hub=CollectionPage /
           # posts=BlogPosting with a publishedDate, and no blog route leaks into the CMS seed.
           npm run test:blog
+          # Canonical render-parity: every content/-owned route renders the PRODUCTION
+          # canonical from the knowledge feed (staticRouteCanonical == canonicalForRoute ==
+          # production origin), incl. on help; and every content route page wires canonical
+          # through the shared helper, never from a deploy-host env value.
+          npm run test:canonical-parity
+          # /travel-guide/faq FAQPage render-parity: exactly ONE FAQPage node, its mainEntity
+          # generated from the same FAQ array rendered visibly (AD-08), and the generic
+          # schema_type builder never emits a duplicate mainEntity-less FAQPage stub.
+          npm run test:faq-schema
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").

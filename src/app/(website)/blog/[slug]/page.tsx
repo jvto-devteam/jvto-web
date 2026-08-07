@@ -6,6 +6,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   loadStaticPage,
   listPublishedStaticPages,
+  staticRouteCanonical,
   type StaticPage,
 } from "@/lib/static-content";
 import { buildBlogPostingSchema } from "@/lib/schemas/buildBlogSchemas";
@@ -47,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/blog/${slug}`) },
   };
 }
 

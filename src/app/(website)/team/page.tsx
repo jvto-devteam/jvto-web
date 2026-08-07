@@ -17,6 +17,7 @@ import {
   buildTeamItemListSchema,
   buildTeamFaqSchema,
 } from "@/lib/schemas/buildTeamSchemas";
+import { staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 3600;
 
@@ -29,7 +30,7 @@ export function generateMetadata(): Metadata {
   return {
     title: TITLE,
     description: DESCRIPTION,
-    alternates: { canonical: `${SITE_URL}/team` },
+    alternates: { canonical: staticRouteCanonical("/team") },
     openGraph: {
       title: TITLE,
       description: DESCRIPTION,
