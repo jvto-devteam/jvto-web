@@ -324,6 +324,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
     { start: "2026-05-02", end: "2026-05-02" },
     { start: "2026-05-29", end: "2026-06-01" },
     { start: "2026-07-25", end: "2026-07-25" },
+    { start: "2026-08-11", end: "2026-08-16" },
   ];
 
   const isDateBlocked = (dateStr) => {
