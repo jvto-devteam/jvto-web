@@ -63,7 +63,7 @@ authority + controlled interface (see the classification doc, class operational-
 |---|---|---|---|
 | `content_pages` table (`prisma/schema.prisma:1005`) | active-writer | REPLACEMENT-ACTIVE (migrated) / active (non-migrated SEO) | Write-blocked for migrated routes via `src/lib/static-content/migratedRoutes.ts` (`MIGRATED_STATIC_ROUTES`) — content-pages write API returns 403; CMS console read-only. Still supplies SEO override for non-migrated routes. Table drop = **Milestone 8, owner-gated** (AD-10). |
 | Readers: `src/lib/content/getPageSeo.ts`, `getPublicPageSnapshot.ts` DB fallback | active-writer | MAPPED | Consumers enumerated; retire per-route as clusters cut over. |
-| `src/lib/ssot/getContentPage.ts` | frozen | ZERO-REF | **Dead module — zero importers** (grep-confirmed). Delete at Milestone 8. |
+| `src/lib/ssot/getContentPage.ts` | deleted | REMOVED | **Dead module — zero importers** (grep-confirmed). **Deleted in Package 09 (2026-08-09)**, ahead of the originally-scheduled Milestone 8: it had no importers, so removal was risk-free. The active reader is `src/lib/content/getContentPage.ts`. |
 
 ### 4. FAQ-manager snapshots / resolvers (§15)
 

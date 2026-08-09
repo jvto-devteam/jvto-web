@@ -198,20 +198,28 @@ these are the modern islands in the legacy sea.
 
 Scope: `src/**` + `services/**`, `*.ts`/`*.tsx`, **excluding `src/generated/prisma`**.
 
-### 4a. Direct `prisma.<model>.<op>` calls — 133 sites / 66 files
+### 4a. Direct `prisma.<model>.<op>` calls — 131 sites / 64 files
+
+> **Recounted 2026-08-09 (Package 09).** Was 133 sites / 66 files at the M0 baseline. Two call
+> sites / two files have since been deleted: `src/lib/ssot/getContentPage.ts` (1 `findFirst` —
+> deleted in Package 09) and `src/lib/blog.ts` (1 `findMany` — deleted in Package 08, #161; the
+> baseline had not been recounted since). Reproduce with a `prisma.<model>.<op>` grep over
+> `src/**` `*.ts`/`*.tsx`, excluding the generated client.
 
 | Operation | Sites | | Operation | Sites |
 |---|---:|---|---|---:|
-| `findMany` | 54 | | `delete` | 9 |
-| `findUnique` | 20 | | `findFirst` | 8 |
+| `findMany` | 53 | | `delete` | 9 |
+| `findUnique` | 20 | | `findFirst` | 7 |
 | `create` | 15 | | `upsert` | 2 |
 | `update` | 13 | | `deleteMany` | 1 |
-| `count` | 11 | | **total** | **133** |
+| `count` | 11 | | **total** | **131** |
 
-Distribution by area (files touching `prisma.`):
+Distribution by area (the 68 files touching `prisma.` at all — a broader predicate than the 64
+above, so it also counts the client singleton + the outbox adapter):
 `src/app/(api)` **45**, `src/lib/publicContent` 6, `src/lib/queries` 5, `src/lib/packages` 2,
-`src/lib/destinations` 2, `src/app/(website)` 2, `src/app/(cms)` 2, `src/lib/ssot` 1,
-`src/lib/content` 1, `src/lib/jvtoReviews.ts` 1, `src/app/sitemap-utils.ts` 1.
+`src/lib/destinations` 2, `src/app/(cms)` 2, `src/app/(website)` 1, `src/lib/content` 1,
+`src/lib/jvtoReviews.ts` 1, `src/app/sitemap-utils.ts` 1, `src/lib/prisma.ts` 1,
+`src/infrastructure/outbox/prisma-outbox.ts` 1.
 
 ### 4b. Prisma client + aliases
 
@@ -219,18 +227,20 @@ Distribution by area (files touching `prisma.`):
   applies the `BigInt.prototype.toJSON` monkey-patch, caches on `globalThis` in non-prod, and
   exports **both** `export const prisma` *and* `export default prisma`.
 - **Import styles:** named `import { prisma } from '@/lib/prisma'` (~64 files); **default-import
-  alias** `import prisma from '@/lib/prisma'` in **3 files** — `src/lib/content/getContentPage.ts`,
-  `src/lib/ssot/getContentPage.ts`, `src/lib/publicContent/getPublicOrganizationProfile.ts`.
+  alias** `import prisma from '@/lib/prisma'` in **2 files** — `src/lib/content/getContentPage.ts`,
+  `src/lib/publicContent/getPublicOrganizationProfile.ts`. (Was 3; `src/lib/ssot/getContentPage.ts`
+  deleted in Package 09.)
 - **No re-binding aliases** (`const db = prisma`, `import { prisma as X }`) were found — the only
   alias is the default-export form above.
 - NextAuth binds the same client into its adapter: `PrismaAdapter(prisma)` in `src/lib/auth.ts`.
 
-### 4c. Repository / wrapper modules (centralized DB access under `src/lib/**`) — 18
+### 4c. Repository / wrapper modules (centralized DB access under `src/lib/**`) — 17
 
 These `get*/list*` helpers are the intended Server-Component data path (per CLAUDE.md "extract data
-logic to a `src/lib/.../get*.ts` helper; don't `fetch(/api/...)` from a Server Component"):
+logic to a `src/lib/.../get*.ts` helper; don't `fetch(/api/...)` from a Server Component"). Was 18 —
+`src/lib/ssot/getContentPage.ts` was deleted in Package 09 (dead, zero importers):
 
-`src/lib/content/getContentPage.ts`, `src/lib/ssot/getContentPage.ts`,
+`src/lib/content/getContentPage.ts`,
 `src/lib/destinations/getWebDestinationDetail.ts`, `src/lib/destinations/getWebDestinationsList.ts`,
 `src/lib/packages/getWebPackageDetail.ts`, `src/lib/packages/getWebPackagesList.ts`,
 `src/lib/jvtoReviews.ts`, `src/lib/publicContent/{databasePackageDetail,databaseDestinationDetail,
