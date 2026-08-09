@@ -76,7 +76,7 @@ class reflects whether it is the live authority (public-knowledge) or the design
 
 | Artifact | Path | Class | Current consumers | Note |
 |---|---|---|---|---|
-| `content_pages` | `prisma/schema.prisma:1005` (DB table) | legacy | `src/lib/ssot/getContentPage.ts` (dead — zero importers), `src/lib/content/getPageSeo.ts`, `getPublicPageSnapshot` DB fallback, CMS admin write API | §15 "content_pages public narrative reads/writes". Write-blocked for migrated routes (`src/lib/static-content/migratedRoutes.ts`); table drop = Milestone 8, owner-gated (AD-10). Still supplies SEO override for non-migrated routes. |
+| `content_pages` | `prisma/schema.prisma:1005` (DB table) | legacy | `src/lib/content/getPageSeo.ts`, `getPublicPageSnapshot` DB fallback, CMS admin write API (the dead `src/lib/ssot/getContentPage.ts` was deleted in Package 09) | §15 "content_pages public narrative reads/writes". Write-blocked for migrated routes (`src/lib/static-content/migratedRoutes.ts`); table drop = Milestone 8, owner-gated (AD-10). Still supplies SEO override for non-migrated routes. |
 | `narrative_claims` | `prisma/schema.prisma:1939` (DB table) | legacy | `src/lib/queries/narrativeClaims.ts` → `resolveFaqs.ts`, `buildWhyJvtoSchemas.ts`, `buildTravelGuideSchemas.ts`, `buildPolicySchemas.ts`, `buildTourSchemas.ts` | DB-owned public narrative (P-02 says Git-owned). Hub claims already exported to `content/entities/narrative-claims.json` (Package 05c); DB stays authoritative for non-migrated routes' FAQ + tour `[slug]` families until those cut over. |
 
 ### Manually maintained / generated public outputs
