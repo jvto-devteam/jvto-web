@@ -73,6 +73,16 @@ const CONTENT_OWNED_PAGE_FILES = [
   "src/app/(website)/destinations/[slug]/page.tsx",
   "src/app/(website)/team/page.tsx",
   "src/app/(website)/team/[slug]/page.tsx",
+  // Milestone 2 — remaining public narrative cutover (2026-08-09)
+  "src/app/(website)/page.tsx",
+  "src/app/(website)/contact/page.tsx",
+  "src/app/(website)/trust/page.tsx",
+  "src/app/(website)/markets/singapore/page.tsx",
+  "src/app/(website)/markets/malaysia/page.tsx",
+  "src/app/(website)/isic/student-package/page.tsx",
+  "src/app/(website)/tours/page.tsx",
+  "src/app/(website)/tours/from-bali/page.tsx",
+  "src/app/(website)/tours/from-surabaya/page.tsx",
 ];
 
 /** Errors for a single page's source w.r.t. canonical ownership. */

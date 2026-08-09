@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "route": "/tours",
+    "title": "JVTO Private Volcano Tours",
+    "browserTitle": "Private Bromo, Ijen & Tumpak Sewu Tours | JVTO",
+    "description": "Browse private volcano tour packages from Surabaya or Bali. Bromo sunrise, Ijen blue fire, Tumpak Sewu. Tourist Police-led. All-inclusive. 4.8★ Trustpilot.",
+    "section": "tours",
+    "status": "published",
+    "owner": "editorial",
+    "lastReviewed": "2026-08-09",
+    "schemaTypes": [
+      "WebPage",
+      "CollectionPage"
+    ],
+    "faqKey": "tours-hub",
+    "summary": "The JVTO route catalogue: every private East Java volcano itinerary, grouped by departure hub, with the comparison and planning context needed to pick one."
+  },
+  "lede": [
+    "Optimized East Java logistics for private travelers. Select your origin, compare routes, and verify operational standards."
+  ],
+  "sections": [
+    {
+      "id": "route-selection",
+      "title": "Find your perfect route",
+      "blocks": [
+        {
+          "type": "markdown",
+          "body_md": "Use the filters below to narrow by your origin, available days, and price. Every JVTO trip is private by default with your own vehicle and crew — no mixed strangers."
+        }
+      ]
+    },
+    {
+      "id": "route-comparison",
+      "title": "Route comparison",
+      "blocks": [
+        {
+          "type": "grid",
+          "variant": "archetypes",
+          "features": [
+            "Primary focus",
+            "Physicality",
+            "Logistics",
+            "Safety system",
+            "Typical duration"
+          ],
+          "items": [
+            {
+              "name": "Bromo Midnight",
+              "rows": [
+                "Sunrise & crater rim",
+                "Easy to moderate",
+                "100% private jeep",
+                "Police oversight",
+                "1 night"
+              ]
+            },
+            {
+              "name": "Ijen Blue Fire",
+              "rows": [
+                "Blue fire & acid lake",
+                "Moderate to high",
+                "Private car + guide",
+                "Medical + gas mask",
+                "1–2 nights"
+              ]
+            },
+            {
+              "name": "Full Expedition",
+              "rows": [
+                "Full East Java circuit",
+                "High (multi-day)",
+                "Full private crew",
+                "Full safety protocol",
+                "3–4 nights"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "departure-hubs",
+      "title": "Departure hubs",
+      "blocks": [
+        {
+          "type": "grid",
+          "variant": "hubs",
+          "items": [
+            {
+              "key": "surabaya",
+              "title": "Surabaya hub",
+              "body": "Best for Bromo & Ijen. Direct access to East Java's primary transport hub with efficient multi-day routes.",
+              "href": "/tours/from-surabaya",
+              "cta": "View routes →"
+            },
+            {
+              "key": "bali",
+              "title": "Bali hub",
+              "body": "Best for Ijen & Bromo. Seamless private transfers from Bali to the heart of East Java's volcano landscape.",
+              "href": "/tours/from-bali",
+              "cta": "View routes →"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "planning-your-expedition",
+      "title": "Planning your expedition",
+      "blocks": [
+        {
+          "type": "grid",
+          "variant": "planning",
+          "items": [
+            {
+              "icon": "clock",
+              "title": "Consider your time",
+              "body": "Multi-day tours provide a deeper experience; day trips are optimized for tight schedules with a Surabaya turn-around."
+            },
+            {
+              "icon": "gauge",
+              "title": "Consider your fitness",
+              "body": "Ijen and Tumpak Sewu require moderate physical effort; Bromo is accessible to most fitness levels."
+            },
+            {
+              "icon": "compass",
+              "title": "Consider your origin",
+              "body": "Surabaya is the most efficient hub for Bromo; Bali is a popular starting point for Ijen-first itineraries."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

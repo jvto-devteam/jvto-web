@@ -24,16 +24,16 @@
 
 | surface | file | authority | resolution | resolvers | private | consumers |
 |---|---|---|---|---|---|---|
-| `/` | `src/app/(website)/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/` | `src/app/(website)/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/blog` | `src/app/(website)/blog/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/blog/[slug]` | `src/app/(website)/blog/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/checkout` | `src/app/(website)/checkout/page.tsx` | producer: llm-wiki (via import) | transitive | policy-bundle | yes | private, web (auth) |
-| `/contact` | `src/app/(website)/contact/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/contact` | `src/app/(website)/contact/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/destinations` | `src/app/(website)/destinations/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/destinations/[slug]` | `src/app/(website)/destinations/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
-| `/isic/student-package` | `src/app/(website)/isic/student-package/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/markets/malaysia` | `src/app/(website)/markets/malaysia/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/markets/singapore` | `src/app/(website)/markets/singapore/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/isic/student-package` | `src/app/(website)/isic/student-package/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/markets/malaysia` | `src/app/(website)/markets/malaysia/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/markets/singapore` | `src/app/(website)/markets/singapore/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/my-booking` | `src/app/(website)/my-booking/page.tsx` | unresolved (no reachable resolver) | unresolved | none | yes | private, web (auth) |
 | `/my-booking/[slug]` | `src/app/(website)/my-booking/[slug]/page.tsx` | unresolved (no reachable resolver) | unresolved | none | yes | private, web (auth) |
 | `/my-booking/[slug]/bank-transfer` | `src/app/(website)/my-booking/[slug]/bank-transfer/page.tsx` | producer: llm-wiki | direct | policy-bundle | yes | private, web (auth) |
@@ -44,12 +44,12 @@
 | `/team/[slug]` | `src/app/(website)/team/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
 | `/tour-from-bali` | `src/app/(website)/tour-from-bali/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
 | `/tour-from-surabaya` | `src/app/(website)/tour-from-surabaya/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
-| `/tours` | `src/app/(website)/tours/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/tours` | `src/app/(website)/tours/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/tours-from-bali` | `src/app/(website)/tours-from-bali/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
 | `/tours-from-surabaya` | `src/app/(website)/tours-from-surabaya/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |
-| `/tours/from-bali` | `src/app/(website)/tours/from-bali/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/tours/from-bali` | `src/app/(website)/tours/from-bali/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/tours/from-bali/[slug]` | `src/app/(website)/tours/from-bali/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |
-| `/tours/from-surabaya` | `src/app/(website)/tours/from-surabaya/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/tours/from-surabaya` | `src/app/(website)/tours/from-surabaya/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/tours/from-surabaya/[slug]` | `src/app/(website)/tours/from-surabaya/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/tours/student-package/[slug]` | `src/app/(website)/tours/student-package/[slug]/page.tsx` | producer: llm-wiki | direct | jsonld, policy-bundle, prisma | no | search/schema, web |
 | `/travel-guide` | `src/app/(website)/travel-guide/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
@@ -58,7 +58,7 @@
 | `/travel-guide/faq` | `src/app/(website)/travel-guide/faq/page.tsx` | content/ (Git SSOT) | direct | content_pages, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/travel-guide/police-escort-for-groups` | `src/app/(website)/travel-guide/police-escort-for-groups/page.tsx` | content/ (Git SSOT) | direct | content_pages, getContentPage, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/travel-guide/rijik-monthly-closure` | `src/app/(website)/travel-guide/rijik-monthly-closure/page.tsx` | content/ (Git SSOT) | direct | content_pages, faq-resolver, getPageSeo, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/trust` | `src/app/(website)/trust/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content, trust-bundle | no | AI/llms, search/schema, sitemap, web |
+| `/trust` | `src/app/(website)/trust/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content, trust-bundle | no | AI/llms, search/schema, sitemap, web |
 | `/verify-jvto` | `src/app/(website)/verify-jvto/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/verify-jvto/history-artifacts` | `src/app/(website)/verify-jvto/history-artifacts/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/verify-jvto/legal` | `src/app/(website)/verify-jvto/legal/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
