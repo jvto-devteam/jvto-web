@@ -48,6 +48,7 @@
     "test:faq-schema": "tsx scripts/ci/travel-guide-faq-schema-parity.ts",
     "test:canonical-parity": "tsx scripts/ci/static-canonical-parity.ts",
     "test:blog": "tsx scripts/ci/blog-parity.ts",
+    "test:sitemap-lastmod": "tsx scripts/ci/sitemap-lastmod-parity.ts",
     "validate:people": "node scripts/validate-people-graph.mjs",
     "test:deploy-script": "bash scripts/ci/deploy-script-selftest.sh",
     "test:workflow-security": "bash scripts/ci/workflow-security-selftest.sh"
