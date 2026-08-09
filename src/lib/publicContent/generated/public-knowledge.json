@@ -295,22 +295,6 @@
       "faqCount": 0
     },
     {
-      "route": "/student-deals/isic",
-      "section": "isic",
-      "canonicalUrl": "https://javavolcano-touroperator.com/student-deals/isic",
-      "title": "ISIC Student Deals",
-      "browserTitle": "ISIC Student Deals — JVTO",
-      "description": "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it.",
-      "summary": "Context page for the ISIC relationship: what the card signals, how the Alive Verify handshake works, and why JVTO structures student pricing around verification.",
-      "schemaTypes": [
-        "WebPage"
-      ],
-      "owner": "editorial",
-      "lastReviewed": "2026-08-09",
-      "faqKey": null,
-      "faqCount": 0
-    },
-    {
       "route": "/tours",
       "section": "tours",
       "canonicalUrl": "https://javavolcano-touroperator.com/tours",
@@ -932,14 +916,14 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 57,
+    "routes": 56,
     "entities": 6,
     "sections": {
       "blog": 3,
       "contact": 1,
       "destinations": 6,
       "home": 1,
-      "isic": 2,
+      "isic": 1,
       "markets": 2,
       "policy": 4,
       "tours": 3,
@@ -949,5 +933,5 @@
       "why-jvto": 6
     }
   },
-  "contentDigest": "33daa6e1d4e07525479466e57dd3b0f120a1d36ce2b0851c01194a91d044611f"
+  "contentDigest": "becea558de304794eb62716658b85dbc35bc736987951cf1696674db4b7b1bb8"
 }

@@ -39,7 +39,7 @@
 | `/my-booking/[slug]/bank-transfer` | `src/app/(website)/my-booking/[slug]/bank-transfer/page.tsx` | producer: llm-wiki | direct | policy-bundle | yes | private, web (auth) |
 | `/policy` | `src/app/(website)/policy/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/policy/[slug]` | `src/app/(website)/policy/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, policy-bundle, prisma, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
-| `/student-deals/isic` | `src/app/(website)/student-deals/isic/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
+| `/student-deals/isic` | `src/app/(website)/student-deals/isic/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | search/schema, web |
 | `/team` | `src/app/(website)/team/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
 | `/team/[slug]` | `src/app/(website)/team/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | search/schema, web |
 | `/tour-from-bali` | `src/app/(website)/tour-from-bali/page.tsx` | unresolved (no reachable resolver) | unresolved | none | no | web |

@@ -54,24 +54,29 @@ function sitemapRouteSet(appDir = APP_DIR) {
 }
 
 /**
- * Content-owned routes that are deliberately ABSENT from the sitemap.
+ * Routes that are permanently redirected away (next.config.ts `redirects()` with
+ * `permanent: true`, or the middleware redirect map). Such a URL never renders, so it must
+ * never be compiled into the public knowledge feed: a consumer would ingest an unreachable
+ * duplicate as a canonical page.
  *
- * The rule "every compiled route appears in a sitemap" is right for indexable pages, but it has
- * no concept of a route that is content-owned yet intentionally unlisted. `/student-deals/isic`
- * is exactly that: `src/lib/registry/pages.ts` marks it `status: 'dead'` with
- * `canonical: '/isic/student-package'` — a duplicate kept reachable for old inbound links. It has
- * never been in the sitemap; Milestone 2 made it a *compiled* route (its narrative moved to
- * content/), which is what first tripped this check. Listing it in the sitemap would publish a
- * known duplicate and reverse a deliberate SEO decision, so it is exempted here instead — with
- * the reason recorded, not silenced.
- *
- * Add a route here ONLY when the registry marks it dead/duplicate. An indexable route missing
- * from the sitemap is still a failure.
+ * This exists because Milestone 2 briefly published `/student-deals/isic` — registry-dead AND
+ * 301'd to `/isic/student-package` — as a content route. Caught in review on #165; the route was
+ * de-published, and this check makes the class of mistake impossible to repeat.
  */
-const SITEMAP_EXEMPT_ROUTES = new Set(["/student-deals/isic"]);
+export function redirectSources(root = process.cwd()) {
+  const out = new Set();
+  const read = (rel) => { try { return readFileSync(join(root, rel), "utf8"); } catch { return ""; } };
+  const cfg = read("next.config.ts");
+  // `source: "/x"` entries inside redirects() — object form and one-line form alike.
+  for (const m of cfg.matchAll(/source:\s*["'](\/[^"']*)["']/g)) out.add(m[1].replace(/\/$/, "") || "/");
+  // middleware redirect map: `"/from": "/to"`
+  const mw = read("src/middleware.ts");
+  for (const m of mw.matchAll(/["'](\/[^"']*)["']\s*:\s*["']\/[^"']*["']/g)) out.add(m[1].replace(/\/$/, "") || "/");
+  return out;
+}
 
 /** Run the checks against a manifest object + environment. Returns an array of failures. */
-export function checkManifest(manifest, { sitemap, entityNames, feedText }) {
+export function checkManifest(manifest, { sitemap, entityNames, feedText, redirects }) {
   const failures = [];
   const fail = (m) => failures.push(m);
 
@@ -85,8 +90,9 @@ export function checkManifest(manifest, { sitemap, entityNames, feedText }) {
     if (r.faqKey && !(r.faqCount > 0)) fail(`${r.route}: faqKey "${r.faqKey}" but faqCount ${r.faqCount}`);
     if (!Array.isArray(r.schemaTypes) || r.schemaTypes.length === 0) fail(`${r.route}: no schemaTypes`);
     if (!r.title || !r.description) fail(`${r.route}: missing title/description`);
-    if (!sitemap.has(r.route) && !SITEMAP_EXEMPT_ROUTES.has(r.route)) {
-      fail(`${r.route}: compiled route is NOT present in any sitemap`);
+    if (!sitemap.has(r.route)) fail(`${r.route}: compiled route is NOT present in any sitemap`);
+    if (redirects && redirects.has(r.route)) {
+      fail(`${r.route}: compiled route is a REDIRECT SOURCE — a redirected URL never renders and must not be published as a canonical page`);
     }
   }
   for (const name of manifest.entities || []) {
@@ -100,7 +106,9 @@ export function checkManifest(manifest, { sitemap, entityNames, feedText }) {
 
 function selftest() {
   let ok = true;
+  let cases = 0;
   const check = (cond, label) => {
+    cases += 1;
     console.log(`  ${cond ? "ok  " : "FAIL"}  ${label}`);
     if (!cond) ok = false;
   };
@@ -114,6 +122,10 @@ function selftest() {
   };
   const env = { sitemap: new Set(["/policy"]), entityNames: new Set(["organization"]), feedText: "getPublicKnowledgeManifest()" };
   check(checkManifest(base, env).length === 0, "valid manifest passes");
+  check(
+    checkManifest(base, { ...env, redirects: new Set([base.routes[0].route]) }).length > 0,
+    "compiled route that is a redirect source fails",
+  );
   check(
     checkManifest({ ...base, routes: [{ ...base.routes[0], canonicalUrl: "https://x.test/WRONG" }] }, env).length > 0,
     "bad canonical fails",
@@ -129,7 +141,7 @@ function selftest() {
     console.error("[public-knowledge] SELF-TEST FAILED");
     process.exit(1);
   }
-  console.log("[public-knowledge] self-test PASS (6 cases)");
+  console.log(`[public-knowledge] self-test PASS (${cases} cases)`);
 }
 
 if (process.argv.includes("--selftest")) {
@@ -155,7 +167,7 @@ if (feedText === null) {
   process.exit(1);
 }
 
-const failures = checkManifest(manifest, { sitemap, entityNames, feedText });
+const failures = checkManifest(manifest, { sitemap, entityNames, feedText, redirects: redirectSources(REPO_ROOT) });
 if (failures.length) {
   console.error(`\n[public-knowledge] FAIL — ${failures.length} issue(s):`);
   for (const f of failures) console.error(`  ✗ ${f}`);

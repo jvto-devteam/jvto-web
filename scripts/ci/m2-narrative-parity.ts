@@ -1,8 +1,13 @@
 /**
  * Milestone 2 — remaining public narrative cutover: route-parity gate. Static, no DB, no server.
  *
- * Covers the 10 routes moved off the legacy readers (getPageSeo / getPublicPageSnapshot /
+ * Covers the 9 routes moved off the legacy readers (getPageSeo / getPublicPageSnapshot /
  * resolveFaqsForPage) onto the content/ SSOT. Per route it proves:
+ *
+ * (The 10th candidate, /student-deals/isic, is NOT here: next.config.ts redirects it with
+ * `permanent: true` to /isic/student-package, so the URL never renders. A redirected URL has no
+ * narrative to own — validate-public-knowledge.mjs now fails any compiled route that is a
+ * redirect source.)
  *
  *   1. RENDERABLE — a published content record exists and carries non-empty narrative
  *      (lede or sections or body). A route whose record is missing/empty would render a blank
@@ -53,7 +58,6 @@ const TARGETS: Target[] = [
   { route: "/markets/singapore", page: "src/app/(website)/markets/singapore/page.tsx", faq: true },
   { route: "/markets/malaysia", page: "src/app/(website)/markets/malaysia/page.tsx", faq: true },
   { route: "/isic/student-package", page: "src/app/(website)/isic/student-package/page.tsx", faq: false },
-  { route: "/student-deals/isic", page: "src/app/(website)/student-deals/isic/page.tsx", faq: false },
   { route: "/tours", page: "src/app/(website)/tours/page.tsx", faq: true, dynamicHelper: "getPublicPackageList" },
   { route: "/tours/from-bali", page: "src/app/(website)/tours/from-bali/page.tsx", faq: true, dynamicHelper: "getPublicPackageList" },
   { route: "/tours/from-surabaya", page: "src/app/(website)/tours/from-surabaya/page.tsx", faq: true, dynamicHelper: "getPublicPackageList" },

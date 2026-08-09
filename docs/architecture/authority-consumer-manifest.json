@@ -366,8 +366,12 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
+      "cms-seed",
       "content_pages",
+      "getContentPage",
+      "getPageSeo",
       "jsonld",
+      "snapshot",
       "static-content"
     ],
     "private": false,

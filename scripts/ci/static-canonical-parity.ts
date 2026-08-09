@@ -80,7 +80,6 @@ const CONTENT_OWNED_PAGE_FILES = [
   "src/app/(website)/markets/singapore/page.tsx",
   "src/app/(website)/markets/malaysia/page.tsx",
   "src/app/(website)/isic/student-package/page.tsx",
-  "src/app/(website)/student-deals/isic/page.tsx",
   "src/app/(website)/tours/page.tsx",
   "src/app/(website)/tours/from-bali/page.tsx",
   "src/app/(website)/tours/from-surabaya/page.tsx",
