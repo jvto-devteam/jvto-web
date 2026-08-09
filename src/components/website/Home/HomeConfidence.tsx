@@ -1,5 +1,7 @@
 import Link from "@/components/website/AppLink";
 import { Building2, ShieldCheck, Newspaper, History } from "lucide-react";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 
 const PILLARS = [
   {
@@ -32,56 +34,67 @@ const PILLARS = [
   },
 ] as const;
 
+// PKG-11a: each pillar is a dossier tab — a top accent rule that ignites orange
+// on hover/focus, and the meta line demoted to a mono footer rather than faded
+// text (the old text-jvto-muted/70 measured 2.6:1 on white).
 export default function HomeConfidence() {
   return (
-    <section aria-labelledby="confidence-heading" className="bg-white py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-          <div className="max-w-2xl">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
-              § 03
-            </p>
-            <h2
-              id="confidence-heading"
-              className="font-black text-2xl md:text-3xl text-jvto-navy"
-            >
-              Operational <span className="text-jvto-orange">certainty.</span>
-            </h2>
-          </div>
+    <Section surface="light" labelledBy="confidence-heading">
+      <SectionHeading
+        id="confidence-heading"
+        eyebrow="§ 03"
+        title={
+          <>
+            Operational <span className="text-jvto-orange">certainty.</span>
+          </>
+        }
+        aside={
           <Link
             href="/verify-jvto"
-            className="text-sm font-bold text-jvto-navy hover:text-jvto-orange transition-colors"
+            className="jvto-focus rounded-sm text-jvto-navy transition-colors hover:text-jvto-orange"
           >
             Open proof library &rarr;
           </Link>
-        </div>
+        }
+        className="mb-8 md:mb-10"
+      />
 
-        <p className="max-w-[60ch] text-jvto-muted text-base md:text-lg font-light leading-relaxed mb-10 md:mb-14">
-          In a landscape where volcanic nature is uncertain, JVTO sells{" "}
-          <em className="not-italic font-medium text-jvto-navy">operational certainty</em>{" "}
-          — built on disciplined safety, documented proof, and local execution. Every
-          licence below is checkable in a public registry.
-        </p>
+      <p className="mb-12 max-w-[62ch] text-base leading-relaxed font-light text-jvto-ink-soft md:mb-16 md:text-lg">
+        In a landscape where volcanic nature is uncertain, JVTO sells{" "}
+        <em className="font-medium text-jvto-navy not-italic">operational certainty</em>{" "}
+        — built on disciplined safety, documented proof, and local execution. Every
+        licence below is checkable in a public registry.
+      </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {PILLARS.map(({ Icon, title, body, meta, href }) => (
-            <Link
-              key={title}
-              href={href}
-              className="group flex flex-col rounded-sm border border-jvto-border p-6 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(13,27,42,0.18)] transition-all duration-300"
-            >
-              <Icon size={26} className="text-jvto-navy mb-5" strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="font-black text-jvto-navy text-base mb-2.5">{title}</h3>
-              <p className="text-jvto-muted text-sm leading-relaxed mb-4 flex-1">
-                {body}
-              </p>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-jvto-muted/70">
-                {meta}
-              </span>
-            </Link>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {PILLARS.map(({ Icon, title, body, meta, href }) => (
+          <Link
+            key={title}
+            href={href}
+            className="jvto-focus group relative flex flex-col overflow-hidden rounded-sm border border-jvto-border bg-white p-6 pt-7 shadow-jvto-soft transition-all duration-300 hover:-translate-y-1 hover:border-jvto-navy/25 hover:shadow-jvto-card-hover"
+          >
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[3px] bg-jvto-navy/15 transition-colors duration-300 group-hover:bg-jvto-orange group-focus-visible:bg-jvto-orange"
+            />
+            <Icon
+              size={26}
+              className="mb-5 text-jvto-navy"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
+            <h3 className="font-jvto-heading mb-2.5 text-base font-black text-jvto-navy">
+              {title}
+            </h3>
+            <p className="mb-5 flex-1 text-sm leading-relaxed text-jvto-ink-soft">
+              {body}
+            </p>
+            <span className="border-t border-jvto-border pt-3 font-mono text-[10px] font-bold tracking-wider text-jvto-ink-soft uppercase">
+              {meta}
+            </span>
+          </Link>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

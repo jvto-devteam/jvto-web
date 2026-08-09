@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 
 interface VolcanoEntry {
   id: "bromo" | "ijen";
@@ -41,94 +43,139 @@ const VOLCANOES: VolcanoEntry[] = [
   },
 ];
 
+// PKG-11a: styled as an instrument readout — mono throughout, a ruled field for
+// each measurement, and the alert level carried by a ringed dot + navy text
+// rather than by colour alone (jvto-gold is 1.9:1 on the off-white panel, so it
+// can never be the only signal).
 export default function HomeVolcanoStatus() {
   const [activeId, setActiveId] = useState<VolcanoEntry["id"]>("bromo");
+  const tabRefs = useRef<Partial<Record<VolcanoEntry["id"], HTMLButtonElement | null>>>(
+    {},
+  );
   const active = VOLCANOES.find((v) => v.id === activeId) ?? VOLCANOES[0];
-  const accent = active.levelTone === "gold" ? "text-jvto-gold" : "text-jvto-green";
-  const dot = active.levelTone === "gold" ? "bg-jvto-gold" : "bg-jvto-green";
+  const dot = active.levelTone === "gold" ? "bg-jvto-gold" : "bg-jvto-lime";
+
+  // Roving tabindex + arrow keys, per the ARIA tabs pattern (see HomeToursClient).
+  function onTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    const from = VOLCANOES.findIndex((v) => v.id === activeId);
+    let to: number | null = null;
+    if (event.key === "ArrowRight") to = (from + 1) % VOLCANOES.length;
+    else if (event.key === "ArrowLeft")
+      to = (from - 1 + VOLCANOES.length) % VOLCANOES.length;
+    else if (event.key === "Home") to = 0;
+    else if (event.key === "End") to = VOLCANOES.length - 1;
+    if (to === null) return;
+    event.preventDefault();
+    const next = VOLCANOES[to].id;
+    setActiveId(next);
+    tabRefs.current[next]?.focus();
+  }
 
   return (
-    <section aria-labelledby="volcano-heading" className="bg-white py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
-              § 07 — Live status
-            </p>
-            <h2
-              id="volcano-heading"
-              className="font-black text-2xl md:text-3xl text-jvto-navy"
-            >
-              Volcano <span className="text-jvto-orange">activity.</span>
-            </h2>
-          </div>
+    <Section surface="light" labelledBy="volcano-heading">
+      <SectionHeading
+        id="volcano-heading"
+        eyebrow="§ 07 — Live status"
+        title={
+          <>
+            Volcano <span className="text-jvto-orange">activity.</span>
+          </>
+        }
+        aside={
           <a
             href="https://magma.esdm.go.id/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-bold text-jvto-muted hover:text-jvto-navy underline decoration-jvto-border underline-offset-4 transition-colors"
+            className="jvto-focus rounded-sm underline decoration-jvto-rule underline-offset-4 transition-colors hover:text-jvto-navy"
           >
             Source · PVMBG / MAGMA Indonesia &#8599;
           </a>
-        </div>
+        }
+        className="mb-8 md:mb-10"
+      />
 
-        {/* Toggle */}
-        <div
-          role="tablist"
-          aria-label="Select volcano"
-          className="inline-flex items-center gap-1 rounded-full border border-jvto-border bg-white p-1.5 shadow-[var(--shadow-jvto)] mb-8"
-        >
-          {VOLCANOES.map((v) => (
+      {/* Toggle */}
+      <div
+        role="tablist"
+        aria-label="Select volcano"
+        className="mb-8 inline-flex items-center gap-1 rounded-full border border-jvto-border bg-white p-1.5 shadow-jvto-soft"
+      >
+        {VOLCANOES.map((v) => {
+          const selected = activeId === v.id;
+          return (
             <button
               key={v.id}
+              id={`volcano-tab-${v.id}`}
+              ref={(el) => {
+                tabRefs.current[v.id] = el;
+              }}
               type="button"
               role="tab"
-              aria-selected={activeId === v.id}
+              aria-selected={selected}
+              aria-controls="volcano-tabpanel"
+              tabIndex={selected ? 0 : -1}
               onClick={() => setActiveId(v.id)}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-colors min-w-[130px] ${
-                activeId === v.id
+              onKeyDown={onTabKeyDown}
+              className={`jvto-focus min-w-[130px] rounded-full px-6 py-2.5 text-sm font-bold transition-colors duration-200 ${
+                selected
                   ? "bg-jvto-navy text-white"
-                  : "text-jvto-muted hover:text-jvto-navy"
+                  : "text-jvto-ink-soft hover:text-jvto-navy"
               }`}
             >
               {v.name}
             </button>
-          ))}
-        </div>
+          );
+        })}
+      </div>
 
-        {/* Panel */}
-        <div className="rounded-sm border border-jvto-border bg-jvto-off p-6 md:p-10">
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-            <div className="max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-jvto-muted mb-2">
-                {active.name} · {active.elevation} · {active.regency}
-              </p>
-              <p className="text-jvto-muted text-sm md:text-base leading-relaxed">
-                {active.description}
-              </p>
+      {/* Readout panel */}
+      <div
+        id="volcano-tabpanel"
+        role="tabpanel"
+        aria-labelledby={`volcano-tab-${active.id}`}
+        // The panel holds no focusable content, so per the ARIA tabs pattern it
+        // takes tabindex=0 itself — otherwise its readout is unreachable by keyboard.
+        tabIndex={0}
+        className="jvto-focus jvto-topo-light relative overflow-hidden rounded-sm border border-jvto-border bg-jvto-off p-6 md:p-10"
+      >
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-2xl">
+            <p className="mb-3 font-mono text-[11px] font-bold tracking-[0.2em] text-jvto-ink-soft uppercase">
+              {active.name} · {active.elevation} · {active.regency}
+            </p>
+            <p className="text-sm leading-relaxed text-jvto-ink-soft md:text-base">
+              {active.description}
+            </p>
+          </div>
+
+          {/* Readout cluster — same two facts the section already published,
+              re-set as instrument fields. No labels are invented here: every
+              string still comes from the VOLCANOES record above. */}
+          <div className="flex flex-shrink-0 items-center gap-8 border-t border-jvto-border pt-5 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+            <div className="flex items-center gap-2.5">
+              <span
+                className={`h-2.5 w-2.5 flex-shrink-0 rounded-full ring-2 ring-jvto-navy/25 ${dot}`}
+                aria-hidden="true"
+              />
+              <div>
+                <p className="font-mono text-xs font-bold text-jvto-navy">
+                  {active.level}
+                </p>
+                <p className="font-mono text-[10px] tracking-wider text-jvto-ink-soft uppercase">
+                  {active.levelName}
+                </p>
+              </div>
             </div>
-
-            <div className="flex items-center gap-6 flex-shrink-0">
-              <div className="flex items-center gap-2.5">
-                <span className={`w-2.5 h-2.5 rounded-full ${dot}`} aria-hidden="true" />
-                <div>
-                  <p className={`font-mono text-xs font-bold ${accent}`}>{active.level}</p>
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-jvto-muted">
-                    {active.levelName}
-                  </p>
-                </div>
-              </div>
-              <div className="text-sm font-bold">
-                {active.toursOperating ? (
-                  <span className="text-jvto-green">&#9679; Tours operating</span>
-                ) : (
-                  <span className="text-red-500">&#9679; Tours suspended</span>
-                )}
-              </div>
+            <div className="text-sm font-bold">
+              {active.toursOperating ? (
+                <span className="text-jvto-lime-ink">&#9679; Tours operating</span>
+              ) : (
+                <span className="text-red-700">&#9679; Tours suspended</span>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

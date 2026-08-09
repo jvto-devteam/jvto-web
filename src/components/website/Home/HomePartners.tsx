@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Section from "@/components/design/Section";
 
 const PARTNERS = [
   {
@@ -51,38 +52,45 @@ const PARTNERS = [
   },
 ] as const;
 
+// PKG-11a: the whole tile used to sit at opacity-50, which dragged the meta
+// line (a real rating figure) to roughly 2.4:1. The restraint now lives on the
+// logo alone — grayscale + partial opacity, resolving on hover/focus — while
+// the figures stay at full-strength mono.
 export default function HomePartners() {
   return (
-    <section aria-label="Partners and platforms" className="bg-white py-12 md:py-16 border-t border-jvto-border">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted text-center mb-8">
-          Listed &amp; Verified On
-        </p>
+    <Section
+      surface="off"
+      density="band"
+      label="Partners and platforms"
+      className="border-t border-jvto-border"
+    >
+      <p className="mb-10 text-center font-mono text-[10px] font-bold tracking-[0.22em] text-jvto-ink-soft uppercase">
+        Listed &amp; Verified On
+      </p>
 
-        <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-8 md:gap-x-14">
-          {PARTNERS.map((partner) => (
+      <ul className="flex flex-wrap items-start justify-center gap-x-10 gap-y-8 md:gap-x-14">
+        {PARTNERS.map((partner) => (
+          <li key={partner.name} className="flex-shrink-0">
             <a
-              key={partner.name}
               href={partner.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-2 opacity-50 hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
-              title={partner.name}
+              className="jvto-focus group flex flex-col items-center gap-2.5 rounded-sm px-2 py-1"
             >
               <Image
                 src={partner.logo}
                 alt={partner.name}
                 width={partner.width}
                 height={partner.height}
-                className="h-7 md:h-8 w-auto object-contain"
+                className="h-7 w-auto object-contain opacity-60 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0 md:h-8"
               />
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-jvto-muted">
+              <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-jvto-ink-soft uppercase">
                 {partner.meta}
               </span>
             </a>
-          ))}
-        </div>
-      </div>
-    </section>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

@@ -28,19 +28,31 @@ const CELLS = [
   },
 ] as const;
 
+// PKG-11a: rendered as a five-column credential ledger with vertical hairline
+// rules — a spec sheet, not a badge row. Sub-text moved off white/40 (3.8:1)
+// onto --color-jvto-on-navy-dim (6.9:1); the lime icons carry the "verified"
+// read that the accent colour is reserved for.
 export default function HomeTrustStrip() {
   return (
-    <div className="bg-jvto-navy border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4">
+    <div className="border-t border-white/10 bg-jvto-navy">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
           {CELLS.map(({ Icon, label, sub }) => (
-            <div key={label} className="flex flex-col gap-2">
-              <Icon size={20} className="text-white/50" aria-hidden="true" strokeWidth={1.5} />
-              <p className="text-white text-sm font-bold leading-snug">{label}</p>
-              <p className="text-white/40 text-xs leading-snug">{sub}</p>
-            </div>
+            <li
+              key={label}
+              className="flex flex-col gap-2.5 border-b border-white/10 py-6 pr-6 last:border-b-0 lg:border-b-0 lg:border-l lg:py-8 lg:pr-4 lg:pl-6 lg:first:border-l-0 lg:first:pl-0"
+            >
+              <Icon
+                size={20}
+                className="text-jvto-lime"
+                aria-hidden="true"
+                strokeWidth={1.5}
+              />
+              <p className="text-sm leading-snug font-bold text-white">{label}</p>
+              <p className="text-xs leading-snug text-jvto-on-navy-dim">{sub}</p>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );

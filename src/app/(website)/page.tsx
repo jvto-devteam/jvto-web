@@ -28,6 +28,8 @@ import Script from "next/script";
 import HomePartners from "@/components/website/Home/HomePartners";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
@@ -235,59 +237,61 @@ const Home = async () => {
       <HomeHealthRail />
       <HomeVolcanoStatus />
 
-      {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production) */}
-      <section aria-labelledby="reviews-heading" className="bg-jvto-navy py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="mb-12 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-                {sectionText(reviews, "eyebrow")}
-              </span>
-            </div>
-            <h2
-              id="reviews-heading"
-              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
-              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-            >
-              {platformLines.map((line, i) => (
-                <span key={line.key}>
-                  {line.accent ? (
-                    <em className="text-jvto-orange not-italic">{line.text}</em>
-                  ) : (
-                    line.text
-                  )}{" "}
-                  {i < platformLines.length - 1 ? <br /> : null}
-                </span>
-              ))}
-            </h2>
-            <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
-              {sectionText(reviews, "body_text")}
-            </p>
-          </div>
+      {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production).
+          PKG-11a restyled the surrounding frame only: the <Script> src/strategy
+          and the Elfsight mount div (class + data-elfsight-app-lazy) are byte-
+          identical, and every string still comes from the `reviews` section of
+          content/pages/home/index.json via sectionText()/gridItems(). */}
+      <Section surface="navy" labelledBy="reviews-heading">
+        <SectionHeading
+          id="reviews-heading"
+          eyebrow={sectionText(reviews, "eyebrow")}
+          tone="dark"
+          titleClassName="md:max-w-2xl"
+          title={platformLines.map((line, i) => (
+            <span key={line.key}>
+              {line.accent ? (
+                <em className="text-jvto-orange not-italic">{line.text}</em>
+              ) : (
+                line.text
+              )}{" "}
+              {i < platformLines.length - 1 ? <br /> : null}
+            </span>
+          ))}
+          className="mb-10"
+        />
 
-          <Script
-            src="https://elfsightcdn.com/platform.js"
-            strategy="lazyOnload"
-          />
-          <div
-            className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
-            data-elfsight-app-lazy
-          />
+        <p className="mb-12 text-sm leading-relaxed text-jvto-on-navy md:max-w-xl md:text-base">
+          {sectionText(reviews, "body_text")}
+        </p>
 
-          <div className="mt-10 text-center md:text-left">
-            <Link
-              href={sectionText(reviews, "link_href")}
-              className="text-sm font-bold text-white/70 hover:text-white transition-colors"
-            >
-              {sectionText(reviews, "link_label")} <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
+        <Script
+          src="https://elfsightcdn.com/platform.js"
+          strategy="lazyOnload"
+        />
+        <div
+          className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
+          data-elfsight-app-lazy
+        />
+
+        <div className="mt-10">
+          <Link
+            href={sectionText(reviews, "link_href")}
+            className="jvto-focus-dark rounded-sm text-sm font-bold text-jvto-on-navy transition-colors hover:text-white"
+          >
+            {sectionText(reviews, "link_label")} <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
-      </section>
+      </Section>
 
       <HomePartners />
-      <HomeFAQ items={faqItems} />
+      {/* PKG-11a composition fix: the travel-guide teaser labels itself "§ 08"
+          and the FAQ "§ 09", but the teaser used to render AFTER the FAQ, so the
+          page's own section numbering ran 09 → 08 → 10. Swapping the two render
+          positions restores a monotonic 02…10 without touching a single string,
+          and reads better besides (rulebook → questions → who we are → act). */}
       <HomeTravelGuideTeaser />
+      <HomeFAQ items={faqItems} />
       <HomeOurStory />
       <HomeCTA />
     </div>
