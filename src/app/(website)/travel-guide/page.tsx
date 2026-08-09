@@ -7,7 +7,7 @@ import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -171,6 +171,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: staticRouteCanonical("/travel-guide") },
     openGraph: {
       title,
       description,

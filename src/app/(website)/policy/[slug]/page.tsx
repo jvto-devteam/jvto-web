@@ -13,6 +13,7 @@ import {
 import {
   listPublishedStaticPages,
   loadStaticPage,
+  staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type Block,
   type StaticPage,
@@ -75,6 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/policy/${slug}`) },
   };
 }
 

@@ -23,9 +23,9 @@ on:
     # 2026-08-04). "Documentation" here is ONLY root-level Markdown
     # (README.md / CLAUDE.md — `*.md` matches the repo root, not nested paths)
     # and `docs/**`. Served content Markdown is production output and MUST still
-    # deploy — `content/pages/**/*.md` renders via loadStaticPage and
-    # `src/data/blog/**/*.md` via src/lib/blog.ts — so a blanket `**/*.md` would
-    # wrongly skip a real content deploy. A push that also touches any non-doc
+    # deploy — `content/pages/**/*.md` renders via loadStaticPage (this includes
+    # the blog, now content-owned at `content/pages/blog/**/*.md`) — so a blanket
+    # `**/*.md` would wrongly skip a real content deploy. A push that also touches any non-doc
     # file still deploys; workflow_dispatch stays available for a manual re-run.
     # (The docs-only rule + its self-test live in scripts/ci/docs-only-selftest.sh.)
     paths-ignore:

@@ -46,7 +46,7 @@ class reflects whether it is the live authority (public-knowledge) or the design
 |---|---|---|---|---|
 | Trust bundle | `src/data/trust-bundle/{claims,faq,aeo-snippets,people,_manifest}.json` + `schema/` | public-knowledge | `src/lib/trust-bundle.ts` → `(website)/trust/page.tsx`; `src/lib/llms-txt.ts` → `/llms.txt`; `src/lib/cms/entityRegistry.ts`; `src/lib/registry/pages.ts` | Synced (`sync:trust`), CI drift-gated. Legacy-producer path; retire after `/trust`+`/llms.txt` cut to `content/` (Milestone 2 / §15 "trust… public-content consumers"). |
 | Policy bundle | `src/data/policy-bundle/{policy-bundle,customer-copy,decision-matrix,consumer-bundles,deprecated-wording-report,gap-report}.json` | public-knowledge | `src/lib/policy-bundle.ts` (`getCustomerCopy`/`getPolicyNotes`/`getPolicyEvidenceText`) → `src/lib/schemas/buildPolicySchemas.ts` (SpecialAnnouncement node) | `sync:policy-bundle` (env `LLM_WIKI_ROOT`). Policy page body already on `content/`; bundle still feeds one schema node — audit at Milestone 8. |
-| Blog | `src/data/blog/*.md` + `_manifest.json` | public-knowledge | `src/lib/blog.ts` → `(website)/blog/page.tsx` + `[slug]/page.tsx` + `blog/sitemap.data.ts` | `sync:blog`. Relocates to `content/pages/blog/` at Milestone 2; remove `sync:blog` only after parity. |
+| ~~Blog~~ | **RETIRED (Package 08, 2026-08-06)** | — | `content/pages/blog/` via the static-content loader → `(website)/blog/page.tsx` + `[slug]/page.tsx` + `blog/sitemap.data.ts` | Relocated to `content/pages/blog/` (Git-SSOT); `sync:blog` + `src/data/blog` + `src/lib/blog.ts` deleted. No longer a synced producer artifact. |
 
 ### OKF-produced bundle + agent guides
 

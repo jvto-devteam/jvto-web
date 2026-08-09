@@ -6,7 +6,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "../sidebar";
 import { FIELD_OPERATIONS } from "@/lib/imageAssets";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
-import { loadStaticPage, type StaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical, type StaticPage } from "@/lib/static-content";
 import { KeyFactSchema, parseGrid, type KeyFact } from "@/lib/content/travelGuideGrids";
 
 // PACKAGE 04b (2026-08-06): narrative + SEO come from the static-content SSOT
@@ -56,6 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 

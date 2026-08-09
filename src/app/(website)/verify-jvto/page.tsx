@@ -10,7 +10,7 @@ import VerifyJvtoClient from "./VerifyJvtoClient";
 import VerifyNarrative, { staticPageRow, buildStaticFaqSchema } from "./verifyShared";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
@@ -25,6 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: staticRouteCanonical("/verify-jvto") },
     openGraph: {
       title,
       description,

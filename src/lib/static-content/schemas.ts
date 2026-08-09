@@ -82,6 +82,12 @@ export const PageMetaSchema = z.object({
   schemaTypes: z.array(SchemaTypeSchema).min(1).default(["WebPage"]),
   faqKey: FaqKeySchema.optional(),
   summary: z.string().min(1, "summary is required"),
+  /** Blog-only metadata (PACKAGE 08 — Blog cluster). Optional so non-blog pages are unaffected;
+   *  the blog routes read these for the post header + BlogPosting JSON-LD. */
+  publishedDate: IsoDateSchema.optional(),
+  tags: z.array(z.string().min(1)).optional(),
+  bannerImage: z.string().min(1).optional(),
+  readingTimeMin: z.int().positive().optional(),
 });
 export type PageMeta = z.infer<typeof PageMetaSchema>;
 

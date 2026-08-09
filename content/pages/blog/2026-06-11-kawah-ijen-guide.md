@@ -1,14 +1,24 @@
 ---
-title: "Your Complete Kawah Ijen Guide: Blue Fire, Health & Safety"
-slug: "2026-06-11-kawah-ijen-guide"
-date: "2026-06-11"
-status: "published"
-tags: [ijen, travel-guide, safety, health-screening]
-seo_title: "Kawah Ijen Complete Guide 2026 | JVTO"
-seo_description: "Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour."
-sources: [destinations/kawah-ijen, credentials/trust-signals, people/dr-ahmad-irwandanu]
-estimated_read_min: 7
-banner_image: "/assets/img/hero/ijen.jpg"
+route: /blog/2026-06-11-kawah-ijen-guide
+title: 'Your Complete Kawah Ijen Guide: Blue Fire, Health & Safety'
+browserTitle: Kawah Ijen Complete Guide 2026 | JVTO
+description: Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.
+section: blog
+status: published
+owner: editorial
+lastReviewed: '2026-06-11'
+schemaTypes:
+  - BlogPosting
+  - WebPage
+summary: Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.
+publishedDate: '2026-06-11'
+tags:
+  - ijen
+  - travel-guide
+  - safety
+  - health-screening
+bannerImage: /assets/img/hero/ijen.jpg
+readingTimeMin: 7
 ---
 
 Kawah Ijen is an active stratovolcano at 2,386m, home to the world's highest-volume acidic crater lake and a pre-dawn blue fire phenomenon that draws thousands of hikers every year. Seven documented tourist incidents at Ijen between 2015 and 2026 — including four fatalities — mean the preparation you do before the trailhead matters as much as the gear you carry.

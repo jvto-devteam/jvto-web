@@ -7,10 +7,11 @@
 #
 # "Documentation" is ONLY `docs/**` and root-level *.md (README.md / CLAUDE.md).
 # Served content Markdown is production output and MUST build/deploy —
-# content/pages/**/*.md renders via loadStaticPage; src/data/blog/**/*.md via
-# src/lib/blog.ts. This test asserts (a) the classifier verdict for the full
-# case matrix and (b) that deploy.yml still carries the exact paths-ignore, so a
-# future edit that widens the rule fails CI here.
+# content/pages/**/*.md renders via loadStaticPage (this now includes the blog:
+# content/pages/blog/**/*.md, since the Milestone-2 Blog migration retired
+# src/data/blog + src/lib/blog). This test asserts (a) the classifier verdict for
+# the full case matrix and (b) that deploy.yml still carries the exact
+# paths-ignore, so a future edit that widens the rule fails CI here.
 set -euo pipefail
 
 # The single canonical predicate. classify() prints "code" (build required) or
@@ -49,12 +50,12 @@ check docs "docs/architecture/a.md" "CLAUDE.md"
 # --- code (build/deploy required) ---
 check code "content/pages/policy/privacy.md"
 check code "content/pages/travel-guide/index.md"
-check code "src/data/blog/example.md"
+check code "content/pages/blog/example.md"
 check code ".github/workflows/ci.yml"
 check code "src/app/page.tsx"
 # --- mixed docs + served content -> code ---
 check code "docs/architecture/example.md" "content/pages/policy/privacy.md"
-check code "CLAUDE.md" "src/data/blog/example.md"
+check code "CLAUDE.md" "content/pages/blog/example.md"
 
 echo "[docs-only-selftest] drift guards (deploy.yml must carry the exact rule)"
 dep="$(dirname "$0")/../../.github/workflows/deploy.yml"

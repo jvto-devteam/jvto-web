@@ -7,13 +7,14 @@ name: Sync artifacts (llm-wiki + OKF)
 # PR on its own; merging main -> a deploy is an owner decision).
 #
 # WHY ONE WORKFLOW (replaces the former per-producer sync-llm-wiki.yml + sync-okf.yml):
-# ci.yml's `verify` drift gate re-syncs ALL FIVE bundles from llm-wiki@master +
+# ci.yml's `verify` drift gate re-syncs ALL synced bundles from llm-wiki@master +
 # OKF@main and fails if ANY is stale. The old per-producer workflows each refreshed
 # only their own slice, so when two producers changed together their sync PRs
 # DEADLOCKED (each failed `verify` on the other's staleness) — and `policy-bundle`
 # was synced by neither, so a policy-bundle-only change could never land. Syncing all
-# five bundles from both producers in a single PR makes the drift gate satisfiable in
+# bundles from both producers in a single PR makes the drift gate satisfiable in
 # one commit: deadlock is structurally impossible and every bundle is covered.
+# (Blog was removed from the sync set 2026-08-06 — /blog is now content/ Git-SSOT.)
 #
 # repository_dispatch fires from the DEFAULT branch (main) for BOTH producers'
 # push notifications. This workflow auto-syncs **`main` only** — `live` is
@@ -76,7 +77,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Sync all five artifact bundles from both producers
+      - name: Sync all artifact bundles from both producers
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
           # sync-policy-bundle.mjs resolves its source via LLM_WIKI_ROOT (not
@@ -86,19 +87,18 @@ jobs:
         run: |
           npm run sync:packages
           npm run sync:trust
-          npm run sync:blog
           npm run sync:policy-bundle
           npm run sync:okf
 
       - name: Detect artifact changes
         id: diff
         run: |
-          if git diff --quiet -- src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle src/data/okf; then
+          if git diff --quiet -- src/data/package-readiness src/data/trust-bundle src/data/policy-bundle src/data/okf; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "::notice::[${{ matrix.base }}] No artifact changes — no sync needed."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            { echo "### Changed artifacts (${{ matrix.base }})"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle src/data/okf; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            { echo "### Changed artifacts (${{ matrix.base }})"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle src/data/policy-bundle src/data/okf; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Guard — only artifact dirs may change
@@ -106,7 +106,7 @@ jobs:
         run: |
           # Tracked modifications only — the producer checkouts live at ./llm-wiki
           # and ./knowledge-catalog-jvto-bootstrap (untracked) and must be ignored.
-          bad="$(git diff --name-only -- . | grep -vE '^src/data/(package-readiness|trust-bundle|blog|policy-bundle|okf)/' || true)"
+          bad="$(git diff --name-only -- . | grep -vE '^src/data/(package-readiness|trust-bundle|policy-bundle|okf)/' || true)"
           if [ -n "$bad" ]; then
             echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
           fi
@@ -127,7 +127,6 @@ jobs:
           add-paths: |
             src/data/package-readiness
             src/data/trust-bundle
-            src/data/blog
             src/data/policy-bundle
             src/data/okf
           branch: automation/sync-artifacts-${{ matrix.base }}
@@ -140,11 +139,11 @@ jobs:
 
             - **llm-wiki source commit:** `${{ steps.src.outputs.llmwiki }}`
             - **OKF source commit:** `${{ steps.src.outputs.okf }}`
-            - **Changed dirs:** `src/data/{package-readiness,trust-bundle,blog,policy-bundle,okf}`
-            - **Sync commands:** `sync:packages` + `sync:trust` + `sync:blog` + `sync:policy-bundle` + `sync:okf`
+            - **Changed dirs:** `src/data/{package-readiness,trust-bundle,policy-bundle,okf}`
+            - **Sync commands:** `sync:packages` + `sync:trust` + `sync:policy-bundle` + `sync:okf`
             - **Triggered by:** `${{ github.event_name }}`
 
-            All five bundles are re-synced from both producers at once, so the CI
+            All synced bundles are re-synced from both producers at once, so the CI
             `verify` drift gate is always satisfiable in a single PR (no
             per-producer deadlock; `policy-bundle` included). Artifact-only change.
 

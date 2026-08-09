@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage("/policy");
@@ -17,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical("/policy") },
   };
 }
 export default async function PolicyHubPage() {

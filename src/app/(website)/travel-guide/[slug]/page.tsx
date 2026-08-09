@@ -13,6 +13,7 @@ import { DOCTOR_SCHEMA } from "@/lib/schemas/entityGraph";
 import {
   listPublishedStaticPages,
   loadStaticPage,
+  staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/static-content";
@@ -100,6 +101,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/travel-guide/${slug}`) },
   };
 }
 

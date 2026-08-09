@@ -19,6 +19,7 @@ import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
 import {
   listPublishedStaticPages,
   loadStaticPage,
+  staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/static-content";
@@ -82,6 +83,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/why-jvto/${slug}`) },
   };
 }
 

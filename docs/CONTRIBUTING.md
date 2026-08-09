@@ -72,7 +72,7 @@ makes it indexable again. Owner sets these values on the VPS — they are not st
 
 - Files under `src/lib/publicContent/generated/*` and `src/data/*` are **never
   hand-edited**. They change only via the official export/sync scripts
-  (`npm run sync:packages`, `sync:trust`, `sync:blog`, and future `sync:*` pipelines).
+  (`npm run sync:packages`, `sync:trust`, `sync:okf`, and future `sync:*` pipelines).
   CI verifies synced bundles against the producer repo and fails on drift.
 
 ### 5. Single brand-config source
