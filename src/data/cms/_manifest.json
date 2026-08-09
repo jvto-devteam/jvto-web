@@ -24,11 +24,11 @@
       "public_person_profile": 16,
       "route": 18
     },
-    "pages": 26,
-    "sections": 190,
+    "pages": 21,
+    "sections": 170,
     "redirects": 7,
     "governance_facts": 19,
-    "routes_fully_rendered": 26,
+    "routes_fully_rendered": 21,
     "routes_scaffold_only": 0
   },
   "routes_scaffold_only": [],

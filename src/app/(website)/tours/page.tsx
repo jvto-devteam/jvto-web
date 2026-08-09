@@ -1,98 +1,53 @@
+// src/app/(website)/tours/page.tsx
+//
+// Milestone 2 (2026-08-09): served from the static-content SSOT
+// (content/pages/tours/index.json). Evergreen narrative, SEO, canonical, and the
+// FAQ come from content/; the PACKAGE LIST stays DYNAMIC (getPublicPackageList,
+// the DB-derived package snapshot) exactly as before — content/ never carries a
+// package, a price, or a package count.
 import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { notFound } from "next/navigation";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { buildToursHubAggregateRatingSchema } from "@/lib/schemas/buildToursHubSchemas";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 import {
-  buildToursHubFaqSchema,
-  buildToursHubAggregateRatingSchema,
-} from "@/lib/schemas/buildToursHubSchemas";
+  HubFaqSection,
+  buildHubFaqSchema,
+  hubGrid,
+  hubGridBlock,
+  hubProse,
+} from "./hubContent";
 import Link from "@/components/website/AppLink";
 import { formatIDR } from "@/utils/formatting";
 import { ArrowRight, Clock, Gauge, Compass, MapPin } from "lucide-react";
 export const revalidate = 3600;
 
-const fallbackSeo = {
-  title: "All Private Tours | East Java & Bali Adventures",
-  h1: "All Destinations Tours",
-  description:
-    "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
-};
+const ROUTE = "/tours";
 
 const DISPLAY_FONT = { fontFamily: "Raleway, Inter, sans-serif" };
 
-// Route comparison archetypes — generic descriptive content, no canonical-fact figures.
-// Ported near-verbatim from docs/design-reference/tours.html §02.
-const ROUTE_ARCHETYPES = [
-  {
-    name: "Bromo Midnight",
-    rows: [
-      "Sunrise & crater rim",
-      "Easy to moderate",
-      "100% private jeep",
-      "Police oversight",
-      "1 night",
-    ],
-  },
-  {
-    name: "Ijen Blue Fire",
-    rows: [
-      "Blue fire & acid lake",
-      "Moderate to high",
-      "Private car + guide",
-      "Medical + gas mask",
-      "1–2 nights",
-    ],
-  },
-  {
-    name: "Full Expedition",
-    rows: [
-      "Full East Java circuit",
-      "High (multi-day)",
-      "Full private crew",
-      "Full safety protocol",
-      "3–4 nights",
-    ],
-  },
-];
-const ROUTE_COMPARE_FEATURES = [
-  "Primary focus",
-  "Physicality",
-  "Logistics",
-  "Safety system",
-  "Typical duration",
-];
+/** Content-owned tile copy → the icons that render it (icons stay presentational). */
+const PLANNING_ICONS = { clock: Clock, gauge: Gauge, compass: Compass } as const;
 
-const PLANNING_TILES = [
-  {
-    Icon: Clock,
-    title: "Consider your time",
-    body: "Multi-day tours provide a deeper experience; day trips are optimized for tight schedules with a Surabaya turn-around.",
-  },
-  {
-    Icon: Gauge,
-    title: "Consider your fitness",
-    body: "Ijen and Tumpak Sewu require moderate physical effort; Bromo is accessible to most fitness levels.",
-  },
-  {
-    Icon: Compass,
-    title: "Consider your origin",
-    body: "Surabaya is the most efficient hub for Bromo; Bali is a popular starting point for Ijen-first itineraries.",
-  },
-];
+type RouteArchetype = { name: string; rows: string[] };
+type DepartureHub = { key: string; title: string; body: string; href: string; cta: string };
+type PlanningTile = { icon: keyof typeof PLANNING_ICONS; title: string; body: string };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/tours", fallbackSeo);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
   return {
-    title: seo.title,
-    description: seo.description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 
@@ -101,16 +56,28 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageGlobal() {
-  const [seo, initialTours, org] = await Promise.all([
-    getPageSeo("/tours", fallbackSeo),
-    getAllTours(),
-    getOrganizationProfile(),
-  ]);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
+
+  const [initialTours, org] = await Promise.all([getAllTours(), getOrganizationProfile()]);
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
   const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
   const siteNode = buildWebSiteJsonLd(siteUrl);
+
+  const pageTitle = page.meta.browserTitle ?? page.meta.title;
+  const pageDescription = page.meta.description;
+
+  // Content-owned narrative (evergreen). Package data is never sourced from here.
+  const routeSelectionProse = hubProse(page, "route-selection");
+  const comparisonBlock = hubGridBlock(page, "route-comparison", "archetypes");
+  const routeCompareFeatures = (comparisonBlock?.features as string[] | undefined) ?? [];
+  const routeArchetypes = (comparisonBlock?.items as RouteArchetype[] | undefined) ?? [];
+  const departureHubs = hubGrid<DepartureHub>(page, "departure-hubs", "hubs");
+  const planningTiles = hubGrid<PlanningTile>(page, "planning-your-expedition", "planning");
 
   const schema = {
     "@context": "https://schema.org",
@@ -121,8 +88,8 @@ export default async function ToursPageGlobal() {
         "@type": "CollectionPage",
         "@id": `${siteUrl}/tours#collection`,
         url: `${siteUrl}/tours`,
-        name: seo.title,
-        description: seo.description,
+        name: pageTitle,
+        description: pageDescription,
         isPartOf: { "@id": `${siteUrl}/#website` },
         mainEntity: { "@id": `${siteUrl}/tours#itemlist` },
       },
@@ -147,7 +114,7 @@ export default async function ToursPageGlobal() {
       {
         "@type": "ItemList",
         "@id": `${siteUrl}/tours#itemlist`,
-        name: seo.h1,
+        name: page.meta.title,
         numberOfItems: initialTours.length,
         itemListElement: initialTours.map((tour, index) => ({
           "@type": "ListItem",
@@ -159,9 +126,11 @@ export default async function ToursPageGlobal() {
     ],
   };
 
-  // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs)
-  // + standalone AggregateRating cross-ref to Organization. Per cluster_role_contracts.md Cluster 1 hub MH.
-  const hubFaqSchema = buildToursHubFaqSchema();
+  // AEO/GEO: exactly ONE FAQPage node, built from the same page.faq array the
+  // visible Q&A block renders (AD-08). Plus a standalone AggregateRating
+  // cross-ref to Organization (cluster_role_contracts.md Cluster 1 hub MH).
+  const faqItems = page.faq ?? [];
+  const hubFaqSchema = faqItems.length ? buildHubFaqSchema(ROUTE, faqItems) : null;
   const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '' });
 
   const startingFrom = initialTours.length > 0
@@ -171,7 +140,7 @@ export default async function ToursPageGlobal() {
   return (
     <>
       <StructuredData data={schema} />
-      <StructuredData data={hubFaqSchema} />
+      {hubFaqSchema && <StructuredData data={hubFaqSchema} />}
       <StructuredData data={hubAggregateRatingSchema} />
 
       {/* ── 1. HERO ───────────────────────────────────── */}
@@ -198,8 +167,7 @@ export default async function ToursPageGlobal() {
               </h1>
 
               <p className="text-white/60 text-base md:text-lg max-w-2xl mb-8 leading-relaxed font-light">
-                Optimized East Java logistics for private travelers. Select your origin, compare routes,
-                and verify operational standards. {seo.description}
+                {page.lede?.[0]} {pageDescription}
               </p>
 
               <div className="flex flex-wrap gap-3 mb-10">
@@ -266,17 +234,18 @@ export default async function ToursPageGlobal() {
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">Filter by origin, days, fitness</span>
           </div>
-          <p className="text-jvto-muted text-sm md:text-base max-w-2xl leading-relaxed">
-            Use the filters below to narrow by your origin, available days, and price. Every JVTO trip is
-            private by default with your own vehicle and crew — no mixed strangers.
-          </p>
+          {routeSelectionProse.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)} className="text-jvto-muted text-sm md:text-base max-w-2xl leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
         </div>
 
         <ToursPageClient
           initialTours={initialTours}
           destinationName="All Destinations"
-          title={seo.h1}
-          description={seo.description}
+          title={page.meta.title}
+          description={pageDescription}
           showLocationFilter={true}
           hideHeader
         />
@@ -293,7 +262,7 @@ export default async function ToursPageGlobal() {
             >
               Route <em className="text-jvto-orange not-italic">comparison.</em>
             </h2>
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">3 archetypes</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">{routeArchetypes.length} archetypes</span>
           </div>
 
           <div className="overflow-x-auto border border-jvto-border rounded-[24px] bg-white">
@@ -301,10 +270,10 @@ export default async function ToursPageGlobal() {
               <thead>
                 <tr>
                   <th className="text-left p-5 font-mono text-[11px] uppercase tracking-[0.2em] text-jvto-muted font-semibold bg-jvto-off rounded-tl-[24px]">Feature</th>
-                  {ROUTE_ARCHETYPES.map((a, i) => (
+                  {routeArchetypes.map((a, i) => (
                     <th
                       key={a.name}
-                      className={`text-left p-5 font-black text-jvto-navy text-lg bg-jvto-off ${i === ROUTE_ARCHETYPES.length - 1 ? "rounded-tr-[24px]" : ""}`}
+                      className={`text-left p-5 font-black text-jvto-navy text-lg bg-jvto-off ${i === routeArchetypes.length - 1 ? "rounded-tr-[24px]" : ""}`}
                       style={DISPLAY_FONT}
                     >
                       {a.name}
@@ -313,10 +282,10 @@ export default async function ToursPageGlobal() {
                 </tr>
               </thead>
               <tbody>
-                {ROUTE_COMPARE_FEATURES.map((feature, rowIdx) => (
+                {routeCompareFeatures.map((feature, rowIdx) => (
                   <tr key={feature} className="border-t border-jvto-border">
                     <td className="p-5 font-mono text-[10px] uppercase tracking-[0.2em] text-jvto-navy font-bold align-top">{feature}</td>
-                    {ROUTE_ARCHETYPES.map((a) => (
+                    {routeArchetypes.map((a) => (
                       <td key={a.name} className="p-5 text-jvto-navy/80 align-top">{a.rows[rowIdx]}</td>
                     ))}
                   </tr>
@@ -342,36 +311,21 @@ export default async function ToursPageGlobal() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Link
-              href="/tours/from-surabaya"
-              prefetch={false}
-              className="group bg-white/[0.03] border border-white/10 rounded-[24px] p-9 flex flex-col gap-4 transition-all hover:-translate-y-1 hover:border-jvto-orange"
-            >
-              <MapPin className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
-              <h3 className="text-2xl font-black" style={DISPLAY_FONT}>Surabaya hub</h3>
-              <p className="text-white/65 text-sm leading-relaxed">
-                Best for Bromo &amp; Ijen. Direct access to East Java&apos;s primary transport hub with efficient
-                multi-day routes.
-              </p>
-              <span className="mt-auto pt-4 border-t border-white/10 font-mono text-[10px] uppercase tracking-[0.22em] text-jvto-lime">
-                View routes →
-              </span>
-            </Link>
-            <Link
-              href="/tours/from-bali"
-              prefetch={false}
-              className="group bg-white/[0.03] border border-white/10 rounded-[24px] p-9 flex flex-col gap-4 transition-all hover:-translate-y-1 hover:border-jvto-orange"
-            >
-              <MapPin className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
-              <h3 className="text-2xl font-black" style={DISPLAY_FONT}>Bali hub</h3>
-              <p className="text-white/65 text-sm leading-relaxed">
-                Best for Ijen &amp; Bromo. Seamless private transfers from Bali to the heart of East Java&apos;s
-                volcano landscape.
-              </p>
-              <span className="mt-auto pt-4 border-t border-white/10 font-mono text-[10px] uppercase tracking-[0.22em] text-jvto-lime">
-                View routes →
-              </span>
-            </Link>
+            {departureHubs.map((hub) => (
+              <Link
+                key={hub.key}
+                href={hub.href}
+                prefetch={false}
+                className="group bg-white/[0.03] border border-white/10 rounded-[24px] p-9 flex flex-col gap-4 transition-all hover:-translate-y-1 hover:border-jvto-orange"
+              >
+                <MapPin className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
+                <h3 className="text-2xl font-black" style={DISPLAY_FONT}>{hub.title}</h3>
+                <p className="text-white/65 text-sm leading-relaxed">{hub.body}</p>
+                <span className="mt-auto pt-4 border-t border-white/10 font-mono text-[10px] uppercase tracking-[0.22em] text-jvto-lime">
+                  {hub.cta}
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -391,21 +345,27 @@ export default async function ToursPageGlobal() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PLANNING_TILES.map(({ Icon, title, body }) => (
-              <div
-                key={title}
-                className="bg-white border border-jvto-border rounded-[24px] p-8 card-jvto flex flex-col gap-4"
-              >
-                <Icon className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
-                <h3 className="text-xl font-black text-jvto-navy" style={DISPLAY_FONT}>{title}</h3>
-                <p className="text-jvto-muted text-sm leading-relaxed">{body}</p>
-              </div>
-            ))}
+            {planningTiles.map((tile) => {
+              const Icon = PLANNING_ICONS[tile.icon] ?? Compass;
+              return (
+                <div
+                  key={tile.title}
+                  className="bg-white border border-jvto-border rounded-[24px] p-8 card-jvto flex flex-col gap-4"
+                >
+                  <Icon className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
+                  <h3 className="text-xl font-black text-jvto-navy" style={DISPLAY_FONT}>{tile.title}</h3>
+                  <p className="text-jvto-muted text-sm leading-relaxed">{tile.body}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── 6. CTA ─────────────────────────────────────── */}
+      {/* ── 6. COMMON QUESTIONS (content/ FAQ — same array as the FAQPage node) ── */}
+      <HubFaqSection eyebrow="§ 05" items={faqItems} />
+
+      {/* ── 7. CTA ─────────────────────────────────────── */}
       <section className="bg-jvto-navy text-white py-24 text-center rounded-t-[48px] -mt-8 relative z-10 shadow-[0_-40px_90px_-40px_rgba(0,0,0,0.45)]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <h2

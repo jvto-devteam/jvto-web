@@ -193,6 +193,12 @@ jobs:
           # generated from the same FAQ array rendered visibly (AD-08), and the generic
           # schema_type builder never emits a duplicate mainEntity-less FAQPage stub.
           npm run test:faq-schema
+          # Milestone 2 — remaining public narrative cutover: the 10 routes moved off the
+          # legacy readers must be content-owned (renderable record, production canonical ==
+          # feed, metadata == content, FAQ visible == FAQPage from one array), the tours hubs
+          # must still read packages from the DB with no price/count frozen into content/,
+          # and no page may import getPageSeo/getPublicPageSnapshot/resolveFaqsForPage.
+          npm run test:m2-narrative
           # PACKAGE 07: the sitemap's lastmod no longer reads content_pages (Prisma). Every
           # enumerated route must resolve to a stable date from content/ + snapshots + the
           # explicit static map — never the force-dynamic request time — and the lastmod path

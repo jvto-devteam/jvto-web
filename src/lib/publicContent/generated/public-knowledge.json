@@ -4,6 +4,22 @@
   "productionOrigin": "https://javavolcano-touroperator.com",
   "routes": [
     {
+      "route": "/",
+      "section": "home",
+      "canonicalUrl": "https://javavolcano-touroperator.com/",
+      "title": "Tourist Police-Led Private Volcano Tours in East Java",
+      "browserTitle": "Tourist Police-Led Private Volcano Tours in East Java | JVTO",
+      "description": "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (No.1102230032918), led by an active Tourist Police officer.",
+      "summary": "Private, Tourist Police-led volcano tours in East Java — Mount Bromo, Kawah Ijen, and Tumpak Sewu — departing from Surabaya or Bali.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "home",
+      "faqCount": 6
+    },
+    {
       "route": "/blog",
       "section": "blog",
       "canonicalUrl": "https://javavolcano-touroperator.com/blog",
@@ -51,6 +67,22 @@
       ],
       "owner": "editorial",
       "lastReviewed": "2026-06-11",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/contact",
+      "section": "contact",
+      "canonicalUrl": "https://javavolcano-touroperator.com/contact",
+      "title": "Contact JVTO",
+      "browserTitle": "Contact JVTO",
+      "description": "WhatsApp is the fastest way to reach us. Most questions are answered within a few hours — often faster.",
+      "summary": "How to reach JVTO — WhatsApp, email, support hours, the Bondowoso office address, and the PT's registry-verifiable legal identity.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "operations",
+      "lastReviewed": "2026-08-09",
       "faqKey": null,
       "faqCount": 0
     },
@@ -151,6 +183,54 @@
       "faqCount": 0
     },
     {
+      "route": "/isic/student-package",
+      "section": "isic",
+      "canonicalUrl": "https://javavolcano-touroperator.com/isic/student-package",
+      "title": "Explore Java's Volcanoes with ISIC Benefits",
+      "browserTitle": "Explore Java's Volcanoes with ISIC Benefits | JVTO",
+      "description": "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator.",
+      "summary": "Student pricing for ISIC cardholders on JVTO's private, all-inclusive East Java volcano tours — how the card is verified and what stays identical to a standard package.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-09",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/markets/malaysia",
+      "section": "markets",
+      "canonicalUrl": "https://javavolcano-touroperator.com/markets/malaysia",
+      "title": "Bromo & Ijen Private Tours for Malaysia Travelers",
+      "browserTitle": "Bromo & Ijen Tours for Malaysia Travelers | Private East Java Volcano Tours | JVTO",
+      "description": "Private, all-inclusive Bromo, Ijen, Tumpak Sewu and Papuma tours for Malaysian travelers. Managed ferry crossings, DPS or SUB entry, halal-friendly meal stops, secure IDR payment.",
+      "summary": "Geographic landing page for Malaysian travelers: KUL entry via Denpasar or Surabaya, the managed Java–Bali ferry crossing, halal-friendly meal stops, and how to verify the operator before paying.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "markets-malaysia",
+      "faqCount": 6
+    },
+    {
+      "route": "/markets/singapore",
+      "section": "markets",
+      "canonicalUrl": "https://javavolcano-touroperator.com/markets/singapore",
+      "title": "Bromo & Ijen Private Tours for Singapore Travelers",
+      "browserTitle": "Bromo & Ijen Tours for Singapore Travelers | Private East Java Volcano Tours | JVTO",
+      "description": "Private Bromo, Ijen, Tumpak Sewu and Papuma tours for Singapore travelers. Start from Bali or Surabaya, pay securely in IDR, and verify JVTO licenses and reviews before booking.",
+      "summary": "Geographic landing page for Singapore travelers: whether to enter East Java via Bali (DPS) or Surabaya (SUB), what a private JVTO tour includes, and how to verify the operator before paying.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "markets-singapore",
+      "faqCount": 6
+    },
+    {
       "route": "/policy",
       "section": "policy",
       "canonicalUrl": "https://javavolcano-touroperator.com/policy",
@@ -213,6 +293,57 @@
       "lastReviewed": "2026-08-04",
       "faqKey": null,
       "faqCount": 0
+    },
+    {
+      "route": "/tours",
+      "section": "tours",
+      "canonicalUrl": "https://javavolcano-touroperator.com/tours",
+      "title": "JVTO Private Volcano Tours",
+      "browserTitle": "Private Bromo, Ijen & Tumpak Sewu Tours | JVTO",
+      "description": "Browse private volcano tour packages from Surabaya or Bali. Bromo sunrise, Ijen blue fire, Tumpak Sewu. Tourist Police-led. All-inclusive. 4.8★ Trustpilot.",
+      "summary": "The JVTO route catalogue: every private East Java volcano itinerary, grouped by departure hub, with the comparison and planning context needed to pick one.",
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "tours-hub",
+      "faqCount": 3
+    },
+    {
+      "route": "/tours/from-bali",
+      "section": "tours",
+      "canonicalUrl": "https://javavolcano-touroperator.com/tours/from-bali",
+      "title": "Private East Java Volcano Tours from Bali",
+      "browserTitle": "Bromo Ijen Tour from Bali — Private Packages | JVTO",
+      "description": "Private multi-day Bromo & Ijen tours from Bali, ferry crossing included. Tourist Police-led, all-inclusive. 4.8★ Trustpilot.",
+      "summary": "Private East Java volcano itineraries that start in Bali, with the Gilimanuk–Ketapang ferry crossing, inclusions, credentials, and booking terms stated before you book.",
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "tours-hub",
+      "faqCount": 3
+    },
+    {
+      "route": "/tours/from-surabaya",
+      "section": "tours",
+      "canonicalUrl": "https://javavolcano-touroperator.com/tours/from-surabaya",
+      "title": "Private Volcano Tours from Surabaya",
+      "browserTitle": "Bromo Ijen Tour from Surabaya — Private Packages | JVTO",
+      "description": "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya. Tourist Police-led, all-inclusive. 4.8★ Trustpilot.",
+      "summary": "Private East Java volcano itineraries that start in Surabaya, with inclusions, credentials, and booking terms stated before you book.",
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-09",
+      "faqKey": "tours-hub",
+      "faqCount": 3
     },
     {
       "route": "/travel-guide",
@@ -584,6 +715,22 @@
       "faqCount": 0
     },
     {
+      "route": "/trust",
+      "section": "trust",
+      "canonicalUrl": "https://javavolcano-touroperator.com/trust",
+      "title": "Trust Bundle.",
+      "browserTitle": "Trust Bundle — Claims, Evidence, and Verification",
+      "description": "Single-page index of JVTO's verifiable trust claims, evidence registry, and structured AEO/GEO signals. Compiled from the JVTO knowledge wiki.",
+      "summary": "Index page for JVTO's compiled trust claims, evidence registry, and structured AEO/GEO signals.",
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "owner": "company",
+      "lastReviewed": "2026-08-09",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
       "route": "/verify-jvto",
       "section": "verify-jvto",
       "canonicalUrl": "https://javavolcano-touroperator.com/verify-jvto",
@@ -769,16 +916,22 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 47,
+    "routes": 56,
     "entities": 6,
     "sections": {
       "blog": 3,
+      "contact": 1,
       "destinations": 6,
+      "home": 1,
+      "isic": 1,
+      "markets": 2,
       "policy": 4,
+      "tours": 3,
       "travel-guide": 23,
+      "trust": 1,
       "verify-jvto": 5,
       "why-jvto": 6
     }
   },
-  "contentDigest": "21b1015487452077d16c8f3a36e6f1c6ff6c63ef7c8c91d63ad5cf699bcc6285"
+  "contentDigest": "becea558de304794eb62716658b85dbc35bc736987951cf1696674db4b7b1bb8"
 }
