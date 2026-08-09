@@ -60,12 +60,8 @@
     "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "cms-seed",
       "content_pages",
-      "getContentPage",
-      "getPageSeo",
       "jsonld",
-      "snapshot",
       "static-content"
     ],
     "private": false,
@@ -80,10 +76,12 @@
     "surface": "/blog/[slug]",
     "kind": "route",
     "file": "src/app/(website)/blog/[slug]/page.tsx",
-    "authority": "tsx-embedded narrative",
+    "authority": "content/ (Git SSOT)",
     "resolution": "direct",
     "resolvers": [
-      "jsonld"
+      "content_pages",
+      "jsonld",
+      "static-content"
     ],
     "private": false,
     "consumers": [

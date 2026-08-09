@@ -1,14 +1,25 @@
 ---
-title: "Why Ijen Trekking Requires a Medical Checkup — And What Actually Happens"
-slug: "2026-06-11-ijen-medical-checkup-requirement"
-date: "2026-06-11"
-status: "published"
-tags: [ijen, health-screening, safety, travel-guide, medical]
-seo_title: "Ijen Medical Checkup Requirement 2026 | What Trekkers Need to Know"
-seo_description: "Before you hike Kawah Ijen, a local health certificate is mandatory for every guest under BBKSDA regulations. Here's what the screening involves, who issues it, and what happens if you don't pass."
-sources: [people/dr-ahmad-irwandanu, destinations/kawah-ijen, products/packages-overview, credentials/trust-signals]
-estimated_read_min: 6
-banner_image: "/assets/img/hero/ijen.jpg"
+route: /blog/2026-06-11-ijen-medical-checkup-requirement
+title: Why Ijen Trekking Requires a Medical Checkup — And What Actually Happens
+browserTitle: Ijen Medical Checkup Requirement 2026 | What Trekkers Need to Know
+description: Before you hike Kawah Ijen, a local health certificate is mandatory for every guest under BBKSDA regulations. Here's what the screening involves, who issues it, and what happens if you don't pass.
+section: blog
+status: published
+owner: editorial
+lastReviewed: '2026-06-11'
+schemaTypes:
+  - BlogPosting
+  - WebPage
+summary: Before you hike Kawah Ijen, a local health certificate is mandatory for every guest under BBKSDA regulations. Here's what the screening involves, who issues it, and what happens if you don't pass.
+publishedDate: '2026-06-11'
+tags:
+  - ijen
+  - health-screening
+  - safety
+  - travel-guide
+  - medical
+bannerImage: /assets/img/hero/ijen.jpg
+readingTimeMin: 6
 ---
 
 Kawah Ijen is one of the most extraordinary hikes in Southeast Asia. A 3 km night ascent to a 2,386 m crater rim, a pre-dawn descent toward the world's largest acidic lake, and — if conditions allow — the blue fire phenomenon that draws travelers from every continent.

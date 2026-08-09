@@ -5,13 +5,12 @@ import { ArrowLeft, CheckCircle2, Globe, ShieldCheck, Users } from "lucide-react
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPublicCrewByCode, getPublicCrewCodes } from "@/lib/people/canonicalPeople";
 import { buildTeamProfileSchema, crewJobTitle } from "@/lib/schemas/buildTeamSchemas";
+import { staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 3600;
 // Only the 11 published crew codes are valid routes; any other slug (including
 // crew.unpublished — yusuf/dika/pras) 404s without rendering.
 export const dynamicParams = false;
-
-const SITE_URL = "https://javavolcano-touroperator.com";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -29,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/team/${slug}` },
+    alternates: { canonical: staticRouteCanonical(`/team/${slug}`) },
   };
 }
 

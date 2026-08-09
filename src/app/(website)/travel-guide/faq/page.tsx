@@ -4,61 +4,23 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import Sidebar from "../sidebar";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
-import { loadStaticPage, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
-import { FaqListItemSchema, parseGrid, type FaqListItem } from "@/lib/content/travelGuideGrids";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
+import {
+  FAQ_ROUTE as ROUTE,
+  buildFaqPageNode,
+  faqStaticPageRow,
+  getAllFaqItems,
+  getFaqCategories,
+} from "@/lib/content/travelGuideFaqPage";
 
 // PACKAGE 04b (2026-08-06): the FAQ content comes from the static-content SSOT
 // (content/pages/travel-guide/faq.json), frozen from the FAQ-manager snapshot that was
 // being served (owner decision: use that snapshot as the migration baseline; do not wait
 // for DB access). Categories + Q&A live in the content sections; the visible accordions
-// and the single FAQPage JSON-LD are both built from that one array (AD-08). No getPageSeo
-// / faqSnapshot / DB read.
-
-const ROUTE = "/travel-guide/faq";
+// and the single FAQPage JSON-LD are both built from that one array (AD-08) via
+// src/lib/content/travelGuideFaqPage.ts. No getPageSeo / faqSnapshot / DB read.
 
 export const revalidate = 86400;
-
-type Sec = NonNullable<StaticPage["sections"]>[number] & Record<string, unknown>;
-
-function sectionGrid(sec: Sec, role: string): Record<string, unknown>[] {
-  const block = (sec.blocks ?? []).find(
-    (b) => b.type === "grid" && (b as { role?: string }).role === role,
-  );
-  return block ? ((block as { items?: Record<string, unknown>[] }).items ?? []) : [];
-}
-function parseFaqList(sec: Sec): FaqListItem[] {
-  return parseGrid(FaqListItemSchema, sectionGrid(sec, "faq-list"), `faq-list:${sec.id}`);
-}
-function sectionTitle(sec: Sec): string {
-  return typeof sec.title === "string" ? sec.title : "";
-}
-
-function staticPageRow(page: StaticPage) {
-  return {
-    route: page.meta.route,
-    lang: "en",
-    seo: {
-      title: page.meta.browserTitle ?? page.meta.title,
-      description: page.meta.description,
-      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
-    },
-    content: { h1: page.meta.title },
-  };
-}
-
-/** Single FAQPage node built from the union of every category's Q&A (visible == JSON-LD, AD-08). */
-function buildFaqPageSchema(all: FaqListItem[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "@id": `${PRODUCTION_ORIGIN}${ROUTE}#faqpage`,
-    mainEntity: all.map((f) => ({
-      "@type": "Question",
-      name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
-    })),
-  };
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage(ROUTE);
@@ -69,6 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    // Canonical is the production URL recorded by the knowledge feed — correct on help too.
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
     openGraph: {
       title,
       description,
@@ -91,18 +55,14 @@ export default async function FaqPage() {
   const page = loadStaticPage(ROUTE);
   if (!page || page.meta.status !== "published") return notFound();
 
-  const categories = (page.sections ?? []).map((sec) => ({
-    id: (sec as Sec).id,
-    title: sectionTitle(sec as Sec),
-    faqs: parseFaqList(sec as Sec),
-  }));
-  const allFaqs = categories.flatMap((c) => c.faqs);
-  const faqSchema = allFaqs.length ? buildFaqPageSchema(allFaqs) : null;
+  const categories = getFaqCategories(page);
+  const allFaqs = getAllFaqItems(page);
+  const faqSchema = allFaqs.length ? buildFaqPageNode(allFaqs) : null;
 
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={staticPageRow(page) as any}
+        pageRow={faqStaticPageRow(page) as any}
         extraSchemas={[faqSchema].filter(Boolean) as any[]}
         suppressCmsFaq
       />

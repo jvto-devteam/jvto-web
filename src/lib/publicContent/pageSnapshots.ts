@@ -2,8 +2,9 @@ import type { PublicPageSnapshot } from "./types";
 // Editorial content-plane swap (jvto_cms seed): the retired jvto_dev editorial
 // export (generated/dbPageSnapshots.json) is no longer merged here — the seed
 // supersedes it for every SEED_COVERED_ROUTES route. manualPageSnapshots stays
-// as the fallback for routes the seed does NOT cover (e.g. /markets/*, /blog,
-// /isic/*). The JSON file remains on disk but unreferenced for editorial pages.
+// as the fallback for routes the seed does NOT cover (e.g. /markets/*, /isic/*).
+// (/blog moved to the content/ Git-SSOT — content/pages/blog/ — 2026-08-06.)
+// The JSON file remains on disk but unreferenced for editorial pages.
 import { seedPageSnapshots } from "@/lib/cms/seedResolver";
 
 const SNAPSHOT_GENERATED_AT = "2026-05-08T00:00:00.000Z";
@@ -37,17 +38,6 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     },
     {
       h1: "Tourist Police-Led Private Volcano Tours in East Java",
-    },
-  ),
-  "/blog": createPageSnapshot(
-    "/blog",
-    {
-      title: "Insights | JVTO's Blog on Safety, Planning & Community",
-      description:
-        "Explore our articles on choosing a legal operator, understanding Ijen health screening, and maximizing your East Java trip. Expert advice from a police-led team.",
-    },
-    {
-      h1: "Insights & Explainers",
     },
   ),
   "/contact": createPageSnapshot(

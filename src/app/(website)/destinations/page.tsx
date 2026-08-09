@@ -19,7 +19,7 @@ import {
   buildBreadcrumbJsonLd,
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { loadStaticPage, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical, PRODUCTION_ORIGIN, type StaticPage } from "@/lib/static-content";
 import { Faq } from "@/components/content/Faq";
 import Link from "@/components/website/AppLink";
 
@@ -91,7 +91,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}${ROUTE}`,
+      canonical: staticRouteCanonical(ROUTE),
     },
     openGraph: {
       title,

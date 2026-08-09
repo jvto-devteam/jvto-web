@@ -4,6 +4,57 @@
   "productionOrigin": "https://javavolcano-touroperator.com",
   "routes": [
     {
+      "route": "/blog",
+      "section": "blog",
+      "canonicalUrl": "https://javavolcano-touroperator.com/blog",
+      "title": "Insights & Explainers",
+      "browserTitle": "Insights | JVTO's Blog on Safety, Planning & Community",
+      "description": "Explore our articles on choosing a legal operator, understanding Ijen health screening, and maximizing your East Java trip. Expert advice from a police-led team.",
+      "summary": "JVTO's blog — in-depth guides on choosing a legal East Java operator, Ijen health screening, blue fire, and safe volcano travel.",
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-08-06",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/blog/2026-06-11-ijen-medical-checkup-requirement",
+      "section": "blog",
+      "canonicalUrl": "https://javavolcano-touroperator.com/blog/2026-06-11-ijen-medical-checkup-requirement",
+      "title": "Why Ijen Trekking Requires a Medical Checkup — And What Actually Happens",
+      "browserTitle": "Ijen Medical Checkup Requirement 2026 | What Trekkers Need to Know",
+      "description": "Before you hike Kawah Ijen, a local health certificate is mandatory for every guest under BBKSDA regulations. Here's what the screening involves, who issues it, and what happens if you don't pass.",
+      "summary": "Before you hike Kawah Ijen, a local health certificate is mandatory for every guest under BBKSDA regulations. Here's what the screening involves, who issues it, and what happens if you don't pass.",
+      "schemaTypes": [
+        "BlogPosting",
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-06-11",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
+      "route": "/blog/2026-06-11-kawah-ijen-guide",
+      "section": "blog",
+      "canonicalUrl": "https://javavolcano-touroperator.com/blog/2026-06-11-kawah-ijen-guide",
+      "title": "Your Complete Kawah Ijen Guide: Blue Fire, Health & Safety",
+      "browserTitle": "Kawah Ijen Complete Guide 2026 | JVTO",
+      "description": "Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.",
+      "summary": "Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.",
+      "schemaTypes": [
+        "BlogPosting",
+        "WebPage"
+      ],
+      "owner": "editorial",
+      "lastReviewed": "2026-06-11",
+      "faqKey": null,
+      "faqCount": 0
+    },
+    {
       "route": "/destinations",
       "section": "destinations",
       "canonicalUrl": "https://javavolcano-touroperator.com/destinations",
@@ -718,9 +769,10 @@
     "review-platforms"
   ],
   "counts": {
-    "routes": 44,
+    "routes": 47,
     "entities": 6,
     "sections": {
+      "blog": 3,
       "destinations": 6,
       "policy": 4,
       "travel-guide": 23,
@@ -728,5 +780,5 @@
       "why-jvto": 6
     }
   },
-  "contentDigest": "772030ca1f20ca3058eeeebdfb4acf5f4584243fedaa38a1924a2cdf6c6340db"
+  "contentDigest": "21b1015487452077d16c8f3a36e6f1c6ff6c63ef7c8c91d63ad5cf699bcc6285"
 }

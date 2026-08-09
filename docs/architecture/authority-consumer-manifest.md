@@ -15,10 +15,9 @@
 ## Authority distribution (public routes)
 
 - Postgres (DB): **1**
-- content/ (Git SSOT): **30**
+- content/ (Git SSOT): **31**
 - producer: llm-wiki (via import): **1**
 - producer: llm-wiki: **4**
-- tsx-embedded narrative: **1**
 - unresolved (no reachable resolver): **6**
 
 ## Public routes
@@ -26,8 +25,8 @@
 | surface | file | authority | resolution | resolvers | private | consumers |
 |---|---|---|---|---|---|---|
 | `/` | `src/app/(website)/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, faq-resolver, getContentPage, getPageSeo, jsonld, policy-bundle, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/blog` | `src/app/(website)/blog/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, getPageSeo, jsonld, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
-| `/blog/[slug]` | `src/app/(website)/blog/[slug]/page.tsx` | tsx-embedded narrative | direct | jsonld | no | AI/llms, search/schema, sitemap (dynamic), web |
+| `/blog` | `src/app/(website)/blog/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap, web |
+| `/blog/[slug]` | `src/app/(website)/blog/[slug]/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, static-content | no | AI/llms, search/schema, sitemap (dynamic), web |
 | `/checkout` | `src/app/(website)/checkout/page.tsx` | producer: llm-wiki (via import) | transitive | policy-bundle | yes | private, web (auth) |
 | `/contact` | `src/app/(website)/contact/page.tsx` | content/ (Git SSOT) | direct | cms-seed, content_pages, getContentPage, jsonld, prisma, snapshot, static-content | no | AI/llms, search/schema, sitemap, web |
 | `/destinations` | `src/app/(website)/destinations/page.tsx` | content/ (Git SSOT) | direct | content_pages, jsonld, prisma, static-content | no | AI/llms, search/schema, sitemap, web |

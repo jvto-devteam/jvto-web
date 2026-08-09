@@ -13,7 +13,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { LEGAL_DIGITAL_DOCUMENTS, DOCTOR_SCHEMA } from "@/lib/schemas/buildVerifySchemas";
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
-import { loadStaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
@@ -26,6 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 

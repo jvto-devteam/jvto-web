@@ -46,12 +46,11 @@ export const PAGE_REGISTRY: PageEntry[] = [
   {
     key: 'blog-hub',
     route: '/blog',
-    canonical: '/travel-guide',
-    schemaType: [],
+    canonical: '/blog',
+    schemaType: ['CollectionPage'],
     faqSource: 'none',
     emitVia: 'combined',
-    status: 'dead',
-    redirectsTo: '/travel-guide',
+    status: 'live',
   },
   {
     key: 'checkout',

@@ -30,7 +30,7 @@ import {
   buildTouristAttractionSchema,
   type ContentAttraction,
 } from "@/lib/schemas/buildDestinationsSchemas";
-import { loadStaticPage, type StaticPage } from "@/lib/static-content";
+import { loadStaticPage, staticRouteCanonical, type StaticPage } from "@/lib/static-content";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 import fs from "fs";
 import path from "path";
@@ -204,7 +204,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/destinations/${slug}` },
+    alternates: { canonical: staticRouteCanonical(`/destinations/${slug}`) },
     openGraph: {
       title,
       description,

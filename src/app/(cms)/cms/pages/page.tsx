@@ -8,7 +8,14 @@ import Link from "@/components/website/AppLink";
 import { Layers, FileStack, GitBranch, Blocks } from "lucide-react";
 import { PAGE_REGISTRY } from "@/lib/registry/pages";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
-import { getAllBlogSlugs } from "@/lib/blog";
+import { listPublishedStaticPages } from "@/lib/static-content";
+
+/** Blog post slugs from the content/ SSOT (PACKAGE 08 — src/lib/blog retired). */
+function getAllBlogSlugs(): string[] {
+  return listPublishedStaticPages({ section: "blog" })
+    .filter((p) => p.meta.route !== "/blog")
+    .map((p) => p.meta.route.replace("/blog/", ""));
+}
 
 // Home ('/') can't be a catch-all segment, so it uses the ~root sentinel that
 // the detail page maps back to '/'.
