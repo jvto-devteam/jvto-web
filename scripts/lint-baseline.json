@@ -9,7 +9,6 @@
   "services/wa-gateway/dist/index.js :: @typescript-eslint/no-require-imports": 5,
   "services/wa-gateway/dist/logger.js :: @typescript-eslint/no-require-imports": 1,
   "services/wa-gateway/dist/whatsapp/socket.js :: @typescript-eslint/no-require-imports": 9,
-  "src/app/(website)/isic/student-package/page.tsx :: react/no-unescaped-entities": 7,
   "src/app/(website)/team/page.tsx :: react/no-unescaped-entities": 1,
   "src/app/(website)/tour-from-bali/page.tsx :: react/no-unescaped-entities": 11,
   "src/app/(website)/tour-from-surabaya/page.tsx :: react/no-unescaped-entities": 8,
