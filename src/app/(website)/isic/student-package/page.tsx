@@ -1,34 +1,121 @@
-import Link from "@/components/website/AppLink";
+// src/app/(website)/isic/student-package/page.tsx
+//
+// MILESTONE 2 (2026-08-09): served from the static-content SSOT
+// (content/pages/isic/student-package.json). Every evergreen string on the page —
+// hero badge label, the "What is ISIC?" narrative, the verification steps, the
+// package-section heading/intro, the student-package features, the ISIC-card CTA,
+// the apply steps, and the inclusions/exclusions lists — now reads from content/.
+// This file keeps layout, styling, icons, and image assets only.
+//
+// STAYS DYNAMIC: the package cards (getPublicPackageList, category 2) and the
+// ItemList JSON-LD built from them; the ISIC provider ID + verify-directory URL and
+// the NIB, which are operational config (SITE_CONFIG), not narrative.
+// No FAQ is rendered on this route today, so no FAQ set was created and
+// `suppressCmsFaq` keeps any legacy CMS FAQ from being injected.
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
 import { ListTourPackage } from "@/types";
 import Image from "next/image";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { 
-  ShieldCheck, 
-  Users, 
-  Ticket, 
+import {
+  ShieldCheck,
+  Users,
+  Ticket,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
 } from "lucide-react";
-import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import { SITE_CONFIG } from "@/lib/site-config";
+import {
+  loadStaticPage,
+  staticRouteCanonical,
+  type StaticPage,
+} from "@/lib/static-content";
+
 export const revalidate = 3600;
 
-const fallbackSeo = {
-  title: "Explore Java's Volcanoes with ISIC Benefits | JVTO",
-  h1: "Explore Java's Volcanoes with ISIC Benefits",
-  description:
-    "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator.",
+const ROUTE = "/isic/student-package";
+
+// ─── Content access helpers (throw at build so missing copy fails SSG rather than
+//     silently dropping narrative — parity with the destinations/why-jvto hubs). ───
+type Section = NonNullable<StaticPage["sections"]>[number];
+
+function requireSection(page: StaticPage, id: string): Section {
+  const sec = page.sections?.find((s) => s.id === id);
+  if (!sec) {
+    throw new Error(
+      `${ROUTE}: required section "${id}" missing from content/pages/isic/student-package.json`,
+    );
+  }
+  return sec;
+}
+
+function sectionText(sec: Section, key: string): string {
+  const v = (sec as Record<string, unknown>)[key];
+  if (typeof v !== "string" || v.length === 0) {
+    throw new Error(`${ROUTE}: section "${sec.id}" is missing text field "${key}"`);
+  }
+  return v;
+}
+
+function gridItems<T>(sec: Section, role: string): T[] {
+  const block = (sec.blocks ?? []).find(
+    (b) => b.type === "grid" && (b as Record<string, unknown>).role === role,
+  );
+  if (!block) {
+    throw new Error(`${ROUTE}: section "${sec.id}" is missing its grid block (role="${role}")`);
+  }
+  return (block as { items: unknown[] }).items as T[];
+}
+
+type LabelItem = { key: string; label: string; value?: string };
+type CopyItem = { key: string; title: string; body: string };
+type FeatureItem = CopyItem & { icon: string };
+type LinkItem = { key: string; label: string; href: string };
+
+function itemByKey<T extends { key: string }>(items: T[], key: string, sectionId: string): T {
+  const item = items.find((i) => i.key === key);
+  if (!item) {
+    throw new Error(`${ROUTE}: section "${sectionId}" has no item "${key}"`);
+  }
+  return item;
+}
+
+const FEATURE_ICONS: Record<string, typeof Users> = {
+  users: Users,
+  ticket: Ticket,
+  "shield-check": ShieldCheck,
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
+const APPLY_STEP_IMAGES: Record<string, { src: string; alt: string }> = {
+  "choose-adventure": { src: "/assets/img/isic/isic-step-1.jpg", alt: "Step 1" },
+  "fill-details": { src: "/assets/img/isic/isic-step-2.jpg", alt: "Step 2" },
+  "apply-verify": { src: "/assets/img/isic/isic-step-3.jpg", alt: "Step 3" },
+};
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
   return {
-    title: seo.title,
-    description: seo.description,
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  return {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 
@@ -37,34 +124,45 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function IsicStudentPackagePage() {
-  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
+
   const studentPackages = await getAllTours();
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: "/isic/student-package",
-        lang: "en",
-        seo: {
-          title: seo.title,
-          description: seo.description,
-        },
-        content: {
-          h1: seo.h1,
-        },
-      };
+
+  // ── Content sections (evergreen copy) ───────────────────────────────────────
+  const hero = requireSection(page, "hero");
+  const whatIsIsic = requireSection(page, "what-is-isic");
+  const verification = requireSection(page, "how-verification-works");
+  const packagesSection = requireSection(page, "packages");
+  const studentPackageSection = requireSection(page, "what-is-student-package");
+  const needCard = requireSection(page, "need-isic-card");
+  const howToApply = requireSection(page, "how-to-apply");
+  const inclusions = requireSection(page, "inclusions");
+
+  const heroBadge = gridItems<LabelItem>(hero, "hero-badge");
+  const providerFacts = gridItems<LabelItem>(whatIsIsic, "provider-facts");
+  const steps = gridItems<CopyItem>(verification, "steps");
+  const emptyState = gridItems<LabelItem>(packagesSection, "empty-state");
+  const features = gridItems<FeatureItem>(studentPackageSection, "features");
+  const needCardLinks = gridItems<LinkItem>(needCard, "cta-links");
+  const applySteps = gridItems<CopyItem>(howToApply, "apply-steps");
+  const included = gridItems<LabelItem>(inclusions, "included");
+  const notIncluded = gridItems<LabelItem>(inclusions, "not-included");
+
+  const providerFact = itemByKey(providerFacts, "provider", whatIsIsic.id);
+  const providerIdFact = itemByKey(providerFacts, "provider-id", whatIsIsic.id);
+  const directoryFact = itemByKey(providerFacts, "verify-directory", whatIsIsic.id);
+  const buyCardLink = itemByKey(needCardLinks, "buy-isic", needCard.id);
+
+  // ── Dynamic: the package list drives the ItemList JSON-LD, exactly as before ──
   const packageListSchema = {
     "@type": "ItemList",
-    "@id": `${siteUrl}/isic/student-package#packages`,
+    "@id": `${siteUrl}${ROUTE}#packages`,
     name: "ISIC student packages",
     numberOfItems: studentPackages.length,
     itemListElement: studentPackages.map((tour, index) => ({
@@ -78,8 +176,9 @@ export default async function IsicStudentPackagePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background font-sans">
       <PageJsonLdCombined
-        pageRow={pageRow as any}
+        pageRow={staticPageRow(page)}
         extraSchemas={[packageListSchema]}
+        suppressCmsFaq
       />
       <main className="flex-grow">
 
@@ -100,13 +199,14 @@ export default async function IsicStudentPackagePage() {
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 flex flex-col items-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-6">
-              ISIC Provider {SITE_CONFIG.reviewLinks.isicProviderId}
+              {itemByKey(heroBadge, "provider", hero.id).label}{" "}
+              {SITE_CONFIG.reviewLinks.isicProviderId}
             </span>
             <h1 className="font-black text-4xl md:text-6xl tracking-tight mb-4 drop-shadow-lg">
-              {seo.h1}
+              {page.meta.title}
             </h1>
             <p className="text-lg md:text-xl font-medium max-w-3xl drop-shadow-md">
-              {seo.description}
+              {page.lede?.[0] ?? page.meta.description}
             </p>
           </div>
         </section>
@@ -116,31 +216,27 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-16 items-start max-w-5xl mx-auto">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-4">What is ISIC?</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-4">
+                  {sectionText(whatIsIsic, "eyebrow")}
+                </p>
                 <p className="text-muted-foreground text-base leading-relaxed mb-4">
-                  The International Student Identity Card (ISIC) is the only internationally
-                  recognised student identity document, endorsed by UNESCO and accepted in
-                  130+ countries. JVTO is a registered ISIC provider — if you hold a valid
-                  ISIC card, the same private vehicle, licensed guide, and all-inclusive
-                  format as our standard packages is available at reduced per-person rates.
+                  {sectionText(whatIsIsic, "body_1")}
                 </p>
                 <p className="text-muted-foreground text-base leading-relaxed">
-                  Student pricing is confirmed via a live Alive Verify API check against the
-                  ISIC database at the time of booking. Your card must be valid and current —
-                  no card, no discount, no exceptions.
+                  {sectionText(whatIsIsic, "body_2")}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-muted/20 p-6 space-y-4">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Provider</p>
-                  <p className="font-semibold text-foreground">JVTO — PT Java Volcano Rendezvous</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">{providerFact.label}</p>
+                  <p className="font-semibold text-foreground">{providerFact.value}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Provider ID</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">{providerIdFact.label}</p>
                   <p className="font-semibold text-foreground">{SITE_CONFIG.reviewLinks.isicProviderId}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Verify directory</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">{directoryFact.label}</p>
                   <a href={SITE_CONFIG.reviewLinks.isic} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline break-words text-sm">
                     isic.org/discounts/?providerId={SITE_CONFIG.reviewLinks.isicProviderId}
                   </a>
@@ -154,19 +250,16 @@ export default async function IsicStudentPackagePage() {
         <section className="py-14 md:py-16 bg-muted/20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto">
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-8">How verification works</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-8">
+                {sectionText(verification, "eyebrow")}
+              </p>
               <ol className="space-y-6">
-                {[
-                  { t: "Enter your card number", d: "Enter your ISIC card number when you book on the official JVTO website." },
-                  { t: "We run an Alive Verify check", d: "JVTO runs a live Alive Verify API check against the ISIC database." },
-                  { t: "Pricing is confirmed", d: "If the card returns valid, student pricing is confirmed for your booking." },
-                  { t: "Validity is checked on the day", d: "Your card must be valid on the date of verification — not just the travel date. No workarounds; the check is live and automated." },
-                ].map((step, i) => (
-                  <li key={step.t} className="flex gap-5">
+                {steps.map((step, i) => (
+                  <li key={step.key} className="flex gap-5">
                     <span className="font-mono text-xs font-bold text-jvto-orange pt-1 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                     <div>
-                      <h4 className="font-bold text-foreground mb-1">{step.t}</h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{step.d}</p>
+                      <h4 className="font-bold text-foreground mb-1">{step.title}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
                     </div>
                   </li>
                 ))}
@@ -180,13 +273,13 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="font-black text-3xl md:text-4xl text-foreground mb-4">
-                Exclusive Student Package for ISIC Cardholders
+                {sectionText(packagesSection, "heading")}
               </h2>
               <p className="text-muted-foreground max-w-3xl mx-auto">
-                JVTO collaborates with ISIC to offer student-friendly pricing structures for safe, all-inclusive volcano tours. These prices are only available to ISIC cardholders. To redeem, you must have a valid ISIC card.
+                {sectionText(packagesSection, "body_text")}
               </p>
             </div>
-            
+
             {studentPackages.length > 0 ? (
                 <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {studentPackages.map((tour) => (
@@ -197,7 +290,9 @@ export default async function IsicStudentPackagePage() {
                 </div>
             ) : (
                 <div className="text-center py-12 bg-muted/20 rounded-sm">
-                    <p className="text-muted-foreground">No packages currently available.</p>
+                    <p className="text-muted-foreground">
+                      {itemByKey(emptyState, "empty", packagesSection.id).label}
+                    </p>
                 </div>
             )}
           </div>
@@ -209,40 +304,32 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="font-black text-3xl text-foreground">
-                What is <span className="text-primary">Student Package?</span>
+                {sectionText(studentPackageSection, "heading")}{" "}
+                <span className="text-primary">{sectionText(studentPackageSection, "heading_accent")}</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-                Opting for a student package does <strong>not</strong> mean cutting corners. It's designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.
+                {sectionText(studentPackageSection, "intro_before")}{" "}
+                <strong>{sectionText(studentPackageSection, "intro_emphasis")}</strong>{" "}
+                {sectionText(studentPackageSection, "intro_after")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {/* Feature 1 */}
-              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
-                <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
-                  <Users size={40} />
-                </div>
-                <h4 className="font-bold text-xl mb-3">Private Structure</h4>
-                <p className="text-muted-foreground">Strictly private tour structure. No mixed groups.</p>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
-                <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
-                  <Ticket size={40} />
-                </div>
-                <h4 className="font-bold text-xl mb-3">All-Inclusive</h4>
-                <p className="text-muted-foreground">Includes park fees, permits, and transport.</p>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
-                <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
-                  <ShieldCheck size={40} />
-                </div>
-                <h4 className="font-bold text-xl mb-3">High Safety</h4>
-                <p className="text-muted-foreground">Same high safety standards, including health screening.</p>
-              </div>
+              {features.map((feature) => {
+                const Icon = FEATURE_ICONS[feature.icon] ?? ShieldCheck;
+                return (
+                  <div
+                    key={feature.key}
+                    className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm"
+                  >
+                    <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
+                      <Icon size={40} />
+                    </div>
+                    <h4 className="font-bold text-xl mb-3">{feature.title}</h4>
+                    <p className="text-muted-foreground">{feature.body}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -251,11 +338,11 @@ export default async function IsicStudentPackagePage() {
         <section className="py-16 bg-background overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-12 bg-muted/30 rounded-sm p-8 md:p-12 relative">
-              
+
               {/* Left Column: Image & Card Graphic */}
               <div className="flex-1 relative w-full max-w-md md:max-w-none">
                 <div className="relative z-10">
-                  <Image 
+                  <Image
                     src="https://legacy.javavolcano-touroperator.com/assets/img/isic-card.png" // Replace with student & card graphic
                     alt="Student with ISIC Card"
                     width={500}
@@ -270,14 +357,14 @@ export default async function IsicStudentPackagePage() {
               {/* Right Column: Content */}
               <div className="flex-1 text-left">
                 <h2 className="font-black text-3xl md:text-4xl text-foreground mb-6">
-                  Need an ISIC Card?
+                  {sectionText(needCard, "heading")}
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                  The International Student Identity Card (ISIC) is the only globally recognized proof of full-time student status. Get yours today to unlock thousands of benefits!
+                  {sectionText(needCard, "body_text")}
                 </p>
                 <Button size="lg" className="w-full md:w-auto">
-                  <a href="https://www.isic.org/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    BUY NOW <ArrowRight size={20} />
+                  <a href={buyCardLink.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    {buyCardLink.label} <ArrowRight size={20} />
                   </a>
                 </Button>
               </div>
@@ -289,51 +376,37 @@ export default async function IsicStudentPackagePage() {
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <h2 className="font-black text-3xl md:text-4xl text-center mb-16 text-foreground">
-              How to Apply the ISIC Code
+              {sectionText(howToApply, "heading")}
             </h2>
-            
+
             <div className="flex flex-col gap-16 md:gap-24 max-w-5xl mx-auto">
-              {/* Step 1 */}
-              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <div className="flex-1 flex justify-center">
-                  <div className="relative w-64 shadow-xl rounded-[2rem] overflow-hidden border-4 border-muted">
-                    <Image src="/assets/img/isic/isic-step-1.jpg" alt="Step 1" width={256} height={512} className="w-full h-auto" />
+              {applySteps.map((step, i) => {
+                const image = APPLY_STEP_IMAGES[step.key];
+                const reverse = i % 2 === 1;
+                return (
+                  <div
+                    key={step.key}
+                    className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-8 md:gap-12`}
+                  >
+                    <div className="flex-1 flex justify-center">
+                      <div className="relative w-64 shadow-xl rounded-[2rem] overflow-hidden border-4 border-muted">
+                        {image ? (
+                          <Image src={image.src} alt={image.alt} width={256} height={512} className="w-full h-auto" />
+                        ) : null}
+                      </div>
+                    </div>
+                    <div
+                      className={`flex-1 flex flex-col ${
+                        reverse ? "items-start md:items-end text-left md:text-right" : "items-start"
+                      }`}
+                    >
+                      <span className="text-8xl font-black text-muted/30 leading-none mb-4">{i + 1}</span>
+                      <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
+                      <p className="text-muted-foreground text-lg">{step.body}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex-1 flex flex-col items-start">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">1</span>
-                  <h3 className="text-2xl font-bold mb-4">Choose Your Adventure</h3>
-                  <p className="text-muted-foreground text-lg">Visit our website and select the volunteer or tour package you wish to book. Click on the "Book Now" button.</p>
-                </div>
-              </div>
-
-              {/* Step 2 */}
-              <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
-                <div className="flex-1 flex justify-center">
-                  <div className="relative w-64 shadow-xl rounded-[2rem] overflow-hidden border-4 border-muted">
-                    <Image src="/assets/img/isic/isic-step-2.jpg" alt="Step 2" width={256} height={512} className="w-full h-auto" />
-                  </div>
-                </div>
-                <div className="flex-1 flex flex-col items-start md:items-end text-left md:text-right">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">2</span>
-                  <h3 className="text-2xl font-bold mb-4">Fill in Your Details</h3>
-                  <p className="text-muted-foreground text-lg">Complete the booking form with your personal details. In the "Discount Code" field, enter your unique ISIC code.</p>
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <div className="flex-1 flex justify-center">
-                  <div className="relative w-64 shadow-xl rounded-[2rem] overflow-hidden border-4 border-muted">
-                    <Image src="/assets/img/isic/isic-step-3.jpg" alt="Step 3" width={256} height={512} className="w-full h-auto" />
-                  </div>
-                </div>
-                <div className="flex-1 flex flex-col items-start">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">3</span>
-                  <h3 className="text-2xl font-bold mb-4">Apply & Verify</h3>
-                  <p className="text-muted-foreground text-lg">Click "Apply". The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival.</p>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -344,41 +417,41 @@ export default async function IsicStudentPackagePage() {
             <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-16 max-w-5xl mx-auto">
               <div>
                 <h2 className="font-black text-2xl md:text-3xl text-foreground mb-6">
-                  Same inclusions <span className="text-jvto-orange">as standard.</span>
+                  {sectionText(inclusions, "heading")}{" "}
+                  <span className="text-jvto-orange">{sectionText(inclusions, "heading_accent")}</span>
                 </h2>
                 <ul className="space-y-3">
-                  {[
-                    "Private vehicle and driver for the full duration",
-                    "English-speaking licensed guide",
-                    "Hotel accommodation with breakfast",
-                    "All entrance fees, plus parking, fuel, and road tolls",
-                    "Drinking water throughout",
-                    "Gas masks on Ijen-inclusive routes · Bromo 4WD jeep on Bromo-inclusive routes",
-                    "Health-certificate screening coordination on Ijen routes — mandatory for every guest under BBKSDA SE.1658/KSA.9/2024",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                  {included.map((item) => (
+                    <li key={item.key} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                       <CheckCircle2 size={16} className="text-jvto-lime mt-0.5 shrink-0" />
-                      <span>{item}</span>
+                      <span>{item.label}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="space-y-4">
                 <div className="rounded-2xl border border-border bg-background p-6">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-3">Not included</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-3">
+                    {sectionText(inclusions, "not_included_label")}
+                  </p>
                   <ul className="space-y-1.5 text-sm text-muted-foreground">
-                    <li>International flights</li>
-                    <li>Travel insurance</li>
-                    <li>Personal trekking gear</li>
-                    <li>Tips</li>
-                    <li>On-site extras (Bromo horse, Ijen trolley ojek)</li>
+                    {notIncluded.map((item) => (
+                      <li key={item.key}>{item.label}</li>
+                    ))}
                   </ul>
                 </div>
                 <div className="rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-5">
-                  <p className="text-sm text-foreground"><strong>Card must be valid at verification.</strong> Student pricing is confirmed only after a live Alive Verify check returns a valid, current card. No card, no discount — no exceptions.</p>
+                  <p className="text-sm text-foreground">
+                    <strong>{sectionText(inclusions, "notice_lead")}</strong>{" "}
+                    {sectionText(inclusions, "notice_body")}
+                  </p>
                 </div>
                 <div className="rounded-2xl border border-border bg-background p-5">
-                  <p className="text-sm text-muted-foreground">Operated by PT Java Volcano Rendezvous · NIB {SITE_CONFIG.registrationNumber} · Bondowoso, East Java.</p>
+                  <p className="text-sm text-muted-foreground">
+                    {sectionText(inclusions, "operator_line_prefix")}{" "}
+                    {SITE_CONFIG.registrationNumber}{" "}
+                    {sectionText(inclusions, "operator_line_suffix")}
+                  </p>
                 </div>
               </div>
             </div>

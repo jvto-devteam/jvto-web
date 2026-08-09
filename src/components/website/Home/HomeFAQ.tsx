@@ -1,9 +1,10 @@
+// MILESTONE 2 (2026-08-09): the homepage FAQ is no longer imported from the
+// hardcoded canonical registry here. The page passes `items` straight from
+// content/faqs/home.json — the SAME array that builds the FAQPage JSON-LD — so
+// the visible accordion and the structured data can never diverge (AD-08).
 import Link from "@/components/website/AppLink";
-import { HOMEPAGE_FAQS } from "@/lib/homepageFaqs";
 
-const DISPLAY_FAQS = HOMEPAGE_FAQS.slice(0, 6);
-const LEFT_FAQS = DISPLAY_FAQS.slice(0, 3);
-const RIGHT_FAQS = DISPLAY_FAQS.slice(3);
+type HomeFaqItem = { question: string; answer: string };
 
 function FaqItem({
   question,
@@ -37,7 +38,15 @@ function FaqItem({
   );
 }
 
-export default function HomeFAQ() {
+export default function HomeFAQ({ items }: { items: HomeFaqItem[] }) {
+  if (!items.length) return null;
+
+  // Two balanced columns — with the canonical 6 Q&A this is the same 3 / 3 split
+  // the hardcoded slice produced, and it stays correct if the set ever changes.
+  const mid = Math.ceil(items.length / 2);
+  const leftFaqs = items.slice(0, mid);
+  const rightFaqs = items.slice(mid);
+
   return (
     <section aria-labelledby="faq-heading" className="bg-jvto-off py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -53,13 +62,13 @@ export default function HomeFAQ() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 border-t border-jvto-border">
           <div className="flex flex-col divide-y divide-jvto-border">
-            {LEFT_FAQS.map((faq, i) => (
+            {leftFaqs.map((faq, i) => (
               <FaqItem key={faq.question} {...faq} index={i} />
             ))}
           </div>
           <div className="flex flex-col divide-y divide-jvto-border border-t border-jvto-border md:border-t-0">
-            {RIGHT_FAQS.map((faq, i) => (
-              <FaqItem key={faq.question} {...faq} index={i + LEFT_FAQS.length} />
+            {rightFaqs.map((faq, i) => (
+              <FaqItem key={faq.question} {...faq} index={i + leftFaqs.length} />
             ))}
           </div>
         </div>

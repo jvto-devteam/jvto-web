@@ -21,6 +21,15 @@ export const SectionSchema = z.enum([
   "destinations",
   "team",
   "blog",
+  // Milestone 2 — remaining public narrative cutover (2026-08-09). `section` is a free-form
+  // grouping label (filtering + feed counts); it is NOT coupled to the file's directory —
+  // the loader locates a page by its frontmatter `route`.
+  "home",
+  "trust",
+  "contact",
+  "markets",
+  "isic",
+  "tours",
 ]);
 
 /** Allowed schema.org types (AD editors must not enter arbitrary type names). */

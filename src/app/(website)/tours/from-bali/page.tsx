@@ -1,38 +1,59 @@
+// src/app/(website)/tours/from-bali/page.tsx
+//
+// Milestone 2 (2026-08-09): served from the static-content SSOT
+// (content/pages/tours/from-bali.json). Evergreen narrative, SEO, canonical, and
+// the FAQ come from content/; the PACKAGE LIST stays DYNAMIC
+// (getPublicPackageList, the DB-derived package snapshot) exactly as before —
+// content/ never carries a package, a price, or a package count.
 import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import Link from "@/components/website/AppLink";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { notFound } from "next/navigation";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { buildToursHubAggregateRatingSchema } from "@/lib/schemas/buildToursHubSchemas";
+import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 import {
-  buildToursHubFaqSchema,
-  buildToursHubAggregateRatingSchema,
-} from "@/lib/schemas/buildToursHubSchemas";
+  HubFaqSection,
+  buildHubFaqSchema,
+  hubGrid,
+  hubGridItem,
+  hubProse,
+} from "../hubContent";
 import { formatIDR } from "@/utils/formatting";
 import { ArrowRight, Shield, Users, FileText, Award, Check, Ship } from "lucide-react";
 
 export const revalidate = 3600;
 
+const ROUTE = "/tours/from-bali";
+
 const DISPLAY_FONT = { fontFamily: "Raleway, Inter, sans-serif" };
 
-const fallbackSeo = {
-  title: "Bromo Ijen Tour from Bali — 4 Private Packages | JVTO",
-  h1: "Private East Java Volcano Tours from Bali",
-  description:
-    "Private 3D–5D Bromo & Ijen tours from Bali, ferry crossing included. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 2.85M/pax.",
-};
+/** Content-owned copy → the icons that render it (icons stay presentational). */
+const WHY_ICONS = { shield: Shield, users: Users, "file-text": FileText, award: Award } as const;
+
+type Inclusion = { label: string; detail: string };
+type Exclusion = { label: string };
+type Callout = { key: string; lead: string; body: string };
+type WhyItem = { icon: keyof typeof WHY_ICONS; title: string; body: string };
+type Signal = { signal: string; source: string };
+type BookingStep = { step: string; title: string; text: string };
+type Term = { k: string; v: string };
+type Note = { key: string; lead: string; body: string; linkHref?: string; linkLabel?: string };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
   return {
-    title: seo.title,
-    description: seo.description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
   };
 }
 
@@ -40,73 +61,34 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
   return getPublicPackageList({ fromId: 3, categoryId: 1 });
 }
 
-const INCLUSIONS_BALI = [
-  { label: "Bali–Java ferry crossing", detail: "Gilimanuk–Ketapang, both directions (3D2N Bali-return package) or one-way Bali-to-Java (all other packages)." },
-  { label: "Private transport", detail: "AC MPV (1–3 guests) or Toyota Hiace (4–9 guests). Fuel, tolls, and parking included." },
-  { label: "Dedicated crew", detail: "English-speaking driver-guide (1–3 guests), or professional driver + escort guide (4+). Licensed local site guides at key locations." },
-  { label: "Entrance fees, permits & accommodation", detail: "Entrance fees, permits, and accommodation + breakfast on all nights, per itinerary." },
-  { label: "Private 4WD jeep", detail: "Bromo crater area. One jeep per ≤4 guests; additional jeeps for larger groups." },
-  { label: "Gas masks & trekking poles", detail: "For the Ijen crater hike, plus mandatory health-certificate screening coordination for every guest before crater entry." },
-  { label: "Daily mineral water & pick-up", detail: "Full pick-up to drop-off from your Bali hotel, and a JVTO travel T-shirt (one per participant)." },
-];
-
-const WHY_ITEMS = [
-  {
-    Icon: Shield,
-    title: "Police-Led Operations",
-    body: "Mr. Sam holds the rank of Bripka — active officer of Ditpamobvit East Java (Tourist Police). Confirmed by Detik.com, 2021. No other East Java operator is led by a serving Tourist Police officer.",
-  },
-  {
-    Icon: Users,
-    title: "100% Private — No Shared Groups",
-    body: "Your booking receives a dedicated vehicle and crew. No join-in option exists. Group size determines vehicle type; timing and route decisions apply to your group only.",
-  },
-  {
-    Icon: FileText,
-    title: "All-Inclusive — Written Before You Book",
-    body: "Ferry crossing, entrance fees, accommodation, gas masks, and all transport costs are bundled and confirmed in your voucher. The voucher is the booking reference — no mid-trip negotiations over ticket costs, fuel, or meals.",
-  },
-  {
-    Icon: Award,
-    title: "Verifiable Credentials",
-    body: "NIB 1102230032918 verifiable via OSS. HPWKI AHU-0001072.AH.01.07.TAHUN 2024. BBKSDA clearance and POLPAR authorisation on file, and Dr. Ahmad Irwandanu holds a valid SIP license (Kemenkes/KKI verifiable).",
-  },
-];
-
-const BOOKING_STEPS = [
-  { step: "01", title: "Message us", text: "WhatsApp +62 822 4478 8833 with your dates, group size, preferred package, and Bali pick-up location." },
-  { step: "02", title: "Get a price confirmation", text: "You receive a per-person price per the table for your group size — no hidden local payments." },
-  { step: "03", title: "Pay a 20% deposit", text: "Confirm the booking with a 20% deposit via secure JVTO checkout (card only)." },
-  { step: "04", title: "Receive your e-voucher", text: "Full trip details plus a pre-trip guide. The voucher is your binding booking reference." },
-];
-
-const DATA_BOX = [
-  { k: "Deposit", v: "20% of total · card only" },
-  { k: "Balance deadline", v: "Card 5 days before · wire/Wise 3 days before Day 1" },
-  { k: "Cancel ≥ 48h before", v: "100% → Lifetime Package Credit (no expiry, transferable)" },
-  { k: "Cancel < 48h before", v: "Forfeited · no Package Credit" },
-];
-
-const CHECK_US_SIGNALS = [
-  { signal: "Trustpilot 4.8 / 5 · 51 reviews", source: "Independent — verified 2026-05-09" },
-  { signal: "Google Maps 4.90 / 5 · 123 reviews", source: "Independent" },
-  { signal: "TripAdvisor 4.95 / 5 · 21 reviews", source: "Independent" },
-  { signal: "NIB 1102230032918", source: "OSS-verifiable at oss.go.id" },
-  { signal: "Founder: active Tourist Police officer", source: "Detik.com press record, 2021" },
-  { signal: "ISIC Student Tours", source: "Provider ID 259268 — isic.org verifiable" },
-  { signal: "Founded 2015", source: "Booking.com 2015 award · Stefan Loose, p. 287" },
-];
-
 export default async function ToursPageBali() {
-  const [seo, initialTours, org] = await Promise.all([
-    getPageSeo("/tours/from-bali", fallbackSeo),
-    getToursFromBali(),
-    getOrganizationProfile(),
-  ]);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
+
+  const [initialTours, org] = await Promise.all([getToursFromBali(), getOrganizationProfile()]);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const pageUrl = `${siteUrl}/tours/from-bali`;
   const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
   const siteNode = buildWebSiteJsonLd(siteUrl);
+
+  const pageTitle = page.meta.browserTitle ?? page.meta.title;
+  const pageDescription = page.meta.description;
+
+  // Content-owned narrative (evergreen). Package data is never sourced from here.
+  const routeProse = hubProse(page, "the-route");
+  const packagesIntro = hubProse(page, "packages-intro");
+  const inclusions = hubGrid<Inclusion>(page, "whats-included", "inclusions");
+  const exclusions = hubGrid<Exclusion>(page, "whats-included", "exclusions");
+  const endPointNote = hubGridItem<Callout>(page, "whats-included", "callouts", "end-point");
+  const writtenNote = hubGridItem<Callout>(page, "whats-included", "callouts", "written");
+  const whyItems = hubGrid<WhyItem>(page, "why-jvto", "why");
+  const checkUsSignals = hubGrid<Signal>(page, "check-us", "signals");
+  const checkUsProse = hubProse(page, "check-us");
+  const bookingSteps = hubGrid<BookingStep>(page, "book-direct", "steps");
+  const bookingTerms = hubGrid<Term>(page, "book-direct", "terms");
+  const bookingNotes = hubGrid<Note>(page, "book-direct", "notes");
 
   const schema = {
     "@context": "https://schema.org",
@@ -117,8 +99,8 @@ export default async function ToursPageBali() {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
-        name: seo.title,
-        description: seo.description,
+        name: pageTitle,
+        description: pageDescription,
         isPartOf: { "@id": `${siteUrl}/#website` },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: { "@id": `${pageUrl}#collection` },
@@ -127,8 +109,8 @@ export default async function ToursPageBali() {
         "@type": "CollectionPage",
         "@id": `${pageUrl}#collection`,
         url: pageUrl,
-        name: seo.h1,
-        description: seo.description,
+        name: page.meta.title,
+        description: pageDescription,
         isPartOf: { "@id": `${siteUrl}/#website` },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: { "@id": `${pageUrl}#itemlist` },
@@ -144,7 +126,7 @@ export default async function ToursPageBali() {
       {
         "@type": "ItemList",
         "@id": `${pageUrl}#itemlist`,
-        name: seo.h1,
+        name: page.meta.title,
         numberOfItems: initialTours.length,
         itemListElement: initialTours.map((tour, index) => ({
           "@type": "ListItem",
@@ -156,7 +138,10 @@ export default async function ToursPageBali() {
     ],
   };
 
-  const hubFaqSchema = buildToursHubFaqSchema();
+  // Exactly ONE FAQPage node, built from the same page.faq array the visible
+  // Q&A block renders (AD-08).
+  const faqItems = page.faq ?? [];
+  const hubFaqSchema = faqItems.length ? buildHubFaqSchema(ROUTE, faqItems) : null;
   const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-bali" });
 
   const days = initialTours.map((t) => t.duration.day);
@@ -168,7 +153,7 @@ export default async function ToursPageBali() {
   return (
     <>
       <StructuredData data={schema} />
-      <StructuredData data={hubFaqSchema} />
+      {hubFaqSchema && <StructuredData data={hubFaqSchema} />}
       <StructuredData data={hubAggregateRatingSchema} />
 
       {/* ── 1. HERO ───────────────────────────────────── */}
@@ -195,8 +180,7 @@ export default async function ToursPageBali() {
               </h1>
 
               <p className="text-white/60 text-base md:text-lg max-w-2xl mb-8 leading-relaxed font-light">
-                {initialTours.length} private East Java packages with the Bali–Java ferry crossing included.
-                Kawah Ijen, Mount Bromo, Tumpak Sewu &amp; Papuma Beach — your own vehicle, your own crew.
+                {page.lede?.[0]}
               </p>
 
               <div className="flex flex-wrap gap-3 mb-10">
@@ -264,33 +248,26 @@ export default async function ToursPageBali() {
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">Ferry included</span>
           </div>
           <div className="max-w-[70ch] space-y-5">
-            <p className="text-jvto-muted text-base md:text-lg leading-relaxed font-light">
-              Every JVTO Bali package is 100% private — your group, your vehicle, your schedule. The
-              Bali–Java ferry crossing (Gilimanuk–Ketapang) is included in every package. Mr. Sam, the
-              founder, is an active officer of the Indonesian Tourist Police (Ditpamobvit East Java): every
-              route, safety decision, and written rule traces back to someone who answers to police protocol.
-            </p>
-            <p className="text-jvto-muted text-base md:text-lg leading-relaxed font-light">
-              All {initialTours.length || 4} packages cross from Bali to East Java by ferry on Day 1. Most
-              packages finish in Surabaya (one-way overland); the 3D2N package returns you to Bali. Pick-up
-              is from your Bali hotel or address — Ubud, Seminyak, Canggu, or Lovina.
-            </p>
+            {routeProse.map((paragraph) => (
+              <p key={paragraph.slice(0, 48)} className="text-jvto-muted text-base md:text-lg leading-relaxed font-light">
+                {paragraph}
+              </p>
+            ))}
           </div>
 
-          <div className="mt-10 flex gap-4 p-6 bg-white rounded-[20px] border border-jvto-border card-jvto">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-jvto-navy/10 flex items-center justify-center mt-0.5">
-              <Ship className="w-5 h-5 text-jvto-navy" strokeWidth={1.5} />
+          {endPointNote && (
+            <div className="mt-10 flex gap-4 p-6 bg-white rounded-[20px] border border-jvto-border card-jvto">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-jvto-navy/10 flex items-center justify-center mt-0.5">
+                <Ship className="w-5 h-5 text-jvto-navy" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-black text-jvto-navy text-sm mb-1" style={DISPLAY_FONT}>
+                  {endPointNote.lead.replace(/\.$/, "")}
+                </p>
+                <p className="text-xs text-jvto-muted leading-relaxed">{endPointNote.body}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-black text-jvto-navy text-sm mb-1" style={DISPLAY_FONT}>
-                End-point note
-              </p>
-              <p className="text-xs text-jvto-muted leading-relaxed">
-                Most Bali packages finish in Surabaya — plan your onward transport from Surabaya (flights,
-                train, or bus) in advance. Only the 3D2N Bromo &amp; Ijen Discovery returns you to Bali.
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -307,18 +284,18 @@ export default async function ToursPageBali() {
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">Day-by-day</span>
           </div>
-          <p className="text-jvto-muted text-sm md:text-base max-w-2xl leading-relaxed">
-            All packages include a dedicated vehicle, English-speaking crew, the Gilimanuk–Ketapang ferry,
-            entrance fees, accommodation + breakfast, gas masks + trekking poles (Ijen), mineral water, and a
-            JVTO T-shirt. Price is per person — no hidden local payments.
-          </p>
+          {packagesIntro.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)} className="text-jvto-muted text-sm md:text-base max-w-2xl leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
         </div>
 
         <ToursPageClient
           initialTours={initialTours}
           destinationName="Bali"
-          title={seo.h1}
-          description={seo.description}
+          title={page.meta.title}
+          description={pageDescription}
           hideHeader
         />
       </section>
@@ -339,7 +316,7 @@ export default async function ToursPageBali() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <ul className="space-y-4">
-              {INCLUSIONS_BALI.map((item) => (
+              {inclusions.map((item) => (
                 <li key={item.label} className="grid grid-cols-[22px_1fr] gap-4 items-start">
                   <Check className="w-5 h-5 text-jvto-lime mt-0.5" strokeWidth={2.5} />
                   <span className="text-sm text-jvto-navy leading-relaxed">
@@ -353,23 +330,23 @@ export default async function ToursPageBali() {
               <div className="bg-white border border-jvto-border rounded-[24px] p-8">
                 <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-jvto-muted mb-4">Not included</span>
                 <ul className="flex flex-wrap gap-2.5">
-                  {["Flights", "Tips", "Personal expenses", "Travel insurance", "Indonesian visa (if applicable)"].map((x) => (
-                    <li key={x} className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-jvto-muted border border-jvto-border rounded-full px-3.5 py-2 bg-jvto-off">
-                      {x}
+                  {exclusions.map((x) => (
+                    <li key={x.label} className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-jvto-muted border border-jvto-border rounded-full px-3.5 py-2 bg-jvto-off">
+                      {x.label}
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="mt-5 border border-jvto-border rounded-[16px] p-5 bg-white text-sm text-jvto-navy leading-relaxed">
-                <strong className="font-bold">End-point note.</strong> Most Bali packages finish in Surabaya —
-                plan your onward transport from Surabaya (flights, train, or bus) in advance. Only the 3D2N
-                Bromo &amp; Ijen Discovery returns you to Bali.
-              </div>
-              <div className="mt-4 border border-jvto-lime/50 rounded-[16px] p-5 bg-jvto-lime/[0.07] text-sm text-jvto-navy leading-relaxed">
-                <strong className="font-bold">Written before you book.</strong> Ferry crossing, entrance fees,
-                accommodation, gas masks, and all transport costs are bundled and confirmed in your voucher —
-                no mid-trip negotiations.
-              </div>
+              {endPointNote && (
+                <div className="mt-5 border border-jvto-border rounded-[16px] p-5 bg-white text-sm text-jvto-navy leading-relaxed">
+                  <strong className="font-bold">{endPointNote.lead}</strong> {endPointNote.body}
+                </div>
+              )}
+              {writtenNote && (
+                <div className="mt-4 border border-jvto-lime/50 rounded-[16px] p-5 bg-jvto-lime/[0.07] text-sm text-jvto-navy leading-relaxed">
+                  <strong className="font-bold">{writtenNote.lead}</strong> {writtenNote.body}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -390,13 +367,16 @@ export default async function ToursPageBali() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {WHY_ITEMS.map(({ Icon, title, body }) => (
-              <div key={title} className="bg-white/[0.03] border border-white/10 rounded-[24px] p-8">
-                <Icon className="w-6 h-6 text-jvto-orange mb-4" strokeWidth={1.5} />
-                <h3 className="text-xl font-black mb-3" style={DISPLAY_FONT}>{title}</h3>
-                <p className="text-sm text-white/55 leading-relaxed">{body}</p>
-              </div>
-            ))}
+            {whyItems.map((item) => {
+              const Icon = WHY_ICONS[item.icon] ?? Shield;
+              return (
+                <div key={item.title} className="bg-white/[0.03] border border-white/10 rounded-[24px] p-8">
+                  <Icon className="w-6 h-6 text-jvto-orange mb-4" strokeWidth={1.5} />
+                  <h3 className="text-xl font-black mb-3" style={DISPLAY_FONT}>{item.title}</h3>
+                  <p className="text-sm text-white/55 leading-relaxed">{item.body}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -424,7 +404,7 @@ export default async function ToursPageBali() {
                 </tr>
               </thead>
               <tbody>
-                {CHECK_US_SIGNALS.map((row) => (
+                {checkUsSignals.map((row) => (
                   <tr key={row.signal} className="border-t border-white/10">
                     <td className="p-5 font-mono text-[10px] uppercase tracking-[0.16em] font-bold text-white">{row.signal}</td>
                     <td className="p-5 text-white/60">{row.source}</td>
@@ -433,10 +413,11 @@ export default async function ToursPageBali() {
               </tbody>
             </table>
           </div>
-          <p className="text-white/50 text-[13px] max-w-[70ch] mt-6 leading-relaxed font-light">
-            JVTO does not ask for CVV codes, OTP codes, or online banking passwords via chat or email. Pay
-            only via the official JVTO website, listed bank accounts, or confirmed WhatsApp +62 822 4478 8833.
-          </p>
+          {checkUsProse.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)} className="text-white/50 text-[13px] max-w-[70ch] mt-6 leading-relaxed font-light">
+              {paragraph}
+            </p>
+          ))}
         </div>
       </section>
 
@@ -456,7 +437,7 @@ export default async function ToursPageBali() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <ol className="space-y-0">
-              {BOOKING_STEPS.map(({ step, title, text }) => (
+              {bookingSteps.map(({ step, title, text }) => (
                 <li key={step} className="grid grid-cols-[auto_1fr] gap-6 items-start py-6 border-b border-jvto-border last:border-0">
                   <span className="font-mono text-[11px] tracking-[0.2em] text-jvto-orange pt-1">{step}</span>
                   <div>
@@ -469,24 +450,29 @@ export default async function ToursPageBali() {
 
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white border border-jvto-border rounded-[24px] p-9">
-                {DATA_BOX.map(({ k, v }) => (
+                {bookingTerms.map(({ k, v }) => (
                   <div key={k}>
                     <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-jvto-muted mb-1">{k}</div>
                     <div className="text-jvto-navy font-semibold text-sm leading-relaxed">{v}</div>
                   </div>
                 ))}
               </div>
-              <div className="mt-5 border border-jvto-border rounded-[16px] p-5 bg-white text-sm text-jvto-navy leading-relaxed">
-                <strong className="font-bold">Student pricing</strong> is available for verified ISIC
-                cardholders (Provider ID 259268). Ask at booking, or see{" "}
-                <Link href="/isic/student-package" prefetch={false} className="text-jvto-orange font-semibold hover:underline">
-                  student packages →
-                </Link>
-              </div>
-              <div className="mt-4 border border-jvto-border rounded-[16px] p-5 bg-white text-sm text-jvto-navy leading-relaxed">
-                <strong className="font-bold">Group incentive</strong> (direct bookings only): 18 paying
-                guests → 1 free place · 35 paying → 2 free places · 50 paying → 3 free places + 5% group discount.
-              </div>
+              {bookingNotes.map((note, index) => (
+                <div
+                  key={note.key}
+                  className={`${index === 0 ? "mt-5" : "mt-4"} border border-jvto-border rounded-[16px] p-5 bg-white text-sm text-jvto-navy leading-relaxed`}
+                >
+                  <strong className="font-bold">{note.lead}</strong> {note.body}
+                  {note.linkHref && note.linkLabel && (
+                    <>
+                      {" "}
+                      <Link href={note.linkHref} prefetch={false} className="text-jvto-orange font-semibold hover:underline">
+                        {note.linkLabel}
+                      </Link>
+                    </>
+                  )}
+                </div>
+              ))}
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <a
@@ -512,7 +498,10 @@ export default async function ToursPageBali() {
         </div>
       </section>
 
-      {/* ── 8. CTA ─────────────────────────────────────── */}
+      {/* ── 8. COMMON QUESTIONS (content/ FAQ — same array as the FAQPage node) ── */}
+      <HubFaqSection eyebrow="§ 07" items={faqItems} />
+
+      {/* ── 9. CTA ─────────────────────────────────────── */}
       <section className="bg-jvto-navy text-white py-24 text-center rounded-t-[48px] -mt-8 relative z-10 shadow-[0_-40px_90px_-40px_rgba(0,0,0,0.45)]">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <h2

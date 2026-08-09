@@ -1,74 +1,5 @@
 [
   {
-    "route": "/",
-    "file_group": "001",
-    "sort_order": 1,
-    "cluster": "homepage",
-    "page_type": "homepage",
-    "template": "index",
-    "visual_mode": "homepage",
-    "hub_route": null,
-    "title": "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
-    "h1": "Tourist Police-Led Private Volcano Tours in East Java",
-    "seo": {
-      "title": "Tourist Police-Led Private Volcano Tours in East Java | JVTO",
-      "description": "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (No.1102230032918), led by an active Tourist Police officer.",
-      "schema_type": "TravelAgency"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/tours",
-    "file_group": "002",
-    "sort_order": 1,
-    "cluster": "travel",
-    "page_type": "hub",
-    "template": "collection",
-    "visual_mode": "travel",
-    "hub_route": null,
-    "title": "All JVTO Tours — Private Bromo, Ijen & Tumpak Sewu",
-    "h1": "JVTO Private Volcano Tours",
-    "seo": {
-      "title": "Private Volcano Tours",
-      "description": "Choose a private, all-inclusive East Java volcano tour by starting point."
-    },
-    "status": "published"
-  },
-  {
-    "route": "/tours/from-surabaya",
-    "file_group": "002",
-    "sort_order": 2,
-    "cluster": "travel",
-    "page_type": "hub",
-    "template": "collection",
-    "visual_mode": "travel",
-    "hub_route": "/tours",
-    "title": "Tours from Surabaya",
-    "h1": "Surabaya Landing Page — Website Copy",
-    "seo": {
-      "title": "Tours from Surabaya",
-      "description": "Every JVTO tour from Surabaya is 100% private — your group, your vehicle, your schedule. Mr. Sam, the founder, is an active officer of the Indonesian…"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/tours/from-bali",
-    "file_group": "002",
-    "sort_order": 3,
-    "cluster": "travel",
-    "page_type": "hub",
-    "template": "collection",
-    "visual_mode": "travel",
-    "hub_route": "/tours",
-    "title": "Tours from Bali",
-    "h1": "Bali Landing Page — Website Copy",
-    "seo": {
-      "title": "Tours from Bali",
-      "description": "Every JVTO Bali package is 100% private — your group, your vehicle, your schedule. The Bali–Java ferry crossing (Gilimanuk–Ketapang) is included in every…"
-    },
-    "status": "published"
-  },
-  {
     "route": "/tours/from-bali/bromo-ijen-3d2n",
     "file_group": "002",
     "sort_order": 4,
@@ -422,23 +353,6 @@
     "seo": {
       "title": "Papuma Beach (Pantai Papuma)",
       "description": "1. Hero 2. Quick Facts 3. What to Expect 4. Packages That Include This Destination 5. CTA"
-    },
-    "status": "published"
-  },
-  {
-    "route": "/contact",
-    "file_group": "007",
-    "sort_order": 1,
-    "cluster": "hybrid",
-    "page_type": "contact",
-    "template": "contact",
-    "visual_mode": "hybrid",
-    "hub_route": null,
-    "title": "Contact JVTO",
-    "h1": "Contact JVTO",
-    "seo": {
-      "title": "Contact JVTO",
-      "description": "WhatsApp is the fastest way to reach us. Most questions are answered within a few hours — often faster. If you want to book, check availability, or…"
     },
     "status": "published"
   }

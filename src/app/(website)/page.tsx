@@ -1,4 +1,16 @@
+// src/app/(website)/page.tsx
+//
+// MILESTONE 2 (2026-08-09): the homepage is served from the static-content SSOT
+// (content/pages/home/index.json + content/faqs/home.json). Title, browser title,
+// description, the H1, the production canonical, and the FAQ all read from content/;
+// this file keeps layout + the JSON-LD projection of that content.
+//
+// DYNAMIC DATA IS UNCHANGED: the Surabaya/Bali package lists, the destination list,
+// the Elfsight review embed, and the aggregate-rating node still come from their own
+// runtime sources (getWebPackagesList / getWebDestinationsList / jvtoReviews). No
+// package, price, or availability data is migrated into content/.
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import HomeHero from "@/components/website/Home/HomeHero";
 import HomeVerifyBar from "@/components/website/Home/HomeVerifyBar";
 import HomeTrustStrip from "@/components/website/Home/HomeTrustStrip";
@@ -17,12 +29,16 @@ import HomePartners from "@/components/website/Home/HomePartners";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import {
+  loadStaticPage,
+  staticRouteCanonical,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from "@/lib/static-content";
 import {
   BBKSDA_REGULATION_SCHEMA,
   DEFINED_TERMS,
@@ -41,31 +57,77 @@ const LANDSCAPE_SLUG_ORDER = [
 ];
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
+const ROUTE = "/";
 export const revalidate = 3600;
 
-const fallbackSeo = {
-  title:
-    "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
-  h1: "Tourist Police-Led private\nvolcano tours, Java.",
-  description:
-    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
-};
+// ─── Content access helpers (throw at build so missing copy fails SSG rather
+//     than silently rendering an empty section — parity with the hubs). ───
+type HomeSection = NonNullable<StaticPage["sections"]>[number];
+
+function requireSection(page: StaticPage, id: string): HomeSection {
+  const sec = page.sections?.find((s) => s.id === id);
+  if (!sec) {
+    throw new Error(
+      `homepage: required section "${id}" missing from content/pages/home/index.json`,
+    );
+  }
+  return sec;
+}
+
+function sectionText(sec: HomeSection, key: string): string {
+  const v = (sec as Record<string, unknown>)[key];
+  if (typeof v !== "string" || v.length === 0) {
+    throw new Error(`homepage: section "${sec.id}" is missing text field "${key}"`);
+  }
+  return v;
+}
+
+function gridItems<T>(sec: HomeSection, role: string): T[] {
+  const block = (sec.blocks ?? []).find(
+    (b) => b.type === "grid" && (b as Record<string, unknown>).role === role,
+  );
+  if (!block) {
+    throw new Error(
+      `homepage: section "${sec.id}" is missing its grid block (role="${role}")`,
+    );
+  }
+  return (block as { items: unknown[] }).items as T[];
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs from content/. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/", fallbackSeo);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
 
   return {
-    title: seo.title,
-    description: seo.description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
     alternates: {
-      canonical: SITE_URL,
+      canonical: staticRouteCanonical(ROUTE),
     },
   };
 }
 
 const Home = async () => {
-  const [seo, surabayaTours, baliTours, destinations] = await Promise.all([
-    getPageSeo("/", fallbackSeo),
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
+    return notFound();
+  }
+
+  const [surabayaTours, baliTours, destinations] = await Promise.all([
     getWebPackagesList({ fromId: 4, limit: 4 }),
     getWebPackagesList({ fromId: 3, limit: 4 }),
     getWebDestinationsList(),
@@ -74,22 +136,6 @@ const Home = async () => {
   const landscapeDestinations = LANDSCAPE_SLUG_ORDER
     .map((slug) => destinations.find((d) => d.slug === slug))
     .filter((d): d is NonNullable<typeof d> => Boolean(d));
-
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: "/",
-        lang: "en",
-        seo: { title: seo.title, description: seo.description },
-        content: { h1: seo.h1 },
-      };
 
   const serviceNode = {
     "@type": "Service",
@@ -111,8 +157,23 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  const faqResolution = await resolveFaqsForPage("/");
-  const faqNode = buildResolvedFaqSchema(faqResolution, "/");
+  // FAQ from content/ (content/faqs/home.json) — the SAME array feeds the visible
+  // HomeFAQ accordion and the single FAQPage node (AD-08), so HTML and structured
+  // data can never diverge.
+  const faqItems = page.faq ?? [];
+  const faqNode = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${PRODUCTION_ORIGIN}/#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+
   const aggregateRatingNode = buildHomepageAggregateRatingSchema();
 
   const healthAppNode = {
@@ -138,10 +199,18 @@ const Home = async () => {
       "Operational safety screening only. Does not replace medical diagnosis or treatment.",
   };
 
+  // Reviews section copy — evergreen narrative from content/pages/home/index.json.
+  // (The review WIDGET itself stays dynamic: Elfsight renders the live feed.)
+  const reviews = requireSection(page, "reviews-signal");
+  const platformLines = gridItems<{ key: string; text: string; accent?: boolean }>(
+    reviews,
+    "platform-lines",
+  );
+
   return (
     <div>
       <PageJsonLdCombined
-        pageRow={pageRow as any}
+        pageRow={staticPageRow(page) as any}
         extraSchemas={[
           FOUNDER_SCHEMA,
           DOCTOR_SCHEMA,
@@ -151,11 +220,11 @@ const Home = async () => {
           healthAppNode,
           aggregateRatingNode,
           faqNode,
-        ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        ].filter(Boolean)}
+        suppressCmsFaq
       />
 
-      <HomeHero title={seo.h1} description={seo.description} />
+      <HomeHero title={page.meta.title} description={page.meta.description} />
       <HomeVerifyBar />
       <HomeTrustStrip />
       <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
@@ -172,7 +241,7 @@ const Home = async () => {
           <div className="mb-12 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
               <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-                Guest Reviews
+                {sectionText(reviews, "eyebrow")}
               </span>
             </div>
             <h2
@@ -180,16 +249,19 @@ const Home = async () => {
               className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
               style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
-              51 reviews on Trustpilot.{" "}
-              <br />
-              <em className="text-jvto-orange not-italic">123 on Google Maps.</em>{" "}
-              <br />
-              21 on TripAdvisor.
+              {platformLines.map((line, i) => (
+                <span key={line.key}>
+                  {line.accent ? (
+                    <em className="text-jvto-orange not-italic">{line.text}</em>
+                  ) : (
+                    line.text
+                  )}{" "}
+                  {i < platformLines.length - 1 ? <br /> : null}
+                </span>
+              ))}
             </h2>
             <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
-              Ratings verified across three independent platforms. Every review links
-              to the original profile — browse by guide, by destination, or by trip length
-              to find what matters to you.
+              {sectionText(reviews, "body_text")}
             </p>
           </div>
 
@@ -204,17 +276,17 @@ const Home = async () => {
 
           <div className="mt-10 text-center md:text-left">
             <Link
-              href="/why-jvto/reviews"
+              href={sectionText(reviews, "link_href")}
               className="text-sm font-bold text-white/70 hover:text-white transition-colors"
             >
-              Read all reviews <span aria-hidden="true">&rarr;</span>
+              {sectionText(reviews, "link_label")} <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
       </section>
 
       <HomePartners />
-      <HomeFAQ />
+      <HomeFAQ items={faqItems} />
       <HomeTravelGuideTeaser />
       <HomeOurStory />
       <HomeCTA />

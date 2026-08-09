@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "route": "/student-deals/isic",
+    "title": "ISIC Student Deals",
+    "browserTitle": "ISIC Student Deals — JVTO",
+    "description": "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it.",
+    "section": "isic",
+    "status": "published",
+    "owner": "editorial",
+    "lastReviewed": "2026-08-09",
+    "schemaTypes": [
+      "WebPage"
+    ],
+    "summary": "Context page for the ISIC relationship: what the card signals, how the Alive Verify handshake works, and why JVTO structures student pricing around verification."
+  },
+  "lede": [
+    "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it."
+  ],
+  "sections": [
+    {
+      "id": "hub-links",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "cta-links",
+          "items": [
+            {
+              "key": "strategic-partners",
+              "href": "/why-jvto/strategic-partners",
+              "label": "Why this partnership exists",
+              "variant": "primary"
+            },
+            {
+              "key": "why-jvto-hub",
+              "href": "/why-jvto",
+              "label": "Back to Why JVTO hub",
+              "variant": "secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "what-isic-signals",
+      "title": "What ISIC signals (market context)",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "cards",
+          "items": [
+            {
+              "key": "market-context",
+              "body": "ISIC is positioned as a globally recognized proof of student status. For youth travel and budget-sensitive travelers, it acts as a legitimacy and fairness signal."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-verification-works",
+      "title": "How verification works (concept)",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "notices",
+          "items": [
+            {
+              "key": "alive-verify",
+              "title": "Alive Verify API (as described)",
+              "body": "When a student enters their card number, the system performs a real-time “handshake” with the global ISIC database to validate active status."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "why-it-matters",
+      "title": "Why it matters in the Why JVTO ecosystem",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "cards",
+          "items": [
+            {
+              "key": "fair-pricing",
+              "title": "Fair pricing, structurally enforced",
+              "body": "Student pricing is not treated as a vague promise. It is structured around verification."
+            },
+            {
+              "key": "digital-maturity",
+              "title": "Digital maturity signal",
+              "body": "Implementing verification via API is positioned as a differentiator versus fully manual operators."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "official-listing",
+      "title": "Official ISIC listing (direct)",
+      "provenance_note": "The listing URL itself is not stored here: the page reads the ISIC entry from the review-platforms proof data (getReviewPlatforms) and renders the section only when that entry exists — exactly as before the migration.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "external-link",
+          "items": [
+            {
+              "key": "isic",
+              "platform_prefix": "ISIC"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

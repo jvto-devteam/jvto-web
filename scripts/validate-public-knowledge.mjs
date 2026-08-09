@@ -53,6 +53,23 @@ function sitemapRouteSet(appDir = APP_DIR) {
   return set;
 }
 
+/**
+ * Content-owned routes that are deliberately ABSENT from the sitemap.
+ *
+ * The rule "every compiled route appears in a sitemap" is right for indexable pages, but it has
+ * no concept of a route that is content-owned yet intentionally unlisted. `/student-deals/isic`
+ * is exactly that: `src/lib/registry/pages.ts` marks it `status: 'dead'` with
+ * `canonical: '/isic/student-package'` — a duplicate kept reachable for old inbound links. It has
+ * never been in the sitemap; Milestone 2 made it a *compiled* route (its narrative moved to
+ * content/), which is what first tripped this check. Listing it in the sitemap would publish a
+ * known duplicate and reverse a deliberate SEO decision, so it is exempted here instead — with
+ * the reason recorded, not silenced.
+ *
+ * Add a route here ONLY when the registry marks it dead/duplicate. An indexable route missing
+ * from the sitemap is still a failure.
+ */
+const SITEMAP_EXEMPT_ROUTES = new Set(["/student-deals/isic"]);
+
 /** Run the checks against a manifest object + environment. Returns an array of failures. */
 export function checkManifest(manifest, { sitemap, entityNames, feedText }) {
   const failures = [];
@@ -68,7 +85,9 @@ export function checkManifest(manifest, { sitemap, entityNames, feedText }) {
     if (r.faqKey && !(r.faqCount > 0)) fail(`${r.route}: faqKey "${r.faqKey}" but faqCount ${r.faqCount}`);
     if (!Array.isArray(r.schemaTypes) || r.schemaTypes.length === 0) fail(`${r.route}: no schemaTypes`);
     if (!r.title || !r.description) fail(`${r.route}: missing title/description`);
-    if (!sitemap.has(r.route)) fail(`${r.route}: compiled route is NOT present in any sitemap`);
+    if (!sitemap.has(r.route) && !SITEMAP_EXEMPT_ROUTES.has(r.route)) {
+      fail(`${r.route}: compiled route is NOT present in any sitemap`);
+    }
   }
   for (const name of manifest.entities || []) {
     if (!entityNames.has(name)) fail(`entity "${name}" in manifest has no content/entities/${name}.json`);
