@@ -43,7 +43,7 @@ function sitemapRouteSet(appDir = APP_DIR) {
   for (const f of files) {
     const text = readFileSync(f, "utf8");
     // Only URLs the sitemap actually EMITS via url("…") count. Deliberately NOT the
-    // getContentPageLastModifiedMap([...]) lastmod list in sitemap.ts — a route can sit
+    // SITEMAP_LASTMOD_ROUTES lastmod list in sitemap-utils.ts — a route can sit
     // in that array yet be dropped from emission, and this gate must catch that (a
     // compiled route silently missing from /sitemap.xml), not be fooled by it.
     const re = /url\(\s*["'](\/[^"']*)["']/g;
