@@ -43,6 +43,12 @@ export type SectionProps = SectionNameProps & {
   children: ReactNode;
   surface?: SectionSurface;
   density?: SectionDensity;
+  /**
+   * Optional anchor id on the landmark itself (PKG-11b) — for in-page jump
+   * links such as the tours hubs' hero → package list. Pair it with a
+   * `scroll-mt-*` class so the fixed navbar does not cover the target.
+   */
+  id?: string;
   /** Extra classes on the <section> itself (ground/overflow tweaks). */
   className?: string;
   /** Extra classes on the inner container (grid setup, etc.). */
@@ -53,6 +59,7 @@ export default function Section({
   children,
   surface = "light",
   density = "major",
+  id,
   className = "",
   containerClassName = "",
   labelledBy,
@@ -62,6 +69,7 @@ export default function Section({
 
   return (
     <section
+      id={id}
       aria-labelledby={labelledBy}
       aria-label={label}
       className={`relative isolate ${SURFACE[surface]} ${DENSITY[density]} ${className}`}

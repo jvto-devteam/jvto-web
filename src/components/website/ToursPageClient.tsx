@@ -1,6 +1,46 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+// src/components/website/ToursPageClient.tsx
+//
+// The filterable package catalogue shared by the three tours-discovery routes
+// (/tours, /tours/from-bali, /tours/from-surabaya) — and by nothing else.
+//
+// PKG-11b is a VISUAL + ACCESSIBILITY pass. Everything about the DATA is
+// untouched: `initialTours` still arrives from getPublicPackageList, the
+// filter predicate (search / start location / price / duration / category) is
+// byte-for-byte the previous logic, result ordering is still the incoming
+// order (no sort control was added — sorting semantics must not change), and
+// TourCard renders every card exactly as before. This file owns the chrome
+// around the card, never the card.
+//
+// What changed:
+//   • The outer max-w container moved OUT to the page's <Section>, so the
+//     catalogue sits on the same 11a container/gutter rhythm as every other
+//     section instead of nesting a second one.
+//   • The dead `!hideHeader` block was removed. All three routes passed
+//     `hideHeader`, so it never rendered — but it carried a second <h1>, one
+//     prop-flip away from breaking the one-h1-per-route rule. Its `title`,
+//     `description`, `destinationName` and `hideHeader` props went with it.
+//   • Filter a11y: the accordions expose aria-expanded/aria-controls, every
+//     toggle exposes aria-pressed, the price slider exposes aria-valuetext,
+//     the sidebar is a named landmark, and the mobile drawer is a real modal
+//     dialog (role/aria-modal/labelled by its own heading, Escape to close,
+//     focus moved in on open and returned to the trigger on close).
+//   • Mobile comparison flow: an active-filter chip rail under the sticky bar,
+//     so what is filtering the list stays visible after the drawer closes.
+//     Each chip is a toggle button whose label is the SAME string its filter
+//     control already uses; pressing it calls the same handler.
+//   • Contrast: white-on-orange buttons measured 3.34:1 and are now navy fills
+//     (16.5:1); muted/60 placeholders and labels moved to --color-jvto-ink-soft.
+import React, {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { createPortal } from "react-dom";
 import { ListTourPackage } from "@/types";
 import TourCard from "@/components/website/TourCard";
 import { formatIDR } from "@/utils/formatting";
@@ -16,22 +56,30 @@ import {
   PawPrint,
   Check,
   RotateCcw,
-  MapPin // Icon baru untuk lokasi
+  MapPin,
 } from "lucide-react";
 
 // --- TYPES ---
 interface ToursPageClientProps {
   initialTours: ListTourPackage[];
-  destinationName: string;
-  description: string;
-  title?: string;
   showLocationFilter?: boolean;
-  hideHeader?: boolean;
 }
 
 type TourCategory = "Volcano" | "Waterfall" | "Beach" | "Wildlife";
 type DurationRange = "1-2" | "3-4" | "5+";
-type StartLocation = "Surabaya" | "Bali"; 
+type StartLocation = "Surabaya" | "Bali";
+
+const SEARCH_LABEL = "Search tours...";
+
+// The drawer is portalled to <body>. It has to be: <Section> paints on
+// `relative isolate`, which is a stacking context, so a z-50 drawer rendered
+// inside the catalogue section can never rise above the z-50 fixed navbar and
+// its top edge (close button included) ends up underneath it on a phone.
+// useSyncExternalStore rather than a mount-flag effect, so the server render
+// and the first client render agree without a setState inside an effect.
+const subscribeNoop = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 // --- COMPONENT: ACCORDION SECTION ---
 const FilterSection = ({
@@ -44,19 +92,28 @@ const FilterSection = ({
   children: React.ReactNode;
 }) => {
   const [open, setOpen] = useState(isOpen);
+  const panelId = useId();
+
   return (
-    <div className="border-b border-jvto-border py-5 last:border-0">
+    <div className="border-b border-jvto-border py-4 last:border-0">
       <button
+        type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between font-bold text-jvto-navy hover:text-jvto-orange mb-3 transition-colors"
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="jvto-focus mb-3 flex w-full items-center justify-between rounded-sm font-mono text-[10px] font-bold tracking-[0.18em] text-jvto-navy uppercase transition-colors hover:text-jvto-orange-hover"
       >
-        <span className="font-mono text-[9px] uppercase tracking-[0.18em]">{title}</span>
-        {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        <span>{title}</span>
+        {open ? (
+          <ChevronUp aria-hidden="true" size={14} />
+        ) : (
+          <ChevronDown aria-hidden="true" size={14} />
+        )}
       </button>
       <div
-        className={`space-y-3 overflow-hidden transition-all duration-300 ${
-          open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-        }`}
+        id={panelId}
+        hidden={!open}
+        className="space-y-3"
       >
         {children}
       </div>
@@ -67,13 +124,8 @@ const FilterSection = ({
 // --- MAIN COMPONENT ---
 export default function ToursPageClient({
   initialTours,
-  destinationName,
-  description,
-  title,
   showLocationFilter = false,
-  hideHeader = false,
 }: ToursPageClientProps) {
-  
   // 1. Hitung Max Price Dinamis
   const globalMaxPrice = useMemo(() => {
     if (initialTours.length === 0) return 10000000;
@@ -90,11 +142,21 @@ export default function ToursPageClient({
     categories: TourCategory[];
   }>({
     search: "",
-    startLocations: [], 
+    startLocations: [],
     durationRanges: [],
     maxPrice: globalMaxPrice,
     categories: [],
   });
+
+  const drawerTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const drawerTitleId = useId();
+  const isHydrated = useSyncExternalStore(
+    subscribeNoop,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
 
   // Update maxPrice jika data berubah
   useEffect(() => {
@@ -109,6 +171,52 @@ export default function ToursPageClient({
       document.body.style.overflow = "unset";
     }
   }, [isMobileFilterOpen]);
+
+  // Modal behaviour for the mobile drawer: Escape closes it, focus moves into
+  // it on open and returns to the trigger on close, and Tab stays inside it
+  // (without a trap, tabbing walks straight onto the covered page behind).
+  useEffect(() => {
+    if (!isMobileFilterOpen) return;
+    drawerCloseRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileFilterOpen(false);
+        drawerTriggerRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const panel = drawerRef.current;
+      if (!panel) return;
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      // Collapsed accordion panels are `hidden`, so their controls are still in
+      // the NodeList but are not focusable — drop anything with no box.
+      const items = Array.from(focusable).filter(
+        (el) => !el.hasAttribute("disabled") && el.getClientRects().length > 0,
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (event.shiftKey && (active === first || !panel.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMobileFilterOpen]);
+
+  const closeDrawer = () => {
+    setIsMobileFilterOpen(false);
+    drawerTriggerRef.current?.focus();
+  };
 
   // 3. Handlers
   const handleLocationToggle = (loc: StartLocation) => {
@@ -171,7 +279,7 @@ export default function ToursPageClient({
       // Kita tidak perlu cek showLocationFilter disini, karena jika UI-nya hidden,
       // filters.startLocations pasti kosong, jadi logic ini otomatis terlewati (pass through).
       if (filters.startLocations.length > 0) {
-        if (!filters.startLocations.includes(tour.startDestination as StartLocation)) 
+        if (!filters.startLocations.includes(tour.startDestination as StartLocation))
           return false;
       }
 
@@ -228,47 +336,95 @@ export default function ToursPageClient({
     });
   }, [initialTours, filters]);
 
+  // 4b. Active-filter rail. Every label here is the exact string its own filter
+  // control renders; each chip is a pressed toggle that calls the same handler,
+  // so the chip rail can never diverge from the filter state or its semantics.
+  const activeChips: { key: string; label: string; toggle: () => void }[] = [
+    ...filters.startLocations.map((loc) => ({
+      key: `location-${loc}`,
+      label: `From ${loc}`,
+      toggle: () => handleLocationToggle(loc),
+    })),
+    ...filters.durationRanges.map((range) => ({
+      key: `duration-${range}`,
+      label: `${range} Days`,
+      toggle: () => handleDurationToggle(range),
+    })),
+    ...filters.categories.map((cat) => ({
+      key: `category-${cat}`,
+      label: cat,
+      toggle: () => handleCategoryToggle(cat),
+    })),
+    ...(filters.maxPrice < globalMaxPrice
+      ? [
+          {
+            key: "price",
+            label: `Up to ${formatIDR(filters.maxPrice)}`,
+            toggle: () =>
+              setFilters((prev) => ({ ...prev, maxPrice: globalMaxPrice })),
+          },
+        ]
+      : []),
+    ...(filters.search
+      ? [
+          {
+            key: "search",
+            label: filters.search,
+            toggle: () => setFilters((prev) => ({ ...prev, search: "" })),
+          },
+        ]
+      : []),
+  ];
+
+  const optionClass = (isSelected: boolean) =>
+    `jvto-focus flex w-full items-center justify-between gap-3 rounded-sm border px-3 py-2.5 text-left text-sm transition-colors ${
+      isSelected
+        ? "border-jvto-navy bg-jvto-navy/[0.06] font-semibold text-jvto-navy"
+        : "border-transparent text-jvto-ink-soft hover:border-jvto-border hover:bg-jvto-off hover:text-jvto-navy"
+    }`;
+
   // 5. VARIABLE JSX
   const filterContent = (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {/* Search Input */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-jvto-muted w-4 h-4" />
+      <div className="relative mb-5">
+        <Search
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-jvto-ink-soft"
+        />
         <input
           type="text"
-          placeholder="Search tours..."
+          aria-label={SEARCH_LABEL}
+          placeholder={SEARCH_LABEL}
           value={filters.search}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, search: e.target.value }))
           }
-          className="w-full pl-9 pr-4 py-3 border border-jvto-border bg-jvto-off rounded-full text-sm focus:outline-none focus:border-jvto-navy focus:bg-white transition-all text-jvto-navy placeholder:text-jvto-muted/60"
+          className="jvto-focus w-full rounded-sm border border-jvto-border bg-jvto-off py-2.5 pr-4 pl-9 text-sm text-jvto-navy transition-colors placeholder:text-jvto-ink-soft focus:border-jvto-navy focus:bg-white"
         />
       </div>
 
       {/* Location filter — shown only on /tours all-tours page */}
       {showLocationFilter && (
         <FilterSection title="Start Location">
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-1.5">
             {["Surabaya", "Bali"].map((loc) => {
               const isSelected = filters.startLocations.includes(loc as StartLocation);
               return (
                 <button
                   key={loc}
+                  type="button"
+                  aria-pressed={isSelected}
                   onClick={() => handleLocationToggle(loc as StartLocation)}
-                  className={`
-                    flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
-                    ${
-                      isSelected
-                        ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
-                        : "border-transparent hover:bg-jvto-off text-jvto-muted"
-                    }
-                  `}
+                  className={optionClass(isSelected)}
                 >
-                  <div className="flex items-center gap-3">
-                    <MapPin size={16} strokeWidth={1.5} />
-                    <span className="text-sm">From {loc}</span>
-                  </div>
-                  {isSelected && <Check size={14} className="text-jvto-navy" />}
+                  <span className="flex items-center gap-3">
+                    <MapPin aria-hidden="true" size={16} strokeWidth={1.5} />
+                    <span>From {loc}</span>
+                  </span>
+                  {isSelected && (
+                    <Check aria-hidden="true" size={14} className="text-jvto-navy" />
+                  )}
                 </button>
               );
             })}
@@ -284,15 +440,14 @@ export default function ToursPageClient({
             return (
               <button
                 key={range}
+                type="button"
+                aria-pressed={isSelected}
                 onClick={() => handleDurationToggle(range)}
-                className={`
-                  px-4 py-2 rounded-full text-xs font-bold border transition-all duration-200
-                  ${
-                    isSelected
-                      ? "bg-jvto-lime border-jvto-lime text-jvto-navy shadow-sm scale-105"
-                      : "bg-white border-jvto-border text-jvto-muted hover:border-jvto-navy"
-                  }
-                `}
+                className={`jvto-focus rounded-sm border px-3.5 py-2 text-xs font-bold transition-colors ${
+                  isSelected
+                    ? "border-jvto-lime bg-jvto-lime text-jvto-navy"
+                    : "border-jvto-border bg-white text-jvto-ink-soft hover:border-jvto-navy hover:text-jvto-navy"
+                }`}
               >
                 {range} Days
               </button>
@@ -303,13 +458,14 @@ export default function ToursPageClient({
 
       {/* Price */}
       <FilterSection title="Price Range">
-        <div className="px-1 py-2">
+        <div className="px-1 py-1">
           <input
             type="range"
             min={0}
             max={globalMaxPrice}
             step={100000}
             aria-label="Price Range"
+            aria-valuetext={formatIDR(filters.maxPrice)}
             value={filters.maxPrice}
             onChange={(e) =>
               setFilters((prev) => ({
@@ -317,10 +473,10 @@ export default function ToursPageClient({
                 maxPrice: Number(e.target.value),
               }))
             }
-            className="w-full h-2 bg-jvto-border rounded-full appearance-none cursor-pointer accent-jvto-lime"
+            className="jvto-focus h-2 w-full cursor-pointer appearance-none rounded-full bg-jvto-border accent-jvto-lime"
           />
-          <div className="flex justify-between items-center mt-3">
-            <span className="text-xs text-jvto-muted">Up to</span>
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-xs text-jvto-ink-soft">Up to</span>
             <span className="text-sm font-bold text-jvto-navy">
               {formatIDR(filters.maxPrice)}
             </span>
@@ -330,7 +486,7 @@ export default function ToursPageClient({
 
       {/* Categories */}
       <FilterSection title="Experience Type">
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-1.5">
           {[
             { label: "Volcano", icon: Mountain, value: "Volcano" },
             { label: "Waterfall", icon: Waves, value: "Waterfall" },
@@ -343,21 +499,18 @@ export default function ToursPageClient({
             return (
               <button
                 key={type.value}
+                type="button"
+                aria-pressed={isSelected}
                 onClick={() => handleCategoryToggle(type.value as TourCategory)}
-                className={`
-                  flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
-                  ${
-                    isSelected
-                      ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
-                      : "border-transparent hover:bg-jvto-off text-jvto-muted"
-                  }
-                `}
+                className={optionClass(isSelected)}
               >
-                <div className="flex items-center gap-3">
-                  <type.icon size={16} strokeWidth={1.5} />
-                  <span className="text-sm">{type.label}</span>
-                </div>
-                {isSelected && <Check size={14} className="text-jvto-navy" />}
+                <span className="flex items-center gap-3">
+                  <type.icon aria-hidden="true" size={16} strokeWidth={1.5} />
+                  <span>{type.label}</span>
+                </span>
+                {isSelected && (
+                  <Check aria-hidden="true" size={14} className="text-jvto-navy" />
+                )}
               </button>
             );
           })}
@@ -365,41 +518,90 @@ export default function ToursPageClient({
       </FilterSection>
 
       <button
+        type="button"
         onClick={clearFilters}
-        className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-xs text-jvto-muted hover:text-jvto-orange transition-colors uppercase tracking-[0.1em] font-semibold"
+        className="jvto-focus mt-4 flex w-full items-center justify-center gap-2 rounded-sm py-2 text-[11px] font-bold tracking-[0.12em] text-jvto-ink-soft uppercase transition-colors hover:text-jvto-navy"
       >
-        <RotateCcw size={14} />
+        <RotateCcw aria-hidden="true" size={14} />
         Reset filters
       </button>
     </div>
   );
 
-  return (
-    <div className="max-w-7xl mx-auto px-6 md:px-8">
-      {/* HEADER — hidden when page provides its own heading */}
-      {!hideHeader && (
-        <div className="mb-12">
-          <h1
-            className="text-3xl md:text-4xl font-black text-jvto-navy mb-4"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+  // --- MOBILE DRAWER (MODAL) --- portalled to <body>, see subscribeNoop above.
+  const drawer = (
+    <div
+      className={`fixed inset-0 z-[60] transition-opacity duration-300 lg:hidden ${
+        isMobileFilterOpen
+          ? "visible opacity-100"
+          : "pointer-events-none invisible opacity-0"
+      }`}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-jvto-navy/70 backdrop-blur-sm"
+        onClick={closeDrawer}
+      />
+      <div
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={drawerTitleId}
+        className={`absolute top-0 right-0 flex h-full w-[88%] max-w-[360px] transform flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+          isMobileFilterOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-jvto-border p-5">
+          <h2
+            id={drawerTitleId}
+            className="font-mono text-[10px] font-black tracking-[0.2em] text-jvto-navy uppercase"
           >
-            {title ?? `${destinationName} Tours`}
-          </h1>
-          <p className="text-jvto-muted max-w-2xl leading-relaxed text-sm md:text-base">
-            {description}
-          </p>
+            Filter Tours
+          </h2>
+          <button
+            ref={drawerCloseRef}
+            type="button"
+            onClick={closeDrawer}
+            className="jvto-focus rounded-sm p-2 transition-colors hover:bg-jvto-off"
+            aria-label="Close filters"
+          >
+            <X aria-hidden="true" size={18} className="text-jvto-ink-soft" />
+          </button>
         </div>
-      )}
+        <div className="flex-1 overflow-y-auto p-5">{filterContent}</div>
+        <div className="border-t border-jvto-border p-5">
+          <button
+            type="button"
+            onClick={closeDrawer}
+            className="jvto-focus w-full rounded-sm bg-jvto-navy py-3.5 text-[11px] font-bold tracking-[0.14em] text-white uppercase transition-colors hover:bg-jvto-navy-raise"
+          >
+            Show {filteredTours.length} Results
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
-      <div className="flex flex-col lg:flex-row gap-8 relative">
+  return (
+    <div>
+      <div className="flex flex-col gap-8 lg:flex-row">
         {/* --- DESKTOP SIDEBAR --- */}
-        <aside className="hidden lg:block w-[280px] shrink-0">
-          <div className="sticky top-32 bg-white p-6 rounded-[24px] border border-jvto-border card-jvto">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-jvto-border">
-              <h3 className="font-mono text-[9px] font-black uppercase tracking-[0.22em] text-jvto-navy">
+        <aside
+          aria-labelledby="tours-filters-heading"
+          className="hidden w-[272px] flex-shrink-0 lg:block"
+        >
+          <div className="sticky top-32 rounded-sm border border-jvto-border bg-white p-5 shadow-jvto-soft">
+            <div className="mb-4 flex items-center justify-between gap-3 border-b border-jvto-border pb-4">
+              <h3
+                id="tours-filters-heading"
+                className="font-mono text-[10px] font-black tracking-[0.2em] text-jvto-navy uppercase"
+              >
                 Filters
               </h3>
-              <span className="font-mono text-[9px] font-bold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-full text-jvto-navy">
+              <span
+                aria-live="polite"
+                className="rounded-sm border border-jvto-lime/40 bg-jvto-lime/15 px-2.5 py-1 font-mono text-[10px] font-bold text-jvto-navy"
+              >
                 {filteredTours.length} tours
               </span>
             </div>
@@ -407,75 +609,54 @@ export default function ToursPageClient({
           </div>
         </aside>
 
-        {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md px-5 py-3.5 rounded-full shadow-sm border border-jvto-border flex items-center justify-between sticky top-24 z-30">
-          <div>
-            <span className="block text-[9px] text-jvto-muted font-semibold uppercase tracking-[0.12em]">
-              Showing
-            </span>
-            <span className="font-bold text-jvto-navy text-sm">
-              {filteredTours.length} tours
-            </span>
+        <div className="min-w-0 flex-1">
+          {/* --- MOBILE CONTROL BAR --- */}
+          <div className="sticky top-24 z-30 mb-4 flex items-center justify-between gap-4 rounded-sm border border-jvto-border bg-white/95 px-4 py-3 shadow-jvto-soft backdrop-blur-md lg:hidden">
+            <p>
+              <span className="block font-mono text-[9px] font-bold tracking-[0.16em] text-jvto-ink-soft uppercase">
+                Showing
+              </span>
+              <span
+                aria-live="polite"
+                className="text-sm font-bold text-jvto-navy"
+              >
+                {filteredTours.length} tours
+              </span>
+            </p>
+            <button
+              ref={drawerTriggerRef}
+              type="button"
+              onClick={() => setIsMobileFilterOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={isMobileFilterOpen}
+              className="jvto-focus flex items-center gap-2 rounded-sm bg-jvto-navy px-4 py-2.5 text-[11px] font-bold tracking-[0.12em] text-white uppercase transition-transform active:scale-95"
+            >
+              <Filter aria-hidden="true" size={14} /> Filters
+            </button>
           </div>
-          <button
-            onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-orange text-white rounded-full text-[10px] font-bold uppercase tracking-[0.12em] active:scale-95 transition-transform"
-          >
-            <Filter size={14} /> Filters
-          </button>
-        </div>
 
-        {/* --- MOBILE DRAWER (OVERLAY) --- */}
-        <div
-          className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
-            isMobileFilterOpen
-              ? "opacity-100 visible"
-              : "opacity-0 invisible pointer-events-none"
-          }`}
-        >
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setIsMobileFilterOpen(false)}
-          />
-          <div
-            className={`absolute right-0 top-0 h-full w-[85%] max-w-[360px] bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${
-              isMobileFilterOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="p-5 border-b border-jvto-border flex items-center justify-between">
-              <h3
-                className="text-[9px] font-black text-jvto-navy uppercase tracking-[0.2em]"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                Filter Tours
-              </h3>
-              <button
-                onClick={() => setIsMobileFilterOpen(false)}
-                className="p-2 hover:bg-jvto-off rounded-full transition-colors"
-                aria-label="Close filters"
-              >
-                <X size={18} className="text-jvto-muted" />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-5">
-              {filterContent}
-            </div>
-            <div className="p-5 border-t border-jvto-border">
-              <button
-                onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-jvto-orange text-white py-3.5 rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
-                style={{ boxShadow: "var(--shadow-jvto-orange)" }}
-              >
-                Show {filteredTours.length} Results
-              </button>
-            </div>
-          </div>
-        </div>
+          {/* --- ACTIVE FILTER RAIL (mobile: the drawer hides the controls) --- */}
+          {activeChips.length > 0 && (
+            <ul className="mb-6 flex flex-wrap gap-2 lg:hidden">
+              {activeChips.map((chip) => (
+                <li key={chip.key}>
+                  <button
+                    type="button"
+                    aria-pressed={true}
+                    onClick={chip.toggle}
+                    className="jvto-focus inline-flex max-w-full items-center gap-2 rounded-sm border border-jvto-navy bg-jvto-navy/[0.06] px-3 py-1.5 text-xs font-semibold text-jvto-navy"
+                  >
+                    <span className="truncate">{chip.label}</span>
+                    <X aria-hidden="true" size={12} className="flex-shrink-0" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
 
-        {/* --- MAIN GRID CONTENT --- */}
-        <div className="flex-1 min-h-[600px]">
+          {/* --- MAIN GRID CONTENT --- */}
           {filteredTours.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredTours.map((tour) => (
                 <div key={tour.id} className="h-full">
                   <TourCard tour={tour} />
@@ -483,22 +664,23 @@ export default function ToursPageClient({
               ))}
             </div>
           ) : (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-white rounded-[24px] border border-jvto-border">
-              <div className="w-14 h-14 bg-jvto-off rounded-full flex items-center justify-center mb-4">
-                <Search className="w-6 h-6 text-jvto-muted" />
-              </div>
-              <h3
-                className="text-lg font-black text-jvto-navy mb-2"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+            <div className="flex flex-col items-center justify-center rounded-sm border border-jvto-border bg-white px-6 py-20 text-center">
+              <span
+                aria-hidden="true"
+                className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-jvto-off"
               >
+                <Search className="h-6 w-6 text-jvto-ink-soft" />
+              </span>
+              <h3 className="font-jvto-heading mb-2 text-lg font-black text-jvto-navy">
                 No tours found
               </h3>
-              <p className="text-jvto-muted text-sm max-w-xs mx-auto mb-6 leading-relaxed">
+              <p className="mx-auto mb-6 max-w-xs text-sm leading-relaxed text-jvto-ink-soft">
                 Try adjusting your filters to find matching tours.
               </p>
               <button
+                type="button"
                 onClick={clearFilters}
-                className="px-8 py-3 bg-jvto-orange text-white rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
+                className="jvto-focus rounded-sm bg-jvto-navy px-6 py-3 text-[11px] font-bold tracking-[0.14em] text-white uppercase transition-colors hover:bg-jvto-navy-raise"
               >
                 Clear Filters
               </button>
@@ -506,6 +688,8 @@ export default function ToursPageClient({
           )}
         </div>
       </div>
+
+      {isHydrated ? createPortal(drawer, document.body) : null}
     </div>
   );
 }
