@@ -1,4 +1,6 @@
 import Link from "@/components/website/AppLink";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 
 // Timeline — foundingDate/since = 2015 per docs/CANONICAL_FACTS.md. Legal
 // registration (PT Java Volcano Rendezvous, NIB/TDUP) is mentioned only in a
@@ -23,75 +25,73 @@ const TIMELINE = [
   },
 ] as const;
 
+// PKG-11a: the timeline spine becomes a graded rule with orange survey nodes,
+// and the entry titles move from <h4> to <h3> — they sit directly under this
+// section's <h2>, so the old markup skipped a level.
 export default function HomeOurStory() {
   return (
-    <section aria-labelledby="story-heading" className="bg-jvto-off py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10 md:mb-14">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
-              § 10
-            </p>
-            <h2
-              id="story-heading"
-              className="font-black text-2xl md:text-3xl text-jvto-navy max-w-xl"
-            >
-              Built by someone who saw the{" "}
-              <span className="text-jvto-orange">alternatives.</span>
-            </h2>
-          </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-jvto-muted">
-            One legal entity, since 2015
-          </span>
+    <Section surface="light" labelledBy="story-heading">
+      <SectionHeading
+        id="story-heading"
+        eyebrow="§ 10"
+        title={
+          <>
+            Built by someone who saw the{" "}
+            <span className="text-jvto-orange">alternatives.</span>
+          </>
+        }
+        aside={<>One legal entity, since 2015</>}
+        titleClassName="max-w-xl"
+      />
+
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div>
+          <p className="font-jvto-heading mb-6 text-xl leading-snug font-black text-jvto-navy md:text-2xl">
+            JVTO grew from a humble local guesthouse in Bondowoso into a licensed tour
+            operator shaped by the Tourist Police experience of our founder, Mr. Sam.
+          </p>
+          <p className="mb-4 max-w-[56ch] text-sm leading-relaxed text-jvto-ink-soft md:text-base">
+            We saw the gaps in safety standards first-hand — unlicensed guides, no
+            medical screening coordination, operators with no BBKSDA clearance, no
+            written rules for guests. We decided to build something different:
+            private-only routes, realistic driving days, and clear written policies.
+          </p>
+          <p className="mb-8 max-w-[56ch] text-sm leading-relaxed text-jvto-ink-soft md:text-base">
+            Today, we act as a bridge between wild adventure and professional safety
+            standards. The Tourist Police experience isn&apos;t a marketing credential —
+            it&apos;s the lens through which every route, every safety rule, and every
+            Plan-B decision is made.
+          </p>
+          <Link
+            href="/why-jvto/our-story"
+            className="jvto-focus rounded-sm text-sm font-bold text-jvto-navy transition-colors hover:text-jvto-orange"
+          >
+            Read the full story <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-start">
-          <div>
-            <p className="font-black text-xl md:text-2xl text-jvto-navy leading-snug mb-5">
-              JVTO grew from a humble local guesthouse in Bondowoso into a licensed
-              tour operator shaped by the Tourist Police experience of our founder,
-              Mr. Sam.
-            </p>
-            <p className="text-jvto-muted text-sm md:text-base leading-relaxed mb-4 max-w-[56ch]">
-              We saw the gaps in safety standards first-hand — unlicensed guides, no
-              medical screening coordination, operators with no BBKSDA clearance, no
-              written rules for guests. We decided to build something different:
-              private-only routes, realistic driving days, and clear written
-              policies.
-            </p>
-            <p className="text-jvto-muted text-sm md:text-base leading-relaxed mb-8 max-w-[56ch]">
-              Today, we act as a bridge between wild adventure and professional
-              safety standards. The Tourist Police experience isn&apos;t a
-              marketing credential — it&apos;s the lens through which every route,
-              every safety rule, and every Plan-B decision is made.
-            </p>
-            <Link
-              href="/why-jvto/our-story"
-              className="text-sm font-bold text-jvto-navy hover:text-jvto-orange transition-colors"
-            >
-              Read the full story <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-
-          <ul className="flex flex-col gap-8 border-l border-jvto-border pl-6">
-            {TIMELINE.map((item) => (
-              <li key={item.year} className="relative">
-                <span
-                  className="absolute -left-[29px] top-1 w-2.5 h-2.5 rounded-full bg-jvto-navy"
-                  aria-hidden="true"
-                />
-                <p className="font-mono text-xs font-bold text-jvto-orange mb-1">
-                  {item.year}
-                </p>
-                <h4 className="font-black text-jvto-navy text-base mb-1.5">
-                  {item.title}
-                </h4>
-                <p className="text-jvto-muted text-sm leading-relaxed">{item.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ol className="relative flex flex-col gap-9 pl-7">
+          <span
+            aria-hidden="true"
+            className="absolute top-2 bottom-2 left-0 w-px bg-gradient-to-b from-jvto-orange via-jvto-rule to-transparent"
+          />
+          {TIMELINE.map((item) => (
+            <li key={item.year} className="relative">
+              <span
+                className="absolute top-1.5 -left-7 h-2.5 w-2.5 -translate-x-[4.5px] rounded-full bg-jvto-orange ring-4 ring-white"
+                aria-hidden="true"
+              />
+              <p className="mb-1.5 font-mono text-xs font-bold tracking-[0.15em] text-jvto-orange">
+                {item.year}
+              </p>
+              <h3 className="font-jvto-heading mb-1.5 text-base font-black text-jvto-navy">
+                {item.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-jvto-ink-soft">{item.body}</p>
+            </li>
+          ))}
+        </ol>
       </div>
-    </section>
+    </Section>
   );
 }
