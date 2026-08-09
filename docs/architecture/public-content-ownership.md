@@ -62,7 +62,7 @@ Consequences:
   fix during Package 04.
 - **Known AD-08 gap to close (Package 05):** `why-jvto/[slug]` emits FAQ JSON-LD from the resolved
   source but renders the visible FAQ from `content.faq`.
-- **Dead module:** `src/lib/ssot/getContentPage.ts` (zero importers) — remove in Package 09.
+- **Dead module:** `src/lib/ssot/getContentPage.ts` (zero importers) — **removed in Package 09** (2026-08-09; the active reader is `@/lib/content/getContentPage`).
 
 ## Guardrails that keep the facts lock intact
 

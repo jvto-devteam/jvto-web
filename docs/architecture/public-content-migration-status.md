@@ -23,7 +23,10 @@ Policy routes call **zero** obsolete readers (`getPublicPageSnapshot` / `getCont
 `resolveFaqsForPage` / `getPolicyNotes` / `getCustomerCopy` / `getPolicyEvidenceText` /
 `getPageSeo` / `listPublicPageRoutesByPrefix` — grep-verified empty). `buildPolicySchemas.ts`
 still reads `getCustomerCopy` internally for the SpecialAnnouncement node (schema import,
-allowed by the blueprint; audit again in Package 09). `browserTitle` meta field added for
+allowed by the blueprint; **audited in Package 09 (2026-08-09): kept** — it reads the
+`policy-bundle` producer artifact (`src/lib/policy-bundle.ts`), the sanctioned policy-copy
+source shared with checkout + `tourFaqs`; it is a schema-only read, not a migrated-route legacy
+source, so no change). `browserTitle` meta field added for
 H1 ≠ `<title>` parity. Parity proof: all 4 routes byte-compared against the pre-cutover
 resolver dumps (H1/titles/descriptions/bodies/bundle blocks/no-FAQ) — PASS.
 
@@ -101,10 +104,14 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 
 - Tours/packages/pricing/checkout/booking/customer/auth — DB-owned (AD-02), untouched.
 - `src/data/{trust-bundle,policy-bundle,package-readiness,okf}` sync + CI drift gate — untouched
-  until their consumers reach zero (Packages 03–09); `sync:cms-seed` retires in 09.
+  until their consumers reach zero (Packages 03–09). **`sync:cms-seed` retires at Milestone 8**
+  (it still serves non-migrated seed routes, so retiring it earlier would break them) — reconciled
+  in Package 09 to match `legacy-freeze-list.md` + `producer-artifact-classification.md`; the earlier
+  "retires in 09" here was an outlier and is corrected.
 - Sitemap route enumeration (hardcoded per-cluster) — only the `content_pages` lastmod fallback is
   removed in Package 07.
-- `src/lib/ssot/getContentPage.ts` — dead (zero importers); delete in Package 09.
+- `src/lib/ssot/getContentPage.ts` — **deleted in Package 09** (was dead, zero importers; the active
+  reader is `@/lib/content/getContentPage`).
 
 ## Program status
 
@@ -121,7 +128,8 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
 | 06 | Verify JVTO (hub + 4 sub-pages) + Destinations hub → content/; Team people-entity-sourced | **cutover (this PR)** — Verify + Destinations hub; Team **IMPLEMENTED** (already on `main`, ledger corrected) |
 | 08 | Blog (hub + 2 posts) → content/; `/blog` un-deprecated; `sync:blog` retired | **cutover (this PR)** — content-owned, `BlogPosting`/`CollectionPage` JSON-LD, `test:blog` parity. **Routing note:** `/blog` no longer 301s to `/travel-guide` (the redirect is removed; the registry entry is now `live`) |
-| 07, 09–11 | per blueprint | pending, one PR each |
+| 09 | SSOT dead-source cleanup: delete dead `src/lib/ssot/getContentPage.ts`; audit `buildPolicySchemas` `getCustomerCopy` (**kept** — sanctioned `policy-bundle` read, shared with checkout/tours); reconcile `sync:cms-seed` retirement timing → **Milestone 8** | **cutover (this PR)** — the `sync:cms-seed` retirement itself is deferred to M8 (still serves non-migrated routes) |
+| 07, 10–11 | per blueprint | pending, one PR each |
 
 **Deploy proof (help/preview box, merge `1c22c770`, 2026-08-04) — NOT production:** deploy run
 30901548524 green (its in-CI `smoke-why-jvto.mjs` step passed) + independent re-verification:
