@@ -1,7 +1,7 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
 import { now } from "@/lib/site";
-import { getContentPageLastModifiedMap } from "./sitemap-utils";
+import { getSitemapLastModifiedMap } from "./sitemap-utils";
 
 import { sitemapRoot } from "./sitemap.data";
 import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
@@ -12,49 +12,17 @@ import { sitemapToursFromSurabaya } from "./(website)/tours/from-surabaya/sitema
 import { sitemapToursFromBali } from "./(website)/tours/from-bali/sitemap.data";
 import { sitemapBlog } from "./(website)/blog/sitemap.data";
 
-// Prisma butuh Node runtime
+// Node runtime: the lastmod sources read the filesystem (content/ SSOT + committed
+// snapshots). Prisma is no longer used here — PACKAGE 07 removed the content_pages
+// lastmod fallback, so the sitemap performs no database read at all.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const t = now();
-  const lastModifiedMap = await getContentPageLastModifiedMap(
-    [
-      "/",
-      "/contact",
-      "/destinations",
-      "/isic/student-package",
-      "/tours",
-      "/tours/from-surabaya",
-      "/tours/from-bali",
-      "/travel-guide",
-      "/travel-guide/faq",
-      "/travel-guide/safety-on-tours",
-      "/travel-guide/weather-and-closures",
-      "/travel-guide/packing-and-fitness",
-      "/travel-guide/booking-information",
-      "/travel-guide/police-escort-for-groups",
-      "/travel-guide/ijen-health-screening",
-      "/policy",
-      "/policy/privacy",
-      "/policy/inclusions-exclusions",
-      "/policy/booking-payment-cancellation",
-      "/why-jvto",
-      "/why-jvto/the-jvto-difference",
-      "/why-jvto/reviews",
-      "/why-jvto/our-story",
-      "/why-jvto/our-team",
-      "/why-jvto/community-standards",
-      "/verify-jvto",
-      "/verify-jvto/legal",
-      "/verify-jvto/press-recognition",
-      "/verify-jvto/history-artifacts",
-      "/verify-jvto/police-safety",
-      "/markets/singapore",
-      "/markets/malaysia",
-    ],
-    t,
-  );
+  // Same route enumeration as before; the list now lives in sitemap-utils so the
+  // parity gate can assert every entry resolves to a stable (non-request-time) date.
+  const lastModifiedMap = getSitemapLastModifiedMap();
 
   const [
     root,

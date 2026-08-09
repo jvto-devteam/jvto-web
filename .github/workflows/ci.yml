@@ -193,6 +193,11 @@ jobs:
           # generated from the same FAQ array rendered visibly (AD-08), and the generic
           # schema_type builder never emits a duplicate mainEntity-less FAQPage stub.
           npm run test:faq-schema
+          # PACKAGE 07: the sitemap's lastmod no longer reads content_pages (Prisma). Every
+          # enumerated route must resolve to a stable date from content/ + snapshots + the
+          # explicit static map — never the force-dynamic request time — and the lastmod path
+          # must stay free of any DB reader.
+          npm run test:sitemap-lastmod
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").

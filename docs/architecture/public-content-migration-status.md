@@ -108,8 +108,11 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
   (it still serves non-migrated seed routes, so retiring it earlier would break them) — reconciled
   in Package 09 to match `legacy-freeze-list.md` + `producer-artifact-classification.md`; the earlier
   "retires in 09" here was an outlier and is corrected.
-- Sitemap route enumeration (hardcoded per-cluster) — only the `content_pages` lastmod fallback is
-  removed in Package 07.
+- Sitemap route enumeration (hardcoded per-cluster) — unchanged. The `content_pages` lastmod
+  fallback **was removed in Package 07** (2026-08-09): lastmod now resolves from the content/ SSOT
+  (`meta.lastReviewed`) → committed page snapshots → an explicit static date for the two TSX/lib-owned
+  `/markets/*` routes, so the sitemap performs **no database read** and no route falls through to the
+  force-dynamic request time.
 - `src/lib/ssot/getContentPage.ts` — **deleted in Package 09** (was dead, zero importers; the active
   reader is `@/lib/content/getContentPage`).
 
@@ -128,8 +131,9 @@ their route packages (03–06) — per blueprint §Package 02, only one low-risk
 | 05c | Total legacy-source removal + enforcement gate (below) | **IMPLEMENTED · PREVIEW-VERIFIED** (#145, merged `1c22c770`) |
 | 06 | Verify JVTO (hub + 4 sub-pages) + Destinations **hub + 5 detail routes** → content/; Team people-entity-sourced | **IMPLEMENTED · PREVIEW-VERIFIED** (#159, merged `7850af59`) — Verify (5 routes) + Destinations hub **and all 5 `/destinations/[slug]` detail routes** (narrative/SEO/canonical/JSON-LD from `content/`, DB only for dynamic data); Team people-entity-sourced. Preview proof (help @ `f1bfc8f7`, 2026-08-09): the 5 detail routes each return HTTP 200 with the production canonical + `TouristAttraction` JSON-LD |
 | 08 | Blog (hub + 2 posts) → content/; `/blog` un-deprecated; `sync:blog` retired | **IMPLEMENTED · PREVIEW-VERIFIED** (#161, merged `f1bfc8f7`) — content-owned, `BlogPosting`/`CollectionPage` JSON-LD, `test:blog` parity. Preview proof (help @ `f1bfc8f7`): build-info + knowledge-feed `sourceCommit` both `f1bfc8f7`, feed 47 routes, hub + both posts HTTP 200 with production canonicals, sitemap carries all three, help still `noindex, nofollow`. **Routing note:** `/blog` no longer 301s to `/travel-guide` (the redirect is removed; the registry entry is now `live`) |
-| 09 | SSOT dead-source cleanup: delete dead `src/lib/ssot/getContentPage.ts`; audit `buildPolicySchemas` `getCustomerCopy` (**kept** — sanctioned `policy-bundle` read, shared with checkout/tours); reconcile the architecture inventories + this ledger (incl. the `/destinations/[slug]` row and the promotion statuses above); `sync:cms-seed` retirement timing → **Milestone 8** | **IN PROGRESS — PR #162** (not merged). Becomes IMPLEMENTED on merge to `main`, and PREVIEW-VERIFIED only after help serves that merge SHA. The `sync:cms-seed` retirement itself is deferred to M8 (still serves non-migrated routes) |
-| 07, 10–11 | per blueprint | pending, one PR each |
+| 09 | SSOT dead-source cleanup: delete dead `src/lib/ssot/getContentPage.ts`; audit `buildPolicySchemas` `getCustomerCopy` (**kept** — sanctioned `policy-bundle` read, shared with checkout/tours); reconcile the architecture inventories + this ledger (incl. the `/destinations/[slug]` row and the promotion statuses above); `sync:cms-seed` retirement timing → **Milestone 8** | **IMPLEMENTED · PREVIEW-VERIFIED** (#162, merged `cf293bbe`) — preview proof: the **automatic** `main → help` deploy (`Deploy to VPS` run #366, `event: push`, head `cf293bbe`, 15:19:35Z → success 15:21:08Z; the workflow fails unless `/api/build-info` reports the pushed SHA) plus an independent re-check: help `build-info.commitSha` == `knowledge-feed.sourceCommit` == `cf293bbe`, feed 47 routes, `/blog` + post + `/destinations/ijen-crater` + `/travel-guide/faq` each HTTP 200 with the production canonical, `/travel-guide/faq` exactly one FAQPage, help still `noindex, nofollow`. The `sync:cms-seed` retirement itself remains deferred to M8 (still serves non-migrated routes) |
+| 07 | Sitemap lastmod: remove the `content_pages` (Prisma) fallback; enumeration unchanged | **cutover (this PR)** — lastmod resolves content/ → snapshot → explicit static date; `/markets/{singapore,malaysia}` (the only routes the DB tier still served) get an explicit date so they never fall to the request time; `test:sitemap-lastmod` gate proves all 32 routes stable + the path is DB-free |
+| 10–11 | per blueprint | pending, one PR each |
 
 **Deploy proof (help/preview box, merge `1c22c770`, 2026-08-04) — NOT production:** deploy run
 30901548524 green (its in-CI `smoke-why-jvto.mjs` step passed) + independent re-verification:
