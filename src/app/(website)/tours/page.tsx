@@ -5,9 +5,22 @@
 // FAQ come from content/; the PACKAGE LIST stays DYNAMIC (getPublicPackageList,
 // the DB-derived package snapshot) exactly as before — content/ never carries a
 // package, a price, or a package count.
+//
+// PKG-11b (visual layer): this is the ALL-ROUTES HUB, and its job is the fork —
+// pick a departure city, or browse everything. So the departure hubs were moved
+// out from § 03 (below the grid and the comparison matrix) to § 01, directly
+// under the hero: the first decision on the page is now the first thing on the
+// page. The catalogue follows, then the archetype comparison as the decision
+// aid for people who did not take the fork, then planning. The two departure
+// routes deliberately do NOT have this fork band — that is the structural
+// difference between the hub and its children.
+//
+// No copy was written for this pass. Every visible string is either the content
+// record (content/pages/tours/index.json, content/faqs/tours-hub.json) or a
+// pre-existing local constant in this file, re-ordered or re-wrapped only.
 import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
-import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
+import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
@@ -19,20 +32,24 @@ import {
 import { buildToursHubAggregateRatingSchema } from "@/lib/schemas/buildToursHubSchemas";
 import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
 import {
+  HUB_CREDENTIALS,
+  HubClosingCta,
   HubFaqSection,
+  HubProse,
   buildHubFaqSchema,
   hubGrid,
   hubGridBlock,
   hubProse,
 } from "./hubContent";
+import HubHero from "@/components/design/HubHero";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 import Link from "@/components/website/AppLink";
 import { formatIDR } from "@/utils/formatting";
-import { ArrowRight, Clock, Gauge, Compass, MapPin } from "lucide-react";
+import { Clock, Gauge, Compass, MapPin } from "lucide-react";
 export const revalidate = 3600;
 
 const ROUTE = "/tours";
-
-const DISPLAY_FONT = { fontFamily: "Raleway, Inter, sans-serif" };
 
 /** Content-owned tile copy → the icons that render it (icons stay presentational). */
 const PLANNING_ICONS = { clock: Clock, gauge: Gauge, compass: Compass } as const;
@@ -143,258 +160,216 @@ export default async function ToursPageGlobal() {
       {hubFaqSchema && <StructuredData data={hubFaqSchema} />}
       <StructuredData data={hubAggregateRatingSchema} />
 
-      {/* ── 1. HERO ───────────────────────────────────── */}
-      <section className="bg-jvto-navy text-white pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
-        <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-5 pointer-events-none"
-          style={{ background: "radial-gradient(circle, var(--color-jvto-lime) 0%, transparent 70%)" }}
+      {/* ── HERO ──────────────────────────────────────── */}
+      <HubHero
+        id="tours-hub-h1"
+        eyebrow="Private Expedition Routes"
+        title={
+          <>
+            The art of <span className="text-jvto-orange">route</span> selection.
+          </>
+        }
+        lede={`${page.lede?.[0] ?? ""} ${pageDescription}`}
+        credentials={HUB_CREDENTIALS}
+        actions={[
+          { href: "#packages", label: `Browse All ${initialTours.length} Packages` },
+          { href: "/verify-jvto", label: "Verify JVTO" },
+        ]}
+        ledger={[
+          ["Total routes", String(initialTours.length)],
+          ["Avg. rating", "4.8 / 5"],
+          ["Starting from", formatIDR(startingFrom)],
+        ]}
+      />
+
+      {/* ── 1. DEPARTURE HUBS — the fork, and the thing that makes this page
+             the HUB rather than a third departure page. ───────────────── */}
+      <Section surface="light" labelledBy="departure-hubs-heading">
+        <SectionHeading
+          id="departure-hubs-heading"
+          eyebrow="§ 01"
+          title={
+            <>
+              Departure <span className="text-jvto-orange">hubs.</span>
+            </>
+          }
+          aside="Surabaya · Bali"
         />
-        <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-20 items-end">
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-jvto-lime" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime">
-                  Private Expedition Routes
-                </span>
-              </div>
 
-              <h1
-                className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.95] mb-6 max-w-3xl"
-                style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-              >
-                The art of <em className="text-jvto-orange not-italic italic">route</em> selection.
-              </h1>
-
-              <p className="text-white/60 text-base md:text-lg max-w-2xl mb-8 leading-relaxed font-light">
-                {page.lede?.[0]} {pageDescription}
-              </p>
-
-              <div className="flex flex-wrap gap-3 mb-10">
-                {["NIB 1102230032918", "Trustpilot 4.8/5 · 51 reviews", "Founded 2015"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-semibold text-white/60 uppercase tracking-[0.1em]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="#packages"
-                  prefetch={false}
-                  className="inline-flex items-center gap-2 bg-jvto-orange text-white px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
-                  style={{ boxShadow: "var(--shadow-jvto-orange)" }}
-                >
-                  Browse All {initialTours.length} Packages
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/verify-jvto"
-                  prefetch={false}
-                  className="inline-flex items-center gap-2 border border-white/20 text-white/70 px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors"
-                >
-                  Verify JVTO
-                </Link>
-              </div>
-            </div>
-
-            {/* Hero stat rail — mirrors spec's hero-meta-block */}
-            <div className="flex flex-col gap-1 pb-1">
-              {[
-                ["Total routes", String(initialTours.length)],
-                ["Avg. rating", "4.8 / 5"],
-                ["Starting from", formatIDR(startingFrom)],
-              ].map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex justify-between items-center py-3.5 border-b border-white/10 font-mono text-[11px] uppercase tracking-[0.2em] text-white/65"
-                >
-                  <span>{label}</span>
-                  <strong className="text-white font-semibold normal-case tracking-normal text-sm">{value}</strong>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. PACKAGES ───────────────────────────────── */}
-      <section id="packages" className="bg-jvto-off py-20 md:py-28 rounded-t-[48px] -mt-8 relative z-10 shadow-[0_-32px_80px_-36px_rgba(13,27,42,0.10)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 mb-12">
-          <div className="flex items-end justify-between gap-6 border-b border-jvto-border pb-6 mb-10 flex-wrap">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-jvto-muted/70">§ 01</span>
-            <h2
-              className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight max-w-2xl"
-              style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-            >
-              Find your <em className="text-jvto-orange not-italic">perfect route.</em>
-            </h2>
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">Filter by origin, days, fitness</span>
-          </div>
-          {routeSelectionProse.map((paragraph) => (
-            <p key={paragraph.slice(0, 48)} className="text-jvto-muted text-sm md:text-base max-w-2xl leading-relaxed">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-
-        <ToursPageClient
-          initialTours={initialTours}
-          destinationName="All Destinations"
-          title={page.meta.title}
-          description={pageDescription}
-          showLocationFilter={true}
-          hideHeader
-        />
-      </section>
-
-      {/* ── 3. ROUTE COMPARISON ──────────────────────── */}
-      <section className="bg-jvto-off py-20 md:py-24">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex items-end justify-between gap-6 border-b border-jvto-border pb-6 mb-10 flex-wrap">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-jvto-muted/70">§ 02</span>
-            <h2
-              className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight max-w-2xl"
-              style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-            >
-              Route <em className="text-jvto-orange not-italic">comparison.</em>
-            </h2>
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">{routeArchetypes.length} archetypes</span>
-          </div>
-
-          <div className="overflow-x-auto border border-jvto-border rounded-[24px] bg-white">
-            <table className="w-full text-sm border-collapse min-w-[640px]">
-              <thead>
-                <tr>
-                  <th className="text-left p-5 font-mono text-[11px] uppercase tracking-[0.2em] text-jvto-muted font-semibold bg-jvto-off rounded-tl-[24px]">Feature</th>
-                  {routeArchetypes.map((a, i) => (
-                    <th
-                      key={a.name}
-                      className={`text-left p-5 font-black text-jvto-navy text-lg bg-jvto-off ${i === routeArchetypes.length - 1 ? "rounded-tr-[24px]" : ""}`}
-                      style={DISPLAY_FONT}
-                    >
-                      {a.name}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {routeCompareFeatures.map((feature, rowIdx) => (
-                  <tr key={feature} className="border-t border-jvto-border">
-                    <td className="p-5 font-mono text-[10px] uppercase tracking-[0.2em] text-jvto-navy font-bold align-top">{feature}</td>
-                    {routeArchetypes.map((a) => (
-                      <td key={a.name} className="p-5 text-jvto-navy/80 align-top">{a.rows[rowIdx]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. DEPARTURE HUBS ────────────────────────── */}
-      <section className="bg-jvto-navy text-white py-20 md:py-24">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex items-end justify-between gap-6 border-b border-white/10 pb-6 mb-10 flex-wrap">
-            <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/40">§ 03</span>
-            <h2
-              className="text-3xl md:text-5xl font-black leading-tight max-w-2xl"
-              style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-            >
-              Departure <em className="text-jvto-orange not-italic">hubs.</em>
-            </h2>
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/40">Surabaya · Bali</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {departureHubs.map((hub) => (
+        <ul className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {departureHubs.map((hub) => (
+            <li key={hub.key} className="flex">
               <Link
-                key={hub.key}
                 href={hub.href}
-                prefetch={false}
-                className="group bg-white/[0.03] border border-white/10 rounded-[24px] p-9 flex flex-col gap-4 transition-all hover:-translate-y-1 hover:border-jvto-orange"
+                className="jvto-focus group relative flex w-full flex-col overflow-hidden rounded-sm border border-jvto-border bg-white p-7 pt-8 shadow-jvto-soft transition-all duration-300 hover:-translate-y-1 hover:border-jvto-navy/25 hover:shadow-jvto-card-hover"
               >
-                <MapPin className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
-                <h3 className="text-2xl font-black" style={DISPLAY_FONT}>{hub.title}</h3>
-                <p className="text-white/65 text-sm leading-relaxed">{hub.body}</p>
-                <span className="mt-auto pt-4 border-t border-white/10 font-mono text-[10px] uppercase tracking-[0.22em] text-jvto-lime">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] bg-jvto-navy/15 transition-colors duration-300 group-hover:bg-jvto-orange group-focus-visible:bg-jvto-orange"
+                />
+                <MapPin
+                  aria-hidden="true"
+                  className="mb-5 h-7 w-7 text-jvto-orange"
+                  strokeWidth={1.5}
+                />
+                <h3 className="font-jvto-heading mb-3 text-xl font-black text-jvto-navy md:text-2xl">
+                  {hub.title}
+                </h3>
+                <p className="mb-6 text-sm leading-relaxed text-jvto-ink-soft">
+                  {hub.body}
+                </p>
+                <span className="mt-auto border-t border-jvto-border pt-4 font-mono text-[10px] font-bold tracking-[0.2em] text-jvto-navy uppercase transition-transform duration-200 group-hover:translate-x-0.5">
                   {hub.cta}
                 </span>
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-      {/* ── 5. PLANNING YOUR EXPEDITION ───────────────── */}
-      <section className="bg-jvto-off py-20 md:py-24">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex items-end justify-between gap-6 border-b border-jvto-border pb-6 mb-10 flex-wrap">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-jvto-muted/70">§ 04</span>
-            <h2
-              className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight max-w-2xl"
-              style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-            >
-              Planning your <em className="text-jvto-orange not-italic">expedition.</em>
-            </h2>
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-muted/70">Three decision factors</span>
-          </div>
+      {/* ── 2. THE CATALOGUE ──────────────────────────── */}
+      <Section
+        surface="off"
+        id="packages"
+        labelledBy="route-selection-heading"
+        className="scroll-mt-24 md:scroll-mt-32"
+      >
+        <SectionHeading
+          id="route-selection-heading"
+          eyebrow="§ 02"
+          title={
+            <>
+              Find your <span className="text-jvto-orange">perfect route.</span>
+            </>
+          }
+          aside="Filter by origin, days, fitness"
+          className="mb-8 md:mb-10"
+        />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {planningTiles.map((tile) => {
-              const Icon = PLANNING_ICONS[tile.icon] ?? Compass;
-              return (
-                <div
-                  key={tile.title}
-                  className="bg-white border border-jvto-border rounded-[24px] p-8 card-jvto flex flex-col gap-4"
+        <HubProse paragraphs={routeSelectionProse} className="mb-10 md:mb-12" />
+
+        <ToursPageClient initialTours={initialTours} showLocationFilter />
+      </Section>
+
+      {/* ── 3. ROUTE COMPARISON ──────────────────────── */}
+      <Section surface="light" labelledBy="route-comparison-heading">
+        <SectionHeading
+          id="route-comparison-heading"
+          eyebrow="§ 03"
+          title={
+            <>
+              Route <span className="text-jvto-orange">comparison.</span>
+            </>
+          }
+          aside={`${routeArchetypes.length} archetypes`}
+        />
+
+        {/* The feature column is sticky, so a phone that scrolls the matrix
+            sideways never loses the row it is reading. */}
+        <div className="overflow-x-auto rounded-sm border border-jvto-border bg-white">
+          <table className="w-full min-w-[600px] border-collapse text-left text-sm">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  className="sticky left-0 z-10 bg-jvto-off px-4 py-4 font-mono text-[10px] font-bold tracking-[0.18em] text-jvto-ink-soft uppercase md:px-5"
                 >
-                  <Icon className="w-7 h-7 text-jvto-orange" strokeWidth={1.5} />
-                  <h3 className="text-xl font-black text-jvto-navy" style={DISPLAY_FONT}>{tile.title}</h3>
-                  <p className="text-jvto-muted text-sm leading-relaxed">{tile.body}</p>
-                </div>
-              );
-            })}
-          </div>
+                  Feature
+                </th>
+                {routeArchetypes.map((archetype) => (
+                  <th
+                    key={archetype.name}
+                    scope="col"
+                    className="font-jvto-heading bg-jvto-off px-4 py-4 text-base font-black text-jvto-navy md:px-5 md:text-lg"
+                  >
+                    {archetype.name}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {routeCompareFeatures.map((feature, rowIdx) => (
+                <tr key={feature} className="border-t border-jvto-border">
+                  <th
+                    scope="row"
+                    className="sticky left-0 z-10 bg-white px-4 py-4 align-top font-mono text-[10px] font-bold tracking-[0.16em] text-jvto-navy uppercase md:px-5"
+                  >
+                    {feature}
+                  </th>
+                  {routeArchetypes.map((archetype) => (
+                    <td
+                      key={archetype.name}
+                      className="px-4 py-4 align-top text-[13px] leading-snug text-jvto-ink-soft md:px-5"
+                    >
+                      {archetype.rows[rowIdx]}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </section>
+      </Section>
 
-      {/* ── 6. COMMON QUESTIONS (content/ FAQ — same array as the FAQPage node) ── */}
-      <HubFaqSection eyebrow="§ 05" items={faqItems} />
+      {/* ── 4. PLANNING YOUR EXPEDITION ───────────────── */}
+      <Section surface="off" labelledBy="planning-heading">
+        <SectionHeading
+          id="planning-heading"
+          eyebrow="§ 04"
+          title={
+            <>
+              Planning your <span className="text-jvto-orange">expedition.</span>
+            </>
+          }
+          aside="Three decision factors"
+        />
 
-      {/* ── 7. CTA ─────────────────────────────────────── */}
-      <section className="bg-jvto-navy text-white py-24 text-center rounded-t-[48px] -mt-8 relative z-10 shadow-[0_-40px_90px_-40px_rgba(0,0,0,0.45)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <h2
-            className="text-4xl md:text-6xl font-black leading-tight mb-10"
-            style={{ ...DISPLAY_FONT, letterSpacing: "-0.03em" }}
-          >
-            Ready for operational <em className="text-jvto-orange not-italic">certainty?</em>
-          </h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="https://wa.me/6282244788833"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-jvto-orange text-white px-9 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
-              style={{ boxShadow: "var(--shadow-jvto-orange)" }}
-            >
-              Contact the team
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <Link
-              href="/verify-jvto"
-              prefetch={false}
-              className="inline-flex items-center gap-2 border border-white/20 text-white px-9 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors"
-            >
-              Verify JVTO
-            </Link>
-          </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          {planningTiles.map((tile) => {
+            const Icon = PLANNING_ICONS[tile.icon] ?? Compass;
+            return (
+              <div
+                key={tile.title}
+                className="relative overflow-hidden rounded-sm border border-jvto-border bg-white p-7 pt-8 shadow-jvto-soft"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-[3px] bg-jvto-navy/15"
+                />
+                <Icon
+                  aria-hidden="true"
+                  className="mb-5 h-6 w-6 text-jvto-orange"
+                  strokeWidth={1.5}
+                />
+                <h3 className="font-jvto-heading mb-2.5 text-lg font-black text-jvto-navy">
+                  {tile.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-jvto-ink-soft">{tile.body}</p>
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
+
+      {/* ── 5. COMMON QUESTIONS (content/ FAQ — same array as the FAQPage node) ── */}
+      <HubFaqSection eyebrow="§ 05" items={faqItems} surface="light" />
+
+      {/* ── CLOSING PLATE ─────────────────────────────── */}
+      <HubClosingCta
+        headingId="tours-cta-heading"
+        title={
+          <>
+            Ready for operational{" "}
+            <span className="text-jvto-orange">certainty?</span>
+          </>
+        }
+        primary={{
+          href: "https://wa.me/6282244788833",
+          label: "Contact the team",
+          external: true,
+        }}
+        secondary={{ href: "/verify-jvto", label: "Verify JVTO" }}
+      />
     </>
   );
 }
