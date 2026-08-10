@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # Self-test for scripts/ops/deploy-jvto-web.sh (production deploy, handoff
 # §3.6). Mirrors deploy-script-selftest.sh's static text/order assertions for
-# the invariants shared with deploy-jvto-help.sh, PLUS the production-only
-# additions this script introduces: build-in-a-staging-worktree (never over
-# the running release), an atomic symlink switch, post-switch proof BEFORE
-# declaring success, and an automatic rollback-to-previous-release ordering.
+# the invariants shared with deploy-jvto-help.sh (in-place `git reset --hard`
+# deploy — no release-per-directory staging; see this script's own header for
+# why: production's real PM2 process runs with cwd=$DEPLOY_DIR directly, not
+# through a `current` symlink, so a staged/atomic-switch design would never
+# actually take effect on a `pm2 restart`), PLUS this script's production-only
+# additions: capturing the previous SHA for rollback, restoring the working
+# tree on a build failure, post-restart proof before declaring success, and
+# an automatic rollback-with-rebuild on a failed post-restart proof.
 #
 # Static text/order assertions only — no VPS, no root, no deploy, no network.
 # Runs on any runner. Wired into ci.yml `verify`.
@@ -71,15 +75,15 @@ else
   bad "nounset must be OFF across the nvm load: set +u before source, set -u after 'nvm use 20' (plusu=${plusu_line:-none} src=${src_line:-none} nvm=${nvm_line:-none} reu=${reu_line:-none})"
 fi
 
-# ── production-only additions (handoff §3.6) ──────────────────────────────────
+# ── production-only additions (handoff §3.6, in-place variant) ───────────────
 
-# 8. .env.local existence checked BEFORE the worktree/build, never invented.
+# 8. .env.local existence checked BEFORE the reset/build, never invented.
 env_check_line="$(line_of '\[ -f "\$ENV_FILE" \]')"
-worktree_add_line="$(line_of 'git worktree add')"
-if [ -n "$env_check_line" ] && [ -n "$worktree_add_line" ] && [ "$env_check_line" -lt "$worktree_add_line" ]; then
-  ok ".env.local existence checked (line $env_check_line) before worktree build (line $worktree_add_line)"
+reset_line="$(line_of 'git reset --hard "\$TARGET_SHA"')"
+if [ -n "$env_check_line" ] && [ -n "$reset_line" ] && [ "$env_check_line" -lt "$reset_line" ]; then
+  ok ".env.local existence checked (line $env_check_line) before checkout (line $reset_line)"
 else
-  bad ".env.local must be validated before the build starts (env=${env_check_line:-none} worktree=${worktree_add_line:-none})"
+  bad ".env.local must be validated before checkout/build (env=${env_check_line:-none} reset=${reset_line:-none})"
 fi
 if noncomment | grep -qE '^\s*cat\s*>\s*"\$ENV_FILE"|^\s*touch\s*"\$ENV_FILE"'; then
   bad "must NEVER invent/create \$ENV_FILE"
@@ -87,97 +91,80 @@ else
   ok "never invents \$ENV_FILE"
 fi
 
-# 9. build happens in a release worktree, not in $DEPLOY_DIR / $CURRENT_LINK
-#    directly — i.e. `npm run build` must run inside a subshell cd'd to
-#    $RELEASE_DIR, not a bare top-level `npm run build`.
-if grep -qE 'cd "\$RELEASE_DIR" && npm run build' "$SCRIPT"; then
-  ok "build runs inside the release worktree (\$RELEASE_DIR), not in place"
+# 9. the previous SHA is captured BEFORE the target checkout, so a rollback
+#    target always exists once anything has changed.
+prev_capture_line="$(line_of 'PREVIOUS_SHA="\$\(git rev-parse HEAD')"
+if [ -n "$prev_capture_line" ] && [ -n "$reset_line" ] && [ "$prev_capture_line" -lt "$reset_line" ]; then
+  ok "previous SHA captured (line $prev_capture_line) before checkout (line $reset_line)"
 else
-  bad "build must run inside \$RELEASE_DIR, never over the running release"
-fi
-if noncomment | grep -qE '^\s*npm run build\s*$'; then
-  bad "must not run a bare top-level 'npm run build' (would build over the running release)"
-else
-  ok "no bare top-level 'npm run build'"
+  bad "PREVIOUS_SHA must be captured before the target checkout (capture=${prev_capture_line:-none} reset=${reset_line:-none})"
 fi
 
-# 10. switch is an atomic symlink flip (temp link + mv -T), and it happens
-#     BEFORE the pm2 restart/bootstrap step.
-switch_line="$(line_of 'mv -T "\$TMP_LINK" "\$CURRENT_LINK"')"
-restart_line="$(line_of '"\$PM2_BIN" restart "\$PM2_PROCESS" --update-env \|\|')"
-if [ -n "$switch_line" ] && [ -n "$restart_line" ] && [ "$switch_line" -lt "$restart_line" ]; then
-  ok "atomic \$current switch (line $switch_line) happens before pm2 restart (line $restart_line)"
-else
-  bad "the \$current symlink switch must happen before the pm2 restart (switch=${switch_line:-none} restart=${restart_line:-none})"
-fi
-
-# 11. build failure aborts BEFORE the switch (build_failed() never touches
-#     $CURRENT_LINK) — the running release must survive a failed build.
+# 10. build failure restores the working tree to PREVIOUS_SHA and never
+#     touches PM2 (build_failed() must not call pm2 restart/start).
 if grep -qE 'build_failed\(\)' "$SCRIPT"; then
   build_failed_body="$(awk '/^build_failed\(\) \{/,/^\}/' "$SCRIPT")"
-  if printf '%s' "$build_failed_body" | grep -q 'CURRENT_LINK'; then
-    bad "build_failed() must never touch \$CURRENT_LINK — a failed build must leave the running release intact"
+  if printf '%s' "$build_failed_body" | grep -q 'PREVIOUS_SHA' && ! printf '%s' "$build_failed_body" | grep -qE '"\$PM2_BIN"'; then
+    ok "build_failed() restores \$PREVIOUS_SHA and never touches PM2"
   else
-    ok "build_failed() never touches \$CURRENT_LINK (running release survives a failed build)"
+    bad "build_failed() must restore \$PREVIOUS_SHA and must never call \$PM2_BIN"
   fi
 else
   bad "missing build_failed() failure handler"
 fi
 
-# 12. post-switch verification (smoke script) runs, and success is declared
-#     only AFTER it passes — i.e. the final "verified live" log line must
-#     come after the smoke-script invocation.
-smoke_line="$(line_of 'smoke-why-jvto\.mjs"')"
-verified_line="$(line_of 'verification PASSED')"
-if [ -n "$smoke_line" ] && [ -n "$verified_line" ] && [ "$smoke_line" -lt "$verified_line" ]; then
-  ok "post-switch smoke (line $smoke_line) runs before declaring verification passed (line $verified_line)"
+# 11. build (npm ci + npm run build) happens BEFORE the pm2 restart.
+build_line="$(line_of '^npm run build \|\| build_failed')"
+restart_line="$(line_of '"\$PM2_BIN" restart "\$PM2_PROCESS" --update-env \|\|')"
+if [ -n "$build_line" ] && [ -n "$restart_line" ] && [ "$build_line" -lt "$restart_line" ]; then
+  ok "npm run build (line $build_line) happens before pm2 restart (line $restart_line)"
 else
-  bad "post-switch smoke must run and pass before declaring the deploy verified (smoke=${smoke_line:-none} verified=${verified_line:-none})"
+  bad "build must happen before the pm2 restart (build=${build_line:-none} restart=${restart_line:-none})"
+fi
+
+# 12. post-restart smoke runs, and success is declared only AFTER it passes.
+smoke_line="$(line_of 'smoke-why-jvto\.mjs"')"
+verified_line="$(line_of 'deployed \$TARGET_SHA to \$DEPLOY_DIR')"
+if [ -n "$smoke_line" ] && [ -n "$verified_line" ] && [ "$smoke_line" -lt "$verified_line" ]; then
+  ok "post-restart smoke (line $smoke_line) runs before declaring the deploy done (line $verified_line)"
+else
+  bad "post-restart smoke must run and pass before declaring the deploy done (smoke=${smoke_line:-none} verified=${verified_line:-none})"
 fi
 grep -qE 'REQUIRE_INDEXABLE="true"' "$SCRIPT" && ok "production smoke requires indexability (REQUIRE_INDEXABLE=true)" || bad "production smoke must set REQUIRE_INDEXABLE=true"
 
-# 13. rollback() actually re-points $CURRENT_LINK to $PREVIOUS_RELEASE and
-#     restarts pm2, and is only reachable from the two verification checks
-#     (pm2-status / smoke), both of which precede the prune step.
+# 13. rollback() resets to $PREVIOUS_SHA, rebuilds, and restarts pm2 — and is
+#     reachable from both post-restart checks (pm2-status / smoke), both of
+#     which precede the final success log line.
 if grep -qE '^rollback\(\) \{' "$SCRIPT"; then
   rollback_body="$(awk '/^rollback\(\) \{/,/^\}/' "$SCRIPT")"
-  if printf '%s' "$rollback_body" | grep -q 'PREVIOUS_RELEASE' && printf '%s' "$rollback_body" | grep -q 'CURRENT_LINK' && printf '%s' "$rollback_body" | grep -qE '"\$PM2_BIN" restart'; then
-    ok "rollback() re-points \$current to \$PREVIOUS_RELEASE and restarts pm2"
+  if printf '%s' "$rollback_body" | grep -q 'PREVIOUS_SHA' \
+     && printf '%s' "$rollback_body" | grep -qE 'git reset --hard "\$PREVIOUS_SHA"' \
+     && printf '%s' "$rollback_body" | grep -qE 'npm ci && npm run build' \
+     && printf '%s' "$rollback_body" | grep -qE '"\$PM2_BIN" restart'; then
+    ok "rollback() resets to \$PREVIOUS_SHA, rebuilds, and restarts pm2"
   else
-    bad "rollback() must re-point \$CURRENT_LINK to \$PREVIOUS_RELEASE and restart pm2"
+    bad "rollback() must reset to \$PREVIOUS_SHA, rebuild (npm ci && npm run build), and restart pm2"
   fi
 else
   bad "missing rollback() handler"
 fi
 rollback_call_line="$(line_of 'rollback "pm2 status is not online"')"
-prune_line="$(line_of '# ── 10\. Prune old releases')"
-if [ -n "$rollback_call_line" ] && [ -n "$prune_line" ] && [ "$rollback_call_line" -lt "$prune_line" ]; then
-  ok "rollback is wired before pruning (rollback=${rollback_call_line}, prune=${prune_line})"
+if [ -n "$rollback_call_line" ] && [ -n "$verified_line" ] && [ "$rollback_call_line" -lt "$verified_line" ]; then
+  ok "rollback is wired before the final success log line (rollback=${rollback_call_line}, verified=${verified_line})"
 else
-  bad "rollback checks must precede the prune-old-releases step (rollback=${rollback_call_line:-none} prune=${prune_line:-none})"
+  bad "rollback checks must precede the final success log line (rollback=${rollback_call_line:-none} verified=${verified_line:-none})"
 fi
 
-# 14. pruning is bounded (KEEP_RELEASES) and never removes the just-deployed
-#     release, and only ever runs AFTER verification passed (i.e. after the
-#     smoke line, checked in #12/#13 above).
-grep -qE 'KEEP_RELEASES=' "$SCRIPT" && ok "release retention is bounded (KEEP_RELEASES)" || bad "missing bounded release retention"
-if [ -n "$prune_line" ] && [ -n "$verified_line" ] && [ "$verified_line" -lt "$prune_line" ]; then
-  ok "pruning happens after verification is declared passed"
+# 14. no separate release-per-directory staging (worktree/current symlink) —
+#     this variant is deliberately in-place; a regression back to a worktree
+#     design without re-verifying PM2's real cwd would silently break restart.
+if noncomment | grep -qE 'git worktree|CURRENT_LINK|RELEASES_DIR'; then
+  bad "this variant must be in-place — no git worktree / \$CURRENT_LINK / \$RELEASES_DIR (verify PM2's real cwd before reintroducing staging)"
 else
-  bad "pruning must happen only after a verified-good deploy"
-fi
-if noncomment | grep -qE '\[ "\$old" = "\$RELEASE_DIR" \] && continue'; then
-  ok "pruning skips the release just deployed"
-else
-  bad "pruning must never remove the release that was just deployed"
+  ok "in-place deploy confirmed — no worktree/current-symlink staging"
 fi
 
-# 15. old releases are removed via `git worktree remove`, not a bare `rm -rf`,
-#     so git's own worktree metadata never goes stale (help's script has no
-#     equivalent — this is unique to the worktree-per-release design here).
-grep -qE 'git worktree remove --force "\$old"' "$SCRIPT" && ok "old releases pruned via 'git worktree remove'" || bad "old releases must be pruned via 'git worktree remove', not a bare rm -rf"
-
-# 16. pm2 restart uses the captured $PM2_BIN --update-env; no `pm2 update`.
+# 15. pm2 restart/start uses the captured $PM2_BIN --update-env; no `pm2 update`.
 grep -qE '"\$PM2_BIN" restart "\$PM2_PROCESS" --update-env \|\|' "$SCRIPT" && ok "restart via \$PM2_BIN --update-env" || bad "restart must use \$PM2_BIN --update-env"
 if noncomment | grep -qE 'pm2 update'; then bad "must not run 'pm2 update'"; else ok "no 'pm2 update' command"; fi
 

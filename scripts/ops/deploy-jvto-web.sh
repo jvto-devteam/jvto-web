@@ -8,39 +8,46 @@
 # `jvto-deploy`) through a narrow sudoers rule restricted to exactly this
 # command. Security posture is IDENTICAL to deploy-jvto-help.sh (see that
 # script's header) — same input contract, same fail-closed SHA check, same
-# `git clean`-never rule, same set +u/-u bracket around the nvm load. The one
-# behavioral difference this script adds beyond help's is the handoff's
-# explicit production upgrade (release-hardening §3.6):
+# `git clean`-never rule, same set +u/-u bracket around the nvm load, same
+# IN-PLACE `git reset --hard` (no releases/current staging directory — an
+# earlier version of this script used a `git worktree`-per-release + atomic
+# symlink design per the handoff's original ask, but the box's actual `pm2
+# describe jvto-web` showed `exec cwd: /var/www/jvto-web` — i.e. the PM2
+# process PM2 already running production was configured, outside this
+# script, to run directly out of $DEPLOY_DIR, not a `current` symlink. That
+# process is kept alive by an existing mechanism outside this script (likely
+# GitHub Actions, per the owner) and gets restarted frequently, so a design
+# that only that existing process's cwd was never going to take effect via a
+# `pm2 restart` (fork-mode PM2 does not re-resolve cwd on restart). In-place
+# is what's actually compatible with the box as configured today.
 #
-#   - the build happens in its OWN release directory
-#     ($DEPLOY_DIR/releases/<sha>, a `git worktree` off the same repo — NOT
-#     over the currently running release), so a build failure never touches
-#     the live process;
-#   - the switch to a new release is an atomic symlink flip
-#     ($DEPLOY_DIR/current -> releases/<sha>), and PM2 is restarted only
-#     AFTER that flip;
-#   - after restart, this script runs the SAME post-deploy smoke script the
-#     CI workflow runs (scripts/smoke-why-jvto.mjs, from the release being
-#     verified) with REQUIRE_INDEXABLE=true against the public production
-#     origin. If that smoke fails, this script automatically flips `current`
-#     back to the immediately previous release, restarts PM2 again, and
-#     exits non-zero — so a bad production deploy self-heals instead of
-#     leaving a broken build live;
-#   - old release directories are pruned to a bounded count
-#     ($KEEP_RELEASES) AFTER a verified-good deploy only, so there is always
-#     at least one prior known-good release on disk to roll back to.
+# What this script still adds beyond help's plain pattern (the handoff's
+# production-only requirements it CAN satisfy without a release-per-directory
+# layout):
+#   - captures the previously-deployed SHA before touching anything, so a
+#     failed post-deploy proof can roll back via `git reset --hard` + rebuild
+#     + restart, instead of leaving a broken build live;
+#   - after restart, runs the SAME post-deploy smoke script the CI workflow
+#     runs (scripts/smoke-why-jvto.mjs) with REQUIRE_INDEXABLE=true against
+#     the public production origin, as root, so a failure can actually
+#     trigger that rollback (the CI step that runs afterward has no
+#     privileged access to do that).
 #
-# First-run note (documented for the Phase 4 owner checkpoint, not decided
-# silently): if PM2 process `jvto-web` does not exist yet, this script
-# creates it itself with cwd=$DEPLOY_DIR/current (the symlink this script
-# manages) via `npm start` (next start), honoring PORT from the release's
-# .env.local if set. If a `jvto-web` PM2 process ALREADY exists from a prior,
-# different setup, this script only restarts it — it does NOT try to detect
-# or repair a mismatched cwd (that check is not reliably parseable across pm2
-# versions). Before the first deploy through this script, either let it
-# create the process fresh (`pm2 delete jvto-web` first, if one already
-# exists with a different cwd), or confirm the existing one already has
-# cwd=$DEPLOY_DIR/current.
+# Known trade-off vs. the original worktree/symlink design: because there is
+# no separate release directory, a build failure still leaves the working
+# tree checked out at the new (broken) SHA even though PM2 was never
+# restarted — this script restores the working tree to the previous SHA
+# before exiting on a build failure (an improvement over deploy-jvto-help.sh,
+# which does not), but a rollback-after-failed-verification is NOT atomic:
+# there is a real window where PM2 is running the bad build while this script
+# rebuilds the previous SHA and restarts again. Documented, not hidden.
+#
+# First-run note: if PM2 process `jvto-web` does not exist yet, this script
+# creates it itself with cwd=$DEPLOY_DIR via `npm start` (next start). If one
+# already exists (as it does today, managed by something outside this
+# script), this script only restarts it — cwd is whatever it was already
+# started with, which must be $DEPLOY_DIR for a restart to actually pick up
+# new code (fork-mode PM2 does not re-resolve cwd on restart).
 #
 # It intentionally hard-codes the deploy dir, branch, and PM2 process; nothing
 # about the target is configurable from the caller.
@@ -52,11 +59,8 @@ readonly DEPLOY_BRANCH="live"
 readonly PM2_PROCESS="jvto-web"
 readonly LOCK_FILE="/var/lock/jvto-web-deploy.lock"
 readonly NVM_DIR="/root/.nvm"
-readonly RELEASES_DIR="$DEPLOY_DIR/releases"
-readonly CURRENT_LINK="$DEPLOY_DIR/current"
 readonly ENV_FILE="$DEPLOY_DIR/.env.local"
 readonly PROD_BASE_URL="https://javavolcano-touroperator.com"
-readonly KEEP_RELEASES=5
 
 log() { printf '[deploy-jvto-web] %s\n' "$*"; }
 die() { printf '[deploy-jvto-web] ERROR: %s\n' "$*" >&2; exit "${2:-1}"; }
@@ -108,75 +112,56 @@ fi
 # ── 5. Production .env.local must already exist — never invented, never moved.
 [ -f "$ENV_FILE" ] || die "$ENV_FILE not found — production secrets must be provisioned before the first deploy" 4
 
-mkdir -p "$RELEASES_DIR"
-# Keep a stray `git status` in $DEPLOY_DIR quiet about our own release dirs.
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 && {
-  EXCLUDE_FILE="$(git rev-parse --git-dir)/info/exclude"
-  grep -qxF '/releases/' "$EXCLUDE_FILE" 2>/dev/null || printf '/releases/\n/current\n' >>"$EXCLUDE_FILE"
-}
-
-RELEASE_DIR="$RELEASES_DIR/$TARGET_SHA"
-
-# ── 6. Build in a FRESH release worktree — never over the running release. ───
-# A re-run against the same (still-tip) SHA rebuilds cleanly: drop any partial
-# worktree from an earlier failed attempt first.
-if [ -e "$RELEASE_DIR" ]; then
-  git worktree remove --force "$RELEASE_DIR" 2>/dev/null || rm -rf "$RELEASE_DIR"
-fi
-git worktree add --force --detach "$RELEASE_DIR" "$TARGET_SHA" \
-  || die "git worktree add $RELEASE_DIR @ $TARGET_SHA failed" 6
+# ── 6. Capture the currently-deployed SHA for rollback, then check out target.
+# `git reset --hard` only touches tracked files, so untracked .env / .env.local
+# survive. `git clean` is deliberately never run (same rule as help's script).
+PREVIOUS_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
 export APP_COMMIT_SHA="$TARGET_SHA"
-log "checked out $TARGET_SHA into fresh release dir $RELEASE_DIR"
+git reset --hard "$TARGET_SHA" || die "git reset --hard $TARGET_SHA failed" 6
+log "checked out $TARGET_SHA in $DEPLOY_DIR (previous: ${PREVIOUS_SHA:-<none>})"
 
-# .env.local is never copied or invented per-release — every release symlinks
-# the one, stable, untracked production env file.
-ln -sf "$ENV_FILE" "$RELEASE_DIR/.env.local"
-
+# ── 7. Build. A failure restores the working tree to the previous SHA (so it
+# always matches whatever PM2 is actually still serving) before aborting —
+# PM2 itself is never touched here, so the running process stays up.
 build_failed() {
-  git worktree remove --force "$RELEASE_DIR" 2>/dev/null || true
-  die "$1 — NOT switching \$current (running release stays up)" 8
+  local reason="$1"
+  if [ -n "$PREVIOUS_SHA" ]; then
+    git reset --hard "$PREVIOUS_SHA" 2>/dev/null || true
+  fi
+  die "$reason — NOT restarting $PM2_PROCESS (running process stays up; working tree restored to $PREVIOUS_SHA)" 8
 }
 
-( cd "$RELEASE_DIR" && npm ci ) || build_failed "npm ci failed"
-( cd "$RELEASE_DIR" && npx prisma generate ) || build_failed "npx prisma generate failed"
-( cd "$RELEASE_DIR" && npm run build ) || build_failed "npm run build failed"
+npm ci || build_failed "npm ci failed"
+npm run build || build_failed "npm run build failed"
 
-# ── 7. Atomic switch: flip $current to the new release. ──────────────────────
-PREVIOUS_RELEASE=""
-if [ -L "$CURRENT_LINK" ]; then
-  PREVIOUS_RELEASE="$(readlink -f "$CURRENT_LINK" || true)"
-fi
-TMP_LINK="$DEPLOY_DIR/.current.tmp.$$"
-ln -sfn "$RELEASE_DIR" "$TMP_LINK"
-mv -T "$TMP_LINK" "$CURRENT_LINK"
-log "switched \$current -> $RELEASE_DIR (previous: ${PREVIOUS_RELEASE:-<none, first deploy>})"
-
-# ── 8. Restart (or first-run bootstrap) ONLY jvto-web. ───────────────────────
+# ── 8. Restart (or first-run bootstrap) ONLY jvto-web. ────────────────────────
 if "$PM2_BIN" describe "$PM2_PROCESS" >/dev/null 2>&1; then
   "$PM2_BIN" restart "$PM2_PROCESS" --update-env || die "pm2 restart $PM2_PROCESS failed" 9
 else
-  log "$PM2_PROCESS has no existing pm2 process — bootstrapping it now (cwd=$CURRENT_LINK)"
-  ( cd "$CURRENT_LINK" && "$PM2_BIN" start npm --name "$PM2_PROCESS" --cwd "$CURRENT_LINK" --update-env -- start ) \
+  log "$PM2_PROCESS has no existing pm2 process — bootstrapping it now (cwd=$DEPLOY_DIR)"
+  "$PM2_BIN" start npm --name "$PM2_PROCESS" --cwd "$DEPLOY_DIR" --update-env -- start \
     || die "pm2 start $PM2_PROCESS (first-run bootstrap) failed" 9
 fi
 
-# ── 9. Post-switch proof: PM2 online + the real production smoke script. ─────
+# ── 9. Post-restart proof: PM2 online + the real production smoke script. ────
 # Reuses the SAME script the CI workflow itself runs afterward — single
 # source of truth for what "verified" means — but run HERE, as root, so a
 # failure can actually trigger the rollback below (the CI step that follows
 # has no privileged access to do that).
 rollback() {
   local reason="$1"
-  log "post-switch verification FAILED ($reason)"
-  if [ -n "$PREVIOUS_RELEASE" ] && [ -d "$PREVIOUS_RELEASE" ]; then
-    log "rolling back \$current -> $PREVIOUS_RELEASE"
-    TMP_LINK="$DEPLOY_DIR/.current.tmp.$$"
-    ln -sfn "$PREVIOUS_RELEASE" "$TMP_LINK"
-    mv -T "$TMP_LINK" "$CURRENT_LINK"
-    "$PM2_BIN" restart "$PM2_PROCESS" --update-env || log "WARNING: pm2 restart during rollback also failed — manual intervention required"
-    die "deployed $TARGET_SHA failed verification ($reason); rolled back to $PREVIOUS_RELEASE" 10
+  log "post-deploy verification FAILED ($reason)"
+  if [ -n "$PREVIOUS_SHA" ]; then
+    log "rolling back to $PREVIOUS_SHA (git reset --hard + rebuild + restart)"
+    git reset --hard "$PREVIOUS_SHA" || log "WARNING: git reset --hard during rollback failed — manual intervention required"
+    if npm ci && npm run build; then
+      "$PM2_BIN" restart "$PM2_PROCESS" --update-env || log "WARNING: pm2 restart during rollback also failed — manual intervention required"
+    else
+      log "WARNING: rebuild during rollback also failed — $PM2_PROCESS is still running the SHA it had before this restart attempt, but the working tree may not match it — manual intervention required"
+    fi
+    die "deployed $TARGET_SHA failed verification ($reason); rolled back to $PREVIOUS_SHA" 10
   else
-    die "deployed $TARGET_SHA failed verification ($reason); NO previous release to roll back to (first deploy) — production is left on the failing build, investigate immediately" 11
+    die "deployed $TARGET_SHA failed verification ($reason); NO previous SHA to roll back to (first deploy) — production is left on the failing build, investigate immediately" 11
   fi
 }
 
@@ -186,26 +171,8 @@ if ! "$PM2_BIN" describe "$PM2_PROCESS" 2>/dev/null | grep -qE 'status[^│|]*[�
 fi
 
 if ! BASE_URL="$PROD_BASE_URL" EXPECTED_SHA="$TARGET_SHA" REQUIRE_INDEXABLE="true" \
-    node "$RELEASE_DIR/scripts/smoke-why-jvto.mjs"; then
+    node "$DEPLOY_DIR/scripts/smoke-why-jvto.mjs"; then
   rollback "scripts/smoke-why-jvto.mjs failed"
 fi
-
-log "post-switch verification PASSED — $TARGET_SHA is live and confirmed"
-
-# ── 10. Prune old releases (verified-good deploy only) — bounded retention. ──
-# Never prunes the release we just switched to. Keeps the newest
-# $KEEP_RELEASES release dirs (by directory mtime, i.e. deploy order); older
-# ones are removed as git worktrees (not bare rm -rf) so git's own
-# .git/worktrees metadata never goes stale.
-mapfile -t OLD_RELEASES < <(
-  find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null \
-    | sort -rn | tail -n +$((KEEP_RELEASES + 1)) | cut -d' ' -f2-
-)
-for old in "${OLD_RELEASES[@]:-}"; do
-  [ -n "$old" ] || continue
-  [ "$old" = "$RELEASE_DIR" ] && continue
-  log "pruning old release $old"
-  git worktree remove --force "$old" 2>/dev/null || rm -rf "$old"
-done
 
 log "deployed $TARGET_SHA to $DEPLOY_DIR ($PM2_PROCESS restarted with APP_COMMIT_SHA, verified live)"
