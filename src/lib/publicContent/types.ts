@@ -184,6 +184,15 @@ export type PublicFaqSnapshotCollection = {
   categories: PublicFaqCategory[];
 };
 
+export type PublicReviewMediaItem = {
+  id: string;
+  type: "photo" | "video";
+  thumbnailUrl: string | null;
+  thumbnailLabel?: string | null;
+  videoUrl?: string | null;
+  source?: string | null;
+};
+
 export type PublicReviewApiFeedItem = {
   id: string;
   customer_name: string | null;
@@ -193,6 +202,7 @@ export type PublicReviewApiFeedItem = {
   review: string | null;
   url: string | null;
   profile_photo: string | null;
+  review_media?: PublicReviewMediaItem[];
   package_id: string | null;
   crews: Array<{
     id: string;

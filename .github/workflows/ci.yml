@@ -106,6 +106,20 @@ jobs:
         # $PM2_BIN --update-env restart, and no `pm2 update`.
         run: npm run test:deploy-script
 
+      - name: Production deploy script self-test (blocking)
+        # Same invariants as above for scripts/ops/deploy-jvto-web.sh (the
+        # `live` production target), plus its release-hardening additions
+        # (handoff §3.6): build happens in a staging worktree — never over
+        # the running release; a failed build never touches $current; the
+        # switch is an atomic symlink flip that precedes the pm2 restart;
+        # post-switch proof (pm2 online + the real production smoke script,
+        # indexability required) runs before the deploy is declared verified;
+        # a failed post-switch proof automatically rolls $current back to the
+        # immediately previous release and restarts pm2; old releases are
+        # pruned via `git worktree remove` to a bounded count, and only after
+        # a verified-good deploy.
+        run: npm run test:deploy-script-web
+
       - name: Workflow security self-test (blocking)
         # Proves the PR + help-deploy workflows carry NO inbound SSH: no
         # appleboy/ssh-action, no DEVELOP_SSH_*/VPS_* secrets; the help deploy runs
@@ -125,6 +139,12 @@ jobs:
           npm run baseline:manifest
           git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
             || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }
+
+      - name: Blocked-dates self-test (production-release hardening)
+        # Pure logic, no DB: inclusive-both-ends boundary proof for every
+        # configured range, including the two ranges carried over from `live`
+        # during the release cutover (2026-07-25, 2026-08-11..15).
+        run: npm run test:blocked-dates
 
       - name: Milestone 1 architecture gates (blocking)
         # (1) Architecture dependency gate — blocks forbidden cross-domain / cross-layer
@@ -296,6 +316,34 @@ jobs:
             -c 'CREATE EXTENSION IF NOT EXISTS vector; CREATE EXTENSION IF NOT EXISTS pg_trgm;'
           npx prisma db push --skip-generate
           npx prisma generate
+      - name: Additive SQL double-apply (production-release hardening)
+        # sql/2026-08-10_production_release_hardening.sql must be safe to run
+        # twice against a real database (Phase 4 owner checkpoint runs it once
+        # against production; this proves a second, accidental run is a no-op,
+        # not an error). By this point `prisma db push` above has already
+        # created these tables via the schema, so both applies here exercise
+        # the "already exists" path -- the from-absent bootstrap path was
+        # verified manually against a pre-hardening schema snapshot (see the
+        # commit message) and is implicitly covered by every fresh disposable
+        # DB this same job creates.
+        run: |
+          set -euo pipefail
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql >/dev/null
+          echo "-- second apply must be a pure no-op --"
+          OUT="$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql 2>&1)"
+          echo "$OUT"
+          if echo "$OUT" | grep -qiE '^(ERROR|FATAL)'; then
+            echo "::error::second apply of the hardening SQL was not a clean no-op"
+            exit 1
+          fi
+      - name: Soft-delete filtering (getWebPackageDetail excludes deleted_at rows)
+        # Reuses this job's already-pushed schema — no separate migration.
+        # Seeds a package with an active + soft-deleted row on every relation the
+        # fix touches and proves only the active side reaches the public output,
+        # including a join-row-only soft-delete (package_destinations itself
+        # deleted while the destination stays active) and the whole-package case
+        # (soft-deleted package -> getWebPackageDetail returns null, a clean 404).
+        run: npm run test:soft-delete-db
       - name: Production build (npm run build)
         # The real `next build` — compiles + prerenders every route (SSG pages
         # query the service-container DB). Any build failure blocks the PR.
