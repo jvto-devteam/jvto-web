@@ -126,6 +126,12 @@ jobs:
           git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
             || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }
 
+      - name: Blocked-dates self-test (production-release hardening)
+        # Pure logic, no DB: inclusive-both-ends boundary proof for every
+        # configured range, including the two ranges carried over from `live`
+        # during the release cutover (2026-07-25, 2026-08-11..15).
+        run: npm run test:blocked-dates
+
       - name: Milestone 1 architecture gates (blocking)
         # (1) Architecture dependency gate — blocks forbidden cross-domain / cross-layer
         # imports in the new modular tree (src/domains, src/application, src/infrastructure).

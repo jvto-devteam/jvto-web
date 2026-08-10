@@ -18,6 +18,7 @@ import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
 import Link from "@/components/website/AppLink";
 import { getTourSpineQaPairs } from "@/lib/tourFaqs";
+import { isDateBlocked as isDateBlockedShared } from "@/lib/booking/blockedDates";
 import { getCanonicalReviewStats } from "@/lib/jvtoReviews";
 
 // Import CSS Swiper (Wajib)
@@ -495,28 +496,11 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
     router.push(`/checkout?pid=${encodeURIComponent(pkg.packageId)}`);
   };
   // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
-  const BLOCKED_RANGES = [
-    { start: "2026-03-16", end: "2026-03-20" },
-    { start: "2026-04-05", end: "2026-04-11" },
-    { start: "2026-05-01", end: "2026-05-01" },
-    { start: "2026-05-30", end: "2026-05-30" },
-    { start: "2026-05-02", end: "2026-05-02" },
-    { start: "2026-05-29", end: "2026-06-01" },
-  ];
-
-  const isDateBlocked = (dateStr) => {
-    if (!dateStr) return false;
-    const target = new Date(dateStr);
-    target.setHours(0, 0, 0, 0);
-
-    return BLOCKED_RANGES.some((range) => {
-      const start = new Date(range.start);
-      const end = new Date(range.end);
-      start.setHours(0, 0, 0, 0);
-      end.setHours(0, 0, 0, 0);
-      return target >= start && target <= end;
-    });
-  };
+  // BLOCKED_RANGES + the inclusive-both-ends comparison now live in
+  // src/lib/booking/blockedDates.ts (production-release hardening, handoff
+  // §3.2) so they're testable without rendering this component -- see
+  // scripts/ci/blocked-dates-selftest.ts. Behavior is unchanged.
+  const isDateBlocked = (dateStr) => isDateBlockedShared(dateStr);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const numPax = Number(pax);
