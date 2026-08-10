@@ -45,62 +45,92 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
     return (mockPkg as TourPackageDetail) ?? null;
   }
 
-  const pkg = await prisma.packages.findUnique({
-    where: { slug },
+  // Soft-delete filtering: every relation below whose model carries a
+  // `deleted_at` column gets `where: { deleted_at: null }`. The list is
+  // derived directly from prisma/schema.prisma (grep every model referenced
+  // in this include tree for `deleted_at`), not hand-picked from memory --
+  // 19 of the 26 referenced models have the column, including several a
+  // quick guess would miss (durations, package_categories, activities,
+  // activity_categories, package_addons, addons, package_hotel_options,
+  // hotels). destination_gears, package_assets/assets, package_faqs,
+  // routes/route_details, and locations (locations_from/locations_to) do
+  // NOT have deleted_at and are left as plain `true`/no-filter includes.
+  // `findFirst` (not `findUnique`) because findUnique's `where` may only
+  // combine the unique key with scalar equality, and the extra
+  // `deleted_at: null` predicate here is exactly that -- but findFirst keeps
+  // the intent explicit and avoids relying on that Prisma-version-specific
+  // allowance. `slug` is @unique, so this still uses the index.
+  const pkg = await prisma.packages.findFirst({
+    where: { slug, deleted_at: null },
     include: {
-      start_destination: true,
-      end_destination: true,
-      durations: true,
-      package_categories: true,
+      start_destination: { where: { deleted_at: null } },
+      end_destination: { where: { deleted_at: null } },
+      durations: { where: { deleted_at: null } },
+      package_categories: { where: { deleted_at: null } },
       package_destinations: {
         where: { deleted_at: null },
         include: {
           destinations: {
-            include: { activities: true, destination_gears: true },
+            where: { deleted_at: null },
+            include: {
+              activities: { where: { deleted_at: null } },
+              destination_gears: true,
+            },
           },
         },
         orderBy: { sort_order: 'asc' },
       },
       package_prices: {
         where: { deleted_at: null },
-        include: { price_tiers: true },
+        include: { price_tiers: { where: { deleted_at: null } } },
         orderBy: { price: 'asc' },
       },
-      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
-      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
-      package_addons: { include: { addons: true } },
+      package_includes: {
+        where: { deleted_at: null },
+        include: { item_includes: { where: { deleted_at: null } } },
+      },
+      package_excludes: {
+        where: { deleted_at: null },
+        include: { item_excludes: { where: { deleted_at: null } } },
+      },
+      package_addons: {
+        where: { deleted_at: null },
+        include: { addons: { where: { deleted_at: null } } },
+      },
       package_assets: { include: { asset: true } },
       package_faqs: true,
       package_hotel_options: {
+        where: { deleted_at: null },
         orderBy: { day_no: 'asc' },
-        include: { hotels: { include: { destinations: true } } },
+        include: {
+          hotels: {
+            where: { deleted_at: null },
+            include: { destinations: { where: { deleted_at: null } } },
+          },
+        },
       },
       package_itinerary_days: {
         where: { deleted_at: null },
         orderBy: { day_no: 'asc' },
         include: {
           package_itinerary_day_details: {
+            where: { deleted_at: null },
             orderBy: { sort_order: 'asc' },
             include: {
               activities: {
-                include: { destinations: true, activity_categories: true },
+                where: { deleted_at: null },
+                include: {
+                  destinations: { where: { deleted_at: null } },
+                  activity_categories: { where: { deleted_at: null } },
+                },
               },
               locations_from: true,
               locations_to: true,
             },
           },
-          hotels: true,
+          hotels: { where: { deleted_at: null } },
           routes: {
-            include: {
-              route_details: {
-                orderBy: { seq: 'asc' },
-                include: {
-                  locations_route_details_from_location_idTolocations: { select: { name: true } },
-                  locations_route_details_to_location_idTolocations: { select: { name: true } },
-                },
-              },
-              locations_routes_end_location_idTolocations: { select: { name: true } },
-            },
+            include: { route_details: { orderBy: { seq: 'asc' } } },
           },
         },
       },
@@ -272,15 +302,14 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
           activities:
             day.routes?.route_details?.map((act: any) => {
               const type = act.type;
-              const fromName = act.locations_route_details_from_location_idTolocations?.name ?? '';
-              const toName = act.locations_route_details_to_location_idTolocations?.name ?? '';
               if (type === 'TravelAction') {
                 return {
                   type,
                   name: act.name,
                   description: act.activity,
-                  fromLocation: fromName,
-                  toLocation: toName,
+                  fromLocation: act.from_location,
+                  toLocation: act.to_location,
+                  destination: act.location,
                   timeWindow: act.time_or_label,
                   durationMinutes: act.duration_minutes,
                 };
@@ -289,7 +318,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
                 type,
                 name: act.name,
                 description: act.activity,
-                location: fromName,
+                location: act.location,
                 timeWindow: act.time_or_label,
                 durationMinutes: act.duration_minutes,
               };
@@ -300,7 +329,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
             dinner: day.meal_dinner ? 'included' : 'own expense',
           },
           mealsNotes: day.routes?.meals_notes ?? '',
-          overnight: day.hotel_id ? day.routes?.locations_routes_end_location_idTolocations?.name ?? null : null,
+          overnight: day.hotel_id ? day.routes?.end_area ?? null : null,
         })) ?? [],
       gallery: (pkg.package_assets ?? [])
         .filter((pa: any) => pa.asset?.type === 'image')

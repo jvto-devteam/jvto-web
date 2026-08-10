@@ -64,16 +64,16 @@ export default function SidebarPolicy({ isMobile, onBack }: SidebarProps) {
               key={item.href}
               href={item.href}
               prefetch={false}
-              className={`flex items-center gap-3 px-4 py-3 md:py-2 text-[15px] md:text-[14px] font-medium transition-all  ${
+              className={`flex items-center gap-3 rounded-full px-4 py-3 md:py-2 text-[15px] md:text-[14px] font-medium transition-all ${
                 isActive
-                  ? "text-black bg-black/10 border-l-4 border-black/70 -ml-4 pl-8"
-                  : "text-gray-600 hover:bg-gray-50 pl-4"
+                  ? "bg-jvto-navy text-white"
+                  : "text-gray-600 hover:bg-jvto-orange/[0.07] hover:text-jvto-orange"
               }`}
             >
               <item.icon
                 size={18}
                 className={
-                  isActive ? "text-black" : "text-gray-500"
+                  isActive ? "text-jvto-lime" : "text-gray-500"
                 }
               />
               <span>{item.label}</span>

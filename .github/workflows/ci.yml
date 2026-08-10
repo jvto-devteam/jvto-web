@@ -1,20 +1,22 @@
 name: CI
 
-# Pre-merge checks for the `live` (production) branch. The meaningful invariant
-# for the automated llm-wiki sync is the DRIFT gate: the committed bundles under
-# src/data/ must match the producer's compiled output. lint/typecheck are
-# non-blocking (live carries pre-existing debt; artifact-only sync PRs must not
-# be gated on it). No build job here — production deploy is owned separately.
+# Pre-merge checks. Production deploy stays owned by deploy.yml (push -> main).
+# The `verify` job runs lint/typecheck/drift on a GitHub runner. The `build` job
+# runs the real `npm run build` against a disposable pgvector/pgvector:pg16
+# service container (SSG prerender needs Postgres) — GitHub-hosted, no SSH. The
+# `outbox-db` job proves the durable outbox against a Postgres service container.
+# `live` is included so promote PRs (live <- main) pass the same verify gate
+# before production picks them up — see docs/CONTRIBUTING.md (branch model).
 on:
   pull_request:
-    branches: [live]
+    branches: [main, live]
   workflow_dispatch:
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout jvto-web (live)
+      - name: Checkout jvto-web
         uses: actions/checkout@v4
 
       # Producer repo, so the drift check can re-sync and compare. Reuses GH_PAT
@@ -25,6 +27,17 @@ jobs:
           repository: sambuko82/llm-wiki
           ref: master
           path: llm-wiki
+          token: ${{ secrets.GH_PAT }}
+
+      # Second producer repo, for src/data/okf/ (see scripts/sync-okf.mjs). Prior
+      # to this, src/data/okf/ was a one-shot hand snapshot with no sync path and
+      # no CI gate — it silently drifted from OKF's canonical wording.
+      - name: Checkout knowledge-catalog-jvto-bootstrap (producer)
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/knowledge-catalog-jvto-bootstrap
+          ref: main
+          path: knowledge-catalog-jvto-bootstrap
           token: ${{ secrets.GH_PAT }}
 
       - uses: actions/setup-node@v4
@@ -38,9 +51,179 @@ jobs:
       - name: Validate schema & routes (blocking)
         # Zero-dep static gates (scripts/validate.mjs): fails on duplicate
         # Organization/BreadcrumbList/FAQPage per route and registry/route drift.
+        # Direct node invocations: `npm run validate` is now a chained gate
+        # (schema && routes && content), so npm arg-append no longer selects a
+        # subcommand.
         run: |
-          npm run validate schema
-          npm run validate routes
+          node scripts/validate.mjs schema
+          node scripts/validate.mjs routes
+
+      - name: Validate content drift (blocking)
+        # Canonical-facts gate (scripts/validate-content-drift.mjs): scans src/,
+        # public/llms*.txt and docs/CANONICAL_FACTS.md for forbidden patterns —
+        # stale founding year, blue-fire "guarantee" wording, stale review
+        # counts, non-IDR prices, stale deposit/group terms, unverified press
+        # names, and the retired jvto-config.json brand-config JSON pattern.
+        # Lines carrying a `drift-ok: <reason>` marker are whitelisted (used by
+        # docs/CANONICAL_FACTS.md to quote forbidden examples deliberately).
+        run: npm run validate:content
+
+      - name: Validate health-cert QR in DB snapshots (blocking)
+        # The main drift gate (validate-content-drift.mjs) deliberately EXCLUDES
+        # src/lib/publicContent/generated/ (machine snapshots regenerated from the
+        # DB by scripts/export-*.mjs). This targeted gate re-scans those snapshots
+        # with ONLY the shared `health-cert-qr` rule (imported from
+        # scripts/lib/contentDriftRules.mjs — no parallel regex), so a future FAQ /
+        # snapshot DB export cannot reintroduce a health-certificate QR claim (e.g.
+        # faqSnapshots.json → /travel-guide/faq + its FAQPage JSON-LD) without CI
+        # catching it. It does NOT weaken the broad generated/ exclusion — every
+        # other rule still ignores these snapshots.
+        run: npm run validate:health-qr-snapshots
+
+      - name: Validate static content + migrated-route ownership (blocking)
+        # content:check = static-content structure (Zod + fixtures) + internal
+        # links + the migrated-route ownership gate
+        # (scripts/validate-static-route-ownership.mjs): a route migrated to
+        # content/pages/** that reverts to ANY legacy source — pageSnapshots,
+        # CMS seed, content_pages, the FAQ resolver, or a DB narrative-claims
+        # read — fails the build, and forbidden claims (14 crew, ISIC Partner,
+        # INDECON-as-partnership) are rejected. Previously this only ran via
+        # prebuild on the (now-removed) build-develop job; it is required now.
+        run: npm run content:check
+
+      - name: Docs-only classifier self-test (blocking)
+        # Asserts the true-documentation-only classifier verdict for the full
+        # case matrix AND that ci.yml/deploy.yml still carry the exact predicate
+        # / paths-ignore — so a future edit that widens "docs" (e.g. back to a
+        # blanket **/*.md that sweeps in served content Markdown) fails here.
+        run: bash scripts/ci/docs-only-selftest.sh
+
+      - name: Deploy script self-test (blocking)
+        # Asserts scripts/ops/deploy-jvto-help.sh invariants so they can't regress:
+        # pm2 is resolved BEFORE `nvm use 20` (default-Node global drop bug), PM2_BIN
+        # is absolute+executable, the SHA is 40-hex and must equal origin/main
+        # (fail-closed), flock serialization, no `git clean`, build-before-restart,
+        # $PM2_BIN --update-env restart, and no `pm2 update`.
+        run: npm run test:deploy-script
+
+      - name: Production deploy script self-test (blocking)
+        # Same invariants as above for scripts/ops/deploy-jvto-web.sh (the
+        # `live` production target), plus its release-hardening additions
+        # (handoff §3.6): build happens in a staging worktree — never over
+        # the running release; a failed build never touches $current; the
+        # switch is an atomic symlink flip that precedes the pm2 restart;
+        # post-switch proof (pm2 online + the real production smoke script,
+        # indexability required) runs before the deploy is declared verified;
+        # a failed post-switch proof automatically rolls $current back to the
+        # immediately previous release and restarts pm2; old releases are
+        # pruned via `git worktree remove` to a bounded count, and only after
+        # a verified-good deploy.
+        run: npm run test:deploy-script-web
+
+      - name: Workflow security self-test (blocking)
+        # Proves the PR + help-deploy workflows carry NO inbound SSH: no
+        # appleboy/ssh-action, no DEVELOP_SSH_*/VPS_* secrets; the help deploy runs
+        # only on the jvto-help-deploy local runner; and ci.yml has a `build` job
+        # running npm ci + npm run build (the GitHub-hosted production build gate).
+        run: npm run test:workflow-security
+
+      - name: Milestone 0 baseline gates (blocking)
+        # (1) Canonical checkout Ijen-notice self-test — mandatory wording present,
+        # Ijen-only targeting, retired wording absent. (2) Authority/consumer
+        # manifest drift — regenerate and fail if it differs from the committed
+        # copy (deterministic; keeps the baseline honest). The freeze gate itself
+        # runs inside content:check (validate-static-route-ownership check #7).
+        run: |
+          npm run test:ijen-notice
+          npm run test:manifest
+          npm run baseline:manifest
+          git diff --exit-code docs/architecture/authority-consumer-manifest.json docs/architecture/authority-consumer-manifest.md \
+            || { echo "::error::authority/consumer manifest drifted — run 'npm run baseline:manifest' and commit."; exit 1; }
+
+      - name: Blocked-dates self-test (production-release hardening)
+        # Pure logic, no DB: inclusive-both-ends boundary proof for every
+        # configured range, including the two ranges carried over from `live`
+        # during the release cutover (2026-07-25, 2026-08-11..15).
+        run: npm run test:blocked-dates
+
+      - name: Milestone 1 architecture gates (blocking)
+        # (1) Architecture dependency gate — blocks forbidden cross-domain / cross-layer
+        # imports in the new modular tree (src/domains, src/application, src/infrastructure).
+        # (2) Outbox self-test (in-memory adapter) — atomic unit-of-work, at-least-once
+        # delivery with an idempotent consumer, dedup, retry→dead-letter, deferred/
+        # anti-starvation, flag-off no-op (handoff §7.7). The DURABLE Prisma-backed store
+        # (src/infrastructure/outbox/prisma-outbox.ts) + its additive domain_outbox table
+        # (prisma/schema.prisma + sql/2026-08-05_domain_outbox.sql) ship in this PR but the
+        # worker stays disabled at runtime; the two-way-rollback / lease-fencing /
+        # concurrency / dead-letter proof runs against a REAL Postgres in the separate
+        # blocking `outbox-db` job (service container). The physical table is applied to
+        # develop/production by an owner-gated migration, never by CI.
+        run: |
+          npm run validate:architecture
+          npm run test:outbox
+
+      - name: Milestone 2 public knowledge gates (blocking)
+        # (1) Compiler self-test (determinism + referential integrity + digest).
+        # (2) Manifest drift — regenerate public-knowledge.json from content/ and fail on
+        #     any non-empty git diff (deterministic; same pattern as the M0 authority
+        #     manifest). (3) Consumer gate — every compiled route is consistent across the
+        #     sitemap + the /api/knowledge-feed route + content/entities. The physical
+        #     content/ SSOT is the sole authority; the feed records the source commit at
+        #     serve time (APP_COMMIT_SHA), so nothing DB is read for public knowledge.
+        run: |
+          npm run test:knowledge
+          npm run knowledge:compile
+          git diff --exit-code src/lib/publicContent/generated/public-knowledge.json \
+            || { echo "::error::public-knowledge.json drifted from content/ — run 'npm run knowledge:compile' and commit."; exit 1; }
+          npm run validate:knowledge
+          # People trust-graph acceptance gates (record-level): crew count 11/7/4, no legacy
+          # 14/7-driver, leadership+medical never inflate crew, per-guide KTA evidence,
+          # KTA membership-not-govt-licence, review→existing-person, privacy allowlist,
+          # supported relationships.
+          npm run validate:people
+          # Canonical people READER self-test (src/lib/people/canonicalPeople.ts): the
+          # DB-free accessor the /team routes + JSON-LD + FAQ + feed read through — proves
+          # 11/7/4, crew.unpublished (yusuf/dika/pras) resolve null + produce nothing, and
+          # public/leadership/medical projections carry ONLY publicFieldAllowlist fields
+          # (no evidence/namingRule/reviewedDate/lastVerified leak). The SERVED render-parity
+          # (HTTP 200, visible==JSON-LD, FAQ==record, no-leak, unpublished 404) runs in the
+          # `build` job against `next start`, since it needs a running server.
+          npm run test:people-reader
+          # Destination-DETAIL render-parity (PACKAGE 06): every /destinations/<slug>
+          # detail route is content-owned (narrative + SEO from content/pages/destinations/
+          # <slug>.json), content records <-> the SSG-param snapshot are 1:1 (dynamicParams
+          # =false), TouristAttraction JSON-LD sources from the same record, and the Ijen
+          # facts-lock holds (2,386 m, mandatory health). HTTP-200 + dynamic volcanic/tour
+          # rendering are proven on the help box post-deploy.
+          npm run test:destinations-parity
+          # PACKAGE 04b: the 17 Travel Guide deferred routes are content-owned (4 bespoke
+          # folder pages + 13 former OKF pages via the [slug] loader), each a sitemap
+          # string-literal, and the shared bespoke-grid validators reject malformed content.
+          npm run test:travel-guide-04b
+          # PACKAGE 08: the /blog hub + every published post are content-owned
+          # (content/pages/blog/), each a sitemap string-literal, hub=CollectionPage /
+          # posts=BlogPosting with a publishedDate, and no blog route leaks into the CMS seed.
+          npm run test:blog
+          # Canonical render-parity: every content/-owned route renders the PRODUCTION
+          # canonical from the knowledge feed (staticRouteCanonical == canonicalForRoute ==
+          # production origin), incl. on help; and every content route page wires canonical
+          # through the shared helper, never from a deploy-host env value.
+          npm run test:canonical-parity
+          # /travel-guide/faq FAQPage render-parity: exactly ONE FAQPage node, its mainEntity
+          # generated from the same FAQ array rendered visibly (AD-08), and the generic
+          # schema_type builder never emits a duplicate mainEntity-less FAQPage stub.
+          npm run test:faq-schema
+          # Milestone 2 — remaining public narrative cutover: the 10 routes moved off the
+          # legacy readers must be content-owned (renderable record, production canonical ==
+          # feed, metadata == content, FAQ visible == FAQPage from one array), the tours hubs
+          # must still read packages from the DB with no price/count frozen into content/,
+          # and no page may import getPageSeo/getPublicPageSnapshot/resolveFaqsForPage.
+          npm run test:m2-narrative
+          # PACKAGE 07: the sitemap's lastmod no longer reads content_pages (Prisma). Every
+          # enumerated route must resolve to a stable date from content/ + snapshots + the
+          # explicit static map — never the force-dynamic request time — and the lastmod path
+          # must stay free of any DB reader.
+          npm run test:sitemap-lastmod
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
@@ -48,23 +231,191 @@ jobs:
           DATABASE_URL: postgresql://user:pass@localhost:5432/db
         run: npx prisma generate
 
-      - name: Lint (non-blocking)
-        continue-on-error: true
-        run: npm run lint
+      - name: Lint (blocking, baseline-gated)
+        # Flat-config crash fixed 2026-07-05 (native eslint-config-next flat
+        # exports; FlatCompat removed). Blocking via scripts/lint-gate.mjs:
+        # any bucket in the committed per-file/per-rule baseline
+        # (scripts/lint-baseline.json, 141 pre-existing errors) that grows =
+        # fail — fixing legacy errors elsewhere cannot offset a new one.
+        # Fixed legacy errors: `node scripts/lint-gate.mjs --update` + commit.
+        run: npm run lint:gate
 
       - name: Sync bundles and check for drift
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+          # sync-policy-bundle.mjs resolves its source via LLM_WIKI_ROOT (not
+          # LLM_WIKI_PATH) per its own header comment — set both to the same
+          # checked-out producer repo rather than editing the synced script.
+          LLM_WIKI_ROOT: ${{ github.workspace }}/llm-wiki
+          OKF_PATH: ${{ github.workspace }}/knowledge-catalog-jvto-bootstrap
         run: |
           npm run sync:packages
           npm run sync:trust
-          npm run sync:blog
-          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog' and commit."; exit 1; }
-
-      - name: Validate package-readiness artifacts (offline)
-        run: npm run validate:packages -- --offline
+          npm run sync:policy-bundle
+          npm run sync:okf
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/policy-bundle src/data/okf \
+            || { echo "::error::Synced bundles drifted from source. Run 'npm run sync:packages && npm run sync:trust && npm run sync:policy-bundle && npm run sync:okf' and commit."; exit 1; }
 
       - name: Typecheck (non-blocking)
         continue-on-error: true
         run: npx tsc --noEmit
+
+  # Real production-build gate — GitHub-hosted, NO SSH. Replaces the former
+  # `build-develop` job that ran `npm run build` on the develop server over
+  # appleboy/ssh-action (removed: it produced recurring flaky-SSH non-required
+  # failures on every PR). `verify` deliberately skips the build because Next.js
+  # SSG prerenders DB-backed pages, so the build needs Postgres — provided here
+  # by a disposable `pgvector/pgvector:pg16` service container (the schema uses a
+  # pgvector `vector` column + a pg_trgm GIN index). The schema is applied with
+  # `prisma db push`; no seed data is needed — every DB-backed page prerenders
+  # cleanly against an empty schema (verified: `npm run build` exits 0). This
+  # proves `npm ci` + the real `npm run build` actually compile and prerender
+  # before merge. It never uses an SSH secret and never touches develop/production.
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: build
+          POSTGRES_PASSWORD: build
+          POSTGRES_DB: jvto_build
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U build -d jvto_build"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      # Disposable service-container DB — never a project/develop/production DB.
+      DATABASE_URL: postgresql://build:build@localhost:5432/jvto_build
+      # Non-production origin (noindex) + a placeholder public token (the site is
+      # not served in CI). APP_COMMIT_SHA only feeds /api/build-info at runtime.
+      NEXT_PUBLIC_SITE_URL: https://help.javavolcano-touroperator.com
+      NEXT_PUBLIC_MAPBOX_TOKEN: pk.ci.placeholder.not-a-secret
+      APP_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Apply schema to the disposable Postgres (pgvector + pg_trgm)
+        # The schema declares a pgvector `vector` column and a pg_trgm GIN index,
+        # so BOTH extensions must exist before `prisma db push` creates them.
+        # Empty data is sufficient — the DB-backed pages prerender against it.
+        run: |
+          set -euo pipefail
+          command -v psql >/dev/null 2>&1 || { echo "::error::psql missing on runner"; exit 1; }
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+            -c 'CREATE EXTENSION IF NOT EXISTS vector; CREATE EXTENSION IF NOT EXISTS pg_trgm;'
+          npx prisma db push --skip-generate
+          npx prisma generate
+      - name: Additive SQL double-apply (production-release hardening)
+        # sql/2026-08-10_production_release_hardening.sql must be safe to run
+        # twice against a real database (Phase 4 owner checkpoint runs it once
+        # against production; this proves a second, accidental run is a no-op,
+        # not an error). By this point `prisma db push` above has already
+        # created these tables via the schema, so both applies here exercise
+        # the "already exists" path -- the from-absent bootstrap path was
+        # verified manually against a pre-hardening schema snapshot (see the
+        # commit message) and is implicitly covered by every fresh disposable
+        # DB this same job creates.
+        run: |
+          set -euo pipefail
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql >/dev/null
+          echo "-- second apply must be a pure no-op --"
+          OUT="$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql 2>&1)"
+          echo "$OUT"
+          if echo "$OUT" | grep -qiE '^(ERROR|FATAL)'; then
+            echo "::error::second apply of the hardening SQL was not a clean no-op"
+            exit 1
+          fi
+      - name: Soft-delete filtering (getWebPackageDetail excludes deleted_at rows)
+        # Reuses this job's already-pushed schema — no separate migration.
+        # Seeds a package with an active + soft-deleted row on every relation the
+        # fix touches and proves only the active side reaches the public output,
+        # including a join-row-only soft-delete (package_destinations itself
+        # deleted while the destination stays active) and the whole-package case
+        # (soft-deleted package -> getWebPackageDetail returns null, a clean 404).
+        run: npm run test:soft-delete-db
+      - name: Production build (npm run build)
+        # The real `next build` — compiles + prerenders every route (SSG pages
+        # query the service-container DB). Any build failure blocks the PR.
+        run: npm run build
+
+      - name: Team render-parity (serve the build + curl /team)
+        # Boots the built app with `next start` and asserts, against real HTTP 200
+        # responses, that /team + the 11 /team/[code] pages are a faithful projection
+        # of content/entities/people.json: counts 11/7/4, visible crew names == ItemList
+        # JSON-LD, the Team FAQ == buildTeamFaqs() == FAQPage JSON-LD, KTA renders as a
+        # MEMBERSHIP credential, crew.unpublished (yusuf/dika/pras) 404 + are absent from
+        # the hub and /api/knowledge-feed, and no doNotPublish value leaks into HTML/feed.
+        # This is the SERVED half of the people gate (the DB-free reader self-test runs in
+        # `verify`); Team routes are DB-free but the server boots against the same DB.
+        run: |
+          set -euo pipefail
+          npx next start -p 3000 > /tmp/team-serve.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3000/team; then echo "server ready (${i}s)"; break; fi
+            if ! kill -0 "$SERVER_PID" 2>/dev/null; then echo "::error::next start exited early"; cat /tmp/team-serve.log; exit 1; fi
+            sleep 1
+          done
+          TEAM_PARITY_BASE_URL=http://127.0.0.1:3000 npm run test:team-parity
+
+  # Blocking proof of the DURABLE transactional outbox (handoff §7.7) against a REAL
+  # Postgres — not the in-memory adapter, and not out-of-band. A disposable `postgres:16`
+  # service container is created fresh per run; the additive migration is applied to it;
+  # the Prisma client is generated; `npm run test:outbox:db` proves two-way transaction
+  # rollback, lease fencing, dead-letter, and concurrent-claim disjointness. The job fails
+  # (never skips) if the test is skipped or Postgres is unavailable. It runs as the normal
+  # unprivileged runner user — no root, no runuser — and never touches develop/production.
+  outbox-db:
+    name: outbox-db
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: outbox
+          POSTGRES_PASSWORD: outbox
+          POSTGRES_DB: outbox_itest
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U outbox -d outbox_itest"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      # A throwaway service-container DB — distinct from any project/develop/production DB.
+      DATABASE_URL: postgresql://outbox:outbox@localhost:5432/outbox_itest
+      OUTBOX_ITEST_DATABASE_URL: postgresql://outbox:outbox@localhost:5432/outbox_itest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Fail fast if the test would be skipped (Postgres must be reachable)
+        run: |
+          set -euo pipefail
+          command -v psql >/dev/null 2>&1 || { echo "::error::psql missing on runner"; exit 1; }
+          psql "$OUTBOX_ITEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'SELECT 1;' >/dev/null \
+            || { echo "::error::Postgres service container unavailable — DB proof cannot be skipped."; exit 1; }
+      - name: Generate Prisma client
+        run: npx prisma generate
+      - name: Durable outbox DB integration test (blocking, real Postgres)
+        # CI mode: run-outbox-db-itest.sh sees OUTBOX_ITEST_DATABASE_URL, applies the
+        # additive migration to the service container, and runs the integration test.
+        # No throwaway cluster, no root/runuser.
+        run: npm run test:outbox:db

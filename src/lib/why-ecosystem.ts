@@ -98,7 +98,7 @@ export const WHY_JVTO_ECOSYSTEM_LINKS: EcosystemLink[] = [
   {
     group: "Related",
     title: "Ijen Digital Health Screening",
-    description: "Digital safety innovation (QR verification) and public portal context.",
+    description: "Digital safety innovation (BSrE-signed certificate) and public portal context.",
     href: "/travel-guide/ijen-health-screening",
   },
 ];

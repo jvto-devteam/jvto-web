@@ -1,6 +1,7 @@
 // src/app/api/faqs/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 function parseId(idParam: string) {
   const n = Number(idParam);
@@ -59,6 +60,11 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const __admin = await requireAdmin();
+  if (!__admin.ok) {
+    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
+  }
+
   const { id: idParam } = await params;
   const id = parseId(idParam);
 
@@ -128,6 +134,11 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const __admin = await requireAdmin();
+  if (!__admin.ok) {
+    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
+  }
+
   const { id: idParam } = await params;
   const id = parseId(idParam);
 

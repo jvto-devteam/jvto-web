@@ -6,8 +6,17 @@ import Footer from "@/components/website/Footer";
 import StickyWhatsApp from "@/components/website/LandingPage/StickyWhatsApp";
 import { contactInfo } from "@/constants";
 import "./website.css";
+import "@/styles/print.css";
 import type { Metadata } from "next";
 import { Providers } from "@/app/providers";
+import { isIndexableDeployment } from "@/lib/site";
+import { Rubik } from "next/font/google";
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl =
@@ -51,13 +60,18 @@ export const metadata: Metadata = {
     apple: "/assets/img/favicon/apple-touch-icon.png",
   },
 
-  robots: {
-    index: true,
-    follow: true,
-    "max-video-preview": -1,
-    "max-image-preview": "large",
-    "max-snippet": -1,
-  },
+  // Preview/help deployment → noindex (penguat header X-Robots-Tag di
+  // next.config.ts). Hanya deployment produksi (env=origin primary) yang
+  // indexable. Saat cutover main→live, env=primary → otomatis kembali indexable.
+  robots: isIndexableDeployment()
+    ? {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      }
+    : { index: false, follow: false },
 };
 
 export default function WebsiteLayout({
@@ -67,7 +81,7 @@ export default function WebsiteLayout({
 }) {
   return (
     <Providers>
-      <div className="bg-background-light dark:bg-background-dark text-ink-neutral-700 dark:text-ink-neutral-300">
+      <div className={`bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300 ${rubik.variable}`}>
         {/* GA optional logic */}
         {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}

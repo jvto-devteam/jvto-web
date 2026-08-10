@@ -1,5 +1,3 @@
-import { ORGANIZATION_HAS_CREDENTIAL } from "@/lib/schemas/entityGraph";
-
 type Seo = {
   title?: string;
   description?: string;
@@ -207,38 +205,6 @@ export function buildBreadcrumbJsonLd(route: string, siteUrl = DEFAULT_SITE) {
 
 // ─── Organization ─────────────────────────────────────────────────────────────
 
-const ORG_CLASS_TYPES = new Set(["Organization", "TravelAgency", "LocalBusiness"]);
-
-/** True if a JSON-LD node's @type marks it as an Organization-class node. */
-function isOrgClassNode(node: any): boolean {
-  if (!node || typeof node !== "object") return false;
-  const t = node["@type"];
-  if (Array.isArray(t)) return t.some((x) => ORG_CLASS_TYPES.has(x));
-  return typeof t === "string" && ORG_CLASS_TYPES.has(t);
-}
-
-/**
- * Ensure the Organization-class node(s) carry `hasCredential` (NIB/TDUP/HPWKI with
- * SHA-256 forensic anchors). Handles a single node, a `@graph` array, or a bare array,
- * so the hashes render in production whether the Org schema comes from the DB
- * `schema_json` column or the static snapshot fallback — no DB/SQL step required.
- * No-op when the node already declares `hasCredential` (prevents duplication if a DB
- * row later curates its own).
- */
-function attachOrgCredentials<T>(node: T): T {
-  if (Array.isArray(node)) {
-    return node.map((n) =>
-      isOrgClassNode(n) && !(n as any).hasCredential
-        ? { ...(n as any), hasCredential: ORGANIZATION_HAS_CREDENTIAL }
-        : n,
-    ) as unknown as T;
-  }
-  if (isOrgClassNode(node) && !(node as any).hasCredential) {
-    return { ...(node as any), hasCredential: ORGANIZATION_HAS_CREDENTIAL };
-  }
-  return node;
-}
-
 /** NOTE: Tidak menyertakan @context — dihandle oleh @graph wrapper */
 export function buildOrganizationJsonLd(
   org: OrgRow | null,
@@ -249,16 +215,16 @@ export function buildOrganizationJsonLd(
   // Jika schema_json sudah tersimpan di DB (sudah complete) — strip @context
   if (org.schema_json && typeof org.schema_json === "object") {
     if (Array.isArray(org.schema_json)) {
-      return attachOrgCredentials(org.schema_json);
+      return org.schema_json;
     }
-
+    
     // Fallback jika berupa objek yang punya @graph
     if (Array.isArray(org.schema_json["@graph"])) {
-      return attachOrgCredentials(org.schema_json["@graph"]);
+      return org.schema_json["@graph"];
     }
-
+    
     const { "@context": _ctx, ...rest } = org.schema_json as any;
-    return attachOrgCredentials(rest);
+    return rest;
   }
 
   // Fallback: generate dari kolom
@@ -270,7 +236,7 @@ export function buildOrganizationJsonLd(
       ? org.address_json
       : undefined;
 
-  return attachOrgCredentials(clean({
+  return clean({
     "@type": "TravelAgency",
     "@id": ORG_ID,
     name,
@@ -294,7 +260,7 @@ export function buildOrganizationJsonLd(
     // Nesting it here caused validator to extract/consume the parent TravelAgency node.
     sameAs: sameAs.length ? sameAs : undefined,
     address,
-  }));
+  });
 }
 
 // ─── WebSite node (tambahkan ke graph sekali) ─────────────────────────────────
@@ -317,6 +283,12 @@ export function buildSchemaTypeJsonLd(
   siteUrl = DEFAULT_SITE,
 ) {
   if (!schemaType || GLOBAL_SCHEMA_TYPES.has(schemaType)) return null;
+  // FAQPage is never emitted by this generic per-page builder: a valid FAQPage MUST carry
+  // `mainEntity` (the Q&A), which this stub can't supply. Pages that are FAQ pages emit the
+  // one FAQPage themselves, built from the same array they render visibly (AD-08). Emitting a
+  // mainEntity-less stub here produced a SECOND, duplicate FAQPage node (same @id) alongside
+  // the real one — see travel-guide-faq-schema-parity.ts.
+  if (schemaType === "FAQPage") return null;
 
   const pageUrl = absUrl(siteUrl, page.route);
   const seo: Seo = page.seo || {};

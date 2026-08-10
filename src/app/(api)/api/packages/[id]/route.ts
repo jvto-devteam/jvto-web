@@ -472,12 +472,44 @@ export async function PUT(
       meal_dinner: boolean;
     }[];
 
-    // route_destinations table was dropped (unused everywhere) — package_destinations
-    // can no longer be derived from routes and must be supplied explicitly elsewhere.
+    // derive package_destinations from used routes
+    const routeIdsUsed = Array.from(
+      new Set(
+        itineraryDaysInput
+          .map((d) => d.route_id)
+          .filter((id): id is bigint => id !== null)
+      )
+    );
+
     const packageDestinationsInput: {
       destination_id: bigint;
       sort_order: number;
     }[] = [];
+
+    if (routeIdsUsed.length > 0) {
+      const routeDests = await prisma.route_destinations.findMany({
+        where: {
+          route_id: {
+            in: routeIdsUsed,
+          },
+        },
+        orderBy: {
+          sequence: "asc",
+        },
+      });
+
+      const seen = new Set<string>();
+      for (const rd of routeDests) {
+        const key = rd.destination_id.toString();
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        packageDestinationsInput.push({
+          destination_id: rd.destination_id,
+          sort_order: packageDestinationsInput.length + 1,
+        });
+      }
+    }
 
     const updated = await prisma.packages.update({
       where: { id: BigInt(idNum) },
