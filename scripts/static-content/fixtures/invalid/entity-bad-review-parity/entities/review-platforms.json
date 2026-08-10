@@ -1,0 +1,15 @@
+{
+  "platforms": { "trustpilot": 51, "google": 123, "tripadvisor": 21 },
+  "average_rating": 4.8,
+  "profiles": [
+    {
+      "platform": "Trustpilot",
+      "rating": 4.8,
+      "reviewCount": 47,
+      "profileUrl": "https://example.com/reviews",
+      "verifiedAt": null,
+      "isPrimary": true
+    }
+  ],
+  "lastReviewed": "2026-08-04"
+}

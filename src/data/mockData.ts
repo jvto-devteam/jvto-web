@@ -8703,7 +8703,7 @@ export const MOCK_PACKAGE_DETAILS = [
                     "mealsPlan": {
                         "breakfast": "own expense",
                         "lunch": "own expense",
-                        "dinner": "included"
+                        "dinner": "own expense"
                     },
                     "mealsNotes": "",
                     "overnight": "Banyuwangi (Ijen Area)"
@@ -9270,7 +9270,7 @@ export const MOCK_PACKAGE_DETAILS = [
                     "mealsPlan": {
                         "breakfast": "own expense",
                         "lunch": "own expense",
-                        "dinner": "included"
+                        "dinner": "own expense"
                     },
                     "mealsNotes": "",
                     "overnight": "Banyuwangi (Ijen Area)"
@@ -10445,7 +10445,7 @@ export const MOCK_PACKAGE_DETAILS = [
                     "mealsPlan": {
                         "breakfast": "own expense",
                         "lunch": "own expense",
-                        "dinner": "included"
+                        "dinner": "own expense"
                     },
                     "mealsNotes": "",
                     "overnight": "Banyuwangi (Ijen Area)"

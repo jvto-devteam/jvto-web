@@ -1,0 +1,14 @@
+{
+  "src/app/(website)/tour-from-bali/page.tsx :: blue-fire-guarantee": 1,
+  "src/app/(website)/tour-from-bali/page.tsx :: stale-deposit-terms": 1,
+  "src/app/(website)/tour-from-surabaya/page.tsx :: blue-fire-guarantee": 1,
+  "src/app/(website)/tours-from-bali/page.tsx :: non-idr-currency": 2,
+  "src/app/(website)/tours-from-surabaya/page.tsx :: non-idr-currency": 1,
+  "src/components/website/Navbar.tsx :: wrong-founding-year": 1,
+  "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 2,
+  "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
+  "src/data/policy-bundle/deprecated-wording-report.json :: unverified-press-names": 2,
+  "src/data/policy-bundle/policy-bundle.json :: blue-fire-guarantee": 1,
+  "src/lib/faq-data.ts :: blue-fire-guarantee": 1,
+  "src/lib/site-config.ts :: wrong-founding-year": 1
+}

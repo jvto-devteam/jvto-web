@@ -1,0 +1,206 @@
+name: Production Preflight (read-only)
+
+# Manual-only, read-only diagnostic against the box the self-hosted runner
+# `jvto-help-deploy` lives on. Reports sanitized pass/fail/info for every
+# prerequisite the production-release cutover (main -> live) needs before
+# any code is written for the real deploy path or the additive SQL.
+#
+# INVARIANT: this workflow must never mutate anything on the box. No writes,
+# no installs, no `npm ci`, no DB writes. Secret VALUES are never echoed —
+# only presence/absence booleans and non-secret metadata (versions, path
+# existence, disk/memory numbers).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: [self-hosted, Linux, X64, jvto-help-deploy]
+    timeout-minutes: 10
+    steps:
+      - name: Runner identity
+        run: |
+          echo "== runner =="
+          echo "OS: ${RUNNER_OS} / ARCH: ${RUNNER_ARCH} / NAME: ${RUNNER_NAME}"
+          uname -a || true
+
+      - name: /var/www/jvto-web presence + repo readability
+        run: |
+          echo "== /var/www/jvto-web =="
+          if [ -d /var/www/jvto-web ]; then
+            echo "PASS: directory exists"
+            if [ -d /var/www/jvto-web/.git ]; then
+              cd /var/www/jvto-web
+              if git ls-remote --exit-code origin HEAD >/dev/null 2>&1; then
+                echo "PASS: git remote 'origin' readable"
+              else
+                echo "FAIL: git remote 'origin' NOT readable (auth/network issue)"
+              fi
+              echo "INFO: current checked-out ref:"
+              git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "  (detached or unreadable)"
+              git rev-parse HEAD 2>/dev/null || true
+            else
+              echo "INFO: directory exists but is not a git repo yet (first-time setup expected)"
+            fi
+          else
+            echo "INFO: directory does not exist yet (first-time setup expected)"
+          fi
+
+      - name: Node 20 availability via NVM (runner-user scope only)
+        run: |
+          echo "== node/nvm (jvto-deploy runner-user's own nvm, NOT root's) =="
+          echo "NOTE: the real deploy script (deploy-jvto-help.sh) runs as root via sudo"
+          echo "and uses /root/.nvm — this job runs unprivileged and cannot read root's"
+          echo "home without invoking new sudo, which this preflight deliberately does"
+          echo "NOT request. This check is informational for the runner user only; the"
+          echo "authoritative check happens once deploy-jvto-web.sh is installed and its"
+          echo "own strict-mode + selftest run."
+          export NVM_DIR="$HOME/.nvm"
+          if [ -s "$NVM_DIR/nvm.sh" ]; then
+            \. "$NVM_DIR/nvm.sh"
+            echo "PASS: nvm.sh sourced (runner-user scope)"
+            if nvm ls 20 >/dev/null 2>&1; then
+              echo "PASS: Node 20.x installed under runner-user's nvm"
+              nvm ls 20
+            else
+              echo "INFO: Node 20.x not installed under runner-user's nvm"
+            fi
+          else
+            echo "INFO: no nvm under runner-user's $HOME — irrelevant if root's /root/.nvm (used by the actual deploy script) is separately confirmed"
+          fi
+
+      - name: PM2 presence + jvto-web process
+        run: |
+          echo "== pm2 =="
+          PM2_BIN="$(command -v pm2 || true)"
+          if [ -z "$PM2_BIN" ]; then
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" >/dev/null 2>&1
+            PM2_BIN="$(command -v pm2 || true)"
+          fi
+          if [ -z "$PM2_BIN" ]; then
+            echo "FAIL: pm2 binary not found on PATH (checked default + nvm-sourced shell)"
+          else
+            echo "PASS: pm2 found at $PM2_BIN"
+            echo "INFO: pm2 process list (names + status only):"
+            "$PM2_BIN" jlist 2>/dev/null | node -e '
+              let d="";
+              process.stdin.on("data", c => d += c);
+              process.stdin.on("end", () => {
+                try {
+                  const procs = JSON.parse(d);
+                  for (const p of procs) console.log(`  - ${p.name}: ${p.pm2_env?.status}`);
+                  const web = procs.find(p => p.name === "jvto-web");
+                  console.log(web ? "PASS: pm2 process jvto-web exists" : "INFO: pm2 process jvto-web does NOT exist yet (first-time setup expected)");
+                } catch (e) { console.log("INFO: could not parse pm2 jlist output"); }
+              });
+            ' 2>/dev/null || echo "INFO: pm2 jlist unavailable or unparseable"
+          fi
+
+      - name: Disk + memory headroom
+        run: |
+          echo "== disk (/var/www) =="
+          df -h /var/www 2>/dev/null || df -h / 2>/dev/null
+          echo "== memory =="
+          free -h 2>/dev/null || vm_stat 2>/dev/null || echo "INFO: no free/vm_stat available"
+
+      - name: .env / .env.local presence + NEXT_PUBLIC_SITE_URL + required var presence (no values printed)
+        run: |
+          # Next.js loads BOTH .env and .env.local (the build log itself reports
+          # "Environments: .env.local, .env"), .env.local taking precedence on
+          # conflict. A var defined in either file is live for the app, so a var
+          # present only in .env must not be reported as missing.
+          echo "== .env / .env.local =="
+          ENV_LOCAL=/var/www/jvto-web/.env.local
+          ENV_BASE=/var/www/jvto-web/.env
+          [ -f "$ENV_LOCAL" ] && echo "PASS: .env.local exists" || echo "INFO: .env.local absent"
+          [ -f "$ENV_BASE" ] && echo "PASS: .env exists" || echo "INFO: .env absent"
+          if [ ! -f "$ENV_LOCAL" ] && [ ! -f "$ENV_BASE" ]; then
+            echo "FAIL: neither .env.local nor .env exists at /var/www/jvto-web"
+          else
+            # value_of VAR: .env.local wins on conflict, else falls back to .env.
+            value_of() {
+              local v="$1" line=""
+              [ -f "$ENV_LOCAL" ] && line="$(grep -E "^${v}=" "$ENV_LOCAL" | tail -1 || true)"
+              if [ -z "$line" ] && [ -f "$ENV_BASE" ]; then
+                line="$(grep -E "^${v}=" "$ENV_BASE" | tail -1 || true)"
+              fi
+              echo "$line" | cut -d= -f2- | tr -d "\"'" | xargs
+            }
+            SITE_URL_VAL="$(value_of NEXT_PUBLIC_SITE_URL)"
+            if [ "$SITE_URL_VAL" = "https://javavolcano-touroperator.com" ]; then
+              echo "PASS: NEXT_PUBLIC_SITE_URL normalizes exactly to the production origin"
+            else
+              echo "FAIL: NEXT_PUBLIC_SITE_URL is NOT the production origin (value withheld; length=${#SITE_URL_VAL})"
+            fi
+            echo "== required var presence (boolean only, no values; checked across BOTH files) =="
+            for v in DATABASE_URL GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET NEXTAUTH_SECRET NEXTAUTH_URL \
+                     EMAIL_SERVER_HOST EMAIL_SERVER_PORT EMAIL_SERVER_USER EMAIL_SERVER_PASSWORD EMAIL_FROM \
+                     CMS_ADMIN_EMAILS NEXT_PUBLIC_LEGACY_URL NEXT_PUBLIC_LEGACY_URL_DOMAIN NEXT_PUBLIC_MAPBOX_TOKEN \
+                     KNOWN_AGENTS_TOKEN; do
+              VAL="$(value_of "$v")"
+              if [ -n "$VAL" ]; then
+                echo "PASS: $v present (non-empty)"
+              else
+                echo "FAIL: $v MISSING or empty (checked .env.local and .env)"
+              fi
+            done
+          fi
+
+      - name: Production DB reachability (read-only) + new-table check
+        run: |
+          echo "== database =="
+          ENV_LOCAL=/var/www/jvto-web/.env.local
+          ENV_BASE=/var/www/jvto-web/.env
+          if [ ! -f "$ENV_LOCAL" ] && [ ! -f "$ENV_BASE" ]; then
+            echo "INFO: skipped — neither .env.local nor .env present"
+            exit 0
+          fi
+          DB_URL=""
+          [ -f "$ENV_LOCAL" ] && DB_URL="$(grep -E '^DATABASE_URL=' "$ENV_LOCAL" | tail -1 | cut -d= -f2- | tr -d "\"'")"
+          if [ -z "$DB_URL" ] && [ -f "$ENV_BASE" ]; then
+            DB_URL="$(grep -E '^DATABASE_URL=' "$ENV_BASE" | tail -1 | cut -d= -f2- | tr -d "\"'")"
+          fi
+          if [ -z "$DB_URL" ]; then
+            echo "FAIL: DATABASE_URL empty in both .env.local and .env — cannot test connectivity"
+            exit 0
+          fi
+          if ! command -v psql >/dev/null 2>&1; then
+            echo "INFO: psql not on PATH — connectivity check skipped (not evidence of failure)"
+            exit 0
+          fi
+          # Parse manually instead of handing the URI straight to psql: a
+          # password containing a literal, un-percent-encoded '@' (confirmed
+          # present in this box's DATABASE_URL) makes psql/libpq misparse the
+          # host, so this splits on the LAST '@' (host/port/db never contain
+          # '@') the same way a correct URI parser would.
+          url="${DB_URL#postgresql://}"
+          hostpart="${url##*@}"
+          userpass="${url%@*}"
+          dbuser="${userpass%%:*}"
+          dbpass="${userpass#*:}"
+          hostport="${hostpart%%/*}"
+          dbname="${hostpart#*/}"
+          dbhost="${hostport%%:*}"
+          dbport="${hostport#*:}"
+          if PGPASSWORD="$dbpass" psql -h "$dbhost" -p "$dbport" -U "$dbuser" -d "$dbname" -Atqc "SELECT 1;" >/dev/null 2>&1; then
+            echo "PASS: production DB reachable read-only"
+          else
+            echo "FAIL: could not connect to production DB with the configured DATABASE_URL"
+            exit 0
+          fi
+          echo "== existing / new table+column check (to_regclass, information_schema — no mutation) =="
+          PGPASSWORD="$dbpass" psql -h "$dbhost" -p "$dbport" -U "$dbuser" -d "$dbname" -Atqc "
+            select 'domain_outbox: ' || coalesce(to_regclass('public.domain_outbox')::text, 'ABSENT');
+            select 'combined_packages: ' || coalesce(to_regclass('public.combined_packages')::text, 'ABSENT');
+            select 'combined_package_details: ' || coalesce(to_regclass('public.combined_package_details')::text, 'ABSENT');
+            select 'package_images: ' || coalesce(to_regclass('public.package_images')::text, 'ABSENT');
+            select 'route_destinations: ' || coalesce(to_regclass('public.route_destinations')::text, 'ABSENT');
+            select 'review_stats: ' || coalesce(to_regclass('public.review_stats')::text, 'ABSENT');
+          " 2>&1 || echo "INFO: table-existence query failed to run"
+
+      - name: Summary
+        if: always()
+        run: echo "Preflight complete. Review each step above for PASS / FAIL / INFO markers."

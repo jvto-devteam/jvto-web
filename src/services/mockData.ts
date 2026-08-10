@@ -30,8 +30,8 @@ export const FEATURED_TOURS: TourPackage[] = [
         "https://legacy.javavolcano-touroperator.com/assets/img/destinations/surabaya-mt.-bromo-1-day-tour-1692564153744/bromo11.webp"
     ],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["1d1n", "surabaya", "bromo", "sunrise", "midnight-tour"],
     inclusions: [
       "Private transport (MPV for 1-3 guests, Hiace Van for 4-11 guests)",
@@ -93,8 +93,8 @@ export const FEATURED_TOURS: TourPackage[] = [
         "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new2.jpg"
     ],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["2d1n", "surabaya", "bromo", "madakaripura", "sunrise"],
     inclusions: [
       "Private transport & fuel",
@@ -162,8 +162,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["2d1n", "surabaya", "ijen", "blue-fire", "crater-lake"],
     inclusions: [
       "Private transport",
@@ -229,8 +229,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["3d2n", "bali", "bromo", "ijen", "blue-fire", "cross-island"],
     inclusions: [
       "Private transport",
@@ -306,8 +306,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb4.jpg",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb4.jpg"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["3d2n", "surabaya", "bali", "overland", "bromo", "ijen"],
     inclusions: [
       "Private transport",
@@ -381,8 +381,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb9.jpg",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb9.jpg"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["3d2n", "surabaya", "ijen", "bromo", "reverse-route"],
     inclusions: [
       "Private transport",
@@ -458,8 +458,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb2.jpg",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb2.jpg"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["4d3n", "surabaya", "ijen", "bromo", "relaxed-pace"],
     inclusions: [
       "Private transport",
@@ -542,8 +542,8 @@ export const FEATURED_TOURS: TourPackage[] = [
     imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb6.jpg",
     gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb6.jpg"],
     isPrivate: true,
-    rating: 4.9,
-    reviewCount: 112,
+    rating: 4.8,
+    reviewCount: 51,
     tags: ["4d3n", "bali", "ijen", "papuma", "tumpak-sewu", "bromo"],
     inclusions: [
       "Private transport",

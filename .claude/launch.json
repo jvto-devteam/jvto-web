@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jvto-web (Next.js)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "wa-gateway (Node)",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["F:\\jvto-web\\services\\wa-gateway\\dist\\index.js"],
+      "port": 4010
+    }
+  ]
+}

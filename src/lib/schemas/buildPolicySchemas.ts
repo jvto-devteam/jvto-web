@@ -5,6 +5,7 @@
 // Per cluster_role_contracts.md Cluster 6: BreadcrumbList universal MH; cross-ref custom DefinedTerms
 // (JVTO_TRAVEL_CREDIT, JVTO_FOC_SCHEME) via WebPage.mentions to anchor brand operational terms in entity graph.
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
+import { getCustomerCopy } from '@/lib/policy-bundle';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -83,18 +84,25 @@ export function buildPolicyWebPageSchema({
 }
 
 /**
- * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Travel Credit
- * policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
+ * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Lifetime
+ * Package Guarantee as a structured announcement. AI engines weight SpecialAnnouncement for
+ * time-relevant operational notices. Text comes from the compiled policy bundle (customer-copy.json,
+ * generated from the llm-wiki YAML SSOT) so it can never drift from the rules. The @id is kept stable
+ * to avoid schema-graph churn.
  */
 export function buildJvtoTravelCreditAnnouncementSchema() {
+  const text = [
+    getCustomerCopy('package_guarantee_summary'),
+    getCustomerCopy('before_48_full_cancellation'),
+  ]
+    .filter(Boolean)
+    .join(' ');
   return {
     '@context': 'https://schema.org',
     '@type': 'SpecialAnnouncement',
     '@id': `${BASE_URL}/policy/booking-payment-cancellation#travel-credit-announcement`,
-    name: 'JVTO Travel Credit Policy',
-    text:
-      'Cancellation ≥48 hours before Day 1 = 100% JVTO Travel Credit. Non-expiring. Transferable. ' +
-      'IDR-denominated. No rebooking fee. Applies to any JVTO private tour.',
+    name: 'JVTO Lifetime Package Guarantee',
+    text,
     announcementLocation: { '@id': `${BASE_URL}/#organization` },
     category: 'https://www.wikidata.org/wiki/Q81068910',
   };

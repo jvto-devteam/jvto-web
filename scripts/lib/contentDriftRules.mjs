@@ -1,0 +1,165 @@
+// scripts/lib/contentDriftRules.mjs
+// SINGLE SOURCE OF TRUTH for the canonical-facts content-drift denylist.
+// Pure, zero-dependency ESM (no fs / no node built-ins) so it can be imported by
+// BOTH the CLI gate (scripts/validate-content-drift.mjs, via `node`) AND the
+// runtime admin gate (src/app/(api)/api/content-validate/route.ts, bundled by
+// Next). Kept under scripts/ (NOT src/) on purpose: the RULES regex sources
+// literally contain forbidden strings ("112", "blue fire…guarantee", "30% deposit"),
+// and the validator only scans src/ + root *-config.json + public/llms*.txt +
+// CANONICAL_FACTS.md — so a rules file inside src/ would self-trigger the scan.
+//
+// Enforces docs/CANONICAL_FACTS.md. Every hit of any rule on a non-whitelisted
+// line = a violation. A line containing `drift-ok:` is whitelisted.
+
+export const WHITELIST_MARKER = "drift-ok:";
+
+export const RULES = [
+  {
+    name: "stale-address-linebreak",
+    re: /Banyuwangi, East Java,\s*<br/i,
+  },
+  {
+    name: "stale-review-counts",
+    // canonical: Trustpilot 4.8/51 · Google 4.9/123 · TripAdvisor 4.95/21 · cross-platform 4.8/195
+    // Bare 112/92 as review counts (e.g. `reviewCount: 112`, "112 reviews") are
+    // forbidden values per the facts lock, not just the "112+" / compound forms.
+    re: /\b112\+|4\.9\s*\/\s*5 · 92|47 reviews|5\.0\s*\/\s*5\b|reviewCount["'\s:=]*11[2]\b|reviewCount["'\s:=]*92\b|4\.9\s*\/\s*112\b|\b112\s*reviews?\b|\b92\s*reviews?\b/i,
+  },
+  {
+    name: "wrong-founding-year",
+    // canonical foundingDate/since = 2015 (docs/CANONICAL_FACTS.md). 2023 is
+    // legitimate for legal/PT-formalization context (e.g. "TDUP issued
+    // 2023-02-11") but forbidden specifically as a foundingDate value — so
+    // only that alternative gains |23, not "incorporated"/"EST".
+    //
+    // Widened 2026-07-31: "incorporated 20XX" alone missed prose like "Mr. Sam
+    // incorporated PT Java Volcano Rendezvous on 2016-01-01" — same word, just
+    // not adjacent to the year. Added a within-one-sentence variant.
+    // Widened 2026-08-03 (Codex #139 P1): the CMS seed said "incorporation —
+    // 2016-01-01" — the noun form the verb-only pattern missed. Added a noun
+    // variant scoped to a full ISO date so it catches "incorporation — 2016-01-01"
+    // without false-flagging KBLI codes (e.g. "62019") or the "incorporation year
+    // (2016/2019/2020/2023)" explanatory comment.
+    // Widened again 2026-08-03 (Codex #140 P2): the founding-date alternative
+    // matched only camelCase `foundingDate`; the SSOT dataset carried snake_case
+    // `"founding_date": "2016-01-01"`. `founding[_]?[Dd]ate` now covers both.
+    // Widened 2026-08-04 (PKG-05c): llms-full.txt said "Founded PT Java Volcano
+    // Rendezvous 2016" — the verb "founded/established … <entity> … 20XX" that
+    // the incorporation-only pattern missed. `founded`/`established` within a
+    // short window of a forbidden year now trips (2015 is deliberately excluded
+    // from the alternation, so "founded … 2015" stays clean).
+    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|incorporat(?:ed|ion)[^.]{0,60}20(16|19|20)-\d\d-\d\d|EST\.? 20(16|19|20)|(?:founded|established)[^.]{0,60}\b20(16|19|20)\b|founding[_]?[Dd]ate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
+  },
+  {
+    name: "brand-config-json-pattern",
+    // retired root jvto-config.json duplicate brand-config shape — must never reappear
+    re: /"sinceOperational"|"incorporated":\s*"?20\d\d/,
+  },
+  {
+    name: "blue-fire-guarantee",
+    // blue fire = natural phenomenon, cannot be guaranteed
+    // Both orders: "blue fire … guaranteed" and "100% / guaranteed … blue fire".
+    re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|(guarantee|100%)[^.]{0,40}[Bb]lue\s*[Ff]ire/,
+    // CANONICAL_FACTS.md mandates the negated form ("cannot be guaranteed"), which the
+    // bare `re` above would itself flag — that false positive is why the OKF snapshot got
+    // hand-edited to "cannot be promised", diverging from upstream. Allow the negated
+    // form so syncing OKF verbatim stays lossless; positive claims still fail.
+    // (?:\s|\\n|\\r) also matches a literal two-char `\n`/`\r` escape sequence —
+    // JSON string values (e.g. src/data/okf/policy-cards.json) sometimes embed
+    // markdown line breaks as literal backslash-n inside one physical file line.
+    allow: /\b(cannot|can ?not|can't|never|not|no|isn't|aren't)(?:\s|\\n|\\r)+(be(?:\s|\\n|\\r)+)?guarantee/i,
+  },
+  {
+    name: "stale-conditional-health-wording",
+    // Ijen health screening is MANDATORY (adjudicated 2026-07-06, supersedes the prior
+    // conditional decision) — catches the old "when BBKSDA rules require it" / "can
+    // require" / "— conditional" framing so it can't silently regress.
+    //
+    // Widened 2026-07-31: the original window (`When` within 15 chars of `BBKSDA`) was
+    // too tight and missed both phrasings actually shipping on /travel-guide/* —
+    // "When the East Java conservation authority (BBKSDA) requires it" (36 chars) and
+    // "...certificate when their regulations are in effect" (no BBKSDA token at all).
+    re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,60}BBKSDA[^.]{0,40}(require|rules)|when (it|access rules?) (applies|require)|(screening|certificate)[^.]{0,60}(when|where)[^.]{0,40}(require|regulations?|rules?)|(when|where)[^.]{0,40}(regulations?|rules?)[^.]{0,20}(in effect|apply|applies)/i,
+  },
+  {
+    name: "health-cert-qr",
+    // Owner decision 2026-08-06: the Ijen surat-sehat / health-screening flow must
+    // NOT claim QR verification — there is no evidence of a guest-facing QR flow or
+    // QR acceptance at the crater gate. Canonical framing: the certificate is BSrE
+    // (BSSN) electronically signed + traceable to the doctor's SIP, and is CHECKED at
+    // the gate (a BBKSDA requirement) WITHOUT a QR mechanism ("no valid health
+    // certificate, no crater access"). This catches the health-cert QR idioms so they
+    // can't silently return. Each alternative REQUIRES a real separator or a health
+    // word, so the AHU registry `/qrcode/?kode=` verification URLs (one token, no
+    // separator) and QRIS payments never false-trigger. src/data/* mirrors still carry
+    // this wording until the producer (llm-wiki) fix merges + the bundles re-sync;
+    // those hits stay in the committed baseline (upstream-owned) and clear on resync.
+    //
+    // SCOPED to the health-cert context (this rule also runs in the runtime CMS gate
+    // /api/content-validate on every draft). It fires on a BARE \bQR\b only when a
+    // health-cert / surat-sehat / crater / BBKSDA / Ijen token sits within ~80 chars
+    // (either order): that catches EVERY construction — "QR code", "scan the
+    // certificate's QR", "verify by scanning its QR", "QR-verifiable", "no valid QR" —
+    // not just QR+suffix (Codex OKF #41 P1, applied here for parity); and it does NOT
+    // fire on an unrelated ticket / booking / payment "QR code" (P2). \bQR\b never
+    // matches the AHU/SABH `/qrcode/?kode=` URL token (qr+c) or "QRIS" (qr+i). No
+    // `allow` list: the scoped `re` IS the exemption — legit payment/QRIS,
+    // WhatsApp-login, and AHU-registry QR carry no health token within 80 chars, so
+    // they never match. A whole-line `allow` was removed (Codex #154 P2): scanText
+    // applies `allow` to the ENTIRE physical line, so an unrelated "payment"/"WhatsApp"
+    // token could mask a real health-QR violation elsewhere on the same line (CMS
+    // paragraphs and stringified JSON routinely put many sentences/fields on one line).
+    re: /(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)[^.\n]{0,80}\bQR\b|\bQR\b[^.\n]{0,80}(?:surat[- ]?sehat|surat keterangan sehat|suket sehat|health[- ]?(?:certificate|cert|screening|clearance)|medical[- ]?(?:certificate|screening)|crater|BBKSDA|Ijen)/i,
+  },
+  {
+    name: "non-idr-currency",
+    // prices are IDR-only, format `IDR 1,550,000/person`
+    re: /\$\s?\d|EUR\s?\d|USD\s?\d{2,}|Rp\s?\d/,
+  },
+  {
+    name: "stale-deposit-terms",
+    // canonical: 20% deposit; cancellation = 100% Lifetime Package Credit
+    re: /30% deposit|balance[^.]{0,20}at pickup/i,
+  },
+  {
+    name: "stale-group-threshold",
+    // police-escort threshold is ~18 guests, not 6. \b guards on both sides
+    // of the digit so "16+ guest reviews" / "party of 60" don't false-hit,
+    // and "group" is singular-or-plural to catch "Group of 6+?" headings.
+    re: /[Gg]roups? of 6\b|\b6\+ ?(guests?|travel(l)?ers?|people|pax)/,
+  },
+  {
+    name: "unverified-press-names",
+    re: /Trip\.com|Travel \+ Leisure|Cond[eé] Nast/,
+  },
+];
+
+/** Collapse whitespace + cap length for a readable matched-text preview. */
+export function truncate(text, max = 80) {
+  const oneLine = text.replace(/\s+/g, " ").trim();
+  return oneLine.length > max ? oneLine.slice(0, max - 1) + "…" : oneLine;
+}
+
+/**
+ * Scan in-memory text against every rule. Returns an array of
+ * { rel, line, rule, text } hits. `rel` is a caller-supplied label (a file path
+ * for the CLI, or e.g. '<stdin-draft>' for the runtime gate). Pure — no I/O.
+ */
+export function scanText(content, rel) {
+  const hits = [];
+  const lines = content.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.includes(WHITELIST_MARKER)) continue;
+    for (const rule of RULES) {
+      // Rule-level escape hatch: a line matching `allow` is exempt from THIS rule only.
+      // Line-granular by design — a line mixing an allowed phrasing with a real
+      // violation is exempted, which is the accepted trade for letting canonical
+      // negated wording ("cannot be guaranteed") through unmodified.
+      if (rule.allow && rule.allow.test(line)) continue;
+      const m = rule.re.exec(line);
+      if (m) hits.push({ rel, line: i + 1, rule: rule.name, text: truncate(m[0]) });
+    }
+  }
+  return hits;
+}

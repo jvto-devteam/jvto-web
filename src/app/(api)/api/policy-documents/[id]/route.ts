@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 // REMOVED parseId function since we're using uuid strings now
 
@@ -49,6 +50,11 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const __admin = await requireAdmin();
+  if (!__admin.ok) {
+    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
+  }
+
   const { id } = await params;
 
   if (!id || id.trim() === "") {
@@ -172,6 +178,11 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const __admin = await requireAdmin();
+  if (!__admin.ok) {
+    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
+  }
+
   const { id } = await params;
 
   if (!id || id.trim() === "") {

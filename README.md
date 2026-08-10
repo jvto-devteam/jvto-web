@@ -1,156 +1,181 @@
-# Dokumentasi Lengkap & Runbook Operasional - Proyek jvto-web
+# Runbook Operasional — jvto-web
 
-Dokumen ini adalah rekapitulasi dan panduan teknis lengkap berdasarkan proses setup server dari awal hingga akhir. Tujuannya adalah sebagai pusat informasi tunggal untuk semua hal yang berkaitan dengan infrastruktur, deployment, dan pemeliharaan aplikasi `jvto-web`.
+Panduan teknis infrastruktur, deployment, dan pemeliharaan aplikasi `jvto-web`
+(Next.js 16). **Dokumen ini tidak boleh memuat kredensial apa pun** — semua
+rahasia disimpan di luar repo (lihat §3).
+
+> ⚠️ **Peringatan keamanan (riwayat repo).** Versi lama dokumen ini pernah memuat
+> kredensial asli (login Hostinger, password root SSH, GitHub PAT, Mailgun API key,
+> password PostgreSQL/PgBouncer/Metrics, serta login Adminer & Grafana). Karena repo
+> ini publik, kredensial tersebut **harus dianggap bocor dan wajib dirotasi
+> semuanya**. Menghapusnya dari file ini **tidak** menghapusnya dari git history —
+> history perlu di-purge terpisah (mis. `git filter-repo`) dan setiap kredensial
+> harus diganti di sistemnya masing-masing.
 
 ---
 
 ## 1. Visi & Strategi Proyek
 
-Tujuan utama dari proyek ini adalah melakukan pembangunan ulang sistem dari **Laravel** di hosting lama ke **Next.js** di infrastruktur VPS yang modern dan terukur.
+Pembangunan ulang sistem dari **Laravel** (hosting lama) ke **Next.js** di VPS modern.
 
--   **Domain Produksi (Masa Depan):** `javavolcano-touroperator.com`
--   **Domain Staging/Development (Saat Ini):** `java-tour.com`
--   **Strategi:** Menggunakan `java-tour.com` sebagai lingkungan *staging* yang identik dengan produksi untuk membangun dan menguji sistem baru tanpa mengganggu website lama. Setelah sistem baru siap, domain utama akan diarahkan ke infrastruktur baru ini.
+Model branch (otoritatif: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)):
+
+- **`main`** → deploy otomatis ke **preview/develop**:
+  `https://help.javavolcano-touroperator.com` (di-set `noindex`).
+- **`live`** → **produksi**: `https://javavolcano-touroperator.com` (indexable),
+  hanya menerima promote PR `main → live` yang diperintahkan owner + commit bot
+  volcanic-status. **Jangan pernah kerja langsung di `live`.**
 
 ---
 
 ## 2. Rincian Infrastruktur
 
--   **Penyedia VPS:** Hostinger
--   **Alamat IP VPS:** `31.97.223.43`
--   **Sistem Operasi:** Ubuntu/Debian based
--   **Web Server:** Nginx
--   **Aplikasi:** Next.js (Project `/app/jvto-web`)
--   **Database:** PostgreSQL 17, PgBouncher, PgBackrest
--   **Process Manager:** PM2
--   **DNS & Keamanan Jaringan:** Cloudflare (akun JVTO Dev Team)
+- **Penyedia VPS:** Hostinger
+- **IP VPS:** `31.97.223.43`
+- **OS:** Ubuntu/Debian
+- **Web Server:** Nginx (reverse proxy → Next.js di `localhost:3000`)
+- **Aplikasi:** Next.js 16 (Turbopack) — direktori `/var/www/jvto-help`,
+  PM2 process **`jvto-help`** (box preview/develop)
+- **Database:** PostgreSQL 17 + PgBouncer + pgBackRest —
+  `31.97.223.43:5432` (`jvto_dev` = develop, `jvto` = produksi)
+- **Process Manager:** PM2
+- **DNS & Keamanan Jaringan:** Cloudflare (akun JVTO Dev Team)
 
 ---
 
 ## 3. Akses & Kredensial
-### Akses Hostinger (SSH)
-Akses ke server dilakukan melalui SSH sebagai user `root`.
-```bash
-Email : devteam.jvto@gmail.com
-Bismill@hsukses1
 
-```
+**Tidak ada kredensial yang disimpan di repo.** Semua rahasia disimpan di:
 
-### Akses Server (SSH)
-Akses ke server dilakukan melalui SSH sebagai user `root`.
-```bash
-ssh root@31.97.223.43
-Bismill@hsukses1
+- **Password manager tim** — akses manusia (login Hostinger, password root SSH,
+  login Adminer & Grafana beserta URL-nya).
+- **VPS-local `.env.local`** (git-ignored) — rahasia runtime aplikasi
+  (`DATABASE_URL`, Mailgun API key, PgBouncer, dll.). File ini bertahan saat
+  deploy karena `git reset --hard` hanya menyentuh file tracked.
+- **GitHub Actions Secrets** — CI/deploy:
+  - `GH_PAT` — checkout repo produsen (llm-wiki + OKF) untuk drift gate & sync.
+  - `VPS_HOST` / `VPS_USER` / `VPS_SSH_KEY` — **retired**: help deploy kini jalan di
+    self-hosted runner `jvto-help-deploy` (tanpa inbound SSH). Owner boleh menghapusnya.
+  - `DEVELOP_SSH_HOST` / `DEVELOP_SSH_USER` / `DEVELOP_SSH_KEY` — **retired**: job
+    `build-develop` dihapus; build produksi kini jalan GitHub-hosted (Postgres service
+    container). Owner boleh menghapusnya.
 
-```
-### Akses GIT
-Github Repository:
-https://github.com/jvto-devteam/jvto-web.git
+Titik akses (host/URL saja — kredensial di password manager):
 
-Personal Access Token : 
+- **SSH:** `ssh root@31.97.223.43`
+- **GitHub:** <https://github.com/jvto-devteam/jvto-web>
+- Panel Hostinger, Adminer, dan Grafana: lihat entri di password manager tim
+  (URL + kredensial tidak dicantumkan di repo publik).
 
-```bash
-david
-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
-```
-### Mailgun
-API KEY `e06c423b06428cdf0a2458e5abaec48a-1ae02a08-6959b3ee`
+---
 
-### PostgreSQL Metrics 
-`BismillahMetrics1`
+## 4. Runbook Operasional
 
-### PostgreSQL Pgbouncer 
-```bash
-app_user
-BismillahPgbouncer1
+### Deployment (otomatis)
 
-pgbouncer
-BismillahPgbouncer1
-```
+Deploy dijalankan oleh **GitHub Actions `.github/workflows/deploy.yml`**:
 
-### Akses Adminer
-https://db.java-tour.com
+- **Trigger:** push ke `main` (otomatis) atau `workflow_dispatch` (re-run manual).
+- **Aksi** (SSH ke VPS via `appleboy/ssh-action`), setara dengan:
+  ```bash
+  cd /var/www/jvto-help
+  git fetch --prune origin main
+  git reset --hard origin/main      # JANGAN tambahkan `git clean` — akan menghapus .env.local
+  npm ci
+  npm run build                     # Next.js 16 — butuh Postgres via .env.local
+  pm2 restart jvto-help --update-env
+  ```
+- Box produksi memakai `deploy.yml` yang sama pada branch `live`.
 
-```bash
-admin
-Bismill@hsukses1
-```
-```bash
-postgres
-Bismill@hsukses1
-```
+### Deploy manual (fallback, dijalankan di VPS)
 
-### Akses Grafana
-http://31.97.223.43:4000/login
-
-```bash
-admin
-Bismill@hadmin1
-```
-
-## 4. Runbook Operasional (Panduan Teknis)
-### Prosedur Deployment Versi Baru
-Setiap kali ada perubahan baru yang sudah digabungkan (merge) ke branch main di GitHub, lakukan langkah-langkah berikut di terminal VPS:
+Cara yang disarankan untuk re-deploy tanpa perubahan kode: jalankan ulang
+workflow **Deploy to VPS** via `workflow_dispatch` (Actions UI / `gh workflow run
+deploy.yml --ref <branch>`). **Branch menentukan target:** `--ref main` →
+preview/develop (box `jvto-help`, `help.javavolcano-touroperator.com`);
+`--ref live` → produksi (`javavolcano-touroperator.com`). Blok di bawah hanya
+untuk kondisi GitHub Actions tak tersedia dan berlaku untuk box `jvto-help`;
+urutannya mengikuti `deploy.yml` (termasuk `nvm use 20`) supaya `npm run build`
+tidak gagal di Node 18 default box:
 
 ```bash
-cd /app/jvto-web
-git pull origin main
-npm install
-npm run build
-pm2 restart jvto-web
+cd /var/www/jvto-help
+# Next.js 16 butuh Node >= 20.9 — default box = Node 18, jadi pilih Node 20 dulu
+# (persis seperti deploy.yml); tanpa ini `npm run build` gagal:
+export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+PM2_BIN="$(command -v pm2 || echo pm2)"   # tangkap sebelum `nvm use 20` (pm2 di Node 18 global)
+nvm use 20
+git fetch --prune origin main && git reset --hard origin/main
+npm ci && npm run build
+"$PM2_BIN" restart jvto-help --update-env
 ```
 
 ### Management Layanan
-Manajemen Layanan
-Gunakan perintah berikut jika perlu mengelola salah satu layanan utama:
 
 ```bash
-Nginx: sudo systemctl [status|start|stop|restart] nginx
+Nginx:      sudo systemctl [status|start|stop|restart] nginx
 PostgreSQL: sudo systemctl [status|start|stop|restart] postgresql
-Aplikasi Next.js (via PM2): pm2 [status|start|stop|restart] jvto-web
+Next.js:    pm2 [status|start|stop|restart] jvto-help
 ```
 
 ### Strategi Backup Database (pgBackRest)
-- Jadwal Backup Penuh (Full): Setiap hari Minggu, pukul 02:00 pagi.
-- Jadwal Backup Diferensial (Diff): Setiap hari Senin s/d Sabtu, pukul 02:00 pagi.
-- Lokasi File Backup: `/var/lib/pgbackrest`
-- Cara Cek Status Backup :
-```bash
-sudo -u postgres pgbackrest --stanza=jvto info
-```
+
+- Full: setiap Minggu 02:00. Diferensial: Senin–Sabtu 02:00.
+- Lokasi backup: `/var/lib/pgbackrest`
+- Cek status: `sudo -u postgres pgbackrest --stanza=jvto info`
 
 ### Troubleshooting & Pengecekan Log
-- Log Aplikasi Next.js: `pm2 logs jvto-web`
-- Log Error Nginx: `sudo tail -n 100 /var/log/nginx/error.log`
-- Log Sistem (untuk Cron Job): `sudo grep CRON /var/log/syslog`
+
+- Log aplikasi Next.js: `pm2 logs jvto-help`
+- Log error Nginx: `sudo tail -n 100 /var/log/nginx/error.log`
+- Log sistem (cron job): `sudo grep CRON /var/log/syslog`
 
 ### Rencana Rollback Singkat
-Jika terjadi error kritis setelah deployment, lakukan langkah-langkah berikut untuk kembali ke versi stabil sebelumnya:
-- Masuk ke direktori proyek: cd /app/jvto-web
-- Kembali ke commit terakhir yang stabil: git checkout [commit_id_terakhir_yang_stabil]
-- Bangun ulang aplikasi: npm run build
-- Restart aplikasi: pm2 restart jvto-web
+
+```bash
+cd /var/www/jvto-help
+export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+PM2_BIN="$(command -v pm2 || echo pm2)"   # Node 20 + pm2 handling sama seperti deploy.yml
+nvm use 20
+git checkout <commit_stabil_terakhir>
+npm ci && npm run build
+"$PM2_BIN" restart jvto-help --update-env
+```
+
+Alternatif yang lebih aman: revert di `main` lewat PR — `deploy.yml` akan
+men-deploy ulang otomatis setelah merge.
+
+---
 
 ## 5. Konfigurasi & Arsitektur
-### Alur Traffic & DNS
-- Domain java-tour.com dikelola sepenuhnya oleh Cloudflare.
-- Pengunjung mengakses https://java-tour.com.
-- Permintaan masuk ke jaringan Cloudflare.
-- Cloudflare menyaring traffic (DDoS, WAF) dan menyajikan aset dari cache (CDN).
-- Permintaan yang valid diteruskan ke alamat IP VPS 31.97.223.43.
-- Nginx di VPS menerima permintaan di port 443.
-- Nginx berfungsi sebagai reverse proxy dan meneruskan permintaan ke aplikasi Next.js yang berjalan di localhost:3000.
-- PM2 menjaga agar aplikasi Next.js tetap berjalan.
 
-### Konfigurasi Cloudflare
-- Nameservers: lee.ns.cloudflare.com & anna.ns.cloudflare.com.
-- SSL/TLS Mode: Full (Strict), untuk memastikan enkripsi end-to-end (Pengunjung <-> Cloudflare <-> VPS).
+### Alur Traffic & DNS
+
+Pengunjung → **Cloudflare** (DDoS/WAF/CDN) → VPS `31.97.223.43:443` →
+**Nginx** (reverse proxy) → **Next.js** di `localhost:3000` (dijaga PM2).
+
+- Preview/develop: `help.javavolcano-touroperator.com`
+- Produksi: `javavolcano-touroperator.com`
+- **Indexability** diatur oleh `NEXT_PUBLIC_SITE_URL` per box (lihat `.env.example`
+  + `next.config.ts` + `src/lib/site.ts`): hanya origin produksi yang indexable;
+  selain itu header `X-Robots-Tag: noindex, nofollow` di-inject otomatis.
+
+### Cloudflare
+
+- SSL/TLS Mode: **Full (Strict)** — enkripsi end-to-end (Pengunjung ↔ Cloudflare ↔ VPS).
 
 ### Version Control (Git) & Kolaborasi
-- **Repository:** https://github.com/jvto-devteam/jvto-web.git
-- **Alur Kerja:** Perubahan kode dilakukan di branch terpisah. Setelah selesai, dibuat Pull Request ke branch main. Review dan merge dilakukan melalui antarmuka GitHub. Setelah di-merge, barulah prosedur deployment di server dijalankan.
-- **Manajemen Kolaborator:** Penambahan anggota tim dilakukan melalui menu Settings > Collaborators di halaman repository GitHub.
+
+- **Repository:** <https://github.com/jvto-devteam/jvto-web>
+- **Alur kerja:** feature branch → Pull Request ke `main` → CI `verify` hijau →
+  merge → `deploy.yml`. Governance lengkap: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
+- **Kolaborator:** dikelola di Settings → Collaborators pada repo GitHub.
 
 ### Kebijakan Keamanan
-- **Secrets:** Semua informasi sensitif (password DB, API keys) disimpan sebagai Environment Variables di file .env.local di server, yang tidak termasuk dalam repository Git.
-- **Akses Adminer:** Dibatasi oleh SSL dan aturan allow/deny berdasarkan alamat IP yang telah ditentukan di /etc/nginx/sites-available/adminer.conf.
+
+- **Rahasia tidak pernah masuk repo.** Runtime: `.env.local` (git-ignored) di VPS;
+  CI/deploy: GitHub Actions Secrets; akses manusia: password manager tim.
+- **Rotasi:** rotasi kredensial secara berkala, dan **segera** bila ada indikasi
+  kebocoran (mis. pernah ter-commit — lihat peringatan di atas).
+- **Akses Adminer:** dibatasi SSL + aturan allow/deny berbasis IP di
+  `/etc/nginx/sites-available/adminer.conf`.

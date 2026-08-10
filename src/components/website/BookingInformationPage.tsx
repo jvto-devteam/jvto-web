@@ -48,7 +48,7 @@ const BookingInformationPage: React.FC = () => {
                 <div className="mt-4">
                     <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Booking, Payment & Cancellation</h1>
                     <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200 max-w-3xl">
-                        This page summarises how JVTO bookings work. It applies to every private tour booked directly with us. JVTO does not issue cash refunds. Instead, we issue JVTO Travel Credit equal to 100% of what you already paid if you cancel ≥48 hours before Day 1.
+                        This page summarises how JVTO bookings work. It applies to every private tour booked directly with us. JVTO does not issue cash refunds. Instead, we issue JVTO Package Credit equal to 100% of what you already paid if you cancel ≥48 hours before Day 1.
                     </p>
                 </div>
             </div>
@@ -62,8 +62,8 @@ const BookingInformationPage: React.FC = () => {
                      <p>These are the non-negotiable site-wide rules that apply to every guest:</p>
                     <ol>
                         <li><strong>Pay on time.</strong> Card balance: due 5 calendar days before Day 1. Bank/Wise balance: due 3 calendar days before Day 1. Missed payment can void the booking.</li>
-                        <li><strong>Cancel more than 48 hours before Day 1 → You get JVTO Travel Credit.</strong> 100% of what {`you've`} paid becomes Travel Credit. No expiry. Transferable. No cash refunds, ever.</li>
-                        <li><strong>Cancel less than 48 hours before Day 1 → Forfeited.</strong> No Travel Credit, no refund.</li>
+                        <li><strong>Cancel more than 48 hours before Day 1 → You get JVTO Package Credit.</strong> 100% of what {`you've`} paid becomes Package Credit. No expiry. Transferable. No cash refunds, ever.</li>
+                        <li><strong>Cancel less than 48 hours before Day 1 → Forfeited.</strong> No Package Credit, no refund.</li>
                         <li><strong>Reschedule more than 48 hours before Day 1 → Allowed 1x, free.</strong> Subject to availability.</li>
                         <li><strong>Reschedule less than 48 hours before Day 1 / same-day cancel / no-show → Forfeited.</strong></li>
                         <li><strong>Ijen medical certificate → Mandatory by local law.</strong> JVTO arranges it and {`it's`} included in the package. No partial cash refund if you are found not fit to climb.</li>

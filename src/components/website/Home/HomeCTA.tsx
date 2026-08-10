@@ -1,68 +1,40 @@
 import Link from "@/components/website/AppLink";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import Section from "@/components/design/Section";
 
-const HomeCTA: React.FC = () => {
+// PKG-11a: the closing plate inherits the shared navy material (deep floor +
+// contour texture) from <Section>, so the page ends on the same ground it
+// opened on. The rulebook line is set on a hairline rule to close the document.
+export default function HomeCTA() {
   return (
-    <section
-      className="py-24 md:py-32 bg-jvto-navy-mid text-white"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
-
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-8">
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-            Ready to book?
-          </span>
-        </div>
-
-        {/* Heading */}
-        <h2
-          className="text-3xl md:text-5xl font-black leading-tight mb-6 max-w-3xl mx-auto"
-          style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+    <Section surface="navy" labelledBy="cta-heading" containerClassName="text-center">
+      <h2
+        id="cta-heading"
+        className="font-jvto-heading mb-5 text-[2rem] leading-[1.05] font-black tracking-[-0.025em] text-white md:text-5xl"
+      >
+        Ready to explore <span className="text-jvto-orange">East Java?</span>
+      </h2>
+      <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-jvto-on-navy">
+        16 private itineraries from Surabaya and Bali — or check every licence, press
+        article, and founder credential before you commit.
+      </p>
+      <div className="flex flex-col justify-center gap-3 sm:flex-row">
+        <Link
+          href="/tours"
+          className="jvto-focus-dark rounded-sm bg-jvto-lime px-8 py-3.5 text-center text-sm font-bold tracking-wider text-jvto-navy uppercase shadow-[0_12px_34px_-16px_rgba(140,198,63,0.95)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-95"
         >
-          Private tours,{" "}
-          <em className="text-jvto-orange not-italic">documented legitimacy,</em>{" "}
-          written policies.
-        </h2>
-
-        {/* Policy reminder — wiki verbatim */}
-        <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed">
-          Read the Rulebook Before You Book — cancellation rules, inclusions,
-          and screening protocols are published in full before payment.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-          <Link
-            href="/tours"
-            prefetch={false}
-            className="inline-flex items-center gap-2 bg-jvto-orange text-white px-10 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
-            style={{ boxShadow: "var(--shadow-jvto-orange)" }}
-          >
-            Browse Tours
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/verify-jvto"
-            prefetch={false}
-            className="inline-flex items-center gap-2 border border-jvto-lime/50 text-jvto-lime px-10 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-lime/10 transition-colors"
-          >
-            Verify JVTO
-            <ExternalLink className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Sub-labels — wiki CTA section verbatim */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] text-white/50">
-          <span>16 private itineraries from Surabaya and Bali</span>
-          <span className="hidden sm:inline">·</span>
-          <span>Check licenses, press coverage, and founder credentials</span>
-        </div>
-
+          Browse Tours — 16 private itineraries
+        </Link>
+        <Link
+          href="/verify-jvto"
+          className="jvto-focus-dark rounded-sm border-2 border-white/35 bg-white/[0.04] px-8 py-3.5 text-center text-sm font-bold tracking-wider text-white uppercase transition-colors duration-200 hover:border-white/70 hover:bg-white/10"
+        >
+          Verify JVTO — check the proof
+        </Link>
       </div>
-    </section>
+      <p className="mx-auto mt-12 max-w-xl border-t border-white/15 pt-6 font-mono text-[11px] leading-relaxed font-semibold tracking-[0.18em] text-jvto-on-navy-dim uppercase">
+        Read the Rulebook Before You Book — cancellation rules, inclusions, and
+        screening protocols are published in full before payment.
+      </p>
+    </Section>
   );
-};
-
-export default HomeCTA;
+}
