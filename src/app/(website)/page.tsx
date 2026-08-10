@@ -34,6 +34,7 @@ import SectionHeading from "@/components/design/SectionHeading";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
+import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import {
@@ -135,6 +136,7 @@ const Home = async () => {
     getWebPackagesList({ fromId: 3, limit: 4 }),
     getWebDestinationsList(),
   ]);
+  const volcanicStatus = getAllVolcanicStatus();
 
   const landscapeDestinations = LANDSCAPE_SLUG_ORDER
     .map((slug) => destinations.find((d) => d.slug === slug))
@@ -236,7 +238,7 @@ const Home = async () => {
       <HomeFounder />
       <HomeDestinations destinations={landscapeDestinations} />
       <HomeHealthRail />
-      <HomeVolcanoStatus />
+      <HomeVolcanoStatus statusData={volcanicStatus} />
 
       {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production).
           PKG-11a restyled the surrounding frame only: the <Script> src/strategy
