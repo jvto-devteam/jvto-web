@@ -26,6 +26,7 @@ import HomeOurStory from "@/components/website/Home/HomeOurStory";
 import Link from "@/components/website/AppLink";
 import Script from "next/script";
 import HomePartners from "@/components/website/Home/HomePartners";
+import { GoogleReviewsCarousel } from "@/components/website/Home/GoogleReviewsCarousel";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import Section from "@/components/design/Section";
@@ -33,6 +34,7 @@ import SectionHeading from "@/components/design/SectionHeading";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
+import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import {
@@ -134,6 +136,7 @@ const Home = async () => {
     getWebPackagesList({ fromId: 3, limit: 4 }),
     getWebDestinationsList(),
   ]);
+  const volcanicStatus = getAllVolcanicStatus();
 
   const landscapeDestinations = LANDSCAPE_SLUG_ORDER
     .map((slug) => destinations.find((d) => d.slug === slug))
@@ -235,7 +238,7 @@ const Home = async () => {
       <HomeFounder />
       <HomeDestinations destinations={landscapeDestinations} />
       <HomeHealthRail />
-      <HomeVolcanoStatus />
+      <HomeVolcanoStatus statusData={volcanicStatus} />
 
       {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production).
           PKG-11a restyled the surrounding frame only: the <Script> src/strategy
@@ -273,6 +276,15 @@ const Home = async () => {
           className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
           data-elfsight-app-lazy
         />
+
+        {/* Production-release hardening §3.1: Google review-media carousel,
+            ported from `live`. Renders nothing when there are no qualifying
+            reviews yet (its own empty state), so it never shows a broken or
+            half-loaded block. No new heading/ordinal -- this continues the
+            same reviews narrative the section above already established. */}
+        <div className="mt-12">
+          <GoogleReviewsCarousel />
+        </div>
 
         <div className="mt-10">
           <Link

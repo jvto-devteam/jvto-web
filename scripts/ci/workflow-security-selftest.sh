@@ -28,11 +28,15 @@ for f in "$CI" "$DEP"; do
   if grep -vE '^[[:space:]]*#' "$f" | grep -qE 'appleboy/ssh-action'; then bad "$n still uses appleboy/ssh-action"; else ok "$n: no appleboy/ssh-action (non-comment)"; fi
 done
 
-# 2. No SSH secrets referenced (DEVELOP_SSH_* on the PR path; VPS_* on the deploy path).
-if grep -qE 'DEVELOP_SSH_(HOST|USER|KEY)' "$CI"; then bad "ci.yml still references DEVELOP_SSH_*"; else ok "ci.yml: no DEVELOP_SSH_* secret"; fi
+# 2. No SSH secrets ACTUALLY REFERENCED (DEVELOP_SSH_* on the PR path; VPS_* on
+#    the deploy path). Comment lines may legitimately name these (e.g. "no
+#    VPS_HOST dependency") to document their absence — only a live, non-comment
+#    occurrence (e.g. `${{ secrets.VPS_HOST }}`) counts, so strip comments first,
+#    same as check 1.
+if grep -vE '^[[:space:]]*#' "$CI" | grep -qE 'DEVELOP_SSH_(HOST|USER|KEY)'; then bad "ci.yml still references DEVELOP_SSH_*"; else ok "ci.yml: no DEVELOP_SSH_* secret"; fi
 for f in "$CI" "$DEP"; do
   n="$(basename "$f")"
-  if grep -qE 'VPS_(HOST|USER|SSH_KEY)' "$f"; then bad "$n still references VPS_* SSH secrets"; else ok "$n: no VPS_* SSH secret"; fi
+  if grep -vE '^[[:space:]]*#' "$f" | grep -qE 'VPS_(HOST|USER|SSH_KEY)'; then bad "$n still references VPS_* SSH secrets"; else ok "$n: no VPS_* SSH secret (non-comment)"; fi
 done
 
 # 3. Help deploy runs ONLY on the dedicated local runner label, never GitHub-hosted.

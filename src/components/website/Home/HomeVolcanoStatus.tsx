@@ -3,6 +3,8 @@
 import { useRef, useState, type KeyboardEvent } from "react";
 import Section from "@/components/design/Section";
 import SectionHeading from "@/components/design/SectionHeading";
+import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
+import type { VolcanoSlug } from "@/lib/ops/getVolcanicStatus";
 
 interface VolcanoEntry {
   id: "bromo" | "ijen";
@@ -11,14 +13,17 @@ interface VolcanoEntry {
   regency: string;
   level: string;
   levelName: string;
-  levelTone: "gold" | "lime";
+  levelTone: "gold" | "lime" | "red";
   description: string;
   toursOperating: boolean;
 }
 
-const VOLCANOES: VolcanoEntry[] = [
-  {
-    id: "bromo",
+// Facts that never change (elevation/regency aren't part of the live PVMBG
+// feed) plus the pre-feed defaults, used verbatim if the live feed for that
+// slug is unreadable/absent so this section always renders something correct
+// rather than breaking.
+const VOLCANO_BASE: Record<VolcanoEntry["id"], Omit<VolcanoEntry, "id">> = {
+  bromo: {
     name: "Mount Bromo",
     elevation: "2,329 m",
     regency: "Probolinggo",
@@ -29,8 +34,7 @@ const VOLCANOES: VolcanoEntry[] = [
       "Elevated seismic activity per PVMBG. Tours operate normally with the standard safety distance maintained at the King Kong Hill viewpoint.",
     toursOperating: true,
   },
-  {
-    id: "ijen",
+  ijen: {
     name: "Mount Ijen",
     elevation: "2,769 m",
     regency: "Banyuwangi",
@@ -41,19 +45,74 @@ const VOLCANOES: VolcanoEntry[] = [
       "Standard activity per PVMBG. Pre-ascent health screening is mandatory for every guest before crater descent, per BBKSDA SE.1658/KSA.9/2024, and JVTO coordinates the clinic workflow.",
     toursOperating: true,
   },
-];
+};
+
+// Live feed keys (public/ops/volcanic-status.json) -> this widget's ids.
+const FEED_SLUG: Record<VolcanoEntry["id"], VolcanoSlug> = {
+  bromo: "mount-bromo",
+  ijen: "ijen-crater",
+};
+
+// `status` already carries JVTO's operational read of the alert level (e.g. a
+// Level II with an active exclusion zone is "restricted" even though tours
+// still run around it) — reuse the same 3-tier tone VolcanicStatusBadge uses,
+// rather than deriving a second, possibly-inconsistent mapping from alert_code.
+const TONE_BY_STATUS: Record<VolcanicStatusData["status"], VolcanoEntry["levelTone"]> = {
+  operational: "lime",
+  restricted: "gold",
+  closed: "red",
+};
+
+function entryFromFeed(id: VolcanoEntry["id"], feed: VolcanicStatusData | undefined): VolcanoEntry {
+  const base = VOLCANO_BASE[id];
+  if (!feed) return { id, ...base };
+
+  // alert_level is formatted "Level II (Waspada)" in the feed; fall back to
+  // showing the raw string as-is if that shape ever changes upstream.
+  const match = /^(.+?)\s*\(([^)]+)\)\s*$/.exec(feed.alert_level);
+  const level = match ? match[1].trim() : feed.alert_level;
+  const levelName = match ? match[2].trim() : base.levelName;
+
+  return {
+    id,
+    name: base.name,
+    elevation: base.elevation,
+    regency: base.regency,
+    level,
+    levelName,
+    levelTone: TONE_BY_STATUS[feed.status] ?? base.levelTone,
+    description: feed.notes || base.description,
+    toursOperating: feed.tours_operating,
+  };
+}
+
+const DOT_CLASS: Record<VolcanoEntry["levelTone"], string> = {
+  gold: "bg-jvto-gold",
+  lime: "bg-jvto-lime",
+  red: "bg-red-600",
+};
+
+interface HomeVolcanoStatusProps {
+  // Keyed by the live feed's own slugs (mount-bromo / ijen-crater), i.e. the
+  // return of getAllVolcanicStatus() passed straight through from the Server
+  // Component page. Omitted/empty renders the static defaults above.
+  statusData?: Record<string, VolcanicStatusData>;
+}
 
 // PKG-11a: styled as an instrument readout — mono throughout, a ruled field for
 // each measurement, and the alert level carried by a ringed dot + navy text
 // rather than by colour alone (jvto-gold is 1.9:1 on the off-white panel, so it
 // can never be the only signal).
-export default function HomeVolcanoStatus() {
+export default function HomeVolcanoStatus({ statusData }: HomeVolcanoStatusProps) {
+  const VOLCANOES: VolcanoEntry[] = (["bromo", "ijen"] as const).map((id) =>
+    entryFromFeed(id, statusData?.[FEED_SLUG[id]]),
+  );
   const [activeId, setActiveId] = useState<VolcanoEntry["id"]>("bromo");
   const tabRefs = useRef<Partial<Record<VolcanoEntry["id"], HTMLButtonElement | null>>>(
     {},
   );
   const active = VOLCANOES.find((v) => v.id === activeId) ?? VOLCANOES[0];
-  const dot = active.levelTone === "gold" ? "bg-jvto-gold" : "bg-jvto-lime";
+  const dot = DOT_CLASS[active.levelTone];
 
   // Roving tabindex + arrow keys, per the ARIA tabs pattern (see HomeToursClient).
   function onTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {

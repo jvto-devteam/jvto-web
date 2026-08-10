@@ -36,6 +36,8 @@
     "validate:architecture": "node scripts/validate-architecture-deps.mjs",
     "test:outbox": "tsx scripts/ci/outbox-selftest.ts",
     "test:outbox:db": "bash scripts/ci/run-outbox-db-itest.sh",
+    "test:soft-delete-db": "tsx scripts/ci/soft-delete-itest.ts",
+    "test:blocked-dates": "tsx scripts/ci/blocked-dates-selftest.ts",
     "knowledge:compile": "tsx scripts/compile-public-knowledge.ts",
     "knowledge:compile-check": "npm run knowledge:compile && git diff --exit-code src/lib/publicContent/generated/public-knowledge.json",
     "test:knowledge": "tsx scripts/compile-public-knowledge.ts --selftest",
@@ -52,6 +54,7 @@
     "test:sitemap-lastmod": "tsx scripts/ci/sitemap-lastmod-parity.ts",
     "validate:people": "node scripts/validate-people-graph.mjs",
     "test:deploy-script": "bash scripts/ci/deploy-script-selftest.sh",
+    "test:deploy-script-web": "bash scripts/ci/deploy-jvto-web-script-selftest.sh",
     "test:workflow-security": "bash scripts/ci/workflow-security-selftest.sh"
   },
   "dependencies": {
