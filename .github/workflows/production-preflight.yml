@@ -113,7 +113,7 @@ jobs:
           if [ -f "$ENV_FILE" ]; then
             echo "PASS: .env.local exists"
             SITE_URL_LINE="$(grep -E '^NEXT_PUBLIC_SITE_URL=' "$ENV_FILE" | tail -1 || true)"
-            SITE_URL_VAL="$(echo "$SITE_URL_LINE" | cut -d= -f2- | tr -d '"'"'"' | xargs)"
+            SITE_URL_VAL="$(echo "$SITE_URL_LINE" | cut -d= -f2- | tr -d "\"'" | xargs)"
             if [ "$SITE_URL_VAL" = "https://javavolcano-touroperator.com" ]; then
               echo "PASS: NEXT_PUBLIC_SITE_URL normalizes exactly to the production origin"
             else
@@ -142,7 +142,7 @@ jobs:
             echo "INFO: skipped — .env.local absent"
             exit 0
           fi
-          DB_URL="$(grep -E '^DATABASE_URL=' "$ENV_FILE" | tail -1 | cut -d= -f2- | tr -d '"'"'"')"
+          DB_URL="$(grep -E '^DATABASE_URL=' "$ENV_FILE" | tail -1 | cut -d= -f2- | tr -d "\"'")"
           if [ -z "$DB_URL" ]; then
             echo "FAIL: DATABASE_URL empty — cannot test connectivity"
             exit 0
