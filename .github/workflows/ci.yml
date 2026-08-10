@@ -302,6 +302,26 @@ jobs:
             -c 'CREATE EXTENSION IF NOT EXISTS vector; CREATE EXTENSION IF NOT EXISTS pg_trgm;'
           npx prisma db push --skip-generate
           npx prisma generate
+      - name: Additive SQL double-apply (production-release hardening)
+        # sql/2026-08-10_production_release_hardening.sql must be safe to run
+        # twice against a real database (Phase 4 owner checkpoint runs it once
+        # against production; this proves a second, accidental run is a no-op,
+        # not an error). By this point `prisma db push` above has already
+        # created these tables via the schema, so both applies here exercise
+        # the "already exists" path -- the from-absent bootstrap path was
+        # verified manually against a pre-hardening schema snapshot (see the
+        # commit message) and is implicitly covered by every fresh disposable
+        # DB this same job creates.
+        run: |
+          set -euo pipefail
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql >/dev/null
+          echo "-- second apply must be a pure no-op --"
+          OUT="$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/2026-08-10_production_release_hardening.sql 2>&1)"
+          echo "$OUT"
+          if echo "$OUT" | grep -qiE '^(ERROR|FATAL)'; then
+            echo "::error::second apply of the hardening SQL was not a clean no-op"
+            exit 1
+          fi
       - name: Soft-delete filtering (getWebPackageDetail excludes deleted_at rows)
         # Reuses this job's already-pushed schema — no separate migration.
         # Seeds a package with an active + soft-deleted row on every relation the
