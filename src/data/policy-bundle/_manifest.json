@@ -1,7 +1,7 @@
 {
   "schema_version": "policy-bundle/v2.0",
   "generated_by": "scripts/compile_policy_bundle.py",
-  "generated_at": "2026-08-06T04:49:54.521144+00:00",
+  "generated_at": "2026-08-10T08:03:05.125930+00:00",
   "dry_run": false,
   "cancellation_policy_version": "2026-07",
   "cancellation_policy_hash": "7118ef3b7689",
