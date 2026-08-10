@@ -744,6 +744,22 @@ model crew_reviews {
   @@index([crew_id])
 }
 
+// Restored from `live` (production-release hardening, handoff §3.1): a small
+// cache of each platform's SELF-REPORTED aggregate (e.g. what Google Business
+// Profile itself reports as its average rating + review count), written by
+// /api/review/sync-google. This is NOT the site's canonical displayed rating
+// -- that remains src/lib/jvtoReviews.ts (AGGREGATE_RATING /
+// getCanonicalReviewStats()), which never reads this table. Restoring it
+// creates no second source of truth: it only feeds the sync route's own
+// upsert, keyed by `source`.
+model review_stats {
+  id        BigInt   @id @default(autoincrement())
+  source    String   @unique @db.VarChar(50)
+  rating    Float
+  count     Int
+  synced_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model User {
   id    BigInt  @id @default(autoincrement())
