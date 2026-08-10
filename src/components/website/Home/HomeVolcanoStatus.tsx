@@ -1,143 +1,240 @@
+"use client";
+
+import { useRef, useState, type KeyboardEvent } from "react";
+import Section from "@/components/design/Section";
+import SectionHeading from "@/components/design/SectionHeading";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
+import type { VolcanoSlug } from "@/lib/ops/getVolcanicStatus";
 
-/**
- * Homepage "Live Status" widget for Mount Bromo & Mount Ijen.
- *
- * Data-driven: reads the auto-updated PVMBG/MAGMA feed
- * (`public/ops/volcanic-status.json`) via the `statuses` prop, which the
- * homepage Server Component supplies through `getAllVolcanicStatus()`. Only the
- * presentation metadata that is NOT in the feed (display name, summit
- * elevation) is kept local. Everything else — alert level, tours-operating,
- * exclusion zone, verification date — reflects the live feed.
- */
-
-type VolcanoMeta = {
-  slug: string;
+interface VolcanoEntry {
+  id: "bromo" | "ijen";
   name: string;
   elevation: string;
-};
-
-// Static presentation metadata (not carried in the volcanic-status feed).
-const VOLCANO_META: VolcanoMeta[] = [
-  { slug: "mount-bromo", name: "Mount Bromo", elevation: "2,329 m" },
-  { slug: "ijen-crater", name: "Mount Ijen", elevation: "2,769 m" },
-];
-
-// alert_code → colour tokens (dot background + level text).
-const ALERT_COLORS: Record<
-  VolcanicStatusData["alert_code"],
-  { dot: string; text: string }
-> = {
-  "level-1": { dot: "bg-jvto-green", text: "text-jvto-green" },
-  "level-2": { dot: "bg-yellow-500", text: "text-yellow-500" },
-  "level-3": { dot: "bg-orange-500", text: "text-orange-500" },
-  "level-4": { dot: "bg-red-500", text: "text-red-500" },
-};
-
-/** Split "Level II (Waspada)" → { level: "II", name: "Waspada" }. */
-function parseAlertLevel(alertLevel: string): { level: string; name: string } {
-  const match = alertLevel.match(/Level\s+(\S+)\s*\((.+)\)/i);
-  if (match) return { level: match[1], name: match[2] };
-  return { level: alertLevel, name: "" };
+  regency: string;
+  level: string;
+  levelName: string;
+  levelTone: "gold" | "lime" | "red";
+  description: string;
+  toursOperating: boolean;
 }
 
-export default function HomeVolcanoStatus({
-  statuses,
-}: {
-  statuses: Record<string, VolcanicStatusData>;
-}) {
-  const cards = VOLCANO_META.map((meta) => ({
-    meta,
-    status: statuses[meta.slug],
-  })).filter((c): c is { meta: VolcanoMeta; status: VolcanicStatusData } =>
-    Boolean(c.status),
-  );
+// Facts that never change (elevation/regency aren't part of the live PVMBG
+// feed) plus the pre-feed defaults, used verbatim if the live feed for that
+// slug is unreadable/absent so this section always renders something correct
+// rather than breaking.
+const VOLCANO_BASE: Record<VolcanoEntry["id"], Omit<VolcanoEntry, "id">> = {
+  bromo: {
+    name: "Mount Bromo",
+    elevation: "2,329 m",
+    regency: "Probolinggo",
+    level: "Level II",
+    levelName: "Waspada",
+    levelTone: "gold",
+    description:
+      "Elevated seismic activity per PVMBG. Tours operate normally with the standard safety distance maintained at the King Kong Hill viewpoint.",
+    toursOperating: true,
+  },
+  ijen: {
+    name: "Mount Ijen",
+    elevation: "2,769 m",
+    regency: "Banyuwangi",
+    level: "Level I",
+    levelName: "Normal",
+    levelTone: "lime",
+    description:
+      "Standard activity per PVMBG. Pre-ascent health screening is mandatory for every guest before crater descent, per BBKSDA SE.1658/KSA.9/2024, and JVTO coordinates the clinic workflow.",
+    toursOperating: true,
+  },
+};
 
-  if (cards.length === 0) return null;
+// Live feed keys (public/ops/volcanic-status.json) -> this widget's ids.
+const FEED_SLUG: Record<VolcanoEntry["id"], VolcanoSlug> = {
+  bromo: "mount-bromo",
+  ijen: "ijen-crater",
+};
+
+// `status` already carries JVTO's operational read of the alert level (e.g. a
+// Level II with an active exclusion zone is "restricted" even though tours
+// still run around it) — reuse the same 3-tier tone VolcanicStatusBadge uses,
+// rather than deriving a second, possibly-inconsistent mapping from alert_code.
+const TONE_BY_STATUS: Record<VolcanicStatusData["status"], VolcanoEntry["levelTone"]> = {
+  operational: "lime",
+  restricted: "gold",
+  closed: "red",
+};
+
+function entryFromFeed(id: VolcanoEntry["id"], feed: VolcanicStatusData | undefined): VolcanoEntry {
+  const base = VOLCANO_BASE[id];
+  if (!feed) return { id, ...base };
+
+  // alert_level is formatted "Level II (Waspada)" in the feed; fall back to
+  // showing the raw string as-is if that shape ever changes upstream.
+  const match = /^(.+?)\s*\(([^)]+)\)\s*$/.exec(feed.alert_level);
+  const level = match ? match[1].trim() : feed.alert_level;
+  const levelName = match ? match[2].trim() : base.levelName;
+
+  return {
+    id,
+    name: base.name,
+    elevation: base.elevation,
+    regency: base.regency,
+    level,
+    levelName,
+    levelTone: TONE_BY_STATUS[feed.status] ?? base.levelTone,
+    description: feed.notes || base.description,
+    toursOperating: feed.tours_operating,
+  };
+}
+
+const DOT_CLASS: Record<VolcanoEntry["levelTone"], string> = {
+  gold: "bg-jvto-gold",
+  lime: "bg-jvto-lime",
+  red: "bg-red-600",
+};
+
+interface HomeVolcanoStatusProps {
+  // Keyed by the live feed's own slugs (mount-bromo / ijen-crater), i.e. the
+  // return of getAllVolcanicStatus() passed straight through from the Server
+  // Component page. Omitted/empty renders the static defaults above.
+  statusData?: Record<string, VolcanicStatusData>;
+}
+
+// PKG-11a: styled as an instrument readout — mono throughout, a ruled field for
+// each measurement, and the alert level carried by a ringed dot + navy text
+// rather than by colour alone (jvto-gold is 1.9:1 on the off-white panel, so it
+// can never be the only signal).
+export default function HomeVolcanoStatus({ statusData }: HomeVolcanoStatusProps) {
+  const VOLCANOES: VolcanoEntry[] = (["bromo", "ijen"] as const).map((id) =>
+    entryFromFeed(id, statusData?.[FEED_SLUG[id]]),
+  );
+  const [activeId, setActiveId] = useState<VolcanoEntry["id"]>("bromo");
+  const tabRefs = useRef<Partial<Record<VolcanoEntry["id"], HTMLButtonElement | null>>>(
+    {},
+  );
+  const active = VOLCANOES.find((v) => v.id === activeId) ?? VOLCANOES[0];
+  const dot = DOT_CLASS[active.levelTone];
+
+  // Roving tabindex + arrow keys, per the ARIA tabs pattern (see HomeToursClient).
+  function onTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    const from = VOLCANOES.findIndex((v) => v.id === activeId);
+    let to: number | null = null;
+    if (event.key === "ArrowRight") to = (from + 1) % VOLCANOES.length;
+    else if (event.key === "ArrowLeft")
+      to = (from - 1 + VOLCANOES.length) % VOLCANOES.length;
+    else if (event.key === "Home") to = 0;
+    else if (event.key === "End") to = VOLCANOES.length - 1;
+    if (to === null) return;
+    event.preventDefault();
+    const next = VOLCANOES[to].id;
+    setActiveId(next);
+    tabRefs.current[next]?.focus();
+  }
 
   return (
-    <section aria-labelledby="volcano-heading" className="bg-jvto-off py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
-              Live Status
-            </p>
-            <h2
-              id="volcano-heading"
-              className="font-black text-2xl md:text-3xl text-jvto-navy"
-            >
-              Volcano Activity
-            </h2>
-          </div>
+    <Section surface="light" labelledBy="volcano-heading">
+      <SectionHeading
+        id="volcano-heading"
+        eyebrow="§ 07 — Live status"
+        title={
+          <>
+            Volcano <span className="text-jvto-orange">activity.</span>
+          </>
+        }
+        aside={
           <a
             href="https://magma.esdm.go.id/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-bold text-jvto-muted hover:text-jvto-navy transition-colors"
+            className="jvto-focus rounded-sm underline decoration-jvto-rule underline-offset-4 transition-colors hover:text-jvto-navy"
           >
-            Source: PVMBG / MAGMA Indonesia ↗
+            Source · PVMBG / MAGMA Indonesia &#8599;
           </a>
-        </div>
+        }
+        className="mb-8 md:mb-10"
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {cards.map(({ meta, status }) => {
-            const { level, name } = parseAlertLevel(status.alert_level);
-            const colors = ALERT_COLORS[status.alert_code] ?? ALERT_COLORS["level-1"];
-            return (
-              <div
-                key={meta.slug}
-                className="bg-white rounded-sm border border-jvto-border p-6 md:p-8"
-              >
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div>
-                    <h3 className="font-black text-jvto-navy text-lg mb-0.5">{meta.name}</h3>
-                    <p className="text-jvto-muted text-xs">{meta.elevation}</p>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`w-2.5 h-2.5 rounded-full ${colors.dot}`} aria-hidden="true" />
-                    <div className="text-right">
-                      <p className={`text-sm font-black ${colors.text}`}>Level {level}</p>
-                      {name && (
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-jvto-muted">
-                          {name}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
+      {/* Toggle */}
+      <div
+        role="tablist"
+        aria-label="Select volcano"
+        className="mb-8 inline-flex items-center gap-1 rounded-full border border-jvto-border bg-white p-1.5 shadow-jvto-soft"
+      >
+        {VOLCANOES.map((v) => {
+          const selected = activeId === v.id;
+          return (
+            <button
+              key={v.id}
+              id={`volcano-tab-${v.id}`}
+              ref={(el) => {
+                tabRefs.current[v.id] = el;
+              }}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              aria-controls="volcano-tabpanel"
+              tabIndex={selected ? 0 : -1}
+              onClick={() => setActiveId(v.id)}
+              onKeyDown={onTabKeyDown}
+              className={`jvto-focus min-w-[130px] rounded-full px-6 py-2.5 text-sm font-bold transition-colors duration-200 ${
+                selected
+                  ? "bg-jvto-navy text-white"
+                  : "text-jvto-ink-soft hover:text-jvto-navy"
+              }`}
+            >
+              {v.name}
+            </button>
+          );
+        })}
+      </div>
 
-                <p className="text-jvto-muted text-sm leading-relaxed mb-4">{status.notes}</p>
+      {/* Readout panel */}
+      <div
+        id="volcano-tabpanel"
+        role="tabpanel"
+        aria-labelledby={`volcano-tab-${active.id}`}
+        // The panel holds no focusable content, so per the ARIA tabs pattern it
+        // takes tabindex=0 itself — otherwise its readout is unreachable by keyboard.
+        tabIndex={0}
+        className="jvto-focus jvto-topo-light relative overflow-hidden rounded-sm border border-jvto-border bg-jvto-off p-6 md:p-10"
+      >
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-2xl">
+            <p className="mb-3 font-mono text-[11px] font-bold tracking-[0.2em] text-jvto-ink-soft uppercase">
+              {active.name} · {active.elevation} · {active.regency}
+            </p>
+            <p className="text-sm leading-relaxed text-jvto-ink-soft md:text-base">
+              {active.description}
+            </p>
+          </div>
 
-                {status.exclusion_zone_active && status.exclusion_zone_radius_km && (
-                  <p className="text-[11px] font-bold text-jvto-muted mb-4">
-                    ⚠ {status.exclusion_zone_radius_km} km exclusion zone active — JVTO routes
-                    stay outside it.
-                  </p>
-                )}
-
-                <div className="flex items-center justify-between gap-2 pt-3 border-t border-jvto-border">
-                  <span
-                    className={`text-xs font-bold ${
-                      status.tours_operating ? "text-jvto-green" : "text-red-500"
-                    }`}
-                  >
-                    {status.tours_operating ? "● Tours operating" : "● Tours suspended"}
-                  </span>
-                  <a
-                    href={status.source_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-bold uppercase tracking-wider text-jvto-muted hover:text-jvto-navy transition-colors"
-                  >
-                    Verified {status.last_verified} ↗
-                  </a>
-                </div>
+          {/* Readout cluster — same two facts the section already published,
+              re-set as instrument fields. No labels are invented here: every
+              string still comes from the VOLCANOES record above. */}
+          <div className="flex flex-shrink-0 items-center gap-8 border-t border-jvto-border pt-5 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+            <div className="flex items-center gap-2.5">
+              <span
+                className={`h-2.5 w-2.5 flex-shrink-0 rounded-full ring-2 ring-jvto-navy/25 ${dot}`}
+                aria-hidden="true"
+              />
+              <div>
+                <p className="font-mono text-xs font-bold text-jvto-navy">
+                  {active.level}
+                </p>
+                <p className="font-mono text-[10px] tracking-wider text-jvto-ink-soft uppercase">
+                  {active.levelName}
+                </p>
               </div>
-            );
-          })}
+            </div>
+            <div className="text-sm font-bold">
+              {active.toursOperating ? (
+                <span className="text-jvto-lime-ink">&#9679; Tours operating</span>
+              ) : (
+                <span className="text-red-700">&#9679; Tours suspended</span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

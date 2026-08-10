@@ -1,0 +1,268 @@
+{
+  "meta": {
+    "route": "/isic/student-package",
+    "title": "Explore Java's Volcanoes with ISIC Benefits",
+    "browserTitle": "Explore Java's Volcanoes with ISIC Benefits | JVTO",
+    "description": "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator.",
+    "section": "isic",
+    "status": "published",
+    "owner": "editorial",
+    "lastReviewed": "2026-08-09",
+    "schemaTypes": [
+      "WebPage"
+    ],
+    "summary": "Student pricing for ISIC cardholders on JVTO's private, all-inclusive East Java volcano tours — how the card is verified and what stays identical to a standard package."
+  },
+  "lede": [
+    "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator."
+  ],
+  "sections": [
+    {
+      "id": "hero",
+      "provenance_note": "The badge renders this label followed by the ISIC provider ID from SITE_CONFIG.reviewLinks.isicProviderId (operational config, not content). The hero image asset stays in the page component.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "hero-badge",
+          "items": [
+            {
+              "key": "provider",
+              "label": "ISIC Provider"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "what-is-isic",
+      "eyebrow": "What is ISIC?",
+      "body_1": "The International Student Identity Card (ISIC) is the only internationally recognised student identity document, endorsed by UNESCO and accepted in 130+ countries. JVTO is a registered ISIC provider — if you hold a valid ISIC card, the same private vehicle, licensed guide, and all-inclusive format as our standard packages is available at reduced per-person rates.",
+      "body_2": "Student pricing is confirmed via a live Alive Verify API check against the ISIC database at the time of booking. Your card must be valid and current — no card, no discount, no exceptions.",
+      "provenance_note": "The provider-ID value and the verify-directory URL are read from SITE_CONFIG.reviewLinks (operational config); only the labels and the provider name live here.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "provider-facts",
+          "items": [
+            {
+              "key": "provider",
+              "label": "Provider",
+              "value": "JVTO — PT Java Volcano Rendezvous"
+            },
+            {
+              "key": "provider-id",
+              "label": "Provider ID"
+            },
+            {
+              "key": "verify-directory",
+              "label": "Verify directory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-verification-works",
+      "eyebrow": "How verification works",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "steps",
+          "items": [
+            {
+              "key": "enter-card-number",
+              "title": "Enter your card number",
+              "body": "Enter your ISIC card number when you book on the official JVTO website."
+            },
+            {
+              "key": "alive-verify-check",
+              "title": "We run an Alive Verify check",
+              "body": "JVTO runs a live Alive Verify API check against the ISIC database."
+            },
+            {
+              "key": "pricing-confirmed",
+              "title": "Pricing is confirmed",
+              "body": "If the card returns valid, student pricing is confirmed for your booking."
+            },
+            {
+              "key": "validity-on-the-day",
+              "title": "Validity is checked on the day",
+              "body": "Your card must be valid on the date of verification — not just the travel date. No workarounds; the check is live and automated."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "heading": "Exclusive Student Package for ISIC Cardholders",
+      "body_text": "JVTO collaborates with ISIC to offer student-friendly pricing structures for safe, all-inclusive volcano tours. These prices are only available to ISIC cardholders. To redeem, you must have a valid ISIC card.",
+      "provenance_note": "The package cards themselves stay dynamic — getPublicPackageList (category 2) supplies names, slugs, and prices; nothing about a package is stored here.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "empty-state",
+          "items": [
+            {
+              "key": "empty",
+              "label": "No packages currently available."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "what-is-student-package",
+      "heading": "What is",
+      "heading_accent": "Student Package?",
+      "intro_before": "Opting for a student package does",
+      "intro_emphasis": "not",
+      "intro_after": "mean cutting corners. It's designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "features",
+          "items": [
+            {
+              "key": "private-structure",
+              "icon": "users",
+              "title": "Private Structure",
+              "body": "Strictly private tour structure. No mixed groups."
+            },
+            {
+              "key": "all-inclusive",
+              "icon": "ticket",
+              "title": "All-Inclusive",
+              "body": "Includes park fees, permits, and transport."
+            },
+            {
+              "key": "high-safety",
+              "icon": "shield-check",
+              "title": "High Safety",
+              "body": "Same high safety standards, including health screening."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "need-isic-card",
+      "heading": "Need an ISIC Card?",
+      "body_text": "The International Student Identity Card (ISIC) is the only globally recognized proof of full-time student status. Get yours today to unlock thousands of benefits!",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "cta-links",
+          "items": [
+            {
+              "key": "buy-isic",
+              "label": "BUY NOW",
+              "href": "https://www.isic.org/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-to-apply",
+      "heading": "How to Apply the ISIC Code",
+      "provenance_note": "Step screenshots (/assets/img/isic/isic-step-*.jpg) stay with the page component; only the step copy lives here.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "apply-steps",
+          "items": [
+            {
+              "key": "choose-adventure",
+              "title": "Choose Your Adventure",
+              "body": "Visit our website and select the volunteer or tour package you wish to book. Click on the \"Book Now\" button."
+            },
+            {
+              "key": "fill-details",
+              "title": "Fill in Your Details",
+              "body": "Complete the booking form with your personal details. In the \"Discount Code\" field, enter your unique ISIC code."
+            },
+            {
+              "key": "apply-verify",
+              "title": "Apply & Verify",
+              "body": "Click \"Apply\". The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inclusions",
+      "heading": "Same inclusions",
+      "heading_accent": "as standard.",
+      "not_included_label": "Not included",
+      "notice_lead": "Card must be valid at verification.",
+      "notice_body": "Student pricing is confirmed only after a live Alive Verify check returns a valid, current card. No card, no discount — no exceptions.",
+      "operator_line_prefix": "Operated by PT Java Volcano Rendezvous · NIB",
+      "operator_line_suffix": "· Bondowoso, East Java.",
+      "provenance_note": "The NIB shown in the operator line is read from SITE_CONFIG.registrationNumber.",
+      "blocks": [
+        {
+          "type": "grid",
+          "role": "included",
+          "items": [
+            {
+              "key": "private-vehicle",
+              "label": "Private vehicle and driver for the full duration"
+            },
+            {
+              "key": "licensed-guide",
+              "label": "English-speaking licensed guide"
+            },
+            {
+              "key": "accommodation",
+              "label": "Hotel accommodation with breakfast"
+            },
+            {
+              "key": "entrance-fees",
+              "label": "All entrance fees, plus parking, fuel, and road tolls"
+            },
+            {
+              "key": "water",
+              "label": "Drinking water throughout"
+            },
+            {
+              "key": "gear",
+              "label": "Gas masks on Ijen-inclusive routes · Bromo 4WD jeep on Bromo-inclusive routes"
+            },
+            {
+              "key": "health-screening",
+              "label": "Health-certificate screening coordination on Ijen routes — mandatory for every guest under BBKSDA SE.1658/KSA.9/2024"
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "role": "not-included",
+          "items": [
+            {
+              "key": "flights",
+              "label": "International flights"
+            },
+            {
+              "key": "insurance",
+              "label": "Travel insurance"
+            },
+            {
+              "key": "trekking-gear",
+              "label": "Personal trekking gear"
+            },
+            {
+              "key": "tips",
+              "label": "Tips"
+            },
+            {
+              "key": "on-site-extras",
+              "label": "On-site extras (Bromo horse, Ijen trolley ojek)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

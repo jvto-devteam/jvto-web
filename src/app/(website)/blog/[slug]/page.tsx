@@ -4,10 +4,17 @@ import Link from "@/components/website/AppLink";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
-  buildBlogPostingSchema,
-  getAllBlogSlugs,
-  getBlogPost,
-} from "@/lib/blog";
+  loadStaticPage,
+  listPublishedStaticPages,
+  staticRouteCanonical,
+  type StaticPage,
+} from "@/lib/static-content";
+import { buildBlogPostingSchema } from "@/lib/schemas/buildBlogSchemas";
+
+// PACKAGE 08 (2026-08-06): blog posts are content-owned (content/pages/blog/<slug>.md),
+// served through the static-content loader. sync:blog + src/data/blog + src/lib/blog.ts are
+// retired; blog-specific meta (publishedDate, tags, bannerImage, readingTimeMin) rides on the
+// page frontmatter and feeds the header + BlogPosting JSON-LD.
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -16,60 +23,59 @@ type Props = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+  return listPublishedStaticPages({ section: "blog" })
+    .filter((p) => p.meta.route !== "/blog")
+    .map((p) => ({ slug: p.meta.route.replace("/blog/", "") }));
+}
+
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
-  if (!post) return { title: "Page Not Found" };
-
-  const { frontmatter: fm } = post;
+  const page = loadStaticPage(`/blog/${slug}`);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
   return {
-    title: fm.seo_title ?? `${fm.title} | JVTO`,
-    description: fm.seo_description,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/blog/${slug}`) },
   };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
-  if (!post) return notFound();
+  const page = loadStaticPage(`/blog/${slug}`);
+  if (!page || page.meta.status !== "published") return notFound();
 
-  const { frontmatter: fm, body } = post;
-  const route = `/blog/${slug}`;
-
-  const pageRow = {
-    route,
-    lang: "en",
-    seo: {
-      title: fm.seo_title ?? `${fm.title} | JVTO`,
-      description: fm.seo_description,
-    },
-    content: { h1: fm.title },
-  };
+  const m = page.meta;
 
   return (
     <div className="bg-background min-h-screen">
       <PageJsonLdCombined
-        pageRow={pageRow as any}
-        extraSchemas={[buildBlogPostingSchema(fm)]}
+        pageRow={staticPageRow(page) as any}
+        extraSchemas={[buildBlogPostingSchema(m)]}
       />
 
-      {fm.banner_image && (
+      {m.bannerImage && (
         <div className="relative w-full h-64 md:h-[480px] overflow-hidden bg-ink-primary">
-          <img
-            src={fm.banner_image}
-            alt={fm.title}
-            className="w-full h-full object-cover"
-          />
+          <img src={m.bannerImage} alt={m.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
         </div>
       )}
 
-      <main className={fm.banner_image ? "pb-20" : "pt-24 md:pt-36 pb-20"}>
+      <main className={m.bannerImage ? "pb-20" : "pt-24 md:pt-36 pb-20"}>
         <div className="container mx-auto px-4 max-w-3xl">
-          <nav className={`mb-4 text-sm text-muted-foreground ${fm.banner_image ? "pt-8" : ""}`}>
+          <nav className={`mb-4 text-sm text-muted-foreground ${m.bannerImage ? "pt-8" : ""}`}>
             <Link href="/" prefetch={false} className="hover:text-primary">
               Home
             </Link>
@@ -78,33 +84,31 @@ export default async function BlogPostPage({ params }: Props) {
               Insights
             </Link>
             <span className="mx-2">›</span>
-            <span className="text-foreground font-medium">{fm.title}</span>
+            <span className="text-foreground font-medium">{m.title}</span>
           </nav>
 
           <header className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
-              {fm.title}
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">{m.title}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-              {fm.date && (
-                <time dateTime={fm.date}>
-                  {new Date(fm.date).toLocaleDateString("en-US", {
+              {m.publishedDate && (
+                <time dateTime={m.publishedDate}>
+                  {new Date(m.publishedDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </time>
               )}
-              {fm.estimated_read_min && (
+              {m.readingTimeMin && (
                 <>
                   <span aria-hidden>·</span>
-                  <span>{fm.estimated_read_min} min read</span>
+                  <span>{m.readingTimeMin} min read</span>
                 </>
               )}
             </div>
-            {fm.tags.length > 0 && (
+            {m.tags && m.tags.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
-                {fm.tags.map((tag) => (
+                {m.tags.map((tag) => (
                   <span
                     key={tag}
                     className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full"
@@ -116,7 +120,7 @@ export default async function BlogPostPage({ params }: Props) {
             )}
           </header>
 
-          <MarkdownRenderer markdown={body} />
+          <MarkdownRenderer markdown={page.body ?? ""} />
 
           <div className="mt-12 pt-8 border-t">
             <Link

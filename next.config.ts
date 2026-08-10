@@ -1,4 +1,12 @@
 // next.config.js
+// Hanya deployment yang di-build dengan NEXT_PUBLIC_SITE_URL = origin produksi
+// yang boleh diindeks. Preview/help (env=help host, atau kosong) mendapat header
+// X-Robots-Tag: noindex global (lihat headers()). Dievaluasi saat build di tiap
+// box, jadi help box → noindex, live box → indexable — tanpa perubahan kode.
+const IS_PROD_DEPLOY =
+  (process.env.NEXT_PUBLIC_SITE_URL || "").trim().replace(/\/+$/, "") ===
+  "https://javavolcano-touroperator.com";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -71,6 +79,17 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Preview/help deployment: de-index secara global. Diletakkan lebih dulu;
+      // crawl tetap diizinkan (robots.ts) supaya Google membaca noindex ini dan
+      // menghapus/menahan indeks. Live box (IS_PROD_DEPLOY) tak dapat header ini.
+      ...(!IS_PROD_DEPLOY
+        ? [
+            {
+              source: "/(.*)",
+              headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+            },
+          ]
+        : []),
       {
         source: "/(.*)",
         headers: [
@@ -100,11 +119,32 @@ const nextConfig = {
               connect-src 'self' https: blob:;
               font-src 'self' https: data:;
               frame-src 'self' https:;
-              worker-src 'self' blob:;
-              child-src 'self' blob:;
+              worker-src blob:;
+              child-src blob:;
             `
               .replace(/\s{2,}/g, " ")
               .trim(),
+          },
+        ],
+      },
+      // PUBLIC HTML pages: short cache so content updates surface quickly instead
+      // of sitting behind Next.js's default ~1yr `stale-while-revalidate` (which
+      // made edited pages look unchanged in browsers until a hard refresh).
+      // max-age=0 → browser revalidates every load (cheap 304s via ETag);
+      // s-maxage/SWR=60 → CDN refreshes within ~1min.
+      // SECURITY: `public` + `s-maxage` must NEVER apply to authenticated/PII
+      // pages — a shared CDN could serve one user's rendered HTML to another. The
+      // matcher therefore EXCLUDES the private route prefixes: /cms (admin),
+      // /customer (dashboard), /checkout + /my-booking (booking PII) — plus /api
+      // (own Cache-Control), /_next assets (immutable), and any path with a file
+      // extension. Excluded routes keep Next's safe private/no-store defaults.
+      {
+        source:
+          "/((?!api|_next|cms|customer|checkout|my-booking|.*\\..*).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
           },
         ],
       },
@@ -190,7 +230,6 @@ const nextConfig = {
       { source: "/office", destination: "/contact", permanent: true },
       { source: "/how-to-book", destination: "/travel-guide/booking-information", permanent: true },
       { source: "/terms-and-condition", destination: "/policy", permanent: true },
-      { source: "/blog", destination: "/travel-guide", permanent: true },
       { source: "/packages/yogyakarta", destination: "/tours", permanent: true },
       // Note: /packages/surabaya/3d2n/{N} skipped — legacy IDs need verification from GSC/server logs first.
     ];

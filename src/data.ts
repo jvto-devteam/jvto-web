@@ -293,9 +293,9 @@ Payments to non-official channels or personal accounts are at your own risk.`,
     category: "Payment & Booking",
     title: "Cancellation and Refund Policy",
     content: `Our cancellation policy is based on a strict 48-hour window before Day 1 pickup time.
-* **Cancel MORE than 48 hours before Day 1:** You receive **100% JVTO Travel Credit** for all payments made. This credit is non-expiring and transferable.
-* **Cancel LESS than 48 hours before Day 1 (or no-show):** Your payment is **forfeited in full**. No Travel Credit is provided.
-* **No cash refunds are ever issued.** Travel Credit is the only form of compensation for eligible cancellations.`,
+* **Cancel MORE than 48 hours before Day 1:** You receive **100% JVTO Package Credit** for all payments made. This credit is non-expiring and transferable.
+* **Cancel LESS than 48 hours before Day 1 (or no-show):** Your payment is **forfeited in full**. No Package Credit is provided.
+* **No cash refunds are ever issued.** Package Credit is the only form of compensation for eligible cancellations.`,
     tags: [
       "cancellation",
       "refund",
@@ -303,7 +303,7 @@ Payments to non-official channels or personal accounts are at your own risk.`,
       "cancel",
       "48 hours",
       "no-show",
-      "travel credit",
+      "package credit",
       "forfeited",
     ],
   },
@@ -438,7 +438,7 @@ Payments to non-official channels or personal accounts are at your own risk.`,
     category: "Health, Safety & Packing",
     title: "Changes due to Force Majeure / Safety",
     content:
-      "If safety, regulations, or external events (e.g., volcanic activity, severe weather, park closures) require changes, JVTO may adjust itineraries. We aim to offer alternatives of equal or higher standard. Where significant components are cancelled by JVTO, we may offer alternatives, Travel Credit, or a partial refund (net of unrecoverable costs).",
+      "If safety, regulations, or external events (e.g., volcanic activity, severe weather, park closures) require changes, JVTO may adjust itineraries. We aim to offer alternatives of equal or higher standard. Where significant components are cancelled by JVTO, we may offer alternatives, Package Credit, or a partial refund (net of unrecoverable costs).",
     tags: [
       "force majeure",
       "volcano closure",

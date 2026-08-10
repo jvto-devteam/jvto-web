@@ -1,0 +1,9 @@
+{
+  "key": "sample-faq",
+  "items": [
+    {
+      "question": "Is this a fixture?",
+      "answer": "Yes. The same items array feeds visible HTML and JSON-LD."
+    }
+  ]
+}

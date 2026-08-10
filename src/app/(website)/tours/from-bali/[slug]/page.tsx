@@ -14,6 +14,10 @@ import type { TourPackageDetail as TourPackageDetailResponse } from "@/interface
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  getPublicPackageDetail,
+  getPublicPackageDetailStaticParams,
+} from "@/lib/publicContent/packageDetailSnapshot";
 import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
 import {
   buildOrganizationJsonLd,
@@ -22,8 +26,6 @@ import {
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
 import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
-import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
-import { routeSlugToParam } from "@/lib/routing/staticParams";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -32,9 +34,11 @@ import {
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
+import { deriveIjenRelevant } from "@/lib/ijenRelevance";
 
 export const revalidate = 3600;
+export const dynamicParams = false;
 
 // --- 1. TYPE DEFINITIONS (SESUAI JSON API) ---
 
@@ -94,11 +98,10 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const routes = await getPublishedPackageSlugs({ categoryId: 1, fromId: 3 });
-  return routes
-    .map((r) => routeSlugToParam(r.slug, "tours/from-bali"))
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
+  return getPublicPackageDetailStaticParams("tours/from-bali", {
+    categoryId: 1,
+    fromId: 3,
+  });
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -151,7 +154,7 @@ function getDestinationUrl(name: string) {
 // Now calls the same transform logic directly via shared helper. React `cache` still memoizes per-request
 // so generateMetadata + Page don't double-query Prisma.
 const getTourData = cache(async (slugParam: string) => {
-  return getWebPackageDetail(
+  return getPublicPackageDetail(
     slugParam.includes("tours/")
       ? slugParam
       : `tours/from-bali/${slugParam}`,
@@ -163,11 +166,9 @@ const getTourData = cache(async (slugParam: string) => {
 function StructuredData({
   data,
   globalNodes,
-  googleStats,
 }: {
   data: TourPackageDetailResponse;
   globalNodes: any[];
-  googleStats: { rating: number; count: number } | null;
 }) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -317,8 +318,8 @@ function StructuredData({
         brand: { "@id": `${siteUrl}/#organization` },
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || String(googleStats?.rating ?? 4.8),
-          reviewCount: pkg.aggregateRating?.reviewCount || String(googleStats?.count ?? 141),
+          ratingValue: pkg.aggregateRating?.ratingValue || String(AGGREGATE_RATING.ratingValue),
+          reviewCount: pkg.aggregateRating?.reviewCount || String(AGGREGATE_RATING.reviewCount),
         },
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
@@ -407,17 +408,8 @@ export async function generateMetadata(
 }
 
 // --- 6. AEO/GEO PORT (2026-04-29): FAQPage + narrative_claims composition ---
-// Better-than-regex Ijen detection: prefer pkg.route[] (destinations array) which carries
-// canonical destination names like "Kawah Ijen". Fallback to name/slug regex for resilience.
-function deriveIjenRelevant(
-  name: string,
-  slug: string | string[],
-  route: string[] | undefined,
-): boolean {
-  if (route?.some((r) => /ijen/i.test(r))) return true;
-  const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
-  return /ijen/i.test(name) || /ijen/i.test(slugStr);
-}
+// deriveIjenRelevant (route[]-preferred Ijen detection) is the single source in
+// src/lib/ijenRelevance.ts — imported above, unit-tested in scripts/ci.
 
 // Adapter: live's TourPackageDetailResponse → ported builders' minimal seed contracts.
 function adaptToTourDetailSeed(
@@ -449,13 +441,12 @@ function dbSlugForBali(bareSlug: string | string[]): string {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
   const dbSlug = dbSlugForBali(slug);
-  const [data, reviews, org, allClaims, dbFaqs, googleStats] = await Promise.all([
+  const [data, reviews, org, allClaims, dbFaqs] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
     getAllNarrativeClaims().catch(() => []),
     getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
-    getGoogleReviewStats(),
   ]);
 
   if (!data) notFound();
@@ -511,7 +502,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} />
+      <StructuredData data={data} globalNodes={globalNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <JsonLd data={tourEntityAugmentSchema} />
       <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} />

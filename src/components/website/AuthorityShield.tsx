@@ -43,7 +43,7 @@ export default function AuthorityShield({ ijenRelevant = false }: Props) {
                 />
               )}
               <div className="flex items-center gap-2.5">
-                <span className="shrink-0 text-jvto-green">
+                <span className="shrink-0 text-jvto-lime">
                   <Icon size={14} />
                 </span>
                 <div>

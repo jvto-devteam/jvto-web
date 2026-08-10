@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "route": "/why-jvto/sample-fixture",
+    "title": "Sample Fixture Structured Page",
+    "description": "A valid structured-JSON fixture used by the content-validation self-test.",
+    "section": "why-jvto",
+    "status": "published",
+    "owner": "company",
+    "lastReviewed": "2026-08-04",
+    "schemaTypes": ["AboutPage"],
+    "faqKey": "sample-faq",
+    "summary": "This fixture proves that a correctly-shaped structured page passes validation."
+  },
+  "lede": ["Opening paragraph displayed below the page title."],
+  "sections": [
+    {
+      "id": "narrative",
+      "title": "Narrative",
+      "blocks": [
+        { "type": "markdown", "body_md": "## A subsection\n\nNarrative content at level two." },
+        { "type": "image", "src": "/images/sample.jpg", "alt": "A sample image" }
+      ]
+    },
+    {
+      "id": "grid-section",
+      "blocks": [
+        { "type": "grid", "items": [{ "title": "Card A" }, { "title": "Card B" }] },
+        { "type": "crew_grid" }
+      ]
+    }
+  ]
+}

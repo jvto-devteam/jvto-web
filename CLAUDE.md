@@ -2,13 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Branch governance (locked 2026-07-05):** `main` = bengkel tunggal (single workshop) — all work happens on feature branches merged into `main` via PR with green CI. **`live` = production release pointer; jangan pernah kerja langsung di `live` (never work directly on `live`).** `live` receives only owner-commanded promote PRs (`live ← main`, CI-gated) plus volcanic-status bot commits. Full rules: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) · Content facts lock: [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md) · **SSOT + CMS map: [docs/SSOT-CMS-KNOWLEDGE-BASE.md](docs/SSOT-CMS-KNOWLEDGE-BASE.md)** (estate, resolver, block model, duplicate-source map, CMS surface, render-path split — read before content/CMS work).
+
+> **Program authority (locked 2026-08-05):** the governing transformation spec is **[docs/architecture/JVTO_TECHNICAL_PROJECT_HANDOFF.md](docs/architecture/JVTO_TECHNICAL_PROJECT_HANDOFF.md)** (self-contained, SHA-256 `2eea9cee9ca38b83db99634a575eab5bbdd785e67da11b9e5c01700f15b65b55`). It defines the **Milestone 0–8** program, domain ownership (§6), binding principles (§4), gates, and acceptance criteria (§22), and **supersedes** the former route-by-route `JVTO_WEB_SSOT_TECHNICAL_EXECUTION_BLUEPRINT.md` package plan — the finished PACKAGE 00–05 work + `docs/architecture/public-content-{ownership,migration-status}.md` remain valid **as historical record of that sub-effort, not as forward authority**. Per handoff §29, repository files are evidence to inspect, not planning authorities; on conflict, stop and surface to the owner.
+
 ## Project Overview
 
 **Java Volcano Tour Operator (JVTO)** — Next.js 16 site for `PT Java Volcano Rendezvous`, a licensed East Java private volcano tour operator (Ijen, Bromo, Tumpak Sewu). Site emphasizes verifiable trust signals (NIB, police credentials, BBKSDA compliance) over generic marketing.
 
 This is the **canonical JVTO codebase**. As of 2026-04-29, the AEO/GEO architecture was ported here from the now-archived `e:\test-2-2026` rewrite repo per `~/.claude/plans/sepertinya-banyak-hal-yang-sequential-coral.md` (Path B). Single-repo development from this point forward.
 
-Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**. When schemas/copy reference "since" or `foundingDate`, use 2015.
+Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**. When schemas/copy reference "since" or `foundingDate`, use 2015. The full adjudicated facts lock (founding year, blue-fire wording, review counts, prices, contact/legal identifiers) lives in [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md) — violations are bugs.
 
 ## Commands
 
@@ -48,7 +52,7 @@ All entities have stable `@id` so any page can cross-reference via `{ '@id': ...
 | `FOUNDER_SCHEMA` | `/#agung-sambuko` | `(website)/layout.tsx` (global) |
 | `DOCTOR_SCHEMA` | `/#dr-ahmad-irwandanu` | `(website)/layout.tsx` (global) |
 | `BBKSDA_REGULATION_SCHEMA` | n/a | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.NIB` / `TDUP` / `HPWKI` / `KTA` / `POLPAR` / `BBKSDA` / `SE1658` (×7) | `/#term-{key}` | `(website)/layout.tsx` (global) |
+| `DEFINED_TERMS.NIB` / `TDUP` / `HPWKI` / `KTA` / `POLPAR` / `BBKSDA` / `SE1658` / `ISIC` / `INDECON` (×9) | `/#term-{key}` | `(website)/layout.tsx` (global) |
 | `DEFINED_TERMS.JVTO_TRAVEL_CREDIT` | `/#term-jvto-travel-credit` | `(website)/layout.tsx` (global) — **brand-custom** |
 | `DEFINED_TERMS.JVTO_FOC_SCHEME` | `/#term-jvto-foc-scheme` | `(website)/layout.tsx` (global) — **brand-custom** |
 | `buildCrewPersonSchema()` | `/#crew-{code}` | `/why-jvto/our-team` (per active crew) |
@@ -76,6 +80,7 @@ New query helper: `src/lib/queries/schemaReviews.ts` — minimal Prisma query (n
 
 Single source of truth for FAQ source resolution. Deterministic precedence (highest → lowest):
 
+0. **`cms-seed`** (`SEED_COVERED_ROUTES` / jvto_cms editorial seed) — for seed-covered routes this owns the FAQ outright, superseding every tier below (even a zero-FAQ seed suppresses the CMS fallback rather than falling through)
 1. **`narrative_claims`** (DB, primary_page-wired) — canonical AEO-tuned brand voice
 2. **Canonical hardcoded** (`HOMEPAGE_FAQS`, `LEGAL_FAQS`, etc. registered in `CANONICAL_FAQ_REGISTRY`)
 3. **CMS** (`content.faq` from `content_pages` row, auto-injected by `PageJsonLdCombined` unless suppressed)
@@ -149,6 +154,27 @@ Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt
 - `crew_members` — used by `/why-jvto/our-team` Person schema injection via `getActiveCrewMembers()`.
 - `content_pages` — CMS-managed SEO + content.faq per route.
 
+## Cross-Repo SSOT Sync (llm-wiki + OKF → jvto-web)
+
+Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the trust-bundle / package-readiness / policy-bundle; `sambuko82/knowledge-catalog-jvto-bootstrap` (`main`) builds the OKF customer-sales-release. jvto-web is a **read-only consumer** of the compiled artifacts under `src/data/`. **Never hand-edit** `src/data/{trust-bundle,okf,package-readiness,policy-bundle}` — fix the producer, recompile there, re-sync (a hand edit re-drifts and fails CI). (Blog is no longer synced — as of 2026-08-06 `/blog` is content/ Git-SSOT under `content/pages/blog/`.)
+
+**Sync scripts** (`package.json`): `sync:trust` / `sync:packages` (source env `LLM_WIKI_PATH`), `sync:policy-bundle` (source env **`LLM_WIKI_ROOT`** — a *different* var, easy to miss), `sync:okf` (source env `OKF_PATH`). Consumed via `src/lib/trust-bundle.ts` (`/trust`); the OKF bundle now feeds only CMS-catalog consumers (the `/travel-guide/*` runtime OKF path via `agentGuides.ts` was retired in Package 04b — those routes are content-owned). **`sync:blog` was retired 2026-08-06** — `/blog` is now content/ Git-SSOT (`content/pages/blog/`).
+
+**CI drift gate (`ci.yml` → `verify`)** checks out llm-wiki@master + OKF@main, runs **all four** syncs, and `git diff --exit-code src/data/{package-readiness,trust-bundle,policy-bundle,okf}`. If **any** bundle is stale it fails *"Synced bundles drifted from source."* So `main` must always be in full sync with **both** producers simultaneously.
+
+**Auto-sync workflow (consolidated)** `sync-artifacts.yml` — replaced the former per-producer `sync-llm-wiki.yml` + `sync-okf.yml` (2026-08-02). Triggers on `repository_dispatch` from **both** producers (`llm-wiki-master-updated`, `okf-main-updated`) + manual `workflow_dispatch`; **`main` only**; re-syncs **all four** bundles from llm-wiki@master + OKF@main into **one** `automation/sync-artifacts-main` PR. **The sync PR is NOT auto-merged** (automation-governance hardening 2026-08-04 — the former auto-merge step was removed): an owner reviews and merges it, because merging `main` is what triggers the help deploy. The former SSH `build-develop` job was replaced (2026-08-05) by a GitHub-hosted `build` job (disposable `pgvector/pgvector:pg16` service container) — a required, no-SSH pre-merge production build.
+
+**Why one workflow (deadlock-proof):** because a single PR always carries all four bundles from the current producer heads, the `verify` drift gate is satisfiable in one commit — the two old failure modes are gone: (1) two producers changing together no longer deadlock (both slices land in the same PR), and (2) `policy-bundle` is now covered (the old `sync-llm-wiki.yml` never synced it). Any producer push re-syncs everything from both producers.
+
+**`live` is intentionally NOT auto-synced.** Per `docs/CONTRIBUTING.md`, `live` receives only owner-commanded `main → live` promote PRs — which carry main's already-synced `src/data`, so `live` stays correct without a separate auto-sync (auto-writing bundles to `live` would bypass that gate; `policy-bundle` in particular never had a live auto-sync). The old workflows' `live` legs are removed.
+
+**Manual fallback** (recovery / local re-sync) — run all four from the current producer heads. The inline `VAR=x cmd` form applies only to the first command, so **`export` the vars** first:
+```bash
+export LLM_WIKI_PATH=/path/llm-wiki LLM_WIKI_ROOT=/path/llm-wiki OKF_PATH=/path/okf
+npm run sync:packages && npm run sync:trust && npm run sync:policy-bundle && npm run sync:okf
+# red-flag check: only src/data/* changed + a 2nd run adds no diff (idempotent) => verify will pass
+```
+
 ## Routing
 
 - `/tours/from-bali/[slug]` and `/tours/from-surabaya/[slug]` — separate folders with shared client `src/components/website/TourDetail.tsx`
@@ -158,6 +184,23 @@ Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt
 - `/verify-jvto/{legal,police-safety,press-recognition,history-artifacts}/page.tsx` — separate folders (not [slug] dynamic)
 
 Slug shape: both cities use full-path format — `tours/from-surabaya/{slug}` and `tours/from-bali/{slug}`. The bare-name format for Surabaya was a jvto_dev data bug (fixed 2026-05-02), not intentional design.
+
+## Deployment & Hosting
+
+`main` deploys to the help/preview box via `.github/workflows/deploy.yml` ("Deploy to VPS") — documented below. `live` → production is **owner-promoted**, and its on-box specifics (branch ref, dir, PM2 process) are **not assumed identical** to help — verify the `live` branch's own `deploy.yml` before touching production. `README.md` is the (secret-free) ops runbook.
+
+| Branch | VPS dir | PM2 process | Domain | Index |
+|---|---|---|---|---|
+| `main` | `/var/www/jvto-help` | `jvto-help` | `help.javavolcano-touroperator.com` (preview/develop) | **noindex** |
+| `live` | production box | (prod) | `javavolcano-touroperator.com` | indexable |
+
+- **Mechanism (help/`main` deploy — do NOT run this exact sequence for `live`/production):** `appleboy/ssh-action` SSHes to the Hostinger VPS (`31.97.223.43`) and runs a script that **hard-codes** `origin/main`, `/var/www/jvto-help`, and the `jvto-help` PM2 process: source nvm → capture `PM2_BIN` → **`nvm use 20`** (Next.js 16 needs Node ≥20.9; box default is Node 18) → `git reset --hard origin/main` → `npm ci` → `npm run build` → `pm2 restart jvto-help --update-env`. Not Vercel/Docker. **Never add `git clean`** (it would delete the VPS-local `.env.local`). Any manual on-box command must mirror the `nvm use 20` step or the build aborts on Node 18. Running this against production would reset it to preview code and restart the wrong process — the `live` equivalents differ (confirm on the `live` branch).
+- **Triggers:** push to `main` (auto) or `workflow_dispatch` (manual re-run). `live` is owner-promoted only (`main → live` PR).
+- **Build needs Postgres.** `DATABASE_URL` comes from the untracked VPS-local `.env.local` (survives `git reset --hard`), never a repo secret. The `verify` job (ci.yml) only runs `prisma generate` with a dummy URL — it never builds.
+- **Indexability** is set per box by `NEXT_PUBLIC_SITE_URL` (`src/lib/site.ts` + `next.config.ts`): only the production origin is indexable; every other box gets a global `X-Robots-Tag: noindex, nofollow`.
+- **Deploy verification endpoint: `/api/build-info`** (added 2026-08-04, PKG-05b — `src/app/(api)/api/build-info/route.ts`, `force-dynamic` + `no-store`). Returns `{commitSha, environment, siteOrigin, nodeEnv}`; `commitSha` comes from `APP_COMMIT_SHA`, which `deploy.yml` exports before `npm run build` and carries into the `pm2 restart --update-env`. `deploy.yml` fails the workflow unless `/api/build-info` reports the pushed SHA, then runs `scripts/smoke-why-jvto.mjs` (6×200 + canonical + single FAQPage + crew + forbidden-claim checks). Manual check: `curl -s https://help.javavolcano-touroperator.com/api/build-info` — `commitSha` must match the deployed commit; `curl -sI …/` must still show `x-robots-tag: noindex`. **Race hazard is now mitigated:** deploy.yml has `concurrency: deploy-help-main` (`cancel-in-progress: false`) so at most one deploy runs at a time — no more concurrent SSH jobs interleaving `git reset`/`npm ci`/`build` on the same checkout. This *serializes* deploys but does **not** guarantee FIFO or that every intermediate SHA deploys: the group keeps one running + one pending, and a newer push replaces the pending run (pending-run coalescing), so mid-burst commits can be skipped. The final deploy always reflects the newest queued push — confirm which commit actually landed via `/api/build-info`.
+- The pre-merge production build runs **GitHub-hosted** in the ci.yml `build` job (disposable `pgvector/pgvector:pg16` service container → `CREATE EXTENSION vector`/`pg_trgm` → `prisma db push` → `npm run build`) — no SSH, no dev-server dependency. It replaced the former SSH `build-develop` job + `scripts/build-pr.sh` (both removed 2026-08-05). Pre-merge checks are now `verify` + `build` + `outbox-db`; the SSH secrets `DEVELOP_SSH_*`/`VPS_*` are retired.
+- **Secrets topology:** `deploy.yml` uses `VPS_HOST`/`VPS_USER`/`VPS_SSH_KEY`; `GH_PAT` (on jvto-web) reads the producer repos for the drift gate + sync; the producers fire `repository_dispatch` at jvto-web via `JVTO_WEB_DISPATCH_TOKEN`. jvto-web is a **public** repo — never commit credentials.
 
 ## Auto-Memory
 
@@ -180,14 +223,47 @@ Update memory when significant work completes. They persist across sessions.
 
 ## Things That Bite
 
-- **Pre-existing 42 TypeScript errors** in `(website)/checkout/page.tsx` + booking flow files (unrelated to AEO/GEO port). Don't fix opportunistically — out of scope per pivot. Track separately if owner asks for cleanup.
+- **The "42 pre-existing TypeScript errors in checkout/booking" are GONE** — re-measured 2026-07-05 on `main`: `npx tsc --noEmit` reports exactly 3 errors, all dead imports in `HomePage.tsx`/`ReviewsPage.tsx`, **zero** in checkout/booking. Older docs/plans citing "42" are stale history. Consequence: any tsc error appearing in checkout/booking files today is a NEW regression — don't excuse it against the phantom legacy baseline.
 - **`(cms)` route group** is a separate concern from `(website)` schema work. Don't add AEO/GEO logic into CMS pages.
 - **content_pages.content.faq** is admin-editable; per FAQ resolver precedence, it's the lowest-priority source. Admin edits affect only routes that have neither `narrative_claims` wired nor canonical hardcoded registered. Communicate this when training admins.
 - **Sed-based file copies truncate large TSX files** in this Windows/Bash setup. For files >100 lines, use `Read` + `Write` directly, not shell pipelines.
-- **`page copy.tsx` clutter files** in `src/app/(website)/why-jvto/our-story/` — pre-existing backup files with TS errors. Ignore unless owner asks for cleanup.
 - **Live dev server on Windows can be slow** with Turbopack + path resolution; verify changes via `npm run build` (SSG-safe post-port) rather than relying on dev server smoke tests.
 - **Prisma nullable field type narrowing**: a `where: { star: { not: null } }` clause does NOT narrow the TypeScript return type — the field stays `number | null`. In schema builders, always `.filter(r => r.field != null)` before `.map()` even when the DB query already excludes nulls. Use `r.field!` inside the filtered map. See `buildIndividualReviewSchemas()` for the pattern.
 - **Adding a new AI crawler to `public/robots.txt`** = also update `next.config.mjs` `images.remotePatterns` if their bot fetches avatars from external CDNs.
+- **The CCR git proxy blocks branch/ref deletion and repo-settings writes** — `git push --delete` fails `send-pack: unexpected disconnect`, and the GitHub API returns *"Repository settings writes are not permitted through this proxy."* Closing a PR does **not** delete its head branch here; enabling "Automatically delete head branches" and deleting leftover branches are **owner UI actions** a session cannot perform. (That setting also only fires on *merge*, not *close*.)
+
+## Automation governance — owner-gated actions (locked 2026-08-04)
+
+These actions are **the owner's, never the assistant's**. The assistant implements, verifies on
+the help/preview box, and then **stops at `READY FOR OWNER`** — it does not take the release step.
+
+- **Never merge a PR.** Open it, drive its own required check (`verify`) to green, address review
+  comments, and report `READY FOR OWNER`. **Non-required or informational CI does not grant
+  merge authority, and docs-only scope does not grant merge authority** — neither is a reason to
+  self-merge.
+- **Never promote `main → live`** and **never deploy production.** Production promotion + the
+  post-promotion (`PRODUCTION-VERIFIED`) check are owner actions.
+- **No automated merge scheduling.** No workflow auto-merges (the `sync-artifacts.yml` auto-merge
+  was removed), and the assistant does not schedule `send_later`/check-in wake-ups to merge, promote,
+  or deploy. Do not schedule another check-in after reporting completion. **Scope caveat:** this is a
+  workflow-level + behavioral lock — it removes the automation and the agent instruction to merge. It
+  does **not** technically revoke GitHub merge permission from the connected identity; hard
+  enforcement (branch protection requiring owner review/approval, restricting who can merge) remains
+  an **owner UI / account-level configuration**.
+- **Reporting honesty on scheduled tasks.** Never assert automation is "all cancelled" absolutely —
+  a stale one-shot check-in can still surface after a 0-pending reading. Report only what is
+  verifiable: **"No pending scheduled task is visible to this session."**
+- **Follow-up PRs only when the active implementation requires them** — not to "finish" a merge/
+  deploy the owner hasn't taken.
+- **Promotion-status vocabulary** (used in `docs/architecture/public-content-migration-status.md`):
+  **IMPLEMENTED** (merged to `main`) → **PREVIEW-VERIFIED** (proven on the help box) →
+  **PRODUCTION-VERIFIED** (proven on `live` after the owner promote). The assistant may reach
+  PREVIEW-VERIFIED; only the owner reaches PRODUCTION-VERIFIED.
+- **CI/deploy efficiency:** true-documentation-only
+  `main` pushes skip the help deploy. "Documentation" is narrowly `docs/**` and root-level `*.md`
+  (README/CLAUDE) — **served content Markdown still builds and deploys**
+  (`content/pages/**/*.md` — including the blog at `content/pages/blog/**/*.md` — renders via `loadStaticPage`),
+  so a content change is never mistaken for docs and skipped.
 
 ## Session Operating Rules
 
@@ -237,14 +313,50 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** DB-only content sprint — backfilled body_md into mount-bromo-logistics (3565 chars compiled from existing sections) and tumpak-sewu-logistics (3807 chars); populated and activated packing-list (was inactive empty `{}`); build 137→138/138 ✓ (2026-05-05)
-**Completed date:** 2026-05-05
-**Next task:** Port remaining undeployed travel-guide DB rows — safety-on-tours, weather-and-closures, packing-and-fitness already have body_md; check if other content_pages need body_md backfill; OR begin next AEO cluster work
-**Build status:** ✓ Compiled (138/138 static pages — DB update only, no code change, at commit e27e393)
+**Last completed:** Cross-repo consistency fix + design-reference cleanup (2026-08-03). A design-session audit flagged the fact-layer as drifted; verification showed the **audited production surfaces (`src/`, synced `src/data` bundles, `public/llms-full.txt`) were already correct**, the real root was upstream — llm-wiki's compilers still *enforced* the retracted (pre-2026-07-06) rules, regenerating drift on every recompile — and the residual 2016 hid in two spots the audit hadn't covered (the CMS seed + a snake_case SSOT dataset value), both fixed here. **`live`/production still carries the old canon until the owner runs the `main → live` promote.** Fixed at the root across all three repos — 4 PRs, all merged (`verify` green on each):
+- **jvto-web #137** — retired the 102-file stale `docs/design-reference/uploads/` fact-dossier + replaced its auto-injected `CLAUDE.md` guardrails (which forbade the canonical "mandatory health" wording and named the stale dossier as SSOT) with a non-authoritative pointer; removed orphaned `src/lib/jsonld.ts`; fixed the stale conditional voice-invariant in `src/data/evidenceRegistry.ts`; dropped the stale `our-story/page copy.tsx` "Things That Bite" note (file never existed). Kept the HTML/CSS/asset design system.
+- **jvto-web #139** — re-synced `src/data` from the corrected producers **and dropped the 2016 the resync couldn't reach**: the CMS seed `src/data/cms/page_sections.json` (served on `/why-jvto/our-story` via `seedResolver.ts`) still asserted "incorporated 2016-01-01" (Codex **P1**) — fixed all 8 occurrences (incl. 2 Stefan-year refs) + **hardened the `wrong-founding-year` drift rule** (`scripts/lib/contentDriftRules.mjs`) to catch the noun form ("incorporation — 2016-01-01"), scoped to a full ISO date so it does **not** false-flag KBLI codes (e.g. `62019`) or the `drift-ok` explanatory comment.
+- **llm-wiki #38** (the producer root fix) — flipped `scripts/package_compiler/validator.py` **PKG-07 from requiring conditional to requiring mandatory** Ijen-health wording (this was the drift engine); `DEC-002 legal_incorporation_year: 2016 → null` → recompiled trust-bundle `claims.json`; booking → **website-only**; Travel Credit → **Lifetime Package Credit**; added an `INCORPORATION-2016` regression guard (`claim_boundaries.yml`). The C4 health narrative names SIP-licensed **Dr. Ahmad Irwandanu** (verifiable STR) with hotel-based screening + BSrE signature + anti-fraud framing.
+- **OKF #40** — added the symmetric `INCORPORATION-2016` guard to `publication-rules.yaml` (OKF concepts were already 2016-free; guard-only).
+- **Owner decision (2026-08-03):** no PT incorporation year is asserted — the 2016-01-01 date has no authoritative AHU document (only a generic registry search URL); assert the entity via NIB 1102230032918 + AHU-0023020, 2015 brand / 2023 TDUP. `docs/CANONICAL_FACTS.md` already forbade 2016.
+
+**Prior sprint (2026-08-02) — Help-site data sync + README security + dead-code cleanup.** Fixed the live `help.javavolcano-touroperator.com` (develop) site's residual data drift and hardened ops docs — 4 PRs, all merged + deploy-verified (help deploy run #317 green):
+- **#129 live content residuals** — surfaces still contradicting the corrected canon: Stefan Loose (kept ISBN `9783770167654` + page 287; dropped unsupported year / "4th edition" / DuMont) across `verify-jvto/{page,press-recognition,legal}` + `verifyFaqs.ts` + tours hubs; Booking.com award `2016→2015` (9.2→9.4); forbidden review count **"112"** in `TourCard.tsx` + `TourDetail.tsx` + `student-package/[slug]/page.tsx` rewired to canonical `@/lib/jvtoReviews` (schema `AGGREGATE_RATING` 4.8/51; display `getCanonicalReviewStats().total` 4.8/195). content-drift 19→18.
+- **#130 README secrets** — the **public** repo's `README.md` had committed live credentials (Hostinger, root SSH, GitHub PAT, Mailgun, Postgres/PgBouncer/Metrics, Adminer, Grafana). Removed → secure-storage pointers + de-staled the runbook. **Owner MUST still rotate all of them + purge git history** (cannot be done from a session).
+- **#131 runbook Node-20** — manual deploy/rollback snippets now mirror deploy.yml (`nvm use 20` + `PM2_BIN`); `--ref main`=help / `--ref live`=prod clarified (2 Codex P2s).
+- **#132 dead-code cleanup** — deleted unimported `HealthScreeningSpotlight.tsx` + `SSOTRenderer.tsx` + `src/lib/whyjvto/` (ssot.ts + fixed4.json), retired `dbPageSnapshots.json` **and its producer** `scripts/export-public-page-snapshots.mjs` + its ingest instruction (Codex P2); fixed stale ISBN in the live-imported `content/why-jvto-ssot.json`. lint 131→130.
+- New **Deployment & Hosting** section added to this file (the pipeline was undocumented — had to be researched).
+
+**Prior sprint (2026-08-02) — Surat-sehat evidence + cross-repo sync consolidation.** Owner supplied the BSrE-signed sample Ijen health certificate + Dr. Danu's SIP; propagated evidence-first across all three repos and landed it in `main`:
+- **Evidence stored upstream** (private source repo, PII-safe): SIP + sample surat sehat in llm-wiki `raw/evidence/credentials/` (evidence E007, E019). Per-certificate BSrE signature promoted *corroborated → evidenced (signature format only)*; OKF `policies/ijen-health-screening` Limitation + the trust-bundle C4 narrative updated; jvto-web non-synced surfaces (`docs/CANONICAL_FACTS.md`, `verify-jvto` `DigitalDocument` JSON-LD, `public/llms-full.txt`) carry the BSrE / QR-verifiable / SIP-traceable wording.
+- **Claim discipline (two Codex rounds):** narrowed to the *evidenced signature format* — dropped "gate-verified/accepted digital document", the absolute "can't be faked", and a false "cited via source_refs" (the derived `policy-cards.json` carries no `source_refs` field). Kept the owner's anti-fraud framing (real/accountable vs self-issued) and mandatory-screening wording.
+- **Fixed the sync deadlock** (see "Cross-Repo SSOT Sync" above): landed a consolidated all-five-bundle sync (#126) into `main`; closed the deadlocked per-producer sync PRs #88/#125. Leftover `automation/sync-*-main` branches couldn't be deleted (proxy blocks ref-deletion) — owner UI action.
+
+**Prior sprint (2026-07-31) — cross-repo fact-correction pass** (llm-wiki + OKF as sources, closing pre-PDF blockers open since 2026-05-26):
+- **OKF had no sync pipeline into jvto-web at all** — `src/data/okf/*.json` was a one-shot hand snapshot (commit `863db8c`) with no manifest/CI gate, silently drifted to the pre-2026-07-06 *conditional* Ijen-screening wording OKF itself had already dropped, and was live on ~13 `/travel-guide/*` pages via `agentGuides.ts`. Built `scripts/sync-okf.mjs` + `scripts/validate-okf-consumption.mjs` (route coverage + divergence-from-source check), wired into `ci.yml` + new `sync-okf.yml` (mirrors `sync-llm-wiki.yml`), and matching CI in the OKF repo itself.
+- **Two content-drift gate gaps let the conditional wording ship undetected**: `blue-fire-guarantee` flagged the *canonical* negated wording as a violation (why a hand-edited OKF snapshot drifted to "cannot be promised"), and a second, undocumented duplicate of the scan loop in `validate-content-drift.mjs` bypassed `contentDriftRules.mjs`'s shared logic entirely. Both fixed; conditional wording fixed everywhere it had spread (agentGuides.ts, tours hub, CMS seed, why-jvto-ssot, llms-full.txt, llm-wiki's own `packages-overview.md` + a blog post that had been missed by the 2026-07-07 sweep).
+- **Stefan Loose contradiction — resolved, not owner-adjudication-pending.** llm-wiki (DEC-001, 2026-06-25) and OKF (`references/stefan-loose-indonesien-3770167651`, last_verified 2026-06-26) independently agree: ISBN-13 9783770167654, page 287, no year/publisher/edition asserted. jvto-web was publishing a *different* ISBN (978-3-7701-7881-0) plus an unsupported 2018/4th-edition claim across `entityGraph.ts`, `verify-jvto/page.tsx`, `press-recognition/page.tsx`, `buildVerifySchemas.ts`, `verifyFaqs.ts`, `evidenceRegistry.ts`, and CMS `page_sections.json`. Fixed everywhere.
+- **Two related invented-date bugs found in the same pass** (caught by widening `wrong-founding-year`): CMS `page_sections.json` asserted "incorporated PT Java Volcano Rendezvous on 2016-01-01" and `OurStoryPage.tsx` (live, imported by `why-jvto/page.tsx`) asserted "Operating Since 2016" / "Incorporated in 2019" — both directly contradicting this file's own already-published facts lock (`docs/CANONICAL_FACTS.md`'s adjudication table explicitly rules "Incorporated 2016" unsupported). Fixed both.
+- **Crew count resolved: 14 (7 guides + 7 drivers)** — confirmed by llm-wiki, OKF, and jvto-web's own `buildCrewSchemas.ts` persona list. `/team` page's stale `"11"` fallback fixed to `"14"`.
+- **KTA card identifiers — populated for 11 of 14 crew** (OKF `credential_state: confirmed`); yusuf/dika/pras correctly left unset (`credential_state: pending`). `NAMED_GUIDE_PERSONAS` (in `buildCrewSchemas.ts`) turned out to have zero consumers — dead code — so the actual live path (`getActiveCrewMembers()` → `/team/page.tsx` → `buildCrewPersonSchema()`) was wired directly with an in-process lookup keyed by `crew_members.code`, since `crew_members` has no `kta_id` column and this session had no `DATABASE_URL`/`.env` to migrate one. **Real gap still open:** the DB itself has nowhere to store KTA data long-term; the lookup is a stopgap.
+- **ISIC over-claim fixed**: OKF marks `trust/partners/isic` as the one concept `needs_review` (not release-eligible — provider directory entry unrenderable as of 2026-07-07), but `entityGraph.ts` + `tourFaqs.ts` asserted "verified ISIC partner" globally. Downgraded to "registered ISIC provider", matching wording `/isic/student-package` already used.
+- **`reviewCount: 112` (forbidden per facts lock) replaced** in 24 identical copy-pasted spots across `data_new.ts` (live homepage/booking/carousel/quote-form) and `mockData.ts` (Testimonials, TourCard, `/api/packages`, `/api/destinations`) with the canonical Trustpilot-primary figure (4.8/51), matching `jvtoReviews.ts`'s already-correct `AGGREGATE_RATING`.
+- **`tsconfig.json` `moduleResolution: node` → `bundler`** — `node`/`node10` was fatal at config-parse (TS5107), meaning the previously-documented "3 pre-existing errors" baseline was unmeasurable in a fresh checkout. `node_modules` also wasn't installed in this environment; `npm ci` fixed that. Real current baseline: **2 pre-existing errors**, both the known dead imports in `HomePage.tsx` (`./Hero`, `./TravelGuideTeaser` — files don't exist, component isn't reachable from `src/app/`, build-safe). Doc-comment precedence fixes: `DEFINED_TERMS` table corrected ×7→×9 (was missing ISIC/INDECON); FAQ resolver precedence corrected 3-tier→4-tier (was missing the `cms-seed` tier, which is actually highest-precedence).
+**Completed date:** 2026-08-03
+**Build status:** `npm run validate` (schema + routes + content-drift + itinerary + OKF consumption) PASS; content-drift at the **18-hit/13-bucket** baseline. `npm run lint:gate` PASS (**130-error** baseline). `npx tsc --noEmit`: 2 pre-existing dead-import errors only (`HomePage.tsx` → `./Hero`, `./TravelGuideTeaser`), zero new. `npm run build` needs Postgres (`DATABASE_URL`) — not attempted here, not a failure. Latest: jvto-web #137/#139 + llm-wiki #38 + OKF #40 all merged (`verify` green each); `main` → help auto-deploy carries the corrected canon.
+**Next task:** **Owner action pending — promote `main → live`** to ship the corrected canon (2015/no-2016, mandatory Ijen health, Lifetime Package Credit, website-only booking, Dr. Danu's verifiable profile) to production; help/`main` already carries it. Other open paths unchanged: (A) **Phase 2 of PDF plan** (`~/.claude/plans/sementara-ini-aku-butuh-tingly-diffie.md`) — email-gated download (NextAuth magic-link + Nodemailer + `pdf_downloads` model); (B) the separate `live` sync backlog (#116).
 **Open items:**
+- **2016 incorporation dropped everywhere (2026-08-03)** — now guarded in all three repos (`INCORPORATION-2016` in llm-wiki `claim_boundaries.yml` + OKF `publication-rules.yaml`; jvto-web `wrong-founding-year` in `contentDriftRules.mjs` now covers incorporation prose + camelCase `foundingDate` **and** snake_case `founding_date`, after `Master_Dataset_JVTO.SSOT.v3.0.json` was found still carrying `"founding_date": "2016-01-01"`). Reinstate as *evidenced* **only** if the owner files a verifiable AHU incorporation document.
+- **`docs/design-reference/` is now visual/design reference only** — its 102-file `uploads/` fact-dossier was deleted (#137) and its `CLAUDE.md` is a non-authoritative pointer. Do **not** treat it as a fact source; facts live in `docs/CANONICAL_FACTS.md` + the producers → `src/data`.
+- **KTA card identifiers now use a real `crew_members.kta_id` column** (added + backfilled per `sql/crew_members_kta_id.sql`, claimed applied to jvto_dev + prod `jvto`; read live by `getActiveCrewMembers()` in `crewMembers.ts` → `buildCrewPersonSchema()`). 11/14 crew populated (yusuf/dika/pras NULL by design). The older "no column / in-process stopgap" note is **resolved/stale**. Residual: re-verify the prod `jvto` backfill (`SELECT code, kta_id FROM crew_members`) if crew changes.
+- `reviewApiSnapshots.json` (`src/lib/publicContent/generated/`) — `stats` block is correct (51/123/21/195); the `feed` array (**153 items**) is the ingested DB subset and is **legitimately smaller** than `stats.total` by design (see `jvtoReviews.ts` note) — but its platform split (40 TP / 92 Google / 21 TA) undercounts Trustpilot vs the canonical proportions. Regenerate via `scripts/export-public-review-api-snapshots.mjs` (needs `DATABASE_URL`) — do not hand-edit.
+- Auto-sync is now the **consolidated `sync-artifacts.yml`** (2026-08-02), driven by both producers' `repository_dispatch` (`llm-wiki-master-updated` + `okf-main-updated`, both confirmed firing) — the former per-producer `sync-llm-wiki.yml` / `sync-okf.yml` are removed. `workflow_dispatch` remains the manual fallback.
+- `okf/customer-sales-release/jvto/release-manifest.json` has `customer_traffic_ready: false` — `src/data/okf/_manifest.json` (jvto-web-side) surfaces this flag; worth understanding what "traffic ready" gates before treating that data as fully trustworthy long-term.
+- `okf/jvto/scripts/validate_customer_sales_release.py` exists but isn't wired into the OKF repo's own CI, and currently reports one false-positive ("forbidden term: vendor" — matches a legitimate policy-copy sentence about non-recoverable vendor cost, not a real leak). Not fixed this sprint — out of scope.
+- NEXT_PUBLIC_MAPBOX_TOKEN only in .env.local — must add to Vercel preview/prod env before deploy
+- mapbox-gl install introduced 44 npm audit findings (12 high, 2 critical) — review before deploy
 - Design atlas screenshots gitignored — regenerate after server restart: `npm run dev` → `node scripts/generate-design-atlas.mjs`
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
 - /travel-guide/best-time-to-visit page exists in code but has no DB row — content needed if publishing
 
 ## Skill routing

@@ -1,20 +1,30 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import Sidebar from "../sidebar";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 import {
   buildJvtoTravelCreditAnnouncementSchema,
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
+import {
+  listPublishedStaticPages,
+  loadStaticPage,
+  staticRouteCanonical,
+  PRODUCTION_ORIGIN,
+  type Block,
+  type StaticPage,
+  type StructuredSection,
+} from "@/lib/static-content";
+
+// PACKAGE 03 (2026-08-04): Policy routes are served from content/pages/policy/
+// (the static-content SSOT). No content_pages / snapshot / cms-seed / FAQ-resolver
+// / policy-bundle reader is consulted at runtime — the complete visible policy
+// wording (including the formerly bundle-injected booking/payment/guarantee
+// blocks) lives in the content files. See docs/architecture/public-content-*.md.
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -22,159 +32,133 @@ type Props = {
 
 export const dynamicParams = false;
 
-const POLICY_NAV = [
-  { href: "/policy", label: "Policy Hub" },
-  { href: "/policy/booking-payment-cancellation", label: "Booking, Payment & Cancellation" },
-  { href: "/policy/inclusions-exclusions", label: "Inclusions & Exclusions" },
-  { href: "/policy/privacy", label: "Privacy & Data Protection" },
-];
-
-type HeroMeta = {
-  eyebrow: string;
-  lede: string;
-  metaRows: Array<{ label: string; value: string }>;
-};
-
-const SLUG_HERO: Record<string, HeroMeta> = {
-  "booking-payment-cancellation": {
-    eyebrow: "Policy · Booking",
-    lede: "How bookings are confirmed, what payment is due and when, and exactly what happens if plans change — issued by PT Java Volcano Rendezvous.",
-    metaRows: [
-      { label: "Standard deposit", value: "20%" },
-      { label: "Cancellation cut-off", value: "48 hours" },
-      { label: "Pricing currency", value: "IDR" },
-      { label: "Travel Credit", value: "Non-expiring" },
-    ],
-  },
-  "inclusions-exclusions": {
-    eyebrow: "Policy · Inclusions",
-    lede: "What is — and is not — included in a confirmed JVTO private tour. Only what is written on your Official E-Voucher is contractually binding.",
-    metaRows: [
-      { label: "Binding rule", value: "Write-it-to-bind-it" },
-      { label: "Tour type", value: "Private, all-inclusive" },
-      { label: "Vehicle", value: "By group size" },
-      { label: "Binding document", value: "E-Voucher PDF" },
-    ],
-  },
-  "privacy": {
-    eyebrow: "Policy · Privacy",
-    lede: "What personal data JVTO collects, why, how it is used, and when it may be shared — only as needed to operate your booking and meet applicable requirements.",
-    metaRows: [
-      { label: "Card data stored", value: "Never" },
-      { label: "Payment gateway", value: "PCI DSS-compliant" },
-      { label: "Data shared", value: "Only as needed" },
-      { label: "Access & deletion", value: "On request" },
-    ],
-  },
-};
-
-const DEFAULT_HERO: HeroMeta = {
-  eyebrow: "Policy",
-  lede: "JVTO publishes its terms in full — so you know exactly what you are buying, before you confirm.",
-  metaRows: [],
-};
-
-type SlugCta = {
-  h2: string;
-  primaryHref: string;
-  primaryLabel: string;
-  secondaryHref: string;
-  secondaryLabel: string;
-  secondaryExternal?: boolean;
-};
-
-const SLUG_CTA: Record<string, SlugCta> = {
-  "booking-payment-cancellation": {
-    h2: "Questions before you book?",
-    primaryHref: "/tours",
-    primaryLabel: "Explore tours",
-    secondaryHref: "https://wa.me/6282244788833",
-    secondaryLabel: "Contact us on WhatsApp",
-    secondaryExternal: true,
-  },
-  "inclusions-exclusions": {
-    h2: "Know exactly what you're buying.",
-    primaryHref: "/tours",
-    primaryLabel: "Explore tours",
-    secondaryHref: "/policy/booking-payment-cancellation",
-    secondaryLabel: "Booking policy",
-  },
-  "privacy": {
-    h2: "Your data, handled carefully.",
-    primaryHref: "/policy",
-    primaryLabel: "All policies",
-    secondaryHref: "https://wa.me/6282244788833",
-    secondaryLabel: "Contact us on WhatsApp",
-    secondaryExternal: true,
-  },
-};
-
-const DEFAULT_CTA: SlugCta = {
-  h2: "Clear terms. No surprises.",
-  primaryHref: "/tours",
-  primaryLabel: "Explore tours",
-  secondaryHref: "/contact",
-  secondaryLabel: "Contact the team",
-};
-
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/policy").map((route) => ({
-    slug: route.replace("/policy/", ""),
-  }));
+  return listPublishedStaticPages({ section: "policy" })
+    .filter((p) => p.meta.route !== "/policy")
+    .map((p) => ({ slug: p.meta.route.replace("/policy/", "") }));
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      // Non-default schema classification from the content file (null = WebPage only).
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
-  });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
+  const page = loadStaticPage(`/policy/${slug}`);
+  if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
-
   return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/policy/${slug}`) },
   };
 }
 
-const ArrowRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-);
+function GuaranteeGrid({ block }: { block: Extract<Block, { type: "grid" }> }) {
+  return (
+    <dl className="space-y-4">
+      {block.items.map((item, i) => (
+        <div key={i}>
+          <dt className="font-bold text-jvto-navy">{String(item.title ?? "")}</dt>
+          <dd className="text-jvto-navy/80">{String(item.text ?? "")}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function StructuredPolicySection({ section }: { section: StructuredSection }) {
+  const isGuaranteeBox = section.id === "lifetime-package-guarantee";
+  const heading = section.title ? (
+    <h2
+      className={`font-black text-xl md:text-2xl text-jvto-navy ${isGuaranteeBox ? "mb-5" : "mb-4"}`}
+      style={{ fontFamily: "var(--font-heading)" }}
+    >
+      {section.title}
+    </h2>
+  ) : null;
+
+  const blocks = (section.blocks ?? []).map((block, i) => {
+    if (block.type === "grid") return <GuaranteeGrid key={i} block={block} />;
+    if (block.type === "markdown") {
+      // Inside the guarantee box the trailing markdown is the precedence note —
+      // rendered small, exactly as the pre-migration layout did.
+      return isGuaranteeBox ? (
+        <p key={i} className="mt-5 text-xs text-jvto-navy/60">
+          {block.body_md}
+        </p>
+      ) : (
+        <div key={i} className="text-jvto-navy/80">
+          <MarkdownRenderer markdown={block.body_md} />
+        </div>
+      );
+    }
+    return null;
+  });
+
+  if (isGuaranteeBox) {
+    return (
+      <section className="mb-12 rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-6 md:p-8">
+        {heading}
+        {blocks}
+      </section>
+    );
+  }
+  return (
+    <section>
+      {heading}
+      {blocks}
+      {section.body_md ? (
+        <div className="text-jvto-navy/80">
+          <MarkdownRenderer markdown={section.body_md} />
+        </div>
+      ) : null}
+    </section>
+  );
+}
 
 export default async function PolicyDynamicPage({ params }: Props) {
   const { slug } = await params;
   const route = `/policy/${slug}`;
-  const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
-  const slugCta = SLUG_CTA[slug] ?? DEFAULT_CTA;
-  const currentHref = route;
+  const page = loadStaticPage(route);
+  if (!page || page.meta.status !== "published") return notFound();
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Policy";
-  const body = content?.body_md ?? "";
-
+  const h1 = page.meta.title;
   const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
-    name: seo.title ?? h1,
-    description: seo.description ?? `JVTO ${h1} policy.`,
+    name: page.meta.browserTitle ?? h1,
+    description: page.meta.description,
     mentionsTermIds,
   });
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
+  const faqItems = page.faq ?? [];
+  const faqSchema = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
   const announcementSchema =
     slug === "booking-payment-cancellation"
       ? buildJvtoTravelCreditAnnouncementSchema()
@@ -182,156 +166,56 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
   const slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
 
-  if (!body.trim().length) return notFound();
-
   return (
-    <>
+    <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={staticPageRow(page)}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
+      <Sidebar />
 
-      {/* ── Interior hero — navy ───────────────────────────────────────── */}
-      <section className="bg-jvto-navy pt-24 md:pt-36 pb-28 md:pb-36 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
-            <Link href="/" prefetch={false} className="hover:text-white/70 transition-colors">Home</Link>
-            <span>›</span>
-            <Link href="/policy" prefetch={false} className="hover:text-white/70 transition-colors">Policy</Link>
-            <span>›</span>
-            <span className="text-white/70">{h1}</span>
-          </nav>
-          <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
-            <div>
-              {heroMeta.eyebrow && (
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
-                    {heroMeta.eyebrow}
-                  </span>
-                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
-                    VERSION 2026-01-17 (v5)
-                  </span>
-                </div>
-              )}
-              <h1
-                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
-              >
-                {h1}
-              </h1>
-              <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {heroMeta.lede}
-              </p>
-            </div>
-            {heroMeta.metaRows.length > 0 && (
-              <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-                {heroMeta.metaRows.map(({ label, value }) => (
-                  <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
-                    <strong className="text-white text-sm font-semibold text-right">{value}</strong>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Article section — off-white, stacked ──────────────────────── */}
-      <section
-        className="bg-[#F6F5F2] py-16 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12 md:gap-16">
-
-            {/* Sidebar nav */}
-            <aside className="md:sticky md:top-24 self-start">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-4">
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
+        <section className="bg-jvto-navy text-white pb-10 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/policy" prefetch={false} className="hover:text-white transition-colors">
                 Policy
-              </p>
-              <nav className="space-y-0.5">
-                {POLICY_NAV.map(({ href, label }) => {
-                  const isActive = href === currentHref;
-                  return (
-                    <Link
-                      key={href}
-                      href={href}
-                      prefetch={false}
-                      className={`block text-[13px] font-medium py-2 px-3 rounded-lg transition-colors ${
-                        isActive
-                          ? "bg-jvto-navy text-white"
-                          : "text-[#6b7280] hover:text-jvto-navy hover:bg-white"
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  );
-                })}
-              </nav>
-              <Link
-                href="/tours"
-                prefetch={false}
-                className="inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors"
-              >
-                Browse tours <ArrowRight />
               </Link>
-            </aside>
-
-            {/* Article body */}
-            <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              <MarkdownRenderer markdown={body} />
-              {content?.faq && (
-                <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
-              )}
-            </article>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA — navy, stacked ───────────────────────────────────────── */}
-      <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
-          <h2
-            className="font-black text-white leading-[1.02] mb-8"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 4vw, 44px)" }}
-          >
-            {slugCta.h2}
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href={slugCta.primaryHref}
-              prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+              <span className="mx-2">›</span>
+              <span className="text-white/80">{h1}</span>
+            </nav>
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              Policy
+            </span>
+            <h1
+              className="font-black text-3xl md:text-5xl text-white"
+              style={{ fontFamily: "var(--font-heading)" }}
             >
-              {slugCta.primaryLabel} <ArrowRight />
-            </Link>
-            {slugCta.secondaryExternal ? (
-              <a
-                href={slugCta.secondaryHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-              >
-                {slugCta.secondaryLabel}
-              </a>
-            ) : (
-              <Link
-                href={slugCta.secondaryHref}
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-              >
-                {slugCta.secondaryLabel}
-              </Link>
-            )}
+              {h1}
+            </h1>
           </div>
+        </section>
+
+        <div className="container mx-auto px-4 max-w-4xl pt-12">
+          {page.format === "structured" ? (
+            <div className="mb-10 space-y-8">
+              {(page.sections ?? []).map((section) => (
+                <StructuredPolicySection key={section.id} section={section} />
+              ))}
+            </div>
+          ) : (
+            <MarkdownRenderer markdown={page.body ?? ""} />
+          )}
+          {faqItems.length > 0 && (
+            <Faq items={faqItems.map((f) => ({ q: f.question, a: f.answer }))} title="FAQ" />
+          )}
         </div>
-      </section>
-    </>
+      </main>
+    </div>
   );
 }
