@@ -16,9 +16,16 @@
  *   BASE_URL=https://help.javavolcano-touroperator.com \
  *   EXPECTED_SHA=<git sha> node scripts/smoke-why-jvto.mjs
  * (EXPECTED_SHA optional — skip the SHA check when unset, e.g. local probing.)
+ *
+ * Set REQUIRE_INDEXABLE=true when smoking PRODUCTION (never help/preview) to
+ * additionally fail if `/` carries `X-Robots-Tag: noindex` -- the production
+ * cutover's own proof that NEXT_PUBLIC_SITE_URL is correctly the production
+ * origin on that box. Opt-in and off by default, so the existing help smoke
+ * invocation is byte-for-byte unaffected.
  */
 const BASE = (process.env.BASE_URL || process.argv[2] || "https://help.javavolcano-touroperator.com").replace(/\/+$/, "");
 const EXPECTED_SHA = process.env.EXPECTED_SHA || process.argv[3] || "";
+const REQUIRE_INDEXABLE = process.env.REQUIRE_INDEXABLE === "true";
 const PROD_ORIGIN = "https://javavolcano-touroperator.com";
 
 const ROUTES = [
@@ -87,6 +94,17 @@ async function main() {
     else console.log(`  ✓ deployed SHA ${sha}`);
   } else {
     console.log("  (EXPECTED_SHA unset — skipping SHA check)");
+  }
+
+  // 1b. production must never be noindex (opt-in, see REQUIRE_INDEXABLE above)
+  if (REQUIRE_INDEXABLE) {
+    const res = await fetch(`${BASE}/`, { redirect: "manual" });
+    const robots = res.headers.get("x-robots-tag") ?? "";
+    if (/noindex/i.test(robots)) {
+      bad(`/ carries X-Robots-Tag: ${robots} — production must be indexable`);
+    } else {
+      console.log(`  ✓ /: no noindex (x-robots-tag: "${robots || "<absent>"}")`);
+    }
   }
 
   // 2-4. per-route: 200, canonical, single FAQPage

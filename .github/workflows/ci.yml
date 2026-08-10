@@ -106,6 +106,20 @@ jobs:
         # $PM2_BIN --update-env restart, and no `pm2 update`.
         run: npm run test:deploy-script
 
+      - name: Production deploy script self-test (blocking)
+        # Same invariants as above for scripts/ops/deploy-jvto-web.sh (the
+        # `live` production target), plus its release-hardening additions
+        # (handoff §3.6): build happens in a staging worktree — never over
+        # the running release; a failed build never touches $current; the
+        # switch is an atomic symlink flip that precedes the pm2 restart;
+        # post-switch proof (pm2 online + the real production smoke script,
+        # indexability required) runs before the deploy is declared verified;
+        # a failed post-switch proof automatically rolls $current back to the
+        # immediately previous release and restarts pm2; old releases are
+        # pruned via `git worktree remove` to a bounded count, and only after
+        # a verified-good deploy.
+        run: npm run test:deploy-script-web
+
       - name: Workflow security self-test (blocking)
         # Proves the PR + help-deploy workflows carry NO inbound SSH: no
         # appleboy/ssh-action, no DEVELOP_SSH_*/VPS_* secrets; the help deploy runs
