@@ -54,6 +54,7 @@
     "test:sitemap-lastmod": "tsx scripts/ci/sitemap-lastmod-parity.ts",
     "validate:people": "node scripts/validate-people-graph.mjs",
     "test:deploy-script": "bash scripts/ci/deploy-script-selftest.sh",
+    "test:deploy-script-web": "bash scripts/ci/deploy-jvto-web-script-selftest.sh",
     "test:workflow-security": "bash scripts/ci/workflow-security-selftest.sh"
   },
   "dependencies": {
