@@ -36,6 +36,7 @@
     "validate:architecture": "node scripts/validate-architecture-deps.mjs",
     "test:outbox": "tsx scripts/ci/outbox-selftest.ts",
     "test:outbox:db": "bash scripts/ci/run-outbox-db-itest.sh",
+    "test:soft-delete-db": "tsx scripts/ci/soft-delete-itest.ts",
     "knowledge:compile": "tsx scripts/compile-public-knowledge.ts",
     "knowledge:compile-check": "npm run knowledge:compile && git diff --exit-code src/lib/publicContent/generated/public-knowledge.json",
     "test:knowledge": "tsx scripts/compile-public-knowledge.ts --selftest",

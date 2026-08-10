@@ -296,6 +296,14 @@ jobs:
             -c 'CREATE EXTENSION IF NOT EXISTS vector; CREATE EXTENSION IF NOT EXISTS pg_trgm;'
           npx prisma db push --skip-generate
           npx prisma generate
+      - name: Soft-delete filtering (getWebPackageDetail excludes deleted_at rows)
+        # Reuses this job's already-pushed schema — no separate migration.
+        # Seeds a package with an active + soft-deleted row on every relation the
+        # fix touches and proves only the active side reaches the public output,
+        # including a join-row-only soft-delete (package_destinations itself
+        # deleted while the destination stays active) and the whole-package case
+        # (soft-deleted package -> getWebPackageDetail returns null, a clean 404).
+        run: npm run test:soft-delete-db
       - name: Production build (npm run build)
         # The real `next build` — compiles + prerenders every route (SSG pages
         # query the service-container DB). Any build failure blocks the PR.
