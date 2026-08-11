@@ -7,15 +7,10 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import {
   buildJvtoTravelCreditAnnouncementSchema,
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
-import { getPublicPageSnapshotRecord } from "@/lib/publicContent/pageSnapshots";
 
 export const revalidate = 86400;
 
@@ -77,10 +72,7 @@ const ArrowRight = () => (
 );
 
 export default async function BookingPaymentCancellationPage() {
-  const [page, faqResolution] = await Promise.all([
-    loadStaticPage(ROUTE),
-    resolveFaqsForPage(ROUTE),
-  ]);
+  const page = loadStaticPage(ROUTE);
   if (page && page.meta.status !== "published") return notFound();
 
   const h1 = page?.meta.title ?? "Booking, Payment & Cancellation";
@@ -104,16 +96,9 @@ export default async function BookingPaymentCancellationPage() {
     mentionsTermIds,
   });
 
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
   const announcementSchema = buildJvtoTravelCreditAnnouncementSchema();
 
-  const extraSchemas = [policyAnchorSchema, faqNode, announcementSchema].filter(Boolean);
-
-  // This route has narrative_claims wired (suppressCmsFaq: true today), so the
-  // CMS-FAQ fallback path never fires — but feed content.faq/faq_title from the
-  // static (DB-free) content_pages snapshot anyway, symmetric with policy/page.tsx
-  // and policy/privacy/page.tsx, as defense-in-depth if that DB wiring ever changes.
-  const cmsContent = getPublicPageSnapshotRecord(ROUTE)?.content ?? {};
+  const extraSchemas = [policyAnchorSchema, announcementSchema].filter(Boolean);
 
   return (
     <>
@@ -122,10 +107,10 @@ export default async function BookingPaymentCancellationPage() {
           route: ROUTE,
           lang: "en",
           seo: { title: seoTitle, description: seoDescription },
-          content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
+          content: { h1 },
         }}
         extraSchemas={extraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}

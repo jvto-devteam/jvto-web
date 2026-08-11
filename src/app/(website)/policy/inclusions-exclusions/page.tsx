@@ -6,14 +6,9 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import {
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
-import { getPublicPageSnapshotRecord } from "@/lib/publicContent/pageSnapshots";
 
 export const revalidate = 86400;
 
@@ -53,10 +48,7 @@ const ArrowRight = () => (
 );
 
 export default async function InclusionsExclusionsPage() {
-  const [page, faqResolution] = await Promise.all([
-    loadStaticPage(ROUTE),
-    resolveFaqsForPage(ROUTE),
-  ]);
+  const page = loadStaticPage(ROUTE);
 
   if (!page?.body?.trim().length || page.meta.status !== "published") return notFound();
 
@@ -78,15 +70,7 @@ export default async function InclusionsExclusionsPage() {
     mentionsTermIds,
   });
 
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
-
-  const extraSchemas = [policyAnchorSchema, faqNode].filter(Boolean);
-
-  // This route has narrative_claims wired (suppressCmsFaq: true today), so the
-  // CMS-FAQ fallback path never fires — but feed content.faq/faq_title from the
-  // static (DB-free) content_pages snapshot anyway, symmetric with policy/page.tsx
-  // and policy/privacy/page.tsx, as defense-in-depth if that DB wiring ever changes.
-  const cmsContent = getPublicPageSnapshotRecord(ROUTE)?.content ?? {};
+  const extraSchemas = [policyAnchorSchema].filter(Boolean);
 
   return (
     <>
@@ -95,10 +79,10 @@ export default async function InclusionsExclusionsPage() {
           route: ROUTE,
           lang: "en",
           seo: { title: seoTitle, description: seoDescription },
-          content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
+          content: { h1 },
         }}
         extraSchemas={extraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}

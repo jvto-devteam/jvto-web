@@ -6,15 +6,6 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  getPublicPageSnapshotRecord,
-  listPublicPageRoutesByPrefix,
-} from "@/lib/publicContent/pageSnapshots";
-import {
   loadStaticPage,
   listPublishedStaticPages,
   buildStaticRouteMetadata,
@@ -33,8 +24,8 @@ type Props = {
 export const dynamicParams = false;
 
 /**
- * Slugs served from the ported static-content SSOT (content/pages/policy/*)
- * rather than the DB (content_pages). All 3 slugs currently named here also
+ * Slugs served from the ported static-content SSOT (content/pages/policy/*) —
+ * the only source this route reads. All 3 slugs currently named here also
  * have their own dedicated folder page (booking-payment-cancellation/,
  * inclusions-exclusions/, privacy/) — Next.js resolves that static folder
  * segment before this dynamic one, so this route has zero live traffic for
@@ -144,40 +135,18 @@ const DEFAULT_CTA: SlugCta = {
 };
 
 export function generateStaticParams() {
-  const dbSlugs = listPublicPageRoutesByPrefix("/policy")
-    .map((route) => route.replace("/policy/", ""))
-    .filter((slug) => !MIGRATED_POLICY_SLUGS.has(slug));
-  return [...MIGRATED_POLICY_SLUGS, ...dbSlugs].map((slug) => ({ slug }));
+  return [...MIGRATED_POLICY_SLUGS].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
-  if (MIGRATED_POLICY_SLUGS.has(slug)) {
-    const page = loadStaticPage(`/policy/${slug}`);
-    if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
-    return buildStaticRouteMetadata(page.meta.route, {
-      title: page.meta.browserTitle ?? page.meta.title,
-      description: page.meta.description,
-    });
-  }
-
-  // Unmigrated slug — existing DB path, unchanged.
-  const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
+  const page = loadStaticPage(`/policy/${slug}`);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  return buildStaticRouteMetadata(page.meta.route, {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return { title: "Page Not Found" };
-  }
-
-  return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
-  };
 }
 
 /**
@@ -218,97 +187,56 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const slugCta = SLUG_CTA[slug] ?? DEFAULT_CTA;
   const currentHref = route;
 
-  let pageRowForJsonLd: { route: string; lang: string; seo: any; content: any };
-  let suppressCmsFaqValue: boolean;
-  let h1: string;
-  let body: string;
+  // Served from the ported static-content SSOT (content/pages/policy/*).
+  const staticPage = loadStaticPage(route);
+  if (!staticPage || staticPage.meta.status !== "published") return notFound();
+
+  const h1 = staticPage.meta.title;
+  const body = staticPage.body ?? "";
   // Structured (.json) content files carry their content in `sections`, not in
-  // `body` — loadStaticPage() returns no `body` field at all for them. Only the
-  // migrated branch can populate this; the DB branch stays markdown-only.
-  let sections: StructuredSection[] = [];
-  let faqItemsForDisplay: Array<{ q: string; a: string }> | undefined;
-  let faqTitle = "FAQ";
-  let slugExtraSchemas: unknown[];
+  // `body` — loadStaticPage() returns no `body` field at all for them.
+  const sections: StructuredSection[] = staticPage.sections ?? [];
 
-  if (MIGRATED_POLICY_SLUGS.has(slug)) {
-    // Migrated slug — served from the ported static-content SSOT (content/pages/policy/*).
-    const staticPage = loadStaticPage(route);
-    if (!staticPage || staticPage.meta.status !== "published") return notFound();
+  // Visible FAQ HTML and FAQPage JSON-LD share this one array. None of the
+  // policy content files declare a faqKey today, so this is empty in practice.
+  const faqItems = staticPage.faq ?? [];
+  const faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
+  const faqTitle = "FAQ";
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${staticPage.canonicalUrl}#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
 
-    h1 = staticPage.meta.title;
-    body = staticPage.body ?? "";
-    sections = staticPage.sections ?? [];
+  const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
+  const policyAnchorSchema = buildPolicyWebPageSchema({
+    subpath: slug,
+    name: staticPage.meta.browserTitle ?? staticPage.meta.title,
+    description: staticPage.meta.description ?? `JVTO ${h1} policy.`,
+    mentionsTermIds,
+  });
+  const announcementSchema =
+    slug === "booking-payment-cancellation"
+      ? buildJvtoTravelCreditAnnouncementSchema()
+      : null;
 
-    const faqResolution = await resolveFaqsForPage(route);
-    const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
-    const policyAnchorSchema = buildPolicyWebPageSchema({
-      subpath: slug,
-      name: staticPage.meta.browserTitle ?? staticPage.meta.title,
-      description: staticPage.meta.description ?? `JVTO ${h1} policy.`,
-      mentionsTermIds,
-    });
-    const faqSchema = buildResolvedFaqSchema(faqResolution, route);
-    const announcementSchema =
-      slug === "booking-payment-cancellation"
-        ? buildJvtoTravelCreditAnnouncementSchema()
-        : null;
-
-    slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
-    suppressCmsFaqValue = faqResolution.suppressCmsFaq;
-
-    // None of the 3 known policy content files declare a faqKey, so
-    // staticPage.faq is never populated — there is no page.faq to render
-    // inline here. If this route's FAQ source resolves to 'cms' (no
-    // narrative_claims, no CANONICAL_FAQ_REGISTRY entry — as it will for any
-    // future policy slug that isn't booking-payment-cancellation or
-    // inclusions-exclusions), buildResolvedFaqSchema() returns null and the
-    // only FAQPage schema comes from PageJsonLdCombined's own
-    // buildFaqJsonLdFromContent(pageRow.content.faq) fallback — feed it from
-    // the static (DB-free) content_pages snapshot, same fix already applied
-    // to policy/page.tsx and policy/privacy/page.tsx.
-    const cmsContent = getPublicPageSnapshotRecord(route)?.content ?? {};
-    pageRowForJsonLd = {
-      route: staticPage.meta.route,
-      lang: "en",
-      seo: {
-        title: staticPage.meta.browserTitle ?? staticPage.meta.title,
-        description: staticPage.meta.description,
-      },
-      content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
-    };
-  } else {
-    // Unmigrated slug — existing DB path, unchanged.
-    const [page, faqResolution] = await Promise.all([
-      getPublicPageSnapshot(route, {
-        allowDatabaseFallback: false,
-        requiredContentFields: ["body_md"],
-      }),
-      resolveFaqsForPage(route),
-    ]);
-    const content = page.pageRow.content as any;
-    const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-    h1 = content?.h1 ?? seo.title ?? "Policy";
-    body = content?.body_md ?? "";
-    faqItemsForDisplay = content?.faq;
-    faqTitle = content?.faq_title ?? "FAQ";
-
-    const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
-    const policyAnchorSchema = buildPolicyWebPageSchema({
-      subpath: slug,
-      name: seo.title ?? h1,
-      description: seo.description ?? `JVTO ${h1} policy.`,
-      mentionsTermIds,
-    });
-    const faqSchema = buildResolvedFaqSchema(faqResolution, route);
-    const announcementSchema =
-      slug === "booking-payment-cancellation"
-        ? buildJvtoTravelCreditAnnouncementSchema()
-        : null;
-
-    slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
-    suppressCmsFaqValue = faqResolution.suppressCmsFaq;
-    pageRowForJsonLd = page.pageRow as any;
-  }
+  const slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
+  const pageRowForJsonLd = {
+    route: staticPage.meta.route,
+    lang: "en",
+    seo: {
+      title: staticPage.meta.browserTitle ?? staticPage.meta.title,
+      description: staticPage.meta.description,
+    },
+    content: { h1 },
+  };
 
   // A structured page is content-less only when it has neither markdown body
   // nor sections. Guarding on `body` alone would 404 every .json content file.
@@ -320,7 +248,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
       <PageJsonLdCombined
         pageRow={pageRowForJsonLd}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={suppressCmsFaqValue}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}

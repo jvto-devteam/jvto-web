@@ -4,11 +4,6 @@ import { notFound } from "next/navigation";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
-import { getPublicPageSnapshotRecord } from "@/lib/publicContent/pageSnapshots";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
 
 const POLICY_TILES = [
   {
@@ -71,10 +66,7 @@ const ArrowRight = () => (
 );
 
 export default async function PolicyHubPage() {
-  const [page, faqResolution] = await Promise.all([
-    loadStaticPage("/policy"),
-    resolveFaqsForPage("/policy"),
-  ]);
+  const page = loadStaticPage("/policy");
   if (page && page.meta.status !== "published") return notFound();
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
@@ -83,17 +75,7 @@ export default async function PolicyHubPage() {
     "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
   const h1 = page?.meta.title ?? "JVTO Policies";
 
-  // /policy has no narrative_claims and no CANONICAL_FAQ_REGISTRY entry, so
-  // resolveFaqsForPage returns source='cms' / suppressCmsFaq=false and
-  // buildResolvedFaqSchema returns null. PageJsonLdCombined's own
-  // buildFaqJsonLdFromContent(pageRow.content.faq) is therefore this page's only
-  // FAQPage source — feed it from the static (DB-free) content_pages snapshot.
-  const cmsContent = getPublicPageSnapshotRecord("/policy")?.content ?? {};
-
-  const policyHubExtraSchemas = [
-    buildPolicyHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/policy"),
-  ].filter(Boolean);
+  const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
 
   return (
     <>
@@ -106,10 +88,10 @@ export default async function PolicyHubPage() {
             description,
             schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
           },
-          content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
+          content: { h1 },
         }}
         extraSchemas={policyHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
