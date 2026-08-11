@@ -277,7 +277,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const slugExtraSchemas =
     slug === "reviews"
       ? [
-          buildWhyJvtoReviewsAggregateRatingSchema(googleStats),
+          buildWhyJvtoReviewsAggregateRatingSchema(),
           ...buildIndividualReviewSchemas(
             reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
           ),

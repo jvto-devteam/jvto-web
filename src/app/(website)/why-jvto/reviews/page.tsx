@@ -178,7 +178,7 @@ export default async function WhyJvtoReviewsPage() {
 
   const googleStats = await getGoogleReviewStats();
   const extraSchemas = [
-    buildWhyJvtoReviewsAggregateRatingSchema(googleStats),
+    buildWhyJvtoReviewsAggregateRatingSchema(),
     ...buildIndividualReviewSchemas(reviewsData),
   ].filter(Boolean);
 
