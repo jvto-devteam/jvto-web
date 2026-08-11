@@ -1,48 +1,60 @@
-// src/app/(website)/markets/singapore/page.tsx
-//
-// Milestone 2 (2026-08-09): served from the static-content SSOT
-// (content/pages/markets/singapore.json + content/faqs/markets-singapore.json).
-// Copy, SEO, canonical, and FAQ come from content/; this file keeps only layout wiring and
-// the JSON-LD projection. Package/offer inputs (IDR prices) stay in @/lib/marketContent.
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { MarketPageSections } from "@/components/website/MarketPageSections";
 import { SINGAPORE_MARKET, buildMarketSchemas } from "@/lib/marketContent";
-import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
-import { staticPageRow, buildStaticFaqSchema } from "../marketShared";
 
 export const revalidate = 86400;
 
 const ROUTE = "/markets/singapore";
+const BASE_URL = "https://javavolcano-touroperator.com";
+const content = SINGAPORE_MARKET;
+
+const fallbackSeo = {
+  title: content.title,
+  h1: content.h1,
+  description: content.description,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  const seo = await getPageSeo(ROUTE, fallbackSeo);
   return {
-    title: page.meta.browserTitle ?? page.meta.title,
-    description: page.meta.description,
-    alternates: { canonical: staticRouteCanonical(ROUTE) },
+    title: seo.title,
+    description: seo.description,
+    alternates: { canonical: `${BASE_URL}${ROUTE}` },
   };
 }
 
 export default async function SingaporeMarketPage() {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published" || !page.sections?.length) {
-    return notFound();
-  }
+  const seo = await getPageSeo(ROUTE, fallbackSeo);
+  const faqResolution = await resolveFaqsForPage(ROUTE);
+  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
 
-  const faqItems = page.faq ?? [];
-  const faqNode = faqItems.length ? buildStaticFaqSchema(ROUTE, faqItems) : null;
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: ROUTE,
+        lang: "en",
+        seo: { title: seo.title, description: seo.description },
+        content: { h1: seo.h1 },
+      };
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={staticPageRow(page)}
-        extraSchemas={[...buildMarketSchemas(SINGAPORE_MARKET), faqNode].filter(Boolean)}
-        suppressCmsFaq
+        pageRow={pageRow as any}
+        extraSchemas={[...buildMarketSchemas(content), faqNode]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
-      <MarketPageSections page={page} market={SINGAPORE_MARKET} />
+      <MarketPageSections content={content} />
     </>
   );
 }

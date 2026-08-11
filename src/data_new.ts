@@ -77,7 +77,7 @@ export const tourPackagesData: TourPackage[] = [
       "quick-getaway",
     ],
     slug: "1d1n-bromo-midnight-sunrise-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Time-constrained travelers",
@@ -347,7 +347,7 @@ export const tourPackagesData: TourPackage[] = [
       "short-trip",
     ],
     slug: "2d1n-bromo-madakaripura-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Adventure seekers",
@@ -686,7 +686,7 @@ export const tourPackagesData: TourPackage[] = [
       "adventure",
     ],
     slug: "2d1n-ijen-blue-fire-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Adventure seekers",
@@ -1010,7 +1010,7 @@ export const tourPackagesData: TourPackage[] = [
       "cross-island",
     ],
     slug: "3d2n-bromo-ijen-discovery-from-bali",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: true,
     recommendedFor: [
       "Adventure seekers",
@@ -1420,7 +1420,7 @@ export const tourPackagesData: TourPackage[] = [
       "east-java",
     ],
     slug: "3d-bromo-madakaripura-ijen-from-surabaya-to-bali",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Nature lovers",
@@ -1837,7 +1837,7 @@ export const tourPackagesData: TourPackage[] = [
       "volcano-tour",
     ],
     slug: "3d-ijen-bromo-madakaripura-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: true,
     recommendedFor: [
       "Active travelers",
@@ -2247,7 +2247,7 @@ export const tourPackagesData: TourPackage[] = [
       "ferry-included",
     ],
     slug: "3d-ijen-bromo-madakaripura-from-bali-to-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Couples seeking adventure",
@@ -2683,7 +2683,7 @@ export const tourPackagesData: TourPackage[] = [
       "expedition",
     ],
     slug: "4d-ijen-bromo-madakaripura-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     recommendedFor: [
       "Nature enthusiasts",
       "Young explorers",
@@ -3138,7 +3138,7 @@ export const tourPackagesData: TourPackage[] = [
       "adventure",
     ],
     slug: "4d3n-ijen-papuma-tumpaksewu-bromo-from-bali",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     recommendedFor: [
       "Adventure seekers",
       "Nature lovers",
@@ -3625,7 +3625,7 @@ export const tourPackagesData: TourPackage[] = [
       "beach-and-volcano",
     ],
     slug: "4d-ijen-papuma-tumpak-sewu-bromo-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     recommendedFor: [
       "Nature enthusiasts",
       "Young explorers",
@@ -4078,7 +4078,7 @@ export const tourPackagesData: TourPackage[] = [
       "one-way",
     ],
     slug: "4d3n-tumpaksewu-bromo-ijen-from-surabaya-to-bali",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     recommendedFor: [
       "Nature lovers",
       "Young explorers",
@@ -4529,7 +4529,7 @@ export const tourPackagesData: TourPackage[] = [
       "adventure",
     ],
     slug: "3d2n-taman-safari-bromo-madakaripura-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: true,
     recommendedFor: [
       "Families with children",
@@ -4898,7 +4898,7 @@ export const tourPackagesData: TourPackage[] = [
     ],
     tags: ["5d4n", "surabaya", "ijen", "bromo", "madakaripura", "malang"],
     slug: "5d4n-ijen-bromo-madakaripura-malang-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Active travelers",
@@ -5322,7 +5322,7 @@ export const tourPackagesData: TourPackage[] = [
     ],
     tags: ["5d4n", "bali", "ijen", "papuma", "tumpaksewu", "bromo", "surabaya"],
     slug: "5d4n-ijen-papuma-tumpaksewu-bromo-from-bali",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Adventure seekers",
@@ -5788,7 +5788,7 @@ export const tourPackagesData: TourPackage[] = [
       "nature-trip",
     ],
     slug: "5d-ijen-papuma-tumpak-sewu-bromo-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Nature enthusiasts",
@@ -6294,7 +6294,7 @@ export const tourPackagesData: TourPackage[] = [
       "malang",
     ],
     slug: "6d5n-ijen-papuma-tumpaksewu-bromo-malang-from-surabaya",
-    aggregateRating: { ratingValue: 4.8, reviewCount: 51 },
+    aggregateRating: { ratingValue: 4.9, reviewCount: 112 },
     isFeatured: false,
     recommendedFor: [
       "Adventure seekers",

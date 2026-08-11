@@ -1,17 +1,6 @@
 "use client";
 
-// Google review-media carousel client (production-release hardening, §3.1).
-// Ported from `live`, then hardened for accessibility to the same bar as the
-// Package 11a/11b work: prefers-reduced-motion, keyboard scroll, visible
-// focus rings (.jvto-focus / .jvto-focus-dark), and a named landmark region.
-//
-// Individual review cards deliberately keep their platform-authentic look
-// (Google's own G-mark colours, white card) rather than being reskinned into
-// the navy/orange/lime system -- these are quoting an external platform, and
-// looking like a real Google review is the point (same reasoning as the
-// Trustpilot/TripAdvisor badges elsewhere on the page). Only the surrounding
-// chrome (buttons, landmark, spacing) follows the 11a conventions.
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import type {
@@ -32,24 +21,18 @@ function timeAgo(dateStr: string): string {
 
 function initials(name: string | null): string {
   if (!name) return "?";
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+  return name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
 const TEXT_TRUNCATE_WITH_MEDIA = 150;
 const TEXT_TRUNCATE_TEXT_ONLY = 430;
-const SCROLL_STEP_PX = 408;
 
 const GoogleGIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" aria-label="Google" role="img">
-    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
   </svg>
 );
 
@@ -89,10 +72,7 @@ function ReviewMediaGrid({ media }: { media: PublicReviewMediaItem[] }) {
               className="object-cover"
             />
             {index === visibleMedia.length - 1 && remainingCount > 0 ? (
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 flex items-center justify-center bg-black/45 text-3xl font-black text-white"
-              >
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-3xl font-black text-white">
                 +{remainingCount}
               </div>
             ) : null}
@@ -112,9 +92,11 @@ function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
   const [expanded, setExpanded] = useState(false);
   const text = review.review ?? "";
   const media = review.review_media ?? [];
-  const textLimit = media.length > 0 ? TEXT_TRUNCATE_WITH_MEDIA : TEXT_TRUNCATE_TEXT_ONLY;
+  const textLimit =
+    media.length > 0 ? TEXT_TRUNCATE_WITH_MEDIA : TEXT_TRUNCATE_TEXT_ONLY;
   const canExpand = text.length > textLimit;
-  const displayText = expanded || !canExpand ? text : `${text.slice(0, textLimit)}…`;
+  const displayText =
+    expanded || !canExpand ? text : `${text.slice(0, textLimit)}…`;
 
   return (
     <article
@@ -132,10 +114,7 @@ function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
               className="h-[50px] w-[50px] rounded-full object-cover"
             />
           ) : (
-            <div
-              aria-hidden="true"
-              className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#69a341] text-[24px] font-medium text-white"
-            >
+            <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#69a341] text-[24px] font-medium text-white">
               {initials(review.customer_name)}
             </div>
           )}
@@ -144,8 +123,8 @@ function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
           </span>
         </div>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex min-w-0 items-center gap-1">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1 min-w-0">
             <span className="truncate text-[18px] font-bold leading-tight text-[#202124]">
               {review.customer_name ?? "Anonymous"}
             </span>
@@ -157,7 +136,10 @@ function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
         </div>
       </div>
 
-      <div className="mt-6 flex gap-0.5" aria-label={`${review.star} out of 5 stars`}>
+      <div
+        className="mt-6 flex gap-0.5"
+        aria-label={`${review.star} out of 5 stars`}
+      >
         {Array.from({ length: 5 }).map((_, i) => (
           <Star
             key={i}
@@ -172,10 +154,8 @@ function ReviewCard({ review }: { review: PublicReviewApiFeedItem }) {
         {displayText}
         {canExpand && (
           <button
-            type="button"
             onClick={() => setExpanded(!expanded)}
-            aria-expanded={expanded}
-            className="jvto-focus ml-1 whitespace-nowrap rounded-sm text-[20px] font-normal text-[#1a73e8] hover:underline"
+            className="ml-1 whitespace-nowrap text-[20px] font-normal text-[#1a73e8] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]"
           >
             {expanded ? "Show less" : "Read more"}
           </button>
@@ -193,49 +173,19 @@ interface Props {
 
 export function GoogleReviewsCarouselClient({ reviews }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  // Same prefers-reduced-motion pattern as HomeFeatureCarousel (PKG-11a):
-  // here it swaps smooth scrolling for an instant jump rather than pausing
-  // an auto-advance timer, since this carousel is manually driven.
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReducedMotion(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
 
   function scroll(dir: "left" | "right") {
     trackRef.current?.scrollBy({
-      left: dir === "right" ? SCROLL_STEP_PX : -SCROLL_STEP_PX,
-      behavior: reducedMotion ? "auto" : "smooth",
+      left: dir === "right" ? 408 : -408,
+      behavior: "smooth",
     });
   }
 
-  function onTrackKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      scroll("right");
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      scroll("left");
-    }
-  }
-
   return (
-    <div
-      role="region"
-      aria-label="Guest reviews from Google, with photos"
-      className="relative"
-    >
+    <div className="relative">
       <div
         ref={trackRef}
-        role="group"
-        aria-label="Scrollable review cards"
-        tabIndex={0}
-        onKeyDown={onTrackKeyDown}
-        className="jvto-focus-dark scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto rounded-sm pb-2"
+        className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2"
       >
         {reviews.map((r) => (
           <ReviewCard key={r.id} review={r} />
@@ -243,20 +193,18 @@ export function GoogleReviewsCarouselClient({ reviews }: Props) {
       </div>
 
       <button
-        type="button"
         onClick={() => scroll("left")}
-        className="jvto-focus-dark absolute left-0 top-1/2 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60 md:flex"
+        className="absolute left-0 top-1/2 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60 md:flex"
         aria-label="Previous reviews"
       >
-        <ChevronLeft className="h-6 w-6" strokeWidth={2.6} aria-hidden="true" />
+        <ChevronLeft className="h-6 w-6" strokeWidth={2.6} />
       </button>
       <button
-        type="button"
         onClick={() => scroll("right")}
-        className="jvto-focus-dark absolute right-0 top-1/2 flex h-11 w-11 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60"
+        className="absolute right-0 top-1/2 flex h-11 w-11 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-lg transition-colors hover:bg-black/60"
         aria-label="Next reviews"
       >
-        <ChevronRight className="h-6 w-6" strokeWidth={2.6} aria-hidden="true" />
+        <ChevronRight className="h-6 w-6" strokeWidth={2.6} />
       </button>
     </div>
   );

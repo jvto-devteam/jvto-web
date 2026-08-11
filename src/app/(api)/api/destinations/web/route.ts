@@ -46,8 +46,6 @@ function serializeDestination(dest: any) {
 
     // Geo
     geo: {
-      latitude: dest.latitude ? Number(dest.latitude) : null,
-      longitude: dest.longitude ? Number(dest.longitude) : null,
       altitude: dest.altitude ?? null,
     },
 
@@ -63,7 +61,6 @@ function serializeDestination(dest: any) {
 
     // Rich content
     main_attractions: safeJson(dest.main_attractions),
-    key_highlights: safeJson(dest.key_highlights),
 
     // SEO
     seo: {
@@ -73,7 +70,6 @@ function serializeDestination(dest: any) {
 
     // Taxonomy
     tags: dest.tags ?? [],
-    types: safeJson(dest.types),
 
     // Schema.org JSON-LD lengkap dari DB — tinggal inject ke @graph
     schema_json: dest.schema_json ?? null,
@@ -130,8 +126,6 @@ export async function GET(request: NextRequest) {
         description: true,
 
         // Geo
-        latitude: true,
-        longitude: true,
         altitude: true,
 
         // Key info
@@ -144,7 +138,6 @@ export async function GET(request: NextRequest) {
 
         // Rich content
         main_attractions: true,
-        key_highlights: true,
 
         // SEO
         seo_title: true,
@@ -152,7 +145,6 @@ export async function GET(request: NextRequest) {
 
         // Taxonomy
         tags: true,
-        types: true,
 
         // Schema.org JSON-LD lengkap per destination
         schema_json: true,

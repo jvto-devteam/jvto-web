@@ -119,17 +119,22 @@ export function buildToursHubFaqSchema() {
 
 /**
  * Standalone AggregateRating that explicitly references the Organization via @id.
- * Reuses AGGREGATE_RATING from jvtoReviews.ts (Trustpilot primary; values sourced from wiki SSOT).
+ * Pass `liveStats` from `getGoogleReviewStats()` to override with live DB values.
  */
-export function buildToursHubAggregateRatingSchema({ hubPath }: Pick<HubArgs, 'hubPath'>) {
+export function buildToursHubAggregateRatingSchema({
+  hubPath,
+  liveStats,
+}: Pick<HubArgs, 'hubPath'> & { liveStats?: { rating: number; count: number } | null }) {
   const url = hubUrl(hubPath);
+  const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
+  const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${url}#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(AGGREGATE_RATING.ratingValue),
-    reviewCount: String(AGGREGATE_RATING.reviewCount),
+    ratingValue: String(ratingValue),
+    reviewCount: String(reviewCount),
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

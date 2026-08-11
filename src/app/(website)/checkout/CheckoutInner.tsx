@@ -6,9 +6,6 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Providers } from "@/app/providers";
-import { getPolicyDomain, getCustomerCopy } from "@/lib/policy-bundle";
-import { IJEN_HEALTH_NOTICE } from "@/lib/checkout/ijenNotice";
-import { isIjenRelevantCheckout } from "@/lib/ijenRelevance";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -63,16 +60,6 @@ function calculateFOCDiscount(pax: number, pricePerPerson: number) {
   return { amount: 0, label: "" };
 }
 
-// Customer-facing checkout microcopy. Payment/anti-fraud use the short ownership
-// notes (clean sentences); booking-channel + cancellation use canonical
-// customer-copy so no internal/compiler wording or raw Markdown reaches the UI.
-const checkoutPolicyNotes = [
-  "Bookings are accepted exclusively through the official JVTO website checkout.",
-  getPolicyDomain("website_checkout", "payment-rules")?.notes,
-  getCustomerCopy("package_guarantee_summary"),
-  getPolicyDomain("website_checkout", "anti-fraud")?.notes,
-].filter(Boolean) as string[];
-
 interface ContactDetails {
   email: string;
   phone: string;
@@ -95,7 +82,6 @@ interface CheckoutPayload {
   isicCodes?: string[]; // Tambahkan ini untuk menyimpan array kode ISIC
   packageId: string;
   durationId: string;
-  ijenRelevant?: boolean; // stable Ijen relevance (from destination route[]) — targets the health notice
   date: string;
   pax: number;
   paxMin: number;
@@ -959,27 +945,6 @@ const StepTwoPayment = ({
             )}{" "}
           </div>
         </div>
-        {checkoutPolicyNotes.length > 0 && (
-          <div className="mb-6 rounded-sm border border-emerald-100 bg-emerald-50 p-4 text-xs text-slate-700">
-            <p className="mb-2 font-black uppercase tracking-widest text-slate-900">
-              Policy source
-            </p>
-            <ul className="space-y-1.5">
-              {checkoutPolicyNotes.map((note) => (
-                <li key={note} className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-jvto-green" />
-                  <span>{note}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-slate-600">
-              All bookings are completed here on the official JVTO website
-              checkout. WhatsApp remains available for questions about custom
-              routes, group arrangements, complex pickup/drop-off, or
-              verification — but it does not create, confirm, or change a booking.
-            </p>
-          </div>
-        )}
         {/* LOGIC SUMMARY:
   >= 14 Days: 20% DP via Xendit
   < 14 Days: 100% via Xendit
@@ -1049,14 +1014,14 @@ const StepTwoPayment = ({
             </div>
           )}
         </div>
-        {/* Ijen health-screening notice — canonical mandatory wording, shown only
-            for Ijen-relevant checkout (payload.ijenRelevant, derived from the
-            destination route[]; see src/lib/ijenRelevance.ts). */}
-        {isIjenRelevantCheckout(payload) && (
+        {/* Ijen health-screening note — only shown for packages that include Kawah Ijen */}
+        {payload.packageLabel.toLowerCase().includes("ijen") && (
           <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-            <strong>{IJEN_HEALTH_NOTICE.heading}:</strong> {IJEN_HEALTH_NOTICE.body}
+            <strong>Catatan Akses Ijen:</strong>{" "}
+            Akses Ijen dapat mensyaratkan surat sehat terkini; JVTO mengoordinasikan alur klinik bila aturan akses mensyaratkan.
           </div>
         )}
+
         <div className="mt-8 border-t border-slate-100 pt-6">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
@@ -1085,6 +1050,16 @@ const StepTwoPayment = ({
               .
             </span>
           </label>
+          <p className="mt-3 text-sm text-slate-500">
+            Kebijakan pembatalan:{" "}
+            <a
+              href="/policy/booking-payment-cancellation"
+              target="_blank"
+              className="font-semibold underline decoration-jvto-green decoration-2 underline-offset-2 hover:text-slate-700"
+            >
+              100% Travel Credit jika batal ≥48 jam sebelum tour; hangus jika &lt;48 jam.
+            </a>
+          </p>
         </div>
       </div>
 

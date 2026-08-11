@@ -32,7 +32,6 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-!.env.example
 
 # vercel
 .vercel
@@ -41,8 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# generated prisma client — regenerated via postinstall (scripts/postinstall-prisma.mjs)
-/src/generated/prisma/
+!src/generated/prisma
 
 # Remember plugin runtime logs
 .remember/logs/
@@ -51,15 +49,4 @@ next-env.d.ts
 docs/design_atlas/screenshots/
 docs/design_atlas/manifest.json
 .playwright-mcp/
-.gstack/
-
-# Generated tour PDFs (Phase 1 of PDF export feature) — regenerate via: npm run pdf:tour
-pdfs/
-
-# wa-gateway service dependencies — reinstall inside services/wa-gateway.
-# NOTE: dist/ (compiled output) is DELIBERATELY still tracked below, not
-# ignored — see the commit that added this comment for why.
-services/wa-gateway/node_modules/
-
-# codex run artifacts
-.codex-run/
+.superpowers/

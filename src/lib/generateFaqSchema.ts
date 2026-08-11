@@ -86,7 +86,7 @@ export function generateFaqSchema(allFaqs: { question: string; answer: string }[
             "contactType": "customer support"
           }
         ],
-        "foundingDate": "2015-01-01",
+        "foundingDate": "2016-01-01",
         "currenciesAccepted": "IDR",
         "paymentAccepted": "Credit Card, Bank Transfer"
       },
@@ -113,7 +113,7 @@ export function generateFaqSchema(allFaqs: { question: string; answer: string }[
         "name": "Frequently Asked Questions",
         "headline": "Frequently Asked Questions",
         "description":
-          "Clear answers to the most common questions about private Bromo, Ijen and Tumpak Sewu tours with JVTO – bookings, payments, Package Credit, health screening, safety, packing and groups.",
+          "Clear answers to the most common questions about private Bromo, Ijen and Tumpak Sewu tours with JVTO – bookings, payments, Travel Credit, health screening, safety, packing and groups.",
         "inLanguage": "en",
         "isPartOf": { "@id": siteUrl+"/#website" },
         "about": { "@id": siteUrl+"/#organization" },
@@ -151,7 +151,7 @@ export function generateFaqSchema(allFaqs: { question: string; answer: string }[
             "@type": "WebPage",
             "@id": siteUrl+"/travel-guide/booking-information#webpage",
             "url": siteUrl+"/travel-guide/booking-information",
-            "name": "Booking Information – payments, deposits, Package Credit and cancellations"
+            "name": "Booking Information – payments, deposits, Travel Credit and cancellations"
           },
           {
             "@type": "WebPage",

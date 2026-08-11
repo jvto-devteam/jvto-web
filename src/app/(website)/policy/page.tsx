@@ -1,215 +1,265 @@
-// src/app/(website)/policy/page.tsx
-// PACKAGE 03 (2026-08-04): the hub's meta/SEO comes from content/pages/policy/index.md
-// (static-content SSOT); the card layout below is navigational chrome and stays TSX.
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
-import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
-import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
+
+const fallbackSeo = {
+  title: "JVTO Policies | Booking, Privacy & Inclusions",
+  h1: "JVTO Policies",
+  description:
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
+};
+
+const POLICY_TILES = [
+  {
+    slug: "booking-payment-cancellation",
+    icon: (
+      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <rect x="2" y="5" width="20" height="14" rx="2" />
+        <path d="M2 10h20M6 15h4" />
+      </svg>
+    ),
+    name: "Booking, Payment & Cancellation",
+    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Travel Credit terms, and force-majeure handling.",
+  },
+  {
+    slug: "inclusions-exclusions",
+    icon: (
+      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M9 11l3 3L22 4" />
+        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+      </svg>
+    ),
+    name: "Inclusions & Exclusions",
+    desc: "Exactly what is and is not included in a confirmed private package — transport, accommodation, crew, tickets, safety gear, meals — and the write-it-to-bind-it rule.",
+  },
+  {
+    slug: "privacy",
+    icon: (
+      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
+    name: "Privacy & Data Protection",
+    desc: "What personal data JVTO collects during booking, how it is used for logistics and legal compliance, who it may be shared with, and how to request access or deletion.",
+  },
+] as const;
+
+const PRECEDENCE = [
+  { title: "Your Official E-Voucher / Invoice (PDF)", sub: "For the confirmed booking — takes precedence over all else." },
+  { title: "Booking, Payment & Cancellation Policy" },
+  { title: "Inclusions & Exclusions Policy" },
+  { title: "Privacy & Data Protection Policy" },
+  { title: "Travel Guide — Booking Information" },
+];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage("/policy");
-  if (!page || page.meta.status !== "published") {
-    return { title: "JVTO Policies | Booking, Privacy & Inclusions" };
-  }
+  const seo = await getPageSeo("/policy", fallbackSeo);
   return {
-    title: page.meta.browserTitle ?? page.meta.title,
-    description: page.meta.description,
-    alternates: { canonical: staticRouteCanonical("/policy") },
+    title: seo.title,
+    description: seo.description,
   };
 }
+
+const ArrowRight = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+    <path d="M5 12h14M13 5l7 7-7 7" />
+  </svg>
+);
+
 export default async function PolicyHubPage() {
-  const policyCards = [
-    {
-      id: "privacy",
-      title: "Privacy Policy",
-      desc: "Explains what personal data JVTO collects, why it is collected, how it is used, and when it may be shared to operate your tour booking and comply with applicable requirements.",
-      bullets: [
-        "Data collection categories for booking operations",
-        "When and why data is shared with partners",
-        "Payment security and data protection measures",
-      ],
-      href: "/policy/privacy",
-      cta: "Read Privacy Policy",
-      accent: "border-blue-400 bg-blue-50",
-      lastUpdated: "17 January 2026",
-    },
-    {
-      id: "booking-payment-cancellation",
-      title: "Booking, Payment & Cancellation Policy",
-      desc: "Defines how bookings become confirmed, payment rules, cancellation policy with 48-hour cut-off, and operational terms for JVTO private tours.",
-      bullets: [
-        "20% deposit requirement and payment deadlines",
-        "48-hour cancellation cut-off for package credit",
-        "Force majeure and operational adjustments",
-      ],
-      href: "/policy/booking-payment-cancellation",
-      cta: "Read Booking Policy",
-      accent: "border-yellow-400 bg-yellow-50",
-      lastUpdated: "17 January 2026",
-    },
-    {
-      id: "inclusions-exclusions",
-      title: "Inclusions & Exclusions Policy",
-      desc: "Clarifies what is included vs not included in JVTO private tour packages using the 'Write-it-to-bind-it' principle for contractual inclusions.",
-      bullets: [
-        "Standard inclusions (transport, accommodation, crew)",
-        "Conditional inclusions (only if written on voucher)",
-        "Simple exclusion principle",
-      ],
-      href: "/policy/inclusions-exclusions",
-      cta: "Read Inclusions & Exclusions",
-      accent: "border-green-400 bg-green-50",
-      lastUpdated: "17 January 2026",
-    },
-  ] as const;
-  const page = loadStaticPage("/policy");
-  if (!page || page.meta.status !== "published") return notFound();
-  const h1 = page.meta.title;
-  const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot("/policy", { allowDatabaseFallback: false }),
+    resolveFaqsForPage("/policy"),
+  ]);
+  const policyHubExtraSchemas = [
+    buildPolicyHubItemListSchema(),
+    buildResolvedFaqSchema(faqResolution, "/policy"),
+  ].filter(Boolean);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
+    <>
       <PageJsonLdCombined
-        pageRow={{
-          route: "/policy",
-          lang: "en",
-          seo: {
-            title: page.meta.browserTitle ?? page.meta.title,
-            description: page.meta.description,
-            // Non-default schema classification from the content file (null = WebPage only).
-            schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
-          },
-          content: { h1: page.meta.title },
-        }}
+        pageRow={page.pageRow}
         extraSchemas={policyHubExtraSchemas}
-        suppressCmsFaq
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
 
-      <main className="flex-1 pt-24 md:pt-36 pb-20">
-        {/* Header */}
-        <section className="bg-jvto-navy text-white pb-12 pt-8 md:pt-12">
-          <div className="container mx-auto px-4 max-w-5xl">
-            {/* Breadcrumb */}
-            <nav className="mb-6 text-sm text-white/50">
-              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
-                Home
-              </Link>
-              <span className="mx-2">›</span>
-              <span className="text-white/80">Policy</span>
-            </nav>
-
-            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
-              Policy Hub · 3 published
-            </span>
-
-            {/* Title */}
-            <div className="mb-10">
+      {/* ── Hero ──────────────────────────────────────────────────────── */}
+      <section className="bg-jvto-navy pt-24 md:pt-36 pb-32 md:pb-44 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-20 items-start">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                  Policy Hub
+                </span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
+                  FILE 006 / POLICY
+                </span>
+              </div>
               <h1
-                className="font-black text-3xl md:text-5xl mb-4 text-white"
-                style={{ fontFamily: "var(--font-heading)" }}
+                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                {h1}
+                Read the rulebook{" "}
+                <em className="not-italic text-jvto-orange">before</em>{" "}
+                you book.
               </h1>
-              <p className="text-white/70 max-w-3xl">
-                This page is a navigation hub. For binding terms, open the
-                relevant policy below and refer to your booking-specific
-                documents (Official E-Voucher / Invoice).
+              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
+                JVTO publishes its booking, payment, cancellation, inclusions, and privacy terms in full — so you know exactly what you are buying, before you confirm anything.
               </p>
             </div>
-
-            {/* Notice: precedence + contact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white/5 border border-white/15 p-4 text-left rounded-lg backdrop-blur-sm">
-                <p className="text-sm italic mb-2 text-white/60">
-                  Document precedence (if anything differs):
-                </p>
-                <p className="font-semibold text-white mb-2">
-                  Order of authority:
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm text-white/70">
-                  <li>
-                    Your Official E‑Voucher / Invoice (for your confirmed
-                    booking)
-                  </li>
-                  <li>Booking, Payment & Cancellation Policy</li>
-                  <li>Inclusions & Exclusions Policy</li>
-                  <li>Official Booking Guide (How to Book)</li>
-                </ol>
-              </div>
-
-              <div className="bg-white/5 border border-white/15 p-4 text-left rounded-lg backdrop-blur-sm">
-                <p className="font-semibold text-white mb-2">
-                  Need help? Contact JVTO:
-                </p>
-                <p className="text-sm text-white/70 mb-2">
-                  <strong className="text-white">WhatsApp:</strong>{" "}
-                  <a
-                    href="https://wa.me/6282244788833"
-                    className="text-jvto-lime hover:underline"
-                  >
-                    +62 822-4478-8833
-                  </a>
-                </p>
-                <p className="text-sm text-white/70">
-                  <strong className="text-white">Email:</strong>{" "}
-                  <a
-                    href="mailto:hello@javavolcano-touroperator.com"
-                    className="text-jvto-lime hover:underline"
-                  >
-                    hello@javavolcano-touroperator.com
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Cards */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {policyCards.map((card) => (
-                <div
-                  key={card.id}
-                  className={`rounded-sm border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
-                >
-                  <div className={`p-5 ${card.accent}`}>
-                    <div className="flex justify-between items-start mb-2">
-                      <h2 className="text-xl font-black text-foreground">
-                        {card.title}
-                      </h2>
-                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">
-                        Updated: {card.lastUpdated}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {card.desc}
-                    </p>
-
-                    <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground mb-5">
-                      {card.bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
-
-                    <Link
-                      href={card.href}
-                      prefetch={false}
-                      className="inline-flex items-center justify-center w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
-                    >
-                      {card.cta}
-                    </Link>
-                  </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+              {[
+                { label: "Issued by", value: "PT Java Volcano Rendezvous" },
+                { label: "Version", value: "2026-01-17 (v5)" },
+                { label: "Binding document", value: "E-Voucher PDF" },
+                { label: "Policies", value: "3 published" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
+                  <strong className="text-white font-semibold text-sm text-right">{value}</strong>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+
+      {/* ── Policy tiles — off-white ──────────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-10">
+            <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 01</span>
+            <div>
+              <h2
+                className="font-black text-jvto-navy leading-[1.0]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+              >
+                The <span className="text-jvto-orange">policies.</span>
+              </h2>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Published in full</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {POLICY_TILES.map(({ slug, icon, name, desc }) => (
+              <Link
+                key={slug}
+                href={`/policy/${slug}`}
+                prefetch={false}
+                className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+              >
+                <div className="mb-4">{icon}</div>
+                <h3
+                  className="font-black text-jvto-navy text-xl mb-3 leading-snug"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                >
+                  {name}
+                </h3>
+                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-5">{desc}</p>
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+                  Read policy <ArrowRight />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Document precedence — white ───────────────────────────────── */}
+      <section
+        className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-16 items-start">
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-4">
+                Document precedence
+              </p>
+              <h2
+                className="font-black text-jvto-navy leading-[1.05] mb-5"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(26px, 3.2vw, 42px)" }}
+              >
+                If documents disagree, this order applies.
+              </h2>
+              <p className="text-[16px] text-[#6b7280] font-light leading-relaxed mb-8">
+                Your confirmed booking is always governed first by the binding voucher, then by these published policies in sequence.
+              </p>
+              <div className="bg-[#F6F5F2] rounded-[16px] p-6 border border-[#E3E0DA]">
+                <div className="space-y-3">
+                  <div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af] mb-1">Issued by</div>
+                    <div className="font-semibold text-jvto-navy text-sm">PT Java Volcano Rendezvous</div>
+                  </div>
+                  <div className="pt-3 border-t border-[#E3E0DA]">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af] mb-1">Official channels</div>
+                    <div className="text-[14px] text-jvto-navy leading-relaxed">
+                      javavolcano-touroperator.com<br />
+                      WhatsApp +62 822-4478-8833<br />
+                      hello@javavolcano-touroperator.com
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ol className="space-y-3 mt-2">
+              {PRECEDENCE.map(({ title, sub }, i) => (
+                <li key={title} className="flex items-start gap-4 bg-white border border-[#E3E0DA] rounded-[14px] p-5 shadow-[0_2px_8px_rgba(13,27,42,0.04)]">
+                  <span className="font-mono text-[12px] font-bold text-jvto-orange border border-[#E3E0DA] rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <strong className="font-semibold text-jvto-navy text-[15px]">{title}</strong>
+                    {sub && <div className="text-[13px] text-[#6b7280] font-light mt-0.5">{sub}</div>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA — navy ────────────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+          <h2
+            className="font-black text-white leading-[1.02] mb-8"
+            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 48px)" }}
+          >
+            Clear terms. <span className="text-jvto-orange">No surprises.</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/tours"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+            >
+              Explore tours <ArrowRight />
+            </Link>
+            <Link
+              href="/contact"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+            >
+              Contact the team
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

@@ -46,11 +46,12 @@ export const PAGE_REGISTRY: PageEntry[] = [
   {
     key: 'blog-hub',
     route: '/blog',
-    canonical: '/blog',
-    schemaType: ['CollectionPage'],
+    canonical: '/travel-guide',
+    schemaType: [],
     faqSource: 'none',
     emitVia: 'combined',
-    status: 'live',
+    status: 'dead',
+    redirectsTo: '/travel-guide',
   },
   {
     key: 'checkout',
@@ -250,21 +251,6 @@ export const PAGE_REGISTRY: PageEntry[] = [
     emitVia: 'combined',
     status: 'live',
   },
-  // ── W3g addition (2026-07 design-reference sprint): NEW page, zero competitor
-  // coverage. TWA Ijen closes to all visitors the first Friday of every month
-  // (since March 2019) for the "Rijik" volunteer cleanup (~100-150kg trash
-  // removed per session). If W2-S7 also edits this array, this block is the
-  // conflict marker — keep this entry, merge around it.
-  {
-    key: 'travel-guide-rijik-monthly-closure',
-    route: '/travel-guide/rijik-monthly-closure',
-    canonical: '/travel-guide/rijik-monthly-closure',
-    schemaType: ['FAQPage', 'WebPage'],
-    faqSource: 'trust-bundle',
-    emitVia: 'combined',
-    status: 'live',
-  },
-  // ── end W3g addition ──
   {
     key: 'trust',
     route: '/trust',

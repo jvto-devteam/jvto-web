@@ -1,9 +1,4 @@
-import type {
-  Destination,
-  DestinationDetail,
-  TourPackageDetail,
-} from "@/interfaces";
-import type { ListTourPackage } from "@/types";
+import type { Destination, DestinationDetail } from "@/interfaces";
 
 export type PublicSnapshotSource =
   | "snapshot"
@@ -71,40 +66,6 @@ export type PublicOrganizationProfileSnapshot = {
   updated_at?: Date | null;
 };
 
-export type PublicPackageListSnapshot = {
-  generatedAt: string;
-  items: Array<
-    ListTourPackage & {
-      snapshotMeta?: {
-        packageCategoryId?: number | null;
-        startDestinationId?: number | null;
-        durationId?: number | null;
-      };
-    }
-  >;
-};
-
-export type PublicPackageDetailSnapshot = {
-  generatedAt: string;
-  payload: TourPackageDetail;
-};
-
-export type PublicPackageDetailSnapshotItem = {
-  slug: string;
-  updatedAt?: string;
-  snapshotMeta?: {
-    packageCategoryId?: number | null;
-    startDestinationId?: number | null;
-    durationId?: number | null;
-  };
-  payload: TourPackageDetail;
-};
-
-export type PublicPackageDetailSnapshotCollection = {
-  generatedAt: string;
-  items: PublicPackageDetailSnapshotItem[];
-};
-
 export type PublicDestinationListSnapshot = {
   generatedAt: string;
   items: Array<
@@ -157,6 +118,15 @@ export type PublicReviewItem = {
   verified?: boolean;
 };
 
+export type PublicReviewMediaItem = {
+  id: string;
+  type: "photo" | "video";
+  thumbnailUrl: string | null;
+  thumbnailLabel?: string | null;
+  videoUrl?: string | null;
+  source?: string | null;
+};
+
 export type PublicReviewSnapshotCollection = {
   generatedAt: string;
   items: PublicReviewItem[];
@@ -182,15 +152,6 @@ export type PublicFaqCategory = {
 export type PublicFaqSnapshotCollection = {
   generatedAt: string;
   categories: PublicFaqCategory[];
-};
-
-export type PublicReviewMediaItem = {
-  id: string;
-  type: "photo" | "video";
-  thumbnailUrl: string | null;
-  thumbnailLabel?: string | null;
-  videoUrl?: string | null;
-  source?: string | null;
 };
 
 export type PublicReviewApiFeedItem = {
