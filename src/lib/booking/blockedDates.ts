@@ -24,7 +24,8 @@ export const BLOCKED_RANGES: BlockedRange[] = [
   // have silently re-opened for booking if a plain `main` promote had
   // overwritten this file without porting them first.
   { start: "2026-07-25", end: "2026-07-25" },
-  { start: "2026-08-11", end: "2026-08-15" },
+  { start: "2026-08-11", end: "2026-08-12" },
+  { start: "2026-08-14", end: "2026-08-15" },
 ];
 
 /** Both `start` and `end` are inclusive. */
