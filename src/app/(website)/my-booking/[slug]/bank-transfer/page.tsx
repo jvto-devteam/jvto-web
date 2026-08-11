@@ -177,19 +177,7 @@ export default function BankTransferUploadPage() {
               <div className="space-y-3">
                 <div className="bg-white p-4 rounded-sm border border-slate-200">
                   <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
-                    Bank BRI
-                  </p>
-                  <p className="font-black text-slate-900">
-                    PT Java Volcano Rendezvous
-                  </p>
-                  <p className="text-sm font-bold text-slate-700 mt-1">
-                    001301001779564
-                  </p>
-                  <p className="text-xs text-slate-500">SWIFT: BRINIDJAXXX</p>
-                </div>
-                <div className="bg-white p-4 rounded-sm border border-slate-200">
-                  <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
-                    Bank BCA
+                    Bank Central Asia (BCA)
                   </p>
                   <p className="font-black text-slate-900">
                     PT Java Volcano Rendezvous
