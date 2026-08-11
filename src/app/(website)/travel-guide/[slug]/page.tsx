@@ -14,10 +14,38 @@ import {
   buildIjenHealthHowToSchema,
   buildIjenHealthMedicalWebPageSchema,
 } from "@/lib/schemas/buildTravelGuideSchemas";
+import {
+  loadStaticPage,
+  listPublishedStaticPages,
+  buildStaticRouteMetadata,
+} from "@/lib/static-content";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+/**
+ * Slugs served from the ported static-content SSOT (content/pages/travel-guide/*.md)
+ * rather than the DB (content_pages). Excludes the 4 slugs that have their own
+ * folder page (faq, best-time-to-visit, police-escort-for-groups,
+ * rijik-monthly-closure) — Next.js resolves a static folder segment before this
+ * dynamic one, but the filter is kept explicit so this route never generates a
+ * duplicate static param for them.
+ */
+const TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS = new Set([
+  "faq",
+  "best-time-to-visit",
+  "police-escort-for-groups",
+  "rijik-monthly-closure",
+]);
+
+const MIGRATED_TRAVEL_GUIDE_SLUGS = new Set(
+  listPublishedStaticPages({ section: "travel-guide" })
+    .map((p) => p.meta.route)
+    .filter((route) => route.startsWith("/travel-guide/"))
+    .map((route) => route.replace("/travel-guide/", ""))
+    .filter((slug) => !TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS.has(slug)),
+);
 
 export const dynamicParams = false;
 
@@ -144,15 +172,26 @@ const DEFAULT_HERO: HeroMeta = {
 };
 
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/travel-guide")
+  const dbSlugs = listPublicPageRoutesByPrefix("/travel-guide")
     .filter((route) => route !== "/travel-guide/faq")
-    .map((route) => ({
-      slug: route.replace("/travel-guide/", ""),
-    }));
+    .map((route) => route.replace("/travel-guide/", ""))
+    .filter((slug) => !MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug));
+  return [...MIGRATED_TRAVEL_GUIDE_SLUGS, ...dbSlugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+
+  if (MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug)) {
+    const page = loadStaticPage(`/travel-guide/${slug}`);
+    if (!page) return { title: "Page Not Found" };
+    return buildStaticRouteMetadata(page.meta.route, {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+    });
+  }
+
+  // Unmigrated slug — existing DB path, unchanged.
   const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
     allowDatabaseFallback: false,
     requiredContentFields: ["body_md"],
@@ -183,34 +222,78 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
   const currentHref = route;
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
-  const body = content?.body_md ?? "";
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
-
   const ijenHealthSchemas =
     slug === "ijen-health-screening"
       ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema()]
       : [];
 
-  const slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+  let pageRowForJsonLd: { route: string; lang: string; seo: any; content: any };
+  let suppressCmsFaqValue: boolean;
+  let h1: string;
+  let body: string;
+  let faqItemsForDisplay: Array<{ q: string; a: string }> | undefined;
+  let faqTitle = "FAQ";
+  let slugExtraSchemas: unknown[];
+
+  if (MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug)) {
+    // Migrated slug — served from the ported static-content SSOT (content/pages/travel-guide/*.md).
+    const staticPage = loadStaticPage(route);
+    if (!staticPage) return notFound();
+
+    h1 = staticPage.meta.title;
+    body = staticPage.body ?? "";
+    const faqItems = staticPage.faq ?? [];
+    faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
+    const faqSchema = faqItems.length
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "@id": `${staticPage.canonicalUrl}#faq`,
+          mainEntity: faqItems.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }
+      : null;
+    slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+    suppressCmsFaqValue = true;
+    pageRowForJsonLd = {
+      route: staticPage.meta.route,
+      lang: "en",
+      seo: { title: staticPage.meta.title, description: staticPage.meta.description },
+      content: { h1 },
+    };
+  } else {
+    // Unmigrated slug — existing DB path, unchanged.
+    const [page, faqResolution] = await Promise.all([
+      getPublicPageSnapshot(route, {
+        allowDatabaseFallback: false,
+        requiredContentFields: ["body_md"],
+      }),
+      resolveFaqsForPage(route),
+    ]);
+    const content = page.pageRow.content as any;
+    const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
+    h1 = content?.h1 ?? seo.title ?? "Travel Guide";
+    body = content?.body_md ?? "";
+    faqItemsForDisplay = content?.faq;
+    faqTitle = content?.faq_title ?? "FAQ";
+    const faqSchema = buildResolvedFaqSchema(faqResolution, route);
+
+    slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+    suppressCmsFaqValue = faqResolution.suppressCmsFaq;
+    pageRowForJsonLd = page.pageRow as any;
+  }
 
   if (!body.trim().length) return notFound();
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={pageRowForJsonLd}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq={suppressCmsFaqValue}
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}
@@ -303,8 +386,8 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <MarkdownRendererTravelGuide markdown={body} />
-              {content?.faq && (
-                <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+              {faqItemsForDisplay && faqItemsForDisplay.length > 0 && (
+                <Faq items={faqItemsForDisplay} title={faqTitle} />
               )}
               {destLinks.length > 0 && (
                 <div className="mt-10 pt-8 border-t border-[#E3E0DA]">
