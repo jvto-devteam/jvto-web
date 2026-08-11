@@ -142,7 +142,7 @@ export function buildIjenHealthHowToSchema() {
 }
 
 /**
- * Hub-level ItemList of all 11 travel-guide sub-pages, semantically grouped via name prefixes
+ * Hub-level ItemList of the live travel-guide sub-pages, semantically grouped via name prefixes
  * so AI engines can extract the discovery hierarchy (Plan & Prepare, Safety & Health, etc.).
  */
 export function buildTgHubItemListSchema() {
@@ -151,7 +151,7 @@ export function buildTgHubItemListSchema() {
     '@type': 'ItemList',
     '@id': `${BASE_URL}/travel-guide#sub-pages`,
     name: 'JVTO Travel Guide — Pre-Trip Knowledge Base',
-    numberOfItems: 12,
+    numberOfItems: 9,
     itemListElement: [
       { '@type': 'ListItem', position: 1, url: `${BASE_URL}/travel-guide/faq`, name: 'FAQ — Common questions' },
       { '@type': 'ListItem', position: 2, url: `${BASE_URL}/travel-guide/booking-information`, name: 'Booking Information — How to book' },
@@ -159,12 +159,9 @@ export function buildTgHubItemListSchema() {
       { '@type': 'ListItem', position: 4, url: `${BASE_URL}/travel-guide/ijen-health-screening`, name: 'Ijen Health Screening — SE.1658 protocol' },
       { '@type': 'ListItem', position: 5, url: `${BASE_URL}/travel-guide/safety-on-tours`, name: 'Safety on Tours — Police-led model' },
       { '@type': 'ListItem', position: 6, url: `${BASE_URL}/travel-guide/weather-and-closures`, name: 'Weather & Closures — Volcanic alert SOP' },
-      { '@type': 'ListItem', position: 7, url: `${BASE_URL}/travel-guide/packing-list`, name: 'Packing List — What to bring' },
-      { '@type': 'ListItem', position: 8, url: `${BASE_URL}/travel-guide/packing-and-fitness`, name: 'Packing & Fitness — Self-assessment' },
-      { '@type': 'ListItem', position: 9, url: `${BASE_URL}/travel-guide/mount-bromo-logistics`, name: 'Mount Bromo Logistics — 03:00 AM start' },
-      { '@type': 'ListItem', position: 10, url: `${BASE_URL}/travel-guide/tumpak-sewu-logistics`, name: 'Tumpak Sewu Logistics — Descent + footwear' },
-      { '@type': 'ListItem', position: 11, url: `${BASE_URL}/travel-guide/police-escort-for-groups`, name: 'Police Escort for Groups — POLPAR coordination' },
-      { '@type': 'ListItem', position: 12, url: `${BASE_URL}/travel-guide`, name: 'Travel Guide Hub' },
+      { '@type': 'ListItem', position: 7, url: `${BASE_URL}/travel-guide/packing-and-fitness`, name: 'Packing & Fitness — Self-assessment' },
+      { '@type': 'ListItem', position: 8, url: `${BASE_URL}/travel-guide/police-escort-for-groups`, name: 'Police Escort for Groups — POLPAR coordination' },
+      { '@type': 'ListItem', position: 9, url: `${BASE_URL}/travel-guide`, name: 'Travel Guide Hub' },
     ],
   };
 }

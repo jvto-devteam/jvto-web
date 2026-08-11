@@ -25,9 +25,6 @@ const FALLBACK_SEO = {
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },

@@ -153,8 +153,9 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
  */
 export const DESTINATION_TO_TRAVEL_GUIDE: Record<string, string | null> = {
   'ijen-crater': '/travel-guide/ijen-health-screening',
-  'mount-bromo': '/travel-guide/mount-bromo-logistics',
-  'tumpak-sewu-waterfall': '/travel-guide/tumpak-sewu-logistics',
+  // null = no dedicated travel-guide page for this destination; handoff schema is skipped.
+  'mount-bromo': null,
+  'tumpak-sewu-waterfall': null,
   'madakaripura-waterfall': null,
   'papuma-beach': null,
 };
