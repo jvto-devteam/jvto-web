@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T01:06:04.433Z",
+  "generatedAt": "2026-07-15T00:51:47.789Z",
   "items": [
     {
       "id": 1,
@@ -77,11 +77,6 @@
         "jeep-tour",
         "sand-sea",
         "cultural-heritage"
-      ],
-      "types": [
-        "adventure",
-        "cultural",
-        "photography"
       ],
       "schema_json": {
         "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo",
@@ -189,11 +184,6 @@
         "night-trek",
         "milky-way"
       ],
-      "types": [
-        "adventure",
-        "geological",
-        "cultural"
-      ],
       "schema_json": {
         "@id": "https://javavolcano-touroperator.com/destinations/ijen-crater",
         "geo": {
@@ -297,11 +287,6 @@
         "spiritual",
         "east-java",
         "cultural-heritage"
-      ],
-      "types": [
-        "cultural",
-        "historical",
-        "nature"
       ],
       "schema_json": {
         "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
@@ -407,11 +392,6 @@
         "hard-trek",
         "geological-wonder"
       ],
-      "types": [
-        "adventure",
-        "geological",
-        "photography"
-      ],
       "schema_json": {
         "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
         "geo": {
@@ -515,11 +495,6 @@
         "jember",
         "relaxation",
         "family-friendly"
-      ],
-      "types": [
-        "nature",
-        "photography",
-        "relaxation"
       ],
       "schema_json": {
         "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach",

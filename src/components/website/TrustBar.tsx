@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
 
 type LogoSpec =
   | { kind: "image"; src: string; alt: string; width: number; height: number }
@@ -20,7 +21,10 @@ const partners: Partner[] = [
     key: "trustpilot",
     logo: { kind: "image", src: "/assets/img/icons/trustpilot-icon.webp", alt: "Trustpilot", width: 26, height: 26 },
     name: "Trustpilot",
-    sub: "4.8 ★ · 51 reviews",
+    sub: (() => {
+      const tp = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
+      return tp ? `${tp.rating} ★ · ${tp.count} reviews` : "4.93 ★ · 44 reviews";
+    })(),
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     external: true,
   },
@@ -63,7 +67,7 @@ function PartnerLogo({ logo }: { logo: LogoSpec }) {
     );
   }
   return (
-    <span className="text-[10px] font-black text-jvto-lime bg-jvto-lime/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
+    <span className="text-[10px] font-black text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
       {logo.text}
     </span>
   );

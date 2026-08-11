@@ -18,20 +18,21 @@ export async function GET(
       package_addons: { include: { addons: true } },
       package_categories: true,
       package_destinations: {
+        where: { deleted_at: null },
         include: {
           destinations: {
             include: { activities: true },
           },
         },
       },
-      package_excludes: { include: { item_excludes: true } },
+      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
       package_hotel_options: {
         orderBy: { day_no: "asc" },
         include: { hotels: true },
       },
-      package_images: true,
-      package_includes: { include: { item_includes: true } },
+      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
       package_itinerary_days: {
+        where: { deleted_at: null },
         orderBy: { day_no: "asc" },
         include: {
           package_itinerary_day_details: {
@@ -40,6 +41,7 @@ export async function GET(
         },
       },
       package_prices: {
+        where: { deleted_at: null },
         include: { price_tiers: true },
         orderBy: {
           price_tiers: {
@@ -53,6 +55,8 @@ export async function GET(
   if (!pkg) {
     return Response.json({ error: "Package not found" }, { status: 404 });
   }
+
+  const googleStats = await prisma.review_stats.findUnique({ where: { source: "google" } });
 
   const serialized = JSON.parse(
     JSON.stringify(pkg, (_, value) =>
@@ -168,8 +172,8 @@ export async function GET(
           },
 
           aggregateRating: {
-            ratingValue: 4.9,
-            reviewCount: 102,
+            ratingValue: googleStats?.rating ?? 4.8,
+            reviewCount: googleStats?.count ?? 138,
             sourceExamples: [
               {
                 text: "",

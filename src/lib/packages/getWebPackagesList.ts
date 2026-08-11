@@ -14,7 +14,7 @@ export interface ImageAsset {
 /** Shape returned by the original /api/packages/web GET — preserved for backward compat. */
 export interface PackageListItem {
   id: number;
-  name: string | null;
+  name: string;
   startDestination: string | null;
   endDestination: string | null;
   duration: { day: number; night: number };
@@ -60,7 +60,7 @@ function serializePackage(pkg: any): PackageListItem {
 
   return {
     id: Number(pkg.id),
-    name: pkg.name,
+    name: pkg.name ?? '',
     startDestination: pkg.start_destination?.name ?? null,
     endDestination: pkg.end_destination?.name ?? null,
     duration: {
@@ -138,10 +138,12 @@ export async function getWebPackagesList(
       end_destination: true,
       durations: true,
       package_prices: {
+        where: { deleted_at: null },
         include: { price_tiers: true },
         orderBy: { price: 'asc' },
       },
       package_destinations: {
+        where: { deleted_at: null },
         include: {
           destinations: {
             include: { activities: true, destination_gears: true },
@@ -156,4 +158,36 @@ export async function getWebPackagesList(
   });
 
   return pkgs.map(serializePackage);
+}
+
+export interface WebPackageRouteFilters {
+  /** Match start_destination_id (3 = Bali, 4 = Surabaya per live's data convention). */
+  fromId?: number;
+  /** Match package_category_id (1 = reluger / regular, 2 = student). */
+  categoryId?: number;
+}
+
+/**
+ * Slugs (full path, e.g. "tours/from-bali/bromo-ijen-3d2n") + updatedAt for published packages.
+ * Backs generateStaticParams and sitemap generation — replaces the old snapshot-file-based helpers.
+ */
+export async function getPublishedPackageSlugs(
+  filters: WebPackageRouteFilters = {},
+): Promise<{ slug: string; updatedAt: Date | null }[]> {
+  const { fromId, categoryId } = filters;
+
+  const pkgs = await prisma.packages.findMany({
+    where: {
+      is_publish: true,
+      slug: { not: null },
+      ...(fromId !== undefined && { start_destination_id: fromId }),
+      ...(categoryId !== undefined && { package_category_id: categoryId }),
+    },
+    select: { slug: true, updated_at: true },
+    orderBy: { id: 'asc' },
+  });
+
+  return pkgs
+    .filter((p): p is typeof p & { slug: string } => Boolean(p.slug))
+    .map((p) => ({ slug: p.slug, updatedAt: p.updated_at }));
 }

@@ -144,7 +144,7 @@ Key URL patterns confirmed by strategy documents:
 | `/why-jvto` | AboutPage + WebPage | trust hub |
 | `/verify-jvto` | AboutPage + WebPage + hasPart | proof library |
 | `/travel-guide/ijen-health-screening` | MedicalWebPage + FAQPage | unique schema |
-| `/policy/booking-payment-cancellation` | WebPage + TermsOfService | SpecialAnnouncement for Package Credit |
+| `/policy/booking-payment-cancellation` | WebPage + TermsOfService | SpecialAnnouncement for Travel Credit |
 | `/contact` | ContactPage + Organization | NAP anchor |
 | `/insights/[slug]` | BlogPosting + Article | NOT YET BUILT |
 
@@ -155,7 +155,7 @@ Key URL patterns confirmed by strategy documents:
 - **Entity name in citations:** "Java Volcano Tour Operator" (not just "JVTO")
 - **Founder name:** "Agung Sambuko (Mr. Sam)" — consistent across all pages
 - **Legal name:** "PT Java Volcano Rendezvous" — only on legal/verify pages
-- **Policy consistency:** "No cash refunds; 100% JVTO Package Credit if canceled ≥48h before Day 1"
+- **Policy consistency:** "No cash refunds; 100% JVTO Travel Credit if canceled ≥48h before Day 1"
 - **Police escort:** Available on request for large groups — NOT automatically included
   (AEO doc warns this is a potential confusion point that should be clarified explicitly)
 

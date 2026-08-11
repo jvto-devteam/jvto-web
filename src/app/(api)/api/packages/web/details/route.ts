@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MOCK_PACKAGE_DETAILS } from "@/data/mockData";
-import { getPackageDetailFromDatabase } from "@/lib/publicContent/databasePackageDetail";
-import { getPublicPackageDetail } from "@/lib/publicContent/packageDetailSnapshot";
+import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,26 +8,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
     }
 
-    if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
-      const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find(
-        (pkg) => pkg.product?.slug === slug || pkg.slug === slug,
-      );
-
-      if (mockPkg) {
-        return NextResponse.json(mockPkg, { status: 200 });
-      }
-
-      return NextResponse.json(
-        { message: "Paket tidak ditemukan (Mock)" },
-        { status: 404 },
-      );
-    }
-
-    const useSnapshots =
-      process.env.PUBLIC_CONTENT_USE_SNAPSHOT_DETAILS !== "false";
-    const pkg = useSnapshots
-      ? await getPublicPackageDetail(slug)
-      : await getPackageDetailFromDatabase(slug);
+    const pkg = await getWebPackageDetail(slug);
 
     if (!pkg) {
       return NextResponse.json(

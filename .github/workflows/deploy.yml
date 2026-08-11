@@ -1,189 +1,28 @@
 name: Deploy to VPS
 
-# Branch-aware, single workflow for BOTH deploy targets (production-release
-# hardening, handoff §3.5): push to `main` deploys help/preview, push to
-# `live` deploys production. Both run on the SAME dedicated self-hosted
-# runner (label `jvto-help-deploy`) via a single, fixed, root-owned,
-# sudoers-restricted deploy script per target -- there is NO inbound SSH
-# connection from GitHub to either box and no VPS_HOST/VPS_USER/VPS_SSH_KEY
-# secret dependency anywhere in this file. The runner process itself runs as
-# the unprivileged `jvto-deploy` user and escalates ONLY to run one of:
-#   sudo /usr/local/sbin/deploy-jvto-help <sha>   (main  -> help)
-#   sudo /usr/local/sbin/deploy-jvto-web  <sha>   (live  -> production)
-# /api/build-info + a smoke script remain the deployment proof for both.
-#
-# Each job requests the `jvto-help-deploy` label and triggers only on
-# push-to-{main,live} + workflow_dispatch -- never on pull_request. So PR CI
-# (verify / outbox-db / build, all `ubuntu-latest`) never runs on the
-# self-hosted runner.
-
 on:
   push:
     branches:
-      - main
       - live
-    # True-documentation-only pushes do not change what either box serves, so
-    # they must not trigger a deploy (automation-governance hardening
-    # 2026-08-04). "Documentation" here is ONLY root-level Markdown
-    # (README.md / CLAUDE.md — `*.md` matches the repo root, not nested paths)
-    # and `docs/**`. Served content Markdown is production output and MUST
-    # still deploy — `content/pages/**/*.md` renders via loadStaticPage (this
-    # includes the blog, content-owned at `content/pages/blog/**/*.md`) — so a
-    # blanket `**/*.md` would wrongly skip a real content deploy. A push that
-    # also touches any non-doc file still deploys; workflow_dispatch stays
-    # available for a manual re-run. (The docs-only rule + its self-test live
-    # in scripts/ci/docs-only-selftest.sh.)
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
-  workflow_dispatch:   # allow manual re-run of either deploy on demand
-    inputs:
-      deploy_sha:
-        description: >-
-          Optional 40-char lowercase hex commit SHA to deploy. Must equal the
-          current tip of the ref this run is dispatched against (origin/main
-          for a run dispatched on main, origin/live for one dispatched on
-          live) — the VPS script fail-closes otherwise. Defaults to the
-          triggering commit when omitted.
-        required: false
-        type: string
-
-# Least privilege: each deploy runs locally on the VPS via a sudoers-
-# restricted script; the only GitHub API this workflow needs is repo read
-# for the post-deploy checkout of the smoke script.
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
-  deploy-help:
-    name: deploy-help
-    if: github.ref == 'refs/heads/main'
-    # Dedicated VPS runner. Only this job and deploy-production request
-    # `jvto-help-deploy` -- both dispatch/push-gated, never pull_request.
-    runs-on: [self-hosted, Linux, X64, jvto-help-deploy]
-    timeout-minutes: 40
-    # Serialize help deploys specifically. Without this, near-simultaneous
-    # pushes to main run concurrent jobs mutating the same /var/www/jvto-help
-    # checkout + .next (documented race hazard), and the SHA verification
-    # below could compare against another run's deploy. `cancel-in-progress:
-    # false` keeps the in-flight deploy from being cancelled, so at most ONE
-    # help deploy runs at a time -- independent of the production group
-    # below, so a live promote is never blocked behind a help deploy or vice
-    # versa. This only SERIALIZES deploys within the group — it does NOT
-    # guarantee FIFO or that every intermediate push deploys: GitHub holds at
-    # most one running + one pending run per group, and a newer push REPLACES
-    # the older PENDING run (pending-run coalescing), so a mid-burst commit
-    # can be superseded before it ever deploys. The final deploy always
-    # reflects the newest queued push for that branch — confirm the deployed
-    # commit via /api/build-info. (The VPS script also fail-closes if its
-    # target SHA is no longer the branch tip, so a superseded deploy never
-    # rolls back a newer one.)
-    concurrency:
-      group: deploy-help-main
-      cancel-in-progress: false
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-      - name: Resolve + validate target SHA
-        id: target
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          INPUT_SHA: ${{ github.event.inputs.deploy_sha }}
-          PUSH_SHA: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "${INPUT_SHA:-}" ]; then
-            TARGET="$INPUT_SHA"
-          else
-            TARGET="$PUSH_SHA"
-          fi
-          if ! printf '%s' "$TARGET" | grep -Eq '^[0-9a-f]{40}$'; then
-            echo "::error::Target SHA '$TARGET' is not a 40-char lowercase hex commit SHA."
-            exit 1
-          fi
-          echo "sha=$TARGET" >> "$GITHUB_OUTPUT"
-          echo "Target deploy SHA: $TARGET"
-
-      - name: Deploy jvto-help (local runner, sudoers-restricted script)
-        env:
-          TARGET_SHA: ${{ steps.target.outputs.sha }}
-        run: |
-          set -euo pipefail
-          # The ONLY privileged call. The runner user (jvto-deploy) may run
-          # just this one root command via /etc/sudoers.d/jvto-deploy-help;
-          # the script takes exactly one SHA (no free command/path) and
-          # fail-closes unless it is the current origin/main tip.
-          sudo /usr/local/sbin/deploy-jvto-help "$TARGET_SHA"
-
-      # ── Post-deploy proof (same VPS runner) ───────────────────────────────
-      - name: Checkout (for the smoke script)
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Deploy jvto-web (production)
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: 20
-
-      - name: Verify deployment + Why JVTO live smoke
-        env:
-          BASE_URL: https://help.javavolcano-touroperator.com
-          EXPECTED_SHA: ${{ steps.target.outputs.sha }}
-        run: node scripts/smoke-why-jvto.mjs
-
-  deploy-production:
-    name: deploy-production
-    if: github.ref == 'refs/heads/live'
-    runs-on: [self-hosted, Linux, X64, jvto-help-deploy]
-    timeout-minutes: 40
-    # Separate concurrency group from help — a help deploy and a production
-    # deploy never contend for the same lock, only same-target deploys do.
-    concurrency:
-      group: deploy-production-live
-      cancel-in-progress: false
-    steps:
-      - name: Resolve + validate target SHA
-        id: target
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          INPUT_SHA: ${{ github.event.inputs.deploy_sha }}
-          PUSH_SHA: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "${INPUT_SHA:-}" ]; then
-            TARGET="$INPUT_SHA"
-          else
-            TARGET="$PUSH_SHA"
-          fi
-          if ! printf '%s' "$TARGET" | grep -Eq '^[0-9a-f]{40}$'; then
-            echo "::error::Target SHA '$TARGET' is not a 40-char lowercase hex commit SHA."
-            exit 1
-          fi
-          echo "sha=$TARGET" >> "$GITHUB_OUTPUT"
-          echo "Target deploy SHA: $TARGET"
-
-      - name: Deploy jvto-web / production (local runner, sudoers-restricted script)
-        env:
-          TARGET_SHA: ${{ steps.target.outputs.sha }}
-        run: |
-          set -euo pipefail
-          # The ONLY privileged call for this job. jvto-deploy may run just
-          # this one root command via /etc/sudoers.d/jvto-deploy-web; the
-          # script takes exactly one SHA (no free command/path) and
-          # fail-closes unless it is the current origin/live tip. It targets
-          # ONLY /var/www/jvto-web and PM2 jvto-web -- it never touches
-          # /var/www/jvto-help or the jvto-help PM2 process.
-          sudo /usr/local/sbin/deploy-jvto-web "$TARGET_SHA"
-
-      # ── Post-deploy proof (same VPS runner) ───────────────────────────────
-      - name: Checkout (for the smoke script)
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Verify deployment + production smoke (indexable, no noindex)
-        env:
-          BASE_URL: https://javavolcano-touroperator.com
-          EXPECTED_SHA: ${{ steps.target.outputs.sha }}
-          REQUIRE_INDEXABLE: "true"
-        run: node scripts/smoke-why-jvto.mjs
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cd /var/www/jvto-web
+            git fetch origin
+            git checkout live
+            git reset --hard origin/live
+            npm ci
+            npm run build
+            pm2 restart jvto-web

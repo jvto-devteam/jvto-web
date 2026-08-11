@@ -2,17 +2,8 @@
 @import "tailwindcss";
 
 /* ====== CUSTOM THEME (Tailwind v4 way) ====== */
-/* SSOT for JVTO design tokens — extracted from docs/design-reference/jvto-system.css
-   (W3 design-reference spec). All clusters (chrome, tours, why, destinations, guides)
-   consume these; define new tokens HERE, never per-component. */
 @theme {
   --font-sans: "Inter", sans-serif;
-
-  /* ── Typography scale (spec: --font-display Raleway, --font-mono JetBrains Mono).
-        The next/font variables are set on the (website) layout wrapper. ── */
-  --font-jvto-display: var(--font-jvto-display-loaded, "Raleway"), Georgia, serif;
-  --font-jvto-mono: var(--font-jvto-mono-loaded, "JetBrains Mono"), ui-monospace,
-    SFMono-Regular, Menlo, monospace;
 
   /* ── Legacy tokens (keep — other pages still reference these) ── */
   --color-jvto-green: #9fce33;
@@ -20,7 +11,7 @@
   --color-jvto-light: #f5f5f5;
   --color-jvto-text: #333333;
 
-  /* ── Design System v2 tokens (canonical palette: navy + orange + lime) ── */
+  /* ── Design System v2 tokens ── */
   --color-jvto-navy: #0D1B2A;
   --color-jvto-navy-mid: #1C2E40;
   --color-jvto-orange: #E8650A;
@@ -29,73 +20,22 @@
   --color-jvto-gold: #F5A623;
   --color-jvto-wa-green: #25D366;
   --color-jvto-off: #F6F5F2;
-  --color-jvto-muted: #6B7280; /* aligned to spec --muted (was #4B5563 pre-W3) */
+  --color-jvto-muted: #4B5563;
   --color-jvto-border: #E3E0DA;
 
-  /* ── Radius scale (spec V2 aesthetic layer) → rounded-jvto-* utilities ── */
-  --radius-jvto-xs: 8px; /* chips, micro elements */
-  --radius-jvto-sm: 12px; /* buttons, small cards */
-  --radius-jvto-md: 18px; /* form fields, inline cards */
-  --radius-jvto-lg: 28px; /* tour cards, tiles, proof cards */
-  --radius-jvto-xl: 40px; /* landscape cards, founder photo */
+  /* ── DS v2 — display font (mono ditunda ke Fase 3/Verify; lihat plan) ── */
+  --font-display: var(--font-raleway), Georgia, serif;
 
-  /* ── Elevation (spec V2) → shadow-jvto-soft / shadow-jvto-card-hover ── */
-  --shadow-jvto-soft: 0 12px 32px -16px rgba(13, 27, 42, 0.12),
-    0 2px 6px -2px rgba(13, 27, 42, 0.04);
-  --shadow-jvto-card-hover: 0 30px 60px -25px rgba(13, 27, 42, 0.22),
-    0 4px 12px -4px rgba(13, 27, 42, 0.06);
+  /* ── DS v2 — radius scale (sumber: tokens/radii-shadows.css) ── */
+  --radius-jvto-sm: 12px;
+  --radius-jvto-md: 18px;
+  --radius-jvto-lg: 28px;
+  --radius-jvto-xl: 40px;
 
-  /* ── Density / section rhythm (spec) → py-jvto-section etc. ── */
-  --spacing-jvto-section: 8rem;
-  --spacing-jvto-section-sm: 5rem;
-  --spacing-jvto-card-gap: 2rem;
-
-  /* ── PKG-11a public-web design foundation ──────────────────────────────
-     Depth + legibility layer for the LOCKED navy/orange/lime identity. These
-     are shades and text-on-surface pairings of the existing palette — no new
-     brand hues. Every token below is consumed by the homepage; see
-     src/components/design/ for the primitives that read them. ── */
-
-  /* Dark-surface strata: navy is the ground, -deep is the floor a navy
-     section fades to, -raise is a card sitting on top of navy. */
-  --color-jvto-navy-deep: #071019;
-  --color-jvto-navy-raise: #17293b;
-
-  /* Structural divider — one step stronger than --color-jvto-border (which
-     stays the card/edge hairline), used for section-header rules. */
-  --color-jvto-rule: #d4cfc5;
-
-  /* Text-on-surface pairs that hold WCAG AA. --color-jvto-muted (#6B7280)
-     is 4.83:1 on #fff but only 4.43:1 on --color-jvto-off, so secondary body
-     copy uses -ink-soft (6.0:1 on white, 5.5:1 on off-white). On navy,
-     white/40–/50 washes measured 3.3–3.8:1; -on-navy is 10.6:1 and
-     -on-navy-dim 6.9:1. */
-  --color-jvto-ink-soft: #5a6472;
-  --color-jvto-on-navy: #c3cbd4;
-  --color-jvto-on-navy-dim: #9aa5b1;
-
-  /* Lime reads as "verified / go", but --color-jvto-lime (#8CC63F) is 1.9:1
-     on white — unusable as text or as a meaningful icon. -ink is the same hue
-     darkened to 5.1:1 on white / 4.7:1 on off-white for light surfaces; the
-     bright lime stays for dark surfaces and fills. */
-  --color-jvto-lime-ink: #4e7a12;
-
-  /* Thin rails/strips between full sections. */
-  --spacing-jvto-band: 3.5rem;
-}
-
-/* Plain-CSS aliases matching the spec's variable names (for non-Tailwind CSS and
-   parity with docs/design-reference/jvto-system.css). Same values as @theme above. */
-:root {
-  --jvto-navy: #0d1b2a;
-  --jvto-navy-mid: #1c2e40;
-  --jvto-orange: #e8650a;
-  --jvto-orange-hover: #c4520a;
-  --jvto-gold: #f5a623;
-  --jvto-lime: #8cc63f;
-  --jvto-off: #f6f5f2;
-  --jvto-muted: #6b7280;
-  --jvto-border: #e3e0da;
+  /* ── DS v2 — elevation. Nama -card-hover dipilih agar TIDAK bentrok
+     dengan --shadow-jvto-hover lama di blok :root di bawah ── */
+  --shadow-jvto-soft: 0 12px 32px -16px rgba(13, 27, 42, 0.12), 0 2px 6px -2px rgba(13, 27, 42, 0.04);
+  --shadow-jvto-card-hover: 0 30px 60px -25px rgba(13, 27, 42, 0.22), 0 4px 12px -4px rgba(13, 27, 42, 0.06);
 }
 
 /* ====== BASE GLOBAL STYLE ====== */
@@ -182,86 +122,4 @@ body {
     rgba(13, 27, 42, 0.04) 0 0 0 1px,
     rgba(13, 27, 42, 0.06) 0 2px 6px 0,
     rgba(13, 27, 42, 0.12) 0 4px 8px 0;
-}
-
-/* Typography: Inter single-font system per DESIGN.md */
-h1, h2 {
-  font-family: var(--font-sans, system-ui, sans-serif);
-}
-
-/* Section whitespace rhythm utility classes */
-.section-major {
-  padding-top: 4rem;
-  padding-bottom: 5rem;
-}
-.section-secondary {
-  padding-top: 2.5rem;
-  padding-bottom: 3rem;
-}
-
-@media (min-width: 768px) {
-  .section-major {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   PKG-11a — public-web design foundation (classes)
-
-   These are UNLAYERED on purpose, exactly like the .transition* block above:
-   the `h1, h2 { font-family: var(--font-sans) }` rule earlier in this file is
-   also unlayered, so a Tailwind @utility (utilities layer) would lose to it by
-   cascade-layer order. A plain single class (0,1,0) beats the element selector
-   (0,0,1) and wins deterministically.
-
-   Nothing here is homepage-only by construction, but as of PKG-11a the
-   homepage is the only consumer — other clusters are untouched.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* Display/heading face. Rubik is already loaded by (website)/layout.tsx as
-   --font-heading; before PKG-11a nothing on the homepage referenced it, so
-   every heading silently fell back to Inter (and the inline
-   `fontFamily: "Raleway, …"` on some headings resolved to Inter too, because
-   Raleway is not loaded anywhere). This is the single entry point for it. */
-.font-jvto-heading {
-  font-family: var(--font-heading), "Rubik", ui-sans-serif, system-ui, sans-serif;
-  font-synthesis-weight: none;
-}
-
-/* Contour texture — concentric hairlines + a cool/warm field, evoking a
-   volcanic survey map. Pure CSS (no asset), decorative only: always applied to
-   an aria-hidden layer, never behind body copy at a strength that moves
-   contrast (max 2.8% alpha on the rings). */
-.jvto-topo {
-  background-image:
-    radial-gradient(115% 85% at 8% 106%, rgba(232, 101, 10, 0.1), transparent 58%),
-    radial-gradient(85% 70% at 92% -6%, rgba(140, 198, 63, 0.09), transparent 56%),
-    repeating-radial-gradient(
-      circle at 14% 112%,
-      transparent 0 56px,
-      rgba(255, 255, 255, 0.028) 56px 57px
-    );
-}
-
-/* Light-surface counterpart — same contour language, ink instead of light. */
-.jvto-topo-light {
-  background-image: repeating-radial-gradient(
-    circle at 94% -12%,
-    transparent 0 64px,
-    rgba(13, 27, 42, 0.032) 64px 65px
-  );
-}
-
-/* Focus visibility. Browser defaults are near-invisible on navy and on the
-   lime bar, so every interactive element on the homepage opts in explicitly.
-   Orange is 3.33:1 on white and lime 8.5:1 on navy — both clear the 3:1
-   non-text-contrast bar for focus indicators. */
-.jvto-focus:focus-visible {
-  outline: 2px solid var(--jvto-orange);
-  outline-offset: 3px;
-}
-.jvto-focus-dark:focus-visible {
-  outline: 2px solid var(--jvto-lime);
-  outline-offset: 3px;
 }

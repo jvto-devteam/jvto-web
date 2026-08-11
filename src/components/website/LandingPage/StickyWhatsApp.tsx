@@ -3,21 +3,23 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { pushWaEvent } from "@/lib/analytics-events";
+import { WA_LINKS } from "@/lib/waLinks";
 
 export { pushWaEvent };
 
 const WA_NUMBER = "6282244788833";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
+// Full WA hrefs keyed by canonical pathname — sourced from WA_LINKS for DRY.
+// Note: legacy redirect paths (/tours-from-bali, /tour-from-bali, /tours-from-surabaya,
+// /tour-from-surabaya) are excluded — middleware 301s those before the page loads so
+// usePathname() never returns them.
+const PAGE_HREFS: Record<string, string> = {
+  "/tours/from-surabaya": WA_LINKS.fromSurabaya,
+  "/tours/from-bali": WA_LINKS.fromBali,
+};
+
 const PAGE_MESSAGES: Record<string, string> = {
-  "/tours-from-bali":
-    "Hi JVTO, I'm in Bali and interested in a private tour to Bromo & Ijen. Can you share options and pricing?",
-  "/tour-from-bali":
-    "Hi JVTO, I'm in Bali and interested in a private Ijen & Bromo tour. Can you share options and pricing?",
-  "/tours-from-surabaya":
-    "Hi JVTO, I'm in Surabaya and interested in a private Bromo & Ijen tour. Can you share options and pricing?",
-  "/tour-from-surabaya":
-    "Hi JVTO, I'm interested in a private Bromo & Ijen tour from Surabaya. Can you share availability and pricing?",
   "/tours":
     "Hi JVTO, I'd like to learn more about your private volcano tours. Can you help me plan my trip?",
   "/contact":
@@ -41,9 +43,10 @@ export default function StickyWhatsApp({
     return null;
   }
 
-  const resolvedMessage =
-    message ?? PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE;
-  const href = `${WA_BASE}?text=${encodeURIComponent(resolvedMessage)}`;
+  const href = message
+    ? `${WA_BASE}?text=${encodeURIComponent(message)}`
+    : (PAGE_HREFS[pathname] ??
+        `${WA_BASE}?text=${encodeURIComponent(PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE)}`);
 
   useEffect(() => {
     const show = setTimeout(() => setShowHint(true), 4000);
@@ -55,7 +58,7 @@ export default function StickyWhatsApp({
   }, []);
 
   return (
-    <div data-sticky-cta className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">
       {/* Nudge tooltip — appears after 4s, fades out at 9s */}
       <div
         className={`transition-all duration-300 ${
@@ -83,13 +86,13 @@ export default function StickyWhatsApp({
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
         onClick={() => pushWaEvent(source, href, "Chat on WhatsApp")}
-        className="relative flex items-center gap-2.5 bg-jvto-wa-green text-white pl-4 pr-5 py-3 rounded-full shadow-[0_20px_40px_-10px_rgba(37,211,102,0.5)] hover:brightness-110 transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+        className="relative flex items-center gap-2.5 bg-[#25D366] text-white pl-4 pr-5 py-3 rounded-full shadow-2xl hover:bg-[#1ebe5d] transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
       >
         <WhatsAppIcon />
         <span className="font-semibold text-sm hidden sm:inline">
           Chat on WhatsApp
         </span>
-        <span className="absolute inset-0 rounded-full bg-jvto-wa-green animate-ping opacity-20 pointer-events-none" />
+        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20 pointer-events-none" />
       </a>
     </div>
   );
