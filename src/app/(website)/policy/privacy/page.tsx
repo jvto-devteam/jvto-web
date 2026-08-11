@@ -29,6 +29,7 @@ const POLICY_NAV = [
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage(ROUTE);
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "Privacy & Data Protection · JVTO";
   const description =
@@ -57,7 +58,7 @@ export default async function PrivacyPage() {
     resolveFaqsForPage(ROUTE),
   ]);
 
-  if (!page?.body?.trim().length) return notFound();
+  if (!page?.body?.trim().length || page.meta.status !== "published") return notFound();
 
   const h1 = page.meta.title ?? "Privacy & Data Protection";
   const seoTitle =

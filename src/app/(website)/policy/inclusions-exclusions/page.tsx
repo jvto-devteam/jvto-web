@@ -13,6 +13,7 @@ import {
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
+import { getPublicPageSnapshotRecord } from "@/lib/publicContent/pageSnapshots";
 
 export const revalidate = 86400;
 
@@ -28,6 +29,7 @@ const POLICY_NAV = [
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage(ROUTE);
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "Inclusions & Exclusions Policy · JVTO";
   const description =
@@ -56,7 +58,7 @@ export default async function InclusionsExclusionsPage() {
     resolveFaqsForPage(ROUTE),
   ]);
 
-  if (!page?.body?.trim().length) return notFound();
+  if (!page?.body?.trim().length || page.meta.status !== "published") return notFound();
 
   const h1 = page.meta.title ?? "Inclusions & Exclusions";
   const seoTitle =
@@ -80,6 +82,12 @@ export default async function InclusionsExclusionsPage() {
 
   const extraSchemas = [policyAnchorSchema, faqNode].filter(Boolean);
 
+  // This route has narrative_claims wired (suppressCmsFaq: true today), so the
+  // CMS-FAQ fallback path never fires — but feed content.faq/faq_title from the
+  // static (DB-free) content_pages snapshot anyway, symmetric with policy/page.tsx
+  // and policy/privacy/page.tsx, as defense-in-depth if that DB wiring ever changes.
+  const cmsContent = getPublicPageSnapshotRecord(ROUTE)?.content ?? {};
+
   return (
     <>
       <PageJsonLdCombined
@@ -87,7 +95,7 @@ export default async function InclusionsExclusionsPage() {
           route: ROUTE,
           lang: "en",
           seo: { title: seoTitle, description: seoDescription },
-          content: { h1 },
+          content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
         }}
         extraSchemas={extraSchemas}
         suppressCmsFaq={faqResolution.suppressCmsFaq}

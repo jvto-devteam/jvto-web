@@ -69,7 +69,7 @@ const SLUG_HERO: Record<string, HeroMeta> = {
       { label: "Standard deposit", value: "20%" },
       { label: "Cancellation cut-off", value: "48 hours" },
       { label: "Pricing currency", value: "IDR" },
-      { label: "Travel Credit", value: "Non-expiring" },
+      { label: "Package Credit", value: "Non-expiring" },
     ],
   },
   "inclusions-exclusions": {
@@ -155,7 +155,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (MIGRATED_POLICY_SLUGS.has(slug)) {
     const page = loadStaticPage(`/policy/${slug}`);
-    if (!page) return { title: "Page Not Found" };
+    if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
     return buildStaticRouteMetadata(page.meta.route, {
       title: page.meta.browserTitle ?? page.meta.title,
       description: page.meta.description,
@@ -233,7 +233,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
   if (MIGRATED_POLICY_SLUGS.has(slug)) {
     // Migrated slug — served from the ported static-content SSOT (content/pages/policy/*).
     const staticPage = loadStaticPage(route);
-    if (!staticPage) return notFound();
+    if (!staticPage || staticPage.meta.status !== "published") return notFound();
 
     h1 = staticPage.meta.title;
     body = staticPage.body ?? "";

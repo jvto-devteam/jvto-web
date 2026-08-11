@@ -83,8 +83,8 @@ export function buildPolicyWebPageSchema({
 }
 
 /**
- * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Travel Credit
- * policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
+ * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Lifetime Package
+ * Credit policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
  */
 export function buildJvtoTravelCreditAnnouncementSchema() {
   return {

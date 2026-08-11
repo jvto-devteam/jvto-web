@@ -1,5 +1,6 @@
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
@@ -19,7 +20,7 @@ const POLICY_TILES = [
       </svg>
     ),
     name: "Booking, Payment & Cancellation",
-    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Travel Credit terms, and force-majeure handling.",
+    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Lifetime Package Credit terms, and force-majeure handling.",
   },
   {
     slug: "inclusions-exclusions",
@@ -54,6 +55,7 @@ const PRECEDENCE = [
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = loadStaticPage("/policy");
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
   const description =
@@ -73,6 +75,7 @@ export default async function PolicyHubPage() {
     loadStaticPage("/policy"),
     resolveFaqsForPage("/policy"),
   ]);
+  if (page && page.meta.status !== "published") return notFound();
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
   const description =
@@ -98,7 +101,11 @@ export default async function PolicyHubPage() {
         pageRow={{
           route: "/policy",
           lang: "en",
-          seo: { title, description },
+          seo: {
+            title,
+            description,
+            schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+          },
           content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
         }}
         extraSchemas={policyHubExtraSchemas}
