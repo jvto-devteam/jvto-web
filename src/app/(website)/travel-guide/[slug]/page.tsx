@@ -11,10 +11,6 @@ import {
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 import {
-  buildIjenHealthHowToSchema,
-  buildIjenHealthMedicalWebPageSchema,
-} from "@/lib/schemas/buildTravelGuideSchemas";
-import {
   loadStaticPage,
   listPublishedStaticPages,
   buildStaticRouteMetadata,
@@ -26,10 +22,9 @@ type Props = {
 
 /**
  * Slugs served from the ported static-content SSOT (content/pages/travel-guide/*.md)
- * rather than the DB (content_pages). Excludes the 4 slugs that have their own
- * folder page (faq, best-time-to-visit, police-escort-for-groups,
- * rijik-monthly-closure) — Next.js resolves a static folder segment before this
- * dynamic one, but the filter is kept explicit so this route never generates a
+ * rather than the DB (content_pages). Excludes the slugs that have their own
+ * folder page — Next.js resolves a static folder segment before this dynamic
+ * one, but the filter is kept explicit so this route never generates a
  * duplicate static param for them.
  */
 const TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS = new Set([
@@ -37,6 +32,13 @@ const TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS = new Set([
   "best-time-to-visit",
   "police-escort-for-groups",
   "rijik-monthly-closure",
+  // Restored bespoke pages — each reads its own content/pages/travel-guide/*.md
+  // via loadStaticPage() and keeps its hand-built tables / callouts / hero.
+  "booking-information",
+  "ijen-health-screening",
+  "packing-and-fitness",
+  "safety-on-tours",
+  "weather-and-closures",
 ]);
 
 const MIGRATED_TRAVEL_GUIDE_SLUGS = new Set(
@@ -53,7 +55,6 @@ const TRAVEL_GUIDE_DEST_LINKS: Record<
   string,
   Array<{ slug: string; name: string }>
 > = {
-  "ijen-health-screening": [{ slug: "ijen-crater", name: "Ijen Crater" }],
   "mount-bromo-logistics": [{ slug: "mount-bromo", name: "Mount Bromo" }],
   "tumpak-sewu-logistics": [
     { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
@@ -81,16 +82,6 @@ type HeroMeta = {
 };
 
 const SLUG_HERO: Record<string, HeroMeta> = {
-  "ijen-health-screening": {
-    eyebrow: "Conditional · BBKSDA SE.1658",
-    lede: "Ijen crater access requires a health certificate under BBKSDA rules. JVTO coordinates the clinic workflow with a named, SIP-licensed physician — and the certificate is QR-verified at the gate.",
-    metaRows: [
-      { label: "Regulatory basis", value: "BBKSDA SE.1658/KSA.9/2024" },
-      { label: "Physician", value: "Dr. Ahmad Irwandanu · SIP" },
-      { label: "Where", value: "Your hotel, the evening before" },
-      { label: "Gate check", value: "QR-verified" },
-    ],
-  },
   "mount-bromo-logistics": {
     eyebrow: "Logistics · Bromo",
     lede: "Private jeep, sunrise timing, and altitude preparation — what you need to know before arriving at the Tengger caldera.",
@@ -117,41 +108,6 @@ const SLUG_HERO: Record<string, HeroMeta> = {
     metaRows: [
       { label: "Covers", value: "Bromo, Ijen, Tumpak Sewu" },
       { label: "Category", value: "Clothing, gear, medication" },
-    ],
-  },
-  "packing-and-fitness": {
-    eyebrow: "Prep · Fitness",
-    lede: "Fitness expectations and clothing recommendations for East Java's volcano treks and waterfall descents.",
-    metaRows: [
-      { label: "Fitness level", value: "Easy to Moderate" },
-      { label: "Key concern", value: "Cold mornings, uneven terrain" },
-    ],
-  },
-  "weather-and-closures": {
-    eyebrow: "Conditions · PVMBG",
-    lede: "PVMBG alerts, seasonal access, and what happens to your booking when conditions change.",
-    metaRows: [
-      { label: "Source", value: "PVMBG / MAGMA Indonesia" },
-      { label: "Monsoon risk", value: "Nov – Mar" },
-      { label: "Policy", value: "Weather & Closures guide" },
-    ],
-  },
-  "safety-on-tours": {
-    eyebrow: "Safety · Protocol",
-    lede: "Police-led protocols, medical coverage, and the decision boundaries that govern JVTO's private tours.",
-    metaRows: [
-      { label: "Medical", value: "Licensed physician on-call" },
-      { label: "Safety lead", value: "Tourist Police coordination" },
-      { label: "Vehicle", value: "Inspected · maintained" },
-    ],
-  },
-  "booking-information": {
-    eyebrow: "Process · Booking",
-    lede: "Deposits, confirmation, reschedule mechanics, and the JVTO Travel Credit scheme explained in plain language.",
-    metaRows: [
-      { label: "Deposit", value: "30% at booking" },
-      { label: "Balance", value: "Before departure" },
-      { label: "Credit scheme", value: "JVTO Travel Credit" },
     ],
   },
   "police-escort-for-groups": {
@@ -222,11 +178,6 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
   const currentHref = route;
 
-  const ijenHealthSchemas =
-    slug === "ijen-health-screening"
-      ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema()]
-      : [];
-
   let pageRowForJsonLd: { route: string; lang: string; seo: any; content: any };
   let suppressCmsFaqValue: boolean;
   let h1: string;
@@ -256,7 +207,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
           })),
         }
       : null;
-    slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+    slugExtraSchemas = [faqSchema].filter(Boolean);
     suppressCmsFaqValue = true;
     pageRowForJsonLd = {
       route: staticPage.meta.route,
@@ -281,7 +232,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
     faqTitle = content?.faq_title ?? "FAQ";
     const faqSchema = buildResolvedFaqSchema(faqResolution, route);
 
-    slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+    slugExtraSchemas = [faqSchema].filter(Boolean);
     suppressCmsFaqValue = faqResolution.suppressCmsFaq;
     pageRowForJsonLd = page.pageRow as any;
   }
