@@ -4,7 +4,7 @@ title: Booking Safety & Anti-Fraud
 browserTitle: Booking Safety & Anti-Fraud | JVTO
 description: How to make sure you are booking and paying through JVTO's real, official channels.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

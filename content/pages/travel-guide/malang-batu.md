@@ -4,7 +4,7 @@ title: Malang & Batu City Stop
 browserTitle: Malang & Batu City Stop | JVTO
 description: How the optional Malang / Batu city stop fits into longer JVTO itineraries.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

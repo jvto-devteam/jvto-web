@@ -4,7 +4,7 @@ title: What's Included in a JVTO Tour
 browserTitle: What's Included in a JVTO Tour | JVTO
 description: What every JVTO private volcano tour includes — and what is not — so there are no hidden costs.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

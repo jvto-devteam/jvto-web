@@ -1,8 +1,13 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
+
+// Matches the hardcoded-production-origin convention used by the other
+// travel-guide FAQPage @id builders (safety-on-tours, booking-information, etc.).
+const FAQ_SITE_URL = "https://javavolcano-touroperator.com";
 
 const ARTICLES = [
   { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
@@ -70,7 +75,22 @@ export default async function TravelGuideHubPage() {
     "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
   const h1 = page?.meta.title ?? "Travel Guide";
 
-  const tgHubExtraSchemas = [buildTgHubItemListSchema()].filter(Boolean);
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${FAQ_SITE_URL}/travel-guide#faq`,
+        mainEntity: faqItems.map((it) => ({
+          "@type": "Question",
+          name: it.q,
+          acceptedAnswer: { "@type": "Answer", text: it.a },
+        })),
+      }
+    : null;
+
+  const tgHubExtraSchemas = [buildTgHubItemListSchema(), faqSchema].filter(Boolean);
 
   return (
     <>
@@ -82,6 +102,7 @@ export default async function TravelGuideHubPage() {
           content: { h1 },
         }}
         extraSchemas={tgHubExtraSchemas}
+        suppressCmsFaq={true}
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
@@ -418,9 +439,32 @@ export default async function TravelGuideHubPage() {
         </div>
       </section>
 
+      {/* ── FAQ §06 — white ────────────────────────────────────────────── */}
+      {faqItems.length > 0 && (
+        <section
+          className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <div className="flex items-baseline gap-4 mb-2">
+              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 06</span>
+              <div>
+                <h2
+                  className="font-black text-jvto-navy leading-[1.0]"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+                >
+                  Frequently <span className="text-jvto-orange">asked.</span>
+                </h2>
+              </div>
+            </div>
+            <Faq items={faqItems} title="Travel Guide: Common Questions" />
+          </div>
+        </section>
+      )}
+
       {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">

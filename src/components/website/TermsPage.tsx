@@ -48,7 +48,7 @@ const TermsPage: React.FC = () => {
                 The initial amount you pay to secure your booking. By default this is <strong>20% of the total tour price</strong>.</p>
                 <p><strong>{`"Remaining Balance" / "Final Balance"`}</strong><br/>
                 The outstanding amount due after the Deposit.</p>
-                <p><strong>{`"JVTO Travel Credit" / "Travel Credit"`}</strong><br/>
+                <p><strong>{`"Lifetime Package Credit"`}</strong><br/>
                 A non-expiring credit issued by JVTO in Indonesian Rupiah (IDR), equal to 100% of what you have already paid for that booking.</p>
                 <ul>
                     <li>It can be used to book the <strong>same or equivalent tour product</strong> (same base itinerary / same duration) at a future date.</li>
@@ -56,7 +56,7 @@ const TermsPage: React.FC = () => {
                     <li>It can be <strong>transferred or gifted</strong> to someone else (another traveler can take the trip in your place).</li>
                     <li>It does <strong>not expire</strong>.</li>
                     <li>There is <strong>no rebooking fee</strong> to redeem it for the same product.</li>
-                    <li>Travel Credit is the <strong>only</strong> form of refund JVTO provides. JVTO does not issue cash refunds.</li>
+                    <li>Lifetime Package Credit is the <strong>only</strong> form of refund JVTO provides. JVTO does not issue cash refunds.</li>
                 </ul>
                 <p><strong>{`"Start Location" / "Pickup Point"`}</strong><br/>
                 Where JVTO collects you on Day 1. Common pickup points: Surabaya (airport / hotel / train station), Malang, Bali-origin handover (your Bali accommodation / agreed handoff point / ferry crossing).</p>
@@ -106,11 +106,11 @@ const TermsPage: React.FC = () => {
             <section className="mt-8">
                 <h2>5. Cancellation by You (Before Day 1)</h2>
                 <p><strong>5.1 Cancellation more than 48 hours before Day 1</strong><br/>
-                If you cancel more than 48 hours before the scheduled pickup time on Day 1: You receive <strong>100% JVTO Travel Credit</strong> equal to everything you have already paid for that booking. There is <strong>no cash refund</strong>.</p>
+                If you cancel more than 48 hours before the scheduled pickup time on Day 1: You receive <strong>100% Lifetime Package Credit</strong> equal to everything you have already paid for that booking. There is <strong>no cash refund</strong>.</p>
                 <p><strong>5.2 Cancellation less than 48 hours before Day 1</strong><br/>
-                If you cancel inside the 48-hour window before Day 1: Your payment is <strong>forfeited in full</strong>. <strong>No Travel Credit</strong> is issued. <strong>No cash refund</strong> is issued. This is because logistics are already committed under your name.</p>
+                If you cancel inside the 48-hour window before Day 1: Your payment is <strong>forfeited in full</strong>. <strong>No Lifetime Package Credit</strong> is issued. <strong>No cash refund</strong> is issued. This is because logistics are already committed under your name.</p>
                 <p><strong>5.3 Attempted {`"same-day"`} cancellation</strong><br/>
-                If you try to cancel on the same calendar day as your scheduled pickup, that is treated as a no-show (see Section 8). Same rules: forfeited, no Travel Credit, no reschedule.</p>
+                If you try to cancel on the same calendar day as your scheduled pickup, that is treated as a no-show (see Section 8). Same rules: forfeited, no Lifetime Package Credit, no reschedule.</p>
             </section>
 
             <section className="mt-8">
@@ -119,7 +119,7 @@ const TermsPage: React.FC = () => {
                 <p><strong>6.1 Reschedule request more than 48 hours before Day 1</strong><br/>
                 You are allowed <strong>one (1) free reschedule</strong>, if you request it {`>48`} hours before Day 1. The new date must be within a reasonable future window JVTO can actually operate. Peak/blackout periods may be unavailable. No penalty, no admin fee.</p>
                 <p><strong>6.2 Reschedule request within 48 hours of Day 1</strong><br/>
-                Rescheduling is <strong>not available</strong>. Your request is treated as a late cancellation (Section 5.2). Payment is forfeited; there is no Travel Credit.</p>
+                Rescheduling is <strong>not available</strong>. Your request is treated as a late cancellation (Section 5.2). Payment is forfeited; there is no Lifetime Package Credit.</p>
                  <p><strong>6.3 Trying to reschedule on Day 1 or after the trip starts</strong><br/>
                 That is treated as no-show / day-of cancellation. See Section 8.</p>
             </section>
@@ -129,7 +129,7 @@ const TermsPage: React.FC = () => {
                 <p><strong>7.1 Operational reality</strong><br/>
                 East Java and Bali are volcanic, seasonal, and culturally active. Access can be restricted at short notice due to eruptions, gas levels, landslide risk, flash floods, religious ceremonies, park closures, or police/government safety orders. Your safety comes first.</p>
                 <p><strong>7.2 If JVTO must modify, delay, or cancel due to Force Majeure or mandatory safety restrictions</strong><br/>
-                JVTO may, at its discretion: (a) adjust or replace activities/days with comparable alternatives, or (b) issue JVTO Travel Credit for any unused portion, or (c) issue a refund minus unrecoverable costs already committed under your name (park permits, jeep allocation, etc.).</p>
+                JVTO may, at its discretion: (a) adjust or replace activities/days with comparable alternatives, or (b) issue Lifetime Package Credit for any unused portion, or (c) issue a refund minus unrecoverable costs already committed under your name (park permits, jeep allocation, etc.).</p>
                 <p><strong>7.3 Incidental costs</strong><br/>
                 JVTO is not responsible for indirect or incidental costs you incur outside the tour itself, including but not limited to: flights, visas, travel insurance, personal equipment, missed connections, or accommodation you booked independently.</p>
             </section>
@@ -141,7 +141,7 @@ const TermsPage: React.FC = () => {
                 <ul>
                     <li>JVTO treats the booking as consumed.</li>
                     <li><strong>100% of your payment is forfeited.</strong></li>
-                    <li><strong>No Travel Credit</strong> is issued.</li>
+                    <li><strong>No Lifetime Package Credit</strong> is issued.</li>
                     <li><strong>No reschedule</strong> is offered without paying again.</li>
                 </ul>
                 <p>There are no exceptions for oversleeping, missed or delayed flights, giving the wrong hotel location, late airport arrival, or private scheduling conflicts when the team is already on site.</p>
@@ -210,8 +210,8 @@ const TermsPage: React.FC = () => {
                 <p>These are the non-negotiable site-wide rules that apply to every guest:</p>
                 <ol>
                     <li><strong>Pay on time.</strong> Card balance: due 5 calendar days before Day 1. Bank/Wise balance: due 3 calendar days before Day 1. Missed payment can void the booking.</li>
-                    <li><strong>Cancel more than 48 hours before Day 1 → You get JVTO Travel Credit.</strong> 100% of what {`you've`} paid becomes Travel Credit. No expiry. Transferable. No cash refunds, ever.</li>
-                    <li><strong>Cancel less than 48 hours before Day 1 → Forfeited.</strong> No Travel Credit, no refund.</li>
+                    <li><strong>Cancel more than 48 hours before Day 1 → You get Lifetime Package Credit.</strong> 100% of what {`you've`} paid becomes Lifetime Package Credit. No expiry. Transferable. No cash refunds, ever.</li>
+                    <li><strong>Cancel less than 48 hours before Day 1 → Forfeited.</strong> No Lifetime Package Credit, no refund.</li>
                     <li><strong>Reschedule more than 48 hours before Day 1 → Allowed 1x, free.</strong> Subject to availability.</li>
                     <li><strong>Reschedule less than 48 hours before Day 1 / same-day cancel / no-show → Forfeited.</strong></li>
                     <li><strong>Ijen medical certificate → Mandatory by local law.</strong> JVTO arranges it and {`it's`} included in the package. No partial cash refund if you are found not fit to climb.</li>

@@ -4,7 +4,7 @@ title: What a Private Tour Means at JVTO
 browserTitle: What a Private Tour Means at JVTO | JVTO
 description: JVTO tours are fully private — your own dedicated driver and guide, never a shared group.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

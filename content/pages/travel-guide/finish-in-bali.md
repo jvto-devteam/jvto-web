@@ -4,7 +4,7 @@ title: Finishing in Bali
 browserTitle: Finishing in Bali | JVTO
 description: What 'finish in Bali' actually involves — the Ketapang–Gilimanuk crossing and optional transfer.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

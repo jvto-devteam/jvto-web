@@ -9,6 +9,7 @@ owner: "operations"
 lastReviewed: "2026-08-04"
 schemaTypes:
   - CollectionPage
+faqKey: "travel-guide-index"
 summary: "Hub for JVTO travel guidance: booking, safety, health screening, packing, weather and closures."
 ---
 

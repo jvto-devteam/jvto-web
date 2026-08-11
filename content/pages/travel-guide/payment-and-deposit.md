@@ -4,7 +4,7 @@ title: Payment & Deposit
 browserTitle: Payment & Deposit | JVTO
 description: How deposits and balance payments work, and the official channels to use.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

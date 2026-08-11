@@ -4,7 +4,7 @@ title: 'Bromo Sunrise: How It Works'
 browserTitle: 'Bromo Sunrise: How It Works | JVTO'
 description: How the Bromo sunrise morning works and why we stage nearby the night before.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

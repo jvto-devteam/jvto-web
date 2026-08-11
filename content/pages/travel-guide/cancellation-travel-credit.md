@@ -4,7 +4,7 @@ title: Cancellation & Lifetime Package Credit
 browserTitle: Cancellation & Lifetime Package Credit | JVTO
 description: How JVTO handles guest-initiated cancellations — Package Credit instead of cash refunds.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

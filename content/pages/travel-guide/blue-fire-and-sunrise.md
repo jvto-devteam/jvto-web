@@ -4,7 +4,7 @@ title: 'Blue Fire & Sunrise: Why They Cannot Be Guaranteed'
 browserTitle: 'Blue Fire & Sunrise: Why They Cannot Be Guaranteed | JVTO'
 description: Why weather-dependent sights like Ijen's blue fire and a clear sunrise cannot be guaranteed.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

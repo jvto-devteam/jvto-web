@@ -4,7 +4,7 @@ title: Rooming & Accommodation
 browserTitle: Rooming & Accommodation | JVTO
 description: How rooming works on a JVTO tour and what can be requested.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

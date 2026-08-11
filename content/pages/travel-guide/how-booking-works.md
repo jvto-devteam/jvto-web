@@ -4,7 +4,7 @@ title: How Booking Works
 browserTitle: How Booking Works | JVTO
 description: 'Booking a JVTO tour is website-only: complete your booking on the official website under a JVTO Booking ID.'
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

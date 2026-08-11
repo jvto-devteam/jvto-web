@@ -4,7 +4,7 @@ title: Why We Stay Near Ijen Before the Hike
 browserTitle: Why We Stay Near Ijen Before the Hike | JVTO
 description: Why JVTO stages an overnight near Ijen before the midnight crater hike.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:

@@ -4,7 +4,7 @@ title: Vehicle & Luggage
 browserTitle: Vehicle & Luggage | JVTO
 description: Which vehicle JVTO uses for your group size, and how luggage is handled.
 section: travel-guide
-status: published
+status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
 schemaTypes:
