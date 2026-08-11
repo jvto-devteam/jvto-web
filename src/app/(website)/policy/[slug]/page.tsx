@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
@@ -17,6 +18,7 @@ import {
   loadStaticPage,
   listPublishedStaticPages,
   buildStaticRouteMetadata,
+  type StructuredSection,
 } from "@/lib/static-content";
 import {
   buildJvtoTravelCreditAnnouncementSchema,
@@ -178,6 +180,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * The ported content JSON writes grid card bodies under `text` (that is what
+ * origin/main ships, so the JSON is left byte-identical), while BlocksRenderer's
+ * CardLink only renders `summary`. Map `text` -> `summary` locally so the card
+ * bodies are not silently dropped. Shared BlocksRenderer stays untouched.
+ *
+ * Kept local (a duplicate of the same helper in
+ * policy/booking-payment-cancellation/page.tsx) rather than imported across
+ * route files — neither file exports it, and cross-importing between two page
+ * modules is coupling this plan has not established anywhere else.
+ */
+function normalizeBlocks(blocks: unknown[]): any {
+  return blocks.map((b: any) =>
+    b && b.type === "grid" && Array.isArray(b.items)
+      ? {
+          ...b,
+          items: b.items.map((it: any) => ({
+            ...it,
+            summary: it?.summary ?? it?.text,
+          })),
+        }
+      : b,
+  );
+}
+
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -195,6 +222,10 @@ export default async function PolicyDynamicPage({ params }: Props) {
   let suppressCmsFaqValue: boolean;
   let h1: string;
   let body: string;
+  // Structured (.json) content files carry their content in `sections`, not in
+  // `body` — loadStaticPage() returns no `body` field at all for them. Only the
+  // migrated branch can populate this; the DB branch stays markdown-only.
+  let sections: StructuredSection[] = [];
   let faqItemsForDisplay: Array<{ q: string; a: string }> | undefined;
   let faqTitle = "FAQ";
   let slugExtraSchemas: unknown[];
@@ -206,6 +237,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
     h1 = staticPage.meta.title;
     body = staticPage.body ?? "";
+    sections = staticPage.sections ?? [];
 
     const faqResolution = await resolveFaqsForPage(route);
     const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
@@ -278,7 +310,10 @@ export default async function PolicyDynamicPage({ params }: Props) {
     pageRowForJsonLd = page.pageRow as any;
   }
 
-  if (!body.trim().length) return notFound();
+  // A structured page is content-less only when it has neither markdown body
+  // nor sections. Guarding on `body` alone would 404 every .json content file.
+  const hasSections = sections.length > 0;
+  if (!body.trim().length && !hasSections) return notFound();
 
   return (
     <>
@@ -377,7 +412,31 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              <MarkdownRenderer markdown={body} />
+              {hasSections ? (
+                sections.map((sec) => (
+                  <section key={sec.id} className="mb-10 last:mb-0">
+                    {sec.title && (
+                      <h2
+                        className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
+                        style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                      >
+                        {sec.title}
+                      </h2>
+                    )}
+                    {sec.body_md && <MarkdownRenderer markdown={sec.body_md} />}
+                    {sec.blocks && sec.blocks.length > 0 && (
+                      <div className="mt-4">
+                        <BlocksRenderer
+                          blocks={normalizeBlocks(sec.blocks)}
+                          sectionId={sec.id}
+                        />
+                      </div>
+                    )}
+                  </section>
+                ))
+              ) : (
+                <MarkdownRenderer markdown={body} />
+              )}
               {faqItemsForDisplay && faqItemsForDisplay.length > 0 && (
                 <Faq items={faqItemsForDisplay} title={faqTitle} />
               )}
