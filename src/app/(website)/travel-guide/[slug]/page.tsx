@@ -5,12 +5,6 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
-import {
   loadStaticPage,
   listPublishedStaticPages,
   buildStaticRouteMetadata,
@@ -54,19 +48,11 @@ export const dynamicParams = false;
 const TRAVEL_GUIDE_DEST_LINKS: Record<
   string,
   Array<{ slug: string; name: string }>
-> = {
-  "mount-bromo-logistics": [{ slug: "mount-bromo", name: "Mount Bromo" }],
-  "tumpak-sewu-logistics": [
-    { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
-  ],
-};
+> = {};
 
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
@@ -82,34 +68,6 @@ type HeroMeta = {
 };
 
 const SLUG_HERO: Record<string, HeroMeta> = {
-  "mount-bromo-logistics": {
-    eyebrow: "Logistics · Bromo",
-    lede: "Private jeep, sunrise timing, and altitude preparation — what you need to know before arriving at the Tengger caldera.",
-    metaRows: [
-      { label: "Elevation", value: "2,329 m above sea level" },
-      { label: "Sunrise", value: "Penanjakan viewpoint · 04:00" },
-      { label: "Vehicle", value: "Dedicated 4WD jeep" },
-      { label: "Access", value: "BBKSDA clearance in hand" },
-    ],
-  },
-  "tumpak-sewu-logistics": {
-    eyebrow: "Logistics · Waterfall",
-    lede: "Canyon descent, river crossings, and fitness expectations for Java's most dramatic waterfall trail.",
-    metaRows: [
-      { label: "Trail type", value: "Canyon descent · 1–2 km" },
-      { label: "Difficulty", value: "Moderate" },
-      { label: "Footwear", value: "Hiking shoes required" },
-      { label: "From Surabaya", value: "~4 hours by private car" },
-    ],
-  },
-  "packing-list": {
-    eyebrow: "Prep · Gear",
-    lede: "What to bring for Bromo, Ijen, and Tumpak Sewu — layered clothing, headlamps, and the items most guests forget.",
-    metaRows: [
-      { label: "Covers", value: "Bromo, Ijen, Tumpak Sewu" },
-      { label: "Category", value: "Clothing, gear, medication" },
-    ],
-  },
   "police-escort-for-groups": {
     eyebrow: "Authority · Police",
     lede: "When and how official traffic police escort is arranged for larger groups — always through formal channels.",
@@ -128,41 +86,18 @@ const DEFAULT_HERO: HeroMeta = {
 };
 
 export function generateStaticParams() {
-  const dbSlugs = listPublicPageRoutesByPrefix("/travel-guide")
-    .map((route) => route.replace("/travel-guide/", ""))
-    .filter((slug) => !MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug))
-    .filter((slug) => !TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS.has(slug));
-  return [...MIGRATED_TRAVEL_GUIDE_SLUGS, ...dbSlugs].map((slug) => ({ slug }));
+  return [...MIGRATED_TRAVEL_GUIDE_SLUGS].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
-  if (MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug)) {
-    const page = loadStaticPage(`/travel-guide/${slug}`);
-    if (!page) return { title: "Page Not Found" };
-    return buildStaticRouteMetadata(page.meta.route, {
-      title: page.meta.browserTitle ?? page.meta.title,
-      description: page.meta.description,
-    });
-  }
-
-  // Unmigrated slug — existing DB path, unchanged.
-  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
+  const page = loadStaticPage(`/travel-guide/${slug}`);
+  if (!page) return { title: "Page Not Found" };
+  return buildStaticRouteMetadata(page.meta.route, {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return { title: "Page Not Found" };
-  }
-
-  return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
-  };
 }
 
 const ArrowRight = () => (
@@ -178,64 +113,34 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
   const currentHref = route;
 
-  let pageRowForJsonLd: { route: string; lang: string; seo: any; content: any };
-  let suppressCmsFaqValue: boolean;
-  let h1: string;
-  let body: string;
-  let faqItemsForDisplay: Array<{ q: string; a: string }> | undefined;
-  let faqTitle = "FAQ";
-  let slugExtraSchemas: unknown[];
+  const staticPage = loadStaticPage(route);
+  if (!staticPage) return notFound();
 
-  if (MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug)) {
-    // Migrated slug — served from the ported static-content SSOT (content/pages/travel-guide/*.md).
-    const staticPage = loadStaticPage(route);
-    if (!staticPage) return notFound();
-
-    h1 = staticPage.meta.title;
-    body = staticPage.body ?? "";
-    const faqItems = staticPage.faq ?? [];
-    faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
-    const faqSchema = faqItems.length
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "@id": `${staticPage.canonicalUrl}#faq`,
-          mainEntity: faqItems.map((f) => ({
-            "@type": "Question",
-            name: f.question,
-            acceptedAnswer: { "@type": "Answer", text: f.answer },
-          })),
-        }
-      : null;
-    slugExtraSchemas = [faqSchema].filter(Boolean);
-    suppressCmsFaqValue = true;
-    pageRowForJsonLd = {
-      route: staticPage.meta.route,
-      lang: "en",
-      seo: { title: staticPage.meta.title, description: staticPage.meta.description },
-      content: { h1 },
-    };
-  } else {
-    // Unmigrated slug — existing DB path, unchanged.
-    const [page, faqResolution] = await Promise.all([
-      getPublicPageSnapshot(route, {
-        allowDatabaseFallback: false,
-        requiredContentFields: ["body_md"],
-      }),
-      resolveFaqsForPage(route),
-    ]);
-    const content = page.pageRow.content as any;
-    const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-    h1 = content?.h1 ?? seo.title ?? "Travel Guide";
-    body = content?.body_md ?? "";
-    faqItemsForDisplay = content?.faq;
-    faqTitle = content?.faq_title ?? "FAQ";
-    const faqSchema = buildResolvedFaqSchema(faqResolution, route);
-
-    slugExtraSchemas = [faqSchema].filter(Boolean);
-    suppressCmsFaqValue = faqResolution.suppressCmsFaq;
-    pageRowForJsonLd = page.pageRow as any;
-  }
+  const h1 = staticPage.meta.title;
+  const body = staticPage.body ?? "";
+  const faqItems = staticPage.faq ?? [];
+  const faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
+  const faqTitle = "FAQ";
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${staticPage.canonicalUrl}#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+  const slugExtraSchemas = [faqSchema].filter(Boolean);
+  const suppressCmsFaqValue = true;
+  const pageRowForJsonLd = {
+    route: staticPage.meta.route,
+    lang: "en",
+    seo: { title: staticPage.meta.title, description: staticPage.meta.description },
+    content: { h1 },
+  };
 
   if (!body.trim().length) return notFound();
 
