@@ -3,18 +3,35 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import SidebarDesktop from "../SidebarDesktop";
+import { WHY_MENU } from "../sidebarMenu";
+import { WHY_JVTO_STYLES } from "../whyJvtoTokens";
+import { Home, Star } from "lucide-react";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import {
+  listPublishedStaticPages,
+  loadStaticPage,
+  staticRouteCanonical,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from "@/lib/static-content";
+
+// PACKAGE 05 (2026-08-04): why-jvto structured pages are served from
+// content/pages/why-jvto/ (static-content SSOT). The former DB-preferred path
+// (prefersDbForSlug — a live content_pages row could override the seed at
+// runtime) is removed per AD-10: a migrated route reads only content/. CMS
+// edits to these routes no longer surface — content changes go through the
+// content files (Package 09 formally disables CMS editing for migrated routes).
+// Dynamic review records (Prisma) remain for the reviews page's schema nodes —
+// dynamic data is allowed to stay DB-owned (AD-02).
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -22,502 +39,291 @@ type Props = {
 
 export const dynamicParams = false;
 
-const WHY_JVTO_NAV = [
-  { href: "/why-jvto", label: "Why JVTO overview" },
-  { href: "/why-jvto/the-jvto-difference", label: "The JVTO Difference" },
-  { href: "/why-jvto/reviews", label: "Reviews" },
-  { href: "/why-jvto/our-story", label: "Our Story" },
-  { href: "/why-jvto/our-team", label: "Our Team" },
-  { href: "/why-jvto/community-standards", label: "Community Standards" },
-];
-
-type HeroMeta = {
-  eyebrow: string;
-  eyebrowMeta?: string;
-  lede: string;
-  metaRows: Array<{ label: string; value: string }>;
-};
-
-const SLUG_HERO: Record<string, HeroMeta> = {
-  "the-jvto-difference": {
-    eyebrow: "Why JVTO · The Difference",
-    eyebrowMeta: "FILE 004A",
-    lede: "Safety leadership, documented operational discipline, and credentials you can verify before you book.",
-    metaRows: [
-      { label: "01 · Authority", value: "Police-led" },
-      { label: "02 · Format", value: "100% private" },
-      { label: "05 · Licenses", value: "Proof library" },
-      { label: "06 · Plan B", value: "Written SOP" },
-    ],
-  },
-  "reviews": {
-    eyebrow: "Why JVTO · Reviews",
-    eyebrowMeta: "FILE 004B",
-    lede: "Independent platform scores from Trustpilot, Google, TripAdvisor, ISIC, and Indecon.",
-    metaRows: [
-      { label: "Trustpilot", value: "4.8 / 5 · 51 reviews" },
-      { label: "Google Maps", value: "4.90 / 5 · 123 reviews" },
-      { label: "TripAdvisor", value: "4.95 / 5 · 21 reviews" },
-      { label: "Themes", value: "5 patterns" },
-    ],
-  },
-  "our-story": {
-    eyebrow: "Why JVTO · Our Story",
-    eyebrowMeta: "FILE 004C",
-    lede: "JVTO grew from a humble local guesthouse in Bondowoso into a licensed tour operator shaped by the Tourist Police experience of our founder, Mr. Sam.",
-    metaRows: [
-      { label: "2015", value: "Ijen Bondowoso Homestay" },
-      { label: "2016", value: "PT incorporated" },
-      { label: "2023", value: "TDUP formalized" },
-      { label: "Evidence span", value: "11 years" },
-    ],
-  },
-  "our-team": {
-    eyebrow: "Why JVTO · Our Team",
-    eyebrowMeta: "FILE 004D",
-    lede: "7 guides and 7 drivers — individually named, photographed, and license-linked. Five guides hold HPWKI KTA credentials from BBKSDA-supervised volcanic safety training.",
-    metaRows: [
-      { label: "Guides", value: "7" },
-      { label: "Drivers", value: "7" },
-      { label: "KTA-credentialed", value: "11 registered" },
-      { label: "Recruited from", value: "Bondowoso · Banyuwangi" },
-    ],
-  },
-  "community-standards": {
-    eyebrow: "Why JVTO · Community Standards",
-    eyebrowMeta: "FILE 004E",
-    lede: "JVTO publishes its rules, policies, and commitments before you pay anything. Guests who understand the terms before booking have better trips.",
-    metaRows: [
-      { label: "Policies", value: "Published pre-booking" },
-      { label: "Binding document", value: "E-Voucher PDF" },
-      { label: "Ijen briefing", value: "Miner etiquette" },
-      { label: "Employment", value: "Local Boys · ecotourism-aligned" },
-    ],
-  },
-};
-
-const DEFAULT_HERO: HeroMeta = {
-  eyebrow: "Why JVTO",
-  lede: "Operational certainty for private East Java volcano tours.",
-  metaRows: [],
-};
-
-type SlugCta = {
-  h2: string;
-  primaryHref: string;
-  primaryLabel: string;
-  secondaryHref: string;
-  secondaryLabel: string;
-  secondaryExternal?: boolean;
-};
-
-const SLUG_CTA: Record<string, SlugCta> = {
-  "the-jvto-difference": {
-    h2: "Don’t guess. Verify.",
-    primaryHref: "/verify-jvto",
-    primaryLabel: "Open the proof library",
-    secondaryHref: "/tours",
-    secondaryLabel: "Explore private tours",
-  },
-  "reviews": {
-    h2: "Read the patterns. Then verify.",
-    primaryHref: "/why-jvto/our-team",
-    primaryLabel: "Meet the named crew",
-    secondaryHref: "/verify-jvto",
-    secondaryLabel: "Verify JVTO",
-  },
-  "our-story": {
-    h2: "The same operation, documented.",
-    primaryHref: "/why-jvto/our-team",
-    primaryLabel: "Meet the team",
-    secondaryHref: "/verify-jvto",
-    secondaryLabel: "Verify JVTO",
-  },
-  "our-team": {
-    h2: "Real people. Real credentials.",
-    primaryHref: "/why-jvto/reviews",
-    primaryLabel: "Read their reviews",
-    secondaryHref: "/why-jvto/the-jvto-difference",
-    secondaryLabel: "The JVTO Difference",
-  },
-  "community-standards": {
-    h2: "Clear rules. Better trips.",
-    primaryHref: "/policy",
-    primaryLabel: "Read the full policies",
-    secondaryHref: "/why-jvto/our-team",
-    secondaryLabel: "Meet the team",
-  },
-};
-
-const DEFAULT_CTA: SlugCta = {
-  h2: "Don’t guess. Verify.",
-  primaryHref: "/verify-jvto",
-  primaryLabel: "Open the proof library",
-  secondaryHref: "/tours",
-  secondaryLabel: "Explore private tours",
-};
-
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/why-jvto").map((route) => ({
-    slug: route.replace("/why-jvto/", ""),
-  }));
+  return listPublishedStaticPages({ section: "why-jvto" })
+    .filter((p) => p.meta.route !== "/why-jvto")
+    .map((p) => ({ slug: p.meta.route.replace("/why-jvto/", "") }));
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      // Non-default schema classification from the content file (null = WebPage only).
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["sections"],
-  });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-  if (!Array.isArray(content.sections) || content.sections.length === 0) {
+  const page = loadStaticPage(`/why-jvto/${slug}`);
+  if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
   return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(`/why-jvto/${slug}`) },
   };
 }
 
-function SectionNav({
-  items,
-}: {
-  items?: Array<{ id: string; label: string; href: string }>;
-}) {
-  if (!items?.length) return null;
+/** Aggregate rating cards for /why-jvto/reviews — real canonical platform data, HTML-only (not schema). */
+function ReviewsAggregateCards() {
+  const platforms = REVIEW_PLATFORMS.filter((p) => p.rating != null && p.count != null);
   return (
-    <nav
-      style={{
-        marginBottom: "2rem",
-        borderRadius: "0.875rem",
-        border: "1px solid #dde8c0",
-        background: "#f7faf0",
-        padding: "1.125rem 1.375rem",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.6rem",
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-          color: "#7aaa1a",
-          marginBottom: "0.75rem",
-        }}
-      >
-        ◆ On this page
-      </div>
-      <ul
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "0.375rem",
-          listStyle: "none",
-          padding: 0,
-          margin: 0,
-        }}
-      >
-        {items.map((it) => (
-          <li key={it.id}>
-            <a
-              href={it.href}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.3rem",
-                fontSize: "0.82rem",
-                fontWeight: 500,
-                color: "#3a5218",
-                textDecoration: "none",
-                fontFamily: "'DM Sans', sans-serif",
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9fce33" strokeWidth="2.5" aria-hidden="true">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-              {it.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className="jw-agg-grid" style={{ marginBottom: "2rem" }}>
+      {platforms.map((p) => (
+        <div key={p.platform} className="jw-agg">
+          <span className="jw-agg-plat">{p.platform}</span>
+          <span className="jw-agg-score">
+            {p.rating}
+            <small> / 5</small>
+          </span>
+          <span className="jw-stars" aria-hidden="true">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={13} fill="currentColor" strokeWidth={0} />
+            ))}
+          </span>
+          <span className="jw-agg-meta">
+            <span>{p.count} reviews</span>
+            <span>{p.lastVerified ? `Verified ${p.lastVerified}` : "—"}</span>
+          </span>
+        </div>
+      ))}
+    </div>
   );
 }
-
-const ArrowRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-);
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
   const route = `/why-jvto/${slug}`;
-  const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
-  const slugCta = SLUG_CTA[slug] ?? DEFAULT_CTA;
-  const currentHref = route;
 
-  const [page, reviewsData] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
-      requiredContentFields: ["sections"],
-    }),
-    slug === "reviews" ? getReviewsForSchema().catch(() => []) : Promise.resolve([]),
-  ]);
-  const content = page.pageRow.content as any;
-  if (!Array.isArray(content?.sections) || content.sections.length === 0) {
+  const page = loadStaticPage(route);
+  if (!page || page.meta.status !== "published" || !page.sections?.length) {
     return notFound();
   }
 
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
-  const googleStats = slug === "reviews" ? await getGoogleReviewStats() : null;
-  const slugExtraSchemas =
-    slug === "reviews"
+  const reviewsData =
+    slug === "reviews" ? await getReviewsForSchema().catch(() => []) : [];
+
+  const h1 = page.meta.title;
+  const faqItems = page.faq ?? [];
+  const faqSchemaNode = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
+
+  const slugExtraSchemas = [
+    faqSchemaNode,
+    ...(slug === "reviews"
       ? [
           buildWhyJvtoReviewsAggregateRatingSchema(),
           ...buildIndividualReviewSchemas(
             reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
           ),
-        ].filter(Boolean)
-      : undefined;
+        ]
+      : []),
+  ].filter(Boolean);
 
   return (
     <>
-      <PageJsonLdCombined
-        pageRow={page.pageRow}
-        extraSchemas={slugExtraSchemas}
-      />
+      <style>{WHY_JVTO_STYLES}</style>
 
-      {/* ── Interior hero — navy ───────────────────────────────────────── */}
-      <section className="bg-jvto-navy pt-24 md:pt-36 pb-28 md:pb-36 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
-            <Link href="/" prefetch={false} className="hover:text-white/70 transition-colors">Home</Link>
-            <span>›</span>
-            <Link href="/why-jvto" prefetch={false} className="hover:text-white/70 transition-colors">Why JVTO</Link>
-            <span>›</span>
-            <span className="text-white/70">{h1}</span>
-          </nav>
-          <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
-            <div>
-              {heroMeta.eyebrow && (
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
-                    {heroMeta.eyebrow}
-                  </span>
-                  {heroMeta.eyebrowMeta && (
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
-                      {heroMeta.eyebrowMeta}
-                    </span>
-                  )}
-                </div>
-              )}
-              <h1
-                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
-              >
-                {h1}
-              </h1>
-              {content?.hero_subhead && (
-                <p className="text-white/80 text-[17px] font-semibold mb-3">{content.hero_subhead}</p>
-              )}
-              <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {heroMeta.lede}
-              </p>
-            </div>
-            {heroMeta.metaRows.length > 0 && (
-              <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-                {heroMeta.metaRows.map(({ label, value }) => (
-                  <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
-                    <strong className="text-white text-sm font-semibold text-right">{value}</strong>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      <div className="jw-root" style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}>
+        <SidebarDesktop currentPath={`/why-jvto/${slug}`} />
+        <PageJsonLdCombined
+          pageRow={staticPageRow(page)}
+          extraSchemas={slugExtraSchemas}
+          suppressCmsFaq
+        />
 
-      {/* ── Article section — off-white, stacked ──────────────────────── */}
-      <section
-        className="bg-[#F6F5F2] py-16 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12 md:gap-16">
-
-            {/* Sidebar nav */}
-            <aside className="md:sticky md:top-24 self-start">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-4">
-                Why JVTO
-              </p>
-              <nav className="space-y-0.5">
-                {WHY_JVTO_NAV.map(({ href, label }) => {
-                  const isActive = href === currentHref;
-                  return (
-                    <Link
-                      key={href}
-                      href={href}
-                      prefetch={false}
-                      className={`block text-[13px] font-medium py-2 px-3 rounded-lg transition-colors ${
-                        isActive
-                          ? "bg-jvto-navy text-white"
-                          : "text-[#6b7280] hover:text-jvto-navy hover:bg-white"
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  );
-                })}
-              </nav>
-              <Link
-                href="/verify-jvto"
-                prefetch={false}
-                className="inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors"
-              >
-                Open proof library <ArrowRight />
+        <main
+          className="pt-30 md:pt-40"
+          style={{
+            flex: 1,
+            paddingBottom: "6rem",
+            fontFamily: "'Inter', system-ui, sans-serif",
+            color: "#0D1B2A",
+          }}
+        >
+          <div
+            className="container mx-auto px-4 max-w-6xl"
+            style={{ margin: "0 auto", padding: "0 1.5rem" }}
+          >
+            {/* ── Breadcrumb ── */}
+            <nav className="jw-crumbs" style={{ marginTop: 0 }}>
+              <Link href="/" prefetch={false}>
+                <Home size={13} />
               </Link>
-            </aside>
+              <span className="jw-sep">/</span>
+              <Link href="/why-jvto" prefetch={false}>
+                Why JVTO
+              </Link>
+              <span className="jw-sep">/</span>
+              <span className="jw-here">{h1}</span>
+            </nav>
 
-            {/* Article body */}
-            <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              {/* Lede paragraphs */}
-              {Array.isArray(content?.lede) && content.lede.length > 0 && (
-                <div className="mb-8">
-                  <MarkdownRenderer markdown={content.lede.join("\n\n")} />
+            {/* ── Interior hero ── */}
+            <header className="jw-hero" style={{ marginBottom: "2.5rem" }}>
+              <div className="jw-hero-inner">
+                <div className="jw-hero-eyebrow-row">
+                  <span className="jw-eyebrow-pill">Why JVTO</span>
+                  <span className="jw-eyebrow-meta">
+                    {WHY_MENU.find((m) => m.href === route)?.label ?? h1}
+                  </span>
                 </div>
-              )}
+                <h1 className="jw-hero-h1" style={{ maxWidth: "26ch" }}>
+                  {h1}
+                </h1>
+                {Array.isArray(page.lede) && page.lede.length > 0 && (
+                  <p className="jw-hero-lede">{page.lede[0]}</p>
+                )}
+              </div>
+            </header>
 
-              {/* Section nav (on-page TOC) */}
-              <SectionNav items={content?.section_nav} />
+            {/* ── Mobile cross-link strip (desktop uses the persistent rail) ── */}
+            <nav
+              className="md:hidden"
+              style={{
+                display: "flex",
+                gap: "0.5rem",
+                overflowX: "auto",
+                paddingBottom: "1rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              {WHY_MENU.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={false}
+                  className="jw-inline-link"
+                  style={{
+                    whiteSpace: "nowrap",
+                    padding: "0.4rem 0.75rem",
+                    borderRadius: "999px",
+                    border: "1px solid #E3E0DA",
+                    borderBottom: "1px solid #E3E0DA",
+                    background: item.href === route ? "#0D1B2A" : "#fff",
+                    color: item.href === route ? "#fff" : "#0D1B2A",
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
 
-              {/* Sections */}
-              {Array.isArray(content?.sections) &&
-                content.sections.map((sec: any) => (
+            <div className="jw-article-layout">
+              <aside className="jw-article-side hidden md:block">
+                <div className="jw-side-label">Why JVTO</div>
+                <ul>
+                  {WHY_MENU.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        prefetch={false}
+                        className={item.href === route ? "jw-active" : ""}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/verify-jvto" prefetch={false} className="jw-inline-link">
+                  Open proof library →
+                </Link>
+              </aside>
+
+              <div style={{ minWidth: 0 }}>
+                {/* ── Reviews-only aggregate score cards ── */}
+                {slug === "reviews" && <ReviewsAggregateCards />}
+
+                {/* ── Sections ── */}
+                {page.sections.map((sec) => (
                   <section
                     key={sec.id}
                     id={sec.id}
                     style={{ marginBottom: "3.5rem", scrollMarginTop: "7rem" }}
                   >
-                    <h2
-                      style={{
-                        fontSize: "clamp(1.1rem, 2.2vw, 1.45rem)",
-                        fontWeight: 700,
-                        letterSpacing: "-0.015em",
-                        color: "#0c0e09",
-                        margin: "0 0 1.25rem 0",
-                        paddingBottom: "0.625rem",
-                        borderBottom: "2px solid #9fce33",
-                        display: "inline-block",
-                      }}
-                    >
-                      {sec.title}
-                    </h2>
-
-                    {sec.summary && (
-                      <p
-                        style={{
-                          fontSize: "0.9rem",
-                          color: "#6b7a55",
-                          lineHeight: 1.65,
-                          marginBottom: "1.25rem",
-                          maxWidth: "600px",
-                        }}
-                      >
-                        {sec.summary}
-                      </p>
-                    )}
+                    <div className="jw-section-head">
+                      <h2 className="jw-section-h2">{sec.title}</h2>
+                      {(sec as any).summary && (
+                        <p className="jw-section-sub">{(sec as any).summary}</p>
+                      )}
+                    </div>
 
                     <div>
                       {sec.blocks ? (
-                        <BlocksRenderer blocks={sec.blocks} sectionId={sec.id} />
-                      ) : sec.body_md ? (
-                        <MarkdownRenderer markdown={sec.body_md} />
+                        <BlocksRenderer blocks={sec.blocks as any} sectionId={sec.id} />
                       ) : null}
                     </div>
 
                     <EvidenceBox
-                      evidence={sec.evidence}
+                      evidence={(sec as any).evidence}
                       title="Evidence"
                       description="Open the Proof Library for documents and verification links related to this claim."
                     />
                   </section>
                 ))}
 
-              {/* Fallback body_md */}
-              {content?.body_md && (
-                <section style={{ marginTop: "2.5rem" }}>
-                  <MarkdownRenderer markdown={content.body_md} />
-                </section>
-              )}
+                {/* ── FAQ — same array as the FAQPage JSON-LD (AD-08) ── */}
+                {faqItems.length > 0 && (
+                  <Faq
+                    items={faqItems.map((f) => ({ q: f.question, a: f.answer }))}
+                    title="FAQ"
+                  />
+                )}
 
-              {/* FAQ */}
-              {content?.faq && (
-                <Faq items={content.faq} title={content?.faq_title ?? "FAQ"} />
-              )}
-
-              {/* Our team → safety cross-link */}
-              {slug === "our-team" && (
-                <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid #E3E0DA" }}>
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange mb-2">
-                    Safety on Tours
+                {slug === "our-team" && (
+                  <div className="jw-data-box">
+                    <div className="jw-k">Safety on Tours</div>
+                    <Link
+                      href="/travel-guide/safety-on-tours"
+                      prefetch={false}
+                      className="jw-v"
+                      style={{ color: "#0D1B2A", textDecoration: "none" }}
+                    >
+                      How JVTO manages safety on the road, at viewpoints, and on the mountain →
+                    </Link>
                   </div>
-                  <Link href="/travel-guide/safety-on-tours" prefetch={false} className="text-[15px] font-semibold text-jvto-navy hover:text-jvto-orange transition-colors">
-                    How JVTO manages safety on the road, at viewpoints, and on the mountain →
-                  </Link>
+                )}
+
+                {/* ── Cross-cluster CTA ── */}
+                <div className="jw-cta-block">
+                  <h2>
+                    Don&rsquo;t guess. <span className="jw-accent-orange">Verify.</span>
+                  </h2>
+                  <div className="jw-cta-ctas">
+                    <Link href="/verify-jvto" prefetch={false} className="jw-primary">
+                      Open the proof library →
+                    </Link>
+                    <Link href="/why-jvto" prefetch={false} className="jw-ghost">
+                      Back to Why JVTO
+                    </Link>
+                  </div>
                 </div>
-              )}
-            </article>
-
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── CTA — navy, stacked ───────────────────────────────────────── */}
-      <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
-          <h2
-            className="font-black text-white leading-[1.02] mb-8"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 4vw, 44px)" }}
-          >
-            {slugCta.h2}
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href={slugCta.primaryHref}
-              prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
-            >
-              {slugCta.primaryLabel} <ArrowRight />
-            </Link>
-            {slugCta.secondaryExternal ? (
-              <a
-                href={slugCta.secondaryHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-              >
-                {slugCta.secondaryLabel}
-              </a>
-            ) : (
-              <Link
-                href={slugCta.secondaryHref}
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-              >
-                {slugCta.secondaryLabel}
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
+        </main>
+      </div>
     </>
   );
 }
