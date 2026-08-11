@@ -1,12 +1,8 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
 
 const ARTICLES = [
   { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
@@ -24,19 +20,14 @@ const ARTICLES = [
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot("/travel-guide", {
-    allowDatabaseFallback: false,
-  });
-  const title = page.snapshot.seo.title;
+  const page = loadStaticPage("/travel-guide");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
   const description =
-    page.snapshot.seo.description ??
+    page?.meta.description ??
     "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : "Travel Guide";
+  const h1 = page?.meta.title ?? "Travel Guide";
 
-  return {
+  return buildStaticRouteMetadata("/travel-guide", {
     title,
     description,
     openGraph: {
@@ -61,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [siteUrl + "/assets/img/og/travel-guide.webp"],
     },
-  };
+  });
 }
 
 const ArrowRight = () => (
@@ -71,21 +62,25 @@ const ArrowRight = () => (
 );
 
 export default async function TravelGuideHubPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/travel-guide", { allowDatabaseFallback: false }),
-    resolveFaqsForPage("/travel-guide"),
-  ]);
-  const tgHubExtraSchemas = [
-    buildTgHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
-  ].filter(Boolean);
+  const page = loadStaticPage("/travel-guide");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
+  const description =
+    page?.meta.description ??
+    "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
+  const h1 = page?.meta.title ?? "Travel Guide";
+
+  const tgHubExtraSchemas = [buildTgHubItemListSchema()].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/travel-guide",
+          lang: "en",
+          seo: { title, description },
+          content: { h1 },
+        }}
         extraSchemas={tgHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
