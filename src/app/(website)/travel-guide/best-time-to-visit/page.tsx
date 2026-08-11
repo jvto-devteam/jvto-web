@@ -2,11 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageJsonLdCombined } from '@/components/seo/PageJsonLdCombined';
 import Sidebar from '../sidebar';
-import { resolveFaqsForPage, buildResolvedFaqSchema } from '@/lib/content/resolveFaqs';
+import { loadStaticPage, buildStaticRouteMetadata } from '@/lib/static-content';
 import { Faq } from '@/components/content/Faq';
 
 const ROUTE = '/travel-guide/best-time-to-visit';
+const SITE_URL = 'https://javavolcano-touroperator.com';
 
+// Fallback copy — only used if content/pages/travel-guide/best-time-to-visit.json
+// is ever unavailable at build/runtime (should not happen; kept for safety).
 const PAGE_META = {
   title: 'Best Time to Visit Bromo, Ijen & Tumpak Sewu | JVTO',
   description:
@@ -38,30 +41,46 @@ function ratingClass(rating: string): string {
 
 export const revalidate = 86400;
 
-export const metadata: Metadata = {
-  title: PAGE_META.title,
-  description: PAGE_META.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? PAGE_META.title;
+  const description = page?.meta.description ?? PAGE_META.description;
+  return buildStaticRouteMetadata(ROUTE, { title, description });
+}
 
 export default async function BestTimeToVisitPage() {
-  const faqResolution = await resolveFaqsForPage(ROUTE);
-  const faqSchema = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? PAGE_META.title;
+  const description = page?.meta.description ?? PAGE_META.description;
+  const h1 = page?.meta.title ?? PAGE_META.h1;
 
   const pageRow = {
     route: ROUTE,
     lang: 'en',
-    seo: { title: PAGE_META.title, description: PAGE_META.description },
-    content: { h1: PAGE_META.h1 },
+    seo: { title, description },
+    content: { h1 },
   };
 
-  const faqItems = faqResolution.faqs.map((p) => ({ q: p.question, a: p.answer }));
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+  const faqSchema = faqItems.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': `${SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((it) => ({
+          '@type': 'Question',
+          name: it.q,
+          acceptedAnswer: { '@type': 'Answer', text: it.a },
+        })),
+      }
+    : null;
 
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[faqSchema].filter(Boolean) as any[]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq={true}
       />
       <Sidebar />
 
@@ -79,7 +98,7 @@ export default async function BestTimeToVisitPage() {
 
           {/* Header */}
           <header className="mb-8">
-            <h1 className="text-3xl font-semibold tracking-tight">{PAGE_META.h1}</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">{h1}</h1>
           </header>
 
           {/* Intro */}

@@ -1,16 +1,20 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 
 export const revalidate = 86400;
 
 const ROUTE = "/travel-guide/police-escort-for-groups";
 const SITE_URL = "https://javavolcano-touroperator.com";
+
+// Fallback copy — only used if content/pages/travel-guide/police-escort-for-groups.json
+// is ever unavailable at build/runtime (should not happen; kept for safety).
+const FALLBACK_SEO = {
+  title: "Police Escort for Groups · JVTO Travel Guide",
+  description:
+    "How official traffic police escorts work for larger tourist groups in East Java. When it is appropriate, how JVTO coordinates it, and what it involves.",
+};
 
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
@@ -47,15 +51,10 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { pageRow } = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  });
-  const seo = (pageRow.seo as Record<string, any> | null) ?? {};
-  const title = seo.title ?? "Police Escort for Groups · JVTO Travel Guide";
-  const description =
-    seo.description ??
-    "How official traffic police escorts work for larger tourist groups in East Java. When it is appropriate, how JVTO coordinates it, and what it involves.";
-  return {
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  return buildStaticRouteMetadata(ROUTE, {
     title,
     description,
     openGraph: {
@@ -66,22 +65,28 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       type: "article",
     },
-  };
+  });
 }
 
 export default async function PoliceEscortPage() {
-  const [{ pageRow }, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  const h1 = page?.meta.title ?? FALLBACK_SEO.title;
+
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title, description },
+    content: { h1 },
+  };
 
   return (
     <>
       <PageJsonLdCombined
         pageRow={pageRow}
-        extraSchemas={[faqNode].filter(Boolean)}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        extraSchemas={[]}
+        suppressCmsFaq={true}
       />
 
       {/* ── Interior hero — navy ────────────────────────────────────────── */}

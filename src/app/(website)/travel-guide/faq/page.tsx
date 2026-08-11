@@ -3,8 +3,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { composeGraph } from "@/lib/schema/contract";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import Link from "@/components/website/AppLink";
-import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicFaqCategories } from "@/lib/publicContent/faqSnapshot";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 
 export const revalidate = 3600;
 
@@ -25,6 +24,8 @@ const GUIDE_NAV = [
   { href: "/travel-guide/faq", label: "FAQ" },
 ];
 
+// Fallback copy — only used if content/pages/travel-guide/faq.json is ever
+// unavailable at build/runtime (should not happen; kept for safety).
 const fallbackSeo = {
   title: "Bromo, Ijen & Tumpak Sewu Tour FAQ | JVTO",
   h1: "Travel guide FAQ.",
@@ -32,20 +33,44 @@ const fallbackSeo = {
     "Plain-language answers to the questions in almost every inquiry. If yours is not here, ask via WhatsApp — a human answers.",
 };
 
+type FaqCategory = { id: string; name: string; faqs: { question: string; answer: string }[] };
+
+/** Maps this page's structured `sections` (grid blocks with role "faq-list") into
+ * the same {id, name, faqs} shape the JSX below already renders. */
+function extractFaqCategories(
+  page: ReturnType<typeof loadStaticPage>,
+): FaqCategory[] {
+  if (!page?.sections) return [];
+  return page.sections
+    .map((section) => {
+      const faqs = (section.blocks ?? [])
+        .filter((b): b is typeof b & { type: "grid"; items: any[] } => b.type === "grid")
+        .flatMap((b) => b.items)
+        .filter(
+          (it): it is { question: string; answer: string } =>
+            typeof it?.question === "string" && typeof it?.answer === "string",
+        );
+      return { id: section.id, name: section.title ?? "", faqs };
+    })
+    .filter((cat) => cat.faqs.length > 0);
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo(ROUTE, fallbackSeo);
-  return {
-    title: seo.title,
-    description: seo.description,
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? fallbackSeo.title;
+  const description = page?.meta.description ?? fallbackSeo.description;
+  return buildStaticRouteMetadata(ROUTE, {
+    title,
+    description,
     openGraph: {
-      title: seo.title,
-      description: seo.description,
+      title,
+      description,
       url: `${SITE_URL}${ROUTE}`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
     },
-  };
+  });
 }
 
 const ArrowRight = () => (
@@ -55,28 +80,19 @@ const ArrowRight = () => (
 );
 
 export default async function FaqPage() {
-  const [seo, categoriesData] = await Promise.all([
-    getPageSeo(ROUTE, fallbackSeo),
-    getPublicFaqCategories(),
-  ]);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? fallbackSeo.title;
+  const description = page?.meta.description ?? fallbackSeo.description;
+  const h1 = page?.meta.title ?? fallbackSeo.h1;
 
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: ROUTE,
-        lang: "en",
-        seo: { title: seo.title, description: seo.description },
-        content: { h1: seo.h1 },
-      };
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title, description },
+    content: { h1 },
+  };
 
-  const categories = categoriesData.filter((cat) => cat.faqs.length > 0);
+  const categories = extractFaqCategories(page);
 
   const allFaqsForSeo = categories.flatMap((cat) =>
     cat.faqs.map((faq) => ({ question: faq.question, answer: faq.answer }))
