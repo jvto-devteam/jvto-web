@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { Faq } from "@/components/content/Faq";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import {
   buildResolvedFaqSchema,
   resolveFaqsForPage,
@@ -28,17 +27,13 @@ const POLICY_NAV = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  }).catch(() => null);
-  const seo = (page?.pageRow.seo as Record<string, unknown> | null) ?? {};
-  return {
-    title:
-      (seo.title as string | undefined) ?? "Inclusions & Exclusions Policy · JVTO",
-    description:
-      (seo.description as string | undefined) ??
-      "What is — and is not — included in a confirmed JVTO private tour. Only what is written on your Official E-Voucher is contractually binding.",
-  };
+  const page = loadStaticPage(ROUTE);
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "Inclusions & Exclusions Policy · JVTO";
+  const description =
+    page?.meta.description ??
+    "What is — and is not — included in a confirmed JVTO private tour. Only what is written on your Official E-Voucher is contractually binding.";
+  return buildStaticRouteMetadata(ROUTE, { title, description });
 }
 
 const ArrowRight = () => (
@@ -57,24 +52,26 @@ const ArrowRight = () => (
 
 export default async function InclusionsExclusionsPage() {
   const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
+    loadStaticPage(ROUTE),
     resolveFaqsForPage(ROUTE),
   ]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, unknown> | null) ?? {};
-  const h1 = content?.h1 ?? (seo.title as string | undefined) ?? "Inclusions & Exclusions";
-  const body: string = content?.body_md ?? "";
+  if (!page?.body?.trim().length) return notFound();
 
-  if (!body.trim().length) return notFound();
+  const h1 = page.meta.title ?? "Inclusions & Exclusions";
+  const seoTitle =
+    page.meta.browserTitle ?? page.meta.title ?? "Inclusions & Exclusions Policy · JVTO";
+  const seoDescription =
+    page.meta.description ??
+    "What is — and is not — included in a confirmed JVTO private tour. Only what is written on your Official E-Voucher is contractually binding.";
+  const body: string = page.body ?? "";
 
   const mentionsTermIds = POLICY_SLUG_MENTIONS[SLUG] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: SLUG,
-    name: (seo.title as string | undefined) ?? h1,
+    name: seoTitle,
     description:
-      (seo.description as string | undefined) ??
+      page.meta.summary ??
       "What is and is not included in a confirmed JVTO private tour.",
     mentionsTermIds,
   });
@@ -86,7 +83,12 @@ export default async function InclusionsExclusionsPage() {
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: ROUTE,
+          lang: "en",
+          seo: { title: seoTitle, description: seoDescription },
+          content: { h1 },
+        }}
         extraSchemas={extraSchemas}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
@@ -188,9 +190,6 @@ export default async function InclusionsExclusionsPage() {
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <MarkdownRenderer markdown={body} />
-              {content?.faq && (
-                <Faq items={content.faq} title={content.faq_title ?? "FAQ"} />
-              )}
             </article>
 
           </div>
