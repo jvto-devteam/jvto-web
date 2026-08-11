@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
-import { getPolicyDomain } from "@/lib/policy-bundle";
 import {
   ArrowLeft,
   Upload,
@@ -13,16 +12,6 @@ import {
   Loader2,
   FileText,
 } from "lucide-react";
-
-const invoicePaymentPolicyNote =
-  getPolicyDomain("invoice", "payment-rules")?.notes ??
-  "20% deposit standard; close-departure bookings may require full payment.";
-
-// Anti-fraud domain is tagged for both "website_checkout" and
-// "payment_instructions" consumers in the synced bundle — checkout already
-// surfaces it; this page is the other "payment_instructions" surface, shown
-// right where users are about to copy account numbers.
-const bankTransferAntiFraudNote = getPolicyDomain("website_checkout", "anti-fraud")?.notes;
 
 // --- HELPERS ---
 const formatIDR = (num: number) =>
@@ -168,16 +157,22 @@ export default function BankTransferUploadPage() {
               <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
                 Bank Transfer Information
               </p>
-              {bankTransferAntiFraudNote && (
-                <div className="mb-4 flex gap-2 rounded-sm border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
-                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-                  <span>{bankTransferAntiFraudNote}</span>
-                </div>
-              )}
               <div className="space-y-3">
                 <div className="bg-white p-4 rounded-sm border border-slate-200">
                   <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
-                    Bank Central Asia (BCA)
+                    Bank BRI
+                  </p>
+                  <p className="font-black text-slate-900">
+                    PT Java Volcano Rendezvous
+                  </p>
+                  <p className="text-sm font-bold text-slate-700 mt-1">
+                    001301001779564
+                  </p>
+                  <p className="text-xs text-slate-500">SWIFT: BRINIDJAXXX</p>
+                </div>
+                <div className="bg-white p-4 rounded-sm border border-slate-200">
+                  <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
+                    Bank BCA
                   </p>
                   <p className="font-black text-slate-900">
                     PT Java Volcano Rendezvous
@@ -189,7 +184,6 @@ export default function BankTransferUploadPage() {
                 </div>
               </div>
               <p className="text-xs text-slate-500 mt-4 text-center">
-                {invoicePaymentPolicyNote}{" "}
                 For detailed payment terms, please check our{" "}
                 <a
                   href="https://javavolcano-touroperator.com/policy/booking-payment-cancellation"

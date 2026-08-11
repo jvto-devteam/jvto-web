@@ -1,12 +1,4 @@
 // app/(website)/destinations/[slug]/page.tsx
-//
-// PACKAGE 06 (2026-08-06): the detail route's evergreen narrative + SEO come from the
-// static-content SSOT (content/pages/destinations/<slug>.json) — hero chrome, quick
-// facts, the signature narrative, the TouristAttraction facts, the travel-guide handoff
-// and related destinations. Dynamic data stays DB-sourced: identity, coordinates, media,
-// route stats, volcanic status, tours (+ prices), org profile. Importing loadStaticPage
-// also flips the authority manifest to "content/ (Git SSOT)". The evergreen narrative and
-// SEO no longer read the DB CMS page table or the DB page-SEO resolver.
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import type { Metadata } from "next";
@@ -23,14 +15,13 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getWebDestinationDetail } from "@/lib/destinations/getWebDestinationDetail";
 import { getToursByDestination } from "@/lib/queries/toursByDestination";
 import {
   buildToursIncludingDestSchema,
   buildDestinationTravelGuideHandoffSchema,
   buildTouristAttractionSchema,
-  type ContentAttraction,
 } from "@/lib/schemas/buildDestinationsSchemas";
-import { loadStaticPage, staticRouteCanonical, type StaticPage } from "@/lib/static-content";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 import fs from "fs";
 import path from "path";
@@ -48,33 +39,39 @@ export interface RouteStats {
   bbox: [number, number, number, number];
 }
 
-// ─── Content accessors (evergreen narrative from content/pages/destinations/<slug>.json) ───
-type ContentSection = NonNullable<StaticPage["sections"]>[number] & Record<string, unknown>;
+// SEO AUDIT 2026-05-17 (QW-8): keyword-optimised title tag overrides per destination.
+// "Mount Ijen" leads (5-10× more searched than "Kawah Ijen" internationally).
+const DEST_TITLE_OVERRIDES: Record<string, string> = {
+  "ijen-crater":           "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+  "mount-bromo":           "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+  "tumpak-sewu-waterfall": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+  "madakaripura-waterfall":"Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+  "papuma-beach":          "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
+};
 
-function findSection(page: StaticPage, id: string): ContentSection | undefined {
-  return page.sections?.find((s) => s.id === id) as ContentSection | undefined;
-}
-function sectionGrid(sec: ContentSection | undefined, role: string): Record<string, unknown>[] {
-  const block = (sec?.blocks ?? []).find(
-    (b) => b.type === "grid" && (b as { role?: string }).role === role,
-  );
-  return block ? ((block as { items?: Record<string, unknown>[] }).items ?? []) : [];
-}
+// SEO AUDIT 2026-05-17 (QW-9): 3-part meta description formula per destination.
+// Formula: [Destination + key feature] · [Differentiator] · [Trust signal]
+const DEST_DESC_OVERRIDES: Record<string, string> = {
+  "ijen-crater":           "Private Ijen blue fire hike from Surabaya or Bali. Gas mask, BBKSDA permit & health certificate coordinated. Tourist Police-led. 4.8★ Trustpilot.",
+  "mount-bromo":           "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
+  "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led. 4.8★ Trustpilot.",
+  "madakaripura-waterfall":"Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
+  "papuma-beach":          "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
+};
 
-export interface QuickFact {
-  icon: string;
-  k: string;
-  v: string;
-  sub?: string;
-  span2?: boolean;
-}
-export interface DestChrome {
-  eyebrow: string;
-  locationLabel: string;
-}
-export interface SignatureBlock {
-  body_md: string;
-}
+const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
+  "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
+  "mount-bromo": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "tumpak-sewu-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "madakaripura-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+};
+
+const DEST_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
+  "ijen-crater": [{ slug: "mount-bromo", name: "Mount Bromo" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "mount-bromo": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "tumpak-sewu-waterfall": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+  "madakaripura-waterfall": [{ slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -90,12 +87,25 @@ const getDestination = cache(async (slug: string): Promise<DestinationDetail | n
   getPublicDestinationDetail(slug),
 );
 
-function readRouteStats(_slug: string): RouteStats | null {
+// 3D trail data is managed through jvto-cms (GPX upload -> route_geojson + route_* stat
+// columns on `destinations`) and preferred here. The static public/routes/index.json export
+// is kept only as a fallback for any destination that hasn't had its GPX re-uploaded yet.
+function deriveRouteStats(data: DestinationDetail, slug: string): RouteStats | null {
+  if (data.route_geojson && data.route_length_m != null) {
+    return {
+      slug,
+      length_km: data.route_length_m / 1000,
+      elev_gain_m: data.route_elev_gain_m ?? 0,
+      elev_max_m: data.route_max_alt_m ?? 0,
+      elev_min_m: data.route_elev_min_m ?? 0,
+      bbox: (data.route_bbox as [number, number, number, number]) ?? [0, 0, 0, 0],
+    };
+  }
   try {
     const indexPath = path.join(process.cwd(), "public", "routes", "index.json");
     const raw = fs.readFileSync(indexPath, "utf8");
     const index = JSON.parse(raw) as { routes: RouteStats[] };
-    return index.routes.find((r) => r.slug === _slug) ?? null;
+    return index.routes.find((r) => r.slug === slug) ?? null;
   } catch {
     return null;
   }
@@ -184,16 +194,15 @@ function buildPvmbgReportSchema(
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = await getDestination(slug);
+
   if (!data) return { title: "Destination Not Found" };
 
-  const content = loadStaticPage(`/destinations/${slug}`);
-  const title =
-    content?.meta.title ?? data.seo_title?.trim() ?? `${data.name} | JVTO Tours`;
+  const title = DEST_TITLE_OVERRIDES[slug] || data.seo_title?.trim() || `${data.name} | JVTO Tours`;
   const description =
-    content?.meta.description ??
-    data.seo_description?.trim() ??
-    data.summary ??
-    data.highlight ??
+    DEST_DESC_OVERRIDES[slug] ||
+    data.seo_description?.trim() ||
+    data.summary ||
+    data.highlight ||
     "";
   const imageUrl = data.banner?.url
     ? data.banner.url.startsWith("http")
@@ -204,7 +213,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: staticRouteCanonical(`/destinations/${slug}`) },
+    alternates: { canonical: `${SITE_URL}/destinations/${slug}` },
     openGraph: {
       title,
       description,
@@ -239,51 +248,27 @@ export default async function DestinationDetailPage({ params }: Props) {
     getDestination(slug),
     getOrganizationProfile(),
   ]);
-  const routeStats = readRouteStats(slug);
   const volcanicStatus = readVolcanicStatus(slug);
 
   if (!data) notFound();
 
-  // Evergreen narrative + SEO from content/ (Git SSOT). dynamicParams=false + the
-  // ownership gate guarantee a published content record for every rendered slug.
-  const content = loadStaticPage(`/destinations/${slug}`);
-  if (!content || content.meta.status !== "published") {
-    throw new Error(
-      `destinations detail: missing published content/pages/destinations/${slug}.json`,
-    );
-  }
-
-  const chromeSec = findSection(content, "chrome");
-  const attractionSec = findSection(content, "attraction");
-  const signatureSec = findSection(content, "signature");
-  const handoffSec = findSection(content, "handoff");
-
-  const chrome: DestChrome = {
-    eyebrow: String(chromeSec?.eyebrow ?? ""),
-    locationLabel: String(chromeSec?.location_label ?? ""),
-  };
-  const quickFacts = sectionGrid(chromeSec, "quick-facts") as unknown as QuickFact[];
-  const elevationStat = (sectionGrid(chromeSec, "elevation-stat")[0] ?? {
-    label: "Elevation",
-    value: "",
-  }) as { label: string; value: string };
-  const overviewLede = content.lede?.[0] ?? "";
-  const signatureBlocks: SignatureBlock[] = (signatureSec?.blocks ?? [])
-    .filter((b) => b.type === "markdown" && typeof (b as { body_md?: unknown }).body_md === "string")
-    .map((b) => ({ body_md: (b as { body_md: string }).body_md }));
-  const attraction = attractionSec as unknown as ContentAttraction | undefined;
-  const travelGuideLink =
-    (handoffSec?.travel_guide as { href: string; label: string } | undefined) ?? null;
-  const relatedDests = sectionGrid(handoffSec, "related") as unknown as Array<{
-    slug: string;
-    name: string;
-  }>;
+  const routeStats = deriveRouteStats(data, slug);
 
   // ── Schema @graph ──────────────────────────────────────────────────────────
-  const orgNode = buildOrganizationJsonLd(org as unknown as Parameters<typeof buildOrganizationJsonLd>[0], SITE_URL);
+  //
+  // schema_json dari DB sudah berisi @graph lengkap per destination:
+  //   TouristAttraction, WebPage, BreadcrumbList, SafetyProtocol, dll
+  //
+  // Kita strip Organization & WebSite dari sana (ada di node terpisah),
+  // lalu inject Organization + WebSite dari organization_profile DB.
+
+  const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const destNodes = extractDestinationNodes(data.schema_json ?? null);
 
+  // AEO/GEO port (2026-04-29) Phase 4.8: reverse-lookup tours-including ItemList +
+  // travel-guide cross-link handoff. Per cluster_role_contracts.md Cluster 7 destination MH
+  // (un-orphans the cluster: gives AI a discoverable tours list per destination).
   const tours = await getToursByDestination(slug);
   const destinationName = data.name ?? slug;
   const toursIncludingNode = buildToursIncludingDestSchema({
@@ -292,27 +277,23 @@ export default async function DestinationDetailPage({ params }: Props) {
     tours,
   });
   const travelGuideHandoffNode = buildDestinationTravelGuideHandoffSchema({
-    slug,
-    name: destinationName,
-    href: travelGuideLink?.href ?? null,
+    destinationSlug: slug,
+    destinationName,
   });
 
-  const statusAnnouncementNode = volcanicStatus
-    ? buildStatusAnnouncementSchema(slug, destinationName, volcanicStatus, SITE_URL)
-    : null;
-  const pvmbgReportNode = volcanicStatus
-    ? buildPvmbgReportSchema(slug, destinationName, volcanicStatus, SITE_URL)
-    : null;
+  const statusAnnouncementNode =
+    volcanicStatus && data
+      ? buildStatusAnnouncementSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
+      : null;
 
-  // TouristAttraction facts from content; coordinates from the DB record (geo-feed
-  // override applied inside the builder). geo.elevation is never emitted (facts-lock).
-  const touristAttractionNode = attraction
-    ? buildTouristAttractionSchema(slug, attraction, {
-        lat: data.latitude,
-        lng: data.longitude,
-      })
-    : null;
+  const pvmbgReportNode =
+    volcanicStatus && data
+      ? buildPvmbgReportSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
+      : null;
 
+  const touristAttractionNode = buildTouristAttractionSchema(slug);
+
+  // BreadcrumbList: required on all destination pages (not auto-injected since we use <JsonLd> directly).
   const breadcrumbNode = {
     "@type": "BreadcrumbList",
     "@id": `${SITE_URL}/destinations/${slug}#breadcrumb`,
@@ -323,26 +304,23 @@ export default async function DestinationDetailPage({ params }: Props) {
     ],
   };
 
-  // WebPage node: name + description from the canonical content record (metadata==JSON-LD).
-  // destNodes from the DB schema_json would carry a WebPage/CollectionPage in rare cases;
-  // only inject the fallback when one is absent.
-  const hasWebPage = destNodes.some((n: Record<string, unknown>) =>
-    ([] as string[]).concat(n["@type"] as string).some((t) => t === "WebPage" || t === "CollectionPage"),
+  // WebPage fallback for destinations without a content_pages DB row (madakaripura, papuma).
+  // destNodes from schema_json already includes WebPage for ijen and bromo — only inject when absent.
+  const hasWebPage = destNodes.some((n: any) =>
+    ([] as string[]).concat(n["@type"]).some((t) => t === "WebPage" || t === "CollectionPage")
   );
-  const webPageFallbackNode = hasWebPage
-    ? null
-    : {
-        "@type": "WebPage",
-        "@id": `${SITE_URL}/destinations/${slug}#webpage`,
-        url: `${SITE_URL}/destinations/${slug}`,
-        name: content.meta.title,
-        description: content.meta.description,
-        inLanguage: "en",
-        isPartOf: { "@id": `${SITE_URL}/#website` },
-        about: { "@id": `${SITE_URL}/destinations/${slug}#attraction` },
-        publisher: { "@id": `${SITE_URL}/#organization` },
-        breadcrumb: { "@id": `${SITE_URL}/destinations/${slug}#breadcrumb` },
-      };
+  const webPageFallbackNode = hasWebPage ? null : {
+    "@type": "WebPage",
+    "@id": `${SITE_URL}/destinations/${slug}#webpage`,
+    url: `${SITE_URL}/destinations/${slug}`,
+    name: DEST_TITLE_OVERRIDES[slug] || `${destinationName} | JVTO`,
+    description: DEST_DESC_OVERRIDES[slug] || data.summary || data.highlight || "",
+    inLanguage: "en",
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/destinations/${slug}#attraction` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    breadcrumb: { "@id": `${SITE_URL}/destinations/${slug}#breadcrumb` },
+  };
 
   const schema = {
     "@context": "https://schema.org",
@@ -360,39 +338,54 @@ export default async function DestinationDetailPage({ params }: Props) {
     ].filter(Boolean),
   };
 
+  const travelGuideLink = DEST_TRAVEL_GUIDE_LINKS[slug];
+  const relatedDests = DEST_RELATED[slug] ?? [];
+
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView
-        data={data}
-        slug={slug}
-        routeStats={routeStats}
-        volcanicStatus={volcanicStatus}
-        relatedTours={tours}
-        chrome={chrome}
-        quickFacts={quickFacts}
-        elevationStat={elevationStat}
-        signatureBlocks={signatureBlocks}
-        overviewLede={overviewLede}
-      />
+      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} slug={slug} />
+
+      {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
+      {slug === "ijen-crater" && (
+        <div className="border-t border-amber-200 bg-amber-50">
+          <div className="container mx-auto px-4 max-w-6xl py-8">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">
+              Health Certificate Coordination
+            </p>
+            <p className="text-sm text-gray-700 leading-relaxed max-w-2xl mb-3">
+              Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024
+              thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu
+              (SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the
+              crater access gate.
+            </p>
+            <Link
+              href="/travel-guide/ijen-health-screening"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
+            >
+              How Ijen Health Screening Works →
+            </Link>
+          </div>
+        </div>
+      )}
 
       {(travelGuideLink || relatedDests.length > 0) && (
-        <div className="border-t border-jvto-border bg-jvto-off">
-          <div className="container mx-auto px-4 max-w-6xl py-10 flex flex-col sm:flex-row gap-10">
+        <div className="border-t border-gray-200 bg-gray-50">
+          <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">
             {travelGuideLink && (
               <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-muted mb-2">Travel Guide</p>
-                <Link href={travelGuideLink.href} className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors">
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Travel Guide</p>
+                <Link href={travelGuideLink.href} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
                   {travelGuideLink.label} →
                 </Link>
               </div>
             )}
             {relatedDests.length > 0 && (
               <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-muted mb-2">Related Destinations</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Related Destinations</p>
                 <div className="flex flex-wrap gap-6">
                   {relatedDests.map((d) => (
-                    <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors">
+                    <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
                       {d.name} →
                     </Link>
                   ))}
@@ -408,22 +401,28 @@ export default async function DestinationDetailPage({ params }: Props) {
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 
-/** Nodes from the DB schema_json, stripping Organization & WebSite (handled separately). */
+/**
+ * Ambil nodes dari schema_json DB, strip Organization & WebSite
+ * karena sudah dihandle dari organization_profile.
+ */
 function extractDestinationNodes(
-  schema_json: Record<string, unknown> | null,
-): Record<string, unknown>[] {
+  schema_json: Record<string, any> | null,
+): any[] {
   if (!schema_json) return [];
 
-  const graph: Record<string, unknown>[] = Array.isArray(schema_json)
-    ? (schema_json as Record<string, unknown>[])
-    : Array.isArray((schema_json as { "@graph"?: unknown })["@graph"])
-      ? ((schema_json as { "@graph": Record<string, unknown>[] })["@graph"])
+  const graph: any[] = Array.isArray(schema_json)
+    ? schema_json
+    : Array.isArray(schema_json["@graph"])
+      ? schema_json["@graph"]
       : [];
 
-  const SKIP_TYPES = ["Organization", "LocalBusiness", "TravelAgency", "WebSite"];
+  const ORG_TYPES = ["Organization", "LocalBusiness", "TravelAgency"];
+  const SKIP_TYPES = [...ORG_TYPES, "WebSite"];
 
-  return graph.filter((node) => {
-    const types = Array.isArray(node["@type"]) ? node["@type"] : [node["@type"]];
-    return !(types as string[]).some((t) => SKIP_TYPES.includes(t));
+  return graph.filter((node: any) => {
+    const types = Array.isArray(node["@type"])
+      ? node["@type"]
+      : [node["@type"]];
+    return !types.some((t: string) => SKIP_TYPES.includes(t));
   });
 }

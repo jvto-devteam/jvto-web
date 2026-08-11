@@ -1,17 +1,8 @@
 import type { MetadataRoute } from 'next'
-import { BASE_URL, isIndexableDeployment } from '@/lib/site'
+
+const SITE_URL = 'https://javavolcano-touroperator.com'
 
 export default function robots(): MetadataRoute.Robots {
-  // Preview/help deployment: izinkan crawl (supaya X-Robots-Tag noindex terbaca)
-  // tapi jangan iklankan sitemap produksi; arahkan ke host sendiri. De-index
-  // sebenarnya ditangani header noindex (next.config.ts) + meta robots (layout).
-  if (!isIndexableDeployment()) {
-    return {
-      rules: [{ userAgent: '*', allow: '/', disallow: ['/api/', '/_next/'] }],
-      sitemap: `${BASE_URL}/sitemap.xml`,
-    }
-  }
-
   return {
     rules: [
       // General crawlers — allow public pages, block internals
@@ -69,7 +60,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'Applebot', allow: '/' },
       { userAgent: 'Applebot-Extended', allow: '/' },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
-    host: BASE_URL,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

@@ -39,12 +39,12 @@ const Footer: React.FC = () => {
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           <div>
-            <h3 className="font-mono font-bold text-[11px] uppercase text-white/45 tracking-[0.22em] mb-6">Company</h3>
+            <h3 className="font-bold text-xs uppercase text-white/60 tracking-[0.2em] mb-6">Company</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/why-jvto" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Why JVTO</Link></li>
-              <li><Link href="/why-jvto/our-story" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Our Story</Link></li>
-              <li><Link href="/why-jvto/reviews" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Reviews</Link></li>
-              <li><Link href="/why-jvto/community-standards" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Community &amp; Guides</Link></li>
+              <li><Link href="/why-jvto" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Why JVTO</Link></li>
+              <li><Link href="/why-jvto/our-story" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Our Story</Link></li>
+              <li><Link href="/why-jvto/reviews" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Reviews</Link></li>
+              <li><Link href="/why-jvto/community-standards" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Community &amp; Guides</Link></li>
               <li>
                 <Link href="/verify-jvto" prefetch={false} className="font-bold text-jvto-lime hover:text-jvto-lime/80 transition-colors">
                   Verify Us
@@ -53,47 +53,50 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="font-mono font-bold text-[11px] uppercase text-white/45 tracking-[0.22em] mb-6">Travel Guide</h3>
+            <h3 className="font-bold text-xs uppercase text-white/60 tracking-[0.2em] mb-6">Travel Guide</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/travel-guide/faq" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">FAQ</Link></li>
-              <li><Link href="/travel-guide/booking-information" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Booking &amp; Payments</Link></li>
-              <li><Link href="/travel-guide/ijen-health-screening" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Ijen Health Screening</Link></li>
-              <li><Link href="/isic/student-package" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Student Deals (ISIC)</Link></li>
-              <li><Link href="/policy" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Policy</Link></li>
+              <li><Link href="/travel-guide/faq" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">FAQ</Link></li>
+              <li><Link href="/travel-guide/booking-information" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Booking &amp; Payments</Link></li>
+              <li><Link href="/travel-guide/ijen-health-screening" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Ijen Health Screening</Link></li>
+              <li><Link href="/isic/student-package" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Student Deals (ISIC)</Link></li>
+              <li><Link href="/policy" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Policy</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-mono font-bold text-[11px] uppercase text-white/45 tracking-[0.22em] mb-6">Destinations</h3>
+            <h3 className="font-bold text-xs uppercase text-white/60 tracking-[0.2em] mb-6">Destinations</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/destinations/mount-bromo" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Mount Bromo</Link></li>
-              <li><Link href="/destinations/ijen-crater" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Ijen Crater</Link></li>
-              <li><Link href="/destinations/tumpak-sewu-waterfall" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">Tumpak Sewu</Link></li>
-              <li><Link href="/tours" prefetch={false} className="text-white/70 hover:text-jvto-lime transition-colors">All Private Tours</Link></li>
+              <li><Link href="/destinations/mount-bromo" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Mount Bromo</Link></li>
+              <li><Link href="/destinations/ijen-crater" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Ijen Crater</Link></li>
+              <li><Link href="/destinations/tumpak-sewu-waterfall" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Tumpak Sewu</Link></li>
+              <li><Link href="/tours" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">All Private Tours</Link></li>
             </ul>
           </div>
-          <div>
-            <h3 className="font-mono font-bold text-[11px] uppercase text-white/45 tracking-[0.22em] mb-6">Contact</h3>
+          <div className="col-span-2 lg:col-span-2">
+            <h3 className="font-bold text-xs uppercase text-white/60 tracking-[0.2em] mb-6">Contact</h3>
             <p className="text-sm text-white/60 mb-4">
               <strong className="text-white">PT Java Volcano Rendezvous</strong><br />
               Jl. Khairil Anwar No.102 A, Badean,<br />
-              Bondowoso, East Java 68214
+              Bondowoso, East Java 68214, Indonesia
             </p>
-            <p className="text-sm text-white/60 mb-6 flex flex-col gap-1">
+            <p className="text-sm text-white/60 mb-6">
+              WhatsApp:{" "}
               <TrackedContactLink
                 channel="whatsapp"
                 href={contactInfo.whatsappLink}
                 source="footer"
                 linkText={contactInfo.whatsapp}
-                className="text-white/80 hover:text-jvto-lime underline-offset-2 hover:underline transition-colors"
+                className="text-white/80 hover:text-jvto-orange underline-offset-2 hover:underline transition-colors"
               >
                 {contactInfo.whatsapp}
               </TrackedContactLink>
+              <br />
+              Email:{" "}
               <TrackedContactLink
                 channel="email"
                 href={`mailto:${contactInfo.email}`}
                 source="footer"
                 linkText={contactInfo.email}
-                className="text-white/80 hover:text-jvto-lime underline-offset-2 hover:underline break-all transition-colors"
+                className="text-white/80 hover:text-jvto-orange underline-offset-2 hover:underline break-all transition-colors"
               >
                 {contactInfo.email}
               </TrackedContactLink>
@@ -106,19 +109,6 @@ const Footer: React.FC = () => {
             >
               Contact Us
             </Link>
-          </div>
-          <div>
-            <h3 className="font-mono font-bold text-[11px] uppercase text-white/45 tracking-[0.22em] mb-6">Verified</h3>
-            <ul className="space-y-3 text-sm text-white/55 font-light">
-              <li>PT Java Volcano Rendezvous</li>
-              <li>NIB 1102230032918</li>
-              <li>Trustpilot 4.8 · TripAdvisor 4.95</li>
-              <li>
-                <Link href="/verify-jvto" prefetch={false} className="font-bold text-jvto-lime hover:text-jvto-lime/80 transition-colors">
-                  → Open proof library
-                </Link>
-              </li>
-            </ul>
           </div>
         </div>
 
@@ -141,14 +131,14 @@ const Footer: React.FC = () => {
             <span className="text-xs text-white/60">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
           </div>
 
-          <div className="flex gap-2">
-            <a target="_blank" href="https://www.instagram.com/javavolcanotouroperator/" aria-label="Instagram" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 hover:bg-white hover:text-jvto-navy transition-colors">
+          <div className="flex gap-4">
+            <a target="_blank" href="https://www.instagram.com/javavolcanotouroperator/" aria-label="Instagram" className="bg-white/10 p-2 rounded-full hover:bg-jvto-navy-mid transition-colors">
               <Instagram size={16} />
             </a>
-            <a target="_blank" href="https://www.facebook.com/javavolcanotours/" aria-label="Facebook" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 hover:bg-white hover:text-jvto-navy transition-colors">
+            <a target="_blank" href="https://www.facebook.com/javavolcanotours/" aria-label="Facebook" className="bg-white/10 p-2 rounded-full hover:bg-jvto-navy-mid transition-colors">
               <Facebook size={16} />
             </a>
-            <a target="_blank" href="https://twitter.com/jvto_tours" aria-label="Twitter / X" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 hover:bg-white hover:text-jvto-navy transition-colors">
+            <a target="_blank" href="https://twitter.com/jvto_tours" aria-label="Twitter / X" className="bg-white/10 p-2 rounded-full hover:bg-jvto-navy-mid transition-colors">
               <Twitter size={16} />
             </a>
           </div>

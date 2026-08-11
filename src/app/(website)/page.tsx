@@ -1,47 +1,23 @@
-// src/app/(website)/page.tsx
-//
-// MILESTONE 2 (2026-08-09): the homepage is served from the static-content SSOT
-// (content/pages/home/index.json + content/faqs/home.json). Title, browser title,
-// description, the H1, the production canonical, and the FAQ all read from content/;
-// this file keeps layout + the JSON-LD projection of that content.
-//
-// DYNAMIC DATA IS UNCHANGED: the Surabaya/Bali package lists, the destination list,
-// the Google review carousel, and the aggregate-rating node still come from their own
-// runtime sources (getWebPackagesList / getWebDestinationsList / jvtoReviews). No
-// package, price, or availability data is migrated into content/.
+// app/(website)/page.tsx
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import HomeHero from "@/components/website/Home/HomeHero";
-import HomeVerifyBar from "@/components/website/Home/HomeVerifyBar";
-import HomeTrustStrip from "@/components/website/Home/HomeTrustStrip";
-import HomeTours from "@/components/website/Home/HomeTours";
-import HomeFounder from "@/components/website/Home/HomeFounder";
-import HomeConfidence from "@/components/website/Home/HomeConfidence";
-import HomeFeatureCarousel from "@/components/website/Home/HomeFeatureCarousel";
+import type { Destination } from "@/interfaces";
+import Hero from "@/components/website/Home/Hero";
+import Differentiators from "@/components/website/Home/Differentiators";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
-import HomeHealthRail from "@/components/website/Home/HomeHealthRail";
 import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
-import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
-import HomeOurStory from "@/components/website/Home/HomeOurStory";
-import Link from "@/components/website/AppLink";
-import HomePartners from "@/components/website/Home/HomePartners";
+import FeaturedTours from "@/components/website/Home/FeaturedTours";
 import { GoogleReviewsCarousel } from "@/components/website/Home/GoogleReviewsCarousel";
-import HomeFAQ from "@/components/website/Home/HomeFAQ";
+import TrustVerification from "@/components/website/Home/TrustVerification";
+import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
-import Section from "@/components/design/Section";
-import SectionHeading from "@/components/design/SectionHeading";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
-import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
+import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import {
-  loadStaticPage,
-  staticRouteCanonical,
-  PRODUCTION_ORIGIN,
-  type StaticPage,
-} from "@/lib/static-content";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import {
   BBKSDA_REGULATION_SCHEMA,
   DEFINED_TERMS,
@@ -49,97 +25,61 @@ import {
   FOUNDER_SCHEMA,
 } from "@/lib/schemas/entityGraph";
 
-// Spec "Iconic landscapes" order (docs/design-reference/homepage.html §05) —
-// filtered/ordered explicitly by slug so DB row order never reshuffles the
-// intended reading order.
-const LANDSCAPE_SLUG_ORDER = [
-  "mount-bromo",
-  "ijen-crater",
-  "tumpak-sewu-waterfall",
-  "madakaripura-waterfall",
-];
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
-const ROUTE = "/";
 export const revalidate = 3600;
 
-// ─── Content access helpers (throw at build so missing copy fails SSG rather
-//     than silently rendering an empty section — parity with the hubs). ───
-type HomeSection = NonNullable<StaticPage["sections"]>[number];
+const fallbackSeo = {
+  title:
+    "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
+  h1: "Tourist Police-Led Private Volcano Tours in East Java",
+  description:
+    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+};
 
-function requireSection(page: StaticPage, id: string): HomeSection {
-  const sec = page.sections?.find((s) => s.id === id);
-  if (!sec) {
-    throw new Error(
-      `homepage: required section "${id}" missing from content/pages/home/index.json`,
-    );
-  }
-  return sec;
-}
-
-function sectionText(sec: HomeSection, key: string): string {
-  const v = (sec as Record<string, unknown>)[key];
-  if (typeof v !== "string" || v.length === 0) {
-    throw new Error(`homepage: section "${sec.id}" is missing text field "${key}"`);
-  }
-  return v;
-}
-
-function gridItems<T>(sec: HomeSection, role: string): T[] {
-  const block = (sec.blocks ?? []).find(
-    (b) => b.type === "grid" && (b as Record<string, unknown>).role === role,
-  );
-  if (!block) {
-    throw new Error(
-      `homepage: section "${sec.id}" is missing its grid block (role="${role}")`,
-    );
-  }
-  return (block as { items: unknown[] }).items as T[];
-}
-
-/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs from content/. */
-function staticPageRow(page: StaticPage) {
-  return {
-    route: page.meta.route,
-    lang: "en",
-    seo: {
-      title: page.meta.browserTitle ?? page.meta.title,
-      description: page.meta.description,
-      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
-    },
-    content: { h1: page.meta.title },
-  };
-}
+// ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  const seo = await getPageSeo("/", fallbackSeo);
 
   return {
-    title: page.meta.browserTitle ?? page.meta.title,
-    description: page.meta.description,
+    title: seo.title,
+    description: seo.description,
     alternates: {
-      canonical: staticRouteCanonical(ROUTE),
+      canonical: SITE_URL,
     },
   };
 }
 
-const Home = async () => {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published" || !page.sections?.length) {
-    return notFound();
-  }
+// ─── Data fetching ─────────────────────────────────────────────────────────────
 
-  const [surabayaTours, baliTours, destinations] = await Promise.all([
-    getWebPackagesList({ fromId: 4, limit: 4 }),
-    getWebPackagesList({ fromId: 3, limit: 4 }),
-    getWebDestinationsList(),
+async function getDestinations(): Promise<Destination[]> {
+  return getPublicDestinationList();
+}
+
+// ─── Page ──────────────────────────────────────────────────────────────────────
+
+const Home = async () => {
+  const [seo, destinations] = await Promise.all([
+    getPageSeo("/", fallbackSeo),
+    getDestinations(),
   ]);
   const volcanicStatus = getAllVolcanicStatus();
 
-  const landscapeDestinations = LANDSCAPE_SLUG_ORDER
-    .map((slug) => destinations.find((d) => d.slug === slug))
-    .filter((d): d is NonNullable<typeof d> => Boolean(d));
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/",
+        lang: "en",
+        seo: { title: seo.title, description: seo.description },
+        content: { h1: seo.h1 },
+      };
 
   const serviceNode = {
     "@type": "Service",
@@ -161,25 +101,13 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // FAQ from content/ (content/faqs/home.json) — the SAME array feeds the visible
-  // HomeFAQ accordion and the single FAQPage node (AD-08), so HTML and structured
-  // data can never diverge.
-  const faqItems = page.faq ?? [];
-  const faqNode = faqItems.length
-    ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "@id": `${PRODUCTION_ORIGIN}/#faq`,
-        mainEntity: faqItems.map((f) => ({
-          "@type": "Question",
-          name: f.question,
-          acceptedAnswer: { "@type": "Answer", text: f.answer },
-        })),
-      }
-    : null;
+  // ── FAQPage schema (AEO — emits JSON-LD even without visual FAQ section) ────
+  const faqResolution = await resolveFaqsForPage("/");
+  const faqNode = buildResolvedFaqSchema(faqResolution, "/");
+  const googleStats = await getGoogleReviewStats();
+  const aggregateRatingNode = buildHomepageAggregateRatingSchema(googleStats);
 
-  const aggregateRatingNode = buildHomepageAggregateRatingSchema();
-
+  // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
   const healthAppNode = {
     "@type": "WebApplication",
     "@id": "https://health.mountijen.com/#app",
@@ -196,6 +124,7 @@ const Home = async () => {
     ],
     featureList: [
       "Digital recording of SpO₂ and blood pressure",
+      "QR-based clearance flow",
       "Supports go/no-go safety decisions",
     ],
     inLanguage: "en",
@@ -203,18 +132,11 @@ const Home = async () => {
       "Operational safety screening only. Does not replace medical diagnosis or treatment.",
   };
 
-  // Reviews section copy — evergreen narrative from content/pages/home/index.json.
-  // (The review WIDGET itself stays dynamic: GoogleReviewsCarousel renders the live feed.)
-  const reviews = requireSection(page, "reviews-signal");
-  const platformLines = gridItems<{ key: string; text: string; accent?: boolean }>(
-    reviews,
-    "platform-lines",
-  );
-
   return (
     <div>
+      {/* JSON-LD schema injection — AEO/GEO signal layer (no visual output) */}
       <PageJsonLdCombined
-        pageRow={staticPageRow(page) as any}
+        pageRow={pageRow as any}
         extraSchemas={[
           FOUNDER_SCHEMA,
           DOCTOR_SCHEMA,
@@ -224,74 +146,78 @@ const Home = async () => {
           healthAppNode,
           aggregateRatingNode,
           faqNode,
-        ].filter(Boolean)}
-        suppressCmsFaq
+        ]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
 
-      <HomeHero title={page.meta.title} description={page.meta.description} />
-      <HomeVerifyBar />
-      <HomeTrustStrip />
-      <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
-      <HomeConfidence />
-      <HomeFeatureCarousel />
-      <HomeFounder />
-      <HomeDestinations destinations={landscapeDestinations} />
-      <HomeHealthRail />
-      <HomeVolcanoStatus statusData={volcanicStatus} />
+      {/* 1. Hero */}
+      <Hero title={seo.h1} description={seo.description} />
 
-      {/* Reviews — every string still comes from the `reviews` section of
-          content/pages/home/index.json via sectionText()/gridItems(). */}
-      <Section surface="navy" labelledBy="reviews-heading">
-        <SectionHeading
-          id="reviews-heading"
-          eyebrow={sectionText(reviews, "eyebrow")}
-          tone="dark"
-          titleClassName="md:max-w-2xl"
-          title={platformLines.map((line, i) => (
-            <span key={line.key}>
-              {line.accent ? (
-                <em className="text-jvto-orange not-italic">{line.text}</em>
-              ) : (
-                line.text
-              )}{" "}
-              {i < platformLines.length - 1 ? <br /> : null}
-            </span>
-          ))}
-          className="mb-10"
-        />
+      {/* 2. WHY JVTO — 6 Differentiators */}
+      <Differentiators />
 
-        <p className="mb-12 text-sm leading-relaxed text-jvto-on-navy md:max-w-xl md:text-base">
-          {sectionText(reviews, "body_text")}
-        </p>
+      {/* 3. Destinations */}
+      <HomeDestinations destinations={destinations} />
 
-        {/* Production-release hardening §3.1: Google review-media carousel,
-            ported from `live`. Renders nothing when there are no qualifying
-            reviews yet (its own empty state), so it never shows a broken or
-            half-loaded block. No new heading/ordinal -- this continues the
-            same reviews narrative the section above already established. */}
-        <div className="mt-4">
+      {/* 3b. Live volcano status (PVMBG/MAGMA feed) */}
+      <HomeVolcanoStatus statuses={volcanicStatus} />
+
+      {/* 4. Tour Packages */}
+      <FeaturedTours />
+
+      {/* 5. Reviews */}
+      <section className="bg-jvto-navy py-20 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+                  Trusted by travelers
+                </span>
+              </div>
+              <h2
+                className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+              >
+                <em className="text-jvto-orange not-italic">Loved by the travelers.</em>
+              </h2>
+              <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
+                Ratings verified across two independent platforms. Every review links
+                to the original profile — browse by guide, by destination, or by trip length
+                to find what matters to you.
+              </p>
+            </div>
+
+            <a
+              href="https://www.google.com/maps?cid=1266403973589689021"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 inline-flex items-center gap-2.5 px-6 py-3.5 bg-white hover:bg-white/90 text-jvto-navy font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] transition-colors self-center md:self-end"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              See all Google reviews
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+
           <GoogleReviewsCarousel />
         </div>
+      </section>
 
-        <div className="mt-10">
-          <Link
-            href={sectionText(reviews, "link_href")}
-            className="jvto-focus-dark rounded-sm text-sm font-bold text-jvto-on-navy transition-colors hover:text-white"
-          >
-            {sectionText(reviews, "link_label")} <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
-      </Section>
+      {/* 6. Trust & Verification */}
+      <TrustVerification />
 
-      <HomePartners />
-      {/* PKG-11a composition fix: the travel-guide teaser labels itself "§ 08"
-          and the FAQ "§ 09", but the teaser used to render AFTER the FAQ, so the
-          page's own section numbering ran 09 → 08 → 10. Swapping the two render
-          positions restores a monotonic 02…10 without touching a single string,
-          and reads better besides (rulebook → questions → who we are → act). */}
-      <HomeTravelGuideTeaser />
-      <HomeFAQ items={faqItems} />
-      <HomeOurStory />
+      {/* 7. Our Story */}
+      <WhyJVTO />
+
+      {/* 8. CTA */}
       <HomeCTA />
     </div>
   );

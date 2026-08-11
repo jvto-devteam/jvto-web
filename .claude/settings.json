@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(INGEST_CONFIRM=1 node --env-file=.env.local scripts/ingest-workstream-b.mjs)"
-    ]
-  }
-}

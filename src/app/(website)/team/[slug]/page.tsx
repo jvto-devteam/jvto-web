@@ -3,56 +3,115 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Globe, ShieldCheck, Users } from "lucide-react";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicCrewByCode, getPublicCrewCodes } from "@/lib/people/canonicalPeople";
-import { buildTeamProfileSchema, crewJobTitle } from "@/lib/schemas/buildTeamSchemas";
-import { staticRouteCanonical } from "@/lib/static-content";
+import { getContentPage } from "@/lib/content/getContentPage";
+import { prisma } from "@/lib/prisma";
+import {
+  getPersonaByCode,
+  buildNamedGuidePersonaSchema,
+} from "@/lib/schemas/buildCrewSchemas";
 
 export const revalidate = 3600;
-// Only the 11 published crew codes are valid routes; any other slug (including
-// crew.unpublished — yusuf/dika/pras) 404s without rendering.
-export const dynamicParams = false;
+
+const SITE_URL = "https://javavolcano-touroperator.com";
+const ORG_ID = `${SITE_URL}/#organization`;
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return getPublicCrewCodes().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  // Source from crew_members (authoritative) not content_pages.
+  // This prevents deleted crew (deleted_at IS NOT NULL) from generating stale pages.
+  const crew = await prisma.crew_members.findMany({
+    where: { deleted_at: null, code: { not: null } },
+    select: { code: true },
+  });
+  return crew
+    .filter((m): m is { code: string } => Boolean(m.code))
+    .map((m) => ({ slug: m.code as string }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const member = getPublicCrewByCode(slug);
-  if (!member) return { title: "Team Member Not Found" };
-  const jobTitle = crewJobTitle(member.role);
-  const title = `${member.name} — JVTO ${jobTitle}`;
-  const description = `${member.name} is a KTA-holding JVTO ${jobTitle.toLowerCase()} for East Java volcano tours (Bromo, Ijen, Tumpak Sewu).`;
+  const row = await getContentPage(`/team/${slug}`, "en");
+  if (!row) return { title: "Team Member Not Found" };
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const content = (row.content as Record<string, any> | null) ?? {};
   return {
-    title,
-    description,
-    alternates: { canonical: staticRouteCanonical(`/team/${slug}`) },
+    title: seo.title ?? content.h1 ?? slug,
+    description: seo.description ?? undefined,
   };
 }
 
 export default async function TeamMemberPage({ params }: Props) {
   const { slug } = await params;
-  const member = getPublicCrewByCode(slug);
-  if (!member) notFound();
 
-  const isGuide = member.role === "guide";
-  const jobTitle = crewJobTitle(member.role);
+  const [row, crewMember] = await Promise.all([
+    getContentPage(`/team/${slug}`, "en"),
+    prisma.crew_members
+      .findFirst({ where: { code: slug, deleted_at: null } })
+      .catch(() => null),
+  ]);
 
+  if (!row) notFound();
+
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const content = (row.content as Record<string, any> | null) ?? {};
+  const name = content.h1 ?? seo.title ?? slug;
+  const description = seo.description ?? "";
+  const photoUrl = (crewMember as any)?.photo_url as string | null ?? null;
+  const isGuide = (crewMember as any)?.type === "Guide";
+
+  // Try to use the named persona schema (with specialty signals) first.
+  // Fall back to a generic Person schema built from DB data.
+  const persona = getPersonaByCode(slug);
+  const personSchema = persona
+    ? buildNamedGuidePersonaSchema({
+        ...persona,
+        photoUrl: photoUrl ?? persona.photoUrl,
+      })
+    : {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": `${SITE_URL}/#crew-${slug}`,
+        name,
+        description,
+        url: `${SITE_URL}/team/${slug}`,
+        worksFor: { "@id": ORG_ID },
+        employmentType: "FULL_TIME",
+        jobTitle: isGuide ? "Licensed Tour Guide" : "Professional Tour Driver",
+        ...(photoUrl
+          ? { image: { "@type": "ImageObject", url: photoUrl, caption: name } }
+          : {}),
+        ...(isGuide
+          ? {
+              hasCredential: {
+                "@type": "EducationalOccupationalCredential",
+                name: "KTA (Kartu Tanda Anggota) — HPWKI Guide Licence",
+                credentialCategory: "Indonesian Tour Guide Licence — Ijen Volcano",
+                recognizedBy: {
+                  "@type": "Organization",
+                  name: "HPWKI (Himpunan Pelaku Wisata Khusus Ijen)",
+                },
+              },
+            }
+          : {}),
+      };
+
+  // BreadcrumbList comes from PageJsonLdCombined (was emitted twice before).
   const pageRow = {
     route: `/team/${slug}`,
     lang: "en",
-    seo: { title: `${member.name} — JVTO ${jobTitle}` },
-    content: {},
+    seo: row.seo,
+    content: row.content,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-24">
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[buildTeamProfileSchema(member)]}
-        suppressCmsFaq={true}
+        extraSchemas={[personSchema]}
+        suppressCmsFaq={false}
       />
 
       {/* Breadcrumb */}
@@ -62,11 +121,12 @@ export default async function TeamMemberPage({ params }: Props) {
           <span>/</span>
           <Link href="/team" className="hover:text-slate-300 transition-colors">Team</Link>
           <span>/</span>
-          <span className="text-slate-300">{member.name}</span>
+          <span className="text-slate-300">{name}</span>
         </div>
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-16">
+        {/* Back link */}
         <Link
           href="/team"
           className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 mb-8 transition-colors"
@@ -77,8 +137,8 @@ export default async function TeamMemberPage({ params }: Props) {
         {/* Profile header */}
         <div className="flex items-start gap-6 mb-8">
           <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-800 border-2 border-slate-700 flex-shrink-0">
-            {member.image?.src ? (
-              <img src={member.image.src} alt={member.image.alt} className="w-full h-full object-cover" />
+            {photoUrl ? (
+              <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <Users size={28} className="text-slate-600" />
@@ -87,23 +147,47 @@ export default async function TeamMemberPage({ params }: Props) {
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap mb-1">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/10 px-2 py-0.5 rounded-full">
-                <CheckCircle2 size={9} /> KTA member — {member.kta.credentialState}
-              </span>
+              {isGuide && (
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/10 px-2 py-0.5 rounded-full">
+                  <CheckCircle2 size={9} /> KTA Licensed Guide
+                </span>
+              )}
+              {!isGuide && (crewMember != null) && (
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
+                  Licensed Driver
+                </span>
+              )}
             </div>
-            <h1 className="text-3xl font-black tracking-tight">{member.name}</h1>
-            <p className="text-slate-400 text-sm mt-1">{jobTitle}{" · "}Java Volcano Tour Operator</p>
+            <h1 className="text-3xl font-black tracking-tight">{name}</h1>
+            <p className="text-slate-400 text-sm mt-1">
+              {persona?.jobTitle ?? (isGuide ? "Licensed Tour Guide" : "Tour Driver")}
+              {" · "}Java Volcano Tour Operator
+            </p>
           </div>
         </div>
 
-        {/* Specialty areas (from the canonical record) */}
-        {member.specialties.length > 0 && (
+        {/* Description — uses DB content (guide's own voice) */}
+        {description && (
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
+            <p className="text-slate-300 text-base leading-relaxed italic">
+              &ldquo;{description}&rdquo;
+            </p>
+          </div>
+        )}
+
+        {/* Specialty signals (named personas only) */}
+        {persona && persona.knowsAbout.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Specialty Areas</h2>
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
+              Specialty Areas
+            </h2>
             <div className="flex flex-wrap gap-2">
-              {member.specialties.map((s) => (
-                <span key={s} className="text-xs px-3 py-1 bg-jvto-green/10 border border-jvto-green/20 rounded-full text-jvto-green">
-                  {s}
+              {persona.knowsAbout.map((k) => (
+                <span
+                  key={k}
+                  className="text-xs px-3 py-1 bg-jvto-green/10 border border-jvto-green/20 rounded-full text-jvto-green"
+                >
+                  {k}
                 </span>
               ))}
             </div>
@@ -111,33 +195,43 @@ export default async function TeamMemberPage({ params }: Props) {
         )}
 
         {/* Languages */}
-        {member.languages.length > 0 && (
+        {persona && (
           <div className="mb-8 flex items-center gap-3">
             <Globe size={14} className="text-slate-500 flex-shrink-0" />
             <div className="flex gap-2">
-              {member.languages.map((lang) => (
-                <span key={lang} className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded text-slate-400">{lang}</span>
+              {persona.knowsLanguage.map((lang) => (
+                <span key={lang} className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded text-slate-400">
+                  {lang}
+                </span>
               ))}
             </div>
           </div>
         )}
 
-        {/* KTA membership credential */}
-        <div className="flex items-center gap-3 bg-slate-900 border border-jvto-green/20 rounded-xl p-4 mb-8">
-          <ShieldCheck size={20} className="text-jvto-green flex-shrink-0" />
-          <div>
-            <div className="text-sm font-bold text-jvto-green">{member.kta.credentialType}</div>
-            <div className="text-xs text-slate-500 mt-0.5">
-              Issued by {member.kta.issuer}, supervised by BBKSDA Jawa Timur. This is a membership credential, not a government licence.
+        {/* HPWKI credential badge */}
+        {isGuide && (
+          <div className="flex items-center gap-3 bg-slate-900 border border-jvto-green/20 rounded-xl p-4 mb-8">
+            <ShieldCheck size={20} className="text-jvto-green flex-shrink-0" />
+            <div>
+              <div className="text-sm font-bold text-jvto-green">KTA — HPWKI Guide Licence</div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                Licensed by HPWKI (Himpunan Pelaku Wisata Khusus Ijen), supervised by BBKSDA Jawa Timur. Required for all Ijen crater guides.
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Cross-cluster links */}
         <div className="border-t border-slate-800 pt-6 flex flex-wrap gap-4 text-sm">
-          <Link href="/why-jvto/our-team" className="text-slate-400 hover:text-white transition-colors">Full team overview →</Link>
-          <Link href="/why-jvto/reviews" className="text-slate-400 hover:text-white transition-colors">Reviews that name crew →</Link>
-          <Link href="/tours" className="text-slate-400 hover:text-jvto-green transition-colors">Book a tour →</Link>
+          <Link href="/why-jvto/our-team" className="text-slate-400 hover:text-white transition-colors">
+            Full team overview →
+          </Link>
+          <Link href="/why-jvto/reviews" className="text-slate-400 hover:text-white transition-colors">
+            Reviews that name crew →
+          </Link>
+          <Link href="/tours" className="text-slate-400 hover:text-jvto-green transition-colors">
+            Book a tour →
+          </Link>
         </div>
       </div>
     </div>

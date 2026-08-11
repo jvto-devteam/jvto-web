@@ -1,7 +1,6 @@
 // src/app/api/faq-categories/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth";
 
 function serializeCategory(cat: any) {
   return {
@@ -30,11 +29,6 @@ export async function GET() {
 
 // POST /api/faq-categories
 export async function POST(req: NextRequest) {
-  const __admin = await requireAdmin();
-  if (!__admin.ok) {
-    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
-  }
-
   try {
     const body = await req.json();
     const name = (body.name || "").trim();

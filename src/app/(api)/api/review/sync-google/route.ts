@@ -1,48 +1,17 @@
-// Google Business Profile review sync (production-release hardening, §3.1).
-// Ported from `live` (commit 545fdead), adapted to this repo's `{ prisma }`
-// named-export convention. Writes into the EXISTING `reviews` table -- see
-// src/lib/jvtoReviews.ts for why this creates no duplicate review-aggregate
-// authority: that file never reads `review_stats` (this route's own small
-// cache of Google's self-reported average/count) or this route's output
-// directly; it derives the site's canonical displayed rating independently.
-//
-// Invoked daily by .github/workflows/sync-google-reviews.yml (already on
-// main, previously 404ing every run because this route did not exist yet).
-//
-// Auth: Authorization: Bearer <CRON_SECRET>. If CRON_SECRET is unset the
-// route stays open (matches live's behavior) -- production must set it.
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 const GBP_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GBP_REVIEWS_BASE = `https://mybusiness.googleapis.com/v4/accounts/${process.env.GBP_ACCOUNT_ID}/locations/${process.env.GBP_LOCATION_ID}/reviews`;
 
 const STAR_MAP: Record<string, number> = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
+  ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5,
 };
 
 const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/** Only accept https:// URLs from the upstream API response -- refuses
- * `javascript:`, `data:`, relative paths, or anything else that isn't a
- * plain hyperlink, before it ever reaches next/image or a client component. */
-function safeHttpsUrl(value: string | null | undefined): string | null {
-  const v = value?.trim();
-  if (!v) return null;
-  try {
-    const u = new URL(v);
-    return u.protocol === "https:" ? v : null;
-  } catch {
-    return null;
-  }
 }
 
 async function getAccessToken(): Promise<string> {
@@ -138,8 +107,8 @@ function serializeReviewMedia(review: GbpReview): string | null {
   const media = (review.reviewMediaItems ?? [])
     .map((item, index) => {
       const type = item.mediaFormat === "VIDEO" ? "video" : "photo";
-      const thumbnailUrl = safeHttpsUrl(item.thumbnailUrl);
-      const videoUrl = safeHttpsUrl(item.videoUrl);
+      const thumbnailUrl = item.thumbnailUrl?.trim() || null;
+      const videoUrl = item.videoUrl?.trim() || null;
 
       if (!thumbnailUrl && !videoUrl) return null;
 
@@ -176,7 +145,9 @@ async function syncReviews(reviews: GbpReview[]) {
   let mediaUpdatedCount = 0;
 
   for (const r of reviews) {
-    const reviewDate = r.createTime ? new Date(r.createTime) : new Date();
+    const reviewDate = r.createTime
+      ? new Date(r.createTime)
+      : new Date();
 
     // Dedup: prefer url_reference (Google review name), fallback customer_name+date
     const existing = await prisma.reviews.findFirst({
@@ -197,13 +168,15 @@ async function syncReviews(reviews: GbpReview[]) {
 
     if (existing) {
       // Backfill url_reference for legacy rows that matched by name+date
+      if (!existing.id) { skipCount++; continue; }
       const shouldBackfillMedia =
-        serializedMedia && (!existing.photos || existing.photos.trim().length === 0);
+        serializedMedia &&
+        (!existing.photos || existing.photos.trim().length === 0);
       await prisma.reviews.update({
         where: { id: existing.id },
         data: {
           url_reference: r.name,
-          url: safeHttpsUrl(r.reviewReplyUrl) ?? undefined,
+          url: r.reviewReplyUrl ?? undefined,
           ...(shouldBackfillMedia ? { photos: serializedMedia } : {}),
         },
       });
@@ -215,13 +188,13 @@ async function syncReviews(reviews: GbpReview[]) {
     const created = await prisma.reviews.create({
       data: {
         customer_name: r.reviewer.displayName ?? "Anonymous",
-        profile_photo: safeHttpsUrl(r.reviewer.profilePhotoUrl),
+        profile_photo: r.reviewer.profilePhotoUrl ?? null,
         platform: "Google",
         date: new Date(reviewDate.toISOString().split("T")[0]),
         star: STAR_MAP[r.starRating] ?? 0,
         review: r.comment ?? "",
         photos: serializedMedia,
-        url: safeHttpsUrl(r.reviewReplyUrl),
+        url: r.reviewReplyUrl ?? null,
         url_reference: r.name,
       },
     });
@@ -230,7 +203,6 @@ async function syncReviews(reviews: GbpReview[]) {
     // Crew name matching — word boundary safe
     const text = (r.comment ?? "").toLowerCase();
     for (const crew of crews) {
-      if (!crew.name) continue;
       const crewLower = crew.name.toLowerCase();
       // Match whole word only to avoid "Sam" in "Samsung"
       const pattern = new RegExp(`\\b${crewLower}\\b`);

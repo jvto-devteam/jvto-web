@@ -87,10 +87,10 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
     category: "Cancellation & Changes",
     title: "Cancellation Policy (The 48-Hour Rule)",
     content: `Our cancellation policy is based on a strict 48-hour window before your scheduled pickup time on Day 1.
-* **If you cancel 48 HOURS OR MORE before Day 1:** You will receive **JVTO Package Credit** equal to 100% of all payments you have made. This credit is non-expiring and can be transferred to another person.
-* **If you cancel LESS THAN 48 HOURS before Day 1:** Your payment is **forfeited in full** (up to 100%). No Package Credit or cash refund will be provided.
-* **IMPORTANT: JVTO does not issue cash refunds.** Package Credit is the sole form of compensation for eligible cancellations.`,
-    tags: ["cancellation", "refund", "policy", "cancel", "48 hours", "package credit", "forfeited", "no cash refund"]
+* **If you cancel 48 HOURS OR MORE before Day 1:** You will receive **JVTO Travel Credit** equal to 100% of all payments you have made. This credit is non-expiring and can be transferred to another person.
+* **If you cancel LESS THAN 48 HOURS before Day 1:** Your payment is **forfeited in full** (up to 100%). No Travel Credit or cash refund will be provided.
+* **IMPORTANT: JVTO does not issue cash refunds.** Travel Credit is the sole form of compensation for eligible cancellations.`,
+    tags: ["cancellation", "refund", "policy", "cancel", "48 hours", "travel credit", "forfeited", "no cash refund"]
   },
   {
     id: "rescheduling-policy",
@@ -109,14 +109,14 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
 * Refusing to depart after vehicles and crew are deployed.
 * Attempting to cancel on the same day services are prepared.
 * Voluntarily leaving the tour after it has commenced.
-In these cases, up to **100% of the total package price is forfeited**, and no refund or Package Credit is provided.`,
+In these cases, up to **100% of the total package price is forfeited**, and no refund or Travel Credit is provided.`,
     tags: ['no-show', 'same-day cancellation', 'missed pickup', 'leave early', 'forfeited']
   },
   {
     id: 'changes-by-jvto-force-majeure',
     category: 'Cancellation & Changes',
     title: 'Changes or Cancellation by JVTO (Force Majeure)',
-    content: 'JVTO may adjust routes, timings, or activities for safety reasons due to events beyond our control (e.g., volcanic activity, severe weather, government or park closures). Where substitutions are required, we aim to provide services of equal or higher standard. If JVTO cancels a significant portion of a tour for such reasons, we may offer reasonable alternatives, JVTO Package Credit for the unused portion, or a partial/full cash refund net of non-recoverable costs.',
+    content: 'JVTO may adjust routes, timings, or activities for safety reasons due to events beyond our control (e.g., volcanic activity, severe weather, government or park closures). Where substitutions are required, we aim to provide services of equal or higher standard. If JVTO cancels a significant portion of a tour for such reasons, we may offer reasonable alternatives, JVTO Travel Credit for the unused portion, or a partial/full cash refund net of non-recoverable costs.',
     tags: ['force majeure', 'volcano closure', 'bad weather', 'safety changes', 'cancellation by jvto', 'itinerary change']
   },
   {
