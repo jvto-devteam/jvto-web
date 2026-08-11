@@ -6,7 +6,7 @@
 // this file keeps layout + the JSON-LD projection of that content.
 //
 // DYNAMIC DATA IS UNCHANGED: the Surabaya/Bali package lists, the destination list,
-// the Elfsight review embed, and the aggregate-rating node still come from their own
+// the Google review carousel, and the aggregate-rating node still come from their own
 // runtime sources (getWebPackagesList / getWebDestinationsList / jvtoReviews). No
 // package, price, or availability data is migrated into content/.
 import type { Metadata } from "next";
@@ -24,7 +24,6 @@ import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
 import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
 import HomeOurStory from "@/components/website/Home/HomeOurStory";
 import Link from "@/components/website/AppLink";
-import Script from "next/script";
 import HomePartners from "@/components/website/Home/HomePartners";
 import { GoogleReviewsCarousel } from "@/components/website/Home/GoogleReviewsCarousel";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
@@ -205,7 +204,7 @@ const Home = async () => {
   };
 
   // Reviews section copy — evergreen narrative from content/pages/home/index.json.
-  // (The review WIDGET itself stays dynamic: Elfsight renders the live feed.)
+  // (The review WIDGET itself stays dynamic: GoogleReviewsCarousel renders the live feed.)
   const reviews = requireSection(page, "reviews-signal");
   const platformLines = gridItems<{ key: string; text: string; accent?: boolean }>(
     reviews,
@@ -240,10 +239,7 @@ const Home = async () => {
       <HomeHealthRail />
       <HomeVolcanoStatus statusData={volcanicStatus} />
 
-      {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production).
-          PKG-11a restyled the surrounding frame only: the <Script> src/strategy
-          and the Elfsight mount div (class + data-elfsight-app-lazy) are byte-
-          identical, and every string still comes from the `reviews` section of
+      {/* Reviews — every string still comes from the `reviews` section of
           content/pages/home/index.json via sectionText()/gridItems(). */}
       <Section surface="navy" labelledBy="reviews-heading">
         <SectionHeading
@@ -268,21 +264,12 @@ const Home = async () => {
           {sectionText(reviews, "body_text")}
         </p>
 
-        <Script
-          src="https://elfsightcdn.com/platform.js"
-          strategy="lazyOnload"
-        />
-        <div
-          className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
-          data-elfsight-app-lazy
-        />
-
         {/* Production-release hardening §3.1: Google review-media carousel,
             ported from `live`. Renders nothing when there are no qualifying
             reviews yet (its own empty state), so it never shows a broken or
             half-loaded block. No new heading/ordinal -- this continues the
             same reviews narrative the section above already established. */}
-        <div className="mt-12">
+        <div className="mt-4">
           <GoogleReviewsCarousel />
         </div>
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { HeartPulse, CheckCircle2 } from "lucide-react";
 import Section from "@/components/design/Section";
 
@@ -20,6 +21,16 @@ export default function HomeHealthRail() {
       className="border-y border-jvto-border"
     >
       <div className="flex flex-col gap-8 md:flex-row md:items-start">
+        <div className="relative h-28 w-36 flex-shrink-0 overflow-hidden rounded-sm md:h-24 md:w-32">
+          <Image
+            src="/screening/ijen-screening-hotel-01.webp"
+            alt="Ijen pre-ascent health screening at a partner hotel"
+            fill
+            sizes="(min-width: 768px) 128px, 144px"
+            className="object-cover"
+          />
+        </div>
+
         <div
           aria-hidden="true"
           className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-jvto-orange/10 ring-1 ring-jvto-orange/25"
