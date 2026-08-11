@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { promises as fs } from "fs";
 import path from "path";
-import { requireAdmin } from "@/lib/auth";
 async function saveCoverFile(file: File): Promise<string> {
   const uploadDir = path.join(process.cwd(), "public", "uploads", "blogs");
 
@@ -60,11 +59,6 @@ export async function GET() {
 
 // POST /api/blogs
 export async function POST(req: NextRequest) {
-  const __admin = await requireAdmin();
-  if (!__admin.ok) {
-    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
-  }
-
   try {
     const form = await req.formData();
 

@@ -1,177 +1,44 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
-import Button from "@/components/website/UI/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
-import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import Sidebar from "./sidebar";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
-import { loadStaticPage, staticRouteCanonical } from "@/lib/static-content";
-const today = new Date();
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 
-const formatted = today.toLocaleDateString("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
-const travelGuideData = {
-  route: "/travel-guide",
-  seo: {
-    title:
-      "Travel Guide: Booking, Safety & Practical Info | Java Volcano Tour Operator",
-    metaDescription:
-      "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
-  },
-  h1: "Travel Guide: Booking, Safety & Practical Info",
-  hero: {
-    introParagraphs: [
-      "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO).",
-      "Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
-    ],
-    primaryCtas: [
-      {
-        label: "FAQ: Short Answers to Common Questions",
-        href: "/travel-guide/faq",
-      },
-      {
-        label: "Browse private tours",
-        href: "/tours",
-      },
-    ],
-  },
-  latestUpdate: {
-    title: "Latest JVTO Update",
-    lastUpdatedPlaceholder: "17 January 2026",
-    bodyParagraphs: [
-      'Check this "Latest JVTO update" card for time-sensitive operational notes before departure. This section is reserved for information your team can confirm and update routinely.',
-      "For current conditions, please contact us directly via WhatsApp +62 822-4478-8833 or email hello@javavolcano-touroperator.com.",
-    ],
-    note: "Only publish what you can reasonably confirm at the time of update. Do not include rumours, assumptions, or unverified claims.",
-  },
-  operatingStatus: {
-    title: "JVTO Operating Status",
-    paragraphs: [
-      "JVTO operates private, pre-booked tours on standard East Java routes, subject to weather, volcanic activity, and access regulations.",
-      "We plan and adjust tours based on official information (including MAGMA / PVMBG) and local park management.",
-      "Some viewpoints, hiking sections, or waterfall access may be temporarily restricted even when the tour program continues.",
-      "Changes are handled according to Weather & Closures and Booking, Payment & Cancellation Policy.",
-      "Guests should consult official travel advisories issued by their own governments in addition to this guide.",
-    ],
-  },
-  toc: {
-    title: "On This Page",
-    items: [
-      { id: "faq", label: "FAQ: Short Answers to Common Questions" },
-      { id: "booking-information", label: "Booking & Payments" },
-      { id: "ijen-health-screening", label: "Ijen Health Screening" },
-      { id: "safety-on-tours", label: "Safety on Tours" },
-      { id: "packing-and-fitness", label: "Packing & Fitness" },
-      { id: "weather-and-closures", label: "Weather & Closures" },
-      { id: "police-escort-for-groups", label: "Police Escort for Groups" },
-    ],
-  },
-  panels: [
-    {
-      id: "faq",
-      title: "FAQ: Short Answers to Common Questions",
-      summaryParagraphs: [
-        "Start here if you're not sure where to look. We answer the most common questions about private tours, what's included, payments, reschedules, and safety.",
-      ],
-      cta: {
-        label: "Read FAQ",
-        href: "/travel-guide/faq",
-      },
-    },
-    {
-      id: "booking-information",
-      title: "Booking & Payments",
-      summaryParagraphs: [
-        "Details on how to book, deposits, final payments, Package Credit, and why we don't offer cash refunds.",
-      ],
-      cta: {
-        label: "Read Booking Information",
-        href: "/travel-guide/booking-information",
-      },
-    },
-    {
-      id: "ijen-health-screening",
-      title: "Ijen Health Screening",
-      summaryParagraphs: [
-        "How our health checks work for Ijen night hikes, what is included for JVTO guests, and how the digital system helps prevent fake certificates.",
-      ],
-      cta: {
-        label: "Read Ijen Health Screening",
-        href: "/travel-guide/ijen-health-screening",
-      },
-    },
-    {
-      id: "safety-on-tours",
-      title: "Safety on Tours",
-      summaryParagraphs: [
-        "How we make decisions about safety on the road, at viewpoints, and on the mountain, including how we monitor conditions and when we change plans.",
-        "Understand how safety is built into JVTO's private tours.",
-      ],
-      cta: {
-        label: "Read Safety on Tours",
-        href: "/travel-guide/safety-on-tours",
-      },
-    },
-    {
-      id: "packing-and-fitness",
-      title: "Packing & Fitness",
-      summaryParagraphs: [
-        "What to pack for Bromo, Ijen and Tumpak Sewu, what kind of fitness you need, and a few tips to keep your belongings safe.",
-        "This page helps you prepare realistically for your private tour.",
-      ],
-      cta: {
-        label: "Read Packing & Fitness",
-        href: "/travel-guide/packing-and-fitness",
-      },
-    },
-    {
-      id: "weather-and-closures",
-      title: "Weather & Closures",
-      summaryParagraphs: [
-        "How rain, fog, or volcanic activity can affect your itinerary, which sources we follow, and what happens to your booking if part of the tour is closed.",
-        "East Java's volcano and waterfall routes are dynamic. Weather and volcanic activity can change quickly.",
-      ],
-      cta: {
-        label: "Read Weather & Closures",
-        href: "/travel-guide/weather-and-closures",
-      },
-    },
-    {
-      id: "police-escort-for-groups",
-      title: "Police Escort for Groups",
-      summaryParagraphs: [
-        "When and how official traffic police escort can be arranged for large groups, and why it is always done through formal channels.",
-        "In some situations, large tourist groups may benefit from official traffic police escort: when moving several vehicles together through busy routes.",
-      ],
-      cta: {
-        label: "Read Police Escort for Groups",
-        href: "/travel-guide/police-escort-for-groups",
-      },
-    },
-  ],
-};
+const ARTICLES = [
+  { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
+  { slug: "mount-bromo-logistics", label: "Logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
+  { slug: "tumpak-sewu-logistics", label: "Logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
+  { slug: "packing-list", label: "Prep", name: "Packing List", desc: "What to bring for Bromo, Ijen, and Tumpak Sewu." },
+  { slug: "packing-and-fitness", label: "Prep", name: "Packing & Fitness", desc: "Layered clothing and fitness expectations." },
+  { slug: "weather-and-closures", label: "Conditions", name: "Weather & Closures", desc: "PVMBG alerts · seasonal access · monsoon notes." },
+  { slug: "safety-on-tours", label: "Safety", name: "Safety on Tours", desc: "Police-led protocols · medical · vehicle standards." },
+  { slug: "booking-information", label: "Process", name: "Booking Information", desc: "Deposits · confirmation · reschedule mechanics." },
+  { slug: "police-escort-for-groups", label: "Authority", name: "Police Escort for Groups", desc: "When and how police escort is arranged." },
+  { slug: "faq", label: "Reference", name: "FAQ", desc: "Common questions answered in plain language." },
+] as const;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-// PACKAGE 04 (2026-08-04): hub meta/H1 come from content/pages/travel-guide/index.md
-// (static-content SSOT); the rich hub layout below stays TSX. The former hub
-// FAQPage JSON-LD node was schema-only (no visible FAQ) and is dropped per AD-08.
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage("/travel-guide");
-  const title = page?.meta.browserTitle ?? page?.meta.title ?? travelGuideData.h1;
-  const description = page?.meta.description ?? travelGuideData.seo.metaDescription;
-  const h1 = page?.meta.title ?? "Travel Guide";
+  const page = await getPublicPageSnapshot("/travel-guide", {
+    allowDatabaseFallback: false,
+  });
+  const title = page.snapshot.seo.title;
+  const description =
+    page.snapshot.seo.description ??
+    "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : "Travel Guide";
 
   return {
     title,
     description,
-    alternates: { canonical: staticRouteCanonical("/travel-guide") },
     openGraph: {
       title,
       description,
@@ -197,156 +64,394 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function TravelGuideHubPage() {
-  const page = loadStaticPage("/travel-guide");
-  const tgHubExtraSchemas = [buildTgHubItemListSchema()].filter(Boolean);
+const ArrowRight = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+    <path d="M5 12h14M13 5l7 7-7 7" />
+  </svg>
+);
 
-  const { hero, latestUpdate, operatingStatus, toc, panels } = travelGuideData;
-  const h1 = page?.meta.title ?? travelGuideData.h1;
+export default async function TravelGuideHubPage() {
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot("/travel-guide", { allowDatabaseFallback: false }),
+    resolveFaqsForPage("/travel-guide"),
+  ]);
+  const tgHubExtraSchemas = [
+    buildTgHubItemListSchema(),
+    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
+  ].filter(Boolean);
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <>
       <PageJsonLdCombined
-        pageRow={{
-          route: "/travel-guide",
-          lang: "en",
-          seo: {
-            title: page?.meta.browserTitle ?? page?.meta.title,
-            description: page?.meta.description,
-            // Non-default schema classification from the content file (Codex #144 P2:
-            // the hub's CollectionPage node must survive the SSOT cutover).
-            schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
-          },
-          content: { h1 },
-        }}
+        pageRow={page.pageRow}
         extraSchemas={tgHubExtraSchemas}
-        suppressCmsFaq
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
-      <Sidebar />
-      <main className="flex-1 pt-24 md:pt-36 pb-20">
-        <section className="bg-jvto-navy text-white pb-16 pt-8 md:pt-12">
-          <div className="max-w-4xl mx-auto px-6 md:px-8">
-            <nav className="mb-6 text-sm text-white/50">
-              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
-                Home
-              </Link>
-              <span className="mx-2">›</span>
-              <span className="text-white/80">Travel Guide</span>
-            </nav>
 
-            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
-              Essential Knowledge
-            </span>
-
-            <h1
-              className="font-black text-3xl md:text-5xl text-white mb-6"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              {h1}
-            </h1>
-            <div className="space-y-3 mb-8">
-              {hero.introParagraphs.map((p, i) => (
-                <p className="text-white/70 text-base md:text-lg leading-relaxed" key={i}>
-                  {p}
-                </p>
+      {/* ── Hero ──────────────────────────────────────────────────────── */}
+      <section className="bg-jvto-navy pt-24 md:pt-36 pb-32 md:pb-44 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-20 items-start">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                  Essential Knowledge
+                </span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
+                  FILE 005 / GUIDE
+                </span>
+              </div>
+              <h1
+                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
+              >
+                The{" "}
+                <em className="italic text-jvto-orange">rulebook</em>{" "}
+                before you book.
+              </h1>
+              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
+                Operational certainty starts with being informed. Read our comprehensive guide
+                to understand the boundaries, logistics, and safety protocols of East Java expeditions.
+              </p>
+            </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+              {[
+                { label: "Guide articles", value: "10" },
+                { label: "Last updated", value: "May 2026" },
+                { label: "Reading time", value: "~25 min" },
+                { label: "Author", value: "JVTO ops team" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
+                  <strong className="text-white font-semibold text-sm">{value}</strong>
+                </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              {hero.primaryCtas.map((cta) => (
-                <Link
-                  key={cta.href}
-                  href={cta.href}
-                  prefetch={false}
-                  className={
-                    cta.href.includes("tours")
-                      ? "inline-block bg-jvto-orange text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-jvto-orange/90 transition-colors"
-                      : "inline-block border border-white/30 text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
-                  }
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pre-trip essentials — off-white ───────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+
+          {/* §01 The rulebook before you book */}
+          <div>
+            <div className="flex items-baseline gap-4 mb-10">
+              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 01</span>
+              <div>
+                <h2
+                  className="font-black text-jvto-navy leading-[1.0]"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
                 >
-                  {cta.label}
+                  The rulebook <span className="text-jvto-orange">before you book.</span>
+                </h2>
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Three boundaries</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: (
+                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <path d="M9 12l2 2 4-4" />
+                    </svg>
+                  ),
+                  label: "PVMBG-aligned",
+                  title: "Safety boundaries",
+                  desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
+                },
+                {
+                  icon: (
+                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                  ),
+                  label: "Real screening",
+                  title: "Health requirements",
+                  desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
+                },
+                {
+                  icon: (
+                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+                      <circle cx="17" cy="7" r="3" />
+                    </svg>
+                  ),
+                  label: "Not a broker",
+                  title: "Operational control",
+                  desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
+                },
+              ].map(({ icon, label, title, desc }) => (
+                <div key={title} className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
+                  <div className="mb-4">{icon}</div>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange mb-1.5">{label}</p>
+                  <h3
+                    className="font-black text-jvto-navy text-xl mb-3"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {title}
+                  </h3>
+                  <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Destination guides §02 — white ─────────────────────────── */}
+      <section
+        className="bg-white py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+
+          {/* §02 Destination guides */}
+          <div>
+            <div className="flex items-baseline gap-4 mb-10">
+              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 02</span>
+              <div>
+                <h2
+                  className="font-black text-jvto-navy leading-[1.0]"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+                >
+                  Destination <span className="text-jvto-orange">guides.</span>
+                </h2>
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Practical logistics</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { href: "/travel-guide/ijen-health-screening", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
+                { href: "/travel-guide/mount-bromo-logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
+                { href: "/travel-guide/tumpak-sewu-logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
+              ].map(({ href, name, desc }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  prefetch={false}
+                  className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+                >
+                  <div className="mb-4">
+                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </div>
+                  <h3
+                    className="font-black text-jvto-navy text-xl mb-3"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {name}
+                  </h3>
+                  <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-5">{desc}</p>
+                  <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+                    Read guide <ArrowRight />
+                  </span>
                 </Link>
               ))}
             </div>
           </div>
-        </section>
 
-        <section className="pt-12">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <main>
-              <Card className="bg-jvto-green/5 border-jvto-green/80 border-2 mb-12">
-                <CardHeader>
-                  <CardTitle className="text-jvto-green font-black">
-                    {latestUpdate.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="prose prose-sm max-w-none text-jvto-green">
-                  <p className="font-bold">
-                    Last updated: {latestUpdate.lastUpdatedPlaceholder}
-                  </p>
-                  <div className="mt-4">
-                    {latestUpdate.bodyParagraphs.map((p, i) => (
-                      <p
-                        key={i}
-                        className={i > 0 && p.includes(":") ? "ml-4" : ""}
-                      >
-                        {p}
-                      </p>
-                    ))}
-                  </div>
-                  <p className="text-xs italic mt-4">{latestUpdate.note}</p>
-                </CardContent>
-              </Card>
+        </div>
+      </section>
 
-              <Card className="bg-gray-50 border-2 mb-12">
-                <CardHeader>
-                  <CardTitle className="font-black">
-                    {operatingStatus.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="prose prose-sm max-w-none text-gray-700">
-                  {operatingStatus.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </CardContent>
-              </Card>
+      {/* ── Practical preparation §03 — off-white ─────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
 
-              <div className="space-y-12">
-                {panels.map((panel) => (
-                  <section
-                    key={panel.id}
-                    id={panel.id}
-                    className="scroll-mt-24"
-                  >
-                    <h2 className="font-black text-2xl">{panel.title}</h2>
-                    <hr className="my-2" />
-                    <div className="prose max-w-none text-md text-muted-foreground">
-                      {panel.summaryParagraphs.map((p, i) => (
-                        <p key={i}>{p}</p>
-                      ))}
-                    </div>
-                    {panel.cta && (
-                      <div className="mt-6">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="p-0 flex h-auto"
-                        >
-                          <Link className="flex" href={panel.cta.href} prefetch={false}>
-                            {panel.cta.label}{" "}
-                            <ArrowRight className="ml-2 w-4 h-4" />
-                          </Link>
-                        </Button>
-                      </div>
-                    )}
-                  </section>
-                ))}
+          {/* §03 Practical preparation */}
+          <div>
+            <div className="flex items-baseline gap-4 mb-10">
+              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 03</span>
+              <div>
+                <h2
+                  className="font-black text-jvto-navy leading-[1.0]"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+                >
+                  Practical <span className="text-jvto-orange">preparation.</span>
+                </h2>
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Climate · gear · connectivity</span>
               </div>
-
-              <DocumentPriorityNote />
-            </main>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Link
+                href="/travel-guide/packing-list"
+                prefetch={false}
+                className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+              >
+                <div className="mb-4">
+                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <rect x="3" y="7" width="18" height="13" rx="2" />
+                    <path d="M8 7V4a2 2 0 012-2h4a2 2 0 012 2v3" />
+                  </svg>
+                </div>
+                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What to pack</h3>
+                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-5">Layered clothing, hiking shoes, headlamps, and personal medication. See our full list.</p>
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">Read packing list <ArrowRight /></span>
+              </Link>
+              <div className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
+                <div className="mb-4">
+                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path d="M14 4v10a4 4 0 11-4 0V4a2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Altitude &amp; temperature</h3>
+                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-4">Bromo can drop to 0°C. Ijen is at 2,386m. Prepare for cold mornings and thin air.</p>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Critical info</span>
+              </div>
+              <div className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
+                <div className="mb-4">
+                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15 15 0 010 20" />
+                  </svg>
+                </div>
+                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Money &amp; connectivity</h3>
+                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-4">Cash is king in remote areas. SIM cards and Wi-Fi availability vary by location.</p>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Logistics</span>
+              </div>
+            </div>
           </div>
-        </section>
-      </main>
-    </div>
+
+        </div>
+      </section>
+
+      {/* ── Operational certainty checklist — navy ─────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-12">
+            <span className="font-mono text-[11px] font-bold text-white/50">§ 04</span>
+            <div>
+              <h2
+                className="font-black text-white leading-[1.0]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+              >
+                Operational certainty <span className="text-jvto-orange">checklist.</span>
+              </h2>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40">Three steps</span>
+            </div>
+          </div>
+          <ol className="max-w-[64ch]">
+            {[
+              {
+                title: "Verify your operator",
+                desc: "Check for a real NIB license and police-led safety oversight. Don't book with unlicensed brokers.",
+              },
+              {
+                title: "Verify your health",
+                desc: "Ensure you have a real medical check at a certified clinic for Ijen. Your safety depends on it.",
+              },
+              {
+                title: "Verify your route",
+                desc: "Confirm your private logistics and safety decision boundaries. Know who makes the call if things change.",
+              },
+            ].map(({ title, desc }, i) => (
+              <li key={title} className="grid grid-cols-[44px_1fr] gap-4 py-6 border-b border-white/15 first:border-t first:border-t-white/15">
+                <span className="font-mono text-sm font-bold text-jvto-orange bg-jvto-orange/10 rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0">
+                  {i + 1}
+                </span>
+                <div>
+                  <h4
+                    className="font-bold text-white text-lg mb-1"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {title}
+                  </h4>
+                  <p className="text-white/65 text-[15px] font-light leading-relaxed">{desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ── All articles + CTA — off-white ────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-10">
+            <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 05</span>
+            <div>
+              <h2
+                className="font-black text-jvto-navy leading-[1.0]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+              >
+                All <span className="text-jvto-orange">articles.</span>
+              </h2>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">{ARTICLES.length} guides</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ARTICLES.map(({ slug, label, name, desc }) => (
+              <Link
+                key={slug}
+                href={`/travel-guide/${slug}`}
+                prefetch={false}
+                className="group bg-white rounded-[16px] p-6 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+              >
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange mb-2">{label}</p>
+                <h3
+                  className="font-bold text-jvto-navy text-[17px] mb-2 leading-snug"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                >
+                  {name}
+                </h3>
+                <p className="text-[14px] text-[#6b7280] font-light leading-relaxed mb-4">{desc}</p>
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+                  Open <ArrowRight />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+          <h2
+            className="font-black text-white leading-[1.02] mb-8"
+            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 48px)" }}
+          >
+            Ready for operational <span className="text-jvto-orange">certainty?</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/tours"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+            >
+              Explore tours <ArrowRight />
+            </Link>
+            <Link
+              href="/verify-jvto"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+            >
+              Verify JVTO
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

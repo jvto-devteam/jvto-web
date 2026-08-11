@@ -13,7 +13,29 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
  */
 export function MarkdownRendererTravelGuide({ markdown }: { markdown: string }) {
   return (
-    <article className="prose prose-neutral max-w-none">
+    <article
+      className="prose prose-neutral max-w-none"
+      style={
+        {
+          // JVTO DS v2 — override skema warna prose-neutral via var resmi
+          // @tailwindcss/typography (styling only, struktur tak berubah)
+          "--tw-prose-body": "var(--color-jvto-navy)",
+          "--tw-prose-headings": "var(--color-jvto-navy)",
+          "--tw-prose-lead": "var(--color-jvto-muted)",
+          "--tw-prose-links": "var(--color-jvto-orange)",
+          "--tw-prose-bold": "var(--color-jvto-navy)",
+          "--tw-prose-counters": "var(--color-jvto-lime)",
+          "--tw-prose-bullets": "var(--color-jvto-lime)",
+          "--tw-prose-hr": "var(--color-jvto-border)",
+          "--tw-prose-quotes": "var(--color-jvto-navy)",
+          "--tw-prose-quote-borders": "var(--color-jvto-lime)",
+          "--tw-prose-captions": "var(--color-jvto-muted)",
+          "--tw-prose-code": "var(--color-jvto-navy)",
+          "--tw-prose-th-borders": "var(--color-jvto-border)",
+          "--tw-prose-td-borders": "var(--color-jvto-border)",
+        } as React.CSSProperties
+      }
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[
@@ -41,13 +63,13 @@ export function MarkdownRendererTravelGuide({ markdown }: { markdown: string }) 
             const isInline = !className;
             if (isInline) {
               return (
-                <code className="rounded bg-neutral-100 px-1 py-0.5" {...props}>
+                <code className="rounded bg-jvto-lime/10 px-1 py-0.5" {...props}>
                   {children}
                 </code>
               );
             }
             return (
-              <pre className="overflow-x-auto rounded bg-neutral-900 p-4 text-neutral-100">
+              <pre className="overflow-x-auto rounded bg-jvto-navy p-4 text-jvto-lime">
                 <code className={className} {...props}>
                   {children}
                 </code>

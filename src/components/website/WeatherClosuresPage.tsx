@@ -35,7 +35,7 @@ const WeatherClosuresPage = () => {
                 <li><strong>Viable Alternatives:</strong> We will offer a comparable alternative experience where possible. This could mean visiting a different waterfall, exploring a local cultural site, or adjusting the timing of an activity.</li>
                 <li><strong>Safety Over Schedule:</strong> We will never compromise your safety by ignoring official warnings or attempting a risky route just to stick to the original plan.</li>
             </ul>
-            <p>Please see our <Link href="/travel-guide/terms">Terms & Conditions</Link> for full details on how such Force Majeure events are handled regarding any potential refunds and package credits, which are assessed based on unrecoverable costs.</p>
+            <p>Please see our <Link href="/travel-guide/terms">Terms & Conditions</Link> for full details on how such Force Majeure events are handled regarding any potential refunds and travel credits, which are assessed based on unrecoverable costs.</p>
           </div>
         </main>
       </div>

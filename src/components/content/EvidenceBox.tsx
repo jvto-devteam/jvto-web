@@ -37,9 +37,9 @@ export function EvidenceBox({
     <aside
       style={{
         marginTop: "1.5rem",
-        borderRadius: "0.875rem",
-        border: "1px solid rgba(159,206,51,0.30)",
-        background: "#f7faf0",
+        borderRadius: "var(--radius-jvto-sm)",
+        border: "1px solid rgba(140,198,63,0.30)",
+        background: "var(--color-jvto-off)",
         padding: "1.125rem 1.25rem",
         display: "flex",
         alignItems: "center",
@@ -57,22 +57,22 @@ export function EvidenceBox({
             width: "2rem",
             height: "2rem",
             borderRadius: "0.5rem",
-            background: "#9fce33",
+            background: "var(--color-jvto-lime)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          <ShieldCheck size={14} color="#0c0e09" />
+          <ShieldCheck size={14} color="var(--color-jvto-navy)" />
         </div>
         <div>
           <div
             style={{
-              fontFamily: "'Syne', sans-serif",
+              fontFamily: "var(--font-raleway), sans-serif",
               fontSize: "0.82rem",
               fontWeight: 700,
-              color: "#2a3a18",
+              color: "var(--color-jvto-navy)",
               marginBottom: "0.2rem",
             }}
           >
@@ -80,9 +80,9 @@ export function EvidenceBox({
           </div>
           <div
             style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontSize: "0.78rem",
-              color: "#6b7a55",
+              color: "var(--color-jvto-muted)",
               lineHeight: 1.55,
             }}
           >
@@ -104,9 +104,9 @@ export function EvidenceBox({
           gap: "0.35rem",
           padding: "0.55rem 1.1rem",
           borderRadius: "0.625rem",
-          background: "#0c0e09",
-          color: "#9fce33",
-          fontFamily: "'Syne', sans-serif",
+          background: "var(--color-jvto-navy)",
+          color: "var(--color-jvto-lime)",
+          fontFamily: "var(--font-raleway), sans-serif",
           fontSize: "0.75rem",
           fontWeight: 700,
           textDecoration: "none",
@@ -125,10 +125,10 @@ export function EvidenceBox({
           width: "100%",
           margin: 0,
           paddingTop: "0.625rem",
-          borderTop: "1px solid #dde8c0",
-          fontFamily: "'JetBrains Mono', monospace",
+          borderTop: "1px solid var(--color-jvto-border)",
+          fontFamily: "var(--font-jetbrains-mono), monospace",
           fontSize: "0.58rem",
-          color: "#9aaa80",
+          color: "var(--color-jvto-muted)",
         }}
       >
         If a statement cannot be independently verified, treat it as unverified.
@@ -136,8 +136,8 @@ export function EvidenceBox({
 
       <style>{`
         .jvto-evidence-btn:hover {
-          background: #9fce33 !important;
-          color: #0c0e09 !important;
+          background: var(--color-jvto-lime) !important;
+          color: var(--color-jvto-navy) !important;
         }
       `}</style>
     </aside>

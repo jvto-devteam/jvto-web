@@ -1,7 +1,6 @@
 // src/app/api/destination-faqs/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
@@ -62,11 +61,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const __admin = await requireAdmin();
-  if (!__admin.ok) {
-    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
-  }
-
   try {
     const body = await req.json();
 

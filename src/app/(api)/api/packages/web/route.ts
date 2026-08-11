@@ -2,77 +2,8 @@
 // Refactored 2026-04-29: list transform + filter logic moved to src/lib/packages/getWebPackagesList.ts.
 // Server Components (tour hub pages) call the helper directly; this route still serves external clients.
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { MOCK_PACKAGES } from "@/data/mockData";
-import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
-
-interface ImageAsset {
-  url: string;
-  alt: string;
-  isPrimary: boolean;
-}
-
-function serializePackage(pkg: any) {
-  const imageAssets: ImageAsset[] = (pkg.package_assets ?? [])
-    .filter((pa: any) => pa.asset?.type === "image")
-    .map((pa: any) => ({
-      url: pa.asset?.url || "",
-      alt: pa.asset?.description || "",
-      isPrimary: pa.is_primary === true,
-    }));
-
-  const primaryImage =
-    imageAssets.find((img: ImageAsset) => img.isPrimary) || imageAssets[0];
-
-  const validPrices: number[] = (pkg.package_prices ?? [])
-    .map((p: any) => p.price)
-    .filter(
-      (price: any): price is number => typeof price === "number" && price > 0,
-    );
-
-  const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
-
-  const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
-
-  return {
-    id: Number(pkg.id),
-    name: pkg.name,
-    startDestination: pkg.start_destination?.name ?? null,
-    endDestination: pkg.end_destination?.name ?? null,
-    duration: {
-      day: Number(pkg.durations?.day) || 0,
-      night: Number(pkg.durations?.night) || 0,
-    },
-    banner: {
-      url: primaryImage?.url || "/fallback-banner.jpg",
-      alt: primaryImage?.alt || pkg.name || "Package banner",
-    },
-    keyExperiences: (pkg.package_destinations ?? [])
-      .filter(
-        (pd: any) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id)),
-      )
-      .map(
-        (dest: any) => dest.destinations?.activities?.[0]?.activity_name ?? "",
-      )
-      .filter(Boolean),
-    images: primaryImage
-      ? [{ url: primaryImage.url, alt: primaryImage.alt }]
-      : [{ url: "/fallback-banner.jpg", alt: pkg.name || "Package banner" }],
-    startFrom,
-    slug: pkg.slug || "",
-    physicality: pkg.physicality || "",
-    tags: Array.isArray(pkg.tags)
-      ? pkg.tags
-          .map((s: any) => s?.trim())
-          .filter((s: any) => s && s.length > 0)
-      : [],
-    highlights: Array.isArray(pkg.highlights_bullets)
-      ? pkg.highlights_bullets
-          .map((s: any) => s?.trim())
-          .filter((s: any) => s && s.length > 0)
-      : [],
-  };
-}
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -135,8 +66,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(filteredPackages, { status: 200 });
   }
 
-  if (process.env.PUBLIC_CONTENT_USE_SNAPSHOT_LISTS !== "false") {
-    const payload = getPublicPackageList({
+  try {
+    const payload = await getWebPackagesList({
       fromId,
       durationId,
       categoryId,
@@ -144,48 +75,6 @@ export async function GET(request: NextRequest) {
     });
 
     if (!payload.length) {
-      return NextResponse.json(
-        { message: "Paket tidak ditemukan atau belum dipublikasikan" },
-        { status: 404 },
-      );
-    }
-
-    return NextResponse.json(payload, { status: 200 });
-  }
-
-  try {
-    const pkgs = await prisma.packages.findMany({
-      where: {
-        is_publish: true,
-        ...(fromId !== undefined && { start_destination_id: fromId }),
-        ...(durationId !== undefined && { duration_id: durationId }),
-        ...(categoryId !== undefined && { package_category_id: categoryId }),
-      },
-      include: {
-        start_destination: true,
-        end_destination: true,
-        durations: true,
-        package_prices: {
-          include: { price_tiers: true },
-          orderBy: { price: "asc" },
-        },
-        package_destinations: {
-          include: {
-            destinations: {
-              include: { activities: true, destination_gears: true },
-            },
-          },
-          orderBy: { sort_order: "asc" },
-        },
-        package_assets: { include: { asset: true } },
-      },
-      orderBy: { id: "asc" },
-      ...(limit !== undefined && { take: limit }),
-    });
-
-    const payload = pkgs.map(serializePackage);
-
-    if (!payload || payload.length === 0) {
       return NextResponse.json(
         { message: "Paket tidak ditemukan atau belum dipublikasikan" },
         { status: 404 },

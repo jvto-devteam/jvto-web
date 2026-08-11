@@ -346,8 +346,10 @@
           "bullets": [
             "Asset: https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
             "Title: Stefan Loose Reiseführer Indonesien",
-            "Isbn 13: 9783770167654",
-            "Page: 287 (Ost-Java / Ijen-Massiv)",
+            "Publisher: DuMont Reiseverlag",
+            "Edition: 4th Edition",
+            "Release Date: July 5, 2018",
+            "Isbn 13: 978-3-7701-7881-0",
             "Language: German"
           ]
         }
@@ -746,8 +748,10 @@
             "type": "Book",
             "bibliographic_metadata": {
               "title": "Stefan Loose Reiseführer Indonesien",
-              "isbn_13": "9783770167654",
-              "page": "287 (Ost-Java / Ijen-Massiv)",
+              "publisher": "DuMont Reiseverlag",
+              "edition": "4th Edition",
+              "release_date": "July 5, 2018",
+              "isbn_13": "978-3-7701-7881-0",
               "language": "German",
               "physical_extent": "772 Pages",
               "dimensions": "18.9 x 13.4 x 3.2 cm",

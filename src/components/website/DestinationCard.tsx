@@ -7,14 +7,12 @@ interface DestinationCardProps {
   destination: Destination;
   isHome?: boolean;
   prioritizeImage?: boolean;
-  highlight?: string;
 }
 
 const DestinationCard: React.FC<DestinationCardProps> = ({
   destination,
   isHome,
   prioritizeImage = false,
-  highlight,
 }) => {
   const homeVariantSet = isHome
     ? getHomeImageVariantSet(destination.banner.url)
@@ -27,7 +25,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
       href={`/destinations/${destination.slug}`}
       prefetch={false}
     >
-      <div className="group relative aspect-[2/3] overflow-hidden cursor-pointer rounded-2xl">
+      <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
 
         {isHome && homeVariantSet ? (
           <img
@@ -57,19 +55,15 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        {/* gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <p className="font-black text-white text-base leading-tight mb-1">
+        {/* TITLE */}
+        <div className="absolute md:bottom-5 md:left-5 md:right-5 bottom-3 left-3 right-3 text-white">
+          <div className="font-bold text-base md:text-xl uppercase tracking-wider line-clamp-2 leading-tight">
             {destination.name}
             <span className="sr-only"> — explore this destination</span>
-          </p>
-          {highlight && (
-            <p className="text-white/70 text-xs mb-2">{highlight}</p>
-          )}
-          <span className="text-jvto-green text-xs font-bold">
-            View Tours <span aria-hidden="true">→</span>
-          </span>
+          </div>
         </div>
       </div>
     </Link>

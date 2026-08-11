@@ -12,7 +12,6 @@
 //   because live's per-page Org injection uses the same @id.
 
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
-import { isGuideRole } from '@/lib/crewRole';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID   = `${BASE_URL}/#organization`;
@@ -60,7 +59,7 @@ export const ORGANIZATION_SCHEMA = {
   // Historical artifacts — proves operational continuity since 2015
   award: [
     'Booking.com Guest Review Award 2015 — Ijen Bondowoso Homestay (Score 9.4/10)',
-    'Stefan Loose Reiseführer Indonesien — Editorial Feature (page 287)',
+    'Stefan Loose Reiseführer Indonesien — Editorial Feature (4th Edition, 2018)',
   ],
 
   // Verified credentials (legal + association).
@@ -162,11 +161,15 @@ export const ORGANIZATION_SCHEMA = {
     },
     {
       '@type': 'Book',
-      name: 'Stefan Loose Reiseführer Indonesien: mit Reiseatlas',
-      isbn: '9783770167654',
+      name: 'Stefan Loose Reiseführer Indonesien',
+      isbn: '978-3-7701-7881-0',
+      datePublished: '2018-07-05',
       inLanguage: 'de',
+      numberOfPages: 772,
+      bookEdition: '4',
+      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
       url: 'https://www.tripplanner.at/en/product-page/stefan-loose-reisef%C3%BChrer-indonesien',
-      description: 'German-language travel guide; independently features Ijen Bondowoso Homestay (JVTO) on page 287 — non-paid editorial listing. Publication year and edition are not asserted.',
+      description: 'German-language travel guide; independently features Ijen Bondowoso Homestay (JVTO) — non-paid editorial listing.',
       image: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
     },
   ],
@@ -186,6 +189,13 @@ export const ORGANIZATION_SCHEMA = {
   ],
 };
 
+// Shared export: the Organization credentials array (NIB/TDUP/HPWKI, each carrying a
+// SHA-256 forensic-anchor PropertyValue). buildOrganizationJsonLd() attaches this to the
+// live-rendered Organization node regardless of whether that node comes from the DB
+// schema_json column or the static snapshot fallback — so the hashes render in production
+// without any DB/SQL step. Single source of truth for the credentials list.
+export const ORGANIZATION_HAS_CREDENTIAL = ORGANIZATION_SCHEMA.hasCredential;
+
 // ── Agung Sambuko — Founder & Active Tourist Police Officer ───────────────────
 // Evidence chain: SPRIN-POLPAR + SPRIN-WAL-TRAVEL-2024 → Ditpamobvit
 //                 Detik.com "Bripka Agung Sambuko" → identity confirmation
@@ -195,14 +205,8 @@ export const FOUNDER_SCHEMA = {
   '@type': 'Person',
   '@id': AGUNG_ID,
   name: 'Agung Sambuko',
-  alternateName: ['Mr. Sam', 'Bripka Agung Sambuko'],
-  jobTitle: 'Active Tourist Police Officer, Ditpamobvit East Java',
-  description:
-    'Bripka Agung Sambuko is an active officer of the Indonesian Tourist Police ' +
-    '(Ditpamobvit, East Java) and founder of PT Java Volcano Rendezvous. ' +
-    'Police credentials (SPRIN POLPAR + SPRIN WAL-TRAVEL 2024) and independent ' +
-    'press coverage (Detik.com 2021-03-14, Radar Jember 2021) verify identity ' +
-    'and active deployment.',
+  alternateName: 'Mr. Sam',
+  jobTitle: ['Founder', 'Active Tourist Police Officer'],
   image: [
     {
       '@type': 'ImageObject',
@@ -296,10 +300,14 @@ export const FOUNDER_SCHEMA = {
     },
     {
       '@type': 'Book',
-      name: 'Stefan Loose Reiseführer Indonesien: mit Reiseatlas',
-      isbn: '9783770167654',
+      name: 'Stefan Loose Reiseführer Indonesien',
+      isbn: '978-3-7701-7881-0',
+      datePublished: '2018-07-05',
       inLanguage: 'de',
-      description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay on page 287 (non-paid editorial). Publication year and edition are not asserted.',
+      numberOfPages: 772,
+      bookEdition: '4',
+      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
+      description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay (non-paid editorial).',
       image: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`,
     },
   ],
@@ -482,7 +490,7 @@ export const DEFINED_TERMS = {
     name: 'ISIC (International Student Identity Card)',
     description:
       'Global student membership card accepted at 150,000+ discounts in 130+ countries. ' +
-      'JVTO is a registered ISIC provider (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
+      'JVTO is a verified ISIC partner (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
       'Verifiable at isic.org/discounts/?providerId=259268.',
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',
@@ -507,14 +515,14 @@ export const DEFINED_TERMS = {
   },
   // JVTO-defined operational terms — differentiators not regulated externally.
   // Custom-named DefinedTerms anchor brand-specific concepts in the entity graph so AI engines
-  // can extract "what is JVTO Package Credit?" and "what is JVTO FOC Scheme?" with structured answers.
+  // can extract "what is JVTO Travel Credit?" and "what is JVTO FOC Scheme?" with structured answers.
   JVTO_TRAVEL_CREDIT: {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
     '@id': `${BASE_URL}/#term-jvto-travel-credit`,
-    name: 'JVTO Package Credit',
+    name: 'JVTO Travel Credit',
     description:
-      'JVTO operational policy: when a booking is cancelled at least 48 hours before Day 1, the entire amount paid is converted to a Package Credit. ' +
+      'JVTO operational policy: when a booking is cancelled at least 48 hours before Day 1, the entire amount paid is converted to a Travel Credit. ' +
       'Non-expiring (no validity window), transferable to any traveler at no additional cost, denominated in IDR (no FX risk to guest), with zero rebooking fee. ' +
       'Differentiator vs industry-standard expiring vouchers. Force-majeure closures fall under the same policy.',
     inDefinedTermSet: {
@@ -577,7 +585,7 @@ export function buildCrewPersonSchema(member: {
     '@type': 'Person',
     '@id': `${BASE_URL}/#crew-${member.code}`,
     name: member.name,
-    jobTitle: isGuideRole(member.type) ? 'Licensed Tour Guide' : 'Professional Tour Driver',
+    jobTitle: member.type === 'Guide' ? 'Licensed Tour Guide' : 'Professional Tour Driver',
     ...(member.photoUrl ? {
       image: { '@type': 'ImageObject', url: member.photoUrl, caption: member.name },
     } : {}),
@@ -588,21 +596,13 @@ export function buildCrewPersonSchema(member: {
       name: 'Java Volcano Tour Operator',
     },
     employmentType: 'FULL_TIME',
-    // KTA credential — issued via HPWKI/local guide association. Name/category
-    // must track member.type the same way jobTitle above does: KTA-D-* driver
-    // cards are a distinct credential from KTA-G-* guide cards, not a "Guide
-    // Licence" — hasCredential must not overclaim a licence type the card
-    // itself (per its ID prefix) doesn't carry.
+    // KTA credential — issued via HPWKI/local guide association
     ...(member.ktaId ? {
       hasCredential: {
         '@type': 'EducationalOccupationalCredential',
-        name: isGuideRole(member.type)
-          ? 'KTA (Kartu Tanda Anggota) — Guide Licence'
-          : 'KTA (Kartu Tanda Anggota) — Driver Card',
+        name: 'KTA (Kartu Tanda Anggota) — Guide Licence',
         identifier: member.ktaId,
-        credentialCategory: isGuideRole(member.type)
-          ? 'Indonesian Tour Guide Licence'
-          : 'Indonesian Tour Driver Card',
+        credentialCategory: 'Indonesian Tour Guide Licence',
         ...(member.ktaCardUrl ? { url: member.ktaCardUrl } : {}),
         recognizedBy: {
           '@type': 'Organization',

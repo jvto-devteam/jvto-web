@@ -1,58 +1,50 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import Breadcrumbs from "@/components/website/Breadcrumbs";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import {
-  loadStaticPage,
-  listPublishedStaticPages,
-  staticRouteCanonical,
-  type StaticPage,
-} from "@/lib/static-content";
+import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getAllBlogPosts } from "@/lib/blog";
 
-// PACKAGE 08 (2026-08-06): the /blog hub is content-owned (content/pages/blog/index.md); the
-// post listing is composed from the published blog content pages (content/pages/blog/*.md),
-// newest first. The content/ loader is the sole source — no DB SEO lookup, no legacy blog module.
-const ROUTE = "/blog";
 export const revalidate = 3600;
 
-function staticPageRow(page: StaticPage) {
-  return {
-    route: page.meta.route,
-    lang: "en",
-    seo: {
-      title: page.meta.browserTitle ?? page.meta.title,
-      description: page.meta.description,
-      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
-    },
-    content: { h1: page.meta.title },
-  };
-}
-
-function listBlogPosts() {
-  return listPublishedStaticPages({ section: "blog" })
-    .filter((p) => p.meta.route !== ROUTE)
-    .sort((a, b) => (b.meta.publishedDate ?? "").localeCompare(a.meta.publishedDate ?? ""));
-}
+const fallbackSeo = {
+  title: "Insights | JVTO's Blog on Safety, Planning & Community",
+  h1: "Insights & Explainers",
+  description:
+    "Explore our articles on choosing a legal operator, understanding Ijen health screening, and maximizing your East Java trip. Expert advice from a police-led team.",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  const seo = await getPageSeo("/blog", fallbackSeo);
   return {
-    title: page.meta.browserTitle ?? page.meta.title,
-    description: page.meta.description,
-    alternates: { canonical: staticRouteCanonical(ROUTE) },
+    title: seo.title,
+    description: seo.description,
   };
 }
 
 export default async function Insights() {
-  const page = loadStaticPage(ROUTE);
-  if (!page || page.meta.status !== "published") return notFound();
-  const posts = listBlogPosts();
+  const seo = await getPageSeo("/blog", fallbackSeo);
+  const posts = getAllBlogPosts();
+
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/blog",
+        lang: "en",
+        seo: { title: seo.title, description: seo.description },
+        content: { h1: seo.h1 },
+      };
 
   return (
     <>
-      <PageJsonLdCombined pageRow={staticPageRow(page) as any} />
+      <PageJsonLdCombined pageRow={pageRow as any} />
 
       <div className="bg-background-light dark:bg-background-dark">
         <header className="relative py-28 md:py-48 bg-ink-primary text-white text-center">
@@ -63,8 +55,10 @@ export default async function Insights() {
             }}
           />
           <div className="relative container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-black">{page.meta.title}</h1>
-            <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">{page.meta.description}</p>
+            <h1 className="text-4xl md:text-6xl font-black">{seo.h1}</h1>
+            <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
+              {seo.description}
+            </p>
           </div>
         </header>
 
@@ -83,64 +77,63 @@ export default async function Insights() {
               <div className="text-center py-16 text-ink-neutral-700 dark:text-ink-neutral-200">
                 <p className="text-lg font-semibold">New articles are on the way.</p>
                 <p className="mt-2 text-sm">
-                  Our team is preparing in-depth guides on Bromo, Ijen, and safe East Java travel.
-                  Check back soon.
+                  Our team is preparing in-depth guides on Bromo, Ijen, and safe
+                  East Java travel. Check back soon.
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {posts.map((post) => {
-                  const slug = post.meta.route.replace("/blog/", "");
-                  return (
-                    <Link
-                      key={slug}
-                      href={`/blog/${slug}`}
-                      prefetch={false}
-                      className="group block bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1 overflow-hidden"
-                    >
-                      {post.meta.bannerImage && (
-                        <div className="relative w-full h-44 overflow-hidden">
-                          <img
-                            src={post.meta.bannerImage}
-                            alt={post.meta.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-neutral-700 dark:text-ink-neutral-200">
-                          {post.meta.publishedDate && (
-                            <time dateTime={post.meta.publishedDate}>
-                              {new Date(post.meta.publishedDate).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </time>
-                          )}
-                          {post.meta.readingTimeMin && (
-                            <>
-                              <span aria-hidden>·</span>
-                              <span>{post.meta.readingTimeMin} min read</span>
-                            </>
-                          )}
-                        </div>
-                        <h2 className="mt-2 text-lg font-bold text-ink-primary dark:text-white">
-                          {post.meta.title}
-                        </h2>
-                        <p className="mt-2 text-sm text-ink-neutral-700 dark:text-ink-neutral-200">
-                          {post.meta.description}
-                        </p>
-                        <div className="mt-4 text-sm font-semibold text-primary">
-                          Read Article{" "}
-                          <span className="transform transition-transform group-hover:translate-x-1 inline-block">
-                            →
-                          </span>
-                        </div>
+                {posts.map((post) => (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    prefetch={false}
+                    className="group block bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1 overflow-hidden"
+                  >
+                    {post.banner_image && (
+                      <div className="relative w-full h-44 overflow-hidden">
+                        <img
+                          src={post.banner_image}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                       </div>
-                    </Link>
-                  );
-                })}
+                    )}
+                    <div className="p-6">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-neutral-700 dark:text-ink-neutral-200">
+                        {post.date && (
+                          <time dateTime={post.date}>
+                            {new Date(post.date).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </time>
+                        )}
+                        {post.estimated_read_min && (
+                          <>
+                            <span aria-hidden>·</span>
+                            <span>{post.estimated_read_min} min read</span>
+                          </>
+                        )}
+                      </div>
+                      <h2 className="mt-2 text-lg font-bold text-ink-primary dark:text-white">
+                        {post.title}
+                      </h2>
+                      {post.seo_description && (
+                        <p className="mt-2 text-sm text-ink-neutral-700 dark:text-ink-neutral-200">
+                          {post.seo_description}
+                        </p>
+                      )}
+                      <div className="mt-4 text-sm font-semibold text-primary">
+                        Read Article{" "}
+                        <span className="transform transition-transform group-hover:translate-x-1 inline-block">
+                          →
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
