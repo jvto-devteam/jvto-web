@@ -14,6 +14,7 @@ const ARTICLES = [
   { slug: "safety-on-tours", label: "Safety", name: "Safety on Tours", desc: "Police-led protocols · medical · vehicle standards." },
   { slug: "booking-information", label: "Process", name: "Booking Information", desc: "Deposits · confirmation · reschedule mechanics." },
   { slug: "police-escort-for-groups", label: "Authority", name: "Police Escort for Groups", desc: "When and how police escort is arranged." },
+  { slug: "rijik-monthly-closure", label: "Conditions", name: "Ijen Rijik Monthly Closure", desc: "The first-Friday-of-the-month TWA Ijen conservation closure." },
   { slug: "faq", label: "Reference", name: "FAQ", desc: "Common questions answered in plain language." },
 ] as const;
 
