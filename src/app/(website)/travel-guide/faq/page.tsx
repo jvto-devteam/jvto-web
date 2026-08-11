@@ -4,6 +4,7 @@ import { composeGraph } from "@/lib/schema/contract";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import Link from "@/components/website/AppLink";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 
 export const revalidate = 3600;
 
@@ -248,10 +249,9 @@ export default async function FaqPage() {
                                 {faq.question}
                               </span>
                             </summary>
-                            <div
-                              className="pb-5 pl-[42px] text-[15.5px] text-jvto-navy font-light leading-relaxed prose prose-sm max-w-none"
-                              dangerouslySetInnerHTML={{ __html: faq.answer }}
-                            />
+                            <div className="pb-5 pl-[42px] text-[15.5px] leading-relaxed">
+                              <MarkdownRendererTravelGuide markdown={faq.answer} />
+                            </div>
                           </details>
                         ))}
                       </div>
