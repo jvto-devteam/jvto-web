@@ -129,9 +129,9 @@ const DEFAULT_HERO: HeroMeta = {
 
 export function generateStaticParams() {
   const dbSlugs = listPublicPageRoutesByPrefix("/travel-guide")
-    .filter((route) => route !== "/travel-guide/faq")
     .map((route) => route.replace("/travel-guide/", ""))
-    .filter((slug) => !MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug));
+    .filter((slug) => !MIGRATED_TRAVEL_GUIDE_SLUGS.has(slug))
+    .filter((slug) => !TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS.has(slug));
   return [...MIGRATED_TRAVEL_GUIDE_SLUGS, ...dbSlugs].map((slug) => ({ slug }));
 }
 
