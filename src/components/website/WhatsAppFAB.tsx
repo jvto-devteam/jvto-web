@@ -44,13 +44,13 @@ export default function WhatsAppFAB() {
           transition={{ type: 'spring', stiffness: 300, damping: 24 }}
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.93 }}
-          aria-label="Book or inquire via WhatsApp"
+          aria-label="Chat with JVTO on WhatsApp"
           className="group fixed bottom-6 right-4 z-50 flex items-center gap-2 rounded-full px-4 py-3 shadow-lg shadow-green-600/30 md:bottom-8 md:right-8"
           style={{ backgroundColor: '#25D366', color: '#ffffff' }}
         >
           <WhatsAppIcon size={24} />
           <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[10rem]">
-            Book via WhatsApp
+            Chat on WhatsApp
           </span>
         </motion.a>
       )}

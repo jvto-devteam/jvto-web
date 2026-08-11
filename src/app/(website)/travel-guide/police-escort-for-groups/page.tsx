@@ -1,328 +1,187 @@
-import { type Metadata } from "next";
-import Link from "@/components/website/AppLink";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { CheckCircle2, Shield } from "lucide-react";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
+import Sidebar from "../sidebar";
+import { FIELD_OPERATIONS } from "@/lib/imageAssets";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
+import { loadStaticPage, staticRouteCanonical, type StaticPage } from "@/lib/static-content";
+import { KeyFactSchema, parseGrid, type KeyFact } from "@/lib/content/travelGuideGrids";
+
+// PACKAGE 04b (2026-08-06): narrative + SEO come from the static-content SSOT
+// (content/pages/travel-guide/police-escort-for-groups.json). The repository fallback copy
+// is the canonical content (owner decision: do not wait for a content_pages export). The
+// photo-evidence grid stays TSX chrome (image assets). No getContentPage / content_pages.
+
+const ROUTE = "/travel-guide/police-escort-for-groups";
 
 export const revalidate = 86400;
 
-const ROUTE = "/travel-guide/police-escort-for-groups";
-const SITE_URL = "https://javavolcano-touroperator.com";
+type Sec = NonNullable<StaticPage["sections"]>[number] & Record<string, unknown>;
 
-const GUIDE_NAV = [
-  { href: "/travel-guide", label: "Guide overview" },
-  { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
-  { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
-  { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
-  { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
-  { href: "/travel-guide/booking-information", label: "Booking Information" },
-  { href: "/travel-guide/police-escort-for-groups", label: "Police Escort for Groups" },
-  { href: "/travel-guide/faq", label: "FAQ" },
-];
+function findSection(page: StaticPage, id: string): Sec | undefined {
+  return page.sections?.find((s) => s.id === id) as Sec | undefined;
+}
+function sectionBody(sec: Sec | undefined): string {
+  return typeof sec?.body_md === "string" ? sec.body_md : "";
+}
+function sectionTitle(sec: Sec | undefined): string {
+  return typeof sec?.title === "string" ? sec.title : "";
+}
+function sectionGrid(sec: Sec | undefined, role: string): Record<string, unknown>[] {
+  const block = (sec?.blocks ?? []).find(
+    (b) => b.type === "grid" && (b as { role?: string }).role === role,
+  );
+  return block ? ((block as { items?: Record<string, unknown>[] }).items ?? []) : [];
+}
 
-const STEPS = [
-  "JVTO submits a formal request to the competent Traffic Police unit — including group size, vehicle count, route, and date.",
-  "The request is reviewed against current regulations, unit availability, and route specifications.",
-  "If approved, the escort is issued with written orders (SPRIN documentation). JVTO has existing police-cooperation framework documents on file.",
-  "On the day, uniformed traffic police in official vehicles accompany the convoy on designated road segments — for example, from a toll exit to Bondowoso.",
-];
-
-const EXCLUSIONS = [
-  <>It is <strong>not a default inclusion</strong> — not part of any standard package unless written on your E-Voucher.</>,
-  <>It is <strong>not a guarantee</strong> of road clearance for any segment or timeline.</>,
-  <>It is <strong>not a security detail</strong> — it is traffic-management coordination for convoy road segments.</>,
-  <><strong>No unofficial on-road payments</strong> are associated with a JVTO-coordinated escort. If anyone requests payment on the road during an escort, report it to JVTO immediately.</>,
-];
-
-const ArrowRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-);
-
-export async function generateMetadata(): Promise<Metadata> {
-  const { pageRow } = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  });
-  const seo = (pageRow.seo as Record<string, any> | null) ?? {};
-  const title = seo.title ?? "Police Escort for Groups · JVTO Travel Guide";
-  const description =
-    seo.description ??
-    "How official traffic police escorts work for larger tourist groups in East Java. When it is appropriate, how JVTO coordinates it, and what it involves.";
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
   return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      url: `${SITE_URL}${ROUTE}`,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "article",
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+      schema_type: page.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
     },
+    content: { h1: page.meta.title },
   };
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  return {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
+    alternates: { canonical: staticRouteCanonical(ROUTE) },
+  };
+}
+
+const ESCORT_DAY = FIELD_OPERATIONS[5]; // police-escort-arrival-hotel-bondowoso-day
+const ESCORT_NIGHT = FIELD_OPERATIONS[6]; // police-escort-arrival-hotel-bondowoso-night
+const ESCORT_VEHICLE = FIELD_OPERATIONS[7]; // police-vehicle-support
+
 export default async function PoliceEscortPage() {
-  const [{ pageRow }, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  if (!page || page.meta.status !== "published") {
+    const { notFound } = await import("next/navigation");
+    return notFound();
+  }
+
+  const h1 = page.meta.title;
+  const whatIs = findSection(page, "what-is");
+  const howItWorks = findSection(page, "how-it-works");
+  const whoQualifies = findSection(page, "who-qualifies");
+  const keyFactsSec = findSection(page, "key-facts");
+  const keyFacts = parseGrid(KeyFactSchema, sectionGrid(keyFactsSec, "key-facts"), "key-facts");
 
   return (
-    <>
-      <PageJsonLdCombined
-        pageRow={pageRow}
-        extraSchemas={[faqNode].filter(Boolean)}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
-      />
-
-      {/* ── Interior hero — navy ────────────────────────────────────────── */}
-      <section className="bg-jvto-navy pt-24 md:pt-36 pb-28 md:pb-36 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
-            <Link href="/" prefetch={false} className="hover:text-white/70 transition-colors">Home</Link>
-            <span>›</span>
-            <Link href="/travel-guide" prefetch={false} className="hover:text-white/70 transition-colors">Travel Guide</Link>
-            <span>›</span>
-            <span className="text-white/70">Police Escort for Groups</span>
-          </nav>
-          <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
-                  Large groups · coordination
-                </span>
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
-                  GUIDE / ESCORT
-                </span>
-              </div>
-              <h1
-                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
-              >
-                Police escort{" "}
-                <em className="italic text-jvto-orange">for groups.</em>
-              </h1>
-              <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                For large groups — typically around 18 guests or more — JVTO can coordinate an
-                official traffic police escort on certain road segments, when approved by the
-                relevant Traffic Police unit. It is a formal request process, not a marketing add-on.
-              </p>
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      <PageJsonLdCombined pageRow={staticPageRow(page) as any} extraSchemas={[]} suppressCmsFaq />
+      <main className="flex-1 pt-24 md:pt-36 pb-20 w-full">
+        <section className="bg-jvto-navy text-white pb-10 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" className="hover:text-white transition-colors">Home</Link>
+              <span className="mx-2">›</span>
+              <Link href="/travel-guide" className="hover:text-white transition-colors">Travel Guide</Link>
+              <span className="mx-2">›</span>
+              <span className="text-white/80">Police Escort for Groups</span>
+            </nav>
+            <div className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              <Shield size={11} /> ≈18 guests+ · request only · approval not guaranteed
             </div>
-            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-              {[
-                { label: "Qualifying size", value: "≈ 18 guests or more" },
-                { label: "Provided by", value: "Traffic Police (Ditlantas)" },
-                { label: "Request at", value: "Initial quotation" },
-                { label: "Approval", value: "Not guaranteed" },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
-                  <strong className="text-white text-sm font-semibold text-right">{value}</strong>
-                </div>
+            <h1
+              className="font-black text-3xl md:text-5xl text-white mb-4"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {h1}
+            </h1>
+            <p className="text-white/70 text-base leading-relaxed max-w-2xl">
+              {page.meta.description}
+            </p>
+          </div>
+        </section>
+
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          {/* Photo evidence — escort day + night (image assets, chrome) */}
+          <section className="mb-12">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+              Photo Evidence — Escorted Group Arrivals
+            </p>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[ESCORT_DAY, ESCORT_NIGHT, ESCORT_VEHICLE].map((img) => (
+                <figure key={img.url} className="rounded-xl overflow-hidden border border-slate-200">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={img.url}
+                      alt={img.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <figcaption className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-xs text-slate-500 leading-snug">
+                    {img.caption}
+                  </figcaption>
+                </figure>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* ── Article section — off-white, stacked ───────────────────────── */}
-      <section
-        className="bg-[#F6F5F2] py-16 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12 md:gap-16">
+          {/* What a police escort involves */}
+          <section className="mb-10">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">{sectionTitle(whatIs)}</h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(whatIs)} />
+          </section>
 
-            {/* Sidebar nav */}
-            <aside className="md:sticky md:top-24 self-start">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-4">
-                Travel Guide
-              </p>
-              <nav className="space-y-0.5">
-                {GUIDE_NAV.map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    prefetch={false}
-                    className={`block text-[13px] font-medium py-2 px-3 rounded-lg transition-colors ${
-                      href === ROUTE
-                        ? "bg-jvto-navy text-white"
-                        : "text-[#6b7280] hover:text-jvto-navy hover:bg-white"
-                    }`}
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </nav>
-              <Link
-                href="/tours"
-                prefetch={false}
-                className="inline-flex items-center gap-1.5 mt-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors"
-              >
-                Browse tours <ArrowRight />
-              </Link>
-            </aside>
+          {/* How JVTO coordinates */}
+          <section className="mb-10">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">{sectionTitle(howItWorks)}</h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(howItWorks)} />
+          </section>
 
-            {/* Article prose */}
-            <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9ca3af] block mb-6">
-                Reading time · 4 min
-              </span>
-              <p className="text-[17px] text-jvto-navy font-light leading-relaxed mb-10">
-                For large groups — typically around 18 guests or more — JVTO can coordinate an
-                official traffic police escort on certain road segments, when approved by the
-                relevant Traffic Police unit. It is a formal request process filed with the police,
-                not a marketing add-on, and approval is never guaranteed.
-              </p>
+          {/* Who qualifies */}
+          <section className="mb-10 bg-jvto-green/5 border border-jvto-green/20 rounded-xl p-6">
+            <h2 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wide">
+              {sectionTitle(whoQualifies)}
+            </h2>
+            <MarkdownRendererTravelGuide markdown={sectionBody(whoQualifies)} />
+          </section>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                What a traffic police escort is
-              </h2>
-              <div className="space-y-4 text-[15.5px] text-jvto-navy font-light leading-relaxed mb-10">
-                <p>
-                  A traffic police escort in East Java is a formal arrangement between JVTO and the
-                  relevant Traffic Police unit (Ditlantas). When approved, uniformed traffic police
-                  travel in official police vehicles, under written orders, to help manage road flow
-                  on specific segments — particularly at high-traffic junctions and toll-road exits —
-                  for large vehicle convoys.
-                </p>
-                <p>
-                  JVTO does not provide escort vehicles itself. The escort, when it occurs, is
-                  provided by the Indonesian National Police under a formal request process.
-                </p>
-              </div>
+          {/* Key facts */}
+          <section className="mb-10 bg-slate-50 rounded-xl border border-slate-100 p-6">
+            <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
+              {sectionTitle(keyFactsSec)}
+            </h2>
+            <ul className="space-y-2.5">
+              {keyFacts.map((fact: KeyFact, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
+                  <CheckCircle2 size={14} className="text-jvto-green mt-0.5 shrink-0" />
+                  <span>{fact.text}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                Who qualifies
-              </h2>
-              <p className="text-[15.5px] text-jvto-navy font-light leading-relaxed mb-10">
-                The escort is a coordination service for large vehicle convoys that meet the qualifying
-                group size — <strong className="font-semibold">typically around 18 guests or more</strong>. It is not a default
-                inclusion for smaller groups, and not part of any standard JVTO package unless it is
-                written on your E-Voucher. Whether a specific route and date are approved depends on
-                regulations, Traffic Police unit availability, and route definitions at the time of
-                request. <strong className="font-semibold">Approval is not guaranteed.</strong>
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                How it works
-              </h2>
-              <ol className="mb-10">
-                {STEPS.map((step, i) => (
-                  <li key={i} className="grid grid-cols-[38px_1fr] gap-5 py-5 border-t border-[#E3E0DA] last:border-b">
-                    <span className="w-[30px] h-[30px] rounded-full bg-jvto-orange/10 font-mono text-[13px] font-bold text-jvto-orange flex items-center justify-center flex-shrink-0">
-                      {i + 1}
-                    </span>
-                    <p className="text-[15.5px] text-jvto-navy font-light leading-relaxed pt-0.5">{step}</p>
-                  </li>
-                ))}
-              </ol>
-              <p className="text-[15.5px] text-jvto-navy font-light leading-relaxed mb-10">
-                The escort operates under official police authority, not JVTO instruction. It does not
-                bypass speed limits, road rules, or normal traffic regulations, and it does not grant
-                preferential access to national parks or restricted sites.
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                What the escort does not include
-              </h2>
-              <ul className="mb-10">
-                {EXCLUSIONS.map((item, i) => (
-                  <li key={i} className="grid grid-cols-[22px_1fr] gap-4 py-4 border-t border-[#E3E0DA] last:border-b text-[15.5px] text-jvto-navy font-light leading-relaxed">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-[18px] h-[18px] text-jvto-orange mt-0.5 flex-shrink-0" aria-hidden="true">
-                      <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                How to request
-              </h2>
-              <p className="text-[15.5px] text-jvto-navy font-light leading-relaxed mb-10">
-                If your group meets the qualifying size (typically 18 guests or more), raise the escort
-                request when you contact JVTO for your initial quotation. Include your group size,
-                vehicle count, proposed route, and travel dates. JVTO assesses feasibility, submits the
-                formal request to the Traffic Police unit if appropriate, and lists escort costs
-                explicitly in your programme and invoice if approved — no post-booking additions.
-              </p>
-
-              {/* Note box — lime border */}
-              <div className="border border-[#E3E0DA] border-l-[3px] border-l-jvto-lime bg-jvto-lime/5 rounded-[12px] px-6 py-5 mb-10">
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-navy block mb-2">
-                  The relationship behind it
-                </span>
-                <p className="text-[15px] text-jvto-navy font-light leading-relaxed">
-                  JVTO&apos;s founder, Mr. Sam (Agung Sambuko), is an active officer of the Indonesian
-                  National Police, assigned to Ditpamobvit (Directorate of Vital Object Security),
-                  East Java. That gives JVTO an established institutional relationship with police
-                  coordination frameworks most operators do not have — not a shortcut around
-                  regulations, but an established protocol within them.{" "}
-                  <Link href="/verify-jvto/police-safety" prefetch={false} className="text-jvto-orange border-b border-current">
-                    See the Police &amp; Safety proof page
-                  </Link>.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
-      <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
-        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
-          <h2
-            className="font-black text-white leading-[1.02] mb-8"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.5vw, 44px)" }}
-          >
-            Ready for operational <span className="text-jvto-orange">certainty?</span>
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/tours"
-              prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
-            >
-              Explore tours <ArrowRight />
+          {/* Cross-links */}
+          <div className="border-t border-slate-100 pt-6 flex flex-wrap gap-4 text-sm">
+            <Link href="/verify-jvto/police-safety" className="text-jvto-green hover:underline font-medium">
+              Police safety credentials →
             </Link>
-            <Link
-              href="/verify-jvto"
-              prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-            >
-              Verify JVTO
+            <Link href="/travel-guide/safety-on-tours" className="text-slate-500 hover:text-slate-800 transition-colors">
+              Safety on tours →
+            </Link>
+            <Link href="/tours" className="text-slate-500 hover:text-slate-800 transition-colors">
+              Browse private tours →
             </Link>
           </div>
         </div>
-      </section>
-    </>
+      </main>
+    </div>
   );
 }

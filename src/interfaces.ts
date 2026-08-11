@@ -34,16 +34,17 @@ export interface DestinationDetail {
   region: string;
   province: string;
   country: string;
+  latitude: string;
+  longitude: string;
   altitude: number;
-  display_height_m?: number | null;
-  nickname?: string | null;
-  trailhead?: string | null;
-  physical_demand?: number | null;
-  sections?: any | null;
+  area_hectares: string;
   terrain: string;
   best_time_to_visit: string;
   difficulty_level: string;
   duration: string;
+  physical_demand: number;
+  cultural_depth: number;
+  photo_potential: number;
   weather_by_season: string;
   rainfall_intensity: string;
   temperature_range: string;
@@ -78,12 +79,6 @@ export interface DestinationDetail {
   featured_image: string;
   tags: string[];
   destination_assets: DestinationAsset[];
-  route_geojson?: Record<string, any> | null;
-  route_length_m?: number | null;
-  route_elev_gain_m?: number | null;
-  route_elev_min_m?: number | null;
-  route_max_alt_m?: number | null;
-  route_bbox?: number[] | null;
 }
 
 export interface Destination {
@@ -101,6 +96,27 @@ export interface Destination {
     temperature_range: string;
     best_time_to_visit: string;
   };
+  // Extended fields present on the public destination-list snapshot payload
+  // (see PublicDestinationListSnapshot in src/lib/publicContent/types.ts).
+  // Optional so existing minimal-shape consumers (CMS stubs, mock data) stay valid.
+  featured?: boolean;
+  short_slug?: string | null;
+  summary?: string | null;
+  highlight?: string | null;
+  geo?: {
+    latitude: number | null;
+    longitude: number | null;
+    altitude: number | null;
+  };
+  permit_required?: boolean;
+  permit_details?: string | null;
+  physical_requirements?: string | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  tags?: string[];
+  types?: string[];
 }
 
 export interface TourPackageDetail {

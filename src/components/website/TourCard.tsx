@@ -4,8 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
-import { formatIDR } from "@/utils/formatting";
-import { Clock, MapPin, ArrowRight } from "lucide-react";
+import DifficultyBadge from "@/components/website/DifficultyBadge";
 
 interface TourCardProps {
   tour?: ListTourPackage;
@@ -19,24 +18,23 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
 
   const bannerImage =
     tour.images && Array.isArray(tour.images) && tour.images.length > 0
-      ? {
-          url: tour.images[0].url,
-          alt: tour.images[0].alt?.trim() || tour.banner?.alt || tour.name || "Tour package",
-        }
+      ? { url: tour.images[0].url, alt: tour.images[0].alt?.trim() || tour.banner?.alt || tour.name }
       : tour.banner?.url
         ? { url: tour.banner.url, alt: tour.banner.alt || tour.name }
-        : { url: "/images/fallback-banner.jpg", alt: tour.name || "Tour package" };
+        : { url: "/images/fallback-banner.jpg", alt: tour.name };
 
-  const durationString = `${tour.duration.day}D / ${tour.duration.night}N`;
+  const durationString = `${tour.duration.day}D · ${tour.duration.night}N`;
+  const price = `From IDR ${new Intl.NumberFormat("id-ID").format(tour.startFrom)}`;
   const fullTourSlug = `/${tour.slug}`;
   const target = isNewTab ? "_blank" : "_self";
   const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
+  const highlights = (tour.keyExperiences ?? []).slice(0, 2);
 
   return (
     <div
       role="article"
       aria-labelledby={`tour-title-${tour.id}`}
-      className="group flex flex-col rounded-[24px] bg-white border border-jvto-border overflow-hidden card-jvto h-full"
+      className="bg-white rounded-2xl shadow-sm border border-jvto-navy/5 overflow-hidden flex flex-col h-full"
     >
       {/* Image */}
       <Link
@@ -44,89 +42,61 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
         href={fullTourSlug}
         prefetch={false}
         aria-label={tour.name}
-        className="relative block overflow-hidden flex-shrink-0"
+        className="relative block flex-shrink-0"
       >
-        <div className="relative aspect-[4/3] w-full bg-jvto-off">
+        <div className="relative h-44 w-full bg-jvto-off">
           <Image
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
             sizes="(max-width: 640px) 80vw, 350px"
             quality={64}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover"
           />
-        </div>
-
-        {/* Physicality badge */}
-        {tour.physicality && (
-          <div
-            aria-hidden="true"
-            className="absolute top-3 left-3 z-20 bg-jvto-navy/75 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.12em]"
-          >
-            {tour.physicality}
+          <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/60 to-transparent" />
+          <div className="absolute bottom-3 left-3 flex items-center gap-2">
+            <span className="text-[10px] font-black text-white/80 uppercase tracking-wide">
+              {durationString}
+            </span>
+            {tour.physicality && (
+              <DifficultyBadge physicality={tour.physicality} />
+            )}
           </div>
-        )}
+        </div>
       </Link>
 
       {/* Body */}
-      <div className="p-5 flex flex-col flex-grow">
-        {/* Meta */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
-            <Clock className="w-3 h-3 text-jvto-orange flex-shrink-0" />
-            <span>{durationString}</span>
-          </div>
-          <span className="text-jvto-border text-xs">·</span>
-          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
-            <MapPin className="w-3 h-3 text-jvto-orange flex-shrink-0" />
-            <span>{tour.startDestination}</span>
-          </div>
-        </div>
-
-        {/* Title */}
-        <Link
-          target={target}
-          href={fullTourSlug}
-          prefetch={false}
-          aria-label={tour.name}
-          className="block mb-4 flex-grow"
-        >
+      <div className="p-5 flex flex-col gap-3 flex-1">
+        <Link target={target} href={fullTourSlug} prefetch={false}>
           <Tag
             id={`tour-title-${tour.id}`}
-            className="text-base font-black text-jvto-navy leading-snug line-clamp-2 group-hover:text-jvto-orange transition-colors"
-            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+            className="font-bold text-jvto-navy text-base leading-snug line-clamp-2"
           >
             {tour.name}
           </Tag>
         </Link>
 
-        {/* Price + CTA */}
-        <div className="border-t border-jvto-border pt-4 mt-auto">
-          <span className="block text-[9px] text-jvto-muted font-bold uppercase tracking-[0.14em] mb-1">
-            Starts from
-          </span>
-          <div className="flex items-center justify-between gap-2">
-            <div>
-              <span
-                className="text-xl font-black text-jvto-navy tracking-tight"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                {formatIDR(tour.startFrom)}
-              </span>
-              <span className="text-[10px] text-jvto-muted ml-1">/ person</span>
-            </div>
-            <Link
-              target={target}
-              href={fullTourSlug}
-              prefetch={false}
-              aria-label={`View ${tour.name}`}
-              className="flex-shrink-0 w-9 h-9 rounded-full bg-jvto-orange flex items-center justify-center hover:bg-jvto-orange-hover transition-colors"
-              style={{ boxShadow: "var(--shadow-jvto-orange)" }}
-            >
-              <ArrowRight className="w-4 h-4 text-white" />
-            </Link>
-          </div>
-        </div>
+        <p className="font-black text-jvto-navy text-lg">{price}</p>
+
+        {highlights.length > 0 && (
+          <ul className="flex flex-col gap-1">
+            {highlights.map((h, i) => (
+              <li key={i} className="text-xs text-jvto-navy/60 flex gap-1">
+                <span className="flex-shrink-0">·</span>
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <Link
+          target={target}
+          href={fullTourSlug}
+          prefetch={false}
+          className="text-jvto-green font-bold text-sm mt-auto hover:underline"
+        >
+          See Details <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </div>
   );

@@ -5,6 +5,12 @@
 //   - Server-side FAQPage JSON-LD builders (lib/schemas/buildTourSchemas.ts, buildToursHubSchemas.ts)
 //   - Client-side AnswerBlock rendering (where applicable)
 // Single source of truth ensures HTML copy and structured data carry identical Q&A pairs.
+//
+// Review aggregate (rating + count) is interpolated from `src/lib/jvtoReviews.ts` AGGREGATE_RATING
+// so wiki-driven ingest only needs to update that one file.
+
+import { AGGREGATE_RATING } from './jvtoReviews';
+import { getCustomerCopy } from './policy-bundle';
 
 /**
  * Minimal tour shape this module needs. Live's existing tour types (e.g., TourPackageDetail from
@@ -90,7 +96,7 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     {
       question: 'Do you offer student discounts through ISIC?',
       answer:
-        `JVTO is a verified ISIC partner (Provider ID 259268). Valid ISIC cardholders receive a student rate on Ijen and Bromo tour packages. ` +
+        `JVTO is a registered ISIC provider (Provider ID 259268). Valid ISIC cardholders receive a student rate on Ijen and Bromo tour packages. ` +
         `Show your ISIC card when booking; the student rate is confirmed in your booking summary before deposit. ` +
         `Verification: isic.org/discounts/?providerId=259268.`,
       uiMeta: 'See ISIC student packages',
@@ -128,26 +134,29 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
   pairs.push(
     {
       question: 'What happens if I need to cancel?',
-      answer:
-        `Cancellations made ≥48 hours before Day 1 receive 100% Travel Credit — non-expiring, transferable to any traveler, denominated in IDR, ` +
-        `with no rebooking fee. Within 48 hours, the deposit is forfeited. Force-majeure closures (e.g., volcanic alert) are handled under ` +
-        `a separate weather-and-closures protocol — JVTO will arrange an alternative activity or issue a partial refund for the affected portion.`,
+      answer: [
+        getCustomerCopy('before_48_full_cancellation'),
+        getCustomerCopy('after_48_full_cancellation'),
+        getCustomerCopy('partial_cancellation'),
+      ]
+        .filter(Boolean)
+        .join(' '),
       uiMeta: 'See cancellation policy',
       uiLink: '/policy/booking-payment-cancellation',
     },
     {
       question: 'What if the volcano closes on my trip date?',
       answer:
-        `Volcanic alert level changes and BBKSDA closures are outside any operator's control. When a closure affects your confirmed dates, ` +
-        `JVTO will first arrange an alternative route or activity of equal standard. If no suitable alternative is available, ` +
-        `a partial refund for the affected portion applies. We monitor PVMBG alerts and notify guests proactively; our weather-and-closures policy documents the full SOP.`,
+        `Volcanic alert level changes and BBKSDA closures are outside any operator's control. ` +
+        `${getCustomerCopy('destination_force_majeure')} We monitor PVMBG alerts and notify guests ` +
+        `proactively; our weather-and-closures policy documents the full SOP.`,
       uiMeta: 'See weather & closures policy',
       uiLink: '/travel-guide/weather-and-closures',
     },
     {
       question: 'What do past guests say about JVTO?',
       answer:
-        `JVTO holds 4.9 ★ across 195 verified reviews on Trustpilot (51), Google Maps (123), and TripAdvisor (21). ` +
+        `JVTO holds ${AGGREGATE_RATING.ratingValue} ★ across ${AGGREGATE_RATING.reviewCount}+ verified reviews on Trustpilot, Google Maps, TripAdvisor, and Booking.com. ` +
         `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
         `All review profiles link to the original platform so you can verify authenticity.`,
       uiMeta: 'Read verified reviews',

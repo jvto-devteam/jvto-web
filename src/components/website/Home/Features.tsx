@@ -1,5 +1,3 @@
-import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
-
 const CREDENTIALS = [
   {
     label: "NIB License",
@@ -17,20 +15,17 @@ const CREDENTIALS = [
   },
   {
     label: "Trustpilot",
-    value: (() => {
-      const tp = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
-      return tp ? `${tp.rating} · ${tp.count} Reviews` : "4.93 · 44 Reviews";
-    })(),
+    value: "4.8 · 51 Reviews",
     sub: "Excellent — verified platform",
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     external: true,
   },
   {
-    label: "Health Coordination",
-    value: "Ijen Gate Certified",
-    sub: "JVTO coordinates Ijen access screening",
-    href: "/travel-guide/ijen-health-screening",
-    external: false,
+    label: "Physical Office",
+    value: "Bondowoso, East Java",
+    sub: "Walk-in welcome · since 2015",
+    href: "https://www.google.com/maps?cid=1266403973589689021",
+    external: true,
   },
 ];
 

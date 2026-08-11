@@ -1,6 +1,7 @@
 // src/app/api/site-identity/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 type RegistrationId = {
   label: string;
@@ -140,6 +141,11 @@ export async function GET() {
 
 // PATCH /api/site-identity - Update site identity (always updates the first record)
 export async function PATCH(req: NextRequest) {
+  const __admin = await requireAdmin();
+  if (!__admin.ok) {
+    return NextResponse.json({ message: "unauthorized" }, { status: __admin.status });
+  }
+
   try {
     const body = await req.json();
 
