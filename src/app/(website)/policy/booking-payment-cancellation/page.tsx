@@ -39,6 +39,26 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildStaticRouteMetadata(ROUTE, { title, description });
 }
 
+/**
+ * The ported content JSON writes grid card bodies under `text` (that is what
+ * origin/main ships, so the JSON is left byte-identical), while BlocksRenderer's
+ * CardLink only renders `summary`. Map `text` -> `summary` locally so the card
+ * bodies are not silently dropped. Shared BlocksRenderer stays untouched.
+ */
+function normalizeBlocks(blocks: unknown[]): any {
+  return blocks.map((b: any) =>
+    b && b.type === "grid" && Array.isArray(b.items)
+      ? {
+          ...b,
+          items: b.items.map((it: any) => ({
+            ...it,
+            summary: it?.summary ?? it?.text,
+          })),
+        }
+      : b,
+  );
+}
+
 const ArrowRight = () => (
   <svg
     width="14"
@@ -208,7 +228,10 @@ export default async function BookingPaymentCancellationPage() {
                     {sec.body_md && <MarkdownRenderer markdown={sec.body_md} />}
                     {sec.blocks && sec.blocks.length > 0 && (
                       <div className="mt-4">
-                        <BlocksRenderer blocks={sec.blocks as any} sectionId={sec.id} />
+                        <BlocksRenderer
+                          blocks={normalizeBlocks(sec.blocks)}
+                          sectionId={sec.id}
+                        />
                       </div>
                     )}
                   </section>

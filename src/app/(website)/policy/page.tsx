@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
+import { getPublicPageSnapshotRecord } from "@/lib/publicContent/pageSnapshots";
 import {
   buildResolvedFaqSchema,
   resolveFaqsForPage,
@@ -79,6 +80,13 @@ export default async function PolicyHubPage() {
     "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
   const h1 = page?.meta.title ?? "JVTO Policies";
 
+  // /policy has no narrative_claims and no CANONICAL_FAQ_REGISTRY entry, so
+  // resolveFaqsForPage returns source='cms' / suppressCmsFaq=false and
+  // buildResolvedFaqSchema returns null. PageJsonLdCombined's own
+  // buildFaqJsonLdFromContent(pageRow.content.faq) is therefore this page's only
+  // FAQPage source — feed it from the static (DB-free) content_pages snapshot.
+  const cmsContent = getPublicPageSnapshotRecord("/policy")?.content ?? {};
+
   const policyHubExtraSchemas = [
     buildPolicyHubItemListSchema(),
     buildResolvedFaqSchema(faqResolution, "/policy"),
@@ -91,7 +99,7 @@ export default async function PolicyHubPage() {
           route: "/policy",
           lang: "en",
           seo: { title, description },
-          content: { h1 },
+          content: { h1, faq: cmsContent.faq, faq_title: cmsContent.faq_title },
         }}
         extraSchemas={policyHubExtraSchemas}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
