@@ -1,20 +1,12 @@
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
 import {
   buildResolvedFaqSchema,
   resolveFaqsForPage,
 } from "@/lib/content/resolveFaqs";
-
-const fallbackSeo = {
-  title: "JVTO Policies | Booking, Privacy & Inclusions",
-  h1: "JVTO Policies",
-  description:
-    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
-};
 
 const POLICY_TILES = [
   {
@@ -60,11 +52,13 @@ const PRECEDENCE = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/policy", fallbackSeo);
-  return {
-    title: seo.title,
-    description: seo.description,
-  };
+  const page = loadStaticPage("/policy");
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
+  const description =
+    page?.meta.description ??
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
+  return buildStaticRouteMetadata("/policy", { title, description });
 }
 
 const ArrowRight = () => (
@@ -75,9 +69,16 @@ const ArrowRight = () => (
 
 export default async function PolicyHubPage() {
   const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/policy", { allowDatabaseFallback: false }),
+    loadStaticPage("/policy"),
     resolveFaqsForPage("/policy"),
   ]);
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
+  const description =
+    page?.meta.description ??
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
+  const h1 = page?.meta.title ?? "JVTO Policies";
+
   const policyHubExtraSchemas = [
     buildPolicyHubItemListSchema(),
     buildResolvedFaqSchema(faqResolution, "/policy"),
@@ -86,7 +87,12 @@ export default async function PolicyHubPage() {
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/policy",
+          lang: "en",
+          seo: { title, description },
+          content: { h1 },
+        }}
         extraSchemas={policyHubExtraSchemas}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
