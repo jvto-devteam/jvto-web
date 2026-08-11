@@ -1,4 +1,5 @@
 // src/components/website/Home/HomeTravelGuideTeaser.tsx
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import { HeartPulse, CloudRain, Backpack, ShieldCheck } from "lucide-react";
 import Section from "@/components/design/Section";
@@ -31,29 +32,19 @@ export default function HomeTravelGuideTeaser() {
   return (
     <Section surface="light" labelledBy="guide-heading">
       <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
-        {/* IMAGE SLOT — there is no photograph for this section in the repo, so
-            this stays an explicitly-drawn empty plate rather than a stock
-            stand-in. The caption below is the section's existing copy; nothing
-            is invented to fill the hole. See the PKG-11a report: a real
-            "Ijen pre-ascent screening at partner hotel" asset is still needed. */}
-        <div className="relative order-2 aspect-[4/3] overflow-hidden rounded-sm border border-jvto-border bg-jvto-off md:order-1 md:aspect-square">
-          <div
-            aria-hidden="true"
-            className="jvto-topo-light absolute inset-0"
+        {/* Ijen pre-ascent screening at a partner hotel — was a captioned empty
+            plate pending a real photo (PKG-11a, owner decision 2026-08-09);
+            filled with the same hotel-screening photo set used by
+            HomeHealthRail, second frame, to avoid repeating the identical
+            image within the same homepage. */}
+        <div className="relative order-2 aspect-[4/3] overflow-hidden rounded-sm border border-jvto-border md:order-1 md:aspect-square">
+          <Image
+            src="/screening/ijen-screening-hotel-02.webp"
+            alt="Ijen pre-ascent health screening at a partner hotel"
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
           />
-          {/* A quiet hairline inset, NOT a dashed "missing image" frame: the
-              asset is genuinely outstanding, but a dashed placeholder reads as
-              a broken build on a production page. This renders as a deliberate
-              captioned plate until the photograph lands. */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-5 border border-jvto-rule/60"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="px-8 text-center font-mono text-[10px] tracking-[0.22em] text-jvto-ink-soft uppercase">
-              Ijen pre-ascent screening at partner hotel
-            </p>
-          </div>
         </div>
 
         <div className="order-1 md:order-2">
