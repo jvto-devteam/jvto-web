@@ -15,7 +15,6 @@ const DIFF_DATA = [
 
 export function DiffChipsPanel() {
   const [active, setActive] = useState(0);
-  const d = DIFF_DATA[active];
 
   return (
     <>
@@ -35,18 +34,24 @@ export function DiffChipsPanel() {
           </button>
         ))}
       </div>
-      <div className="bg-[#F6F5F2] rounded-[16px] p-5 mb-5">
-        <h4
-          className="font-black text-jvto-navy text-[16px] mb-2 leading-snug"
-          style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+      {DIFF_DATA.map((item, i) => (
+        <div
+          key={item.num}
+          className="bg-[#F6F5F2] rounded-[16px] p-5 mb-5"
+          style={{ display: i === active ? "block" : "none" }}
         >
-          {d.title}
-        </h4>
-        <p className="text-[13px] text-[#6b7280] font-light leading-relaxed mb-3">{d.text}</p>
-        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-jvto-orange">
-          Proof · {d.proof}
-        </span>
-      </div>
+          <h4
+            className="font-black text-jvto-navy text-[16px] mb-2 leading-snug"
+            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+          >
+            {item.title}
+          </h4>
+          <p className="text-[13px] text-[#6b7280] font-light leading-relaxed mb-3">{item.text}</p>
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-jvto-orange">
+            Proof · {item.proof}
+          </span>
+        </div>
+      ))}
     </>
   );
 }
@@ -76,23 +81,25 @@ export function QuoteRotator() {
     return () => clearInterval(timer);
   }, []);
 
-  const [text, who] = QUOTES[active];
-
   return (
     <div className="bg-jvto-navy rounded-[16px] p-5 mb-5 relative overflow-hidden">
       <div className="text-white/20 text-[48px] font-black leading-none mb-1 select-none" aria-hidden="true">&ldquo;</div>
-      <p
-        className="text-white text-[14px] font-light leading-relaxed italic mb-3 transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0 }}
-      >
-        {text}
-      </p>
-      <footer
-        className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-orange transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0 }}
-      >
-        {who}
-      </footer>
+      {QUOTES.map(([text, who], i) => (
+        <div
+          key={who}
+          style={{
+            display: i === active ? "block" : "none",
+            opacity: i === active && visible ? 1 : i === active ? 0 : undefined,
+          }}
+        >
+          <p className="text-white text-[14px] font-light leading-relaxed italic mb-3 transition-opacity duration-300">
+            {text}
+          </p>
+          <footer className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-orange transition-opacity duration-300">
+            {who}
+          </footer>
+        </div>
+      ))}
       <div className="absolute right-5 bottom-4 flex gap-1.5">
         {QUOTES.map((_, i) => (
           <button
@@ -139,11 +146,17 @@ export function StandardsAccordion() {
             </div>
             <span className="font-semibold text-jvto-navy text-[14px] flex-1 text-left">{q}</span>
           </button>
-          {open === i && (
-            <div className="px-5 pb-5 pl-[52px]">
-              <p className="text-[13px] text-[#6b7280] font-light leading-relaxed">{a}</p>
-            </div>
-          )}
+          <div
+            className="px-5 pl-[52px]"
+            style={{
+              maxHeight: open === i ? "200px" : "0px",
+              paddingBottom: open === i ? "1.25rem" : "0px",
+              overflow: "hidden",
+              transition: "max-height 0.2s ease, padding-bottom 0.2s ease",
+            }}
+          >
+            <p className="text-[13px] text-[#6b7280] font-light leading-relaxed">{a}</p>
+          </div>
         </div>
       ))}
     </div>
@@ -160,7 +173,6 @@ const STORY_TABS_DATA = [
 
 export function StoryTabsPanel() {
   const [active, setActive] = useState(0);
-  const tab = STORY_TABS_DATA[active];
 
   return (
     <>
@@ -178,15 +190,21 @@ export function StoryTabsPanel() {
           </button>
         ))}
       </div>
-      <div className="bg-white/[0.06] rounded-[14px] p-5">
-        <h4
-          className="font-black text-white text-[15px] mb-2"
-          style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+      {STORY_TABS_DATA.map((t, i) => (
+        <div
+          key={t.year}
+          className="bg-white/[0.06] rounded-[14px] p-5"
+          style={{ display: i === active ? "block" : "none" }}
         >
-          {tab.title}
-        </h4>
-        <p className="text-white/65 text-[13px] leading-relaxed">{tab.text}</p>
-      </div>
+          <h4
+            className="font-black text-white text-[15px] mb-2"
+            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+          >
+            {t.title}
+          </h4>
+          <p className="text-white/65 text-[13px] leading-relaxed">{t.text}</p>
+        </div>
+      ))}
     </>
   );
 }
