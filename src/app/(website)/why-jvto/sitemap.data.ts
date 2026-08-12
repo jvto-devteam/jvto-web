@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
 import { getLastModified, type LastModifiedMap } from "@/app/sitemap-utils";
+import { getPublicCrewCodes } from "@/lib/people/canonicalPeople";
 
 export function sitemapWhyJvto(
   t: Date,
@@ -12,6 +13,12 @@ export function sitemapWhyJvto(
     { url: url("/why-jvto/reviews"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/reviews", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/our-story"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-story", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/our-team"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-team", t), changeFrequency: "monthly", priority: 0.8 },
+    ...getPublicCrewCodes().map((code) => ({
+      url: url(`/why-jvto/our-team/${code}`),
+      lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-team", t),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     { url: url("/why-jvto/community-standards"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/community-standards", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/verify-jvto"), lastModified: getLastModified(lastModifiedMap, "/verify-jvto", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/verify-jvto/legal"), lastModified: getLastModified(lastModifiedMap, "/verify-jvto/legal", t), changeFrequency: "monthly", priority: 0.8 },

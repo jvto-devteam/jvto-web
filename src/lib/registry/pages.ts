@@ -141,11 +141,12 @@ export const PAGE_REGISTRY: PageEntry[] = [
   {
     key: 'team-hub',
     route: '/team',
-    canonical: '/team',
-    schemaType: ['ItemList', 'Person', 'AggregateRating'],
+    canonical: '/why-jvto/our-team',
+    schemaType: [],
     faqSource: 'none',
     emitVia: 'combined',
-    status: 'live',
+    status: 'dead',
+    redirectsTo: '/why-jvto/our-team',
   },
   // ── Bali departure family: 3 live duplicate-intent routes, one canonical.
   // No redirects yet — GSC-gated, scheduled for a later package.

@@ -217,6 +217,13 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
+  if (pathname === "/team" || pathname.startsWith("/team/")) {
+    const dest = `/why-jvto/our-team${pathname.slice("/team".length)}`;
+    const res = NextResponse.redirect(new URL(dest, req.url), 301);
+    trackVisit(req, res);
+    return res;
+  }
+
   const destination = redirectMap[pathname];
   if (destination) {
     const res = NextResponse.redirect(new URL(destination, req.url), 301);

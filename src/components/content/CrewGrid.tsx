@@ -1,7 +1,13 @@
 // components/content/CrewGrid.tsx
 import Image from "next/image";
 import { Instagram, Facebook } from "lucide-react";
+import Link from "@/components/website/AppLink";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
+
+/** Matches content/entities/people.json's crew code convention (lowercase first name). */
+function crewSlug(name: string): string {
+  return name.trim().toLowerCase().split(/\s+/)[0];
+}
 
 export type CrewMember = {
   name: string;
@@ -53,10 +59,17 @@ function CrewCard({ member }: { member: CrewMember }) {
   const resolvedPhotoUrl = member.photo_url
     ? getWhyJvtoOptimizedImageSrc(member.photo_url)
     : null;
+  const slug = crewSlug(member.name);
 
   return (
     <>
       <div className="jvto-crew-card">
+        <Link
+          href={`/why-jvto/our-team/${slug}`}
+          prefetch={false}
+          aria-label={`${member.name} — full profile`}
+          className="jvto-crew-card-link"
+        />
         {/* Foto */}
         <div className="jvto-crew-photo-wrap">
           {member.photo_url ? (
@@ -164,11 +177,17 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
 
         /* ── Card ── */
         .jvto-crew-card {
+          position: relative;
           border-radius: var(--radius-jvto-md);
           border: 1px solid var(--color-jvto-border);
           background: #ffffff;
           overflow: hidden;
           transition: box-shadow 0.25s, border-color 0.25s, transform 0.2s;
+        }
+        .jvto-crew-card-link {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
         }
         .jvto-crew-card:hover {
           box-shadow: 0 8px 32px rgba(0,0,0,0.10);
@@ -215,6 +234,8 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
         .jvto-crew-overlay {
           position: absolute;
           inset: 0;
+          z-index: 2;
+          pointer-events: none;
           background: linear-gradient(to top, rgba(13,27,42,0.72) 0%, transparent 55%);
           opacity: 0;
           transition: opacity 0.3s ease;
@@ -227,6 +248,7 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
         }
 
         .jvto-crew-social {
+          pointer-events: auto;
           display: flex;
           gap: 0.5rem;
         }

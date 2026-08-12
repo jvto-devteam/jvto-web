@@ -5,8 +5,8 @@
  * credential (never a government licence), and no invented biography. Unpublished
  * crew are absent because the projections never return them.
  *
- *   /team          → AboutPage + ItemList(11 crew) + FAQPage
- *   /team/[slug]    → ProfilePage + Person
+ *   /why-jvto/our-team          → AboutPage + ItemList(11 crew) + FAQPage
+ *   /why-jvto/our-team/[slug]   → ProfilePage + Person
  */
 import type { PublicCrewMember } from "@/lib/people/canonicalPeople";
 import type { TeamFaq } from "@/lib/people/teamFaqs";
@@ -41,7 +41,7 @@ export function buildCrewPersonNode(member: PublicCrewMember) {
     "@id": `${BASE}/#crew-${member.code}`,
     name: member.name,
     jobTitle: crewJobTitle(member.role),
-    url: `${BASE}/team/${member.code}`,
+    url: `${BASE}/why-jvto/our-team/${member.code}`,
     worksFor: { "@id": ORG_ID },
     knowsLanguage: member.languages.map((name) => ({ "@type": "Language", name })),
     knowsAbout: member.specialties,
@@ -58,25 +58,25 @@ export function buildCrewPersonNode(member: PublicCrewMember) {
   };
 }
 
-/** /team/[slug] — ProfilePage wrapping the crew Person. */
+/** /why-jvto/our-team/[slug] — ProfilePage wrapping the crew Person. */
 export function buildTeamProfileSchema(member: PublicCrewMember) {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "@id": `${BASE}/team/${member.code}#profilepage`,
-    url: `${BASE}/team/${member.code}`,
+    "@id": `${BASE}/why-jvto/our-team/${member.code}#profilepage`,
+    url: `${BASE}/why-jvto/our-team/${member.code}`,
     name: `${member.name} — JVTO ${crewJobTitle(member.role)}`,
     about: { "@id": ORG_ID },
     mainEntity: buildCrewPersonNode(member),
   };
 }
 
-/** /team — ItemList of the published crew (lightweight Person refs). */
+/** /why-jvto/our-team — ItemList of the published crew (lightweight Person refs). */
 export function buildTeamItemListSchema(crew: PublicCrewMember[]) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "@id": `${BASE}/team#crew-index`,
+    "@id": `${BASE}/why-jvto/our-team#crew-index`,
     name: "JVTO Field Crew — East Java",
     description:
       "Complete registry of JVTO's directly-managed East Java field crew: guides and drivers on Bromo, Ijen, and Tumpak Sewu tours.",
@@ -88,22 +88,22 @@ export function buildTeamItemListSchema(crew: PublicCrewMember[]) {
         "@id": `${BASE}/#crew-${m.code}`,
         "@type": "Person",
         name: m.name,
-        url: `${BASE}/team/${m.code}`,
+        url: `${BASE}/why-jvto/our-team/${m.code}`,
       },
     })),
   };
 }
 
-/** /team — AboutPage: the team page, cross-referencing org + founder + doctor by @id. */
+/** /why-jvto/our-team — AboutPage: the team page, cross-referencing org + founder + doctor by @id. */
 export function buildTeamAboutPageSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    "@id": `${BASE}/team#aboutpage`,
-    url: `${BASE}/team`,
+    "@id": `${BASE}/why-jvto/our-team#aboutpage`,
+    url: `${BASE}/why-jvto/our-team`,
     name: "JVTO Field Team — Guides, Drivers, Leadership & Medical Screening",
     about: [{ "@id": ORG_ID }, { "@id": FOUNDER_ID }, { "@id": DOCTOR_ID }],
-    mainEntity: { "@id": `${BASE}/team#crew-index` },
+    mainEntity: { "@id": `${BASE}/why-jvto/our-team#crew-index` },
   };
 }
 
@@ -112,7 +112,7 @@ export function buildTeamFaqSchema(faqs: TeamFaq[]) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${BASE}/team#faq`,
+    "@id": `${BASE}/why-jvto/our-team#faq`,
     mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.question,

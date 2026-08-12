@@ -459,7 +459,7 @@ export default async function VerifyJvtoPage() {
   const teamPeopleSchema = [
     {
       "@type": "Person",
-      "@id": `${siteUrl}/team/gufron`,
+      "@id": `${siteUrl}/why-jvto/our-team/gufron`,
       name: "Gufron",
       jobTitle: "Senior Guide & Photography Specialist",
       image: `${siteUrl}/uploads/1768225567764-405955176-gufron.png`,
@@ -484,7 +484,7 @@ export default async function VerifyJvtoPage() {
     },
     {
       "@type": "Person",
-      "@id": `${siteUrl}/team/rendi`,
+      "@id": `${siteUrl}/why-jvto/our-team/rendi`,
       name: "Rendi",
       jobTitle: "Expedition Safety Lead",
       image: `${siteUrl}/uploads/1768228514527-518051332-rendi.png`,
@@ -506,7 +506,7 @@ export default async function VerifyJvtoPage() {
     },
     {
       "@type": "Person",
-      "@id": `${siteUrl}/team/anjas`,
+      "@id": `${siteUrl}/why-jvto/our-team/anjas`,
       name: "Anjas",
       jobTitle: "Visual Storyteller & Guide",
       image: `${siteUrl}/uploads/1768270423657-690185912-anjas.png`,
