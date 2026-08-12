@@ -44,10 +44,13 @@ export async function PageJsonLdCombined({
   const faqJson = suppressCmsFaq
     ? null
     : buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
-  // reviewedBy: E-E-A-T provenance signal. Static-content pages don't yet thread
-  // PageMeta.reviewedBy through pageRow.content (would require touching every
-  // page.tsx caller — out of scope here), so we default to the org-level
-  // editorial attribution that the content backfill also uses.
+  // reviewedBy: E-E-A-T provenance signal.
+  // This reads from pageRow.content.reviewedBy if a page threads it through,
+  // else falls back to "JVTO Editorial". As of this task, NO page.tsx actually
+  // threads page.meta.reviewedBy into its content object — every page currently
+  // emits this hardcoded fallback. Wiring a real per-page value would require
+  // updating each page.tsx's `content: { ... }` literal to include
+  // `reviewedBy: page?.meta.reviewedBy`, which is out of this task's scope (~30 files).
   const webPageJson = {
     ...buildWebPageJsonLd(pageRow as any, org as any, SITE_URL),
     reviewedBy: {
