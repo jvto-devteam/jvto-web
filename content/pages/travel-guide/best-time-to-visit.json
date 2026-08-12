@@ -8,9 +8,12 @@
     "status": "published",
     "owner": "operations",
     "lastReviewed": "2026-08-06",
-    "schemaTypes": ["WebPage"],
+    "schemaTypes": [
+      "WebPage"
+    ],
     "faqKey": "travel-guide-best-time-to-visit",
-    "summary": "Month-by-month guide to the best time to visit Mount Bromo, Ijen blue fire, and Tumpak Sewu — the dry-season vs wet-season trade-offs for each destination."
+    "summary": "Month-by-month guide to the best time to visit Mount Bromo, Ijen blue fire, and Tumpak Sewu — the dry-season vs wet-season trade-offs for each destination.",
+    "reviewedBy": "JVTO Editorial"
   },
   "sections": [
     {
@@ -29,10 +32,22 @@
               "label": "Dry Season",
               "range": "May – October",
               "points": [
-                { "positive": true, "text": "Clearest Bromo sunrises" },
-                { "positive": true, "text": "Best Ijen blue fire visibility" },
-                { "positive": true, "text": "Drier, safer Tumpak Sewu trail" },
-                { "positive": false, "text": "July–Aug peak crowds — book 3–4 weeks ahead" }
+                {
+                  "positive": true,
+                  "text": "Clearest Bromo sunrises"
+                },
+                {
+                  "positive": true,
+                  "text": "Best Ijen blue fire visibility"
+                },
+                {
+                  "positive": true,
+                  "text": "Drier, safer Tumpak Sewu trail"
+                },
+                {
+                  "positive": false,
+                  "text": "July–Aug peak crowds — book 3–4 weeks ahead"
+                }
               ]
             },
             {
@@ -40,10 +55,22 @@
               "label": "Wet Season",
               "range": "November – April",
               "points": [
-                { "positive": true, "text": "Tumpak Sewu at maximum volume" },
-                { "positive": true, "text": "Lowest crowds and best accommodation rates" },
-                { "positive": false, "text": "Cloudier Bromo dawns (still possible)" },
-                { "positive": false, "text": "Slippery trail descent at Tumpak Sewu" }
+                {
+                  "positive": true,
+                  "text": "Tumpak Sewu at maximum volume"
+                },
+                {
+                  "positive": true,
+                  "text": "Lowest crowds and best accommodation rates"
+                },
+                {
+                  "positive": false,
+                  "text": "Cloudier Bromo dawns (still possible)"
+                },
+                {
+                  "positive": false,
+                  "text": "Slippery trail descent at Tumpak Sewu"
+                }
               ]
             }
           ]
@@ -58,18 +85,102 @@
           "type": "grid",
           "role": "month-table",
           "items": [
-            { "month": "January",   "bromo": "Variable",  "ijen": "Accessible", "tumpak": "Peak",      "crowd": "Low",    "sweet": false },
-            { "month": "February",  "bromo": "Variable",  "ijen": "Accessible", "tumpak": "Peak",      "crowd": "Low",    "sweet": false },
-            { "month": "March",     "bromo": "Improving", "ijen": "Good",       "tumpak": "Excellent", "crowd": "Low",    "sweet": false },
-            { "month": "April",     "bromo": "Good",      "ijen": "Good",       "tumpak": "Excellent", "crowd": "Low",    "sweet": false },
-            { "month": "May",       "bromo": "Excellent", "ijen": "Excellent",  "tumpak": "Good",      "crowd": "Medium", "sweet": true  },
-            { "month": "June",      "bromo": "Excellent", "ijen": "Excellent",  "tumpak": "Good",      "crowd": "Medium", "sweet": false },
-            { "month": "July",      "bromo": "Excellent", "ijen": "Excellent",  "tumpak": "Good",      "crowd": "High",   "sweet": false },
-            { "month": "August",    "bromo": "Excellent", "ijen": "Excellent",  "tumpak": "Good",      "crowd": "High",   "sweet": false },
-            { "month": "September", "bromo": "Excellent", "ijen": "Excellent",  "tumpak": "Good",      "crowd": "Medium", "sweet": true  },
-            { "month": "October",   "bromo": "Good",      "ijen": "Good",       "tumpak": "Good",      "crowd": "Low",    "sweet": false },
-            { "month": "November",  "bromo": "Variable",  "ijen": "Variable",   "tumpak": "Building",  "crowd": "Low",    "sweet": false },
-            { "month": "December",  "bromo": "Variable",  "ijen": "Accessible", "tumpak": "Building",  "crowd": "Low",    "sweet": false }
+            {
+              "month": "January",
+              "bromo": "Variable",
+              "ijen": "Accessible",
+              "tumpak": "Peak",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "February",
+              "bromo": "Variable",
+              "ijen": "Accessible",
+              "tumpak": "Peak",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "March",
+              "bromo": "Improving",
+              "ijen": "Good",
+              "tumpak": "Excellent",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "April",
+              "bromo": "Good",
+              "ijen": "Good",
+              "tumpak": "Excellent",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "May",
+              "bromo": "Excellent",
+              "ijen": "Excellent",
+              "tumpak": "Good",
+              "crowd": "Medium",
+              "sweet": true
+            },
+            {
+              "month": "June",
+              "bromo": "Excellent",
+              "ijen": "Excellent",
+              "tumpak": "Good",
+              "crowd": "Medium",
+              "sweet": false
+            },
+            {
+              "month": "July",
+              "bromo": "Excellent",
+              "ijen": "Excellent",
+              "tumpak": "Good",
+              "crowd": "High",
+              "sweet": false
+            },
+            {
+              "month": "August",
+              "bromo": "Excellent",
+              "ijen": "Excellent",
+              "tumpak": "Good",
+              "crowd": "High",
+              "sweet": false
+            },
+            {
+              "month": "September",
+              "bromo": "Excellent",
+              "ijen": "Excellent",
+              "tumpak": "Good",
+              "crowd": "Medium",
+              "sweet": true
+            },
+            {
+              "month": "October",
+              "bromo": "Good",
+              "ijen": "Good",
+              "tumpak": "Good",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "November",
+              "bromo": "Variable",
+              "ijen": "Variable",
+              "tumpak": "Building",
+              "crowd": "Low",
+              "sweet": false
+            },
+            {
+              "month": "December",
+              "bromo": "Variable",
+              "ijen": "Accessible",
+              "tumpak": "Building",
+              "crowd": "Low",
+              "sweet": false
+            }
           ]
         }
       ]

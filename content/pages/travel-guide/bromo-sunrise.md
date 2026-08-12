@@ -7,6 +7,7 @@ section: travel-guide
 status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: How the Bromo sunrise morning works and why we stage nearby the night before.

@@ -7,6 +7,7 @@ section: travel-guide
 status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: How JVTO handles guest-initiated cancellations — Package Credit instead of cash refunds.

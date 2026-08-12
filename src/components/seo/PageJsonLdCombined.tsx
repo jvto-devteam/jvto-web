@@ -44,7 +44,17 @@ export async function PageJsonLdCombined({
   const faqJson = suppressCmsFaq
     ? null
     : buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
-  const webPageJson = buildWebPageJsonLd(pageRow as any, org as any, SITE_URL);
+  // reviewedBy: E-E-A-T provenance signal. Static-content pages don't yet thread
+  // PageMeta.reviewedBy through pageRow.content (would require touching every
+  // page.tsx caller — out of scope here), so we default to the org-level
+  // editorial attribution that the content backfill also uses.
+  const webPageJson = {
+    ...buildWebPageJsonLd(pageRow as any, org as any, SITE_URL),
+    reviewedBy: {
+      "@type": "Organization",
+      name: pageRow.content?.reviewedBy ?? "JVTO Editorial",
+    },
+  };
   const webSiteJson = buildWebSiteJsonLd(SITE_URL);
   const contentPageExtraSchemas = buildContentPageExtraJsonLd(
     pageRow as any,

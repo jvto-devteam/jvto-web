@@ -7,6 +7,7 @@ section: "travel-guide"
 status: "published"
 owner: "operations"
 lastReviewed: "2026-08-04"
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - CollectionPage
 faqKey: "travel-guide-index"

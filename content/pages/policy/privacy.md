@@ -7,6 +7,7 @@ section: "policy"
 status: "published"
 owner: "legal"
 lastReviewed: "2026-08-04"
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: "How JVTO collects, uses, stores, and shares the personal data required to operate a tour booking."

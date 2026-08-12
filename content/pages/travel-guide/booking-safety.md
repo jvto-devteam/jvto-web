@@ -7,6 +7,7 @@ section: travel-guide
 status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: How to make sure you are booking and paying through JVTO's real, official channels.

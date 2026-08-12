@@ -7,6 +7,7 @@ section: "policy"
 status: "published"
 owner: "legal"
 lastReviewed: "2026-08-04"
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: "What is included vs not included in JVTO private tour packages, under the 'Write-it-to-bind-it' principle."

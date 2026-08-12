@@ -7,6 +7,7 @@ section: travel-guide
 status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: 'Booking a JVTO tour is website-only: complete your booking on the official website under a JVTO Booking ID.'

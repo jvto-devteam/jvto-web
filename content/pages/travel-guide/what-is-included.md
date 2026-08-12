@@ -7,6 +7,7 @@ section: travel-guide
 status: draft
 owner: editorial
 lastReviewed: '2026-08-06'
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - WebPage
 summary: What every JVTO private volcano tour includes — and what is not — so there are no hidden costs.

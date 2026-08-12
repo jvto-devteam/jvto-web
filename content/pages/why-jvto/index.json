@@ -12,7 +12,8 @@
       "WebPage"
     ],
     "faqKey": "why-jvto-hub",
-    "summary": "Why travelers choose JVTO: police-led safety, verifiable credentials, private-only tours, and documented history."
+    "summary": "Why travelers choose JVTO: police-led safety, verifiable credentials, private-only tours, and documented history.",
+    "reviewedBy": "JVTO Editorial"
   },
   "lede": [
     "Java Volcano Tour Operator (JVTO) is a registered Indonesian tour operator based in Bondowoso, East Java. We specialize in private volcano trips—Bromo, Ijen, and selected extensions.",
@@ -32,18 +33,40 @@
           "type": "grid",
           "role": "meta-rows",
           "items": [
-            { "key": "legal-entity", "label": "Legal entity", "value": "PT Java Volcano Rendezvous" },
-            { "key": "nib", "label": "NIB", "value": "1102230032918" },
-            { "key": "founder", "label": "Founder", "value": "Active Tourist Police" },
-            { "key": "tour-format", "label": "Tour format", "value": "100% private" }
+            {
+              "key": "legal-entity",
+              "label": "Legal entity",
+              "value": "PT Java Volcano Rendezvous"
+            },
+            {
+              "key": "nib",
+              "label": "NIB",
+              "value": "1102230032918"
+            },
+            {
+              "key": "founder",
+              "label": "Founder",
+              "value": "Active Tourist Police"
+            },
+            {
+              "key": "tour-format",
+              "label": "Tour format",
+              "value": "100% private"
+            }
           ]
         },
         {
           "type": "grid",
           "role": "credential-chips",
           "items": [
-            { "key": "isic", "label": "Registered ISIC Provider" },
-            { "key": "hpwki", "label": "HPWKI Member" }
+            {
+              "key": "isic",
+              "label": "Registered ISIC Provider"
+            },
+            {
+              "key": "hpwki",
+              "label": "HPWKI Member"
+            }
           ]
         }
       ]
@@ -225,9 +248,18 @@
           "type": "grid",
           "role": "stat-labels",
           "items": [
-            { "key": "guides", "label": "Guides" },
-            { "key": "drivers", "label": "Drivers" },
-            { "key": "total", "label": "Active crew" }
+            {
+              "key": "guides",
+              "label": "Guides"
+            },
+            {
+              "key": "drivers",
+              "label": "Drivers"
+            },
+            {
+              "key": "total",
+              "label": "Active crew"
+            }
           ]
         }
       ]
@@ -375,8 +407,18 @@
           "type": "grid",
           "role": "cta-links",
           "items": [
-            { "key": "verify", "href": "/verify-jvto", "label": "Open the proof library", "variant": "primary" },
-            { "key": "tours", "href": "/tours", "label": "Explore private tours", "variant": "ghost" }
+            {
+              "key": "verify",
+              "href": "/verify-jvto",
+              "label": "Open the proof library",
+              "variant": "primary"
+            },
+            {
+              "key": "tours",
+              "href": "/tours",
+              "label": "Explore private tours",
+              "variant": "ghost"
+            }
           ]
         }
       ]

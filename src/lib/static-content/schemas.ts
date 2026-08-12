@@ -88,6 +88,10 @@ export const PageMetaSchema = z.object({
   status: z.enum(["draft", "published"]),
   owner: OwnerSchema,
   lastReviewed: IsoDateSchema,
+  /** Who/what reviewed this content for accuracy — E-E-A-T provenance signal.
+   *  A person's name + role, or an editorial-team label. Optional so
+   *  pre-existing content isn't invalidated; new content should set it. */
+  reviewedBy: z.string().min(1).optional(),
   schemaTypes: z.array(SchemaTypeSchema).min(1).default(["WebPage"]),
   faqKey: FaqKeySchema.optional(),
   summary: z.string().min(1, "summary is required"),

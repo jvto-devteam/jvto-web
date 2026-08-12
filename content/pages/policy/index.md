@@ -7,6 +7,7 @@ section: "policy"
 status: "published"
 owner: "legal"
 lastReviewed: "2026-08-04"
+reviewedBy: 'JVTO Editorial'
 schemaTypes:
   - CollectionPage
 summary: "Navigation hub for the JVTO policy documents: privacy, booking/payment/cancellation, and inclusions/exclusions."
