@@ -81,7 +81,7 @@ export function buildWhyJvtoHubItemListSchema() {
     itemListElement: [
       { '@type': 'ListItem', position: 1, url: `${BASE_URL}/why-jvto/the-jvto-difference`, name: 'The JVTO Difference' },
       { '@type': 'ListItem', position: 2, url: `${BASE_URL}/why-jvto/our-story`, name: 'Our Story — Founder & Origins' },
-      { '@type': 'ListItem', position: 3, url: `${BASE_URL}/why-jvto/our-team`, name: 'Our Team — KTA-Holding Crew' },
+      { '@type': 'ListItem', position: 3, url: `${BASE_URL}/why-jvto/our-team`, name: 'Our Team — KTA-Licensed Crew' },
       { '@type': 'ListItem', position: 4, url: `${BASE_URL}/why-jvto/community-standards`, name: 'Community Standards' },
       { '@type': 'ListItem', position: 5, url: `${BASE_URL}/why-jvto/reviews`, name: 'Reviews — Multi-Platform' },
     ],
