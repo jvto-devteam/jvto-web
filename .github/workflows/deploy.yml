@@ -28,3 +28,13 @@ jobs:
             npm ci
             npm run build
             pm2 restart jvto-web
+      - name: Ping IndexNow (best-effort, non-blocking)
+        continue-on-error: true
+        run: |
+          echo "Waiting 10s for the app to finish restarting..."
+          sleep 10
+          curl -sS -X POST "https://javavolcano-touroperator.com/api/indexnow" \
+            -H "Content-Type: application/json" \
+            -d '{"scope":"sitemap"}' \
+            --max-time 30 \
+            || echo "IndexNow ping failed or timed out -- non-blocking, deploy already succeeded."
