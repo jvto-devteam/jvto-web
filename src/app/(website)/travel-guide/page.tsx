@@ -11,6 +11,9 @@ const FAQ_SITE_URL = "https://javavolcano-touroperator.com";
 
 const ARTICLES = [
   { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
+  { slug: "mount-bromo-logistics", label: "Logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
+  { slug: "tumpak-sewu-logistics", label: "Logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
+  { slug: "packing-list", label: "Prep", name: "Packing List", desc: "What to bring for Bromo, Ijen, and Tumpak Sewu." },
   { slug: "packing-and-fitness", label: "Prep", name: "Packing & Fitness", desc: "Layered clothing and fitness expectations." },
   { slug: "weather-and-closures", label: "Conditions", name: "Weather & Closures", desc: "PVMBG alerts · seasonal access · monsoon notes." },
   { slug: "safety-on-tours", label: "Safety", name: "Safety on Tours", desc: "Police-led protocols · medical · vehicle standards." },
@@ -244,6 +247,8 @@ export default async function TravelGuideHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { href: "/travel-guide/ijen-health-screening", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
+                { href: "/travel-guide/mount-bromo-logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
+                { href: "/travel-guide/tumpak-sewu-logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
               ].map(({ href, name, desc }) => (
                 <Link
                   key={href}
@@ -297,7 +302,7 @@ export default async function TravelGuideHubPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link
-                href="/travel-guide/packing-and-fitness"
+                href="/travel-guide/packing-list"
                 prefetch={false}
                 className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
               >
