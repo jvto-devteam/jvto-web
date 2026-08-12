@@ -13,6 +13,9 @@ import {
   ShieldAlert,
   CalendarDays,
   ArrowLeft,
+  Mountain,
+  Droplets,
+  ListChecks,
 } from "lucide-react";
 
 // Definisikan props agar bisa dikontrol dari Navbar
@@ -35,9 +38,24 @@ const MENU_ITEMS = [
     icon: SlidersHorizontal,
   },
   {
+    href: "/travel-guide/mount-bromo-logistics",
+    label: "Mount Bromo Logistics",
+    icon: Mountain,
+  },
+  {
+    href: "/travel-guide/tumpak-sewu-logistics",
+    label: "Tumpak Sewu Logistics",
+    icon: Droplets,
+  },
+  {
     href: "/travel-guide/safety-on-tours",
     label: "Safety on Tours",
     icon: ShieldCheck,
+  },
+  {
+    href: "/travel-guide/packing-list",
+    label: "Packing List",
+    icon: ListChecks,
   },
   {
     href: "/travel-guide/packing-and-fitness",
