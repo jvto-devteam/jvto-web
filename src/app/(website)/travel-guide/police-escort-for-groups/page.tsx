@@ -30,6 +30,8 @@ const GUIDE_NAV = [
 
 // Shape of § key-facts blocks[0].items (content/pages/travel-guide/police-escort-for-groups.json).
 type KeyFactItem = { text: string };
+// Shape of § how-it-works blocks[0].items — the numbered step list.
+type StepItem = { text: string };
 
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
@@ -67,6 +69,7 @@ export default async function PoliceEscortPage() {
   const whoQualifiesSection = sections.find((s) => s.id === "who-qualifies");
   const keyFactsSection = sections.find((s) => s.id === "key-facts");
   const keyFactsItems = ((keyFactsSection?.blocks?.[0] as any)?.items ?? []) as KeyFactItem[];
+  const howItWorksSteps = ((howItWorksSection?.blocks?.[0] as any)?.items ?? []) as StepItem[];
 
   const pageRow = {
     route: ROUTE,
@@ -187,15 +190,29 @@ export default async function PoliceEscortPage() {
                 </section>
               )}
 
-              {howItWorksSection?.body_md && (
+              {(howItWorksSteps.length > 0 || howItWorksSection?.body_md) && (
                 <section className="mb-10">
                   <h2
                     className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
                     style={{ fontFamily: "Raleway, Inter, sans-serif" }}
                   >
-                    {howItWorksSection.title ?? "How It Works"}
+                    {howItWorksSection?.title ?? "How It Works"}
                   </h2>
-                  <MarkdownRendererTravelGuide markdown={howItWorksSection.body_md} />
+                  {howItWorksSteps.length > 0 && (
+                    <ol className="mb-6">
+                      {howItWorksSteps.map((step, i) => (
+                        <li key={i} className="grid grid-cols-[38px_1fr] gap-5 py-5 border-t border-[#E3E0DA] last:border-b">
+                          <span className="w-[30px] h-[30px] rounded-full bg-jvto-orange/10 font-mono text-[13px] font-bold text-jvto-orange flex items-center justify-center flex-shrink-0">
+                            {i + 1}
+                          </span>
+                          <p className="text-[15.5px] text-jvto-navy font-light leading-relaxed pt-0.5">{step.text}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+                  {howItWorksSection?.body_md && (
+                    <MarkdownRendererTravelGuide markdown={howItWorksSection.body_md} />
+                  )}
                 </section>
               )}
 

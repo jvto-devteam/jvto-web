@@ -39,10 +39,25 @@ type Props = {
 
 export const dynamicParams = false;
 
+// Slugs that have their own dedicated folder page (own visual shell, ported
+// from the pre-port live design rather than this catch-all's). Next.js
+// resolves the static folder segment before this dynamic one regardless, but
+// the filter is kept explicit so this route never generates a duplicate
+// static param for them.
+const WHY_JVTO_FOLDER_ROUTED_SLUGS = new Set([
+  "our-story",
+  "the-jvto-difference",
+  "community-standards",
+  "our-team",
+  "reviews",
+]);
+
 export function generateStaticParams() {
   return listPublishedStaticPages({ section: "why-jvto" })
     .filter((p) => p.meta.route !== "/why-jvto")
-    .map((p) => ({ slug: p.meta.route.replace("/why-jvto/", "") }));
+    .map((p) => p.meta.route.replace("/why-jvto/", ""))
+    .filter((slug) => !WHY_JVTO_FOLDER_ROUTED_SLUGS.has(slug))
+    .map((slug) => ({ slug }));
 }
 
 /** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
