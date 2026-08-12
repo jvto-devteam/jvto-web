@@ -38,6 +38,9 @@ export function middleware(req: NextRequest) {
 
   if (!isCustomerHost && pathname.startsWith("/customer")) {
     const res = new NextResponse("404 Not Found", { status: 404 });
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
@@ -46,10 +49,16 @@ export function middleware(req: NextRequest) {
     if (pathname === "/") {
       url.pathname = "/customer";
       const res = NextResponse.rewrite(url);
+      if (isNonProduction) {
+        res.headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
       trackVisit(req, res);
       return res;
     }
     const res = NextResponse.next();
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
@@ -184,6 +193,9 @@ export function middleware(req: NextRequest) {
   // 410 untuk exact match
   if (goneUrls.includes(pathname)) {
     const res = new NextResponse("410 Gone", { status: 410 });
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
@@ -241,6 +253,9 @@ export function middleware(req: NextRequest) {
   if (pathname === "/team" || pathname.startsWith("/team/")) {
     const dest = `/why-jvto/our-team${pathname.slice("/team".length)}`;
     const res = NextResponse.redirect(new URL(dest, req.url), 301);
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
