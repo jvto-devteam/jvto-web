@@ -15,6 +15,7 @@ export default function robots(): MetadataRoute.Robots {
       // OpenAI
       { userAgent: 'GPTBot', allow: '/' },
       { userAgent: 'ChatGPT-User', allow: '/' },
+      { userAgent: 'OAI-SearchBot', allow: '/' },
 
       // Common Crawl (trains many LLMs)
       { userAgent: 'CCBot', allow: '/' },

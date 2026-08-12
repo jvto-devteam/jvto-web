@@ -2,14 +2,29 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const PRODUCTION_HOSTNAMES = new Set([
+  "javavolcano-touroperator.com",
+  "www.javavolcano-touroperator.com",
+]);
+
+function isProductionHostname(hostname: string): boolean {
+  return PRODUCTION_HOSTNAMES.has(hostname.toLowerCase());
+}
+
 export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
+
+  const hostname = req.nextUrl.hostname;
+  const isNonProduction = !isProductionHostname(hostname);
 
   // trailing slash
   if (pathname !== "/" && pathname.endsWith("/")) {
     const clean = pathname.slice(0, -1);
     const res = NextResponse.redirect(new URL(clean, req.url), 301);
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
@@ -207,12 +222,18 @@ export function middleware(req: NextRequest) {
       new URL("/travel-guide/faq", req.url),
       301,
     );
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
 
   if (pathname.startsWith("/packages") || pathname.startsWith("/tours/style")) {
     const res = NextResponse.redirect(new URL("/tours", req.url), 301);
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
@@ -227,11 +248,17 @@ export function middleware(req: NextRequest) {
   const destination = redirectMap[pathname];
   if (destination) {
     const res = NextResponse.redirect(new URL(destination, req.url), 301);
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
     trackVisit(req, res);
     return res;
   }
 
   const res = NextResponse.next();
+  if (isNonProduction) {
+    res.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
   trackVisit(req, res);
   return res;
 }
