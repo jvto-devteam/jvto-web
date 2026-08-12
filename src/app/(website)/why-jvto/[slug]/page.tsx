@@ -38,7 +38,6 @@ type Props = {
 };
 
 export const dynamicParams = false;
-export const revalidate = 86400;
 
 export function generateStaticParams() {
   return listPublishedStaticPages({ section: "why-jvto" })
