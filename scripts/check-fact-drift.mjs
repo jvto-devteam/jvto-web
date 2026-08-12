@@ -53,8 +53,9 @@ const warnings = [];
 
 function checkFact(label, sourceAValue, sourceALabel, sourceBValue, sourceBLabel) {
   if (sourceAValue == null || sourceBValue == null) {
-    warnings.push(
-      `WARN  ${label}: could not extract from one or both sources (${sourceALabel}=${sourceAValue}, ${sourceBLabel}=${sourceBValue}) -- check extraction pattern, not a confirmed drift.`,
+    failures++;
+    console.error(
+      `FAIL  ${label}: could not extract from one or both sources (${sourceALabel}=${sourceAValue}, ${sourceBLabel}=${sourceBValue}) -- extraction pattern may be stale, treat as a failure to investigate, not a pass.`,
     );
     return;
   }

@@ -2,13 +2,19 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PRODUCTION_HOSTNAMES = new Set([
-  "javavolcano-touroperator.com",
-  "www.javavolcano-touroperator.com",
-]);
+const NON_PRODUCTION_HOSTNAME_PATTERNS: RegExp[] = [
+  /^localhost$/i,
+  /^127\.0\.0\.1$/,
+  /\.local$/i,
+  /^help\./i,
+  /^staging\./i,
+  /^preview\./i,
+  /^dev\./i,
+];
 
 function isProductionHostname(hostname: string): boolean {
-  return PRODUCTION_HOSTNAMES.has(hostname.toLowerCase());
+  const h = hostname.toLowerCase();
+  return !NON_PRODUCTION_HOSTNAME_PATTERNS.some((pattern) => pattern.test(h));
 }
 
 export function middleware(req: NextRequest) {
