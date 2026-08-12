@@ -96,7 +96,7 @@ export function buildIjenHealthMedicalWebPageSchema() {
 }
 
 /**
- * HowTo for /travel-guide/ijen-health-screening — 3-step screening workflow as ordered HowToStep.
+ * HowTo for /travel-guide/ijen-health-screening — 4-step screening workflow as ordered HowToStep.
  * AI engines treat HowTo as authoritative procedural knowledge for AEO answer extraction.
  */
 export function buildIjenHealthHowToSchema() {
@@ -106,38 +106,43 @@ export function buildIjenHealthHowToSchema() {
     '@id': `${BASE_URL}/travel-guide/ijen-health-screening#howto`,
     name: 'How JVTO coordinates the Ijen Crater health screening',
     description:
-      'Three-step procedure JVTO follows to comply with BBKSDA SE.1658/KSA.9/2024 health screening requirement before Ijen Crater entry.',
+      'Four-step procedure JVTO follows via the Ijen Digital Health Security System to comply with BBKSDA SE.1658/KSA.9/2024 health screening requirement before Ijen Crater entry.',
     step: [
       {
         '@type': 'HowToStep',
         position: 1,
-        name: 'Certified Clinic Visit',
+        name: 'Hotel Visit',
         text:
-          'JVTO transports the guest to a licensed medical clinic in Bondowoso (Klinik Bakti Husada) or Banyuwangi before the tour begins. ' +
-          'Clinic licence is verifiable on satusehat.kemkes.go.id.',
+          'A nurse visits the guest\'s hotel the evening before the Ijen hike, in the Bondowoso or Banyuwangi area — no travel to a clinic is required.',
       },
       {
         '@type': 'HowToStep',
         position: 2,
-        name: 'Real Medical Assessment',
+        name: 'Vitals Check',
         text:
-          'A licensed medical professional records SpO₂, blood pressure, heart rate, and assesses physical readiness for the 2,386 m altitude ' +
-          'and sulfur-gas exposure typical at Ijen Crater.',
+          'Vitals — SpO₂ (blood oxygen saturation), blood pressure, heart rate, and respiratory history — are checked at the guest\'s accommodation to assess ' +
+          'readiness for the 2,386 m altitude and sulfur-gas exposure typical at Ijen Crater.',
       },
       {
         '@type': 'HowToStep',
         position: 3,
-        name: 'Official Certification',
+        name: 'Digital Certificate Issued',
         text:
-          'If cleared, the guest receives an official medical certificate (surat sehat) required for park entry. ' +
-          'JVTO handles the paperwork and the BBKSDA presentation step.',
+          'For cleared guests, a BSrE-signed (Balai Sertifikasi Elektronik / BSSN) digital health certificate is issued via the Ijen Digital Health Security System (health.mountijen.com).',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: 'Checkpoint Verification',
+        text:
+          'At the Paltuding trailhead, BBKSDA checkpoint staff check the certificate before permitting crater-zone access.',
       },
     ],
   };
 }
 
 /**
- * Hub-level ItemList of all 11 travel-guide sub-pages, semantically grouped via name prefixes
+ * Hub-level ItemList of the live travel-guide sub-pages, semantically grouped via name prefixes
  * so AI engines can extract the discovery hierarchy (Plan & Prepare, Safety & Health, etc.).
  */
 export function buildTgHubItemListSchema() {
@@ -146,7 +151,7 @@ export function buildTgHubItemListSchema() {
     '@type': 'ItemList',
     '@id': `${BASE_URL}/travel-guide#sub-pages`,
     name: 'JVTO Travel Guide — Pre-Trip Knowledge Base',
-    numberOfItems: 12,
+    numberOfItems: 9,
     itemListElement: [
       { '@type': 'ListItem', position: 1, url: `${BASE_URL}/travel-guide/faq`, name: 'FAQ — Common questions' },
       { '@type': 'ListItem', position: 2, url: `${BASE_URL}/travel-guide/booking-information`, name: 'Booking Information — How to book' },
@@ -154,12 +159,9 @@ export function buildTgHubItemListSchema() {
       { '@type': 'ListItem', position: 4, url: `${BASE_URL}/travel-guide/ijen-health-screening`, name: 'Ijen Health Screening — SE.1658 protocol' },
       { '@type': 'ListItem', position: 5, url: `${BASE_URL}/travel-guide/safety-on-tours`, name: 'Safety on Tours — Police-led model' },
       { '@type': 'ListItem', position: 6, url: `${BASE_URL}/travel-guide/weather-and-closures`, name: 'Weather & Closures — Volcanic alert SOP' },
-      { '@type': 'ListItem', position: 7, url: `${BASE_URL}/travel-guide/packing-list`, name: 'Packing List — What to bring' },
-      { '@type': 'ListItem', position: 8, url: `${BASE_URL}/travel-guide/packing-and-fitness`, name: 'Packing & Fitness — Self-assessment' },
-      { '@type': 'ListItem', position: 9, url: `${BASE_URL}/travel-guide/mount-bromo-logistics`, name: 'Mount Bromo Logistics — 03:00 AM start' },
-      { '@type': 'ListItem', position: 10, url: `${BASE_URL}/travel-guide/tumpak-sewu-logistics`, name: 'Tumpak Sewu Logistics — Descent + footwear' },
-      { '@type': 'ListItem', position: 11, url: `${BASE_URL}/travel-guide/police-escort-for-groups`, name: 'Police Escort for Groups — POLPAR coordination' },
-      { '@type': 'ListItem', position: 12, url: `${BASE_URL}/travel-guide`, name: 'Travel Guide Hub' },
+      { '@type': 'ListItem', position: 7, url: `${BASE_URL}/travel-guide/packing-and-fitness`, name: 'Packing & Fitness — Self-assessment' },
+      { '@type': 'ListItem', position: 8, url: `${BASE_URL}/travel-guide/police-escort-for-groups`, name: 'Police Escort for Groups — POLPAR coordination' },
+      { '@type': 'ListItem', position: 9, url: `${BASE_URL}/travel-guide`, name: 'Travel Guide Hub' },
     ],
   };
 }

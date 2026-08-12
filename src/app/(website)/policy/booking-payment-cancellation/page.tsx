@@ -1,14 +1,11 @@
 // app/(website)/policy/booking-payment-cancellation/page.tsx
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { Faq } from "@/components/content/Faq";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
+import { BlocksRenderer } from "@/components/content/BlocksRenderer";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import {
   buildJvtoTravelCreditAnnouncementSchema,
   buildPolicyWebPageSchema,
@@ -28,18 +25,36 @@ const POLICY_NAV = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  }).catch(() => null);
-  const seo = (page?.pageRow.seo as Record<string, unknown> | null) ?? {};
-  return {
-    title:
-      (seo.title as string | undefined) ??
-      "Booking, Payment & Cancellation Policy · JVTO",
-    description:
-      (seo.description as string | undefined) ??
-      "How bookings are confirmed, what payment is due and when, and exactly what happens if plans change — issued by PT Java Volcano Rendezvous.",
-  };
+  const page = loadStaticPage(ROUTE);
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
+  const title =
+    page?.meta.browserTitle ??
+    page?.meta.title ??
+    "Booking, Payment & Cancellation Policy · JVTO";
+  const description =
+    page?.meta.description ??
+    "How bookings are confirmed, what payment is due and when, and exactly what happens if plans change — issued by PT Java Volcano Rendezvous.";
+  return buildStaticRouteMetadata(ROUTE, { title, description });
+}
+
+/**
+ * The ported content JSON writes grid card bodies under `text` (that is what
+ * origin/main ships, so the JSON is left byte-identical), while BlocksRenderer's
+ * CardLink only renders `summary`. Map `text` -> `summary` locally so the card
+ * bodies are not silently dropped. Shared BlocksRenderer stays untouched.
+ */
+function normalizeBlocks(blocks: unknown[]): any {
+  return blocks.map((b: any) =>
+    b && b.type === "grid" && Array.isArray(b.items)
+      ? {
+          ...b,
+          items: b.items.map((it: any) => ({
+            ...it,
+            summary: it?.summary ?? it?.text,
+          })),
+        }
+      : b,
+  );
 }
 
 const ArrowRight = () => (
@@ -57,39 +72,45 @@ const ArrowRight = () => (
 );
 
 export default async function BookingPaymentCancellationPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
+  const page = loadStaticPage(ROUTE);
+  if (page && page.meta.status !== "published") return notFound();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, unknown> | null) ?? {};
-  const h1 = content?.h1 ?? (seo.title as string | undefined) ?? "Booking, Payment & Cancellation";
-  const body: string = content?.body_md ?? "";
-  const hasBody = body.trim().length > 0;
+  const h1 = page?.meta.title ?? "Booking, Payment & Cancellation";
+  const seoTitle =
+    page?.meta.browserTitle ??
+    page?.meta.title ??
+    "Booking, Payment & Cancellation Policy · JVTO";
+  const seoDescription =
+    page?.meta.description ??
+    "How bookings are confirmed, what payment is due and when, and exactly what happens if plans change — issued by PT Java Volcano Rendezvous.";
+  const sections = page?.sections ?? [];
+  const hasSections = sections.length > 0;
 
   const mentionsTermIds = POLICY_SLUG_MENTIONS[SLUG] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: SLUG,
-    name: (seo.title as string | undefined) ?? h1,
+    name: seoTitle,
     description:
-      (seo.description as string | undefined) ??
+      page?.meta.summary ??
       "How bookings are confirmed, what payment is due and when, and exactly what happens if plans change.",
     mentionsTermIds,
   });
 
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
   const announcementSchema = buildJvtoTravelCreditAnnouncementSchema();
 
-  const extraSchemas = [policyAnchorSchema, faqNode, announcementSchema].filter(Boolean);
+  const extraSchemas = [policyAnchorSchema, announcementSchema].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: ROUTE,
+          lang: "en",
+          seo: { title: seoTitle, description: seoDescription },
+          content: { h1 },
+        }}
         extraSchemas={extraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}
@@ -186,18 +207,35 @@ export default async function BookingPaymentCancellationPage() {
               </Link>
             </aside>
 
-            {/* Article body */}
+            {/* Article body — driven entirely by page.sections (loadStaticPage) */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              {hasBody ? (
-                <MarkdownRenderer markdown={body} />
+              {hasSections ? (
+                sections.map((sec) => (
+                  <section key={sec.id} className="mb-10 last:mb-0">
+                    {sec.title && (
+                      <h2
+                        className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
+                        style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                      >
+                        {sec.title}
+                      </h2>
+                    )}
+                    {sec.body_md && <MarkdownRenderer markdown={sec.body_md} />}
+                    {sec.blocks && sec.blocks.length > 0 && (
+                      <div className="mt-4">
+                        <BlocksRenderer
+                          blocks={normalizeBlocks(sec.blocks)}
+                          sectionId={sec.id}
+                        />
+                      </div>
+                    )}
+                  </section>
+                ))
               ) : (
                 <p className="text-[#6b7280] font-light text-[15px] leading-relaxed">
                   Policy document is being updated. For current terms, please{" "}
                   <a href="/contact" className="text-jvto-orange underline underline-offset-2">contact us</a>.
                 </p>
-              )}
-              {content?.faq && (
-                <Faq items={content.faq} title={content.faq_title ?? "FAQ"} />
               )}
             </article>
 

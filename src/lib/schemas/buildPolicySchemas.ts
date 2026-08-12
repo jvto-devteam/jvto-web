@@ -83,18 +83,19 @@ export function buildPolicyWebPageSchema({
 }
 
 /**
- * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Travel Credit
- * policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
+ * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Lifetime Package
+ * Credit policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
  */
 export function buildJvtoTravelCreditAnnouncementSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'SpecialAnnouncement',
     '@id': `${BASE_URL}/policy/booking-payment-cancellation#travel-credit-announcement`,
-    name: 'JVTO Travel Credit Policy',
+    name: 'Lifetime Package Credit Policy',
     text:
-      'Cancellation ≥48 hours before Day 1 = 100% JVTO Travel Credit. Non-expiring. Transferable. ' +
-      'IDR-denominated. No rebooking fee. Applies to any JVTO private tour.',
+      'Full cancellation ≥48 hours before Day 1 = 100% Lifetime Package Credit, never cash. Non-expiring. ' +
+      'Locked to the same package, traveler count and price — cannot be split or changed to another package. ' +
+      'Transferable to another person once, with written authorisation.',
     announcementLocation: { '@id': `${BASE_URL}/#organization` },
     category: 'https://www.wikidata.org/wiki/Q81068910',
   };

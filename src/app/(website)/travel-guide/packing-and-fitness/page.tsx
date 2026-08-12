@@ -1,29 +1,61 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
+import { Faq } from "@/components/content/Faq";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 
 export const revalidate = 86400;
 
 const ROUTE = "/travel-guide/packing-and-fitness";
 const SITE_URL = "https://javavolcano-touroperator.com";
 
+// Fallback copy — only used if content/pages/travel-guide/packing-and-fitness.md
+// is ever unavailable at build/runtime (should not happen; kept for safety).
+const FALLBACK_SEO = {
+  title: "Packing & Fitness Expectations — JVTO Travel Guide",
+  description:
+    "What to pack and how fit you need to be for Bromo, Ijen, Tumpak Sewu and Madakaripura — gear list, terrain demands, and what JVTO provides.",
+};
+
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
   { href: "/travel-guide/booking-information", label: "Booking Information" },
   { href: "/travel-guide/police-escort-for-groups", label: "Police Escort for Groups" },
   { href: "/travel-guide/faq", label: "FAQ" },
+];
+
+/**
+ * Hero fact card — presentational chrome only. Difficulty bands summarise the
+ * per-destination "Fitness level" statements in
+ * content/pages/travel-guide/packing-and-fitness.md.
+ */
+const HERO_META_ROWS = [
+  { label: "Bromo", value: "Easy–Moderate" },
+  { label: "Ijen", value: "Moderate" },
+  { label: "Tumpak Sewu", value: "Moderate" },
+  { label: "Madakaripura", value: "Moderate" },
+];
+
+/**
+ * Optional conditioning plan. Not part of the ported markdown SSOT — this is an
+ * additive preparation aid rendered as page chrome, so it does not duplicate or
+ * contradict any statement in packing-and-fitness.md.
+ */
+const TRAINING_PLAN = [
+  "3 × per week: 45 min uphill walking on a treadmill at 6–8% incline.",
+  "2 × per week: stair-master or actual stairs, 20 min.",
+  "1 × per week: long walk, 90 min, with the day-pack you plan to bring.",
+];
+
+const RELATED_DESTINATIONS = [
+  { href: "/destinations/ijen-crater", label: "Ijen Crater" },
+  { href: "/destinations/mount-bromo", label: "Mount Bromo" },
+  { href: "/destinations/tumpak-sewu-waterfall", label: "Tumpak Sewu Waterfall" },
 ];
 
 const ArrowRight = () => (
@@ -41,37 +73,57 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  return {
-    title: seo.title ?? "Packing & Fitness Expectations — JVTO Travel Guide",
-    description:
-      seo.description ??
-      "Fitness expectations and clothing recommendations for East Java's volcano treks and waterfall descents — Bromo, Ijen, and Tumpak Sewu.",
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  return buildStaticRouteMetadata(ROUTE, {
+    title,
+    description,
     openGraph: {
-      title: seo.title ?? "Packing & Fitness Expectations — JVTO Travel Guide",
-      description:
-        seo.description ??
-        "Fitness expectations for East Java volcano treks.",
+      title,
+      description,
       url: `${SITE_URL}${ROUTE}`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "article",
     },
-  };
+  });
 }
 
 export default async function PackingAndFitnessPage() {
-  const page = await getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false });
-  const faqResolution = await resolveFaqsForPage(ROUTE);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  const h1 = page?.meta.title ?? FALLBACK_SEO.title;
+  const body = page?.body ?? "";
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((it) => ({
+          "@type": "Question",
+          name: it.q,
+          acceptedAnswer: { "@type": "Answer", text: it.a },
+        })),
+      }
+    : null;
+
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title, description },
+    content: { h1 },
+  };
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
-        extraSchemas={[faqNode].filter(Boolean)}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        pageRow={pageRow}
+        extraSchemas={[faqSchema].filter(Boolean) as any[]}
+        suppressCmsFaq={true}
       />
 
       {/* ── Hero — navy ───────────────────────────────────────────────── */}
@@ -111,12 +163,7 @@ export default async function PackingAndFitnessPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-              {[
-                { label: "Bromo", value: "Easy–Moderate" },
-                { label: "Ijen", value: "Moderate" },
-                { label: "Tumpak Sewu", value: "Moderate" },
-                { label: "Full expedition", value: "High" },
-              ].map(({ label, value }) => (
+              {HERO_META_ROWS.map(({ label, value }) => (
                 <div
                   key={label}
                   className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5"
@@ -148,23 +195,20 @@ export default async function PackingAndFitnessPage() {
                 Travel Guide
               </p>
               <nav className="space-y-0.5">
-                {GUIDE_NAV.map(({ href, label }) => {
-                  const isActive = href === ROUTE;
-                  return (
-                    <Link
-                      key={href}
-                      href={href}
-                      prefetch={false}
-                      className={`block text-[13px] font-medium py-2 px-3 rounded-lg transition-colors ${
-                        isActive
-                          ? "bg-jvto-navy text-white"
-                          : "text-[#6b7280] hover:text-jvto-navy hover:bg-white"
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  );
-                })}
+                {GUIDE_NAV.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    prefetch={false}
+                    className={`block text-[13px] font-medium py-2 px-3 rounded-lg transition-colors ${
+                      href === ROUTE
+                        ? "bg-jvto-navy text-white"
+                        : "text-[#6b7280] hover:text-jvto-navy hover:bg-white"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
               </nav>
               <Link
                 href="/tours"
@@ -175,104 +219,58 @@ export default async function PackingAndFitnessPage() {
               </Link>
             </aside>
 
-            {/* Article body */}
+            {/* Article body — prose driven by content/pages/travel-guide/packing-and-fitness.md */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-6">
                 Reading time · 5 min
               </p>
 
-              <p className="text-[16px] text-jvto-navy font-medium leading-[1.6] mb-8 border-l-2 border-jvto-orange pl-4">
-                No special fitness is required for the standard Bromo + Ijen
-                tour, but the cumulative sleep deficit and altitude make this
-                trip harder than people expect.
-              </p>
+              <MarkdownRendererTravelGuide markdown={body} />
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-0"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Bromo — easy to moderate
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                30-minute walk across sand + 253-step staircase to crater rim.
-                Most fitness levels manage it. If you struggle with stairs,
-                you&#39;ll feel it but you&#39;ll make it.
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Ijen — moderate
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                3 km / 600 m vertical ascent on a switchback trail, done in the
-                dark, starting at 01:00. The altitude and sleep deficit are the
-                hard parts, not the trail.
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Tumpak Sewu — moderate
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                The descent is the test. Knees, grip, and balance. Recovery from
-                the climb back up takes most travelers ~20 minutes longer than
-                expected.
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Training (8 weeks)
-              </h2>
-              <ul className="space-y-3 mb-6 ml-1">
-                {[
-                  "3 × per week: 45 min uphill walking on a treadmill at 6–8% incline.",
-                  "2 × per week: stair-master or actual stairs, 20 min.",
-                  "1 × per week: long walk, 90 min, with the day-pack you plan to bring.",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="text-[15px] text-[#6b7280] font-light leading-[1.6] flex gap-2"
-                  >
-                    <span className="text-jvto-orange mt-1 flex-shrink-0">→</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* Optional conditioning plan — additive chrome, not in the SSOT markdown */}
+              <div className="mt-10 pt-8 border-t border-[#E3E0DA]">
+                <h2
+                  className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-2"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
+                >
+                  Optional: an 8-week conditioning plan
+                </h2>
+                <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-4">
+                  None of the routes above require training. If you would simply like the climbs to
+                  feel easier — particularly the Ijen ascent — this is the pattern we suggest.
+                </p>
+                <ul className="space-y-3 mb-2 ml-1">
+                  {TRAINING_PLAN.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[15px] text-[#6b7280] font-light leading-[1.6] flex gap-2"
+                    >
+                      <span className="text-jvto-orange mt-1 flex-shrink-0">→</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               <div className="mt-10 pt-8 border-t border-[#E3E0DA]">
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-3">
                   Related Destinations
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Link
-                    href="/destinations/ijen-crater"
-                    prefetch={false}
-                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
-                  >
-                    Ijen Crater →
-                  </Link>
-                  <Link
-                    href="/destinations/mount-bromo"
-                    prefetch={false}
-                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
-                  >
-                    Mount Bromo →
-                  </Link>
-                  <Link
-                    href="/destinations/tumpak-sewu-waterfall"
-                    prefetch={false}
-                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
-                  >
-                    Tumpak Sewu Waterfall →
-                  </Link>
+                  {RELATED_DESTINATIONS.map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      prefetch={false}
+                      className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                    >
+                      {label} →
+                    </Link>
+                  ))}
                 </div>
               </div>
+
+              <Faq items={faqItems} title="Packing & Fitness: Common Questions" />
             </article>
 
           </div>

@@ -1,29 +1,45 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
+import { Faq } from "@/components/content/Faq";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 
 export const revalidate = 86400;
 
 const ROUTE = "/travel-guide/safety-on-tours";
 const SITE_URL = "https://javavolcano-touroperator.com";
 
+// Fallback copy — only used if content/pages/travel-guide/safety-on-tours.md
+// is ever unavailable at build/runtime (should not happen; kept for safety).
+const FALLBACK_SEO = {
+  title: "Safety on Tours — JVTO Travel Guide",
+  description:
+    "JVTO safety approach: Tourist Police-led planning, briefings, BBKSDA-supervised guide training, gas masks on Ijen routes, and emergency protocols.",
+};
+
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
   { href: "/travel-guide/booking-information", label: "Booking Information" },
   { href: "/travel-guide/police-escort-for-groups", label: "Police Escort for Groups" },
   { href: "/travel-guide/faq", label: "FAQ" },
+];
+
+/**
+ * Hero fact card — presentational chrome only. Each figure is mirrored in
+ * content/pages/travel-guide/safety-on-tours.md (Tourist Police-led planning,
+ * HPWKI / BBKSDA-supervised guide training, travel insurance strongly
+ * recommended) or in the Ijen health-screening guide it links to.
+ */
+const HERO_META_ROWS = [
+  { label: "Founder", value: "Ditpamobvit East Java" },
+  { label: "Ijen screening", value: "Dr. Irwandanu · SIP" },
+  { label: "Insurance", value: "Strongly recommended" },
+  { label: "Guides", value: "HPWKI · BBKSDA-trained" },
 ];
 
 const ArrowRight = () => (
@@ -41,15 +57,10 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { pageRow } = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  });
-  const seo = (pageRow.seo as Record<string, any> | null) ?? {};
-  const title = seo.title ?? "Safety on Tours — JVTO Travel Guide";
-  const description =
-    seo.description ??
-    "Vehicles, guides, medical coverage, and communication protocols behind JVTO's Tourist Police-Led private volcano tours in East Java.";
-  return {
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  return buildStaticRouteMetadata(ROUTE, {
     title,
     description,
     openGraph: {
@@ -60,22 +71,43 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       type: "article",
     },
-  };
+  });
 }
 
 export default async function SafetyOnToursPage() {
-  const [{ pageRow }, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  const h1 = page?.meta.title ?? FALLBACK_SEO.title;
+  const body = page?.body ?? "";
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((it) => ({
+          "@type": "Question",
+          name: it.q,
+          acceptedAnswer: { "@type": "Answer", text: it.a },
+        })),
+      }
+    : null;
+
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title, description },
+    content: { h1 },
+  };
 
   return (
     <>
       <PageJsonLdCombined
         pageRow={pageRow}
-        extraSchemas={[faqNode].filter(Boolean)}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        extraSchemas={[faqSchema].filter(Boolean) as any[]}
+        suppressCmsFaq={true}
       />
 
       {/* ── Interior hero — navy ────────────────────────────────────────── */}
@@ -114,12 +146,7 @@ export default async function SafetyOnToursPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-              {[
-                { label: "Founder", value: "Ditpamobvit East Java" },
-                { label: "Ijen screening", value: "Dr. Irwandanu · SIP" },
-                { label: "Insurance", value: "Strongly recommended" },
-                { label: "Guides", value: "HPWKI · BBKSDA-trained" },
-              ].map(({ label, value }) => (
+              {HERO_META_ROWS.map(({ label, value }) => (
                 <div
                   key={label}
                   className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5"
@@ -172,73 +199,44 @@ export default async function SafetyOnToursPage() {
               </Link>
             </aside>
 
-            {/* Article body */}
+            {/* Article body — prose driven by content/pages/travel-guide/safety-on-tours.md */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-orange mb-4 block">
                 Reading time · 6 min
               </span>
-              <p className="text-[16px] text-[#6b7280] leading-[1.7] mb-8 font-medium">
-                Safety is a system, not a slogan. We document what we do so guests can audit it.
-              </p>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-0"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Vehicles
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                Our 4WD jeeps and minibuses are inspected monthly. Insurance is current. Tires and
-                brakes are logged. Drivers carry first-aid kits.
-              </p>
+              <MarkdownRendererTravelGuide markdown={body} />
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Guides
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                Every JVTO guide holds a licensed Indonesian tour-guide credential. For Ijen, our
-                specialist guides are HPWKI members (AHU-0001072.AH.01.07.TAHUN 2024) who have
-                completed BBKSDA-supervised volcanic safety training — search and rescue and first aid
-                — a program documented by BBKSDA Jawa Timur in its own 2024 report.
-              </p>
+              <div className="mt-10 pt-8 border-t border-[#E3E0DA]">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-3">
+                  Related guides
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    href="/travel-guide/ijen-health-screening"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                  >
+                    Ijen health screening →
+                  </Link>
+                  <Link
+                    href="/travel-guide/weather-and-closures"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                  >
+                    Weather &amp; closures →
+                  </Link>
+                  <Link
+                    href="/verify-jvto/police-safety"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                  >
+                    Police &amp; safety proof →
+                  </Link>
+                </div>
+              </div>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Medical
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                For routes that include Mount Ijen, JVTO coordinates a health-screening step for every
-                guest before crater entry, under BBKSDA Surat Edaran SE.1658/KSA.9/2024. The check is
-                run with Dr. Ahmad Irwandanu — SIP-licensed, verifiable through Kemenkes — and issues
-                a QR-verified <em>surat sehat</em> scanned at the crater access gate. Full protocol on
-                the{" "}
-                <Link
-                  href="/travel-guide/ijen-health-screening"
-                  prefetch={false}
-                  className="text-jvto-navy font-medium underline decoration-jvto-orange/30 hover:decoration-jvto-orange transition-colors"
-                >
-                  Ijen health-screening guide
-                </Link>
-                .
-              </p>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Communication
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-4">
-                Every vehicle carries radio and a dual SIM, and the operations base is reachable 24/7
-                by the lead guide. In an emergency the chain is: guide → base → tourist police →
-                hospital. For incidents at Kawah Ijen, the TWA Kawah Ijen call center (0812 2018 0930)
-                is the initial SAR report point.
-              </p>
+              <Faq items={faqItems} title="Safety: Common Questions" />
             </article>
           </div>
         </div>

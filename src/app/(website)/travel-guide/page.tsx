@@ -1,42 +1,36 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { Faq } from "@/components/content/Faq";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
+
+// Matches the hardcoded-production-origin convention used by the other
+// travel-guide FAQPage @id builders (safety-on-tours, booking-information, etc.).
+const FAQ_SITE_URL = "https://javavolcano-touroperator.com";
 
 const ARTICLES = [
   { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
-  { slug: "mount-bromo-logistics", label: "Logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
-  { slug: "tumpak-sewu-logistics", label: "Logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
-  { slug: "packing-list", label: "Prep", name: "Packing List", desc: "What to bring for Bromo, Ijen, and Tumpak Sewu." },
   { slug: "packing-and-fitness", label: "Prep", name: "Packing & Fitness", desc: "Layered clothing and fitness expectations." },
   { slug: "weather-and-closures", label: "Conditions", name: "Weather & Closures", desc: "PVMBG alerts · seasonal access · monsoon notes." },
   { slug: "safety-on-tours", label: "Safety", name: "Safety on Tours", desc: "Police-led protocols · medical · vehicle standards." },
   { slug: "booking-information", label: "Process", name: "Booking Information", desc: "Deposits · confirmation · reschedule mechanics." },
   { slug: "police-escort-for-groups", label: "Authority", name: "Police Escort for Groups", desc: "When and how police escort is arranged." },
+  { slug: "rijik-monthly-closure", label: "Conditions", name: "Ijen Rijik Monthly Closure", desc: "The first-Friday-of-the-month TWA Ijen conservation closure." },
   { slug: "faq", label: "Reference", name: "FAQ", desc: "Common questions answered in plain language." },
 ] as const;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot("/travel-guide", {
-    allowDatabaseFallback: false,
-  });
-  const title = page.snapshot.seo.title;
+  const page = loadStaticPage("/travel-guide");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
   const description =
-    page.snapshot.seo.description ??
+    page?.meta.description ??
     "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : "Travel Guide";
+  const h1 = page?.meta.title ?? "Travel Guide";
 
-  return {
+  return buildStaticRouteMetadata("/travel-guide", {
     title,
     description,
     openGraph: {
@@ -61,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [siteUrl + "/assets/img/og/travel-guide.webp"],
     },
-  };
+  });
 }
 
 const ArrowRight = () => (
@@ -71,21 +65,41 @@ const ArrowRight = () => (
 );
 
 export default async function TravelGuideHubPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/travel-guide", { allowDatabaseFallback: false }),
-    resolveFaqsForPage("/travel-guide"),
-  ]);
-  const tgHubExtraSchemas = [
-    buildTgHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
-  ].filter(Boolean);
+  const page = loadStaticPage("/travel-guide");
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
+  const description =
+    page?.meta.description ??
+    "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
+  const h1 = page?.meta.title ?? "Travel Guide";
+
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${FAQ_SITE_URL}/travel-guide#faq`,
+        mainEntity: faqItems.map((it) => ({
+          "@type": "Question",
+          name: it.q,
+          acceptedAnswer: { "@type": "Answer", text: it.a },
+        })),
+      }
+    : null;
+
+  const tgHubExtraSchemas = [buildTgHubItemListSchema(), faqSchema].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/travel-guide",
+          lang: "en",
+          seo: { title, description },
+          content: { h1 },
+        }}
         extraSchemas={tgHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq={true}
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
@@ -230,8 +244,6 @@ export default async function TravelGuideHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { href: "/travel-guide/ijen-health-screening", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
-                { href: "/travel-guide/mount-bromo-logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
-                { href: "/travel-guide/tumpak-sewu-logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
               ].map(({ href, name, desc }) => (
                 <Link
                   key={href}
@@ -285,7 +297,7 @@ export default async function TravelGuideHubPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link
-                href="/travel-guide/packing-list"
+                href="/travel-guide/packing-and-fitness"
                 prefetch={false}
                 className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
               >
@@ -422,9 +434,32 @@ export default async function TravelGuideHubPage() {
         </div>
       </section>
 
+      {/* ── FAQ §06 — white ────────────────────────────────────────────── */}
+      {faqItems.length > 0 && (
+        <section
+          className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <div className="flex items-baseline gap-4 mb-2">
+              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 06</span>
+              <div>
+                <h2
+                  className="font-black text-jvto-navy leading-[1.0]"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+                >
+                  Frequently <span className="text-jvto-orange">asked.</span>
+                </h2>
+              </div>
+            </div>
+            <Faq items={faqItems} title="Travel Guide: Common Questions" />
+          </div>
+        </section>
+      )}
+
       {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">

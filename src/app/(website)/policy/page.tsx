@@ -1,20 +1,9 @@
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-
-const fallbackSeo = {
-  title: "JVTO Policies | Booking, Privacy & Inclusions",
-  h1: "JVTO Policies",
-  description:
-    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
-};
 
 const POLICY_TILES = [
   {
@@ -26,7 +15,7 @@ const POLICY_TILES = [
       </svg>
     ),
     name: "Booking, Payment & Cancellation",
-    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Travel Credit terms, and force-majeure handling.",
+    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Lifetime Package Credit terms, and force-majeure handling.",
   },
   {
     slug: "inclusions-exclusions",
@@ -60,11 +49,14 @@ const PRECEDENCE = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/policy", fallbackSeo);
-  return {
-    title: seo.title,
-    description: seo.description,
-  };
+  const page = loadStaticPage("/policy");
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
+  const description =
+    page?.meta.description ??
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
+  return buildStaticRouteMetadata("/policy", { title, description });
 }
 
 const ArrowRight = () => (
@@ -74,21 +66,32 @@ const ArrowRight = () => (
 );
 
 export default async function PolicyHubPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/policy", { allowDatabaseFallback: false }),
-    resolveFaqsForPage("/policy"),
-  ]);
-  const policyHubExtraSchemas = [
-    buildPolicyHubItemListSchema(),
-    buildResolvedFaqSchema(faqResolution, "/policy"),
-  ].filter(Boolean);
+  const page = loadStaticPage("/policy");
+  if (page && page.meta.status !== "published") return notFound();
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
+  const description =
+    page?.meta.description ??
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
+  const h1 = page?.meta.title ?? "JVTO Policies";
+
+  const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: "/policy",
+          lang: "en",
+          seo: {
+            title,
+            description,
+            schema_type: page?.meta.schemaTypes.find((t) => t !== "WebPage") ?? null,
+          },
+          content: { h1 },
+        }}
         extraSchemas={policyHubExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}

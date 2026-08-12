@@ -520,10 +520,10 @@ export const DEFINED_TERMS = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
     '@id': `${BASE_URL}/#term-jvto-travel-credit`,
-    name: 'JVTO Travel Credit',
+    name: 'Lifetime Package Credit',
     description:
-      'JVTO operational policy: when a booking is cancelled at least 48 hours before Day 1, the entire amount paid is converted to a Travel Credit. ' +
-      'Non-expiring (no validity window), transferable to any traveler at no additional cost, denominated in IDR (no FX risk to guest), with zero rebooking fee. ' +
+      'JVTO operational policy: for a full guest-initiated cancellation at least 48 hours before Day 1, 100% of the amount paid converts to Lifetime Package Credit — never cash. ' +
+      'Non-expiring; locked to the same package, traveler count and price; cannot be split or changed to another package; transferable to another person once, with written authorisation. ' +
       'Differentiator vs industry-standard expiring vouchers. Force-majeure closures fall under the same policy.',
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',

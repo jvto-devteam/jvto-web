@@ -1,15 +1,16 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+  loadStaticPage,
+  listPublishedStaticPages,
+  buildStaticRouteMetadata,
+  type StructuredSection,
+} from "@/lib/static-content";
 import {
   buildJvtoTravelCreditAnnouncementSchema,
   buildPolicyWebPageSchema,
@@ -21,6 +22,22 @@ type Props = {
 };
 
 export const dynamicParams = false;
+
+/**
+ * Slugs served from the ported static-content SSOT (content/pages/policy/*) —
+ * the only source this route reads. All 3 slugs currently named here also
+ * have their own dedicated folder page (booking-payment-cancellation/,
+ * inclusions-exclusions/, privacy/) — Next.js resolves that static folder
+ * segment before this dynamic one, so this route has zero live traffic for
+ * them today. It is wired anyway so a future policy slug without a dedicated
+ * folder page yet is served correctly from content automatically.
+ */
+const MIGRATED_POLICY_SLUGS = new Set(
+  listPublishedStaticPages({ section: "policy" })
+    .map((p) => p.meta.route)
+    .filter((route) => route.startsWith("/policy/"))
+    .map((route) => route.replace("/policy/", "")),
+);
 
 const POLICY_NAV = [
   { href: "/policy", label: "Policy Hub" },
@@ -43,7 +60,7 @@ const SLUG_HERO: Record<string, HeroMeta> = {
       { label: "Standard deposit", value: "20%" },
       { label: "Cancellation cut-off", value: "48 hours" },
       { label: "Pricing currency", value: "IDR" },
-      { label: "Travel Credit", value: "Non-expiring" },
+      { label: "Package Credit", value: "Non-expiring" },
     ],
   },
   "inclusions-exclusions": {
@@ -118,28 +135,43 @@ const DEFAULT_CTA: SlugCta = {
 };
 
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/policy").map((route) => ({
-    slug: route.replace("/policy/", ""),
-  }));
+  return [...MIGRATED_POLICY_SLUGS].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
+
+  const page = loadStaticPage(`/policy/${slug}`);
+  if (!page || page.meta.status !== "published") return { title: "Page Not Found" };
+  return buildStaticRouteMetadata(page.meta.route, {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
+}
 
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return { title: "Page Not Found" };
-  }
-
-  return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
-  };
+/**
+ * The ported content JSON writes grid card bodies under `text` (that is what
+ * origin/main ships, so the JSON is left byte-identical), while BlocksRenderer's
+ * CardLink only renders `summary`. Map `text` -> `summary` locally so the card
+ * bodies are not silently dropped. Shared BlocksRenderer stays untouched.
+ *
+ * Kept local (a duplicate of the same helper in
+ * policy/booking-payment-cancellation/page.tsx) rather than imported across
+ * route files — neither file exports it, and cross-importing between two page
+ * modules is coupling this plan has not established anywhere else.
+ */
+function normalizeBlocks(blocks: unknown[]): any {
+  return blocks.map((b: any) =>
+    b && b.type === "grid" && Array.isArray(b.items)
+      ? {
+          ...b,
+          items: b.items.map((it: any) => ({
+            ...it,
+            summary: it?.summary ?? it?.text,
+          })),
+        }
+      : b,
+  );
 }
 
 const ArrowRight = () => (
@@ -155,41 +187,68 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const slugCta = SLUG_CTA[slug] ?? DEFAULT_CTA;
   const currentHref = route;
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Policy";
-  const body = content?.body_md ?? "";
+  // Served from the ported static-content SSOT (content/pages/policy/*).
+  const staticPage = loadStaticPage(route);
+  if (!staticPage || staticPage.meta.status !== "published") return notFound();
+
+  const h1 = staticPage.meta.title;
+  const body = staticPage.body ?? "";
+  // Structured (.json) content files carry their content in `sections`, not in
+  // `body` — loadStaticPage() returns no `body` field at all for them.
+  const sections: StructuredSection[] = staticPage.sections ?? [];
+
+  // Visible FAQ HTML and FAQPage JSON-LD share this one array. None of the
+  // policy content files declare a faqKey today, so this is empty in practice.
+  const faqItems = staticPage.faq ?? [];
+  const faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
+  const faqTitle = "FAQ";
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${staticPage.canonicalUrl}#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
 
   const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
-    name: seo.title ?? h1,
-    description: seo.description ?? `JVTO ${h1} policy.`,
+    name: staticPage.meta.browserTitle ?? staticPage.meta.title,
+    description: staticPage.meta.description ?? `JVTO ${h1} policy.`,
     mentionsTermIds,
   });
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
   const announcementSchema =
     slug === "booking-payment-cancellation"
       ? buildJvtoTravelCreditAnnouncementSchema()
       : null;
 
   const slugExtraSchemas = [policyAnchorSchema, faqSchema, announcementSchema].filter(Boolean);
+  const pageRowForJsonLd = {
+    route: staticPage.meta.route,
+    lang: "en",
+    seo: {
+      title: staticPage.meta.browserTitle ?? staticPage.meta.title,
+      description: staticPage.meta.description,
+    },
+    content: { h1 },
+  };
 
-  if (!body.trim().length) return notFound();
+  // A structured page is content-less only when it has neither markdown body
+  // nor sections. Guarding on `body` alone would 404 every .json content file.
+  const hasSections = sections.length > 0;
+  if (!body.trim().length && !hasSections) return notFound();
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={pageRowForJsonLd}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}
@@ -281,9 +340,33 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              <MarkdownRenderer markdown={body} />
-              {content?.faq && (
-                <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+              {hasSections ? (
+                sections.map((sec) => (
+                  <section key={sec.id} className="mb-10 last:mb-0">
+                    {sec.title && (
+                      <h2
+                        className="font-black text-jvto-navy text-[22px] mb-4 leading-snug"
+                        style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                      >
+                        {sec.title}
+                      </h2>
+                    )}
+                    {sec.body_md && <MarkdownRenderer markdown={sec.body_md} />}
+                    {sec.blocks && sec.blocks.length > 0 && (
+                      <div className="mt-4">
+                        <BlocksRenderer
+                          blocks={normalizeBlocks(sec.blocks)}
+                          sectionId={sec.id}
+                        />
+                      </div>
+                    )}
+                  </section>
+                ))
+              ) : (
+                <MarkdownRenderer markdown={body} />
+              )}
+              {faqItemsForDisplay && faqItemsForDisplay.length > 0 && (
+                <Faq items={faqItemsForDisplay} title={faqTitle} />
               )}
             </article>
 

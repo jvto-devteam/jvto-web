@@ -5,39 +5,54 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
-import {
-  buildIjenHealthHowToSchema,
-  buildIjenHealthMedicalWebPageSchema,
-} from "@/lib/schemas/buildTravelGuideSchemas";
+  loadStaticPage,
+  listPublishedStaticPages,
+  buildStaticRouteMetadata,
+} from "@/lib/static-content";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+/**
+ * Slugs served from the ported static-content SSOT (content/pages/travel-guide/*.md)
+ * rather than the DB (content_pages). Excludes the slugs that have their own
+ * folder page — Next.js resolves a static folder segment before this dynamic
+ * one, but the filter is kept explicit so this route never generates a
+ * duplicate static param for them.
+ */
+const TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS = new Set([
+  "faq",
+  "best-time-to-visit",
+  "police-escort-for-groups",
+  "rijik-monthly-closure",
+  // Restored bespoke pages — each reads its own content/pages/travel-guide/*.md
+  // via loadStaticPage() and keeps its hand-built tables / callouts / hero.
+  "booking-information",
+  "ijen-health-screening",
+  "packing-and-fitness",
+  "safety-on-tours",
+  "weather-and-closures",
+]);
+
+const MIGRATED_TRAVEL_GUIDE_SLUGS = new Set(
+  listPublishedStaticPages({ section: "travel-guide" })
+    .map((p) => p.meta.route)
+    .filter((route) => route.startsWith("/travel-guide/"))
+    .map((route) => route.replace("/travel-guide/", ""))
+    .filter((slug) => !TRAVEL_GUIDE_FOLDER_ROUTED_SLUGS.has(slug)),
+);
 
 export const dynamicParams = false;
 
 const TRAVEL_GUIDE_DEST_LINKS: Record<
   string,
   Array<{ slug: string; name: string }>
-> = {
-  "ijen-health-screening": [{ slug: "ijen-crater", name: "Ijen Crater" }],
-  "mount-bromo-logistics": [{ slug: "mount-bromo", name: "Mount Bromo" }],
-  "tumpak-sewu-logistics": [
-    { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
-  ],
-};
+> = {};
 
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
@@ -53,79 +68,6 @@ type HeroMeta = {
 };
 
 const SLUG_HERO: Record<string, HeroMeta> = {
-  "ijen-health-screening": {
-    eyebrow: "Conditional · BBKSDA SE.1658",
-    lede: "Ijen crater access requires a health certificate under BBKSDA rules. JVTO coordinates the clinic workflow with a named, SIP-licensed physician — and the certificate is QR-verified at the gate.",
-    metaRows: [
-      { label: "Regulatory basis", value: "BBKSDA SE.1658/KSA.9/2024" },
-      { label: "Physician", value: "Dr. Ahmad Irwandanu · SIP" },
-      { label: "Where", value: "Your hotel, the evening before" },
-      { label: "Gate check", value: "QR-verified" },
-    ],
-  },
-  "mount-bromo-logistics": {
-    eyebrow: "Logistics · Bromo",
-    lede: "Private jeep, sunrise timing, and altitude preparation — what you need to know before arriving at the Tengger caldera.",
-    metaRows: [
-      { label: "Elevation", value: "2,329 m above sea level" },
-      { label: "Sunrise", value: "Penanjakan viewpoint · 04:00" },
-      { label: "Vehicle", value: "Dedicated 4WD jeep" },
-      { label: "Access", value: "BBKSDA clearance in hand" },
-    ],
-  },
-  "tumpak-sewu-logistics": {
-    eyebrow: "Logistics · Waterfall",
-    lede: "Canyon descent, river crossings, and fitness expectations for Java's most dramatic waterfall trail.",
-    metaRows: [
-      { label: "Trail type", value: "Canyon descent · 1–2 km" },
-      { label: "Difficulty", value: "Moderate" },
-      { label: "Footwear", value: "Hiking shoes required" },
-      { label: "From Surabaya", value: "~4 hours by private car" },
-    ],
-  },
-  "packing-list": {
-    eyebrow: "Prep · Gear",
-    lede: "What to bring for Bromo, Ijen, and Tumpak Sewu — layered clothing, headlamps, and the items most guests forget.",
-    metaRows: [
-      { label: "Covers", value: "Bromo, Ijen, Tumpak Sewu" },
-      { label: "Category", value: "Clothing, gear, medication" },
-    ],
-  },
-  "packing-and-fitness": {
-    eyebrow: "Prep · Fitness",
-    lede: "Fitness expectations and clothing recommendations for East Java's volcano treks and waterfall descents.",
-    metaRows: [
-      { label: "Fitness level", value: "Easy to Moderate" },
-      { label: "Key concern", value: "Cold mornings, uneven terrain" },
-    ],
-  },
-  "weather-and-closures": {
-    eyebrow: "Conditions · PVMBG",
-    lede: "PVMBG alerts, seasonal access, and what happens to your booking when conditions change.",
-    metaRows: [
-      { label: "Source", value: "PVMBG / MAGMA Indonesia" },
-      { label: "Monsoon risk", value: "Nov – Mar" },
-      { label: "Policy", value: "Weather & Closures guide" },
-    ],
-  },
-  "safety-on-tours": {
-    eyebrow: "Safety · Protocol",
-    lede: "Police-led protocols, medical coverage, and the decision boundaries that govern JVTO's private tours.",
-    metaRows: [
-      { label: "Medical", value: "Licensed physician on-call" },
-      { label: "Safety lead", value: "Tourist Police coordination" },
-      { label: "Vehicle", value: "Inspected · maintained" },
-    ],
-  },
-  "booking-information": {
-    eyebrow: "Process · Booking",
-    lede: "Deposits, confirmation, reschedule mechanics, and the JVTO Travel Credit scheme explained in plain language.",
-    metaRows: [
-      { label: "Deposit", value: "30% at booking" },
-      { label: "Balance", value: "Before departure" },
-      { label: "Credit scheme", value: "JVTO Travel Credit" },
-    ],
-  },
   "police-escort-for-groups": {
     eyebrow: "Authority · Police",
     lede: "When and how official traffic police escort is arranged for larger groups — always through formal channels.",
@@ -144,30 +86,18 @@ const DEFAULT_HERO: HeroMeta = {
 };
 
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/travel-guide")
-    .filter((route) => route !== "/travel-guide/faq")
-    .map((route) => ({
-      slug: route.replace("/travel-guide/", ""),
-    }));
+  return [...MIGRATED_TRAVEL_GUIDE_SLUGS].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
+
+  const page = loadStaticPage(`/travel-guide/${slug}`);
+  if (!page) return { title: "Page Not Found" };
+  return buildStaticRouteMetadata(page.meta.route, {
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return { title: "Page Not Found" };
-  }
-
-  return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
-  };
 }
 
 const ArrowRight = () => (
@@ -183,34 +113,43 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const heroMeta = SLUG_HERO[slug] ?? DEFAULT_HERO;
   const currentHref = route;
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
-  const body = content?.body_md ?? "";
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
+  const staticPage = loadStaticPage(route);
+  if (!staticPage) return notFound();
 
-  const ijenHealthSchemas =
-    slug === "ijen-health-screening"
-      ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema()]
-      : [];
-
-  const slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+  const h1 = staticPage.meta.title;
+  const body = staticPage.body ?? "";
+  const faqItems = staticPage.faq ?? [];
+  const faqItemsForDisplay = faqItems.map((f) => ({ q: f.question, a: f.answer }));
+  const faqTitle = "FAQ";
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${staticPage.canonicalUrl}#faq`,
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+  const slugExtraSchemas = [faqSchema].filter(Boolean);
+  const suppressCmsFaqValue = true;
+  const pageRowForJsonLd = {
+    route: staticPage.meta.route,
+    lang: "en",
+    seo: { title: staticPage.meta.title, description: staticPage.meta.description },
+    content: { h1 },
+  };
 
   if (!body.trim().length) return notFound();
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={pageRowForJsonLd}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq={suppressCmsFaqValue}
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}
@@ -303,8 +242,8 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <MarkdownRendererTravelGuide markdown={body} />
-              {content?.faq && (
-                <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+              {faqItemsForDisplay && faqItemsForDisplay.length > 0 && (
+                <Faq items={faqItemsForDisplay} title={faqTitle} />
               )}
               {destLinks.length > 0 && (
                 <div className="mt-10 pt-8 border-t border-[#E3E0DA]">

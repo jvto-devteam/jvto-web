@@ -4,12 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { Faq } from "@/components/content/Faq";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
 import {
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
@@ -28,17 +23,14 @@ const POLICY_NAV = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  }).catch(() => null);
-  const seo = (page?.pageRow.seo as Record<string, unknown> | null) ?? {};
-  return {
-    title:
-      (seo.title as string | undefined) ?? "Privacy & Data Protection · JVTO",
-    description:
-      (seo.description as string | undefined) ??
-      "What personal data JVTO collects, why, how it is used, and when it may be shared — only as needed to operate your booking and meet applicable requirements.",
-  };
+  const page = loadStaticPage(ROUTE);
+  if (page && page.meta.status !== "published") return { title: "Page Not Found" };
+  const title =
+    page?.meta.browserTitle ?? page?.meta.title ?? "Privacy & Data Protection · JVTO";
+  const description =
+    page?.meta.description ??
+    "What personal data JVTO collects, why, how it is used, and when it may be shared — only as needed to operate your booking and meet applicable requirements.";
+  return buildStaticRouteMetadata(ROUTE, { title, description });
 }
 
 const ArrowRight = () => (
@@ -56,39 +48,41 @@ const ArrowRight = () => (
 );
 
 export default async function PrivacyPage() {
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
+  const page = loadStaticPage(ROUTE);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, unknown> | null) ?? {};
-  const h1 = content?.h1 ?? (seo.title as string | undefined) ?? "Privacy & Data Protection";
-  const body: string = content?.body_md ?? "";
+  if (!page?.body?.trim().length || page.meta.status !== "published") return notFound();
 
-  if (!body.trim().length) return notFound();
+  const h1 = page.meta.title ?? "Privacy & Data Protection";
+  const seoTitle =
+    page.meta.browserTitle ?? page.meta.title ?? "Privacy & Data Protection · JVTO";
+  const seoDescription =
+    page.meta.description ??
+    "What personal data JVTO collects, why, how it is used, and when it may be shared — only as needed to operate your booking and meet applicable requirements.";
+  const body: string = page.body ?? "";
 
   const mentionsTermIds = POLICY_SLUG_MENTIONS[SLUG] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: SLUG,
-    name: (seo.title as string | undefined) ?? h1,
+    name: seoTitle,
     description:
-      (seo.description as string | undefined) ??
+      page.meta.summary ??
       "What personal data JVTO collects, why it is collected, and when it may be shared.",
     mentionsTermIds,
   });
 
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
-
-  const extraSchemas = [policyAnchorSchema, faqNode].filter(Boolean);
+  const extraSchemas = [policyAnchorSchema].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={{
+          route: ROUTE,
+          lang: "en",
+          seo: { title: seoTitle, description: seoDescription },
+          content: { h1 },
+        }}
         extraSchemas={extraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Interior hero — navy ───────────────────────────────────────── */}
@@ -188,9 +182,6 @@ export default async function PrivacyPage() {
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <MarkdownRenderer markdown={body} />
-              {content?.faq && (
-                <Faq items={content.faq} title={content.faq_title ?? "FAQ"} />
-              )}
             </article>
 
           </div>

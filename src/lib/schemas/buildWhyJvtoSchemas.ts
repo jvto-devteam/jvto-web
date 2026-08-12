@@ -126,7 +126,11 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record
  * Signals to AI that the hub page IS the authoritative index of all JVTO trust pillars.
  * Each claim links to its primary_page where the evidence is concentrated.
  */
-export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
+export function buildNarrativeClaimsItemList(
+  // Only these two fields feed the ItemList. The hub (its only caller) now
+  // supplies them from content/entities/narrative-claims.json — never the DB.
+  claims: Array<Pick<NarrativeClaim, "pillar" | "primary_page">>,
+) {
   const usable = claims.filter((c) => c.pillar);
   return {
     '@context': 'https://schema.org',
@@ -134,7 +138,7 @@ export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
     '@id': `${BASE_URL}/why-jvto#narrative-claims`,
     name: 'JVTO Trust Pillars — 9 Verifiable Claims',
     description:
-      'Nine canonical narrative claims that define Java Volcano Tour Operator\'s operational identity, each with a dedicated evidence page for independent verification.',
+      'Nine canonical narrative claims that define the operational identity of PT Java Volcano Rendezvous (NIB 1102230032918, trading as Java Volcano Tour Operator), each with a dedicated evidence page for independent verification.',
     mainEntityOfPage: { '@id': `${BASE_URL}/why-jvto#webpage` },
     numberOfItems: usable.length,
     itemListElement: usable.map((c, i) => ({
@@ -149,21 +153,15 @@ export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
 /**
  * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level rating at reviews page level.
  * itemReviewed cross-refs Organization @id; same data as ORG schema's aggregateRating (jvtoReviews.ts canonical).
- * Pass `liveStats` from `getGoogleReviewStats()` to override with live DB values.
  */
-export function buildWhyJvtoReviewsAggregateRatingSchema(liveStats?: {
-  rating: number;
-  count: number;
-} | null) {
-  const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
-  const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
+export function buildWhyJvtoReviewsAggregateRatingSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${BASE_URL}/why-jvto/reviews#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(ratingValue),
-    reviewCount: String(reviewCount),
+    ratingValue: String(AGGREGATE_RATING.ratingValue),
+    reviewCount: String(AGGREGATE_RATING.reviewCount),
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

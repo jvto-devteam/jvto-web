@@ -1,29 +1,45 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import {
-  resolveFaqsForPage,
-  buildResolvedFaqSchema,
-} from "@/lib/content/resolveFaqs";
+import { Faq } from "@/components/content/Faq";
+import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 
 export const revalidate = 86400;
 
 const ROUTE = "/travel-guide/weather-and-closures";
 const SITE_URL = "https://javavolcano-touroperator.com";
 
+// Fallback copy — only used if content/pages/travel-guide/weather-and-closures.md
+// is ever unavailable at build/runtime (should not happen; kept for safety).
+const FALLBACK_SEO = {
+  title: "Weather & Closures — JVTO Travel Guide",
+  description:
+    "How JVTO handles weather, volcano alerts and closures: seasonal access windows, the Ijen monthly closure, and the written Plan-B framework.",
+};
+
 const GUIDE_NAV = [
   { href: "/travel-guide", label: "Guide overview" },
   { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
-  { href: "/travel-guide/mount-bromo-logistics", label: "Mount Bromo Logistics" },
-  { href: "/travel-guide/tumpak-sewu-logistics", label: "Tumpak Sewu Logistics" },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
   { href: "/travel-guide/booking-information", label: "Booking Information" },
   { href: "/travel-guide/police-escort-for-groups", label: "Police Escort for Groups" },
   { href: "/travel-guide/faq", label: "FAQ" },
+];
+
+/**
+ * Hero fact card — presentational chrome only. Seasons and the scheduled Ijen
+ * closure are stated in content/pages/travel-guide/weather-and-closures.md
+ * (dry season April–October, wet season November–March, crater closed the first
+ * Friday of every month).
+ */
+const HERO_META_ROWS = [
+  { label: "Dry season", value: "Apr–Oct" },
+  { label: "Wet season", value: "Nov–Mar" },
+  { label: "Ijen closure", value: "1st Friday monthly" },
+  { label: "Authority", value: "BBKSDA / BBTNBTS / PVMBG" },
 ];
 
 const ArrowRight = () => (
@@ -41,15 +57,10 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { pageRow } = await getPublicPageSnapshot(ROUTE, {
-    allowDatabaseFallback: false,
-  });
-  const seo = (pageRow.seo as Record<string, any> | null) ?? {};
-  const title = seo.title ?? "Weather & Closures — JVTO Travel Guide";
-  const description =
-    seo.description ??
-    "PVMBG alerts, seasonal access windows, scheduled closures, and how JVTO reroutes your East Java volcano tour when conditions change.";
-  return {
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  return buildStaticRouteMetadata(ROUTE, {
     title,
     description,
     openGraph: {
@@ -60,22 +71,43 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       type: "article",
     },
-  };
+  });
 }
 
 export default async function WeatherAndClosuresPage() {
-  const [{ pageRow }, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(ROUTE, { allowDatabaseFallback: false }),
-    resolveFaqsForPage(ROUTE),
-  ]);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const page = loadStaticPage(ROUTE);
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? FALLBACK_SEO.title;
+  const description = page?.meta.description ?? FALLBACK_SEO.description;
+  const h1 = page?.meta.title ?? FALLBACK_SEO.title;
+  const body = page?.body ?? "";
+  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+
+  const faqSchema = faqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((it) => ({
+          "@type": "Question",
+          name: it.q,
+          acceptedAnswer: { "@type": "Answer", text: it.a },
+        })),
+      }
+    : null;
+
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title, description },
+    content: { h1 },
+  };
 
   return (
     <>
       <PageJsonLdCombined
         pageRow={pageRow}
-        extraSchemas={[faqNode].filter(Boolean)}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        extraSchemas={[faqSchema].filter(Boolean) as any[]}
+        suppressCmsFaq={true}
       />
 
       {/* ── Interior hero — navy ────────────────────────────────────────── */}
@@ -107,7 +139,7 @@ export default async function WeatherAndClosuresPage() {
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
                 Weather,{" "}
-                <em className="italic">PVMBG alerts &amp; closures.</em>
+                <em className="italic">volcano alerts &amp; closures.</em>
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 When the volcanoes are off-limits, when the rains close the trails, and how JVTO
@@ -115,12 +147,7 @@ export default async function WeatherAndClosuresPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-              {[
-                { label: "Dry season", value: "Apr–Oct" },
-                { label: "Wet season", value: "Nov–Mar" },
-                { label: "Best for Ijen", value: "Jun–Sep" },
-                { label: "PVMBG", value: "Always primary" },
-              ].map(({ label, value }) => (
+              {HERO_META_ROWS.map(({ label, value }) => (
                 <div
                   key={label}
                   className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5"
@@ -173,104 +200,44 @@ export default async function WeatherAndClosuresPage() {
               </Link>
             </aside>
 
-            {/* Article body */}
+            {/* Article body — prose driven by content/pages/travel-guide/weather-and-closures.md */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-orange mb-4 block">
-                Reading time · 4 min
+                Reading time · 5 min
               </span>
-              <p className="text-[16px] text-[#6b7280] leading-[1.7] mb-8 font-medium">
-                PVMBG (Volcanology of Indonesia) is the only voice that matters on closure decisions.
-                If they raise alert status, we do not enter.
-              </p>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-0"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Seasonal expectations
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-6">
-                Bromo and Ijen are best in dry season (April through October). Visibility at sunrise is
-                highest in July and August, but those are the coldest months too — pack accordingly.
-              </p>
+              <MarkdownRendererTravelGuide markdown={body} />
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                What triggers closures
-              </h2>
-              <ul className="space-y-2 mb-6 ml-4">
-                {[
-                  "Increased volcanic gas emissions (sulfur dioxide above safe threshold)",
-                  "Seismic activity flagged by PVMBG",
-                  "Heavy rainfall causing flash-flood risk in Tumpak Sewu",
-                  "National observance / cultural ceremony days",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="text-[15px] text-[#6b7280] font-light leading-[1.6] flex gap-2"
+              <div className="mt-10 pt-8 border-t border-[#E3E0DA]">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-3">
+                  Related guides
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    href="/travel-guide/rijik-monthly-closure"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
                   >
-                    <span className="text-jvto-orange mt-1 flex-shrink-0">→</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+                    Ijen Rijik monthly closure →
+                  </Link>
+                  <Link
+                    href="/travel-guide/best-time-to-visit"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                  >
+                    Best time to visit →
+                  </Link>
+                  <Link
+                    href="/policy/booking-payment-cancellation"
+                    prefetch={false}
+                    className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors"
+                  >
+                    Cancellation policy →
+                  </Link>
+                </div>
+              </div>
 
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                Scheduled closures you can plan around
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-3">
-                Two closures are known in advance, and JVTO schedules around both:
-              </p>
-              <ul className="space-y-3 mb-6 ml-4">
-                <li className="text-[15px] text-[#6b7280] font-light leading-[1.6] flex gap-2">
-                  <span className="text-jvto-orange mt-1 flex-shrink-0">→</span>
-                  <span>
-                    <strong className="font-semibold text-jvto-navy">
-                      Ijen monthly closure (Ijen Rijik).
-                    </strong>{" "}
-                    Kawah Ijen closes to all tourism and mining on the{" "}
-                    <strong className="font-semibold text-jvto-navy">
-                      first Friday of every month
-                    </strong>{" "}
-                    for ecosystem cleaning. Guests booked through JVTO are never caught out by it.
-                  </span>
-                </li>
-                <li className="text-[15px] text-[#6b7280] font-light leading-[1.6] flex gap-2">
-                  <span className="text-jvto-orange mt-1 flex-shrink-0">→</span>
-                  <span>
-                    <strong className="font-semibold text-jvto-navy">Yadnya Kasada.</strong> The
-                    annual Tengger Hindu ceremony on the Bromo caldera floor follows the lunar calendar
-                    and shifts each year; the Bromo area becomes extremely crowded. JVTO activates its
-                    Plan-B framework for bookings in this window.
-                  </span>
-                </li>
-              </ul>
-
-              <h2
-                className="font-black text-jvto-navy text-[22px] md:text-[26px] leading-[1.15] mb-4 mt-10"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}
-              >
-                JVTO reroute policy
-              </h2>
-              <p className="text-[15px] text-[#6b7280] font-light leading-[1.7] mb-4">
-                If your primary site is closed, we use an alternative-route approach and substitute a
-                same-day equivalent. A closed Ijen becomes Bromo + Madakaripura; a closed Bromo
-                becomes Tumpak Sewu + Goa Tetes. No guest is left in a hotel for two days. Where a
-                closure makes the program unworkable, we reschedule or issue Travel Credit per our{" "}
-                <Link
-                  href="/policy/booking-payment-cancellation"
-                  prefetch={false}
-                  className="text-jvto-navy font-medium underline decoration-jvto-orange/30 hover:decoration-jvto-orange transition-colors"
-                >
-                  cancellation policy
-                </Link>{" "}
-                — JVTO uses Lifetime Travel Credit rather than cash refunds.
-              </p>
+              <Faq items={faqItems} title="Weather & Closures: Common Questions" />
             </article>
           </div>
         </div>
