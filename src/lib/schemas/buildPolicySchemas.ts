@@ -4,6 +4,14 @@
 //
 // Per cluster_role_contracts.md Cluster 6: BreadcrumbList universal MH; cross-ref custom DefinedTerms
 // (JVTO_TRAVEL_CREDIT, JVTO_FOC_SCHEME) via WebPage.mentions to anchor brand operational terms in entity graph.
+import type {
+  FAQPage,
+  ItemList,
+  SpecialAnnouncement,
+  WebPage,
+  WithContext,
+} from 'schema-dts';
+
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -15,7 +23,7 @@ function pageUrl(subpath: string): string {
 /**
  * Hub-level ItemList of /policy sub-pages. Discovery anchor for AI engines.
  */
-export function buildPolicyHubItemListSchema() {
+export function buildPolicyHubItemListSchema(): WithContext<ItemList> {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -66,7 +74,7 @@ export function buildPolicyWebPageSchema({
   name,
   description,
   mentionsTermIds,
-}: PolicyAnchorArgs) {
+}: PolicyAnchorArgs): WithContext<WebPage> {
   const url = pageUrl(subpath);
   return {
     '@context': 'https://schema.org',
@@ -86,7 +94,7 @@ export function buildPolicyWebPageSchema({
  * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Lifetime Package
  * Credit policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
  */
-export function buildJvtoTravelCreditAnnouncementSchema() {
+export function buildJvtoTravelCreditAnnouncementSchema(): WithContext<SpecialAnnouncement> {
   return {
     '@context': 'https://schema.org',
     '@type': 'SpecialAnnouncement',
@@ -105,7 +113,7 @@ export function buildJvtoTravelCreditAnnouncementSchema() {
  * FAQPage from narrative_claims wired to a policy page (primary_page='/policy/...').
  * Empty input → returns null. Mirrors why-jvto / travel-guide pattern.
  */
-export function buildPolicyFaqSchema(claims: NarrativeClaim[], subpath: string) {
+export function buildPolicyFaqSchema(claims: NarrativeClaim[], subpath: string): WithContext<FAQPage> | null {
   const usable = claims.filter((c) => c.pillar && c.core_claim);
   if (!usable.length) return null;
   return {

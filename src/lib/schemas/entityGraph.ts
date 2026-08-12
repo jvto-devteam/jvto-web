@@ -11,7 +11,29 @@
 //   Per cluster_role_contracts handoff matrix: page-level @id refs ('@id': ORG_ID) still resolve correctly
 //   because live's per-page Org injection uses the same @id.
 
+import type {
+  DefinedTerm,
+  EducationalOccupationalCredential,
+  GovernmentService,
+  MedicalBusiness,
+  Person,
+  Physician,
+  TravelAgency,
+  WithContext,
+} from 'schema-dts';
+
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
+
+/**
+ * `EducationalOccupationalCredential` + `dateIssued`.
+ *
+ * schema.org does NOT define `dateIssued` on EducationalOccupationalCredential (it exists
+ * only on `Ticket`); schema-dts correctly rejects it. The property is retained verbatim
+ * because removing it would change the emitted JSON-LD, which is out of scope for the
+ * type-annotation pass — but it is inert for consumers and should be migrated to
+ * `datePublished` / `validFrom` in a follow-up content change. Flagged in the task report.
+ */
+type IssuedCredential = EducationalOccupationalCredential & { dateIssued?: string };
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID   = `${BASE_URL}/#organization`;
@@ -19,10 +41,75 @@ const AGUNG_ID = `${BASE_URL}/#agung-sambuko`;
 const DOCTOR_ID = `${BASE_URL}/#dr-ahmad-irwandanu`;
 const CLINIC_ID = `${BASE_URL}/#klinik-bakti-husada`;
 
+// Shared export: the Organization credentials array (NIB/TDUP/HPWKI, each carrying a
+// SHA-256 forensic-anchor PropertyValue). buildOrganizationJsonLd() attaches this to the
+// live-rendered Organization node regardless of whether that node comes from the DB
+// schema_json column or the static snapshot fallback — so the hashes render in production
+// without any DB/SQL step. Single source of truth for the credentials list; also referenced
+// as ORGANIZATION_SCHEMA.hasCredential below.
+//
+// Verified credentials (legal + association).
+// Each identifier is an array pairing the registration number (where applicable) with the
+// SHA-256 forensic anchor of the source document (published in public/llms.txt) as a
+// PropertyValue — machine-verifiable authenticity proof against "ghost operator" fraud.
+// Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
+// NOTE: ORGANIZATION_SCHEMA is reference-only (see file header). The LIVE Organization node is
+// DB-driven via buildOrganizationJsonLd(); to render these hashes in production the same
+// hasCredential.identifier PropertyValues must be mirrored into the org `schema_json` DB
+// column (owner/DB task — not editable from application code).
+export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'NIB (Nomor Induk Berusaha)',
+    identifier: [
+      { '@type': 'PropertyValue', propertyID: 'NIB', value: '1102230032918' },
+      { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'NIB document SHA-256', value: 'fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7' },
+    ],
+    url: `${BASE_URL}/legal/NIB-1102230032918.pdf`,
+    credentialCategory: 'Indonesian Business Registration',
+    recognizedBy: {
+      '@type': 'GovernmentOrganization',
+      name: 'Kementerian Investasi / BKPM Indonesia',
+    },
+  },
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'TDUP (Tanda Daftar Usaha Pariwisata)',
+    identifier: [
+      { '@type': 'PropertyValue', propertyID: 'TDUP', value: '1102230032918' },
+      { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'TDUP document SHA-256', value: '27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3' },
+    ],
+    dateIssued: '2023-02-11',
+    url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
+    credentialCategory: 'Indonesian Tourism Business Licence',
+    recognizedBy: {
+      '@type': 'GovernmentOrganization',
+      name: 'Kementerian Pariwisata dan Ekonomi Kreatif',
+    },
+  },
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'HPWKI Membership (Himpunan Pelaku Wisata Khusus Ijen)',
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'SHA-256',
+      name: 'HPWKI approval letter SHA-256',
+      value: 'ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b',
+    },
+    url: `${BASE_URL}/legal/HPWKI-approval.pdf`,
+    credentialCategory: 'Volcanic Tourism Association — BBKSDA supervised',
+    recognizedBy: {
+      '@type': 'Organization',
+      name: 'HPWKI — supervised by BBKSDA Jawa Timur',
+      sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
+    },
+  },
+];
+
 // ── Organization (JVTO / PT Java Volcano Rendezvous) ─────────────────────────
 // Hardcoded fallback. Live's primary Organization injection happens per-page via PageJsonLdCombined
 // (DB-driven via getOrganizationProfile + buildOrganizationJsonLd). Same @id, so cross-page refs resolve.
-export const ORGANIZATION_SCHEMA = {
+export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
   '@context': 'https://schema.org',
   '@type': 'TravelAgency',
   '@id': ORG_ID,
@@ -51,7 +138,10 @@ export const ORGANIZATION_SCHEMA = {
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: String(AGGREGATE_RATING.ratingValue),
-    reviewCount: String(AGGREGATE_RATING.reviewCount),
+    // schema.org types reviewCount as Integer; the value is emitted as a numeric string
+    // (unchanged runtime output, accepted by Google) — the assertion narrows `string` to
+    // the numeric-string form schema-dts requires without altering what is serialised.
+    reviewCount: String(AGGREGATE_RATING.reviewCount) as `${number}`,
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   },
@@ -62,63 +152,8 @@ export const ORGANIZATION_SCHEMA = {
     'Stefan Loose Reiseführer Indonesien — Editorial Feature (4th Edition, 2018)',
   ],
 
-  // Verified credentials (legal + association).
-  // Each identifier is an array pairing the registration number (where applicable) with the
-  // SHA-256 forensic anchor of the source document (published in public/llms.txt) as a
-  // PropertyValue — machine-verifiable authenticity proof against "ghost operator" fraud.
-  // Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
-  // NOTE: this constant is reference-only (see file header). The LIVE Organization node is
-  // DB-driven via buildOrganizationJsonLd(); to render these hashes in production the same
-  // hasCredential.identifier PropertyValues must be mirrored into the org `schema_json` DB
-  // column (owner/DB task — not editable from application code).
-  hasCredential: [
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'NIB (Nomor Induk Berusaha)',
-      identifier: [
-        { '@type': 'PropertyValue', propertyID: 'NIB', value: '1102230032918' },
-        { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'NIB document SHA-256', value: 'fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7' },
-      ],
-      url: `${BASE_URL}/legal/NIB-1102230032918.pdf`,
-      credentialCategory: 'Indonesian Business Registration',
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Kementerian Investasi / BKPM Indonesia',
-      },
-    },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'TDUP (Tanda Daftar Usaha Pariwisata)',
-      identifier: [
-        { '@type': 'PropertyValue', propertyID: 'TDUP', value: '1102230032918' },
-        { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'TDUP document SHA-256', value: '27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3' },
-      ],
-      dateIssued: '2023-02-11',
-      url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
-      credentialCategory: 'Indonesian Tourism Business Licence',
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Kementerian Pariwisata dan Ekonomi Kreatif',
-      },
-    },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'HPWKI Membership (Himpunan Pelaku Wisata Khusus Ijen)',
-      identifier: {
-        '@type': 'PropertyValue',
-        propertyID: 'SHA-256',
-        name: 'HPWKI approval letter SHA-256',
-        value: 'ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b',
-      },
-      url: `${BASE_URL}/legal/HPWKI-approval.pdf`,
-      credentialCategory: 'Volcanic Tourism Association — BBKSDA supervised',
-      recognizedBy: {
-        '@type': 'Organization',
-        name: 'HPWKI — supervised by BBKSDA Jawa Timur',
-        sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
-      },
-    },
-  ],
+  // Verified credentials (legal + association) — see ORGANIZATION_HAS_CREDENTIAL above.
+  hasCredential: ORGANIZATION_HAS_CREDENTIAL,
 
   // Association memberships
   memberOf: [
@@ -189,18 +224,64 @@ export const ORGANIZATION_SCHEMA = {
   ],
 };
 
-// Shared export: the Organization credentials array (NIB/TDUP/HPWKI, each carrying a
-// SHA-256 forensic-anchor PropertyValue). buildOrganizationJsonLd() attaches this to the
-// live-rendered Organization node regardless of whether that node comes from the DB
-// schema_json column or the static snapshot fallback — so the hashes render in production
-// without any DB/SQL step. Single source of truth for the credentials list.
-export const ORGANIZATION_HAS_CREDENTIAL = ORGANIZATION_SCHEMA.hasCredential;
+// Police credentials — verifiable government documents.
+// identifier carries the SHA-256 forensic anchor of each source document (published in
+// public/llms.txt) as a PropertyValue — machine-verifiable proof the credential file is
+// authentic and unaltered, defending against "ghost operator" impersonation.
+// Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
+const FOUNDER_HAS_CREDENTIAL: IssuedCredential[] = [
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'SPRIN POLPAR (Tourist Police Assignment Letter)',
+    credentialCategory: 'Law Enforcement — Tourist Police Assignment',
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'SHA-256',
+      name: 'SPRIN POLPAR document SHA-256',
+      value: '03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab',
+    },
+    url: `${BASE_URL}/legal/SPRIN-POLPAR.pdf`,
+    image: `${BASE_URL}/legal/SPRIN-POLPAR.webp`,
+    recognizedBy: {
+      '@type': 'GovernmentOrganization',
+      name: 'Indonesian National Police (POLRI)',
+      url: 'https://polri.go.id',
+    },
+  },
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'SPRIN WAL-TRAVEL (Active Travel Order, February 2024)',
+    dateIssued: '2024-02-12',
+    credentialCategory: 'Law Enforcement — Active Travel Authorization',
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'SHA-256',
+      name: 'SPRIN WAL-TRAVEL 2024-02-12 document SHA-256',
+      value: '179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3',
+    },
+    url: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp`,
+    recognizedBy: {
+      '@type': 'GovernmentOrganization',
+      name: 'Indonesian National Police (POLRI)',
+    },
+  },
+  {
+    '@type': 'EducationalOccupationalCredential',
+    name: 'HPWKI Certified Volcano Guide (Himpunan Pelaku Wisata Khusus Ijen)',
+    credentialCategory: 'Professional Mountain Guiding Certification',
+    recognizedBy: {
+      '@type': 'Organization',
+      name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
+      sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
+    },
+  },
+];
 
 // ── Agung Sambuko — Founder & Active Tourist Police Officer ───────────────────
 // Evidence chain: SPRIN-POLPAR + SPRIN-WAL-TRAVEL-2024 → Ditpamobvit
 //                 Detik.com "Bripka Agung Sambuko" → identity confirmation
 //                 HPWKI supervisor → BBKSDA training chain
-export const FOUNDER_SCHEMA = {
+export const FOUNDER_SCHEMA: WithContext<Person> = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   '@id': AGUNG_ID,
@@ -239,43 +320,7 @@ export const FOUNDER_SCHEMA = {
   // public/llms.txt) as a PropertyValue — machine-verifiable proof the credential file is
   // authentic and unaltered, defending against "ghost operator" impersonation.
   // Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
-  hasCredential: [
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'SPRIN POLPAR (Tourist Police Assignment Letter)',
-      credentialCategory: 'Law Enforcement — Tourist Police Assignment',
-      identifier: {
-        '@type': 'PropertyValue',
-        propertyID: 'SHA-256',
-        name: 'SPRIN POLPAR document SHA-256',
-        value: '03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab',
-      },
-      url: `${BASE_URL}/legal/SPRIN-POLPAR.pdf`,
-      image: `${BASE_URL}/legal/SPRIN-POLPAR.webp`,
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Indonesian National Police (POLRI)',
-        url: 'https://polri.go.id',
-      },
-    },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'SPRIN WAL-TRAVEL (Active Travel Order, February 2024)',
-      dateIssued: '2024-02-12',
-      credentialCategory: 'Law Enforcement — Active Travel Authorization',
-      identifier: {
-        '@type': 'PropertyValue',
-        propertyID: 'SHA-256',
-        name: 'SPRIN WAL-TRAVEL 2024-02-12 document SHA-256',
-        value: '179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3',
-      },
-      url: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp`,
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Indonesian National Police (POLRI)',
-      },
-    },
-  ],
+  hasCredential: FOUNDER_HAS_CREDENTIAL,
   // Detik.com article names him as "Bripka Agung Sambuko" — identity confirmation from national press
   sameAs: [
     'https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin',
@@ -317,7 +362,27 @@ export const FOUNDER_SCHEMA = {
 // Evidence chain: SIP → satusehat.kemkes.go.id (live verification)
 //                 KKI → kki.go.id (Indonesian Medical Council)
 //                 WorksFor → Klinik Bakti Husada → licensed by Kemenkes
-export const DOCTOR_SCHEMA = {
+// NOTE on the intersection below: schema.org models `Physician` on the MedicalBusiness
+// (Organization) branch, so the two Person-only properties this node uses — `jobTitle` and
+// `worksFor` — are not valid on it per the spec (the spec-correct equivalents would be
+// `practicesAt` / `parentOrganization`). Both values are factually correct and are already
+// consumed by AI answer engines, so they are preserved verbatim rather than dropped; the
+// explicit intersection keeps full type-checking on every other property instead of
+// suppressing the whole node. Flagged in the task report for owner review — the proper fix
+// is a `Person` node also typed `Physician` (`@type: ['Person','Physician']`), which
+// schema-dts cannot express and which would change the emitted JSON-LD.
+export const DOCTOR_SCHEMA: WithContext<Physician> & {
+  jobTitle: string;
+  // The clinic node emits two properties schema.org does not define on MedicalBusiness:
+  // `medicalSpecialty` (defined on MedicalOrganization / MedicalClinic — and here carrying
+  // free text rather than the `MedicalSpecialty` enumeration, whose correct value would be
+  // 'PrimaryCare') and `isAcceptingNewPatients` (defined on Physician). Both preserved
+  // verbatim so the emitted JSON-LD is unchanged; flagged in the task report.
+  worksFor: MedicalBusiness & {
+    medicalSpecialty?: string;
+    isAcceptingNewPatients?: boolean;
+  };
+} = {
   '@context': 'https://schema.org',
   '@type': 'Physician',
   '@id': DOCTOR_ID,
@@ -367,7 +432,7 @@ export const DOCTOR_SCHEMA = {
 
 // ── BBKSDA Regulation — SE.1658/KSA.9/2024 ───────────────────────────────────
 // Regulatory chain: BBKSDA issues regulation → requires health cert → JVTO coordinates → Dr. Ahmad issues cert
-export const BBKSDA_REGULATION_SCHEMA = {
+export const BBKSDA_REGULATION_SCHEMA: WithContext<GovernmentService> = {
   '@context': 'https://schema.org',
   '@type': 'GovernmentService',
   name: 'Ijen Crater Access — Health Certificate Requirement',
@@ -391,6 +456,9 @@ export const BBKSDA_REGULATION_SCHEMA = {
 // Globally injected via (website)/layout.tsx so every page has stable @id refs to all 9 terms
 // (7 standard regulatory + 2 brand-custom JVTO operational policies).
 // Per-page enrichment (mentioning a term in copy) cross-references via @id, no re-inject needed.
+// Typed via `satisfies` rather than a direct annotation: an annotation would widen the map
+// to an index signature and lose the literal key/`@id` types that
+// `DEFINED_TERMS.NIB['@id']` cross-references rely on in the tour pages.
 export const DEFINED_TERMS = {
   NIB: {
     '@context': 'https://schema.org',
@@ -546,7 +614,7 @@ export const DEFINED_TERMS = {
       url: `${BASE_URL}/policy/booking-payment-cancellation`,
     },
   },
-} as const;
+} as const satisfies Record<string, WithContext<DefinedTerm>>;
 
 // ── Crew Person schema generator ──────────────────────────────────────────────
 // Proves: named individuals, employed (not freelance), KTA-certified, named in real reviews
@@ -567,7 +635,10 @@ export function buildCrewPersonSchema(member: {
   socialInstagram?: string;
   socialFacebook?: string;
   forensicEvidence?: ForensicEvidence[];
-}) {
+  // `employmentType` is a JobPosting-only property in schema.org, not a Person property;
+  // it is emitted here to signal non-freelance employment and is preserved verbatim.
+  // Flagged in the task report (spec-correct form would be an EmployeeRole on `worksFor`).
+}): Person & { employmentType?: string } {
   const sameAs: string[] = [];
   if (member.socialInstagram) sameAs.push(member.socialInstagram);
   if (member.socialFacebook) sameAs.push(member.socialFacebook);

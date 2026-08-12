@@ -6,6 +6,15 @@
 //
 // Decoupled from rewrite's Tour type: caller passes pre-computed `url` (relative path) so live's existing
 // URL builder convention is preserved. Caller is responsible for filtering tours by origin where needed.
+import type {
+  AggregateRating,
+  BreadcrumbList,
+  CollectionPage,
+  FAQPage,
+  ListItem,
+  WithContext,
+} from 'schema-dts';
+
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
 import { getToursHubQaPairs } from '@/lib/tourFaqs';
 
@@ -44,7 +53,7 @@ function hubUrl(hubPath: HubArgs['hubPath']): string {
  * mainEntity points to the ItemList so AI engines extract the trip catalogue with the page as anchor.
  * isPartOf cross-refs the global Organization, anchoring the catalogue to the entity graph.
  */
-export function buildToursHubCollectionPageSchema({ tours, hubPath, hubName, hubDescription }: HubArgs) {
+export function buildToursHubCollectionPageSchema({ tours, hubPath, hubName, hubDescription }: HubArgs): WithContext<CollectionPage> {
   const url = hubUrl(hubPath);
   return {
     '@context': 'https://schema.org',
@@ -84,8 +93,8 @@ export function buildToursHubCollectionPageSchema({ tours, hubPath, hubName, hub
   };
 }
 
-export function buildToursHubBreadcrumbSchema({ hubPath, hubName }: HubArgs) {
-  const items = [
+export function buildToursHubBreadcrumbSchema({ hubPath, hubName }: HubArgs): WithContext<BreadcrumbList> {
+  const items: ListItem[] = [
     { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
     { '@type': 'ListItem', position: 2, name: 'Tours', item: `${BASE_URL}/tours` },
   ];
@@ -104,7 +113,7 @@ export function buildToursHubBreadcrumbSchema({ hubPath, hubName }: HubArgs) {
  * Departure-city hubs (/tours/from-bali, /tours/from-surabaya) reuse the same hub Q&A — they remain valid comparison
  * questions for arriving visitors and reinforce the cluster's discovery role.
  */
-export function buildToursHubFaqSchema() {
+export function buildToursHubFaqSchema(): WithContext<FAQPage> {
   const pairs = getToursHubQaPairs();
   return {
     '@context': 'https://schema.org',
@@ -124,7 +133,7 @@ export function buildToursHubFaqSchema() {
 export function buildToursHubAggregateRatingSchema({
   hubPath,
   liveStats,
-}: Pick<HubArgs, 'hubPath'> & { liveStats?: { rating: number; count: number } | null }) {
+}: Pick<HubArgs, 'hubPath'> & { liveStats?: { rating: number; count: number } | null }): WithContext<AggregateRating> {
   const url = hubUrl(hubPath);
   const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
   const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
@@ -134,7 +143,9 @@ export function buildToursHubAggregateRatingSchema({
     '@id': `${url}#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
     ratingValue: String(ratingValue),
-    reviewCount: String(reviewCount),
+    // schema.org types reviewCount as Integer; emitted as a numeric string (unchanged
+    // runtime output) — the assertion narrows `string` to the numeric-string form.
+    reviewCount: String(reviewCount) as `${number}`,
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

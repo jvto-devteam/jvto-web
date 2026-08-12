@@ -6,6 +6,15 @@
 //
 // Decoupled from rewrite's specific types: caller adapts its Prisma `packages` query result
 // to the minimal seed contracts below. This keeps the schema builder portable across stacks.
+import type {
+  BreadcrumbList,
+  FAQPage,
+  HowTo,
+  LocationFeatureSpecification,
+  TouristTrip,
+  WithContext,
+} from 'schema-dts';
+
 import { getTourSpineQaPairs, type TourFaqSeed } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -84,7 +93,27 @@ function buildMentions(tour: TourDetailSeed) {
   return mentions;
 }
 
-export function buildTourTouristTripSchema({ tour, dbData, fullData, routePrefix, bareSlug }: BuildArgs) {
+/**
+ * TouristTrip + the two deliberate off-spec safety signals this builder emits for Ijen tours.
+ * schema.org defines neither `healthRequirement` (no such property) nor `amenityFeature` on
+ * Trip/TouristTrip (it belongs to Place / Accommodation). Both are retained by design — the
+ * inline comment below predates this type pass and states the intent: AI engines parse them
+ * regardless of spec alignment. Declaring them here keeps every other property fully checked.
+ */
+type TouristTripWithSafetySignals = TouristTrip & {
+  healthRequirement?: string;
+  amenityFeature?: LocationFeatureSpecification[];
+  /**
+   * `mentions` is a CreativeWork property; TouristTrip sits on the Intangible branch, so
+   * schema.org does not define it here. The DefinedTerm cross-refs (NIB / TDUP / HPWKI /
+   * POLPAR, plus KTA / BBKSDA / SE1658 on Ijen tours) are emitted unchanged, but they would
+   * carry more weight on the page's WebPage node, which does support `mentions`.
+   * Flagged in the task report as the highest-value follow-up from this pass.
+   */
+  mentions?: { '@id': string }[];
+};
+
+export function buildTourTouristTripSchema({ tour, dbData, fullData, routePrefix, bareSlug }: BuildArgs): WithContext<TouristTripWithSafetySignals> {
   const tourUrl = `${BASE_URL}/${routePrefix}/${bareSlug}`;
   return {
     '@context': 'https://schema.org',
@@ -160,7 +189,7 @@ export function buildTourTouristTripSchema({ tour, dbData, fullData, routePrefix
 
 // HowTo schema: itinerary execution as ordered steps. AI engines treat HowTo as
 // structured procedural answer surface; very valuable for "what does day X of {tour} look like" queries.
-export function buildTourHowToSchema({ tour, routePrefix, bareSlug }: BuildArgs) {
+export function buildTourHowToSchema({ tour, routePrefix, bareSlug }: BuildArgs): WithContext<HowTo> | null {
   if (!tour.itinerary?.length) return null;
   const tourUrl = `${BASE_URL}/${routePrefix}/${bareSlug}`;
   return {
@@ -186,7 +215,7 @@ export function buildTourHowToSchema({ tour, routePrefix, bareSlug }: BuildArgs)
   };
 }
 
-export function buildTourBreadcrumbSchema({ tour, routePrefix, bareSlug }: BuildArgs) {
+export function buildTourBreadcrumbSchema({ tour, routePrefix, bareSlug }: BuildArgs): WithContext<BreadcrumbList> {
   const cityLabel = routePrefix === 'tours/from-bali' ? 'From Bali' : 'From Surabaya';
   const cityHubUrl = `${BASE_URL}/${routePrefix}`;
   return {
@@ -217,7 +246,7 @@ export function buildTourFaqSchema({
   tour: TourDetailSeed;
   fullData: FullPackageDbDataSeed | null;
   narrativeClaims: NarrativeClaimLite[];
-}) {
+}): WithContext<FAQPage> | null {
   const spinePairs = getTourSpineQaPairs(tour);
   const claimPairs = narrativeClaims.map((c) => ({ question: c.pillar, answer: c.core_claim }));
   const dbPairs = (fullData?.faqs ?? []).map((f) => ({ question: f.question, answer: f.answer }));

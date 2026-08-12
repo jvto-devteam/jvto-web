@@ -8,6 +8,16 @@
  *   /why-jvto/our-team          → AboutPage + ItemList(11 crew) + FAQPage
  *   /why-jvto/our-team/[slug]   → ProfilePage + Person
  */
+import type {
+  AboutPage,
+  FAQPage,
+  ImageObject,
+  ItemList,
+  Person,
+  ProfilePage,
+  WithContext,
+} from "schema-dts";
+
 import type { PublicCrewMember } from "@/lib/people/canonicalPeople";
 import type { TeamFaq } from "@/lib/people/teamFaqs";
 
@@ -26,7 +36,7 @@ export function crewJobTitle(role: "guide" | "driver"): string {
   return role === "guide" ? "Tour Guide" : "Tour Driver";
 }
 
-function imageObject(member: PublicCrewMember) {
+function imageObject(member: PublicCrewMember): ImageObject {
   return {
     "@type": "ImageObject",
     url: `${BASE}${member.image.src}`,
@@ -35,7 +45,7 @@ function imageObject(member: PublicCrewMember) {
 }
 
 /** One crew Person node (used as the ProfilePage mainEntity). */
-export function buildCrewPersonNode(member: PublicCrewMember) {
+export function buildCrewPersonNode(member: PublicCrewMember): Person {
   return {
     "@type": "Person",
     "@id": `${BASE}/#crew-${member.code}`,
@@ -59,7 +69,7 @@ export function buildCrewPersonNode(member: PublicCrewMember) {
 }
 
 /** /why-jvto/our-team/[slug] — ProfilePage wrapping the crew Person. */
-export function buildTeamProfileSchema(member: PublicCrewMember) {
+export function buildTeamProfileSchema(member: PublicCrewMember): WithContext<ProfilePage> {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
@@ -72,7 +82,7 @@ export function buildTeamProfileSchema(member: PublicCrewMember) {
 }
 
 /** /why-jvto/our-team — ItemList of the published crew (lightweight Person refs). */
-export function buildTeamItemListSchema(crew: PublicCrewMember[]) {
+export function buildTeamItemListSchema(crew: PublicCrewMember[]): WithContext<ItemList> {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -95,7 +105,7 @@ export function buildTeamItemListSchema(crew: PublicCrewMember[]) {
 }
 
 /** /why-jvto/our-team — AboutPage: the team page, cross-referencing org + founder + doctor by @id. */
-export function buildTeamAboutPageSchema() {
+export function buildTeamAboutPageSchema(): WithContext<AboutPage> {
   return {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -108,7 +118,7 @@ export function buildTeamAboutPageSchema() {
 }
 
 /** FAQPage from the record-derived Team FAQ (same output the page renders). */
-export function buildTeamFaqSchema(faqs: TeamFaq[]) {
+export function buildTeamFaqSchema(faqs: TeamFaq[]): WithContext<FAQPage> {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",

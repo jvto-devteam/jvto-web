@@ -3,6 +3,18 @@
 //
 // Per cluster_role_contracts.md Cluster 5: WebPage + BreadcrumbList per page; FAQPage where role demands.
 // Special case /ijen-health-screening (Phase 4.6 augment 2026-04-29): MedicalWebPage + HowTo + DOCTOR + BBKSDA + SE1658 cross-refs.
+import type {
+  BreadcrumbList,
+  FAQPage,
+  HowTo,
+  ItemList,
+  ListItem,
+  MedicalSpecialty,
+  MedicalWebPage,
+  WebPage,
+  WithContext,
+} from 'schema-dts';
+
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -18,7 +30,7 @@ function pageUrl(subpath: string): string {
   return subpath ? `${BASE_URL}/travel-guide/${subpath}` : `${BASE_URL}/travel-guide`;
 }
 
-export function buildTgWebPageSchema({ subpath, pageName, description }: TgPageArgs) {
+export function buildTgWebPageSchema({ subpath, pageName, description }: TgPageArgs): WithContext<WebPage> {
   const url = pageUrl(subpath);
   return {
     '@context': 'https://schema.org',
@@ -31,8 +43,8 @@ export function buildTgWebPageSchema({ subpath, pageName, description }: TgPageA
   };
 }
 
-export function buildTgBreadcrumbSchema({ subpath, pageName }: TgPageArgs) {
-  const items = [
+export function buildTgBreadcrumbSchema({ subpath, pageName }: TgPageArgs): WithContext<BreadcrumbList> {
+  const items: ListItem[] = [
     { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
     { '@type': 'ListItem', position: 2, name: 'Travel Guide', item: `${BASE_URL}/travel-guide` },
   ];
@@ -50,7 +62,7 @@ export function buildTgBreadcrumbSchema({ subpath, pageName }: TgPageArgs) {
  * FAQPage from narrative_claims wired to a travel-guide page (primary_page='/travel-guide/...').
  * Empty input → returns null (no schema injection). Mirrors why-jvto pattern.
  */
-export function buildTgFaqSchema(claims: NarrativeClaim[], subpath: string) {
+export function buildTgFaqSchema(claims: NarrativeClaim[], subpath: string): WithContext<FAQPage> | null {
   const usable = claims.filter((c) => c.pillar && c.core_claim);
   if (!usable.length) return null;
   return {
@@ -70,7 +82,7 @@ export function buildTgFaqSchema(claims: NarrativeClaim[], subpath: string) {
  * (BBKSDA SE.1658/KSA.9/2024 → DOCTOR_SCHEMA reviewedBy → JVTO operator). DOCTOR + BBKSDA + SE1658
  * are already globally injected via (website)/layout.tsx; this page cross-refs via @id only.
  */
-export function buildIjenHealthMedicalWebPageSchema() {
+export function buildIjenHealthMedicalWebPageSchema(): WithContext<MedicalWebPage> {
   const url = `${BASE_URL}/travel-guide/ijen-health-screening`;
   return {
     '@context': 'https://schema.org',
@@ -85,7 +97,10 @@ export function buildIjenHealthMedicalWebPageSchema() {
     about: {
       '@type': 'MedicalCondition',
       name: 'Ijen Crater Altitude and Sulfur Exposure Risk Assessment',
-      relevantSpecialty: 'General Practice',
+      // schema.org types `relevantSpecialty` as the MedicalSpecialty enumeration
+      // (spec-correct value: 'PrimaryCare'), not free text. The human-readable string is
+      // preserved verbatim so the emitted JSON-LD is unchanged; flagged in the task report.
+      relevantSpecialty: 'General Practice' as unknown as MedicalSpecialty,
     },
     reviewedBy: { '@id': `${BASE_URL}/#dr-ahmad-irwandanu` },
     mentions: [
@@ -99,7 +114,7 @@ export function buildIjenHealthMedicalWebPageSchema() {
  * HowTo for /travel-guide/ijen-health-screening — 4-step screening workflow as ordered HowToStep.
  * AI engines treat HowTo as authoritative procedural knowledge for AEO answer extraction.
  */
-export function buildIjenHealthHowToSchema() {
+export function buildIjenHealthHowToSchema(): WithContext<HowTo> {
   return {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
@@ -145,7 +160,7 @@ export function buildIjenHealthHowToSchema() {
  * Hub-level ItemList of the live travel-guide sub-pages, semantically grouped via name prefixes
  * so AI engines can extract the discovery hierarchy (Plan & Prepare, Safety & Health, etc.).
  */
-export function buildTgHubItemListSchema() {
+export function buildTgHubItemListSchema(): WithContext<ItemList> {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',

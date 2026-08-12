@@ -3,6 +3,17 @@
 //
 // Per cluster_role_contracts.md Cluster 3: WebPage + BreadcrumbList per page; FAQPage from narrative_claims;
 // hub adds mainEntity ItemList(sub-pages); /reviews adds AggregateRating.
+import type {
+  AggregateRating,
+  BreadcrumbList,
+  FAQPage,
+  ItemList,
+  ListItem,
+  Review,
+  WebPage,
+  WithContext,
+} from 'schema-dts';
+
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
@@ -20,7 +31,7 @@ function pageUrl(subpath: WhyPageArgs['subpath']): string {
   return subpath ? `${BASE_URL}/why-jvto/${subpath}` : `${BASE_URL}/why-jvto`;
 }
 
-export function buildWhyJvtoWebPageSchema({ subpath, pageName, description }: WhyPageArgs) {
+export function buildWhyJvtoWebPageSchema({ subpath, pageName, description }: WhyPageArgs): WithContext<WebPage> {
   const url = pageUrl(subpath);
   return {
     '@context': 'https://schema.org',
@@ -34,8 +45,8 @@ export function buildWhyJvtoWebPageSchema({ subpath, pageName, description }: Wh
   };
 }
 
-export function buildWhyJvtoBreadcrumbSchema({ subpath, pageName }: WhyPageArgs) {
-  const items = [
+export function buildWhyJvtoBreadcrumbSchema({ subpath, pageName }: WhyPageArgs): WithContext<BreadcrumbList> {
+  const items: ListItem[] = [
     { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
     { '@type': 'ListItem', position: 2, name: 'Why JVTO', item: `${BASE_URL}/why-jvto` },
   ];
@@ -53,7 +64,7 @@ export function buildWhyJvtoBreadcrumbSchema({ subpath, pageName }: WhyPageArgs)
  * FAQPage from narrative_claims wired to a why-jvto page (primary_page = '/why-jvto/...').
  * Empty input → returns null (no schema injection). Each claim's pillar = Question, core_claim = Answer.
  */
-export function buildWhyJvtoFaqSchema(claims: NarrativeClaim[], subpath: WhyPageArgs['subpath']) {
+export function buildWhyJvtoFaqSchema(claims: NarrativeClaim[], subpath: WhyPageArgs['subpath']): WithContext<FAQPage> | null {
   const usable = claims.filter((c) => c.pillar && c.core_claim);
   if (!usable.length) return null;
   return {
@@ -71,7 +82,7 @@ export function buildWhyJvtoFaqSchema(claims: NarrativeClaim[], subpath: WhyPage
 /**
  * Hub-level ItemList of /why-jvto sub-pages — orchestrates discovery from hub to detail pages.
  */
-export function buildWhyJvtoHubItemListSchema() {
+export function buildWhyJvtoHubItemListSchema(): WithContext<ItemList> {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -93,7 +104,7 @@ export function buildWhyJvtoHubItemListSchema() {
  * Returns a flat array spread individually into the caller's extraSchemas; not wrapped in @graph.
  * itemReviewed cross-refs Organization @id (globally injected); url omitted when null.
  */
-export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record<string, unknown>[] {
+export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): WithContext<Review>[] {
   return reviews
     .filter((r): r is ReviewForSchema & { star: number } => r.star != null)
     .map((r) => ({
@@ -130,7 +141,7 @@ export function buildNarrativeClaimsItemList(
   // Only these two fields feed the ItemList. The hub (its only caller) now
   // supplies them from content/entities/narrative-claims.json — never the DB.
   claims: Array<Pick<NarrativeClaim, "pillar" | "primary_page">>,
-) {
+): WithContext<ItemList> {
   const usable = claims.filter((c) => c.pillar);
   return {
     '@context': 'https://schema.org',
@@ -154,14 +165,16 @@ export function buildNarrativeClaimsItemList(
  * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level rating at reviews page level.
  * itemReviewed cross-refs Organization @id; same data as ORG schema's aggregateRating (jvtoReviews.ts canonical).
  */
-export function buildWhyJvtoReviewsAggregateRatingSchema() {
+export function buildWhyJvtoReviewsAggregateRatingSchema(): WithContext<AggregateRating> {
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${BASE_URL}/why-jvto/reviews#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
     ratingValue: String(AGGREGATE_RATING.ratingValue),
-    reviewCount: String(AGGREGATE_RATING.reviewCount),
+    // schema.org types reviewCount as Integer; emitted as a numeric string (unchanged
+    // runtime output) — the assertion narrows `string` to the numeric-string form.
+    reviewCount: String(AGGREGATE_RATING.reviewCount) as `${number}`,
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

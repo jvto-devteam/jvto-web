@@ -5,6 +5,14 @@
 // Per cluster_role_contracts.md Cluster 7: BreadcrumbList universal MH; per-destination
 // reverse-lookup ItemList(tours-including) un-orphans the cluster; travel-guide handoff
 // for Ijen / Bromo / Tumpak Sewu cross-cluster connections.
+import type {
+  ItemList,
+  MonetaryAmount,
+  TouristAttractionLeaf,
+  WebPage,
+  WithContext,
+} from 'schema-dts';
+
 import type { ToursByDestinationItem } from '@/lib/queries/toursByDestination';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -90,13 +98,25 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
 };
 
 /**
+ * TouristAttraction node + `estimatedCost`.
+ *
+ * schema.org defines `estimatedCost` on HowTo / Trip, not on Place subtypes such as
+ * TouristAttraction, so the Bromo park-entrance fee is emitted on a property the type does
+ * not declare. Preserved verbatim (the value is correct and useful to AI answer engines);
+ * flagged in the task report — the spec-correct home for it is an `Offer` / `priceRange`.
+ */
+type TouristAttractionNode = WithContext<TouristAttractionLeaf> & {
+  estimatedCost?: MonetaryAmount;
+};
+
+/**
  * TouristAttraction schema for destination pages.
  * Wiki: feat(schema) 2026-05-18 — commit 58e2642.
  */
-export function buildTouristAttractionSchema(destinationSlug: string): object | null {
+export function buildTouristAttractionSchema(destinationSlug: string): TouristAttractionNode | null {
   const data = TOURIST_ATTRACTION_DATA[destinationSlug];
   if (!data) return null;
-  const attraction: Record<string, unknown> = {
+  const attraction: TouristAttractionNode = {
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
     '@id': `${BASE_URL}/destinations/${destinationSlug}#attraction`,
@@ -175,7 +195,7 @@ export function buildToursIncludingDestSchema({
   destinationSlug: string;
   destinationName: string;
   tours: ToursByDestinationItem[];
-}) {
+}): WithContext<ItemList> | null {
   if (!tours.length) return null;
   return {
     '@context': 'https://schema.org',
@@ -215,7 +235,7 @@ export function buildDestinationTravelGuideHandoffSchema({
 }: {
   destinationSlug: string;
   destinationName: string;
-}) {
+}): WithContext<WebPage> | null {
   const guidePath = DESTINATION_TO_TRAVEL_GUIDE[destinationSlug];
   if (!guidePath) return null;
   return {
