@@ -21,7 +21,12 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
 
-  const hostname = req.nextUrl.hostname;
+  // Prefer X-Forwarded-Host: reverse proxies (Cloudflare, nginx) set this to the
+  // original client-facing hostname even when the Host header reaching this
+  // process has been rewritten to the backend's own address (e.g. 127.0.0.1) --
+  // a real incident where that rewrite silently noindexed all of production.
+  const forwardedHost = req.headers.get("x-forwarded-host");
+  const hostname = (forwardedHost ? forwardedHost.split(":")[0] : req.nextUrl.hostname);
   const isNonProduction = !isProductionHostname(hostname);
 
   // trailing slash
