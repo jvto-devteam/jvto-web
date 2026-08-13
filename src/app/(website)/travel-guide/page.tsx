@@ -1,51 +1,263 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
-import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/static-content";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import {
+  buildEcosystemRouteMetadata,
+  ECOSYSTEM_CONTENT_REVALIDATE_SECONDS,
+  getEcosystemWebsitePage,
+} from "@/lib/ecosystemContent/website";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
 
-// Matches the hardcoded-production-origin convention used by the other
-// travel-guide FAQPage @id builders (safety-on-tours, booking-information, etc.).
+const ROUTE = "/travel-guide";
 const FAQ_SITE_URL = "https://javavolcano-touroperator.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
+
+export const revalidate = ECOSYSTEM_CONTENT_REVALIDATE_SECONDS;
 
 const ARTICLES = [
-  { slug: "ijen-health-screening", label: "Required", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
-  { slug: "mount-bromo-logistics", label: "Logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
-  { slug: "tumpak-sewu-logistics", label: "Logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
-  { slug: "packing-list", label: "Prep", name: "Packing List", desc: "What to bring for Bromo, Ijen, and Tumpak Sewu." },
-  { slug: "packing-and-fitness", label: "Prep", name: "Packing & Fitness", desc: "Layered clothing and fitness expectations." },
-  { slug: "weather-and-closures", label: "Conditions", name: "Weather & Closures", desc: "PVMBG alerts · seasonal access · monsoon notes." },
-  { slug: "safety-on-tours", label: "Safety", name: "Safety on Tours", desc: "Police-led protocols · medical · vehicle standards." },
-  { slug: "booking-information", label: "Process", name: "Booking Information", desc: "Deposits · confirmation · reschedule mechanics." },
-  { slug: "police-escort-for-groups", label: "Authority", name: "Police Escort for Groups", desc: "When and how police escort is arranged." },
-  { slug: "rijik-monthly-closure", label: "Conditions", name: "Ijen Rijik Monthly Closure", desc: "The first-Friday-of-the-month TWA Ijen conservation closure." },
-  { slug: "faq", label: "Reference", name: "FAQ", desc: "Common questions answered in plain language." },
+  {
+    slug: "ijen-health-screening",
+    label: "Required",
+    name: "Ijen Health Screening",
+    desc: "Mandatory medical clearance - gas mask - clinic protocol.",
+  },
+  {
+    slug: "mount-bromo-logistics",
+    label: "Logistics",
+    name: "Mount Bromo Logistics",
+    desc: "Jeep timings - sunrise viewpoints - altitude prep.",
+  },
+  {
+    slug: "tumpak-sewu-logistics",
+    label: "Logistics",
+    name: "Tumpak Sewu Logistics",
+    desc: "Trekking - footwear - river crossing safety.",
+  },
+  {
+    slug: "packing-list",
+    label: "Prep",
+    name: "Packing List",
+    desc: "What to bring for Bromo, Ijen, and Tumpak Sewu.",
+  },
+  {
+    slug: "packing-and-fitness",
+    label: "Prep",
+    name: "Packing & Fitness",
+    desc: "Layered clothing and fitness expectations.",
+  },
+  {
+    slug: "weather-and-closures",
+    label: "Conditions",
+    name: "Weather & Closures",
+    desc: "PVMBG alerts - seasonal access - monsoon notes.",
+  },
+  {
+    slug: "safety-on-tours",
+    label: "Safety",
+    name: "Safety on Tours",
+    desc: "Police-led protocols - medical - vehicle standards.",
+  },
+  {
+    slug: "booking-information",
+    label: "Process",
+    name: "Booking Information",
+    desc: "Deposits - confirmation - reschedule mechanics.",
+  },
+  {
+    slug: "police-escort-for-groups",
+    label: "Authority",
+    name: "Police Escort for Groups",
+    desc: "When and how police escort is arranged.",
+  },
+  {
+    slug: "rijik-monthly-closure",
+    label: "Conditions",
+    name: "Ijen Rijik Monthly Closure",
+    desc: "The first-Friday-of-the-month TWA Ijen conservation closure.",
+  },
+  {
+    slug: "faq",
+    label: "Reference",
+    name: "FAQ",
+    desc: "Common questions answered in plain language.",
+  },
 ] as const;
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const HUB_FAQ_FALLBACK = [
+  {
+    question: "What is the Travel Guide for?",
+    answer:
+      "This is JVTO's planning hub for safety rules, Ijen screening, closures/weather logic, packing/fitness, booking flow, and group escort context. It helps you prepare before departure.",
+  },
+  {
+    question: "What is the binding reference if anything differs?",
+    answer:
+      "Your Official E-Voucher / Invoice (PDF) is the highest authority for your specific booking. If anything differs, follow the document precedence stated on this page and in the policy pack.",
+  },
+  {
+    question: "Which pages should I read before paying?",
+    answer:
+      "Read /travel-guide/booking-information, then /policy/booking-payment-cancellation and /policy/inclusions-exclusions. Use /travel-guide/weather-and-closures for route uncertainty.",
+  },
+  {
+    question: "Where can I find the Ijen screening process?",
+    answer:
+      "Read /travel-guide/ijen-health-screening. Screening is part of Ijen night hike logistics when applicable and may be required by local rules.",
+  },
+  {
+    question: "What should I do close to departure?",
+    answer:
+      "Re-check /travel-guide/packing-and-fitness and /travel-guide/weather-and-closures. If you are unsure how a rule applies, verify via official channels before travel.",
+  },
+] as const;
+
+const ArrowRight = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    aria-hidden="true"
+  >
+    <path d="M5 12h14M13 5l7 7-7 7" />
+  </svg>
+);
+
+const DestinationIcon = () => (
+  <svg
+    className="h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
+function SectionHeading({
+  index,
+  title,
+  accent,
+  label,
+  dark = false,
+}: {
+  index: string;
+  title: string;
+  accent: string;
+  label?: string;
+  dark?: boolean;
+}) {
+  return (
+    <div className="mb-10 flex items-baseline gap-4">
+      <span
+        className={`font-mono text-[11px] font-bold ${
+          dark ? "text-white/50" : "text-jvto-orange"
+        }`}
+      >
+        {index}
+      </span>
+      <div>
+        <h2
+          className={`font-black leading-[1.0] ${
+            dark ? "text-white" : "text-jvto-navy"
+          }`}
+          style={{
+            fontFamily: "Raleway, Inter, sans-serif",
+            fontSize: "clamp(32px, 4.5vw, 52px)",
+          }}
+        >
+          {title} <span className="text-jvto-orange">{accent}</span>
+        </h2>
+        {label ? (
+          <span
+            className={`font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${
+              dark ? "text-white/40" : "text-[#9ca3af]"
+            }`}
+          >
+            {label}
+          </span>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function GuideCard({
+  href,
+  name,
+  desc,
+  action = "Read guide",
+}: {
+  href: string;
+  name: string;
+  desc: string;
+  action?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      prefetch={false}
+      className="group block rounded-[20px] border border-[#E3E0DA] bg-white p-7 transition-all hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)]"
+    >
+      <div className="mb-4">
+        <DestinationIcon />
+      </div>
+      <h3
+        className="mb-3 text-xl font-black text-jvto-navy"
+        style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+      >
+        {name}
+      </h3>
+      <p className="mb-5 text-[15px] font-light leading-relaxed text-[#6b7280]">
+        {desc}
+      </p>
+      <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+        {action} <ArrowRight />
+      </span>
+    </Link>
+  );
+}
+
+function getFaqItems(pageFaq?: { question: string; answer: string }[]) {
+  const source = pageFaq?.length ? pageFaq : HUB_FAQ_FALLBACK;
+  return source.map((item) => ({ q: item.question, a: item.answer }));
+}
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = loadStaticPage("/travel-guide");
-  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
+  const page = await getEcosystemWebsitePage(ROUTE);
+  const title =
+    page?.meta.browserTitle ??
+    "Travel Guide - Safety, Booking & Practical Info | JVTO";
   const description =
     page?.meta.description ??
-    "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
+    "Your practical handbook for traveling with JVTO: bookings, safety, health screening, packing, and more.";
   const h1 = page?.meta.title ?? "Travel Guide";
+  const baseMetadata = page
+    ? buildEcosystemRouteMetadata(page, "website")
+    : ({ title, description } satisfies Metadata);
 
-  return buildStaticRouteMetadata("/travel-guide", {
+  return {
+    ...baseMetadata,
     title,
     description,
     openGraph: {
+      ...baseMetadata.openGraph,
       title,
       description,
-      url: `${siteUrl}/travel-guide`,
+      url: `${siteUrl}${ROUTE}`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
       images: [
         {
-          url: siteUrl + "/assets/img/og/travel-guide.webp",
+          url: `${siteUrl}/assets/img/og/travel-guide.webp`,
           width: 1200,
           height: 630,
           alt: h1,
@@ -56,62 +268,56 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+      images: [`${siteUrl}/assets/img/og/travel-guide.webp`],
     },
-  });
+  };
 }
 
-const ArrowRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-);
-
 export default async function TravelGuideHubPage() {
-  const page = loadStaticPage("/travel-guide");
-  const title = page?.meta.browserTitle ?? page?.meta.title ?? "Travel Guide";
+  const page = await getEcosystemWebsitePage(ROUTE);
+  const title =
+    page?.meta.browserTitle ??
+    "Travel Guide - Safety, Booking & Practical Info | JVTO";
   const description =
     page?.meta.description ??
-    "Your practical handbook for traveling with JVTO — bookings, safety, health screening, packing, and more.";
+    "JVTO's official travel guide: booking steps, safety rules, Ijen health screening, weather and closures, packing list, and police escort for groups.";
   const h1 = page?.meta.title ?? "Travel Guide";
-
-  const faqItems = (page?.faq ?? []).map((f) => ({ q: f.question, a: f.answer }));
+  const faqItems = getFaqItems(page?.faq);
 
   const faqSchema = faqItems.length
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "@id": `${FAQ_SITE_URL}/travel-guide#faq`,
-        mainEntity: faqItems.map((it) => ({
+        "@id": `${FAQ_SITE_URL}${ROUTE}#faq`,
+        mainEntity: faqItems.map((item) => ({
           "@type": "Question",
-          name: it.q,
-          acceptedAnswer: { "@type": "Answer", text: it.a },
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
         })),
       }
     : null;
 
-  const tgHubExtraSchemas = [buildTgHubItemListSchema(), faqSchema].filter(Boolean);
+  const extraSchemas = [buildTgHubItemListSchema(), faqSchema].filter(Boolean);
 
   return (
     <>
       <PageJsonLdCombined
         pageRow={{
-          route: "/travel-guide",
+          route: ROUTE,
           lang: "en",
           seo: { title, description },
           content: { h1 },
         }}
-        extraSchemas={tgHubExtraSchemas}
-        suppressCmsFaq={true}
+        extraSchemas={extraSchemas}
+        suppressCmsFaq
       />
 
-      {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="bg-jvto-navy pt-24 md:pt-36 pb-32 md:pb-44 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-20 items-start">
+      <section className="relative overflow-hidden bg-jvto-navy pb-32 pt-24 md:pb-44 md:pt-36">
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <div className="grid items-start gap-12 md:grid-cols-[1.2fr_1fr] md:gap-20">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
                   Essential Knowledge
                 </span>
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
@@ -119,28 +325,35 @@ export default async function TravelGuideHubPage() {
                 </span>
               </div>
               <h1
-                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
+                className="mb-5 text-5xl font-black leading-[0.98] text-white md:text-7xl"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
               >
-                The{" "}
-                <em className="italic text-jvto-orange">rulebook</em>{" "}
-                before you book.
+                The <em className="italic text-jvto-orange">rulebook</em> before
+                you book.
               </h1>
-              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                Operational certainty starts with being informed. Read our comprehensive guide
-                to understand the boundaries, logistics, and safety protocols of East Java expeditions.
+              <p className="max-w-[48ch] text-lg font-light leading-relaxed text-white/60">
+                Operational certainty starts with being informed. Read our
+                comprehensive guide to understand the boundaries, logistics, and
+                safety protocols of East Java expeditions.
               </p>
             </div>
-            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+            <div className="self-center rounded-[20px] border border-white/10 bg-white/[0.04] p-6 md:mt-10">
               {[
                 { label: "Guide articles", value: "10" },
                 { label: "Last updated", value: "May 2026" },
                 { label: "Reading time", value: "~25 min" },
                 { label: "Author", value: "JVTO ops team" },
               ].map(({ label, value }) => (
-                <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
-                  <strong className="text-white font-semibold text-sm">{value}</strong>
+                <div
+                  key={label}
+                  className="flex items-center justify-between border-b border-white/10 py-3.5 last:border-0"
+                >
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
+                    {label}
+                  </span>
+                  <strong className="text-sm font-semibold text-white">
+                    {value}
+                  </strong>
                 </div>
               ))}
             </div>
@@ -148,220 +361,214 @@ export default async function TravelGuideHubPage() {
         </div>
       </section>
 
-      {/* ── Pre-trip essentials — off-white ───────────────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        className="relative z-[2] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-[#F6F5F2] py-20 md:py-32"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-
-          {/* §01 The rulebook before you book */}
-          <div>
-            <div className="flex items-baseline gap-4 mb-10">
-              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 01</span>
-              <div>
-                <h2
-                  className="font-black text-jvto-navy leading-[1.0]"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-                >
-                  The rulebook <span className="text-jvto-orange">before you book.</span>
-                </h2>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Three boundaries</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  icon: (
-                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                      <path d="M9 12l2 2 4-4" />
-                    </svg>
-                  ),
-                  label: "PVMBG-aligned",
-                  title: "Safety boundaries",
-                  desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
-                },
-                {
-                  icon: (
-                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                  ),
-                  label: "Real screening",
-                  title: "Health requirements",
-                  desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
-                },
-                {
-                  icon: (
-                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-                      <circle cx="17" cy="7" r="3" />
-                    </svg>
-                  ),
-                  label: "Not a broker",
-                  title: "Operational control",
-                  desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
-                },
-              ].map(({ icon, label, title, desc }) => (
-                <div key={title} className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
-                  <div className="mb-4">{icon}</div>
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange mb-1.5">{label}</p>
-                  <h3
-                    className="font-black text-jvto-navy text-xl mb-3"
-                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <SectionHeading
+            index="§ 01"
+            title="The rulebook"
+            accent="before you book."
+            label="Three boundaries"
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: (
+                  <svg
+                    className="h-7 w-7 text-jvto-orange"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
                   >
-                    {title}
-                  </h3>
-                  <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">{desc}</p>
-                </div>
-              ))}
-            </div>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                ),
+                label: "PVMBG-aligned",
+                title: "Safety boundaries",
+                desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
+              },
+              {
+                icon: (
+                  <svg
+                    className="h-7 w-7 text-jvto-orange"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                ),
+                label: "Real screening",
+                title: "Health requirements",
+                desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
+              },
+              {
+                icon: (
+                  <svg
+                    className="h-7 w-7 text-jvto-orange"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                    <circle cx="17" cy="7" r="3" />
+                  </svg>
+                ),
+                label: "Not a broker",
+                title: "Operational control",
+                desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
+              },
+            ].map(({ icon, label, title: cardTitle, desc }) => (
+              <div
+                key={cardTitle}
+                className="rounded-[20px] border border-[#E3E0DA] bg-white p-7"
+              >
+                <div className="mb-4">{icon}</div>
+                <p className="mb-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange">
+                  {label}
+                </p>
+                <h3
+                  className="mb-3 text-xl font-black text-jvto-navy"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                >
+                  {cardTitle}
+                </h3>
+                <p className="text-[15px] font-light leading-relaxed text-[#6b7280]">
+                  {desc}
+                </p>
+              </div>
+            ))}
           </div>
-
         </div>
       </section>
 
-      {/* ── Destination guides §02 — white ─────────────────────────── */}
       <section
-        className="bg-white py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        className="relative z-[3] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-white py-20 md:py-32"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-
-          {/* §02 Destination guides */}
-          <div>
-            <div className="flex items-baseline gap-4 mb-10">
-              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 02</span>
-              <div>
-                <h2
-                  className="font-black text-jvto-navy leading-[1.0]"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-                >
-                  Destination <span className="text-jvto-orange">guides.</span>
-                </h2>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Practical logistics</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { href: "/travel-guide/ijen-health-screening", name: "Ijen Health Screening", desc: "Mandatory medical clearance · gas mask · clinic protocol." },
-                { href: "/travel-guide/mount-bromo-logistics", name: "Mount Bromo Logistics", desc: "Jeep timings · sunrise viewpoints · altitude prep." },
-                { href: "/travel-guide/tumpak-sewu-logistics", name: "Tumpak Sewu Logistics", desc: "Trekking · footwear · river crossing safety." },
-              ].map(({ href, name, desc }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  prefetch={false}
-                  className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
-                >
-                  <div className="mb-4">
-                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                    </svg>
-                  </div>
-                  <h3
-                    className="font-black text-jvto-navy text-xl mb-3"
-                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                  >
-                    {name}
-                  </h3>
-                  <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-5">{desc}</p>
-                  <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
-                    Read guide <ArrowRight />
-                  </span>
-                </Link>
-              ))}
-            </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <SectionHeading
+            index="§ 02"
+            title="Destination"
+            accent="guides."
+            label="Practical logistics"
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <GuideCard
+              href="/travel-guide/ijen-health-screening"
+              name="Ijen Health Screening"
+              desc="Mandatory medical clearance - gas mask - clinic protocol."
+            />
+            <GuideCard
+              href="/travel-guide/mount-bromo-logistics"
+              name="Mount Bromo Logistics"
+              desc="Jeep timings - sunrise viewpoints - altitude prep."
+            />
+            <GuideCard
+              href="/travel-guide/tumpak-sewu-logistics"
+              name="Tumpak Sewu Logistics"
+              desc="Trekking - footwear - river crossing safety."
+            />
           </div>
-
         </div>
       </section>
 
-      {/* ── Practical preparation §03 — off-white ─────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        className="relative z-[4] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-[#F6F5F2] py-20 md:py-32"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-
-          {/* §03 Practical preparation */}
-          <div>
-            <div className="flex items-baseline gap-4 mb-10">
-              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 03</span>
-              <div>
-                <h2
-                  className="font-black text-jvto-navy leading-[1.0]"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-                >
-                  Practical <span className="text-jvto-orange">preparation.</span>
-                </h2>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Climate · gear · connectivity</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Link
-                href="/travel-guide/packing-list"
-                prefetch={false}
-                className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <SectionHeading
+            index="§ 03"
+            title="Practical"
+            accent="preparation."
+            label="Climate - gear - connectivity"
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <GuideCard
+              href="/travel-guide/packing-list"
+              name="What to pack"
+              desc="Layered clothing, hiking shoes, headlamps, and personal medication. See our full list."
+              action="Read packing list"
+            />
+            <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-7">
+              <svg
+                className="mb-4 h-7 w-7 text-jvto-orange"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
               >
-                <div className="mb-4">
-                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <rect x="3" y="7" width="18" height="13" rx="2" />
-                    <path d="M8 7V4a2 2 0 012-2h4a2 2 0 012 2v3" />
-                  </svg>
-                </div>
-                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What to pack</h3>
-                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-5">Layered clothing, hiking shoes, headlamps, and personal medication. See our full list.</p>
-                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">Read packing list <ArrowRight /></span>
-              </Link>
-              <div className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
-                <div className="mb-4">
-                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <path d="M14 4v10a4 4 0 11-4 0V4a2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Altitude &amp; temperature</h3>
-                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-4">Bromo can drop to 0°C. Ijen is at 2,386m. Prepare for cold mornings and thin air.</p>
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Critical info</span>
-              </div>
-              <div className="bg-white rounded-[20px] p-7 border border-[#E3E0DA]">
-                <div className="mb-4">
-                  <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path d="M12 2a15 15 0 010 20" />
-                  </svg>
-                </div>
-                <h3 className="font-black text-jvto-navy text-xl mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Money &amp; connectivity</h3>
-                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-4">Cash is king in remote areas. SIM cards and Wi-Fi availability vary by location.</p>
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Logistics</span>
-              </div>
+                <path d="M14 4v10a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z" />
+              </svg>
+              <h3
+                className="mb-3 text-xl font-black text-jvto-navy"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
+                Altitude & temperature
+              </h3>
+              <p className="mb-4 text-[15px] font-light leading-relaxed text-[#6b7280]">
+                Bromo can drop to 0 C. Ijen is at 2,386m. Prepare for cold
+                mornings and thin air.
+              </p>
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">
+                Critical info
+              </span>
+            </div>
+            <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-7">
+              <svg
+                className="mb-4 h-7 w-7 text-jvto-orange"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15 15 0 0 1 0 20" />
+              </svg>
+              <h3
+                className="mb-3 text-xl font-black text-jvto-navy"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
+                Money & connectivity
+              </h3>
+              <p className="mb-4 text-[15px] font-light leading-relaxed text-[#6b7280]">
+                Cash is king in remote areas. SIM cards and Wi-Fi availability
+                vary by location.
+              </p>
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">
+                Logistics
+              </span>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* ── Operational certainty checklist — navy ─────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        className="relative z-[5] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-jvto-navy py-20 md:py-32"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex items-baseline gap-4 mb-12">
-            <span className="font-mono text-[11px] font-bold text-white/50">§ 04</span>
-            <div>
-              <h2
-                className="font-black text-white leading-[1.0]"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-              >
-                Operational certainty <span className="text-jvto-orange">checklist.</span>
-              </h2>
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40">Three steps</span>
-            </div>
-          </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <SectionHeading
+            index="§ 04"
+            title="Operational certainty"
+            accent="checklist."
+            label="Three steps"
+            dark
+          />
           <ol className="max-w-[64ch]">
             {[
               {
@@ -376,19 +583,24 @@ export default async function TravelGuideHubPage() {
                 title: "Verify your route",
                 desc: "Confirm your private logistics and safety decision boundaries. Know who makes the call if things change.",
               },
-            ].map(({ title, desc }, i) => (
-              <li key={title} className="grid grid-cols-[44px_1fr] gap-4 py-6 border-b border-white/15 first:border-t first:border-t-white/15">
-                <span className="font-mono text-sm font-bold text-jvto-orange bg-jvto-orange/10 rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0">
-                  {i + 1}
+            ].map((item, index) => (
+              <li
+                key={item.title}
+                className="grid grid-cols-[44px_1fr] gap-4 border-b border-white/15 py-6 first:border-t first:border-t-white/15"
+              >
+                <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-jvto-orange/10 font-mono text-sm font-bold text-jvto-orange">
+                  {index + 1}
                 </span>
                 <div>
                   <h4
-                    className="font-bold text-white text-lg mb-1"
+                    className="mb-1 text-lg font-bold text-white"
                     style={{ fontFamily: "Raleway, Inter, sans-serif" }}
                   >
-                    {title}
+                    {item.title}
                   </h4>
-                  <p className="text-white/65 text-[15px] font-light leading-relaxed">{desc}</p>
+                  <p className="text-[15px] font-light leading-relaxed text-white/65">
+                    {item.desc}
+                  </p>
                 </div>
               </li>
             ))}
@@ -396,40 +608,37 @@ export default async function TravelGuideHubPage() {
         </div>
       </section>
 
-      {/* ── All articles + CTA — off-white ────────────────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+        className="relative z-[6] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-[#F6F5F2] py-20 md:py-32"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex items-baseline gap-4 mb-10">
-            <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 05</span>
-            <div>
-              <h2
-                className="font-black text-jvto-navy leading-[1.0]"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-              >
-                All <span className="text-jvto-orange">articles.</span>
-              </h2>
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">{ARTICLES.length} guides</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <SectionHeading
+            index="§ 05"
+            title="All"
+            accent="articles."
+            label={`${ARTICLES.length} guides`}
+          />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {ARTICLES.map(({ slug, label, name, desc }) => (
               <Link
                 key={slug}
                 href={`/travel-guide/${slug}`}
                 prefetch={false}
-                className="group bg-white rounded-[16px] p-6 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
+                className="group block rounded-[16px] border border-[#E3E0DA] bg-white p-6 transition-all hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)]"
               >
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange mb-2">{label}</p>
+                <p className="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange">
+                  {label}
+                </p>
                 <h3
-                  className="font-bold text-jvto-navy text-[17px] mb-2 leading-snug"
+                  className="mb-2 text-[17px] font-bold leading-snug text-jvto-navy"
                   style={{ fontFamily: "Raleway, Inter, sans-serif" }}
                 >
                   {name}
                 </h3>
-                <p className="text-[14px] text-[#6b7280] font-light leading-relaxed mb-4">{desc}</p>
+                <p className="mb-4 text-[14px] font-light leading-relaxed text-[#6b7280]">
+                  {desc}
+                </p>
                 <span className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
                   Open <ArrowRight />
                 </span>
@@ -439,53 +648,45 @@ export default async function TravelGuideHubPage() {
         </div>
       </section>
 
-      {/* ── FAQ §06 — white ────────────────────────────────────────────── */}
-      {faqItems.length > 0 && (
+      {faqItems.length > 0 ? (
         <section
-          className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+          className="relative z-[7] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-white py-20 md:py-28"
           style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
         >
-          <div className="max-w-4xl mx-auto px-6 md:px-8">
-            <div className="flex items-baseline gap-4 mb-2">
-              <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 06</span>
-              <div>
-                <h2
-                  className="font-black text-jvto-navy leading-[1.0]"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
-                >
-                  Frequently <span className="text-jvto-orange">asked.</span>
-                </h2>
-              </div>
-            </div>
+          <div className="mx-auto max-w-4xl px-6 md:px-8">
+            <SectionHeading index="§ 06" title="Frequently" accent="asked." />
             <Faq items={faqItems} title="Travel Guide: Common Questions" />
           </div>
         </section>
-      )}
+      ) : null}
 
-      {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
+        className="relative z-[8] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-jvto-navy py-20 md:py-28"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+        <div className="mx-auto max-w-7xl px-6 text-center md:px-8">
           <h2
-            className="font-black text-white leading-[1.02] mb-8"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 48px)" }}
+            className="mb-8 font-black leading-[1.02] text-white"
+            style={{
+              fontFamily: "Raleway, Inter, sans-serif",
+              fontSize: "clamp(32px, 4.5vw, 48px)",
+            }}
           >
-            Ready for operational <span className="text-jvto-orange">certainty?</span>
+            Ready for operational{" "}
+            <span className="text-jvto-orange">certainty?</span>
           </h2>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/tours"
               prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-[12px] bg-jvto-orange px-8 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#C4520A]"
             >
               Explore tours <ArrowRight />
             </Link>
             <Link
               href="/verify-jvto"
               prefetch={false}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-[12px] border border-white/20 px-8 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white/10"
             >
               Verify JVTO
             </Link>
