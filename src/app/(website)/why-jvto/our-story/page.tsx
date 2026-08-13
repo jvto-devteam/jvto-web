@@ -52,6 +52,7 @@ export default async function OurStoryPage() {
   const howWeGotHere = sections.find((s) => s.id === "how-we-got-here-1");
   const whyPrivate = sections.find((s) => s.id === "why-private-only-2");
   const evidenceChain = sections.find((s) => s.id === "the-evidence-chain-3");
+  const trustAnchor = sections.find((s) => s.id === "trust-anchor-4");
   const heroRows = [
     { label: "Owner", value: page?.meta.owner ?? "company" },
     { label: "Last reviewed", value: page?.meta.lastReviewed ?? "2026-08-04" },
@@ -184,7 +185,7 @@ export default async function OurStoryPage() {
             {/* Article body — driven from content/pages/why-jvto/our-story.json */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0 jvto-prose">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-4 block">
-                Company bio
+                {bio?.title ?? "Company Bio"}
               </span>
               {bio && <MarkdownRenderer markdown={sectionBody(bio)} />}
 
@@ -254,9 +255,29 @@ export default async function OurStoryPage() {
         </section>
       )}
 
+      {/* ── Trust anchor — from ecosystem content ─────────────────────── */}
+      {trustAnchor && (
+        <section
+          className="bg-[#F6F5F2] py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="bg-white rounded-[20px] p-8 md:p-10 border border-[#E3E0DA] jvto-prose">
+              <h2
+                className="text-2xl md:text-[1.875rem] font-bold text-jvto-navy mb-5"
+                style={{ letterSpacing: "-0.015em" }}
+              >
+                {trustAnchor.title ?? "Trust Anchor"}
+              </h2>
+              <MarkdownRenderer markdown={sectionBody(trustAnchor)} />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
