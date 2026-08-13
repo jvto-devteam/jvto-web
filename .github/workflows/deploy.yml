@@ -17,6 +17,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            set -eu
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm use 20
@@ -24,7 +25,15 @@ jobs:
             git fetch origin
             git checkout live
             git reset --hard origin/live
-            rm -rf .next
+            ECOSYSTEM_REVALIDATE_SECRET='${{ secrets.ECOSYSTEM_REVALIDATE_SECRET }}'
+            if [ -n "$ECOSYSTEM_REVALIDATE_SECRET" ]; then
+              touch .env
+              if grep -q '^ECOSYSTEM_REVALIDATE_SECRET=' .env; then
+                sed -i "s|^ECOSYSTEM_REVALIDATE_SECRET=.*|ECOSYSTEM_REVALIDATE_SECRET=$ECOSYSTEM_REVALIDATE_SECRET|" .env
+              else
+                printf '\nECOSYSTEM_REVALIDATE_SECRET=%s\n' "$ECOSYSTEM_REVALIDATE_SECRET" >> .env
+              fi
+            fi
             npm ci
             npm run build
             pm2 restart jvto-web

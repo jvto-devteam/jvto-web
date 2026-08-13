@@ -1,26 +1,5 @@
-// app/layout.tsx
-import { Inter, Raleway, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script"; // Import Script dari Next.js
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-  variable: "--font-inter",
-});
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  display: "swap",
-  variable: "--font-raleway",
-});
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
-});
 
 export default function RootLayout({
   children,
@@ -30,11 +9,7 @@ export default function RootLayout({
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${raleway.variable} ${jetbrainsMono.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Pastikan menggunakan komponen Script dari next/script */}
         {gtmId && (
@@ -52,10 +27,7 @@ export default function RootLayout({
         )}
       </head>
       {/* Tambahkan suppressHydrationWarning di body jika masih error */}
-      <body
-        className={`${inter.className} antialiased`}
-        suppressHydrationWarning
-      >
+      <body className="antialiased" suppressHydrationWarning>
         {gtmId && (
           <noscript
             suppressHydrationWarning // Kunci utama menghindari error hydration
