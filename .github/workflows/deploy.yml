@@ -24,15 +24,6 @@ jobs:
             git fetch origin
             git checkout live
             git reset --hard origin/live
-            ECOSYSTEM_REVALIDATE_SECRET='${{ secrets.ECOSYSTEM_REVALIDATE_SECRET }}'
-            if [ -n "$ECOSYSTEM_REVALIDATE_SECRET" ]; then
-              touch .env
-              if grep -q '^ECOSYSTEM_REVALIDATE_SECRET=' .env; then
-                sed -i "s|^ECOSYSTEM_REVALIDATE_SECRET=.*|ECOSYSTEM_REVALIDATE_SECRET=$ECOSYSTEM_REVALIDATE_SECRET|" .env
-              else
-                printf '\nECOSYSTEM_REVALIDATE_SECRET=%s\n' "$ECOSYSTEM_REVALIDATE_SECRET" >> .env
-              fi
-            fi
             rm -rf .next
             npm ci
             npm run build
