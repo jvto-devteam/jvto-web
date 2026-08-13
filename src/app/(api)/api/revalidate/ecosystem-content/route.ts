@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
   const routes = Array.from(new Set(requestedRoutes));
 
-  revalidateTag("jvto-ekosistem-content");
+  revalidateTag("jvto-ekosistem-content", "max");
   for (const route of routes) {
     revalidatePath(route);
   }
