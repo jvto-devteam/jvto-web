@@ -4,6 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
 
@@ -51,6 +52,17 @@ export default async function CommunityStandardsPage() {
   const sulfurEtiquette = sections.find((s) => s.id === "sulfur-miner-etiquette-ijen-routes-2");
   const localBoys = sections.find((s) => s.id === "local-boys-policy-community-employment-3");
   const dontDo = sections.find((s) => s.id === "what-we-don-t-do-4");
+  const policyPages = await Promise.all([
+    loadStaticPage("/policy/booking-payment-cancellation"),
+    loadStaticPage("/policy/inclusions-exclusions"),
+    loadStaticPage("/policy/privacy"),
+  ]);
+  const heroRows = [
+    { label: "Owner", value: page?.meta.owner ?? "company" },
+    { label: "Last reviewed", value: page?.meta.lastReviewed ?? "2026-08-04" },
+    { label: "Status", value: page?.meta.status ?? "published" },
+    { label: "Trust anchor", value: sections.find((s) => s.id === "trust-anchor-5")?.title ?? "Trust Anchor" },
+  ];
   const faqItems = page?.faq ?? [];
   const faqSchema = faqItems.length
     ? {
@@ -116,21 +128,16 @@ export default async function CommunityStandardsPage() {
                 className="text-4xl md:text-[3.75rem] font-black text-white leading-[0.98] mb-6"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                Read the rulebook{" "}
-                <span className="text-jvto-orange italic">before you book.</span>
+                {page?.meta.title ?? "Community Standards"}
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {page?.meta.description ??
+                {whyLede(page) ||
+                  page?.meta.description ||
                   "JVTO publishes its rules, policies, and commitments before you pay anything. Guests who understand the terms before booking have better trips."}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Policies", value: "Published pre-booking" },
-                { label: "Binding document", value: "E-Voucher PDF" },
-                { label: "Ijen briefing", value: "Miner etiquette" },
-                { label: "Employment", value: "Local Boys · ecotourism-aligned" },
-              ].map(({ label, value }) => (
+              {heroRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
                   <strong className="text-white text-sm font-semibold text-right">{value}</strong>
@@ -197,8 +204,8 @@ export default async function CommunityStandardsPage() {
                         <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
                       </svg>
                     ),
-                    title: "Booking, Payment & Cancellation",
-                    desc: "How bookings are confirmed, deposit and balance timelines, the 48-hour cancellation cut-off, force-majeure procedures, and the Package Credit system. The Official E-Voucher / Invoice PDF is the binding document.",
+                    title: policyPages[0]?.meta.title ?? "Booking, Payment & Cancellation",
+                    desc: policyPages[0]?.meta.description ?? "How bookings are confirmed, deposit and balance timelines, cancellation, force majeure, and package credit terms.",
                     meta: "/policy/booking-payment-cancellation →",
                   },
                   {
@@ -209,8 +216,8 @@ export default async function CommunityStandardsPage() {
                         <path d="M14 2v6h6M9 15l2 2 4-4" />
                       </svg>
                     ),
-                    title: "Inclusions & Exclusions",
-                    desc: 'A written list of what is covered in the price and what is not. The write-it-to-bind-it rule: if it is not on the voucher, it is not included. This is what makes the "no surprise costs" claim verifiable.',
+                    title: policyPages[1]?.meta.title ?? "Inclusions & Exclusions",
+                    desc: policyPages[1]?.meta.description ?? "A written list of what is covered in the price and what is not.",
                     meta: "/policy/inclusions-exclusions →",
                   },
                   {
@@ -220,8 +227,8 @@ export default async function CommunityStandardsPage() {
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                       </svg>
                     ),
-                    title: "Privacy & Data Protection",
-                    desc: "What data we collect, how it is used, and who it is shared with. Payment cards are processed through a PCI DSS-compliant gateway. JVTO does not store full card numbers, CVVs, or banking credentials.",
+                    title: policyPages[2]?.meta.title ?? "Privacy & Data Protection",
+                    desc: policyPages[2]?.meta.description ?? "What data we collect, how it is used, and who it is shared with.",
                     meta: "/policy/privacy →",
                   },
                 ].map((tile) => (

@@ -11,6 +11,7 @@ import {
 import { buildTeamItemListSchema, buildTeamAboutPageSchema } from "@/lib/schemas/buildTeamSchemas";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
+import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 3600;
 
@@ -157,11 +158,11 @@ export default async function OurTeamPage() {
                 className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                {counts.total} named crew.{" "}
-                <em className="not-italic text-white/90">No freelancers.</em>
+                {page?.meta.title ?? "Local Team, Daily Execution"}
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                {counts.guides} guides and {counts.drivers} drivers — individually named, photographed, and license-linked. All hold HPWKI KTA membership credentials from BBKSDA-supervised volcanic safety training.
+                {whyLede(page) ||
+                  `${counts.guides} guides and ${counts.drivers} drivers — individually named, photographed, and license-linked.`}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">

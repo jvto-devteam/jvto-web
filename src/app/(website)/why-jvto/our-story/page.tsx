@@ -4,6 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
 
@@ -51,6 +52,12 @@ export default async function OurStoryPage() {
   const howWeGotHere = sections.find((s) => s.id === "how-we-got-here-1");
   const whyPrivate = sections.find((s) => s.id === "why-private-only-2");
   const evidenceChain = sections.find((s) => s.id === "the-evidence-chain-3");
+  const heroRows = [
+    { label: "Owner", value: page?.meta.owner ?? "company" },
+    { label: "Last reviewed", value: page?.meta.lastReviewed ?? "2026-08-04" },
+    { label: "Status", value: page?.meta.status ?? "published" },
+    { label: "Evidence span", value: evidenceChain?.title ?? "The Evidence Chain" },
+  ];
   const faqItems = page?.faq ?? [];
   const faqSchema = faqItems.length
     ? {
@@ -116,21 +123,16 @@ export default async function OurStoryPage() {
                 className="text-4xl md:text-[3.75rem] font-black text-white leading-[0.98] mb-6"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                From a homestay to a{" "}
-                <span className="text-jvto-orange italic">licensed operator.</span>
+                {page?.meta.title ?? "Our Story"}
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {page?.meta.description ??
+                {whyLede(page) ||
+                  page?.meta.description ||
                   "JVTO grew from a humble local guesthouse in Bondowoso into a licensed tour operator shaped by the Tourist Police experience of our founder, Mr. Sam."}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "2015", value: "Ijen Bondowoso Homestay" },
-                { label: "2016", value: "PT incorporated" },
-                { label: "2023", value: "TDUP formalized" },
-                { label: "Evidence span", value: "11 years" },
-              ].map(({ label, value }) => (
+              {heroRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
                   <strong className="text-white text-sm font-semibold text-right">{value}</strong>
@@ -229,7 +231,7 @@ export default async function OurStoryPage() {
                 className="font-black text-white leading-tight mb-2"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 4vw, 48px)" }}
               >
-                The evidence <span className="text-jvto-orange">chain.</span>
+                {evidenceChain.title ?? "The Evidence Chain"}
               </h2>
               <span className="font-mono text-[11px] text-white/55">Third-party records</span>
             </div>

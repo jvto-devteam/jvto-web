@@ -4,6 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
 
@@ -87,6 +88,13 @@ export default async function TheJvtoDifferencePage() {
   const page = await loadStaticPage(ROUTE);
   const sections = page?.sections ?? [];
   const diffSections = sections.filter((s) => /^\d-/.test(s.id));
+  const heroRows = diffSections.slice(0, 4).map((section) => {
+    const [label, ...rest] = (section.title ?? "").split(".");
+    return {
+      label: label.trim().padStart(2, "0"),
+      value: rest.join(".").trim() || section.title || "",
+    };
+  });
   const faqItems = page?.faq ?? [];
   const faqSchema = faqItems.length
     ? {
@@ -152,20 +160,16 @@ export default async function TheJvtoDifferencePage() {
                 className="text-4xl md:text-[3.75rem] font-black text-white leading-[0.98] mb-6"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                The JVTO <span className="text-jvto-orange italic">difference.</span>
+                {page?.meta.title ?? "The JVTO Difference"}
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {page?.meta.description ??
+                {whyLede(page) ||
+                  page?.meta.description ||
                   "Six things that make JVTO operationally different from other East Java volcano tour operators. Each one is backed by a verifiable credential — not marketing language."}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "01 · Authority", value: "Police-led" },
-                { label: "02 · Format", value: "100% private" },
-                { label: "05 · Licenses", value: "Proof library" },
-                { label: "06 · Plan B", value: "Written SOP" },
-              ].map(({ label, value }) => (
+              {heroRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
                   <strong className="text-white text-sm font-semibold text-right">{value}</strong>

@@ -4,7 +4,15 @@ import { useState, useEffect } from "react";
 
 // ── §01 Diff Chips ────────────────────────────────────────────────
 
-const DIFF_DATA = [
+export type DiffPanelItem = {
+  num?: string;
+  label: string;
+  title: string;
+  text: string;
+  proof?: string;
+};
+
+const DIFF_DATA: DiffPanelItem[] = [
   { num: "01", label: "Police-led", title: "Police-Led Safety Authority", text: "Our founder is an active officer in Ditpamobvit — the directorate securing vital objects including Ijen Crater. No other East Java operator is led by an active Tourist Police officer.", proof: "SPRIN documents + independent press" },
   { num: "02", label: "100% private", title: "100% Private Tours", text: "A dedicated vehicle, driver, and guide assigned to your group only. No shared groups, no mixed itineraries, no timing compromises.", proof: "NIB + TDUP, OSS-verifiable" },
   { num: "03", label: "All-inclusive", title: "All-Inclusive Clarity", text: "Transport, accommodation, permits, water and safety gear written into the price. If it is not on the E-Voucher, it is not included.", proof: "Inclusions & Exclusions Policy" },
@@ -13,15 +21,16 @@ const DIFF_DATA = [
   { num: "06", label: "Plan B", title: "Plan B Framework", text: "Documented alternative routes activated when a site closes or conditions change — a written SOP published before you book.", proof: "Travel Guide, pre-booking" },
 ] as const;
 
-export function DiffChipsPanel() {
+export function DiffChipsPanel({ items = DIFF_DATA }: { items?: DiffPanelItem[] }) {
   const [active, setActive] = useState(0);
+  const data = items.length ? items : DIFF_DATA;
 
   return (
     <>
       <div className="flex flex-wrap gap-2 mb-5">
-        {DIFF_DATA.map((item, i) => (
+        {data.map((item, i) => (
           <button
-            key={item.num}
+            key={item.num ?? item.label}
             onClick={() => setActive(i)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[12px] font-semibold transition-colors cursor-pointer ${
               i === active
@@ -29,14 +38,14 @@ export function DiffChipsPanel() {
                 : "bg-white border-[#E3E0DA] text-jvto-navy hover:border-jvto-orange/50"
             }`}
           >
-            <span className={`text-[10px] font-mono ${i === active ? "text-white/70" : "text-[#9ca3af]"}`}>{item.num}</span>
+            <span className={`text-[10px] font-mono ${i === active ? "text-white/70" : "text-[#9ca3af]"}`}>{item.num ?? String(i + 1).padStart(2, "0")}</span>
             {item.label}
           </button>
         ))}
       </div>
-      {DIFF_DATA.map((item, i) => (
+      {data.map((item, i) => (
         <div
-          key={item.num}
+          key={item.num ?? item.label}
           className="bg-[#F6F5F2] rounded-[16px] p-5 mb-5"
           style={{ display: i === active ? "block" : "none" }}
         >
@@ -48,7 +57,7 @@ export function DiffChipsPanel() {
           </h4>
           <p className="text-[13px] text-[#6b7280] font-light leading-relaxed mb-3">{item.text}</p>
           <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-jvto-orange">
-            Proof · {item.proof}
+            {item.proof ?? "Proof"}
           </span>
         </div>
       ))}
@@ -58,35 +67,41 @@ export function DiffChipsPanel() {
 
 // ── §02 Quote Rotator ─────────────────────────────────────────────
 
-const QUOTES: [string, string][] = [
-  ["I don't think there is a better tour guide anywhere than Anjas — head and shoulders above the rest.", "John Joyce · Trustpilot · guide Anjas"],
-  ["Being a solo traveler it was safe and stress free with JVTO.", "Karthika TS · Trustpilot"],
-  ["When we went down the steep crater, he held our hands to prevent us from falling.", "Wing Shan Lui · Google · guide Rendi"],
-  ["One of our friends was injured and they helped him as well. Fantastic planning.", "Jiang Tianjian · Trustpilot"],
-  ["Our driver Yandi was really reliable and friendly. He briefed us on what to expect.", "Divya_Stri · Trustpilot · driver Yandi"],
+export type QuoteItem = {
+  text: string;
+  attribution: string;
+};
+
+const QUOTES: QuoteItem[] = [
+  { text: "I don't think there is a better tour guide anywhere than Anjas — head and shoulders above the rest.", attribution: "John Joyce · Trustpilot · guide Anjas" },
+  { text: "Being a solo traveler it was safe and stress free with JVTO.", attribution: "Karthika TS · Trustpilot" },
+  { text: "When we went down the steep crater, he held our hands to prevent us from falling.", attribution: "Wing Shan Lui · Google · guide Rendi" },
+  { text: "One of our friends was injured and they helped him as well. Fantastic planning.", attribution: "Jiang Tianjian · Trustpilot" },
+  { text: "Our driver Yandi was really reliable and friendly. He briefed us on what to expect.", attribution: "Divya_Stri · Trustpilot · driver Yandi" },
 ];
 
-export function QuoteRotator() {
+export function QuoteRotator({ quotes = QUOTES }: { quotes?: QuoteItem[] }) {
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(true);
+  const data = quotes.length ? quotes : QUOTES;
 
   useEffect(() => {
     const timer = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
-        setActive((prev) => (prev + 1) % QUOTES.length);
+        setActive((prev) => (prev + 1) % data.length);
         setVisible(true);
       }, 250);
     }, 4200);
     return () => clearInterval(timer);
-  }, []);
+  }, [data.length]);
 
   return (
     <div className="bg-jvto-navy rounded-[16px] p-5 mb-5 relative overflow-hidden">
       <div className="text-white/20 text-[48px] font-black leading-none mb-1 select-none" aria-hidden="true">&ldquo;</div>
-      {QUOTES.map(([text, who], i) => (
+      {data.map(({ text, attribution }, i) => (
         <div
-          key={who}
+          key={attribution}
           style={{
             display: i === active ? "block" : "none",
             opacity: i === active && visible ? 1 : i === active ? 0 : undefined,
@@ -96,12 +111,12 @@ export function QuoteRotator() {
             {text}
           </p>
           <footer className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-orange transition-opacity duration-300">
-            {who}
+            {attribution}
           </footer>
         </div>
       ))}
       <div className="absolute right-5 bottom-4 flex gap-1.5">
-        {QUOTES.map((_, i) => (
+        {data.map((_, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
@@ -117,19 +132,25 @@ export function QuoteRotator() {
 
 // ── §05 Standards Accordion ───────────────────────────────────────
 
-const STANDARDS_DATA = [
+export type StandardItem = {
+  q: string;
+  a: string;
+};
+
+const STANDARDS_DATA: StandardItem[] = [
   { q: "We don't operate shared groups", a: "Every tour is private to your booking — a dedicated vehicle, driver, and guide for your group alone." },
   { q: "We don't make verbal promises", a: "The E-Voucher is the binding document. If it is not on the voucher, it is not included." },
   { q: "We don't guarantee natural phenomena", a: "Blue Fire depends on weather and gas activity. We plan around the viewing window — we don't promise outcomes we can't control." },
   { q: "We don't source crew from marketplaces", a: "Every guide and driver is a named, registered team member recruited from local communities — aligned with national ecotourism principles (INDECON)." },
 ] as const;
 
-export function StandardsAccordion() {
+export function StandardsAccordion({ items = STANDARDS_DATA }: { items?: StandardItem[] }) {
   const [open, setOpen] = useState<number | null>(null);
+  const data = items.length ? items : STANDARDS_DATA;
 
   return (
     <div className="space-y-2 mb-6">
-      {STANDARDS_DATA.map(({ q, a }, i) => (
+      {data.map(({ q, a }, i) => (
         <div key={q} className="bg-white border border-[#E3E0DA] rounded-[14px] overflow-hidden">
           <button
             onClick={() => setOpen(open === i ? null : i)}
@@ -165,19 +186,27 @@ export function StandardsAccordion() {
 
 // ── §03 Story Tabs ────────────────────────────────────────────────
 
-const STORY_TABS_DATA = [
+export type StoryTabItem = {
+  year: string;
+  label: string;
+  title: string;
+  text: string;
+};
+
+const STORY_TABS_DATA: StoryTabItem[] = [
   { year: "'15", label: "Homestay", title: "The Guesthouse", text: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102 — the same address JVTO operates from today. Booking.com guests rate the property 9.4 / 10." },
   { year: "'16", label: "PT formed", title: "PT Java Volcano Rendezvous", text: "The company is incorporated on 2016-01-01. Stefan Loose Reiseführer Indonesien (4th Ed., 2018) names “Agung” as operator at the same address — an independent German guidebook." },
   { year: "'23", label: "TDUP", title: "TDUP Formalization", text: "The Tourism Business Permit is formalized, completing the regulatory chain. NIB 1102230032918 is OSS-verifiable through Indonesia’s government system." },
 ] as const;
 
-export function StoryTabsPanel() {
+export function StoryTabsPanel({ items = STORY_TABS_DATA }: { items?: StoryTabItem[] }) {
   const [active, setActive] = useState(0);
+  const data = items.length ? items : STORY_TABS_DATA;
 
   return (
     <>
       <div className="flex gap-2 mb-5">
-        {STORY_TABS_DATA.map((t, i) => (
+        {data.map((t, i) => (
           <button
             key={t.year}
             onClick={() => setActive(i)}
@@ -190,7 +219,7 @@ export function StoryTabsPanel() {
           </button>
         ))}
       </div>
-      {STORY_TABS_DATA.map((t, i) => (
+      {data.map((t, i) => (
         <div
           key={t.year}
           className="bg-white/[0.06] rounded-[14px] p-5"

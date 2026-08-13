@@ -8,6 +8,8 @@ import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
+import { REVIEW_PLATFORMS, REVIEW_THEMES } from "@/lib/jvtoReviews";
+import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
 
@@ -20,32 +22,6 @@ const WHY_JVTO_NAV = [
   { href: "/why-jvto/our-story", label: "Our Story" },
   { href: "/why-jvto/our-team", label: "Our Team" },
   { href: "/why-jvto/community-standards", label: "Community Standards" },
-];
-
-const PLATFORMS = [
-  { name: "Trustpilot", score: "4.8", count: "51 reviews", verified: "Verified 2026-05-09", href: "https://trustpilot.com/review/javavolcano-touroperator.com" },
-  { name: "Google Maps", score: "4.90", count: "123 reviews", verified: "Verified 2026-05-26", href: "https://www.google.com/maps?cid=1266403973589689021" },
-  { name: "TripAdvisor", score: "4.95", count: "21 reviews", verified: "Verified 2026-05-12", href: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html" },
-];
-
-const THEMES = [
-  { code: "T1 · Private Tour Quality", title: "No rush, no compromises on timing.", body: "Guests repeatedly mention dedicated private guides and vehicles — no adjustments because another group needs to be somewhere. Private structure lets the crew respond to the actual group, not a fixed schedule for strangers." },
-  { code: "T2 · Guide Knowledge & English", title: "Named guides, route-specific knowledge.", body: "Reviews frequently name individual guides and praise English-speaking ability alongside route knowledge. Guides are credited for pre-activity briefings, proactive photography, and flexibility for impromptu stops — consistent across platforms." },
-  { code: "T3 · Ijen Experience Quality", title: "The hike, the knowledge, the preparation.", body: "Guests on Ijen routes describe hiking to the crater in pre-dawn hours. Blue Fire is a natural phenomenon subject to weather and gas activity. Reviews describe the experience and safety prep — not a guarantee of any specific sighting." },
-  { code: "T4 · Safety & Trust", title: "Prepared, well-informed, before each activity.", body: "The founder's Tourist Police background is referenced directly in some reviews. Guests on multi-day tours describe guides responding effectively to changed conditions — including one incident where an injured group member was assisted." },
-  { code: "T5 · All-Inclusive Clarity", title: "Costs as described — no surprises.", body: "Guests note no unexpected fees at checkpoints, no mid-trip negotiation for tickets or logistics. The written-inclusions model means guests arrive knowing exactly what is covered." },
-];
-
-const EXCERPTS = [
-  { tag: "T1 · Family tour · guide Taufik", quote: '"Hiked up mount ijen with a 12 and 15 years old in the wee hours of morning… Taufik ensure all briefing is always done prior to all trips and flexible with timing. When i wanted to eat local durians, he even dropped by a well known durian stall."', name: "Kevin Foo", source: "Trustpilot" },
-  { tag: "T2 · Named guide · Anjas", quote: '"I don\'t think there is a better tour guide anywhere than Anjas — head and shoulders above the rest."', name: "John Joyce", source: "Trustpilot" },
-  { tag: "T2 · Guide Fauzi · driver Fredi", quote: '"Fauzi was very attentive to our needs, ensured we were comfortable and safe at all times, and always went the extra mile to help us."', name: "Han Waye", source: "Trustpilot · May 2026" },
-  { tag: "T2 · Steep terrain · guide Rendi", quote: '"When we went down the steep crater, he held our hands to prevent us from falling."', name: "Wing Shan Lui", source: "Google · KTA-G-2024-002" },
-  { tag: "T3 · Ijen route · guide Ahboy", quote: '"Ahboy was a phenomenal Ijen guide — knowledgeable, went out of his way for safety, logistics, equipment."', name: "Jason Li", source: "Trustpilot · KTA-G-2024-004" },
-  { tag: "T4 · Solo traveler", quote: '"Being a solo traveler it was safe and stress free with JVTO."', name: "Karthika TS", source: "Trustpilot" },
-  { tag: "T4 · Emergency handling", quote: '"One of our friends was injured and they helped him as well. Fantastic planning."', name: "Jiang Tianjian", source: "Trustpilot" },
-  { tag: "T1/T2 · Guide Kiki · driver Derry", quote: '"Kiki and Derry made the whole experience really enjoyable. Service was excellent, vibes were immaculate, and were really accommodating with our requests. 10/10"', name: "Yong Xiang Leow", source: "Trustpilot · May 2026" },
-  { tag: "T5 · Logistics · driver Yandi", quote: '"Our driver Yandi was really reliable and friendly. He briefed us on what to expect."', name: "Divya_Stri", source: "Trustpilot · KTA-D-2024-003" },
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -74,6 +50,12 @@ export default async function WhyJvtoReviewsPage() {
   // Preserved DB exception: real review records feed the individual Review
   // JSON-LD nodes. Dynamic data is allowed to stay DB-owned.
   const reviewsData = await getReviewsForSchema().catch(() => []);
+  const excerptReviews = reviewsData.slice(0, 8).map((review) => ({
+    tag: `${review.platform} · ${review.star ?? 5} star`,
+    quote: review.review,
+    name: review.customer_name,
+    source: `${review.platform} · ${review.date.toISOString().slice(0, 10)}`,
+  }));
   const extraSchemas = [
     buildWhyJvtoReviewsAggregateRatingSchema(),
     ...buildIndividualReviewSchemas(reviewsData),
@@ -112,18 +94,21 @@ export default async function WhyJvtoReviewsPage() {
                 className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                Patterns, not a <span className="italic">quote wall.</span>
+                {page?.meta.title ?? "Guest Reviews"}
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts. Each theme maps to a core operational claim.
+                {whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts."}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
-                { label: "Trustpilot", value: "4.8 / 5 · 51" },
-                { label: "Google Maps", value: "4.90 / 5 · 123" },
-                { label: "TripAdvisor", value: "4.95 / 5 · 21" },
-                { label: "Themes", value: "5 patterns" },
+                ...REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count)
+                  .slice(0, 3)
+                  .map((platform) => ({
+                    label: platform.platform,
+                    value: `${platform.rating} / 5 · ${platform.count}`,
+                  })),
+                { label: "Themes", value: `${REVIEW_THEMES.length} patterns` },
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
@@ -176,11 +161,11 @@ export default async function WhyJvtoReviewsPage() {
                 Verified across three platforms.
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-5">
-                {PLATFORMS.map((p) => (
-                  <div key={p.name} className="bg-white border border-[#E3E0DA] rounded-xl p-9 flex flex-col gap-2" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#9ca3af]">{p.name}</span>
+                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((p) => (
+                  <div key={p.platform} className="bg-white border border-[#E3E0DA] rounded-xl p-9 flex flex-col gap-2" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
+                    <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#9ca3af]">{p.platform}</span>
                     <span className="font-black text-jvto-navy leading-none" style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "56px", letterSpacing: "-0.03em" }}>
-                      {p.score}
+                      {p.rating}
                       <small className="text-[22px] font-medium text-[#9ca3af]"> / 5</small>
                     </span>
                     <div className="flex gap-0.5 text-[#F5A623]">
@@ -189,8 +174,8 @@ export default async function WhyJvtoReviewsPage() {
                       ))}
                     </div>
                     <div className="font-mono text-[11px] tracking-[0.14em] text-[#9ca3af] mt-auto pt-4 flex justify-between" style={{ borderTop: "1px solid #E3E0DA" }}>
-                      <span>{p.count}</span>
-                      <span>{p.verified}</span>
+                      <span>{p.count} reviews</span>
+                      <span>{p.lastVerified ? `Verified ${p.lastVerified}` : "Verified externally"}</span>
                     </div>
                   </div>
                 ))}
@@ -198,12 +183,12 @@ export default async function WhyJvtoReviewsPage() {
 
               <p className="font-mono text-[11px] tracking-[0.12em] text-[#9ca3af] leading-[1.9] mb-14">
                 Live profiles:{" "}
-                {PLATFORMS.map((p, i) => (
-                  <span key={p.name}>
-                    <a href={p.href} target="_blank" rel="noopener noreferrer" className="text-jvto-orange border-b border-current hover:opacity-75 transition-opacity">
-                      {p.name}
+                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((p, i) => (
+                  <span key={p.platform}>
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-jvto-orange border-b border-current hover:opacity-75 transition-opacity">
+                      {p.platform}
                     </a>
-                    {i < PLATFORMS.length - 1 && " · "}
+                    {i < 2 && " · "}
                   </span>
                 ))}
               </p>
@@ -215,11 +200,11 @@ export default async function WhyJvtoReviewsPage() {
                 Five recurring patterns.
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-                {THEMES.map((t) => (
-                  <div key={t.code} className="bg-white border border-[#E3E0DA] rounded-xl p-8 flex flex-col gap-3" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
-                    <span className="font-mono text-[11px] font-bold tracking-[0.22em] text-jvto-orange">{t.code}</span>
-                    <h3 className="font-bold text-jvto-navy" style={{ fontSize: "22px", letterSpacing: "-0.01em", lineHeight: 1.15 }}>{t.title}</h3>
-                    <p className="text-[#6b7280] text-[14.5px] font-light leading-relaxed">{t.body}</p>
+                {REVIEW_THEMES.map((t) => (
+                  <div key={t.themeId} className="bg-white border border-[#E3E0DA] rounded-xl p-8 flex flex-col gap-3" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
+                    <span className="font-mono text-[11px] font-bold tracking-[0.22em] text-jvto-orange">{t.themeId} · {t.claimLinkage}</span>
+                    <h3 className="font-bold text-jvto-navy" style={{ fontSize: "22px", letterSpacing: "-0.01em", lineHeight: 1.15 }}>{t.theme}</h3>
+                    <p className="text-[#6b7280] text-[14.5px] font-light leading-relaxed">{t.pattern}</p>
                   </div>
                 ))}
               </div>
@@ -231,7 +216,7 @@ export default async function WhyJvtoReviewsPage() {
                 In guests&apos; own words.
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {EXCERPTS.map((e, i) => (
+                {excerptReviews.map((e, i) => (
                   <div key={i} className="flex flex-col gap-2">
                     <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">{e.tag}</span>
                     <p className="text-jvto-navy leading-snug" style={{ fontSize: "19px", lineHeight: 1.4 }}>{e.quote}</p>

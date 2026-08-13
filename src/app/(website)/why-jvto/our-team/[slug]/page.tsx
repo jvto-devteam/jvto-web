@@ -75,9 +75,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const member = getPublicCrewByCode(slug);
   if (!member) return { title: "Team Member Not Found" };
+  const page = await loadStaticPage(`/why-jvto/our-team/${slug}`);
   const jobTitle = crewJobTitle(member.role);
-  const title = `${member.name} — JVTO ${jobTitle}`;
-  const description = `${member.name} is a KTA-holding JVTO ${jobTitle.toLowerCase()} for East Java volcano tours (Bromo, Ijen, Tumpak Sewu).`;
+  const title = page?.meta.browserTitle ?? page?.meta.title ?? `${member.name} — JVTO ${jobTitle}`;
+  const description =
+    page?.meta.description ??
+    `${member.name} is a KTA-holding JVTO ${jobTitle.toLowerCase()} for East Java volcano tours (Bromo, Ijen, Tumpak Sewu).`;
   return {
     title,
     description,
@@ -90,6 +93,7 @@ export default async function CrewMemberPage({ params }: Props) {
   const member = getPublicCrewByCode(slug);
   if (!member) notFound();
 
+  const ecosystemPage = await loadStaticPage(`/why-jvto/our-team/${slug}`);
   const bio = await getCrewBio(slug);
   const reviews = getCrewFeaturedReviews(slug);
   const jobTitle = crewJobTitle(member.role);
@@ -99,8 +103,11 @@ export default async function CrewMemberPage({ params }: Props) {
   const pageRow = {
     route,
     lang: "en",
-    seo: { title: `${member.name} — JVTO ${jobTitle}` },
-    content: { h1: member.name },
+    seo: {
+      title: ecosystemPage?.meta.title ?? `${member.name} — JVTO ${jobTitle}`,
+      description: ecosystemPage?.meta.description,
+    },
+    content: { h1: ecosystemPage?.meta.title ?? member.name },
   };
 
   return (

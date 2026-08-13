@@ -2,8 +2,18 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
-import { getCrewCounts } from "@/lib/people/canonicalPeople";
+import { getCrewCounts, getPublicCrew } from "@/lib/people/canonicalPeople";
 import { DiffChipsPanel, QuoteRotator, StoryTabsPanel, StandardsAccordion } from "@/components/website/WhyJvtoInteractive";
+import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
+import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import {
+  whyGridItems,
+  whyImage,
+  whyLede,
+  whyMetaRows,
+  whySection,
+  whyString,
+} from "@/lib/ecosystemContent/whyJvto";
 
 const siteUrl = "https://javavolcano-touroperator.com";
 const ROUTE = "/why-jvto";
@@ -30,20 +40,6 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-const CREW = [
-  { name: "Anjas", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768270423657-690185912-anjas.png" },
-  { name: "Taufik", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768228083285-919198019-taufik_1_.png" },
-  { name: "Rendi", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768228514527-518051332-rendi.png" },
-  { name: "Kiki", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768271545598-834784538-kiki.png" },
-  { name: "Gufron", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768225567764-405955176-gufron.png" },
-  { name: "Fauzi", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768226003889-338819579-fauzi.png" },
-  { name: "Boy", role: "Guide", img: "https://javavolcano-touroperator.com/uploads/1768228191022-893381041-boy.png" },
-  { name: "Yandi", role: "Driver", img: "https://javavolcano-touroperator.com/uploads/1768270364125-144711646-yandi.png" },
-  { name: "Fredi", role: "Driver", img: "https://javavolcano-touroperator.com/uploads/1768276791622-262250680-freddy.png" },
-  { name: "Holili", role: "Driver", img: "https://javavolcano-touroperator.com/uploads/1768277053384-470130286-holili.jpg" },
-  { name: "Joyo", role: "Driver", img: "https://javavolcano-touroperator.com/uploads/1768277336049-911840775-joyo.png" },
-] as const;
-
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -52,7 +48,54 @@ const ArrowRight = () => (
 
 export default async function WhyJvtoPage() {
   const page = await loadStaticPage(ROUTE);
+  const teamPage = await loadStaticPage("/why-jvto/our-team");
   const counts = getCrewCounts();
+  const crew = getPublicCrew();
+  const heroSignals = whySection(page, "hero-signals");
+  const difference = whySection(page, "difference");
+  const reviewsSignal = whySection(page, "reviews-signal");
+  const storyTimeline = whySection(page, "story-timeline");
+  const standards = whySection(page, "standards-accordion");
+  const cta = whySection(page, "cta");
+  const heroRows = whyMetaRows(whyGridItems(heroSignals, "meta-rows"), [
+    { label: "Legal entity", value: "PT Java Volcano Rendezvous" },
+    { label: "NIB", value: "1102230032918" },
+    { label: "Founder", value: "Active Tourist Police" },
+    { label: "Tour format", value: "100% private" },
+  ]);
+  const differenceItems = whyGridItems(difference, "differentiators").map((item, index) => ({
+    num: String(index + 1).padStart(2, "0"),
+    label: whyString(item.label),
+    title: whyString(item.title),
+    text: whyString(item.text),
+    proof: whyString(item.cred, "Proof"),
+  })).filter((item) => item.label && item.title && item.text);
+  const quoteItems = whyGridItems(reviewsSignal, "quotes").map((item) => ({
+    text: whyString(item.text),
+    attribution: whyString(item.attribution),
+  })).filter((item) => item.text && item.attribution);
+  const storyItems = whyGridItems(storyTimeline, "timeline-tabs").map((item) => ({
+    year: whyString(item.tab),
+    label: whyString(item.label, whyString(item.tab)),
+    title: whyString(item.title),
+    text: whyString(item.body),
+  })).filter((item) => item.year && item.title && item.text);
+  const standardItems = whyGridItems(standards, "standards").map((item) => ({
+    q: whyString(item.heading),
+    a: whyString(item.body),
+  })).filter((item) => item.q && item.a);
+  const ctaLinks = whyGridItems(cta, "cta-links");
+  const differenceImage = whyImage(difference);
+  const storyImage = whyImage(storyTimeline);
+  const teamItems = whyGridItems(whySection(teamPage, "meet-our-team"))
+    .map((item) => ({
+      name: whyString(item.name),
+      photoUrl: whyString(item.photo_url),
+    }))
+    .filter((item) => item.name);
+  const crewImageByName = new Map(
+    teamItems.map((item) => [item.name.toLowerCase().split(/\s+/)[0], item.photoUrl]),
+  );
 
   const pageRow = {
     route: ROUTE,
@@ -88,19 +131,14 @@ export default async function WhyJvtoPage() {
                 className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
-                Six things that <em className="italic text-jvto-orange">separate</em> us.
+                {page?.meta.title ?? "Why Travel with Java Volcano Tour Operator (JVTO)"}
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                A licensed private tour operator led by an active Tourist Police officer — Bripka Agung Sambuko of Ditpamobvit, East Java. Every claim below is verifiable.
+                {whyLede(page)}
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Legal entity", value: "PT Java Volcano Rendezvous" },
-                { label: "NIB", value: "1102230032918" },
-                { label: "Founder", value: "Active Tourist Police" },
-                { label: "Tour format", value: "100% private" },
-              ].map(({ label, value }) => (
+              {heroRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
                   <strong className="text-white font-semibold text-sm text-right">{value}</strong>
@@ -126,13 +164,13 @@ export default async function WhyJvtoPage() {
                 className="font-black text-jvto-navy leading-[1.04] mb-4"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.6vw, 44px)" }}
               >
-                Six differentiators, <span className="text-jvto-orange">each verifiable.</span>
+                {difference?.title ?? "The JVTO Difference"}
               </h2>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6">
-                Not marketing language — every one is backed by a credential you can check.{" "}
+                {page?.meta.summary ?? "Every operational claim is backed by a credential you can check."}{" "}
                 <strong className="font-semibold text-jvto-navy">Tap a pillar to see what proves it.</strong>
               </p>
-              <DiffChipsPanel />
+              <DiffChipsPanel items={differenceItems} />
               <Link
                 href="/why-jvto/the-jvto-difference"
                 prefetch={false}
@@ -144,7 +182,12 @@ export default async function WhyJvtoPage() {
             <div className="md:order-2 order-1">
               <figure className="relative rounded-[40px] overflow-hidden aspect-[4/5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`${siteUrl}/founder/agung_sambuko.webp`} alt="Police-led safety authority at Ijen Crater" className="w-full h-full object-cover" loading="lazy" />
+                <img
+                  src={differenceImage?.src ?? `${siteUrl}/founder/agung_sambuko.webp`}
+                  alt={differenceImage?.alt ?? "Police-led safety authority at Ijen Crater"}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 <span className="absolute bottom-4 left-4 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-full">
                   Ditpamobvit · operational authority
@@ -198,27 +241,23 @@ export default async function WhyJvtoPage() {
                 className="font-black text-jvto-navy leading-[1.04] mb-4"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.6vw, 44px)" }}
               >
-                Patterns, not a <span className="text-jvto-orange">quote wall.</span>
+                {reviewsSignal?.title ?? "Reviews"}
               </h2>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6">
-                Feedback grouped by what it proves, across three independent platforms — verified, not cherry-picked.
+                {whyString(page?.raw.page.summary, "Feedback grouped by what it proves, across independent platforms.")}
               </p>
               <div className="grid grid-cols-3 gap-3 mb-6">
-                {[
-                  { num: "4.8", platform: "Trustpilot", count: "51 reviews" },
-                  { num: "4.90", platform: "Google Maps", count: "123 reviews" },
-                  { num: "4.95", platform: "TripAdvisor", count: "21 reviews" },
-                ].map(({ num, platform, count }) => (
-                  <div key={platform} className="bg-white rounded-[16px] p-4 border border-[#E3E0DA]">
+                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((platform) => (
+                  <div key={platform.platform} className="bg-white rounded-[16px] p-4 border border-[#E3E0DA]">
                     <div className="font-black text-jvto-navy leading-none mb-1" style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.04em" }}>
-                      {num}
+                      {platform.rating}
                     </div>
-                    <div className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#9ca3af] mb-0.5">{platform}</div>
-                    <div className="text-[11px] text-jvto-orange">{count}</div>
+                    <div className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#9ca3af] mb-0.5">{platform.platform}</div>
+                    <div className="text-[11px] text-jvto-orange">{platform.count} reviews</div>
                   </div>
                 ))}
               </div>
-              <QuoteRotator />
+              <QuoteRotator quotes={quoteItems} />
               <Link
                 href="/why-jvto/reviews"
                 prefetch={false}
@@ -246,13 +285,13 @@ export default async function WhyJvtoPage() {
                 className="font-black text-white leading-[1.04] mb-4"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(26px, 3.2vw, 40px)" }}
               >
-                From a homestay to a <span className="text-jvto-orange">licensed operator.</span>
+                {storyTimeline?.title ?? "Our Story"}
               </h2>
               <p className="text-white/60 text-[14px] font-light leading-relaxed mb-6">
-                Eleven years of operational continuity at one Bondowoso address — documented by third parties.{" "}
+                {page?.lede?.[1] ?? "We keep key artifacts accessible so the journey can be audited."}{" "}
                 <strong className="font-semibold text-white/80">Tap a year.</strong>
               </p>
-              <StoryTabsPanel />
+              <StoryTabsPanel items={storyItems} />
               <Link
                 href="/why-jvto/our-story"
                 prefetch={false}
@@ -265,8 +304,8 @@ export default async function WhyJvtoPage() {
               <figure className="relative rounded-[40px] overflow-hidden aspect-[4/5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`${siteUrl}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired-optimized.webp`}
-                  alt="Ijen Bondowoso Homestay — since 2015"
+                  src={storyImage?.src ?? `${siteUrl}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired-optimized.webp`}
+                  alt={storyImage?.alt ?? "Ijen Bondowoso Homestay — since 2015"}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
@@ -311,7 +350,7 @@ export default async function WhyJvtoPage() {
               {[
                 { n: String(counts.guides), l: "Guides" },
                 { n: String(counts.drivers), l: "Drivers" },
-                { n: String(counts.total), l: "HPWKI KTA" },
+                { n: String(counts.total), l: whyString(whyGridItems(whySection(page, "team-strip"), "stat-labels")[2]?.label, "Active crew") },
               ].map(({ n, l }) => (
                 <div key={l} className="text-center">
                   <div
@@ -345,19 +384,22 @@ export default async function WhyJvtoPage() {
             }}
           >
             <div className="jvto-marquee-track flex gap-5 w-max" style={{ animation: "jvto-marquee 46s linear infinite" }}>
-              {[...CREW, ...CREW].map((p, idx) => (
-                <Link key={idx} href={`/why-jvto/our-team/${p.name.toLowerCase()}`} className="flex-shrink-0 w-[190px] block">
+              {[...crew, ...crew].map((p, idx) => {
+                const photo = crewImageByName.get(p.code) || p.image?.src;
+                const optimizedPhoto = photo ? getWhyJvtoOptimizedImageSrc(photo) ?? photo : "";
+                return (
+                <Link key={idx} href={`/why-jvto/our-team/${p.code}`} className="flex-shrink-0 w-[190px] block">
                   <div className="relative rounded-[20px] overflow-hidden aspect-[3/4] mb-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.img} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
+                    <img src={optimizedPhoto} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     <div className="absolute bottom-2 left-0 right-0 text-center">
                       <div className="font-black text-white text-[13px]" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{p.name}</div>
-                      <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-jvto-lime">{p.role}</div>
+                      <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-jvto-lime">{p.role === "guide" ? "Guide" : "Driver"}</div>
                     </div>
                   </div>
                 </Link>
-              ))}
+              )})}
             </div>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40 mt-5">
@@ -388,12 +430,12 @@ export default async function WhyJvtoPage() {
                 className="font-black text-jvto-navy leading-[1.04] mb-4"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.6vw, 44px)" }}
               >
-                Read the rulebook <span className="text-jvto-orange">before you book.</span>
+                {standards?.title ?? "Community Standards"}
               </h2>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6">
-                We publish what we don&apos;t do as plainly as what we do. Every policy is online before you pay.
+                {page?.meta.description ?? "We publish what we do and what we do not do before you pay."}
               </p>
-              <StandardsAccordion />
+              <StandardsAccordion items={standardItems} />
               <Link
                 href="/why-jvto/community-standards"
                 prefetch={false}
@@ -439,18 +481,18 @@ export default async function WhyJvtoPage() {
           </h2>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Link
-              href="/verify-jvto"
+              href={whyString(ctaLinks.find((link) => link.variant === "primary")?.href, "/verify-jvto")}
               prefetch={false}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
             >
-              Open the proof library <ArrowRight />
+              {whyString(ctaLinks.find((link) => link.variant === "primary")?.label, "Open the proof library")} <ArrowRight />
             </Link>
             <Link
-              href="/tours"
+              href={whyString(ctaLinks.find((link) => link.variant !== "primary")?.href, "/tours")}
               prefetch={false}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
             >
-              Explore private tours
+              {whyString(ctaLinks.find((link) => link.variant !== "primary")?.label, "Explore private tours")}
             </Link>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">

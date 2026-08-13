@@ -144,7 +144,9 @@ function requiresEcosystemPayload(route: string): boolean {
   return (
     normalizedRoute.startsWith("/travel-guide/") ||
     normalizedRoute === "/policy" ||
-    normalizedRoute.startsWith("/policy/")
+    normalizedRoute.startsWith("/policy/") ||
+    normalizedRoute === "/why-jvto" ||
+    normalizedRoute.startsWith("/why-jvto/")
   );
 }
 
