@@ -3,7 +3,6 @@ import Link from "@/components/website/AppLink";
 import Button from "@/components/website/UI/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
 const documentPriorityNote = {
   title: "Document Priority Reminder",
   paragraphs: [

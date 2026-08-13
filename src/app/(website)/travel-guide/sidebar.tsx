@@ -121,9 +121,7 @@ export default function Sidebar({ isMobile, onBack }: SidebarProps) {
             >
               <item.icon
                 size={18}
-                className={
-                  isActive ? "text-black" : "text-gray-500"
-                }
+                className={isActive ? "text-black" : "text-gray-500"}
               />
               <span>{item.label}</span>
             </Link>

@@ -4,7 +4,6 @@ import { Faq } from "@/components/content/Faq";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   buildEcosystemRouteMetadata,
-  ECOSYSTEM_CONTENT_REVALIDATE_SECONDS,
   getEcosystemWebsitePage,
 } from "@/lib/ecosystemContent/website";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
@@ -14,7 +13,7 @@ const FAQ_SITE_URL = "https://javavolcano-touroperator.com";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
-export const revalidate = ECOSYSTEM_CONTENT_REVALIDATE_SECONDS;
+export const revalidate = 300;
 
 const ARTICLES = [
   {

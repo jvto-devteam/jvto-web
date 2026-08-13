@@ -3,10 +3,7 @@ import {
   generateTravelGuideEcosystemMetadata,
   TravelGuideEcosystemPage,
 } from "../EcosystemTravelGuidePage";
-import {
-  ECOSYSTEM_CONTENT_REVALIDATE_SECONDS,
-  getEcosystemWebsiteRoutes,
-} from "@/lib/ecosystemContent/website";
+import { getEcosystemWebsiteRoutes } from "@/lib/ecosystemContent/website";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -27,7 +24,7 @@ const FOLDER_ROUTED_SLUGS = new Set([
   "weather-and-closures",
 ]);
 
-export const revalidate = ECOSYSTEM_CONTENT_REVALIDATE_SECONDS;
+export const revalidate = 300;
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
