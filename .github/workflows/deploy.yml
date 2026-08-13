@@ -31,10 +31,31 @@ jobs:
       - name: Ping IndexNow (best-effort, non-blocking)
         continue-on-error: true
         run: |
-          echo "Waiting 10s for the app to finish restarting..."
-          sleep 10
-          curl -sS -X POST "https://javavolcano-touroperator.com/api/indexnow" \
+          echo "Waiting for the app to come back up (checking every 3s, up to 60s)..."
+          up=false
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "https://javavolcano-touroperator.com/")
+            if [ "$code" = "200" ]; then
+              echo "App is up after $((i * 3))s (HTTP $code)."
+              up=true
+              break
+            fi
+            sleep 3
+          done
+
+          if [ "$up" != "true" ]; then
+            echo "### :warning: IndexNow ping skipped" >> "$GITHUB_STEP_SUMMARY"
+            echo "App did not return HTTP 200 within 60s after deploy -- IndexNow was NOT notified. Submit manually once the app is confirmed up: \`curl -X POST https://javavolcano-touroperator.com/api/indexnow -H 'Content-Type: application/json' -d '{\"scope\":\"sitemap\"}'\`" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          response=$(curl -sS -X POST "https://javavolcano-touroperator.com/api/indexnow" \
             -H "Content-Type: application/json" \
             -d '{"scope":"sitemap"}' \
-            --max-time 30 \
-            || echo "IndexNow ping failed or timed out -- non-blocking, deploy already succeeded."
+            --max-time 30)
+          echo "$response"
+
+          if ! echo "$response" | grep -q '"ok":true'; then
+            echo "### :warning: IndexNow ping failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "Response: \`$response\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
