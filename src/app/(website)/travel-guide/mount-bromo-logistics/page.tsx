@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function MountBromoLogisticsPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Logistics" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

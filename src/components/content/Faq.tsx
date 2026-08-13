@@ -8,11 +8,14 @@ type FaqItem = { q: string; a: string };
 export function Faq({
   items,
   title = "FAQ",
+  eyebrow = "◆ Quick Answers",
 }: {
   items?: FaqItem[];
-  title?: string;
+  title?: string | null;
+  eyebrow?: string | null;
 }) {
   if (!items?.length) return null;
+  const hasHeader = Boolean(title || eyebrow);
 
   return (
     <section
@@ -22,35 +25,40 @@ export function Faq({
         borderTop: "1px solid var(--color-jvto-border)",
       }}
     >
-      {/* Header */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <span
-          style={{
-            display: "block",
-            fontFamily: "var(--font-jetbrains-mono), monospace",
-            fontSize: "0.6rem",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: "0.15em",
-            color: "var(--color-jvto-orange)",
-            marginBottom: "0.3rem",
-          }}
-        >
-          ◆ Quick Answers
-        </span>
-        <h2
-          style={{
-            fontFamily: "var(--font-raleway), sans-serif",
-            fontSize: "1.35rem",
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
-            color: "var(--color-jvto-navy)",
-            margin: 0,
-          }}
-        >
-          {title}
-        </h2>
-      </div>
+      {hasHeader ? (
+        <div style={{ marginBottom: "1.5rem" }}>
+          {eyebrow ? (
+            <span
+              style={{
+                display: "block",
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontSize: "0.6rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                color: "var(--color-jvto-orange)",
+                marginBottom: "0.3rem",
+              }}
+            >
+              {eyebrow}
+            </span>
+          ) : null}
+          {title ? (
+            <h2
+              style={{
+                fontFamily: "var(--font-raleway), sans-serif",
+                fontSize: "1.35rem",
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
+                color: "var(--color-jvto-navy)",
+                margin: 0,
+              }}
+            >
+              {title}
+            </h2>
+          ) : null}
+        </div>
+      ) : null}
 
       {/* FAQ items — native <details> accordion */}
       <div

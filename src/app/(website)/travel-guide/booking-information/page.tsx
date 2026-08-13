@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function BookingInformationPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Process" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function FaqPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Reference" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

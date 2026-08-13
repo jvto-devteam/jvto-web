@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function RijikMonthlyClosurePage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Conservation" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

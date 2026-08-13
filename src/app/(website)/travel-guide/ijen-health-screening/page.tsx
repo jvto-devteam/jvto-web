@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function IjenHealthScreeningPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Health & Safety" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

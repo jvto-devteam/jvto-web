@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function SafetyOnToursPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Safety" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

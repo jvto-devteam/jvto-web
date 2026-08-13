@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function BestTimeToVisitPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Seasonal Planning" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

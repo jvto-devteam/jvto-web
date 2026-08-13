@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function PackingListPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Packing" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

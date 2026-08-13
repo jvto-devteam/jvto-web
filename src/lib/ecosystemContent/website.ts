@@ -139,6 +139,15 @@ function routeToOutputBase(route: string): string {
   return normalizeRoute(route).split("/").filter(Boolean).join("__") || "home";
 }
 
+function requiresEcosystemPayload(route: string): boolean {
+  const normalizedRoute = normalizeRoute(route);
+  return (
+    normalizedRoute.startsWith("/travel-guide/") ||
+    normalizedRoute === "/policy" ||
+    normalizedRoute.startsWith("/policy/")
+  );
+}
+
 function ecosystemContentRoot(): string {
   return (
     process.env.JVTO_EKOSYSTEM_CONTENT_ROOT ??
@@ -388,6 +397,10 @@ export async function getEcosystemWebsitePage(
   );
 
   if (fallbackPayload) return toStaticPage(fallbackPayload);
+
+  if (requiresEcosystemPayload(normalizedRoute)) {
+    return null;
+  }
 
   const staticPage = loadStaticPage(normalizedRoute);
   if (staticPage?.meta.status === "published") {

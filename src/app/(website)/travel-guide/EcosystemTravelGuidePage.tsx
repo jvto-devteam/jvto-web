@@ -50,27 +50,6 @@ const NAV_ORDER = new Map(
   GUIDE_NAV_FALLBACK.map((item, index) => [item.href, index]),
 );
 
-const HERO_HEADING_BY_ROUTE: Record<string, string> = {
-  "/travel-guide/booking-information": "How booking works.",
-  "/travel-guide/faq": "Travel guide FAQ.",
-  "/travel-guide/ijen-health-screening": "Ijen health-screening coordination.",
-  "/travel-guide/packing-and-fitness": "Packing & fitness expectations.",
-  "/travel-guide/police-escort-for-groups": "Police escort for groups.",
-  "/travel-guide/safety-on-tours": "Safety on our tours.",
-  "/travel-guide/weather-and-closures": "Weather, volcano alerts & closures.",
-};
-
-const FAQ_TITLE_BY_ROUTE: Record<string, string> = {
-  "/travel-guide/best-time-to-visit": "Seasonal Planning: Common Questions",
-  "/travel-guide/booking-information": "Booking: Common Questions",
-  "/travel-guide/ijen-health-screening":
-    "Ijen Health Screening: Common Questions",
-  "/travel-guide/packing-and-fitness": "Packing & Fitness: Common Questions",
-  "/travel-guide/rijik-monthly-closure": "Ijen Rijik Closure: Common Questions",
-  "/travel-guide/safety-on-tours": "Safety: Common Questions",
-  "/travel-guide/weather-and-closures": "Weather & Closures: Common Questions",
-};
-
 function labelFromRoute(route: string): string {
   if (route === "/travel-guide") return "Guide overview";
   return route
@@ -185,15 +164,44 @@ function structuredPayload(page: EcosystemStaticPage): Record<string, unknown> {
     : {};
 }
 
-function heroHeadingFor(page: EcosystemStaticPage): string {
-  const payload = structuredPayload(page);
-  const hero = payload.hero;
-  if (hero && typeof hero === "object") {
-    const heading = (hero as Record<string, unknown>).heading;
-    if (typeof heading === "string" && heading.trim()) return heading;
-  }
+function stringFromPayload(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim() ? value : undefined;
+}
 
-  return HERO_HEADING_BY_ROUTE[page.meta.route] ?? page.meta.title;
+function heroPayloadFor(page: EcosystemStaticPage): Record<string, unknown> {
+  const payload = structuredPayload(page);
+  return payload.hero && typeof payload.hero === "object"
+    ? (payload.hero as Record<string, unknown>)
+    : {};
+}
+
+function heroHeadingFor(page: EcosystemStaticPage): string {
+  return stringFromPayload(heroPayloadFor(page).heading) ?? page.meta.title;
+}
+
+function heroEyebrowFor(page: EcosystemStaticPage): string {
+  return (
+    stringFromPayload(heroPayloadFor(page).eyebrow) ??
+    formatLabel(page.raw.domain || page.meta.section)
+  );
+}
+
+function heroSecondaryMetaFor(page: EcosystemStaticPage): string {
+  return (
+    stringFromPayload(heroPayloadFor(page).meta) ??
+    formatLabel(page.raw.slug || page.raw.domain || page.meta.section)
+      .toUpperCase()
+      .replace(/\s+/g, " / ")
+  );
+}
+
+function heroDescriptionFor(page: EcosystemStaticPage): string {
+  return (
+    stringFromPayload(heroPayloadFor(page).lede) ??
+    stringFromPayload(structuredPayload(page).intro) ??
+    page.meta.summary ??
+    page.meta.description
+  );
 }
 
 function heroMetaFor(page: EcosystemStaticPage) {
@@ -214,16 +222,7 @@ function heroMetaFor(page: EcosystemStaticPage) {
       );
   }
 
-  return [
-    { label: "Document", value: "Official JVTO guide" },
-    { label: "Reviewed", value: page.meta.lastReviewed ?? "Editorial" },
-    { label: "Owner", value: formatLabel(page.meta.owner ?? "Operations") },
-    { label: "Status", value: formatLabel(page.meta.status) },
-  ];
-}
-
-function faqTitleFor(route: string): string {
-  return FAQ_TITLE_BY_ROUTE[route] ?? "FAQ";
+  return [];
 }
 
 function SeasonCards({ block }: { block: EcosystemGridBlock }) {
@@ -323,6 +322,35 @@ function GenericGrid({ block }: { block: EcosystemGridBlock }) {
     );
   }
 
+  const isKeyValueList = items.every((item) => {
+    const keys = Object.keys(item);
+    return (
+      keys.includes("key") &&
+      keys.includes("value") &&
+      keys.every((key) => key === "key" || key === "value")
+    );
+  });
+
+  if (isKeyValueList) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2">
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="rounded-xl border border-[#E3E0DA] bg-white p-5"
+          >
+            <h3 className="text-base font-black text-jvto-navy">
+              {renderValue(item.key)}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-[#6b7280]">
+              {renderValue(item.value)}
+            </p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {items.map((item, index) => {
@@ -368,7 +396,7 @@ function StructuredBlock({ block }: { block: EcosystemBlock }) {
           q: String(item.question),
           a: String(item.answer),
         }));
-      return <Faq items={items} title="Questions" />;
+      return <Faq items={items} title={null} eyebrow={null} />;
     }
 
     if (block.role === "season-cards") {
@@ -456,10 +484,8 @@ export async function generateTravelGuideEcosystemMetadata(
 
 export async function TravelGuideEcosystemPage({
   route,
-  eyebrow = "Travel Guide",
 }: {
   route: string;
-  eyebrow?: string;
 }) {
   const [page, navItems] = await Promise.all([
     getEcosystemWebsitePage(route),
@@ -471,11 +497,11 @@ export async function TravelGuideEcosystemPage({
   const faqItems = collectFaqs(page);
   const pageRow = pageRowFor(page);
   const h1 = heroHeadingFor(page);
-  const description = page.meta.summary ?? page.meta.description;
+  const description = heroDescriptionFor(page);
   const currentHref = page.meta.route;
-  const isHub = currentHref === "/travel-guide";
   const heroMeta = heroMetaFor(page);
-  const showBottomCta = currentHref !== "/travel-guide/best-time-to-visit";
+  const heroEyebrow = heroEyebrowFor(page);
+  const heroSecondaryMeta = heroSecondaryMetaFor(page);
 
   return (
     <>
@@ -487,39 +513,14 @@ export async function TravelGuideEcosystemPage({
 
       <section className="bg-jvto-navy pt-24 md:pt-36 pb-28 md:pb-36 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
-            <Link
-              href="/"
-              prefetch={false}
-              className="hover:text-white/70 transition-colors"
-            >
-              Home
-            </Link>
-            <span>›</span>
-            {isHub ? (
-              <span className="text-white/70">Travel Guide</span>
-            ) : (
-              <>
-                <Link
-                  href="/travel-guide"
-                  prefetch={false}
-                  className="hover:text-white/70 transition-colors"
-                >
-                  Travel Guide
-                </Link>
-                <span>›</span>
-                <span className="text-white/70">{page.meta.title}</span>
-              </>
-            )}
-          </nav>
           <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
-                  {eyebrow}
+                  {heroEyebrow}
                 </span>
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
-                  JVTO / GUIDE
+                  {heroSecondaryMeta}
                 </span>
               </div>
               <h1
@@ -535,21 +536,23 @@ export async function TravelGuideEcosystemPage({
                 {description}
               </p>
             </div>
-            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
-              {heroMeta.map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5"
-                >
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">
-                    {label}
-                  </span>
-                  <strong className="text-white text-sm font-semibold text-right break-words">
-                    {value}
-                  </strong>
-                </div>
-              ))}
-            </div>
+            {heroMeta.length ? (
+              <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
+                {heroMeta.map(({ label, value }) => (
+                  <div
+                    key={label}
+                    className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5"
+                  >
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">
+                      {label}
+                    </span>
+                    <strong className="text-white text-sm font-semibold text-right break-words">
+                      {value}
+                    </strong>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
@@ -602,49 +605,14 @@ export async function TravelGuideEcosystemPage({
                     q: item.question,
                     a: item.answer,
                   }))}
-                  title={faqTitleFor(currentHref)}
+                  title={null}
+                  eyebrow={null}
                 />
               ) : null}
             </article>
           </div>
         </div>
       </section>
-
-      {showBottomCta ? (
-        <section
-          className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
-          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
-        >
-          <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
-            <h2
-              className="font-black text-white leading-[1.02] mb-8"
-              style={{
-                fontFamily: "Raleway, Inter, sans-serif",
-                fontSize: "clamp(28px, 4vw, 44px)",
-              }}
-            >
-              Ready for operational{" "}
-              <span className="text-jvto-orange">certainty?</span>
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/tours"
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
-              >
-                Explore tours <ArrowRight />
-              </Link>
-              <Link
-                href="/verify-jvto"
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
-              >
-                Verify JVTO
-              </Link>
-            </div>
-          </div>
-        </section>
-      ) : null}
     </>
   );
 }

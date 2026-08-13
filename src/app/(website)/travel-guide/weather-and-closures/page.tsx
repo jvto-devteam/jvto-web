@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function WeatherAndClosuresPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Conditions" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }

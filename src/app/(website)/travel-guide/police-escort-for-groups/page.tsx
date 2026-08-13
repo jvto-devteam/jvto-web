@@ -11,5 +11,5 @@ export function generateMetadata() {
 }
 
 export default function PoliceEscortForGroupsPage() {
-  return <TravelGuideEcosystemPage route={ROUTE} eyebrow="Authority" />;
+  return <TravelGuideEcosystemPage route={ROUTE} />;
 }
