@@ -1,6 +1,11 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { Metadata } from "next";
+import {
+  listPublishedStaticPages,
+  loadStaticPage,
+  type StaticPage,
+} from "@/lib/static-content";
 
 const DEFAULT_ECOSYSTEM_BASE_URL =
   "https://ekosistem.javavolcano-touroperator.com";
@@ -242,6 +247,74 @@ function toStaticPage(payload: EcosystemWebsitePage): EcosystemStaticPage {
   };
 }
 
+function staticContentToEcosystemPage(page: StaticPage): EcosystemStaticPage {
+  const route = normalizeRoute(page.meta.route);
+  const slug = route.split("/").filter(Boolean).pop() ?? route;
+  const faqPayload = page.faq?.length
+    ? { key: page.meta.faqKey, payload: { items: page.faq } }
+    : null;
+  const contentPayload =
+    page.format === "markdown"
+      ? {
+          frontmatter: page.meta,
+          body_md: page.body,
+        }
+      : {
+          meta: page.meta,
+          lede: page.lede,
+          sections: page.sections,
+        };
+
+  return {
+    meta: {
+      route,
+      title: page.meta.title,
+      browserTitle: page.meta.browserTitle,
+      description: page.meta.description,
+      section: page.meta.section,
+      status: page.meta.status,
+      owner: page.meta.owner,
+      lastReviewed: page.meta.lastReviewed,
+      schemaTypes: page.meta.schemaTypes,
+      faqKey: page.meta.faqKey,
+      summary: page.meta.summary,
+    },
+    canonicalUrl: page.canonicalUrl,
+    format: page.format,
+    body: page.body,
+    lede: page.lede,
+    sections: normalizeSections(page.sections),
+    faq: page.faq,
+    sourceFile: page.sourceFile,
+    raw: {
+      schema_version: "static-content-fallback",
+      generated_at: "static-content-fallback",
+      route,
+      domain: page.meta.section,
+      slug,
+      status: page.meta.status,
+      seo: {
+        title: page.meta.browserTitle ?? page.meta.title,
+        description: page.meta.description,
+        canonicalRoute: route,
+        schemaTypes: page.meta.schemaTypes,
+      },
+      page: {
+        title: page.meta.title,
+        summary: page.meta.summary,
+        owner: page.meta.owner,
+        lastReviewed: page.meta.lastReviewed,
+        faq: faqPayload,
+        content: {
+          format: page.format,
+          payload: contentPayload,
+        },
+      },
+      faq: faqPayload,
+    },
+  };
+}
+
 function normalizeSections(sections: unknown): EcosystemSection[] | undefined {
   if (!Array.isArray(sections)) return undefined;
 
@@ -314,7 +387,14 @@ export async function getEcosystemWebsitePage(
     ),
   );
 
-  return fallbackPayload ? toStaticPage(fallbackPayload) : null;
+  if (fallbackPayload) return toStaticPage(fallbackPayload);
+
+  const staticPage = loadStaticPage(normalizedRoute);
+  if (staticPage?.meta.status === "published") {
+    return staticContentToEcosystemPage(staticPage);
+  }
+
+  return null;
 }
 
 export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> {
@@ -332,11 +412,20 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
 
   if (response?.payload) return response.payload;
 
-  return (
-    (await readLocalJson<EcosystemRouteIndex>(
-      path.join("5-experience-engine", "manifests", "route-output-index.json"),
-    )) ?? { routes: [] }
+  const fallbackIndex = await readLocalJson<EcosystemRouteIndex>(
+    path.join("5-experience-engine", "manifests", "route-output-index.json"),
   );
+  if (fallbackIndex) return fallbackIndex;
+
+  return {
+    generated_at: "static-content-fallback",
+    routes: listPublishedStaticPages().map((page) => ({
+      route: normalizeRoute(page.meta.route),
+      domain: page.meta.section,
+      slug: normalizeRoute(page.meta.route).split("/").filter(Boolean).pop(),
+      websiteOutput: page.sourceFile,
+    })),
+  };
 }
 
 export function buildEcosystemRouteMetadata(
