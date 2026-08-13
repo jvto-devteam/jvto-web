@@ -1,6 +1,8 @@
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
+import { BlocksRenderer } from "@/components/content/BlocksRenderer";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getCrewCounts, getPublicCrew } from "@/lib/people/canonicalPeople";
 import { DiffChipsPanel, QuoteRotator, StoryTabsPanel, StandardsAccordion } from "@/components/website/WhyJvtoInteractive";
@@ -56,7 +58,14 @@ export default async function WhyJvtoPage() {
   const reviewsSignal = whySection(page, "reviews-signal");
   const storyTimeline = whySection(page, "story-timeline");
   const standards = whySection(page, "standards-accordion");
+  const pressEvidence = whySection(page, "press-evidence");
+  const trustStack = whySection(page, "trust-stack");
+  const proofLocker = whySection(page, "proof-locker");
   const cta = whySection(page, "cta");
+  const faqItems = (page?.faq ?? []).map((item) => ({
+    q: item.question,
+    a: item.answer,
+  }));
   const heroRows = whyMetaRows(whyGridItems(heroSignals, "meta-rows"), [
     { label: "Legal entity", value: "PT Java Volcano Rendezvous" },
     { label: "NIB", value: "1102230032918" },
@@ -136,8 +145,20 @@ export default async function WhyJvtoPage() {
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
                 {whyLede(page)}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white/35 block mb-2">
+                {heroSignals?.title ?? "Hero signals"}
+              </span>
               {heroRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
@@ -467,9 +488,60 @@ export default async function WhyJvtoPage() {
         </div>
       </section>
 
+      {/* ── Ecosystem proof stack — rendered from source sections ─────── */}
+      {(pressEvidence || trustStack || proofLocker) && (
+        <section
+          className="bg-white py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="flex items-baseline gap-4 mb-10">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-jvto-orange">§ 06</span>
+              <h2
+                className="font-black text-jvto-navy leading-[1.04]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px,3.6vw,44px)" }}
+              >
+                Proof and <span className="text-jvto-orange">trust stack.</span>
+              </h2>
+            </div>
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+              {pressEvidence && (
+                <article className="rounded-[24px] border border-[#E3E0DA] bg-[#F6F5F2] p-6">
+                  <h3 className="mb-5 font-black text-jvto-navy text-2xl" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}>
+                    {pressEvidence.title}
+                  </h3>
+                  <BlocksRenderer blocks={pressEvidence.blocks as any} sectionId={pressEvidence.id} />
+                </article>
+              )}
+              <div className="grid gap-6">
+                {[trustStack, proofLocker].filter(Boolean).map((section) => (
+                  <article key={section!.id} className="rounded-[24px] border border-[#E3E0DA] bg-white p-6">
+                    <h3 className="mb-5 font-black text-jvto-navy text-2xl" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}>
+                      {section!.title}
+                    </h3>
+                    <BlocksRenderer blocks={section!.blocks as any} sectionId={section!.id} />
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {faqItems.length ? (
+        <section
+          className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq items={faqItems} title="Why JVTO: Common Questions" eyebrow="FAQ" />
+          </div>
+        </section>
+      ) : null}
+
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[9]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
@@ -477,7 +549,7 @@ export default async function WhyJvtoPage() {
             className="font-black text-white leading-[1.02] mb-8"
             style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
           >
-            Don&apos;t guess. <span className="text-jvto-orange">Verify.</span>
+            {cta?.title ?? "Verify before you book"}
           </h2>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Link

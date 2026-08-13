@@ -2,6 +2,8 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { Faq } from "@/components/content/Faq";
 import {
   getPublicGuides,
   getPublicDrivers,
@@ -127,6 +129,16 @@ export default async function OurTeamPage() {
   const counts = getCrewCounts();
   const page = await loadStaticPage(ROUTE);
   const allCrew = [...guides, ...drivers];
+  const sections = page?.sections ?? [];
+  const guardianMindset = sections.find((s) => s.id === "guardian-mindset");
+  const trustPillars = sections.find((s) => s.id === "trust-pillar-crew-mapping");
+  const meetTeam = sections.find((s) => s.id === "meet-our-team");
+  const dreamTeam = sections.find((s) => s.id === "dream-team-pairing-how-it-works");
+  const operationalPlaybook = sections.find((s) => s.id === "operational-playbook-overview");
+  const faqItems = (page?.faq ?? []).map((item) => ({
+    q: item.question,
+    a: item.answer,
+  }));
 
   const pageRow = {
     route: ROUTE,
@@ -136,6 +148,11 @@ export default async function OurTeamPage() {
   };
 
   const extraSchemas = [buildTeamAboutPageSchema(), buildTeamItemListSchema(allCrew)];
+  const sectionBody = (section: (typeof sections)[number] | undefined) =>
+    (section?.blocks ?? [])
+      .filter((b: any) => b.type === "markdown")
+      .map((b: any) => b.body_md)
+      .join("\n\n");
 
   return (
     <>
@@ -164,6 +181,15 @@ export default async function OurTeamPage() {
                 {whyLede(page) ||
                   `${counts.guides} guides and ${counts.drivers} drivers — individually named, photographed, and license-linked.`}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
@@ -182,9 +208,50 @@ export default async function OurTeamPage() {
         </div>
       </header>
 
+      {/* ── Ecosystem editorial context ─────────────────────────────── */}
+      {(guardianMindset || trustPillars) && (
+        <section
+          className="bg-[#F6F5F2] py-20 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              {guardianMindset && (
+                <article className="bg-white border border-[#E3E0DA] rounded-[20px] p-8 jvto-prose">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] block mb-4">
+                    Team context
+                  </span>
+                  <h2
+                    className="font-black text-jvto-navy mb-5 leading-tight"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.02em" }}
+                  >
+                    {guardianMindset.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(guardianMindset)} />
+                </article>
+              )}
+              {trustPillars && (
+                <article className="bg-white border border-[#E3E0DA] rounded-[20px] p-8 jvto-prose">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] block mb-4">
+                    Trust mapping
+                  </span>
+                  <h2
+                    className="font-black text-jvto-navy mb-5 leading-tight"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.02em" }}
+                  >
+                    {trustPillars.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(trustPillars)} />
+                </article>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── §01 Leadership & medical — bg-off ─────────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -245,15 +312,22 @@ export default async function OurTeamPage() {
       </section>
 
       {/* ── §02 The guides — bg-white, driven from canonicalPeople.ts + content/ bio ── */}
-      <section className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}>
+      <section className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex items-baseline gap-4 mb-10">
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-jvto-orange">§ 02</span>
             <h2 className="font-black text-jvto-navy leading-[1.04]" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px,3.6vw,44px)" }}>
               The <span className="text-jvto-orange">guides.</span>
             </h2>
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#9ca3af] ml-2">All English-speaking</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#9ca3af] ml-2">
+              {meetTeam?.title ?? "Meet our team"} · All English-speaking
+            </span>
           </div>
+          {meetTeam && sectionBody(meetTeam) && (
+            <div className="jvto-prose max-w-3xl mb-10">
+              <MarkdownRenderer markdown={sectionBody(meetTeam)} />
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {guides.map((g) => (
               <CrewCard key={g.code} member={g} bio={getCrewBio(page, g.code)} />
@@ -263,7 +337,7 @@ export default async function OurTeamPage() {
       </section>
 
       {/* ── §03 The drivers — bg-off ──────────────────────────────── */}
-      <section className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}>
+      <section className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex items-baseline gap-4 mb-10">
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-jvto-orange">§ 03</span>
@@ -280,8 +354,43 @@ export default async function OurTeamPage() {
         </div>
       </section>
 
+      {/* ── Ecosystem operating notes ───────────────────────────────── */}
+      {(dreamTeam || operationalPlaybook) && (
+        <section
+          className="bg-white py-20 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              {dreamTeam && (
+                <article className="bg-[#F6F5F2] border border-[#E3E0DA] rounded-[20px] p-8 jvto-prose">
+                  <h2
+                    className="font-black text-jvto-navy mb-5 leading-tight"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.02em" }}
+                  >
+                    {dreamTeam.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(dreamTeam)} />
+                </article>
+              )}
+              {operationalPlaybook && (
+                <article className="bg-[#F6F5F2] border border-[#E3E0DA] rounded-[20px] p-8 jvto-prose">
+                  <h2
+                    className="font-black text-jvto-navy mb-5 leading-tight"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.02em" }}
+                  >
+                    {operationalPlaybook.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(operationalPlaybook)} />
+                </article>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── §04 KTA chain + Local Boys — bg-navy ─────────────────── */}
-      <section className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}>
+      <section className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-16 items-start">
             <div>
@@ -346,8 +455,23 @@ export default async function OurTeamPage() {
         </div>
       </section>
 
+      {faqItems.length ? (
+        <section
+          className="bg-white py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems}
+              title="Our Team: Common Questions"
+              eyebrow="FAQ"
+            />
+          </div>
+        </section>
+      ) : null}
+
       {/* ── CTA block ─────────────────────────────────────────────── */}
-      <section className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}>
+      <section className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[9]" style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
           <h2 className="font-black text-white leading-[1.04] mb-4" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px,4vw,56px)" }}>
             Real people. <span className="text-jvto-orange">Real credentials.</span>

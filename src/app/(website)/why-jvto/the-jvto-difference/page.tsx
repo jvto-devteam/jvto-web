@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -87,6 +88,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TheJvtoDifferencePage() {
   const page = await loadStaticPage(ROUTE);
   const sections = page?.sections ?? [];
+  const overviewSection = sections.find((s) => s.id === "overview-0");
+  const trustAnchor = sections.find((s) => s.id === "trust-anchor-7");
   const diffSections = sections.filter((s) => /^\d-/.test(s.id));
   const heroRows = diffSections.slice(0, 4).map((section) => {
     const [label, ...rest] = (section.title ?? "").split(".");
@@ -167,6 +170,15 @@ export default async function TheJvtoDifferencePage() {
                   page?.meta.description ||
                   "Six things that make JVTO operationally different from other East Java volcano tour operators. Each one is backed by a verifiable credential — not marketing language."}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroRows.map(({ label, value }) => (
@@ -220,6 +232,18 @@ export default async function TheJvtoDifferencePage() {
 
             {/* Diff items list */}
             <div className="min-w-0">
+              {overviewSection && (
+                <article className="bg-white border border-[#E3E0DA] rounded-[20px] p-8 mb-10 jvto-prose">
+                  <h2
+                    className="font-black text-jvto-navy mb-5"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.02em" }}
+                  >
+                    {overviewSection.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(overviewSection)} />
+                </article>
+              )}
+
               {diffSections.map((section, i) => {
                 const num = String(i + 1).padStart(2, "0");
                 return (
@@ -257,6 +281,7 @@ export default async function TheJvtoDifferencePage() {
       </section>
 
       {/* ── Trust anchor — navy ───────────────────────────────────────── */}
+      {trustAnchor && (
       <section
         className="bg-jvto-navy py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
@@ -265,11 +290,14 @@ export default async function TheJvtoDifferencePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-white/10 pb-8 mb-0">
             <div>
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#8CC63F] block mb-4">
-                Trust Anchor
+                {trustAnchor.title}
               </span>
-              <p className="font-mono text-[13px] tracking-[0.14em] text-white/75 leading-relaxed">
-                PT Java Volcano Rendezvous · NIB 1102230032918 · Trustpilot 4.8&nbsp;/&nbsp;5 (51&nbsp;reviews, verified 2026-05-09)
-              </p>
+              <div
+                className="jvto-prose max-w-[70ch]"
+                style={{ "--color-jvto-navy": "rgba(255,255,255,0.78)" } as React.CSSProperties}
+              >
+                <MarkdownRenderer markdown={sectionBody(trustAnchor)} />
+              </div>
             </div>
             <div className="flex gap-5 flex-wrap">
               <Link href="/why-jvto/reviews" prefetch={false} className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors">
@@ -285,10 +313,29 @@ export default async function TheJvtoDifferencePage() {
           </div>
         </div>
       </section>
+      )}
+
+      {faqItems.length ? (
+        <section
+          className="bg-white py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems.map((item) => ({
+                q: item.question,
+                a: item.answer,
+              }))}
+              title="The JVTO Difference: Common Questions"
+              eyebrow="FAQ"
+            />
+          </div>
+        </section>
+      ) : null}
 
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">

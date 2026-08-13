@@ -2,6 +2,8 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import {
@@ -47,6 +49,11 @@ const ArrowRight = () => (
 
 export default async function WhyJvtoReviewsPage() {
   const page = await loadStaticPage(ROUTE);
+  const sections = page?.sections ?? [];
+  const faqItems = (page?.faq ?? []).map((item) => ({
+    q: item.question,
+    a: item.answer,
+  }));
   // Preserved DB exception: real review records feed the individual Review
   // JSON-LD nodes. Dynamic data is allowed to stay DB-owned.
   const reviewsData = await getReviewsForSchema().catch(() => []);
@@ -67,6 +74,11 @@ export default async function WhyJvtoReviewsPage() {
     seo: { title: page?.meta.title, description: page?.meta.description },
     content: { h1: page?.meta.title ?? "Reviews" },
   };
+  const sectionBody = (section: (typeof sections)[number]) =>
+    (section.blocks ?? [])
+      .filter((b: any) => b.type === "markdown")
+      .map((b: any) => b.body_md)
+      .join("\n\n");
 
   return (
     <>
@@ -99,6 +111,15 @@ export default async function WhyJvtoReviewsPage() {
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts."}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
@@ -156,6 +177,25 @@ export default async function WhyJvtoReviewsPage() {
             </aside>
 
             <article className="min-w-0">
+              {sections.length > 0 && (
+                <div className="grid gap-5 mb-14">
+                  {sections.map((section) => (
+                    <section
+                      key={section.id}
+                      className="bg-white border border-[#E3E0DA] rounded-xl p-7 jvto-prose"
+                    >
+                      <h2
+                        className="font-black text-jvto-navy mb-5"
+                        style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(22px,2.5vw,32px)", letterSpacing: "-0.02em" }}
+                      >
+                        {section.title}
+                      </h2>
+                      <MarkdownRenderer markdown={sectionBody(section)} />
+                    </section>
+                  ))}
+                </div>
+              )}
+
               <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] block mb-3">Platform Aggregate</span>
               <h2 className="font-black text-jvto-navy mb-8" style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(28px,3vw,42px)", letterSpacing: "-0.02em" }}>
                 Verified across three platforms.
@@ -245,9 +285,24 @@ export default async function WhyJvtoReviewsPage() {
         </div>
       </section>
 
+      {faqItems.length ? (
+        <section
+          className="bg-white py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems}
+              title="Reviews: Common Questions"
+              eyebrow="FAQ"
+            />
+          </div>
+        </section>
+      ) : null}
+
       {/* ── CTA — navy, stacked ───────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">

@@ -36,6 +36,7 @@ jobs:
             fi
             npm ci
             npm run build
+            npm run audit:ecosystem-visible-content
             pm2 restart jvto-web
       - name: Ping IndexNow (best-effort, non-blocking)
         continue-on-error: true

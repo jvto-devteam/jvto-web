@@ -11,6 +11,7 @@
     "sync:packages": "node scripts/sync-package-readiness.mjs",
     "sync:blog": "node scripts/sync-blog.mjs",
     "check:fact-drift": "node scripts/check-fact-drift.mjs",
+    "audit:ecosystem-visible-content": "node scripts/audit-ecosystem-visible-content.mjs",
     "audit:travel-guide:live": "node scripts/audit-travel-guide-live-parity.mjs",
     "validate": "node scripts/validate.mjs",
     "validate:packages": "node scripts/validate-package-readiness-consumption.mjs"

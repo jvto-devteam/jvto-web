@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -131,6 +132,15 @@ export default async function OurStoryPage() {
                   page?.meta.description ||
                   "JVTO grew from a humble local guesthouse in Bondowoso into a licensed tour operator shaped by the Tourist Police experience of our founder, Mr. Sam."}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroRows.map(({ label, value }) => (
@@ -275,9 +285,27 @@ export default async function OurStoryPage() {
         </section>
       )}
 
+      {faqItems.length ? (
+        <section
+          className="bg-white py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems.map((item) => ({
+                q: item.question,
+                a: item.answer,
+              }))}
+              title="Our Story: Common Questions"
+              eyebrow="FAQ"
+            />
+          </div>
+        </section>
+      ) : null}
+
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">

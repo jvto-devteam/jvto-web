@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { Faq } from "@/components/content/Faq";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   buildEcosystemRouteMetadata,
@@ -282,6 +283,7 @@ export default async function TravelGuideHubPage() {
     "JVTO's official travel guide: booking steps, safety rules, Ijen health screening, weather and closures, packing list, and police escort for groups.";
   const h1 = page?.meta.title ?? "Travel Guide";
   const faqItems = getFaqItems(page?.faq);
+  const officialBody = page?.body?.trim();
 
   const faqSchema = faqItems.length
     ? {
@@ -649,7 +651,7 @@ export default async function TravelGuideHubPage() {
 
       {faqItems.length > 0 ? (
         <section
-          className="relative z-[7] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-white py-20 md:py-28"
+          className="relative z-[8] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-white py-20 md:py-28"
           style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.05)" }}
         >
           <div className="mx-auto max-w-4xl px-6 md:px-8">
@@ -659,8 +661,27 @@ export default async function TravelGuideHubPage() {
         </section>
       ) : null}
 
+      {officialBody ? (
+        <section
+          className="relative z-[8] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-white py-20 md:py-28"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.06)" }}
+        >
+          <div className="mx-auto max-w-4xl px-6 md:px-8">
+            <SectionHeading
+              index="§ 07"
+              title="Official"
+              accent="guide text."
+              label="Rendered from ecosystem"
+            />
+            <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-8 md:p-12">
+              <MarkdownRendererTravelGuide markdown={officialBody} />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section
-        className="relative z-[8] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-jvto-navy py-20 md:py-28"
+        className="relative z-[9] -mt-16 rounded-t-[clamp(36px,5vw,72px)] bg-jvto-navy py-20 md:py-28"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="mx-auto max-w-7xl px-6 text-center md:px-8">

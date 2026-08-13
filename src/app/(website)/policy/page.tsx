@@ -1,6 +1,7 @@
 import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
@@ -74,6 +75,7 @@ export default async function PolicyHubPage() {
     page?.meta.description ??
     "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
   const h1 = page?.meta.title ?? "JVTO Policies";
+  const officialBody = page?.body?.trim();
 
   const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
 
@@ -180,9 +182,33 @@ export default async function PolicyHubPage() {
         </div>
       </section>
 
+      {officialBody ? (
+        <section
+          className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <div className="mb-8">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-4">
+                Official policy source
+              </p>
+              <h2
+                className="font-black text-jvto-navy leading-[1.05]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(26px, 3.2vw, 42px)" }}
+              >
+                Rendered from ecosystem content.
+              </h2>
+            </div>
+            <div className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA]">
+              <MarkdownRenderer markdown={officialBody} />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* ── Document precedence — white ───────────────────────────────── */}
       <section
-        className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -236,7 +262,7 @@ export default async function PolicyHubPage() {
 
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">

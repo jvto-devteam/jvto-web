@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { Faq } from "@/components/content/Faq";
 import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -49,9 +50,11 @@ export default async function CommunityStandardsPage() {
   const page = await loadStaticPage(ROUTE);
   const sections = page?.sections ?? [];
   const intro = sections.find((s) => s.id === "read-the-rulebook-before-you-book-0");
+  const writtenRules = sections.find((s) => s.id === "written-rules-before-booking-1");
   const sulfurEtiquette = sections.find((s) => s.id === "sulfur-miner-etiquette-ijen-routes-2");
   const localBoys = sections.find((s) => s.id === "local-boys-policy-community-employment-3");
   const dontDo = sections.find((s) => s.id === "what-we-don-t-do-4");
+  const trustAnchor = sections.find((s) => s.id === "trust-anchor-5");
   const policyPages = await Promise.all([
     loadStaticPage("/policy/booking-payment-cancellation"),
     loadStaticPage("/policy/inclusions-exclusions"),
@@ -135,6 +138,15 @@ export default async function CommunityStandardsPage() {
                   page?.meta.description ||
                   "JVTO publishes its rules, policies, and commitments before you pay anything. Guests who understand the terms before booking have better trips."}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-5 space-y-2 max-w-[58ch]">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroRows.map(({ label, value }) => (
@@ -192,6 +204,18 @@ export default async function CommunityStandardsPage() {
                 {intro?.title ?? "Written Rules Before Booking"}
               </span>
               <MarkdownRenderer markdown={sectionBody(intro)} />
+
+              {writtenRules && (
+                <div className="bg-white border border-[#E3E0DA] rounded-[16px] p-6 mt-8 mb-8">
+                  <h2
+                    className="font-black text-jvto-navy mb-4"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(22px, 2.5vw, 32px)", letterSpacing: "-0.02em" }}
+                  >
+                    {writtenRules.title}
+                  </h2>
+                  <MarkdownRenderer markdown={sectionBody(writtenRules)} />
+                </div>
+              )}
 
               {/* Policy tiles — stable cross-links, not content-file-driven */}
               <div className="flex flex-col gap-4 mt-8 mb-8">
@@ -292,7 +316,7 @@ export default async function CommunityStandardsPage() {
         >
           <div className="max-w-7xl mx-auto px-6 md:px-8">
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#8CC63F] block mb-4">
-              Sulfur Miner Etiquette · Ijen Routes
+              {sulfurEtiquette.title ?? "Sulfur Miner Etiquette — Ijen Routes"}
             </span>
             <h2
               className="font-black text-white mb-6 leading-tight"
@@ -352,9 +376,47 @@ export default async function CommunityStandardsPage() {
         </div>
       </section>
 
+      {/* ── Trust anchor — from ecosystem content ─────────────────────── */}
+      {trustAnchor && (
+        <section
+          className="bg-[#F6F5F2] py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="bg-white rounded-[20px] p-8 md:p-10 border border-[#E3E0DA] jvto-prose">
+              <h2
+                className="text-2xl md:text-[1.875rem] font-bold text-jvto-navy mb-5"
+                style={{ letterSpacing: "-0.015em" }}
+              >
+                {trustAnchor.title}
+              </h2>
+              <MarkdownRenderer markdown={sectionBody(trustAnchor)} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {faqItems.length ? (
+        <section
+          className="bg-white py-16 md:py-20 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+        >
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <Faq
+              items={faqItems.map((item) => ({
+                q: item.question,
+                a: item.answer,
+              }))}
+              title="Community Standards: Common Questions"
+              eyebrow="FAQ"
+            />
+          </div>
+        </section>
+      ) : null}
+
       {/* ── CTA — navy ────────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
