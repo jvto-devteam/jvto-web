@@ -54,7 +54,7 @@ function mergeGraphNodes(nodes: any[]) {
   return [...byId.values(), ...withoutId];
 }
 
-const SINGLETON_TYPES = new Set(["FAQPage", "WebSite", "BreadcrumbList"]);
+const SINGLETON_TYPES = new Set(["FAQPage", "WebSite", "BreadcrumbList", "ProfilePage"]);
 const ORGANIZATION_TYPES = new Set(["Organization", "TravelAgency", "LocalBusiness"]);
 
 function schemaTypes(node: any) {
