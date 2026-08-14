@@ -7,6 +7,10 @@ export interface GoogleReviewStats {
   synced_at: string;
 }
 
+function roundRating(value: number) {
+  return Number(value.toFixed(1));
+}
+
 export const getGoogleReviewStats = cache(
   async (): Promise<GoogleReviewStats | null> => {
     try {
@@ -15,7 +19,7 @@ export const getGoogleReviewStats = cache(
       });
       if (!row) return null;
       return {
-        rating: row.rating,
+        rating: roundRating(row.rating),
         count: row.count,
         synced_at: row.synced_at.toISOString(),
       };

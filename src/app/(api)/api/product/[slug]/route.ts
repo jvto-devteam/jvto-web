@@ -1,5 +1,9 @@
 import { prisma } from "@/lib/prisma";
 
+function roundRating(value: number) {
+  return Number(value.toFixed(1));
+}
+
 export async function GET(
   request: Request,
   context: { params: Promise<{ slug: string }> }
@@ -172,7 +176,7 @@ export async function GET(
           },
 
           aggregateRating: {
-            ratingValue: googleStats?.rating ?? 4.8,
+            ratingValue: googleStats ? roundRating(googleStats.rating) : 4.8,
             reviewCount: googleStats?.count ?? 138,
             sourceExamples: [
               {
