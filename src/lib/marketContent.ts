@@ -106,7 +106,7 @@ export const SINGAPORE_MARKET: MarketContent = {
   route: '/markets/singapore',
   title: 'Bromo & Ijen Tours for Singapore Travelers | Private East Java Volcano Tours | JVTO',
   description:
-    'Private Bromo, Ijen, Tumpak Sewu and Papuma tours for Singapore travelers. Start from Bali or Surabaya, pay securely in IDR, and verify JVTO licenses and reviews before booking.',
+    'Private Bromo, Ijen, Tumpak Sewu and Papuma tours for Singapore travelers. Start from Bali or Surabaya, pay in IDR, verify JVTO licenses and reviews.',
   h1: 'Bromo & Ijen Private Tours for Singapore Travelers',
   subheadline:
     'Fly from Singapore to Bali or Surabaya, then cross East Java with a private JVTO crew. Premium logistics, a dedicated vehicle and guide, ferry crossings arranged, and written inclusions before you pay.',
@@ -248,7 +248,7 @@ export const MALAYSIA_MARKET: MarketContent = {
   route: '/markets/malaysia',
   title: 'Bromo & Ijen Tours for Malaysia Travelers | Private East Java Volcano Tours | JVTO',
   description:
-    'Private, all-inclusive Bromo, Ijen, Tumpak Sewu and Papuma tours for Malaysian travelers. Managed ferry crossings, DPS or SUB entry, halal-friendly meal stops, secure IDR payment.',
+    'Private Bromo, Ijen, Tumpak Sewu and Papuma tours for Malaysia travelers. Start from Surabaya or Bali, pay in IDR, verify JVTO licenses and reviews.',
   h1: 'Bromo & Ijen Private Tours for Malaysia Travelers',
   supportLine:
     'Pakej peribadi ke Gunung Bromo, Kawah Ijen, Tumpak Sewu & Papuma — kenderaan sendiri, feri diuruskan, harga jelas, dan syarikat pelancongan yang boleh disahkan.',

@@ -15,6 +15,7 @@ import {
 } from "@/lib/schemas/buildToursHubSchemas";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 export const revalidate = 3600;
+const HUB_LAST_REVIEWED = "2026-08-15";
 
 const fallbackSeo = {
   title: "All Private Tours | East Java & Bali Adventures",
@@ -33,6 +34,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 async function getAllTours(): Promise<ListTourPackage[]> {
   return getWebPackagesList({ categoryId: 1 });
+}
+
+function compactIdr(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) return "IDR";
+  return `IDR ${(value / 1_000_000).toFixed(2).replace(/\.00$/, "")}M/pax`;
 }
 
 export default async function ToursPageGlobal() {
@@ -99,6 +105,15 @@ export default async function ToursPageGlobal() {
   const hubFaqSchema = buildToursHubFaqSchema();
   const googleStats = await getGoogleReviewStats();
   const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '', liveStats: googleStats });
+  const minPrice = Math.min(
+    ...initialTours
+      .map((tour) => Number(tour.startFrom))
+      .filter((price) => Number.isFinite(price) && price > 0),
+  );
+  const answerFirst =
+    `Choose from ${initialTours.length} private Bromo, Ijen, Tumpak Sewu, Madakaripura and Papuma tours from Surabaya or Bali. ` +
+    `JVTO runs no shared groups: each booking gets private transport, confirmed crew, all-inclusive planning, Tourist Police-led safety culture and review proof. ` +
+    `Prices start from ${compactIdr(minPrice)}.`;
 
   return (
     <>
@@ -111,6 +126,8 @@ export default async function ToursPageGlobal() {
           destinationName="All Destinations"
           title={seo.h1}
           description={seo.description}
+          answerFirst={answerFirst}
+          lastReviewed={HUB_LAST_REVIEWED}
           showLocationFilter={true} // <--- INI KUNCINYA
         />
       </section>

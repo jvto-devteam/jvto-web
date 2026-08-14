@@ -112,6 +112,7 @@ export default async function WhyJvtoPage() {
     seo: { title: page?.meta.title, description: page?.meta.description },
     content: { h1: page?.meta.title ?? "Why JVTO" },
   };
+  const answerFirst = page?.raw.page.answerFirst ?? whyLede(page);
 
   return (
     <>
@@ -143,8 +144,13 @@ export default async function WhyJvtoPage() {
                 {page?.meta.title ?? "Why Travel with Java Volcano Tour Operator (JVTO)"}
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                {whyLede(page)}
+                {answerFirst}
               </p>
+              {page?.meta.lastReviewed ? (
+                <p className="mt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+                  Last reviewed {page.meta.lastReviewed}
+                </p>
+              ) : null}
               {(page?.lede?.length ?? 0) > 1 ? (
                 <div className="mt-5 space-y-2 max-w-[58ch]">
                   {page!.lede!.slice(1).map((line) => (

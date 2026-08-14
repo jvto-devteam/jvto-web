@@ -13,6 +13,7 @@ import {
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemWebsitePage } from "@/lib/ecosystemContent/website";
 import DestinationsHub from "@/components/website/DestinationsHub";
 
 const SITE_URL =
@@ -65,9 +66,10 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationsPage() {
-  const [seo, org] = await Promise.all([
+  const [seo, org, ecosystemPage] = await Promise.all([
     getPageSeo(ROUTE, fallbackSeo),
     getOrganizationProfile(),
+    getEcosystemWebsitePage(ROUTE),
   ]);
 
   // Rich snapshot items (includes geo.altitude, summary, tags) for the view
@@ -90,7 +92,11 @@ export default async function DestinationsPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationsHub items={items} />
+      <DestinationsHub
+        items={items}
+        answerFirst={ecosystemPage?.raw.page.answerFirst}
+        lastReviewed={ecosystemPage?.meta.lastReviewed ?? "2026-08-15"}
+      />
     </>
   );
 }

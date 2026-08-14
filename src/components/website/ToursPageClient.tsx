@@ -24,6 +24,8 @@ interface ToursPageClientProps {
   initialTours: ListTourPackage[];
   destinationName: string;
   description: string;
+  answerFirst?: string;
+  lastReviewed?: string;
   title?: string;
   showLocationFilter?: boolean;
   hideHeader?: boolean;
@@ -69,6 +71,8 @@ export default function ToursPageClient({
   initialTours,
   destinationName,
   description,
+  answerFirst,
+  lastReviewed,
   title,
   showLocationFilter = false,
   hideHeader = false,
@@ -379,12 +383,27 @@ export default function ToursPageClient({
       {/* HEADER — hidden when page provides its own heading */}
       {!hideHeader && (
         <div className="mb-12">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full border border-jvto-border bg-white font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-muted">
+              Tours hub
+            </span>
+            {lastReviewed ? (
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-muted/70">
+                Last reviewed {lastReviewed}
+              </span>
+            ) : null}
+          </div>
           <h1
             className="text-3xl md:text-4xl font-black text-jvto-navy mb-4"
             style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
           >
             {title ?? `${destinationName} Tours`}
           </h1>
+          {answerFirst ? (
+            <p className="text-jvto-navy max-w-3xl leading-relaxed text-base md:text-lg font-medium mb-3">
+              {answerFirst}
+            </p>
+          ) : null}
           <p className="text-jvto-muted max-w-2xl leading-relaxed text-sm md:text-base">
             {description}
           </p>

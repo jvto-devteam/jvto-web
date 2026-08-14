@@ -6,6 +6,8 @@ type DestItem = PublicDestinationListSnapshot["items"][number];
 
 interface Props {
   items: DestItem[];
+  answerFirst?: string;
+  lastReviewed?: string;
 }
 
 // Editorial metadata per slug (canonical from CLAUDE.md §1)
@@ -67,7 +69,7 @@ const Check = () => (
   </svg>
 );
 
-export default function DestinationsHub({ items }: Props) {
+export default function DestinationsHub({ items, answerFirst, lastReviewed }: Props) {
   const volcanoCount = items.filter((d) => (d.tags ?? []).includes("volcano")).length;
   const waterfallCount = items.filter((d) => (d.tags ?? []).includes("waterfall")).length;
   const coastalCount = items.filter(
@@ -80,6 +82,9 @@ export default function DestinationsHub({ items }: Props) {
     { label: "Waterfalls", value: waterfallCount },
     { label: "Coastal stop", value: coastalCount },
   ];
+  const heroAnswer =
+    answerFirst ??
+    `JVTO covers ${items.length} East Java destinations: Bromo, Ijen, Tumpak Sewu, Madakaripura and Papuma. Each route is private, operated with dedicated transport, planned around local access rules, and supported by Tourist Police-led safety culture, 4.8-star review proof and published travel guidance.`;
 
   return (
     <>
@@ -93,6 +98,11 @@ export default function DestinationsHub({ items }: Props) {
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
                   East Java Destinations
                 </span>
+                {lastReviewed ? (
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
+                    Last reviewed {lastReviewed}
+                  </span>
+                ) : null}
               </div>
               <h1
                 className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
@@ -102,9 +112,7 @@ export default function DestinationsHub({ items }: Props) {
                 <em className="not-italic text-jvto-orange">One</em> operator.
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                Every site on JVTO's East Java circuit — volcano craters, canyon waterfalls,
-                a coastal headland — reached by dedicated private vehicle, BBKSDA park
-                clearance already in hand.
+                {heroAnswer}
               </p>
             </div>
 
