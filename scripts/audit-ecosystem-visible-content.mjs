@@ -15,6 +15,7 @@ const NEXT_APP_ROOT =
   process.env.JVTO_AUDIT_NEXT_APP_ROOT ??
   path.resolve(process.cwd(), ".next", "server", "app");
 const ROUTE_PREFIXES = ["/travel-guide", "/policy", "/why-jvto"];
+const LEGACY_REDIRECT_ROUTES = new Set(["/travel-guide/packing-list"]);
 
 function routeToHtmlPath(route) {
   const parts = route.split("/").filter(Boolean);
@@ -267,6 +268,9 @@ for (const file of readdirSync(ECOSYSTEM_ROOT).filter((name) =>
 )) {
   const payload = JSON.parse(readFileSync(path.join(ECOSYSTEM_ROOT, file), "utf8"));
   const route = payload.route;
+  if (LEGACY_REDIRECT_ROUTES.has(route)) {
+    continue;
+  }
   if (!ROUTE_PREFIXES.some((prefix) => route === prefix || route.startsWith(`${prefix}/`))) {
     continue;
   }
