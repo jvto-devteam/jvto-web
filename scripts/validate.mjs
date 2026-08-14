@@ -279,14 +279,17 @@ function parseCombinedComposition(src, builderTypes) {
 // ── per-route analysis ────────────────────────────────────────────────────────
 
 function suppressState(src) {
-  const m = src.match(/suppressCmsFaq\s*=\s*\{([\s\S]*?)\}/);
+  const tagStart = src.indexOf('<PageJsonLdCombined');
+  const tagEnd = tagStart >= 0 ? src.indexOf('/>', tagStart) : -1;
+  const tagSrc = tagStart >= 0 && tagEnd >= 0 ? src.slice(tagStart, tagEnd + 2) : src;
+  const m = tagSrc.match(/suppressCmsFaq\s*=\s*\{([\s\S]*?)\}/);
   if (m) {
     const v = m[1].trim();
     if (v === 'true') return 'suppressed';
     if (v === 'false') return 'unsuppressed';
     return 'dynamic'; // resolver contract: treat as suppressed
   }
-  if (/<[^>]*\bsuppressCmsFaq\b(?!\s*=)/.test(src)) return 'suppressed'; // bare prop
+  if (/\bsuppressCmsFaq\b(?!\s*=)/.test(tagSrc)) return 'suppressed'; // bare prop
   return 'unsuppressed';
 }
 
