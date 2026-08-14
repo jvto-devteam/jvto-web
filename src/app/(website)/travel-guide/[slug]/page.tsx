@@ -16,6 +16,7 @@ const FOLDER_ROUTED_SLUGS = new Set([
   "ijen-health-screening",
   "mount-bromo-logistics",
   "packing-and-fitness",
+  // Legacy route is handled by next.config.ts redirect.
   "packing-list",
   "police-escort-for-groups",
   "rijik-monthly-closure",

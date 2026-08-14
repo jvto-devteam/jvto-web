@@ -22,7 +22,6 @@ const STATIC_DB_ROUTES = [
   "/travel-guide/ijen-health-screening",
   "/travel-guide/mount-bromo-logistics",
   "/travel-guide/tumpak-sewu-logistics",
-  "/travel-guide/packing-list",
   "/travel-guide/safety-on-tours",
   "/travel-guide/packing-and-fitness",
   "/travel-guide/weather-and-closures",

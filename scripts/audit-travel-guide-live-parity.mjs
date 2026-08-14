@@ -12,7 +12,6 @@ const ROUTES = [
   "/travel-guide/ijen-health-screening",
   "/travel-guide/mount-bromo-logistics",
   "/travel-guide/packing-and-fitness",
-  "/travel-guide/packing-list",
   "/travel-guide/police-escort-for-groups",
   "/travel-guide/rijik-monthly-closure",
   "/travel-guide/safety-on-tours",

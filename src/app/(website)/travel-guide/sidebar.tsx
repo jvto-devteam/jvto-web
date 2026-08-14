@@ -15,7 +15,6 @@ import {
   ArrowLeft,
   Mountain,
   Droplets,
-  ListChecks,
 } from "lucide-react";
 
 // Definisikan props agar bisa dikontrol dari Navbar
@@ -51,11 +50,6 @@ const MENU_ITEMS = [
     href: "/travel-guide/safety-on-tours",
     label: "Safety on Tours",
     icon: ShieldCheck,
-  },
-  {
-    href: "/travel-guide/packing-list",
-    label: "Packing List",
-    icon: ListChecks,
   },
   {
     href: "/travel-guide/packing-and-fitness",

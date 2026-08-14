@@ -18,7 +18,6 @@ export function sitemapTravelGuide(
     { url: url("/travel-guide/rijik-monthly-closure"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/rijik-monthly-closure", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/ijen-health-screening"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/ijen-health-screening", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/mount-bromo-logistics"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/mount-bromo-logistics", t), changeFrequency: "monthly", priority: 0.7 },
-    { url: url("/travel-guide/packing-list"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/packing-list", t), changeFrequency: "monthly", priority: 0.7 },
     { url: url("/travel-guide/tumpak-sewu-logistics"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/tumpak-sewu-logistics", t), changeFrequency: "monthly", priority: 0.7 },
     { url: url("/policy/booking-payment-cancellation"), lastModified: getLastModified(lastModifiedMap, "/policy/booking-payment-cancellation", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/policy"), lastModified: getLastModified(lastModifiedMap, "/policy", t), changeFrequency: "monthly", priority: 0.8 },

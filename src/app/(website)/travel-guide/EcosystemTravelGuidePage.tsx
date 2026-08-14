@@ -29,7 +29,6 @@ const GUIDE_NAV_FALLBACK = [
     href: "/travel-guide/tumpak-sewu-logistics",
     label: "Tumpak Sewu Logistics",
   },
-  { href: "/travel-guide/packing-list", label: "Packing List" },
   { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   { href: "/travel-guide/weather-and-closures", label: "Weather & Closures" },
   { href: "/travel-guide/safety-on-tours", label: "Safety on Tours" },
@@ -49,6 +48,7 @@ const GUIDE_NAV_FALLBACK = [
 const NAV_ORDER = new Map(
   GUIDE_NAV_FALLBACK.map((item, index) => [item.href, index]),
 );
+const HIDDEN_TRAVEL_GUIDE_ROUTES = new Set(["/travel-guide/packing-list"]);
 
 function labelFromRoute(route: string): string {
   if (route === "/travel-guide") return "Guide overview";
@@ -66,8 +66,9 @@ async function getTravelGuideNav() {
   const routeItems = (index.routes ?? [])
     .filter(
       (item) =>
-        item.route === "/travel-guide" ||
-        item.route.startsWith("/travel-guide/"),
+        (item.route === "/travel-guide" ||
+          item.route.startsWith("/travel-guide/")) &&
+        !HIDDEN_TRAVEL_GUIDE_ROUTES.has(item.route),
     )
     .map((item) => ({
       href: item.route,

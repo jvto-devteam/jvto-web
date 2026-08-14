@@ -36,12 +36,6 @@ const ARTICLES = [
     desc: "Trekking - footwear - river crossing safety.",
   },
   {
-    slug: "packing-list",
-    label: "Prep",
-    name: "Packing List",
-    desc: "What to bring for Bromo, Ijen, and Tumpak Sewu.",
-  },
-  {
     slug: "packing-and-fitness",
     label: "Prep",
     name: "Packing & Fitness",
@@ -497,10 +491,10 @@ export default async function TravelGuideHubPage() {
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <GuideCard
-              href="/travel-guide/packing-list"
-              name="What to pack"
+              href="/travel-guide/packing-and-fitness"
+              name="Packing & Fitness"
               desc="Layered clothing, hiking shoes, headlamps, and personal medication. See our full list."
-              action="Read packing list"
+              action="Read packing & fitness"
             />
             <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-7">
               <svg

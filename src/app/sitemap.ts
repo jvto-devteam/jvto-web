@@ -36,7 +36,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/travel-guide/police-escort-for-groups",
       "/travel-guide/ijen-health-screening",
       "/travel-guide/mount-bromo-logistics",
-      "/travel-guide/packing-list",
       "/travel-guide/tumpak-sewu-logistics",
       "/travel-guide/bbksda-se-1658",
       "/travel-guide/ijen-health-certificate",
