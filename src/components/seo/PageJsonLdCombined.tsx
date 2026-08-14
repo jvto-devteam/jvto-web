@@ -54,6 +54,28 @@ function mergeGraphNodes(nodes: any[]) {
   return [...byId.values(), ...withoutId];
 }
 
+const SINGLETON_TYPES = new Set(["FAQPage", "WebSite", "BreadcrumbList"]);
+const ORGANIZATION_TYPES = new Set(["Organization", "TravelAgency", "LocalBusiness"]);
+
+function schemaTypes(node: any) {
+  const type = node?.["@type"];
+  if (Array.isArray(type)) return type.filter((item): item is string => typeof item === "string");
+  return typeof type === "string" ? [type] : [];
+}
+
+function shouldAppendRuntimeSchema(node: any, existingTypes: Set<string>) {
+  const types = schemaTypes(node);
+  if (!types.length) return true;
+  if (types.some((type) => SINGLETON_TYPES.has(type) && existingTypes.has(type))) return false;
+  if (
+    types.some((type) => ORGANIZATION_TYPES.has(type)) &&
+    [...ORGANIZATION_TYPES].some((type) => existingTypes.has(type))
+  ) {
+    return false;
+  }
+  return true;
+}
+
 /**
  * Server Component.
  * Output: 1 script berisi @graph (Organization + WebPage + Breadcrumb + FAQ)
@@ -75,16 +97,19 @@ export async function PageJsonLdCombined({
   if (ecosystemSchema) {
     const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
     const webSiteJson = buildWebSiteJsonLd(SITE_URL);
+    const ecosystemNodes = graphNodesFromSchema(ecosystemSchema);
+    const existingTypes = new Set(ecosystemNodes.flatMap(schemaTypes));
+    const runtimeSchemas = [webSiteJson, breadcrumbJson, ...(extraSchemas || [])].filter(
+      (node) => shouldAppendRuntimeSchema(node, existingTypes),
+    );
 
     return (
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@graph": mergeGraphNodes([
-            ...graphNodesFromSchema(ecosystemSchema),
-            webSiteJson,
-            breadcrumbJson,
-            ...(extraSchemas || []),
+            ...ecosystemNodes,
+            ...runtimeSchemas,
           ]),
         }}
       />
