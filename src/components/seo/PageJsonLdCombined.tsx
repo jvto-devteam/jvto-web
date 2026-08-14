@@ -63,6 +63,28 @@ function schemaTypes(node: any) {
   return typeof type === "string" ? [type] : [];
 }
 
+function singletonTypeIsUsable(node: any, type: string) {
+  if (type === "FAQPage") {
+    return Array.isArray(node?.mainEntity) && node.mainEntity.length > 0;
+  }
+  return true;
+}
+
+function sanitizeSchemaNode(node: any) {
+  if (!node || typeof node !== "object") return node;
+  const types = schemaTypes(node);
+  if (!types.includes("FAQPage") || singletonTypeIsUsable(node, "FAQPage")) {
+    return node;
+  }
+
+  const usableTypes = types.filter((type) => type !== "FAQPage");
+  if (!usableTypes.length) return null;
+  return {
+    ...node,
+    "@type": Array.isArray(node["@type"]) ? usableTypes : usableTypes[0],
+  };
+}
+
 function shouldAppendRuntimeSchema(node: any, existingTypes: Set<string>) {
   const types = schemaTypes(node);
   if (!types.length) return true;
@@ -97,8 +119,14 @@ export async function PageJsonLdCombined({
   if (ecosystemSchema) {
     const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
     const webSiteJson = buildWebSiteJsonLd(SITE_URL);
-    const ecosystemNodes = graphNodesFromSchema(ecosystemSchema);
-    const existingTypes = new Set(ecosystemNodes.flatMap(schemaTypes));
+    const ecosystemNodes = graphNodesFromSchema(ecosystemSchema)
+      .map(sanitizeSchemaNode)
+      .filter(Boolean);
+    const existingTypes = new Set(
+      ecosystemNodes.flatMap((node) =>
+        schemaTypes(node).filter((type) => singletonTypeIsUsable(node, type)),
+      ),
+    );
     const runtimeSchemas = [webSiteJson, breadcrumbJson, ...(extraSchemas || [])].filter(
       (node) => shouldAppendRuntimeSchema(node, existingTypes),
     );

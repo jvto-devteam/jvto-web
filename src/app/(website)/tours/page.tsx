@@ -18,9 +18,9 @@ export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "All Private Tours | East Java & Bali Adventures",
-  h1: "All Destinations Tours",
+  h1: "Private Bromo, Ijen & Tumpak Sewu Tours",
   description:
-    "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
+    "Browse JVTO private East Java tours from Surabaya or Bali, including Bromo sunrise, Ijen blue fire, Tumpak Sewu, Madakaripura, and Papuma Beach.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

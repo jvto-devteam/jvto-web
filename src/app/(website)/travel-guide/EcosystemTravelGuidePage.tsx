@@ -457,7 +457,13 @@ function collectFaqs(page: EcosystemStaticPage) {
         }) ?? [],
     ) ?? [];
 
-  return [...fromPage, ...fromSections];
+  const seen = new Set<string>();
+  return [...fromPage, ...fromSections].filter((item) => {
+    const key = `${item.question.trim().toLowerCase()}::${item.answer.trim().toLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 const ArrowRight = () => (

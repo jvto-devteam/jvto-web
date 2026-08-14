@@ -97,7 +97,7 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
         "Browse 16 private volcano tour packages from Surabaya or Bali. Bromo sunrise, Ijen blue fire, Tumpak Sewu. Tourist Police-led. All-inclusive. 4.8★ Trustpilot.",
     },
     {
-      h1: "All Destinations Tours",
+      h1: "Private Bromo, Ijen & Tumpak Sewu Tours",
     },
   ),
   "/tours/from-bali": createPageSnapshot(

@@ -77,6 +77,7 @@ export type EcosystemWebsitePage = {
       key?: string;
       payload?: {
         items?: EcosystemFaqItem[];
+        sections?: EcosystemSection[];
       };
     } | null;
     content?: {
@@ -88,6 +89,7 @@ export type EcosystemWebsitePage = {
     key?: string;
     payload?: {
       items?: EcosystemFaqItem[];
+      sections?: EcosystemSection[];
     };
   } | null;
 };
@@ -211,6 +213,8 @@ function toStaticPage(payload: EcosystemWebsitePage): EcosystemStaticPage {
   const format =
     payload.page.content?.format === "markdown" ? "markdown" : "structured";
 
+  const faqItems = collectFaqItems(faq) ?? collectFaqItems({ payload: contentPayload });
+
   return {
     meta: {
       route,
@@ -257,10 +261,58 @@ function toStaticPage(payload: EcosystemWebsitePage): EcosystemStaticPage {
       ? (contentPayload.lede as string[])
       : undefined,
     sections: normalizeSections(contentPayload?.sections),
-    faq: faq?.payload?.items ?? undefined,
+    faq: faqItems?.length ? faqItems : undefined,
     sourceFile: `jvto-ekosistem:${route}`,
     raw: payload,
   };
+}
+
+function collectFaqItems(
+  faq:
+    | {
+        payload?: {
+          items?: EcosystemFaqItem[];
+          sections?: EcosystemSection[];
+        };
+      }
+    | null
+    | undefined,
+): EcosystemFaqItem[] | undefined {
+  const directItems = Array.isArray(faq?.payload?.items)
+    ? faq.payload.items
+    : [];
+  if (directItems.length) {
+    return directItems
+      .filter((item) => item.question && item.answer)
+      .map((item) => ({
+        question: String(item.question),
+        answer: String(item.answer),
+      }));
+  }
+
+  const sectionItems = Array.isArray(faq?.payload?.sections)
+    ? faq.payload.sections.flatMap(
+        (section) =>
+          section.blocks?.flatMap((block) => {
+            if (block.type !== "grid" || block.role !== "faq-list") return [];
+            return (block.items ?? [])
+              .filter((item) => item.question && item.answer)
+              .map((item) => ({
+                question: String(item.question),
+                answer: String(item.answer),
+              }));
+          }) ?? [],
+      )
+    : [];
+
+  const items = sectionItems
+    .filter((item) => item.question && item.answer)
+    .map((item) => ({
+      question: String(item.question),
+      answer: String(item.answer),
+    }));
+
+  return items.length ? items : undefined;
 }
 
 function staticContentToEcosystemPage(page: StaticPage): EcosystemStaticPage {
