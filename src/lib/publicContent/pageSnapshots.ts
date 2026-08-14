@@ -61,7 +61,7 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     {
       title: "East Java Destinations | Bromo, Ijen & More",
       description:
-        "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+        "Explore 5 East Java destinations with JVTO: Bromo 2,329 m, Ijen 2,386 m, Tumpak Sewu, Madakaripura, Papuma. Private tours, 4.8★ Trustpilot.",
     },
     {
       h1: "Destinations",

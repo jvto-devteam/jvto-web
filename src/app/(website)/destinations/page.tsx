@@ -26,7 +26,7 @@ const fallbackSeo = {
   title: "East Java Destinations | Bromo, Ijen & More",
   h1: "Five destinations. One operator.",
   description:
-    "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+    "Explore 5 East Java destinations with JVTO: Bromo 2,329 m, Ijen 2,386 m, Tumpak Sewu, Madakaripura, Papuma. Private tours, 4.8★ Trustpilot.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
