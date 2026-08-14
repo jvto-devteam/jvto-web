@@ -223,11 +223,17 @@ function isPresent(candidate, searchableText, references) {
   return false;
 }
 
-function visibleCandidates(payload, faq) {
+function visibleCandidates(payload, faq, page) {
   const expected = [];
+  const answerFirst = page?.answerFirst;
+
+  if (answerFirst) {
+    addExpected(expected, answerFirst, "answerFirst");
+  }
 
   if (Array.isArray(payload.lede)) {
-    payload.lede.forEach((line) => addExpected(expected, line, "lede"));
+    const ledeLines = answerFirst ? payload.lede.slice(1) : payload.lede;
+    ledeLines.forEach((line) => addExpected(expected, line, "lede"));
   }
 
   markdownChunks(payload.body_md).forEach((text) =>
@@ -286,7 +292,7 @@ for (const file of readdirSync(ECOSYSTEM_ROOT).filter((name) =>
   const references = extractHtmlReferences(html);
   const contentPayload = payload.page?.content?.payload ?? {};
   const faq = payload.faq ?? payload.page?.faq;
-  const missing = visibleCandidates(contentPayload, faq)
+  const missing = visibleCandidates(contentPayload, faq, payload.page)
     .filter((candidate) => !isPresent(candidate, searchableText, references))
     .map((candidate) => `${candidate.reason}: ${candidate.text.slice(0, 180)}`);
 
