@@ -22,6 +22,7 @@ export default function robots(): MetadataRoute.Robots {
 
       // Anthropic
       { userAgent: 'anthropic-ai', allow: '/' },
+      { userAgent: 'ClaudeBot', allow: '/' },
       { userAgent: 'Claude-Web', allow: '/' },
       { userAgent: 'Claude-User', allow: '/' },
       { userAgent: 'Claude-SearchBot', allow: '/' },
