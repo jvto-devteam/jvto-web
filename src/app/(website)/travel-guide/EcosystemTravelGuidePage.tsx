@@ -502,6 +502,10 @@ export async function TravelGuideEcosystemPage({
   const heroMeta = heroMetaFor(page);
   const heroEyebrow = heroEyebrowFor(page);
   const heroSecondaryMeta = heroSecondaryMetaFor(page);
+  const answerFirst =
+    typeof page.raw.page.answerFirst === "string"
+      ? page.raw.page.answerFirst.trim()
+      : "";
 
   return (
     <>
@@ -535,6 +539,11 @@ export async function TravelGuideEcosystemPage({
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {description}
               </p>
+              {answerFirst ? (
+                <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 text-sm leading-relaxed text-white/80">
+                  {answerFirst}
+                </div>
+              ) : null}
             </div>
             {heroMeta.length ? (
               <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">

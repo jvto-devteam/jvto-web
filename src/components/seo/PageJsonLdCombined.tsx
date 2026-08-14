@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getEcosystemPageSchema, graphNodesFromSchema } from "@/lib/ecosystemContent/schema";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
   buildOrganizationJsonLd,
@@ -20,6 +21,39 @@ type PageRowLike = {
 
 const SITE_URL = "https://javavolcano-touroperator.com";
 
+function stripContext(node: any) {
+  if (!node || typeof node !== "object") return node;
+  const rest = { ...node };
+  delete rest["@context"];
+  return rest;
+}
+
+function normalizeNodes(value: any): any[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.flatMap(normalizeNodes);
+  if (value?.["@graph"] && Array.isArray(value["@graph"])) {
+    return value["@graph"].map(stripContext);
+  }
+  if (typeof value === "object") return [stripContext(value)];
+  return [];
+}
+
+function mergeGraphNodes(nodes: any[]) {
+  const byId = new Map<string, any>();
+  const withoutId: any[] = [];
+
+  for (const node of nodes.flatMap(normalizeNodes).filter(Boolean)) {
+    const id = node["@id"];
+    if (typeof id === "string" && id) {
+      if (!byId.has(id)) byId.set(id, node);
+      continue;
+    }
+    withoutId.push(node);
+  }
+
+  return [...byId.values(), ...withoutId];
+}
+
 /**
  * Server Component.
  * Output: 1 script berisi @graph (Organization + WebPage + Breadcrumb + FAQ)
@@ -37,6 +71,26 @@ export async function PageJsonLdCombined({
   extraSchemas?: any[]; // optional override from page code
   suppressCmsFaq?: boolean;
 }) {
+  const ecosystemSchema = await getEcosystemPageSchema(pageRow.route);
+  if (ecosystemSchema) {
+    const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
+    const webSiteJson = buildWebSiteJsonLd(SITE_URL);
+
+    return (
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": mergeGraphNodes([
+            ...graphNodesFromSchema(ecosystemSchema),
+            webSiteJson,
+            breadcrumbJson,
+            ...(extraSchemas || []),
+          ]),
+        }}
+      />
+    );
+  }
+
   const org = await getOrganizationProfile();
 
   const orgJson = buildOrganizationJsonLd(org as any, SITE_URL);

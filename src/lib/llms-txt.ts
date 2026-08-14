@@ -1,8 +1,5 @@
-// Auto-generates the /llms.txt body from the synced JVTO Trust Bundle.
-//
-// Source of truth: src/data/trust-bundle/ (synced from llm-wiki via `npm run sync:trust`).
-// Do NOT hand-edit /llms.txt — edit the wiki sources, recompile in llm-wiki, then re-sync.
-// Every Trust Bundle sync regenerates this file on the next build.
+// /llms.txt is ecosystem-first. The legacy Trust Bundle remains as a fallback
+// so crawler output does not break if ekosistem is temporarily unreachable.
 
 import {
   trustClaims,
@@ -21,7 +18,37 @@ type OrgSchema = {
   founder?: { name?: string; jobTitle?: string };
 };
 
-export function buildLlmsTxt(): string {
+const DEFAULT_ECOSYSTEM_BASE_URL = "https://ekosistem.javavolcano-touroperator.com";
+
+function ecosystemBaseUrl() {
+  return (
+    process.env.JVTO_ECOSYSTEM_BASE_URL ||
+    process.env.NEXT_PUBLIC_ECOSYSTEM_BASE_URL ||
+    DEFAULT_ECOSYSTEM_BASE_URL
+  ).replace(/\/+$/, "");
+}
+
+async function getEcosystemLlmsTxt() {
+  try {
+    const response = await fetch(`${ecosystemBaseUrl()}/llms.txt`, {
+      headers: { accept: "text/plain" },
+      next: { revalidate: 60, tags: ["ecosystem-llms"] },
+    });
+    if (!response.ok) return null;
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.includes("text/plain")) return null;
+
+    const body = await response.text();
+    return body.trim() ? `${body.trim()}\n` : null;
+  } catch (error) {
+    console.error(
+      `[llms.txt] Failed to fetch ekosistem llms.txt: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    return null;
+  }
+}
+
+function buildTrustBundleLlmsTxt(): string {
   const org = organizationSchema as OrgSchema;
   const lines: string[] = [];
 
@@ -96,4 +123,8 @@ export function buildLlmsTxt(): string {
   );
 
   return lines.join("\n") + "\n";
+}
+
+export async function buildLlmsTxt(): Promise<string> {
+  return (await getEcosystemLlmsTxt()) ?? buildTrustBundleLlmsTxt();
 }

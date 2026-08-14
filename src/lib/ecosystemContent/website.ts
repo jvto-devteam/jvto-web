@@ -70,6 +70,7 @@ export type EcosystemWebsitePage = {
   page: {
     title?: string;
     summary?: string;
+    answerFirst?: string;
     owner?: string;
     lastReviewed?: string;
     faq?: {
@@ -188,6 +189,10 @@ async function fetchJson<T>(
     });
 
     if (!response.ok) return null;
+    if (!response.headers.get("content-type")?.includes("application/json")) {
+      return null;
+    }
+
     return (await response.json()) as T;
   } catch {
     return null;
