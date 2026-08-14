@@ -195,7 +195,7 @@ for (const route of ROUTES) {
   if (row.first120FactSignals < 3) {
     warnings.push(`${route} has only ${row.first120FactSignals} fact signals in first 120 words`);
   }
-  if (["/tours", "/destinations", "/why-jvto", "/travel-guide"].includes(route) && !row.hasLastReviewed) {
+  if (["/tours", "/destinations", "/why-jvto", "/policy", "/travel-guide"].includes(route) && !row.hasLastReviewed) {
     warnings.push(`${route} does not expose a Last reviewed marker`);
   }
 }

@@ -76,6 +76,9 @@ export default async function PolicyHubPage() {
     "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.";
   const h1 = page?.meta.title ?? "JVTO Policies";
   const officialBody = page?.body?.trim();
+  const answerFirst =
+    page?.raw.page.answerFirst ??
+    "JVTO publishes its booking, payment, cancellation, inclusions, and privacy terms in full, so you know exactly what you are buying before you confirm anything.";
 
   const policyHubExtraSchemas = [buildPolicyHubItemListSchema()].filter(Boolean);
 
@@ -119,8 +122,13 @@ export default async function PolicyHubPage() {
                 you book.
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                JVTO publishes its booking, payment, cancellation, inclusions, and privacy terms in full — so you know exactly what you are buying, before you confirm anything.
+                {answerFirst}
               </p>
+              {page?.meta.lastReviewed ? (
+                <p className="mt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+                  Last reviewed {page.meta.lastReviewed}
+                </p>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
