@@ -6,6 +6,12 @@ type RevalidateRequestBody = {
   routes?: string[];
 };
 
+const REVALIDATE_TAGS = [
+  "jvto-ekosistem-content",
+  "ecosystem-schema",
+  "ecosystem-llms",
+];
+
 function normalizePath(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
@@ -42,9 +48,11 @@ export async function POST(request: NextRequest) {
     ...(Array.isArray(body.routes) ? body.routes.map(normalizePath) : []),
   ].filter((route): route is string => Boolean(route));
 
-  const routes = Array.from(new Set(requestedRoutes));
+  const routes = Array.from(new Set([...requestedRoutes, "/llms.txt"]));
 
-  revalidateTag("jvto-ekosistem-content", "max");
+  for (const tag of REVALIDATE_TAGS) {
+    revalidateTag(tag, "max");
+  }
   for (const route of routes) {
     revalidatePath(route);
   }
@@ -52,7 +60,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     revalidated: {
-      tag: "jvto-ekosistem-content",
+      tags: REVALIDATE_TAGS,
       routes,
     },
   });

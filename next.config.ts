@@ -1,4 +1,6 @@
 // next.config.js
+const CONTENT_SIGNAL = "search=yes,ai-train=no,use=reference";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {
@@ -92,6 +94,10 @@ const nextConfig = {
           {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Content-Signal",
+            value: CONTENT_SIGNAL,
           },
           {
             key: "Content-Security-Policy",
