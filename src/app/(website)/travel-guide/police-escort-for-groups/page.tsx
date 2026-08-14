@@ -5,9 +5,11 @@ import { CheckCircle2, Shield } from "lucide-react";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "../sidebar";
 import { FIELD_OPERATIONS } from "@/lib/imageAssets";
+import { getEcosystemAnswerFirst } from "@/lib/ecosystemContent/website";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 import { loadStaticPage, staticRouteCanonical, type StaticPage } from "@/lib/static-content";
 import { KeyFactSchema, parseGrid, type KeyFact } from "@/lib/content/travelGuideGrids";
+import { AnswerFirstNote } from "../AnswerFirstNote";
 
 // PACKAGE 04b (2026-08-06): narrative + SEO come from the static-content SSOT
 // (content/pages/travel-guide/police-escort-for-groups.json). The repository fallback copy
@@ -70,6 +72,7 @@ export default async function PoliceEscortPage() {
     const { notFound } = await import("next/navigation");
     return notFound();
   }
+  const answerFirst = await getEcosystemAnswerFirst(ROUTE);
 
   const h1 = page.meta.title;
   const whatIs = findSection(page, "what-is");
@@ -104,6 +107,7 @@ export default async function PoliceEscortPage() {
             <p className="text-white/70 text-base leading-relaxed max-w-2xl">
               {page.meta.description}
             </p>
+            <AnswerFirstNote text={answerFirst} />
           </div>
         </section>
 

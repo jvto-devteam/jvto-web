@@ -5,6 +5,7 @@ import Sidebar from "../sidebar";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import { getEcosystemAnswerFirst } from "@/lib/ecosystemContent/website";
 import {
   buildIjenHealthHowToSchema,
   buildIjenHealthMedicalWebPageSchema,
@@ -17,6 +18,7 @@ import {
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/static-content";
+import { AnswerFirstNote } from "../AnswerFirstNote";
 
 // PACKAGE 04 (2026-08-04) + 04b (2026-08-06): the Travel Guide slug routes are served
 // from content/pages/travel-guide/ (static-content SSOT). This includes the 13 former
@@ -112,6 +114,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
 
   const page = loadStaticPage(route);
   if (!page || page.meta.status !== "published") return notFound();
+  const answerFirst = await getEcosystemAnswerFirst(route);
 
   const h1 = page.meta.title;
   const faqItems = page.faq ?? [];
@@ -159,6 +162,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
             >
               {h1}
             </h1>
+            <AnswerFirstNote text={answerFirst} />
           </div>
         </section>
 

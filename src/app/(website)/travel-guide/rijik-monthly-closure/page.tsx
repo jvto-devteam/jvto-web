@@ -4,6 +4,7 @@ import Link from '@/components/website/AppLink';
 import { PageJsonLdCombined } from '@/components/seo/PageJsonLdCombined';
 import Sidebar from '../sidebar';
 import { Faq } from '@/components/content/Faq';
+import { getEcosystemAnswerFirst } from '@/lib/ecosystemContent/website';
 import { MarkdownRendererTravelGuide } from '@/components/content/MarkdownRendererTravelGuide';
 import {
   loadStaticPage,
@@ -11,6 +12,7 @@ import {
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from '@/lib/static-content';
+import { AnswerFirstNote } from '../AnswerFirstNote';
 
 // PACKAGE 04b (2026-08-06): the evergreen narrative + SEO + FAQ come from the static-content
 // SSOT (content/pages/travel-guide/rijik-monthly-closure.json + content/faqs/…). The only
@@ -123,6 +125,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RijikMonthlyClosurePage() {
   const page = loadStaticPage(ROUTE);
   if (!page || page.meta.status !== 'published') return notFound();
+  const answerFirst = await getEcosystemAnswerFirst(ROUTE);
 
   const h1 = page.meta.title;
   const faqItems = page.faq ?? [];
@@ -167,6 +170,7 @@ export default async function RijikMonthlyClosurePage() {
             >
               {h1}
             </h1>
+            <AnswerFirstNote text={answerFirst} />
           </div>
         </section>
 
