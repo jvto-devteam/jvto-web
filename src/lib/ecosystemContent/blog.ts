@@ -14,18 +14,6 @@
 // Replaces src/lib/blog.ts (deleted as part of this migration), which read synced
 // markdown + YAML frontmatter from src/data/blog/*.md via a local manifest. There is
 // now exactly one place blog post content is edited.
-//
-// KNOWN GAP (flagged in task 2.3's report, not fixed here — the fix belongs in
-// jvto-ekosistem's scripts/render-web-content-sources.mjs, out of scope for this
-// jvto-web-only task): the raw *.source.json `meta` block for each blog post carries
-// `tags`, `estimatedReadMin`, and `bannerImage`, but buildWebsiteOutput() in that
-// render script only copies title/summary/owner/lastReviewed/content/faq through to
-// the rendered website-output.json — it drops those three fields. Since this adapter
-// is required to read only the rendered output, `tags`, `estimated_read_min`, and
-// `banner_image` below are always empty/undefined. The consuming pages already treat
-// all three as optional (conditionally rendered), so nothing breaks, but the two
-// migrated posts lose their hero banner image, tag chips, and "X min read" line
-// compared to the pre-migration markdown version — a visible content regression.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { url } from "@/lib/site";
@@ -81,6 +69,9 @@ interface BlogWebsiteOutput {
     title?: string;
     summary?: string;
     lastReviewed?: string;
+    tags?: string[];
+    estimated_read_min?: number;
+    banner_image?: string;
     content?: {
       payload?: {
         body_md?: string;
@@ -155,14 +146,12 @@ function toBlogPost(output: BlogWebsiteOutput, slug: string): BlogPost {
       slug,
       date: output.page.lastReviewed ?? "",
       status: output.status ?? "published",
-      // tags/estimated_read_min/banner_image: not present on the rendered
-      // output — see the KNOWN GAP note at the top of this file.
-      tags: [],
+      tags: output.page.tags ?? [],
       seo_title: output.seo?.title,
       seo_description: output.seo?.description,
       sources: undefined,
-      estimated_read_min: undefined,
-      banner_image: undefined,
+      estimated_read_min: output.page.estimated_read_min,
+      banner_image: output.page.banner_image,
     },
     body: output.page.content?.payload?.body_md ?? "",
   };
