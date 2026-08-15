@@ -17,7 +17,6 @@ import {
   VERIFY_HUB_FAQS,
 } from '@/lib/verifyFaqs';
 import { BEST_TIME_FAQS } from '@/lib/travelGuideBestTimeFaqs';
-import { SINGAPORE_MARKET_FAQS, MALAYSIA_MARKET_FAQS } from '@/lib/marketFaqs';
 import type { QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -46,8 +45,10 @@ const CANONICAL_FAQ_REGISTRY: Record<string, () => QaPair[]> = {
   '/verify-jvto/police-safety': () => POLICE_SAFETY_FAQS,
   '/verify-jvto/press-recognition': () => PRESS_RECOGNITION_FAQS,
   '/travel-guide/best-time-to-visit': () => BEST_TIME_FAQS,
-  '/markets/singapore': () => SINGAPORE_MARKET_FAQS,
-  '/markets/malaysia': () => MALAYSIA_MARKET_FAQS,
+  // /markets/singapore and /markets/malaysia are intentionally NOT registered here —
+  // those routes source their FAQ set directly from jvto-ekosistem's rendered market
+  // content (content.faqs, via ecosystemContent/markets.ts) and build their FAQPage
+  // JSON-LD inline in page.tsx, bypassing this resolver entirely.
 };
 
 /** Returns canonical FAQ for a route, or empty array if none registered. */

@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import { buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { MarketPageSections } from "@/components/website/MarketPageSections";
-import { MALAYSIA_MARKET, buildMarketSchemas } from "@/lib/marketContent";
+import { getEcosystemMarket, buildMarketSchemas } from "@/lib/ecosystemContent/markets";
 
 export const revalidate = 86400;
 
 const ROUTE = "/markets/malaysia";
 const BASE_URL = "https://javavolcano-touroperator.com";
-const content = MALAYSIA_MARKET;
-
-const fallbackSeo = {
-  title: content.title,
-  h1: content.h1,
-  description: content.description,
-};
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo(ROUTE, fallbackSeo);
+  const content = await getEcosystemMarket("malaysia");
+  if (!content) return { title: "Page Not Found" };
+
+  const seo = await getPageSeo(ROUTE, {
+    title: content.title,
+    h1: content.h1,
+    description: content.description,
+  });
   return {
     title: seo.title,
     description: seo.description,
@@ -27,9 +28,27 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function MalaysiaMarketPage() {
-  const seo = await getPageSeo(ROUTE, fallbackSeo);
-  const faqResolution = await resolveFaqsForPage(ROUTE);
-  const faqNode = buildResolvedFaqSchema(faqResolution, ROUTE);
+  const content = await getEcosystemMarket("malaysia");
+  if (!content) return notFound();
+
+  const seo = await getPageSeo(ROUTE, {
+    title: content.title,
+    h1: content.h1,
+    description: content.description,
+  });
+
+  // Markets pages source their FAQ set directly from jvto-ekosistem (content.faqs) —
+  // they no longer go through resolveFaqsForPage's narrative_claims/canonical-registry
+  // precedence chain, since ekosistem is now the single canonical source for this route.
+  const faqNode = buildResolvedFaqSchema(
+    {
+      source: "canonical",
+      faqs: content.faqs,
+      suppressCmsFaq: true,
+      origin: "jvto-ekosistem markets source (ecosystemContent/markets.ts)",
+    },
+    ROUTE,
+  );
 
   const pageRow = seo.row
     ? {
@@ -52,7 +71,7 @@ export default async function MalaysiaMarketPage() {
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[...buildMarketSchemas(content), faqNode]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq={true}
       />
       <MarketPageSections content={content} />
     </>

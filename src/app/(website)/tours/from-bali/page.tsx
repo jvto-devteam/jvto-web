@@ -121,7 +121,7 @@ export default async function ToursPageBali() {
         mainEntity: { "@id": `${pageUrl}#collection` },
         about: { "@id": JAVA_ISLAND_PLACE_ID },
         // GEO audit Priority 3 (2026-08-15): explicit regional-market signal —
-        // JVTO already serves these markets via dedicated pages (marketContent.ts),
+        // JVTO already serves these markets via dedicated pages (ecosystemContent/markets.ts),
         // this just cross-references them from the tours hub. Hong Kong/Taiwan
         // have no dedicated market page yet (no packaging/pricing decision made),
         // so they're intentionally not referenced here.

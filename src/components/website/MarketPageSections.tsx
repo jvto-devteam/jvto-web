@@ -4,7 +4,7 @@
 // follows the Trust/verify cluster (dark slate + jvto-green accent).
 import Link from "next/link";
 import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
-import type { MarketContent } from "@/lib/marketContent";
+import type { MarketContent } from "@/lib/ecosystemContent/markets";
 import {
   ShieldCheck,
   CheckCircle2,
