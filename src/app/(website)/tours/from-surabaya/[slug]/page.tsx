@@ -17,6 +17,7 @@ import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
@@ -462,7 +463,7 @@ export default async function Page({ params }: Props) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const globalNodes = [
-    buildOrganizationJsonLd(org as any, siteUrl),
+    toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, siteUrl)),
     buildWebSiteJsonLd(siteUrl),
   ].filter(Boolean);
 

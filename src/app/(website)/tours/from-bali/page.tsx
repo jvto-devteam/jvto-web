@@ -8,7 +8,10 @@ import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
+  buildJavaIslandPlaceNode,
+  JAVA_ISLAND_PLACE_ID,
 } from "@/lib/seo/jsonld/builders";
 import {
   buildToursHubFaqSchema,
@@ -98,7 +101,7 @@ export default async function ToursPageBali() {
   ]);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const pageUrl = `${siteUrl}/tours/from-bali`;
-  const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
+  const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, siteUrl));
   const siteNode = buildWebSiteJsonLd(siteUrl);
 
   const schema = {
@@ -106,6 +109,7 @@ export default async function ToursPageBali() {
     "@graph": [
       orgNode,
       siteNode,
+      buildJavaIslandPlaceNode(),
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
@@ -115,6 +119,16 @@ export default async function ToursPageBali() {
         isPartOf: { "@id": `${siteUrl}/#website` },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: { "@id": `${pageUrl}#collection` },
+        about: { "@id": JAVA_ISLAND_PLACE_ID },
+        // GEO audit Priority 3 (2026-08-15): explicit regional-market signal —
+        // JVTO already serves these markets via dedicated pages (marketContent.ts),
+        // this just cross-references them from the tours hub. Hong Kong/Taiwan
+        // have no dedicated market page yet (no packaging/pricing decision made),
+        // so they're intentionally not referenced here.
+        mentions: [
+          { "@id": `${siteUrl}/markets/singapore#webpage` },
+          { "@id": `${siteUrl}/markets/malaysia#webpage` },
+        ],
       },
       {
         "@type": "CollectionPage",

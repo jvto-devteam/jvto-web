@@ -8,6 +8,7 @@ import {
 } from "@/lib/publicContent/destinationListSnapshot";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
   buildBreadcrumbJsonLd,
   buildDestinationsCollectionJsonLd,
@@ -79,7 +80,7 @@ export default async function DestinationsPage() {
   // Lightweight Destination[] for JSON-LD schema builders
   const destinations = getPublicDestinationList();
 
-  const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
+  const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, SITE_URL));
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const breadcrumb = buildBreadcrumbJsonLd(ROUTE, SITE_URL);
   const collection = buildDestinationsCollectionJsonLd(destinations as any, SITE_URL);

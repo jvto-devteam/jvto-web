@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 
@@ -80,7 +81,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      buildOrganizationJsonLd(org as any, SITE_URL),
+      toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, SITE_URL)),
       buildWebSiteJsonLd(SITE_URL),
       {
         "@type": "WebPage",

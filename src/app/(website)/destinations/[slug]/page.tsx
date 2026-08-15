@@ -13,6 +13,7 @@ import {
 } from "@/lib/publicContent/destinationDetailSnapshot";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getWebDestinationDetail } from "@/lib/destinations/getWebDestinationDetail";
@@ -262,7 +263,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   // Kita strip Organization & WebSite dari sana (ada di node terpisah),
   // lalu inject Organization + WebSite dari organization_profile DB.
 
-  const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
+  const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, SITE_URL));
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const destNodes = extractDestinationNodes(data.schema_json ?? null);
 

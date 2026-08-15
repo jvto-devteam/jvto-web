@@ -8,7 +8,7 @@
 //
 // Review quotes are verbatim, country-tagged, and sourced from
 // wiki/reviews/google-tripadvisor-2026.md — no invented testimonials.
-import { ORG_ID } from '@/lib/seo/jsonld/builders';
+import { ORG_ID, buildJavaIslandPlaceNode, JAVA_ISLAND_PLACE_ID } from '@/lib/seo/jsonld/builders';
 import type { QaPair } from '@/lib/tourFaqs';
 import { SINGAPORE_MARKET_FAQS, MALAYSIA_MARKET_FAQS } from '@/lib/marketFaqs';
 
@@ -387,6 +387,9 @@ export function buildMarketSchemas(content: MarketContent): Record<string, unkno
     '@id': `${pageUrl}#recommended-tours`,
     name: `Recommended JVTO volcano tours for ${content.country} travelers`,
     numberOfItems: content.packages.length,
+    // GEO audit Priority 3 (2026-08-15): disambiguate "Java" (island vs
+    // programming language) — these tours all take place on the island.
+    mentions: { '@id': JAVA_ISLAND_PLACE_ID },
     itemListElement: content.packages.map((pkg, i) => {
       const url = `${BASE_URL}${pkg.path}`;
       return {
@@ -416,5 +419,5 @@ export function buildMarketSchemas(content: MarketContent): Record<string, unkno
       };
     }),
   };
-  return [itemList];
+  return [itemList, buildJavaIslandPlaceNode()];
 }

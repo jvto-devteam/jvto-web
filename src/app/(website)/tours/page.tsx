@@ -6,6 +6,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
   buildOrganizationJsonLd,
+  toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
@@ -50,7 +51,7 @@ export default async function ToursPageGlobal() {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
-  const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
+  const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, siteUrl));
   const siteNode = buildWebSiteJsonLd(siteUrl);
 
   const schema = {

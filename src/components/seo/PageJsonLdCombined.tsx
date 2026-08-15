@@ -85,6 +85,19 @@ function sanitizeSchemaNode(node: any) {
   };
 }
 
+// GEO audit Priority 3 (2026-08-15): the full Organization/TravelAgency/LocalBusiness
+// node only needs to render once — Google stitches the entity across pages via a
+// consistent @id, it doesn't require re-declaring every property on every page.
+// Homepage keeps the full node (canonical definition); every other route gets a
+// stub with only @type + @id. This is a maintenance/duplication cleanup only (Medium,
+// not Critical per the audit) — the @id was already consistent site-wide before this.
+// Keeps @type: normalizeJsonLd() (src/lib/seo/jsonld/normalize.ts) drops any node
+// without @type, so a bare {"@id"} reference silently vanishes instead of resolving.
+function toOrganizationReference(node: any) {
+  if (!node || typeof node !== "object" || !node["@id"]) return node;
+  return { "@type": node["@type"], "@id": node["@id"] };
+}
+
 function shouldAppendRuntimeSchema(node: any, existingTypes: Set<string>) {
   const types = schemaTypes(node);
   if (!types.length) return true;
@@ -115,13 +128,19 @@ export async function PageJsonLdCombined({
   extraSchemas?: any[]; // optional override from page code
   suppressCmsFaq?: boolean;
 }) {
+  const isHomepage = pageRow.route === "/";
   const ecosystemSchema = await getEcosystemPageSchema(pageRow.route);
   if (ecosystemSchema) {
     const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
     const webSiteJson = buildWebSiteJsonLd(SITE_URL);
     const ecosystemNodes = graphNodesFromSchema(ecosystemSchema)
       .map(sanitizeSchemaNode)
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((node) =>
+        !isHomepage && schemaTypes(node).some((type) => ORGANIZATION_TYPES.has(type))
+          ? toOrganizationReference(node)
+          : node,
+      );
     const existingTypes = new Set(
       ecosystemNodes.flatMap((node) =>
         schemaTypes(node).filter((type) => singletonTypeIsUsable(node, type)),
@@ -146,7 +165,8 @@ export async function PageJsonLdCombined({
 
   const org = await getOrganizationProfile();
 
-  const orgJson = buildOrganizationJsonLd(org as any, SITE_URL);
+  const fullOrgJson = buildOrganizationJsonLd(org as any, SITE_URL);
+  const orgJson = isHomepage ? fullOrgJson : toOrganizationReference(fullOrgJson);
   const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
   const faqJson = suppressCmsFaq
     ? null

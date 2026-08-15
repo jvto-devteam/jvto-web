@@ -1,5 +1,23 @@
 import { ORGANIZATION_HAS_CREDENTIAL } from "@/lib/schemas/entityGraph";
 
+// GEO audit Priority 3 (2026-08-15): disambiguate the "Java" entity (island vs
+// programming language) on pages where the term appears without qualifying
+// context (from-Surabaya/from-Bali route names, SG/MY market pages). Same
+// Wikidata ID already used for the Java-island category on destinations/[slug]
+// SpecialAnnouncement nodes — reused here for consistency, not a new identifier.
+export const JAVA_ISLAND_PLACE_ID = "https://javavolcano-touroperator.com/#java-island";
+export function buildJavaIslandPlaceNode() {
+  return {
+    "@type": "Place",
+    "@id": JAVA_ISLAND_PLACE_ID,
+    name: "Java",
+    description:
+      "Java is an island in Indonesia — the world's most populous island, home to Jakarta, Surabaya, Mount Bromo, and Kawah Ijen. Distinct from Java the programming language.",
+    sameAs: ["https://en.wikipedia.org/wiki/Java", "https://www.wikidata.org/wiki/Q83"],
+    containedInPlace: { "@type": "Country", name: "Indonesia" },
+  };
+}
+
 type Seo = {
   title?: string;
   description?: string;
@@ -295,6 +313,27 @@ export function buildOrganizationJsonLd(
     sameAs: sameAs.length ? sameAs : undefined,
     address,
   }));
+}
+
+// GEO audit Priority 3 (2026-08-15): the full Organization/TravelAgency/LocalBusiness
+// node only needs to render once site-wide — Google stitches the entity across pages
+// via a consistent @id, it doesn't require re-declaring every property on every page.
+// Every route except the homepage should call this on buildOrganizationJsonLd()'s
+// result instead of rendering it directly. Maintenance/duplication cleanup only
+// (Medium, not Critical per the audit) — the @id was already consistent before this.
+// Keeps @type alongside @id (not a bare {"@id"} reference): normalizeJsonLd()
+// (src/lib/seo/jsonld/normalize.ts) drops any node without @type site-wide, so a
+// typeless reference silently vanishes from the graph instead of resolving.
+export function toOrganizationReferenceOnly<T>(node: T): T {
+  if (Array.isArray(node)) {
+    return node.map((n) =>
+      isOrgClassNode(n) && (n as any)["@id"] ? { "@type": (n as any)["@type"], "@id": (n as any)["@id"] } : n,
+    ) as unknown as T;
+  }
+  if (node && isOrgClassNode(node) && (node as any)["@id"]) {
+    return { "@type": (node as any)["@type"], "@id": (node as any)["@id"] } as unknown as T;
+  }
+  return node;
 }
 
 // ─── WebSite node (tambahkan ke graph sekali) ─────────────────────────────────
