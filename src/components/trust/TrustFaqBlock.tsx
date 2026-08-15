@@ -1,14 +1,15 @@
-import { trustFaqItems } from "@/lib/trust-bundle";
+import { getEcosystemTrustClaims } from "@/lib/ecosystemContent/trustClaims";
 
 type Props = {
   heading?: string;
   className?: string;
 };
 
-export default function TrustFaqBlock({
+export default async function TrustFaqBlock({
   heading = "Trust FAQ",
   className = "",
 }: Props) {
+  const { faq: trustFaqItems } = await getEcosystemTrustClaims();
   return (
     <section
       data-trust-block="faq"

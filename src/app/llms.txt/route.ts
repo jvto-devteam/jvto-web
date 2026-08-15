@@ -1,5 +1,6 @@
 // /llms.txt — AI-crawler entity dossier.
-// Source order: jvto-ekosistem /llms.txt first, legacy Trust Bundle fallback second.
+// Ekosistem-only: see src/lib/llms-txt.ts for the degraded-response fallback
+// used when jvto-ekosistem is unreachable.
 
 import { buildLlmsTxt } from "@/lib/llms-txt";
 
