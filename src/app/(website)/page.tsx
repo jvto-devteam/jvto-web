@@ -12,7 +12,7 @@ import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
+import { getDestinationsForHomepage } from "@/lib/destinations/getWebDestinationsList";
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
@@ -53,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestinations(): Promise<Destination[]> {
-  return getPublicDestinationList();
+  return getDestinationsForHomepage();
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

@@ -14,7 +14,7 @@ import type { TourPackageDetail as TourPackageDetailResponse } from "@/interface
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
+import { getPublicHomeReviews } from "@/lib/publicContent/getHomeReviews";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,

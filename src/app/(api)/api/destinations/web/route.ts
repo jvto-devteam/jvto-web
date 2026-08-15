@@ -1,7 +1,6 @@
 // app/api/destinations/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 
 // ─── Serializer ───────────────────────────────────────────────────────────────
 
@@ -89,11 +88,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const limit = parseLimit(searchParams.get("limit"));
   const featured = searchParams.get("featured") === "true";
-
-  if (process.env.PUBLIC_CONTENT_USE_SNAPSHOT_LISTS !== "false") {
-    const data = getPublicDestinationList({ featured, limit });
-    return NextResponse.json(data, { status: 200 });
-  }
 
   try {
     const destinations = await prisma.destinations.findMany({

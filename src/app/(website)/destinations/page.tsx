@@ -2,10 +2,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import {
-  getPublicDestinationList,
-  getPublicDestinationListSnapshot,
-} from "@/lib/publicContent/destinationListSnapshot";
+import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -73,12 +70,11 @@ export default async function DestinationsPage() {
     getEcosystemWebsitePage(ROUTE),
   ]);
 
-  // Rich snapshot items (includes geo.altitude, summary, tags) for the view
-  const snapshot = getPublicDestinationListSnapshot();
-  const items = snapshot.items;
-
-  // Lightweight Destination[] for JSON-LD schema builders
-  const destinations = getPublicDestinationList();
+  // Rich destination items (includes geo.altitude, summary, tags) for the view —
+  // also doubles as the lightweight Destination[] for JSON-LD schema builders below
+  // (DestinationListItem extends Destination).
+  const items = await getWebDestinationsList();
+  const destinations = items;
 
   const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, SITE_URL));
   const siteNode = buildWebSiteJsonLd(SITE_URL);
