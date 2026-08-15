@@ -131,7 +131,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HistoryArtifactsPage() {
   const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
-  const docs = getDocsByGroup("historyArtifacts");
+  const docs = await getDocsByGroup("historyArtifacts");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/history-artifacts");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/history-artifacts");
 

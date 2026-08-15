@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PressRecognitionPage() {
   const seo = await getPageSeo("/verify-jvto/press-recognition", fallbackSeo);
-  const docs = getDocsByGroup("pressRecognition");
+  const docs = await getDocsByGroup("pressRecognition");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/press-recognition");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/press-recognition");
   const pageRow = seo.row

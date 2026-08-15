@@ -64,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LegalPage() {
   const seo = await getPageSeo("/verify-jvto/legal", fallbackSeo);
-  const docs = getDocsByGroup("legal");
+  const docs = await getDocsByGroup("legal");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/legal");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/legal");
   const pageRow = seo.row

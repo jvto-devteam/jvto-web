@@ -49,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PoliceSafetyPage() {
   const seo = await getPageSeo("/verify-jvto/police-safety", fallbackSeo);
-  const docs = getDocsByGroup("policeSafety");
+  const docs = await getDocsByGroup("policeSafety");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/police-safety");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/police-safety");
   const pageRow = seo.row

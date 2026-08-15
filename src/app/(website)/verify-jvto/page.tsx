@@ -809,7 +809,8 @@ export default async function VerifyJvtoPage() {
     History:     { meta: "History · Archive",        href: "/verify-jvto/history-artifacts", icon: "doc"   },
   };
 
-  const PROOF_CARDS = getAllDocs()
+  const allDocs = await getAllDocs();
+  const PROOF_CARDS = allDocs
     .filter((doc) => doc.category in _categoryMeta)
     .map((doc) => {
       const cm = _categoryMeta[doc.category];
