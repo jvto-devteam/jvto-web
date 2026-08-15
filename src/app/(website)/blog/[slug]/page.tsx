@@ -5,9 +5,9 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   buildBlogPostingSchema,
-  getAllBlogSlugs,
-  getBlogPost,
-} from "@/lib/blog";
+  getEcosystemBlogSlugs,
+  getEcosystemBlogPost,
+} from "@/lib/ecosystemContent/blog";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -15,13 +15,13 @@ type Props = {
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getEcosystemBlogSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getEcosystemBlogPost(slug);
   if (!post) return { title: "Page Not Found" };
 
   const { frontmatter: fm } = post;
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getEcosystemBlogPost(slug);
   if (!post) return notFound();
 
   const { frontmatter: fm, body } = post;

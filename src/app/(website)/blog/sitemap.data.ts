@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
-import { getAllBlogPosts } from "@/lib/blog";
+import { getEcosystemBlogPosts } from "@/lib/ecosystemContent/blog";
 
-export function sitemapBlog(t: Date): MetadataRoute.Sitemap {
-  const posts = getAllBlogPosts();
+export async function sitemapBlog(t: Date): Promise<MetadataRoute.Sitemap> {
+  const posts = await getEcosystemBlogPosts();
   return [
     {
       url: url("/blog"),

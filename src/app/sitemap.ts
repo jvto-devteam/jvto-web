@@ -76,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     sitemapToursFromBali(t),
   ]);
 
-  const blog = sitemapBlog(t);
+  const blog = await sitemapBlog(t);
 
   return [
     ...root,
