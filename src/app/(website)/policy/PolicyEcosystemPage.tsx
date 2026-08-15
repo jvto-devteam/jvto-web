@@ -226,6 +226,10 @@ export async function PolicyEcosystemPage({ route }: { route: string }) {
   const seoTitle = page.meta.browserTitle ?? page.meta.title;
   const seoDescription = page.meta.description;
   const heroMeta = heroMetaFor(page);
+  const answerFirst =
+    typeof page.raw.page.answerFirst === "string"
+      ? page.raw.page.answerFirst.trim()
+      : "";
   const faqItems = page.faq ?? [];
   const mentionsTermIds = slug ? (POLICY_SLUG_MENTIONS[slug] ?? []) : [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
@@ -280,6 +284,11 @@ export async function PolicyEcosystemPage({ route }: { route: string }) {
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {heroDescriptionFor(page)}
               </p>
+              {answerFirst ? (
+                <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 text-sm leading-relaxed text-white/80">
+                  {answerFirst}
+                </div>
+              ) : null}
             </div>
             {heroMeta.length ? (
               <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-6 self-start">
