@@ -3,7 +3,6 @@
 // src/lib/destinations/getWebDestinationDetail.ts. Server Components (destinations/[slug]/page.tsx)
 // call the helper directly; this route still serves external clients.
 import { NextRequest, NextResponse } from "next/server";
-import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
 import { getDestinationDetailFromDatabase } from "@/lib/publicContent/databaseDestinationDetail";
 import { getPublicDestinationDetail } from "@/lib/publicContent/destinationDetailSnapshot";
 

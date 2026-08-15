@@ -3,7 +3,6 @@
 // extract API transform logic so Server Components (tour hub pages) call it directly, skipping HTTP.
 // Unblocks SSG (was failing with ECONNREFUSED on self-fetch to /api/packages/web at build time).
 import { prisma } from '@/lib/prisma';
-import { MOCK_PACKAGES } from '@/data/mockData';
 
 export interface ImageAsset {
   url: string;
@@ -97,34 +96,11 @@ function serializePackage(pkg: any): PackageListItem {
 /**
  * Fetch published web tour-package listings, filtered by optional from/duration/category.
  * Returns empty array on miss or error (caller-friendly — no null checks).
- * Honors NEXT_PUBLIC_IS_FIREBASE mock-mode env flag.
  */
 export async function getWebPackagesList(
   filters: WebPackagesListFilters = {},
 ): Promise<PackageListItem[]> {
   const { fromId, durationId, categoryId, limit } = filters;
-
-  if (process.env.NEXT_PUBLIC_IS_FIREBASE === 'true') {
-    let filtered = [...(MOCK_PACKAGES as PackageListItem[])];
-    if (fromId !== undefined) {
-      if (fromId === 4) {
-        filtered = filtered.filter((p) => p.startDestination === 'Surabaya');
-      } else if (fromId === 3) {
-        filtered = filtered.filter((p) => p.startDestination === 'Bali');
-      }
-    }
-    if (durationId !== undefined) {
-      const durationMap: Record<number, number> = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6 };
-      const expectedDays = durationMap[durationId];
-      if (expectedDays) {
-        filtered = filtered.filter((p) => p.duration.day === expectedDays);
-      }
-    }
-    if (limit !== undefined) {
-      filtered = filtered.slice(0, limit);
-    }
-    return filtered;
-  }
 
   const pkgs = await prisma.packages.findMany({
     where: {

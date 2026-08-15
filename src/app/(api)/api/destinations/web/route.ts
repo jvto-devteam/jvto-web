@@ -1,7 +1,6 @@
 // app/api/destinations/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { MOCK_DESTINATIONS } from "@/data/mockData";
 import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 
 // ─── Serializer ───────────────────────────────────────────────────────────────
@@ -90,14 +89,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const limit = parseLimit(searchParams.get("limit"));
   const featured = searchParams.get("featured") === "true";
-
-  // Mock mode
-  if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
-    const data = limit
-      ? MOCK_DESTINATIONS.slice(0, limit)
-      : [...MOCK_DESTINATIONS];
-    return NextResponse.json(data, { status: 200 });
-  }
 
   if (process.env.PUBLIC_CONTENT_USE_SNAPSHOT_LISTS !== "false") {
     const data = getPublicDestinationList({ featured, limit });

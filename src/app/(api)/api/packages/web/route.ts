@@ -2,7 +2,6 @@
 // Refactored 2026-04-29: list transform + filter logic moved to src/lib/packages/getWebPackagesList.ts.
 // Server Components (tour hub pages) call the helper directly; this route still serves external clients.
 import { NextRequest, NextResponse } from "next/server";
-import { MOCK_PACKAGES } from "@/data/mockData";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 
 export async function GET(request: NextRequest) {
@@ -26,45 +25,6 @@ export async function GET(request: NextRequest) {
       : undefined;
   const limit =
     limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
-
-  if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
-    let filteredPackages = [...MOCK_PACKAGES];
-
-    if (fromId !== undefined) {
-      if (fromId === 4) {
-        filteredPackages = filteredPackages.filter(
-          (p) => p.startDestination === "Surabaya",
-        );
-      } else if (fromId === 3) {
-        filteredPackages = filteredPackages.filter(
-          (p) => p.startDestination === "Bali",
-        );
-      }
-    }
-
-    if (durationId !== undefined) {
-      const durationMap: Record<number, number> = {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-      };
-      const expectedDays = durationMap[durationId];
-      if (expectedDays) {
-        filteredPackages = filteredPackages.filter(
-          (p) => p.duration.day === expectedDays,
-        );
-      }
-    }
-
-    if (limit !== undefined) {
-      filteredPackages = filteredPackages.slice(0, limit);
-    }
-
-    return NextResponse.json(filteredPackages, { status: 200 });
-  }
 
   try {
     const payload = await getWebPackagesList({

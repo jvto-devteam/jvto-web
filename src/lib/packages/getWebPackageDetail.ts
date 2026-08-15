@@ -7,7 +7,6 @@
 // Backward-compatible: response shape identical to the previous API output.
 import { prisma } from '@/lib/prisma';
 import type { TourPackageDetail } from '@/interfaces';
-import { MOCK_PACKAGE_DETAILS } from '@/data/mockData';
 
 const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
 
@@ -32,18 +31,9 @@ function replaceBigInt<T>(obj: T): T {
 
 /**
  * Fetch a published web tour-package detail by slug. Returns null on miss.
- * Honors NEXT_PUBLIC_IS_FIREBASE mock-mode env flag (matches the prior route.ts behavior).
  */
 export async function getWebPackageDetail(slug: string): Promise<TourPackageDetail | null> {
   if (!slug) return null;
-
-  // Mock-data branch (preserved from route.ts) — used when running against MOCK_PACKAGE_DETAILS.
-  if (process.env.NEXT_PUBLIC_IS_FIREBASE === 'true') {
-    const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find(
-      (p) => p.product?.slug === slug || p.slug === slug,
-    );
-    return (mockPkg as TourPackageDetail) ?? null;
-  }
 
   const pkg = await prisma.packages.findUnique({
     where: { slug },
