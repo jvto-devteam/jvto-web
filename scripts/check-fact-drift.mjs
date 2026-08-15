@@ -1,28 +1,69 @@
 #!/usr/bin/env node
 // Detects drift between content/ (git-owned SSOT for page bodies) and
-// src/data/trust-bundle/ (synced from the external llm-wiki, feeds only
-// /llms.txt) for a small, named set of facts that exist in both places.
-// It also attempts a third comparison against the DB-driven organization
-// profile (getPublicOrganizationProfile()), degrading to a WARN (not a
-// failure) if that source can't be reached from this environment.
+// jvto-ekosistem's organization-identity/organization.json + credentials-
+// and-public-evidence/trust-claims.json + people-and-crew/people.json (the
+// single read source for org/trust content -- see jvto-web/README.md's
+// "Content sources" section) for a small, named set of facts that exist in
+// both places. It also attempts a fourth comparison against the DB-driven
+// organization profile (getPublicOrganizationProfile()), degrading to a WARN
+// (not a failure) if that source can't be reached from this environment.
+//
+// Until Task 5.3 of the data-source-consolidation plan (2026-08-15), the
+// jvto-ekosistem side of this check read jvto-web's own
+// src/data/trust-bundle/ (a direct llm-wiki sync). That sync was retired and
+// the local copy deleted; this script was repointed at the sibling
+// jvto-ekosistem checkout instead, same local-read convention as
+// scripts/audit-ecosystem-visible-content.mjs (JVTO_EKOSYSTEM_*_ROOT env
+// override, else "../jvto-ekosistem" relative to this repo). If the sibling
+// checkout isn't present (e.g. a jvto-web-only clone), these comparisons are
+// skipped with a WARN rather than failing the whole script.
 //
 // This does NOT unify the two/three pipelines (that requires changes to the
-// external llm-wiki sync and/or a larger DB-vs-content migration, both out
-// of scope here) -- it only fails loudly when the checked facts disagree,
-// so drift is caught instead of silently shipped.
-import { readFileSync } from "node:fs";
+// external llm-wiki compiler and/or a larger DB-vs-content migration, both
+// out of scope here) -- it only fails loudly when the checked facts
+// disagree, so drift is caught instead of silently shipped.
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-
-function readJson(relPath) {
-  return JSON.parse(readFileSync(path.join(process.cwd(), relPath), "utf8"));
-}
 
 function normalize(value) {
   return String(value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-const org = readJson("src/data/trust-bundle/schema/organization.json");
-const claims = readJson("src/data/trust-bundle/claims.json").claims;
+const ECOSYSTEM_ROOT =
+  process.env.JVTO_EKOSYSTEM_CONTENT_ROOT ??
+  path.resolve(process.cwd(), "..", "jvto-ekosistem");
+
+function readEcosystemJson(relPath) {
+  return JSON.parse(
+    readFileSync(path.join(ECOSYSTEM_ROOT, relPath), "utf8"),
+  );
+}
+
+const ecosystemAvailable = existsSync(ECOSYSTEM_ROOT);
+const warnings = [];
+
+if (!ecosystemAvailable) {
+  warnings.push(
+    `WARN  jvto-ekosistem checkout not found at ${ECOSYSTEM_ROOT} -- skipping org/claims drift checks against it. Set JVTO_EKOSYSTEM_CONTENT_ROOT or check out the sibling repo to run them.`,
+  );
+}
+
+const org = ecosystemAvailable
+  ? readEcosystemJson(
+      "1-knowledge-and-evidence-core/organization-identity/organization.json",
+    )
+  : null;
+const claims = ecosystemAvailable
+  ? readEcosystemJson(
+      "1-knowledge-and-evidence-core/credentials-and-public-evidence/trust-claims.json",
+    ).claims
+  : [];
+const people = ecosystemAvailable
+  ? readEcosystemJson("1-knowledge-and-evidence-core/people-and-crew/people.json")
+  : null;
+const founder = people?.leadership?.find((p) =>
+  (p.roles ?? []).includes("Founder"),
+);
 
 // entityGraph.ts is TypeScript with computed values (template literals,
 // constants) -- rather than executing/transpiling it here, read it as text
@@ -49,7 +90,6 @@ const entityGraphFounderName = (() => {
 })();
 
 let failures = 0;
-const warnings = [];
 
 function checkFact(label, sourceAValue, sourceALabel, sourceBValue, sourceBLabel) {
   if (sourceAValue == null || sourceBValue == null) {
@@ -69,48 +109,54 @@ function checkFact(label, sourceAValue, sourceALabel, sourceBValue, sourceBLabel
   }
 }
 
-const nibIdentifier = (org.identifier ?? []).find((i) => i.propertyID === "NIB");
-const tdupIdentifier = (org.identifier ?? []).find((i) => i.propertyID === "TDUP");
+const ORG_SOURCE_LABEL =
+  "jvto-ekosistem organization-identity/organization.json";
 
-checkFact(
-  "NIB number",
-  nibIdentifier?.value,
-  "trust-bundle/schema/organization.json",
-  entityGraphTaxId,
-  "entityGraph.ts ORGANIZATION_SCHEMA.taxID",
-);
+const nibIdentifier = org?.identifiers?.find((i) => i.type === "NIB");
+const tdupIdentifier = org?.identifiers?.find((i) => i.type === "TDUP");
 
-checkFact(
-  "Founder name",
-  org.founder?.name,
-  "trust-bundle/schema/organization.json",
-  entityGraphFounderName,
-  "entityGraph.ts FOUNDER_SCHEMA.name",
-);
+if (ecosystemAvailable) {
+  checkFact(
+    "NIB number",
+    nibIdentifier?.value,
+    ORG_SOURCE_LABEL,
+    entityGraphTaxId,
+    "entityGraph.ts ORGANIZATION_SCHEMA.taxID",
+  );
 
-checkFact(
-  "Organization legal name",
-  org.legalName,
-  "trust-bundle/schema/organization.json",
-  extractLiteral(entityGraphSrc, /legalName:\s*'([^']+)'/),
-  "entityGraph.ts ORGANIZATION_SCHEMA.legalName",
-);
+  checkFact(
+    "Founder name",
+    founder?.name,
+    "jvto-ekosistem people-and-crew/people.json (leadership[roles includes Founder])",
+    entityGraphFounderName,
+    "entityGraph.ts FOUNDER_SCHEMA.name",
+  );
 
-// Known pre-existing data-quality issue: NIB and TDUP should NOT share a
-// value (they are different credentials -- NIB is national business
-// registration, TDUP is the Tourism Business Permit, documented elsewhere in
-// this repo's ported content e.g. content/pages/why-jvto/our-story.json as
-// separately issued). Flag it as a warning, not a failure -- fixing it means
-// hand-editing the externally-synced trust-bundle, which is out of scope
-// here (its own header comment says "Do NOT hand-edit"); this just makes
-// sure nobody misses it.
-if (nibIdentifier?.value && tdupIdentifier?.value && nibIdentifier.value === tdupIdentifier.value) {
-  warnings.push(
-    `WARN  trust-bundle/schema/organization.json: NIB and TDUP identifiers share the same value ("${nibIdentifier.value}") -- these are documented elsewhere in this repo as different credentials. Likely a data error in the external llm-wiki sync. Raise with the trust-bundle/llm-wiki owner; do not hand-edit this file to fix it.`,
+  checkFact(
+    "Organization legal name",
+    org.legalName,
+    ORG_SOURCE_LABEL,
+    extractLiteral(entityGraphSrc, /legalName:\s*'([^']+)'/),
+    "entityGraph.ts ORGANIZATION_SCHEMA.legalName",
+  );
+
+  // Known pre-existing data-quality issue: NIB and TDUP should NOT share a
+  // value (they are different credentials -- NIB is national business
+  // registration, TDUP is the Tourism Business Permit, documented elsewhere in
+  // this repo's ported content e.g. content/pages/why-jvto/our-story.json as
+  // separately issued). Flag it as a warning, not a failure -- fixing it means
+  // hand-editing jvto-ekosistem's content, which is out of scope here; this
+  // just makes sure nobody misses it.
+  if (nibIdentifier?.value && tdupIdentifier?.value && nibIdentifier.value === tdupIdentifier.value) {
+    warnings.push(
+      `WARN  ${ORG_SOURCE_LABEL}: NIB and TDUP identifiers share the same value ("${nibIdentifier.value}") -- these are documented elsewhere in this repo as different credentials. Likely a data error upstream. Raise with the content owner; do not hand-edit this file to fix it (see jvto-ekosistem's own "do not hand-edit" note in its trust-claims.json _comment).`,
+    );
+  }
+
+  console.log(
+    `\n${claims.length} canonical claims found in jvto-ekosistem's credentials-and-public-evidence/trust-claims.json (C1-C${claims.length}).`,
   );
 }
-
-console.log(`\n${claims.length} canonical claims found in trust-bundle/claims.json (C1-C${claims.length}).`);
 
 // ---- Third source: the DB-driven organization profile (Prisma) ----
 // Gracefully skipped (WARN, not FAIL) if it can't be reached -- see the
@@ -157,6 +203,13 @@ async function checkDbSource() {
       return;
     }
 
+    if (!ecosystemAvailable) {
+      warnings.push(
+        "WARN  DB source: jvto-ekosistem checkout unavailable -- skipping DB-vs-ekosistem comparisons (legal name / NIB / founder).",
+      );
+      return;
+    }
+
     // Real field name on the Prisma organization_profile row / snapshot
     // fallback is `legal_name` (see prisma/schema.prisma and
     // src/lib/publicContent/organizationSnapshot.ts) -- not `legalName`.
@@ -165,7 +218,7 @@ async function checkDbSource() {
       dbOrg.legal_name,
       "getPublicOrganizationProfile()",
       org.legalName,
-      "trust-bundle/schema/organization.json",
+      ORG_SOURCE_LABEL,
     );
 
     // organization_profile has no nib/founder columns today (confirmed via
@@ -188,14 +241,14 @@ async function checkDbSource() {
       dbNib,
       "getPublicOrganizationProfile()",
       nibIdentifier?.value,
-      "trust-bundle/schema/organization.json",
+      ORG_SOURCE_LABEL,
     );
     checkFact(
       "Founder name (DB source)",
       dbFounderName,
       "getPublicOrganizationProfile()",
-      org.founder?.name,
-      "trust-bundle/schema/organization.json",
+      founder?.name,
+      "jvto-ekosistem people-and-crew/people.json (leadership[roles includes Founder])",
     );
   } catch (e) {
     warnings.push(

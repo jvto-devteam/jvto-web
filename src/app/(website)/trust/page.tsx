@@ -4,11 +4,12 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import TrustClaimBlock from "@/components/trust/TrustClaimBlock";
 import TrustFaqBlock from "@/components/trust/TrustFaqBlock";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemTrustClaims } from "@/lib/ecosystemContent/trustClaims";
 import {
-  faqPageSchema,
+  buildTrustFaqPageSchema,
   touristTripSchema,
   trustManifest,
-} from "@/lib/trust-bundle";
+} from "@/lib/trust-bundle-schema";
 
 export const revalidate = 86400;
 
@@ -55,6 +56,9 @@ export default async function TrustPage() {
     seo: { title: seo.title, description: seo.description },
     content: { h1: seo.h1 },
   };
+
+  const { faq: trustFaqItems } = await getEcosystemTrustClaims();
+  const faqPageSchema = buildTrustFaqPageSchema(trustFaqItems);
 
   const touristTrips = Array.isArray(touristTripSchema)
     ? touristTripSchema

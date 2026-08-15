@@ -42,7 +42,7 @@ function die(message) {
 // manifest yet (e.g. fresh master before the first published post), treat it
 // as "zero published posts" rather than failing — the loader/render handle an
 // empty blog gracefully. A genuinely wrong LLM_WIKI_PATH is already caught by
-// sync:packages / sync:trust, which run before this and require their sources.
+// sync:packages, which runs before this and requires its source.
 const srcManifestPath = join(SRC_DIR, "_manifest.json");
 const srcAvailable = existsSync(SRC_DIR) && existsSync(srcManifestPath);
 

@@ -8,13 +8,17 @@
 // (getEcosystemVerifyEvidenceDocs) — see those files for the established
 // readLocal/fetchRemote convention.
 //
-// Replaces the trustClaims/trustAeoSnippets/trustFaqItems exports of
+// Replaced the trustClaims/trustAeoSnippets/trustFaqItems exports of the old
 // src/lib/trust-bundle.ts (src/data/trust-bundle/claims.json,
-// aeo-snippets.json, faq.json) for this task's two consumers:
+// aeo-snippets.json, faq.json) for its two consumers:
 // components/trust/TrustClaimBlock.tsx and components/trust/TrustFaqBlock.tsx.
-// trust-bundle.ts's other exports (organizationSchema, faqPageSchema,
-// touristTripSchema, trustManifest) are out of scope here — trust/page.tsx
-// keeps importing those from "@/lib/trust-bundle" directly.
+// trust-bundle.ts's remaining exports (organizationSchema — unused, dropped;
+// faqPageSchema, touristTripSchema, trustManifest) were generic JSON-LD
+// shaping / pipeline metadata rather than unique content, so Task 5.3
+// relocated them to src/lib/trust-bundle-schema.ts (faqPageSchema is now
+// built from this file's getEcosystemTrustClaims() output instead of a
+// second static copy) and deleted trust-bundle.ts + src/data/trust-bundle/
+// entirely — nothing in this repo reads directly from llm-wiki anymore.
 //
 // Do not hand-edit the ekosistem trust-claims.json. Fix data in llm-wiki
 // registries, re-run the compiler there, then re-sync ekosistem's copy.

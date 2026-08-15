@@ -128,6 +128,13 @@ Jika terjadi error kritis setelah deployment, lakukan langkah-langkah berikut un
 - **Alur Kerja:** Perubahan kode dilakukan di branch terpisah. Setelah selesai, dibuat Pull Request ke branch main. Review dan merge dilakukan melalui antarmuka GitHub. Setelah di-merge, barulah prosedur deployment di server dijalankan.
 - **Manajemen Kolaborator:** Penambahan anggota tim dilakukan melalui menu Settings > Collaborators di halaman repository GitHub.
 
+### Sumber Konten (Content Sources)
+- **Trust/verification content** (claims, evidence, FAQ, org identity, credentials) mengalir melalui satu rantai: **`llm-wiki`** (authoring + compiler) → **`jvto-ekosistem`** (single read source) → **`jvto-web`** (this repo, read-only consumer).
+- `jvto-web` tidak lagi melakukan sync langsung dari `llm-wiki` untuk konten ini. Direct sync sebelumnya (`src/lib/trust-bundle.ts`, `src/data/trust-bundle/`, `scripts/sync-trust-bundle.mjs`, npm script `sync:trust`) telah dihapus (Task 5.3, data-source-consolidation plan, 2026-08-15) — semua trust/verification content sekarang dibaca dari `jvto-ekosistem` via `src/lib/ecosystemContent/*.ts` (local-read pada sibling checkout `../jvto-ekosistem`, dengan HTTP fallback ke `https://ekosistem.javavolcano-touroperator.com` bila checkout lokal tidak tersedia — lihat `src/lib/ecosystemContent/trustClaims.ts` untuk contoh polanya).
+- `/trust` masih memiliki sedikit logika lokal murni (JSON-LD shaping untuk FAQPage/TouristTrip, dan snapshot metadata compile-manifest) di `src/lib/trust-bundle-schema.ts` — ini bukan konten unik, jadi sengaja tidak dipindah ke `jvto-ekosistem`.
+- Detail lengkap arsitektur konsumsi ekosistem ada di `docs/architecture/ecosystem-content-consumption.md`.
+- Beberapa sync langsung dari `llm-wiki` lain (policy bundle via `sync:policy`/`sync:packages`, blog via `sync:blog`) masih aktif dan berada di luar cakupan migrasi ini.
+
 ### Kebijakan Keamanan
 - **Secrets:** Semua informasi sensitif (password DB, API keys) disimpan sebagai Environment Variables di file .env.local di server, yang tidak termasuk dalam repository Git.
 - **Akses Adminer:** Dibatasi oleh SSL dan aturan allow/deny berdasarkan alamat IP yang telah ditentukan di /etc/nginx/sites-available/adminer.conf.
