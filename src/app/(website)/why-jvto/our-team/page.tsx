@@ -34,7 +34,7 @@ const CheckIcon = () => (
 
 // Bio fields (about/photo_url/highlights) live in the why-jvto content file,
 // not the canonical people record — matched by first-name, the same
-// convention content/entities/people.json's `code` field uses.
+// convention jvto-ekosistem people-and-crew/people.json's `code` field uses.
 type CrewBio = {
   about?: string | null;
   photo_url?: string | null;
@@ -103,7 +103,7 @@ function CrewCard({
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const counts = getCrewCounts();
+  const counts = await getCrewCounts();
   const page = await loadStaticPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? `Our Team — ${counts.total} Named JVTO Crew · KTA-Holding Guides & Drivers`;
   const description =
@@ -124,10 +124,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function OurTeamPage() {
-  const guides = getPublicGuides();
-  const drivers = getPublicDrivers();
-  const counts = getCrewCounts();
-  const page = await loadStaticPage(ROUTE);
+  const [guides, drivers, counts, page] = await Promise.all([
+    getPublicGuides(),
+    getPublicDrivers(),
+    getCrewCounts(),
+    loadStaticPage(ROUTE),
+  ]);
   const allCrew = [...guides, ...drivers];
   const sections = page?.sections ?? [];
   const guardianMindset = sections.find((s) => s.id === "guardian-mindset");

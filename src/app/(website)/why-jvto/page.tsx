@@ -51,8 +51,8 @@ const ArrowRight = () => (
 export default async function WhyJvtoPage() {
   const page = await loadStaticPage(ROUTE);
   const teamPage = await loadStaticPage("/why-jvto/our-team");
-  const counts = getCrewCounts();
-  const crew = getPublicCrew();
+  const counts = await getCrewCounts();
+  const crew = await getPublicCrew();
   const heroSignals = whySection(page, "hero-signals");
   const difference = whySection(page, "difference");
   const reviewsSignal = whySection(page, "reviews-signal");

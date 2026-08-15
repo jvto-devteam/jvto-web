@@ -4,7 +4,7 @@ import { Instagram, Facebook } from "lucide-react";
 import Link from "@/components/website/AppLink";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 
-/** Matches content/entities/people.json's crew code convention (lowercase first name). */
+/** Matches jvto-ekosistem people-and-crew/people.json's crew code convention (lowercase first name). */
 function crewSlug(name: string): string {
   return name.trim().toLowerCase().split(/\s+/)[0];
 }

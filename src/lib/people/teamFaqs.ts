@@ -1,5 +1,5 @@
 /**
- * Team FAQ — DERIVED from the canonical people record (content/entities/people.json),
+ * Team FAQ — DERIVED from the canonical people record (jvto-ekosistem people-and-crew/people.json),
  * never a parallel hardcoded copy. Every answer interpolates record values
  * (crew counts, the KTA membership credential type/issuer, the direct-managed
  * disclaimer, the medical partner's verifiable licence, the police-independence
@@ -18,13 +18,15 @@ export interface TeamFaq {
   answer: string;
 }
 
-export function buildTeamFaqs(): TeamFaq[] {
-  const { total, guides, drivers } = getCrewCounts();
-  const disc = getDisclaimer();
-  const crew = getPublicCrew();
+export async function buildTeamFaqs(): Promise<TeamFaq[]> {
+  const [{ total, guides, drivers }, disc, crew, mp] = await Promise.all([
+    getCrewCounts(),
+    getDisclaimer(),
+    getPublicCrew(),
+    getPublicMedicalPartner(),
+  ]);
   const ktaType = crew[0]?.kta.credentialType ?? "HPWKI membership credential (KTA)";
   const ktaIssuer = crew[0]?.kta.issuer ?? "HPWKI (Himpunan Pelaku Wisata Khusus Ijen)";
-  const mp = getPublicMedicalPartner();
 
   const faqs: TeamFaq[] = [
     {

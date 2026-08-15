@@ -3,17 +3,18 @@ import { url } from "@/lib/site";
 import { getLastModified, type LastModifiedMap } from "@/app/sitemap-utils";
 import { getPublicCrewCodes } from "@/lib/people/canonicalPeople";
 
-export function sitemapWhyJvto(
+export async function sitemapWhyJvto(
   t: Date,
   lastModifiedMap: LastModifiedMap,
-): MetadataRoute.Sitemap {
+): Promise<MetadataRoute.Sitemap> {
+  const crewCodes = await getPublicCrewCodes();
   return [
     { url: url("/why-jvto"), lastModified: getLastModified(lastModifiedMap, "/why-jvto", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/the-jvto-difference"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/the-jvto-difference", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/reviews"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/reviews", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/our-story"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-story", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/our-team"), lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-team", t), changeFrequency: "monthly", priority: 0.8 },
-    ...getPublicCrewCodes().map((code) => ({
+    ...crewCodes.map((code) => ({
       url: url(`/why-jvto/our-team/${code}`),
       lastModified: getLastModified(lastModifiedMap, "/why-jvto/our-team", t),
       changeFrequency: "monthly" as const,

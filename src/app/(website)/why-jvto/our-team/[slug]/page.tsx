@@ -26,13 +26,14 @@ type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getPublicCrewCodes().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const codes = await getPublicCrewCodes();
+  return codes.map((slug) => ({ slug }));
 }
 
 /** Bio fields (about/phone/social/highlights/photo_url) live in the why-jvto
  * content file, not the canonical people record. Matched by first-name slug —
- * the same convention content/entities/people.json's `code` field already uses. */
+ * the same convention jvto-ekosistem people-and-crew/people.json's `code` field already uses. */
 async function getCrewBio(slug: string) {
   const page = await loadStaticPage("/why-jvto/our-team");
   if (!page || page.format !== "structured") return null;
@@ -73,7 +74,7 @@ function Stars({ count }: { count: number }) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const member = getPublicCrewByCode(slug);
+  const member = await getPublicCrewByCode(slug);
   if (!member) return { title: "Team Member Not Found" };
   const page = await loadStaticPage(`/why-jvto/our-team/${slug}`);
   const jobTitle = crewJobTitle(member.role);
@@ -90,7 +91,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CrewMemberPage({ params }: Props) {
   const { slug } = await params;
-  const member = getPublicCrewByCode(slug);
+  const member = await getPublicCrewByCode(slug);
   if (!member) notFound();
 
   const ecosystemPage = await loadStaticPage(`/why-jvto/our-team/${slug}`);
