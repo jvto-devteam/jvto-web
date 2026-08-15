@@ -50,3 +50,6 @@ docs/design_atlas/screenshots/
 docs/design_atlas/manifest.json
 .playwright-mcp/
 .superpowers/
+
+# Claude Code local settings — machine-specific, has held real credentials before
+.claude/settings.local.json
