@@ -8,15 +8,14 @@ import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
-  getPublicDestinationDetail,
-  getPublicDestinationDetailStaticParams,
-} from "@/lib/publicContent/destinationDetailSnapshot";
+  getDestinationDetailFromDatabase,
+  getPublishedDestinationRoutes,
+} from "@/lib/publicContent/databaseDestinationDetail";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getWebDestinationDetail } from "@/lib/destinations/getWebDestinationDetail";
 import { getToursByDestination } from "@/lib/queries/toursByDestination";
 import {
   buildToursIncludingDestSchema,
@@ -79,13 +78,17 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getPublicDestinationDetailStaticParams();
+  const routes = await getPublishedDestinationRoutes();
+  return routes.map((route) => ({ slug: route.slug }));
 }
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
+// DB-only, no snapshot fallback (Task 4.4, data-source-consolidation): if Prisma is
+// unreachable, getDestinationDetailFromDatabase throws and this page errors — it does not
+// silently degrade to stale snapshot data.
 
 const getDestination = cache(async (slug: string): Promise<DestinationDetail | null> =>
-  getPublicDestinationDetail(slug),
+  getDestinationDetailFromDatabase(slug),
 );
 
 // 3D trail data is managed through jvto-cms (GPX upload -> route_geojson + route_* stat

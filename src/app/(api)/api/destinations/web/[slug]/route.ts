@@ -1,10 +1,9 @@
 // app/api/destinations/web/[slug]/route.ts
-// Refactored 2026-04-29 (AEO/GEO port Phase 4.8): detail transform logic moved to
-// src/lib/destinations/getWebDestinationDetail.ts. Server Components (destinations/[slug]/page.tsx)
-// call the helper directly; this route still serves external clients.
+// Refactored 2026-08-15 (Task 4.4, data-source-consolidation): the snapshot-first path
+// (destinationDetailSnapshot.ts, deleted this task) is gone — this route now reads Prisma
+// directly, same DB-only reader the Server Component page uses. No snapshot fallback.
 import { NextRequest, NextResponse } from "next/server";
 import { getDestinationDetailFromDatabase } from "@/lib/publicContent/databaseDestinationDetail";
-import { getPublicDestinationDetail } from "@/lib/publicContent/destinationDetailSnapshot";
 
 export async function GET(
   _req: NextRequest,
@@ -21,10 +20,7 @@ export async function GET(
       );
     }
 
-    const useSnapshots = process.env.PUBLIC_CONTENT_USE_SNAPSHOT_DETAILS !== "false";
-    const dest = useSnapshots
-      ? await getPublicDestinationDetail(slug)
-      : await getDestinationDetailFromDatabase(slug);
+    const dest = await getDestinationDetailFromDatabase(slug);
 
     if (!dest) {
       return NextResponse.json(
