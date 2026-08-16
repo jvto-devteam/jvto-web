@@ -3,13 +3,16 @@
 
 /* ====== CUSTOM THEME (Tailwind v4 way) ====== */
 @theme {
-  --font-sans: "Inter", sans-serif;
+  /* Fed by next/font/google in src/app/layout.tsx, which sets --font-inter on
+     <html>. The literal names stay as a fallback for surfaces rendered outside
+     the root layout. */
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
 
-  /* ── Legacy tokens (keep — other pages still reference these) ── */
-  --color-jvto-green: #9fce33;
-  --color-jvto-dark: #1a1a1a;
-  --color-jvto-light: #f5f5f5;
-  --color-jvto-text: #333333;
+  /* The V1 generation (--color-jvto-green #9fce33, -dark #1a1a1a, -light
+     #f5f5f5, -text #333333) is gone. Its call sites were migrated to the V2
+     tokens below. V1 is superseded by decision, so it is removed rather than
+     kept for parity — leaving it defined is what let it grow back to hundreds
+     of references while the spec called it dead. */
 
   /* ── Design System v2 tokens ── */
   --color-jvto-navy: #0D1B2A;
@@ -23,8 +26,46 @@
   --color-jvto-muted: #4B5563;
   --color-jvto-border: #E3E0DA;
 
+  /* ── DS v2 — ink partners. Every signal colour ships a fill and an ink.
+     The fills above are legible only carrying navy text; as text on a light
+     ground they measure 3.33:1 (orange), 2.05:1 (lime) and 2.03:1 (gold),
+     all below the 4.5:1 AA floor. These are the versions that pass:
+       orange-ink  5.50:1 on white · 5.05:1 on canvas
+       lime-ink    5.10:1 on white
+       gold-ink    5.54:1 on white · 5.08:1 on canvas
+     On navy, use the bright fills as text instead — the inks go too dark. ── */
+  --color-jvto-orange-ink: #B64400;
+  --color-jvto-lime-ink: #4E7A12;
+  --color-jvto-gold-ink: #8A6100;
+
+  /* Secondary body copy on light grounds. --color-jvto-muted is kept for the
+     call sites that still reference it. */
+  --color-jvto-ink-soft: #5A6472;
+
+  /* Copy and chrome on navy. */
+  --color-jvto-on-navy: #C3CBD4;
+  --color-jvto-on-navy-dim: #9AA5B1;
+
+  /* Navy depth: -raise is a card on navy, -deep the floor of a dark section,
+     -forensic the /verify-jvto ground. */
+  --color-jvto-navy-raise: #17293B;
+  --color-jvto-navy-deep: #071019;
+  --color-jvto-navy-forensic: #0A1520;
+  --color-jvto-rule: #D4CFC5;
+
+  /* ── DS v2 — five-state status ladder (volcanic and access status).
+     All five clear AA on white (5.50–7.57:1) and on the off-white canvas
+     (5.05–6.94:1). None clears it on navy (2.30–3.16:1) — on dark grounds a
+     status renders as a coloured dot beside inverse text, never as text. ── */
+  --color-jvto-status-normal: #2F6B3A;
+  --color-jvto-status-advisory: #8A6100;
+  --color-jvto-status-restricted: #B64400;
+  --color-jvto-status-closed: #9C2B1C;
+  --color-jvto-status-unknown: #5A6472;
+
   /* ── DS v2 — display font (mono ditunda ke Fase 3/Verify; lihat plan) ── */
   --font-display: var(--font-raleway), Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   /* ── DS v2 — radius scale (sumber: tokens/radii-shadows.css) ── */
   --radius-jvto-sm: 12px;

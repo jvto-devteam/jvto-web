@@ -167,7 +167,7 @@ function recalculateTotals(
 
 const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
   <div className="mb-6 flex items-center gap-3 border-b border-slate-200 pb-3">
-    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm text-jvto-green">
+    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm text-jvto-lime">
       {icon}
     </span>
     <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
@@ -189,7 +189,7 @@ const JVTOButton = ({
     disabled={disabled}
     className={`
       group relative flex items-center justify-center gap-2 overflow-hidden rounded-sm 
-      bg-jvto-green px-6 py-4 font-bold uppercase tracking-wider text-slate-900 
+      bg-jvto-lime px-6 py-4 font-bold uppercase tracking-wider text-slate-900 
       transition-all hover:bg-[#8cb82b] hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50
       ${fullWidth ? "w-full" : ""}
     `}
@@ -211,7 +211,7 @@ const ProgressIndicator = ({ currentStep }: { currentStep: number }) => (
     </div>
     <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-slate-200">
       <div
-        className="h-full bg-jvto-green transition-all duration-500 ease-out"
+        className="h-full bg-jvto-lime transition-all duration-500 ease-out"
         style={{ width: currentStep === 1 ? "50%" : "100%" }}
       />
     </div>
@@ -240,7 +240,7 @@ const StickyOrderSummary = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-90" />
         <div className="absolute bottom-4 left-4 right-4">
-          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-jvto-green">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-jvto-lime">
             Selected Adventure
           </span>
           <h3 className="line-clamp-2 text-lg font-bold leading-tight text-white">
@@ -272,7 +272,7 @@ const StickyOrderSummary = ({
           </div>
 
           {payload.addon && payload.addon.length > 0 && (
-            <div className="space-y-1 bg-jvto-green/5 px-3 py-2 rounded-sm">
+            <div className="space-y-1 bg-jvto-lime/5 px-3 py-2 rounded-sm">
               <p className="text-xs font-bold uppercase text-slate-400">
                 Add-ons Included
               </p>
@@ -291,7 +291,7 @@ const StickyOrderSummary = ({
 
           {/* DISKON SECTION */}
           {payload.totalDiscount > 0 && (
-            <div className="flex justify-between text-jvto-green font-bold bg-jvto-green/5 px-2 py-1 rounded">
+            <div className="flex justify-between text-jvto-lime font-bold bg-jvto-lime/5 px-2 py-1 rounded">
               <span>{payload.discountLabel || "Group Discount"}</span>
               <span>- {formatCurrency(payload.totalDiscount)}</span>
             </div>
@@ -504,7 +504,7 @@ const StepOneDetails = ({
               min={today}
               value={payload.date}
               onChange={handleDateChange}
-              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none transition-all"
               required
             />
           </div>
@@ -525,10 +525,10 @@ const StepOneDetails = ({
               min={payload.paxMin}
               value={paxCount}
               onChange={handlePaxChange}
-              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none transition-all"
             />
             {payload.totalDiscount > 0 && (
-              <p className="mt-2 text-xs font-bold text-jvto-green">
+              <p className="mt-2 text-xs font-bold text-jvto-lime-ink">
                 🎉 {payload.discountLabel} Applied!
               </p>
             )}
@@ -548,7 +548,7 @@ const StepOneDetails = ({
                 <div>
                   <h4 className="flex items-center gap-2 text-base font-bold text-slate-900">
                     Student Verification
-                    <span className="rounded bg-jvto-green px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900">
+                    <span className="rounded bg-jvto-lime px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900">
                       Required
                     </span>
                   </h4>
@@ -570,14 +570,14 @@ const StepOneDetails = ({
             <div className="grid gap-5 md:grid-cols-2">
               {isicCodes.map((code, index) => (
                 <div key={index} className="group relative">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-jvto-green">
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-jvto-lime">
                     Traveler #{index + 1} Discount Code
                   </label>
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                       {/* SVG Card Icon */}
                       <svg
-                        className="h-5 w-5 transition-colors group-focus-within:text-jvto-green"
+                        className="h-5 w-5 transition-colors group-focus-within:text-jvto-lime"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -597,7 +597,7 @@ const StepOneDetails = ({
                       onChange={(e) =>
                         handleIsicChange(index, e.target.value.toUpperCase())
                       }
-                      className="w-full rounded-sm border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all uppercase"
+                      className="w-full rounded-sm border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none transition-all uppercase"
                       required
                     />
                   </div>
@@ -614,7 +614,7 @@ const StepOneDetails = ({
                   href="https://www.isic.org/discounts/?providerId=259268"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-slate-900 underline decoration-jvto-green decoration-2 hover:no-underline"
+                  className="font-bold text-slate-900 underline decoration-jvto-lime decoration-2 hover:no-underline"
                 >
                   ISIC Website
                 </a>
@@ -671,7 +671,7 @@ const StepOneDetails = ({
             </div>
           ) : (
             // TAMPILAN SUDAH LOGIN (SESSION ACTIVE)
-            <div className="flex items-center justify-between rounded-sm bg-jvto-green/5 p-4 border border-jvto-green/30">
+            <div className="flex items-center justify-between rounded-sm bg-jvto-lime/5 p-4 border border-jvto-lime/30">
               <div className="flex items-center gap-3">
                 {session.user?.image ? (
                   <Image
@@ -682,7 +682,7 @@ const StepOneDetails = ({
                     className="rounded-full border-2 border-white shadow-sm"
                   />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-jvto-green/20 flex items-center justify-center font-bold text-jvto-green">
+                  <div className="h-10 w-10 rounded-full bg-jvto-lime/20 flex items-center justify-center font-bold text-jvto-lime-ink">
                     {session.user?.name?.charAt(0)}
                   </div>
                 )}
@@ -715,7 +715,7 @@ const StepOneDetails = ({
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Full name as per ID"
-              className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
+              className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none"
               required
             />
           </div>
@@ -730,7 +730,7 @@ const StepOneDetails = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ticket@example.com"
-                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none"
                 required
               />
             </div>
@@ -743,7 +743,7 @@ const StepOneDetails = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+62..."
-                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-lime focus:ring-2 focus:ring-jvto-lime/20 focus:outline-none"
                 required
               />
             </div>
@@ -920,7 +920,7 @@ const StepTwoPayment = ({
                   ? "Due Now (Full Payment):"
                   : "Due Now (20% Deposit):"}
               </span>
-              <span className="text-xl font-black text-jvto-green">
+              <span className="text-xl font-black text-jvto-lime-ink">
                 {formatCurrency(payload.downPayment)}
               </span>
             </p>
@@ -954,8 +954,8 @@ const StepTwoPayment = ({
         <div className="space-y-3">
           {diffDays >= 6 ? (
             /* 1. XENDIT VERSION (AUTOMATIC FOR >= 6 DAYS) */
-            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-green bg-jvto-green/5/50 shadow-sm ring-1 ring-jvto-green">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-green/80 bg-jvto-green/80 transition-all">
+            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-lime bg-jvto-lime/5/50 shadow-sm ring-1 ring-jvto-lime">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-lime/80 bg-jvto-lime/80 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
               </div>
 
@@ -994,8 +994,8 @@ const StepTwoPayment = ({
             </div>
           ) : (
             /* 2. BANK TRANSFER VERSION (AUTOMATIC FOR < 6 DAYS) */
-            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-green bg-jvto-green/5/50 shadow-sm ring-1 ring-jvto-green">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-green/80 bg-jvto-green/80 transition-all">
+            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-lime bg-jvto-lime/5/50 shadow-sm ring-1 ring-jvto-lime">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-lime/80 bg-jvto-lime/80 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
               </div>
 
@@ -1028,14 +1028,14 @@ const StepTwoPayment = ({
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-jvto-green focus:ring-jvto-green"
+              className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-jvto-lime-ink focus:ring-jvto-lime"
             />
             <span className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800">
               I agree to the{" "}
               <a
                 target="_blank"
                 href="/travel-guide/booking-information"
-                className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
+                className="font-bold underline decoration-jvto-lime decoration-2 underline-offset-2"
               >
                 Terms & Conditions
               </a>{" "}
@@ -1043,7 +1043,7 @@ const StepTwoPayment = ({
               <a
                 target="_blank"
                 href="/travel-guide/booking-information"
-                className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
+                className="font-bold underline decoration-jvto-lime decoration-2 underline-offset-2"
               >
                 Cancellation Policy
               </a>
@@ -1055,7 +1055,7 @@ const StepTwoPayment = ({
             <a
               href="/policy/booking-payment-cancellation"
               target="_blank"
-              className="font-semibold underline decoration-jvto-green decoration-2 underline-offset-2 hover:text-slate-700"
+              className="font-semibold underline decoration-jvto-lime decoration-2 underline-offset-2 hover:text-slate-700"
             >
               100% Travel Credit jika batal ≥48 jam sebelum tour; hangus jika &lt;48 jam.
             </a>
@@ -1116,7 +1116,7 @@ function CheckoutPageInner() {
   if (loading || !payload) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-jvto-green border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-jvto-lime border-t-transparent"></div>
         <p className="font-bold uppercase tracking-widest text-slate-400">
           Loading Adventure...
         </p>
@@ -1130,7 +1130,7 @@ function CheckoutPageInner() {
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-black uppercase tracking-tight text-slate-900 md:text-4xl">
             Secure Your{" "}
-            <span className="text-jvto-green">
+            <span className="text-jvto-lime">
               Spot
             </span>
           </h1>

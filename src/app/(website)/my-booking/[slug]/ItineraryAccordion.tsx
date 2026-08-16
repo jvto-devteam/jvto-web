@@ -20,7 +20,7 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
   return (
     <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
       <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
+        <span className="w-2 h-2 rounded-full bg-jvto-lime"></span>
         Daily Itinerary
       </h3>
 
@@ -34,7 +34,7 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
             <div 
               key={item.day} 
               className={`rounded-sm border transition-all duration-300 overflow-hidden ${
-                isOpen ? "border-jvto-green shadow-md bg-white" : "border-slate-200 bg-slate-50"
+                isOpen ? "border-jvto-lime shadow-md bg-white" : "border-slate-200 bg-slate-50"
               }`}
             >
               {/* Header Accordion */}
@@ -44,7 +44,7 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
               >
                 <div className="flex items-center gap-4">
                   <div className={`flex flex-col items-center justify-center w-12 h-12 rounded-sm font-bold ${
-                    isOpen ? "bg-jvto-green/10 text-jvto-green" : "bg-white border border-slate-200 text-slate-400"
+                    isOpen ? "bg-jvto-lime/10 text-jvto-lime-ink" : "bg-white border border-slate-200 text-slate-400"
                   }`}>
                     <span className="text-[10px] uppercase">Day</span>
                     <span className="text-lg leading-none">{item.day}</span>
@@ -76,7 +76,7 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
                   <div className="p-4 pt-0 border-t border-dashed border-slate-100 bg-white">
                     
                     {/* Activity List (HTML Content) */}
-                    <div className="prose prose-sm max-w-none text-slate-600 mt-4 pl-4 border-l-2 border-jvto-green/30">
+                    <div className="prose prose-sm max-w-none text-slate-600 mt-4 pl-4 border-l-2 border-jvto-lime/30">
                         <div dangerouslySetInnerHTML={{ __html: item.activity }} />
                     </div>
 

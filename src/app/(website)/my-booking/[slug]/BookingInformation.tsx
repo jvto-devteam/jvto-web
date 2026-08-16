@@ -21,7 +21,7 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
             <button 
                 onClick={() => setActiveTab("faq")}
                 className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
-                    activeTab === "faq" ? "bg-slate-50 text-jvto-green border-b-2 border-jvto-green" : "text-slate-400 hover:text-slate-600"
+                    activeTab === "faq" ? "bg-slate-50 text-jvto-lime-ink border-b-2 border-jvto-lime" : "text-slate-400 hover:text-slate-600"
                 }`}
             >
                 <HelpCircle size={18} /> Information & FAQ
@@ -29,7 +29,7 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
             <button 
                 onClick={() => setActiveTab("packing")}
                 className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
-                    activeTab === "packing" ? "bg-slate-50 text-jvto-green border-b-2 border-jvto-green" : "text-slate-400 hover:text-slate-600"
+                    activeTab === "packing" ? "bg-slate-50 text-jvto-lime-ink border-b-2 border-jvto-lime" : "text-slate-400 hover:text-slate-600"
                 }`}
             >
                 <Backpack size={18} /> Packing List
@@ -60,7 +60,7 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
                     {Object.entries(packing).map(([category, items], idx) => (
                         <div key={idx} className="bg-slate-50 p-5 rounded-sm border border-slate-100">
                             <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                <CheckSquare size={16} className="text-jvto-green"/> {category}
+                                <CheckSquare size={16} className="text-jvto-lime"/> {category}
                             </h4>
                             <ul className="space-y-2">
                                 {items.map((item, i) => (

@@ -127,7 +127,7 @@ export default function EditLogisticsModal({ type, bookingUrl, initialData, onCl
                             onClick={() => setCategory(cat)}
                             className={`p-3 rounded-sm border text-sm font-bold flex items-center gap-2 transition-all ${
                                 category === cat 
-                                ? "border-jvto-green bg-jvto-green/5 text-jvto-green" 
+                                ? "border-jvto-lime bg-jvto-lime/5 text-jvto-lime" 
                                 : "border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                         >
@@ -150,7 +150,7 @@ export default function EditLogisticsModal({ type, bookingUrl, initialData, onCl
                 </label>
                 <input 
                     type="text" 
-                    className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-green outline-none"
+                    className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-lime outline-none"
                     placeholder="Type details here..."
                     value={formData.detail_value}
                     onChange={(e) => setFormData({...formData, detail_value: e.target.value})}
@@ -189,7 +189,7 @@ export default function EditLogisticsModal({ type, bookingUrl, initialData, onCl
                     <label className="block text-xs font-bold uppercase text-slate-500 mb-1">Special Requirements</label>
                     <input 
                         type="text" 
-                        className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-green outline-none"
+                        className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-lime outline-none"
                         placeholder="e.g. Dietary needs, Wheelchair access"
                         value={formData.special_requirements}
                         onChange={(e) => setFormData({...formData, special_requirements: e.target.value})}
@@ -208,7 +208,7 @@ export default function EditLogisticsModal({ type, bookingUrl, initialData, onCl
                 <button 
                     onClick={handleSubmit}
                     disabled={loading || !formData.detail_value}
-                    className="w-2/3 bg-jvto-green hover:bg-[#8cb82b] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-sm flex items-center justify-center gap-2 transition-all"
+                    className="w-2/3 bg-jvto-lime hover:bg-[#8cb82b] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-sm flex items-center justify-center gap-2 transition-all"
                 >
                     {loading ? <Loader2 className="animate-spin" /> : <Save size={18} />}
                     Save Details

@@ -105,7 +105,7 @@ export default function VolcanicStatusBadge({ destinationName, status }: Props) 
         {/* Tours operating indicator */}
         <div className="flex items-center gap-1.5 pt-0.5">
           {status.tours_operating ? (
-            <CheckCircle2 size={11} className="text-jvto-green" />
+            <CheckCircle2 size={11} className="text-jvto-lime" />
           ) : (
             <AlertCircle size={11} className="text-red-400" />
           )}
@@ -124,7 +124,7 @@ export default function VolcanicStatusBadge({ destinationName, status }: Props) 
           href={status.source_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-[9px] text-slate-600 hover:text-jvto-green transition-colors leading-none"
+          className="inline-flex items-center gap-1 text-[9px] text-slate-600 hover:text-jvto-lime transition-colors leading-none"
         >
           {status.source_url.replace("https://", "").split("/")[0]}
           <ExternalLink size={8} />

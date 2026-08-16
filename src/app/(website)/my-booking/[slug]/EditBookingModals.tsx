@@ -73,7 +73,7 @@ export default function EditBookingModals({
         <div className="flex justify-between items-start mb-4">
           <div>
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
+              <span className="w-2 h-2 rounded-full bg-jvto-lime"></span>
               Travel T-Shirt
             </h3>
             <p className="text-sm text-slate-500">
@@ -82,7 +82,7 @@ export default function EditBookingModals({
           </div>
           <button
             onClick={() => setShowTshirtModal(true)}
-            className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-green/10 text-slate-600 hover:text-jvto-green rounded-sm text-xs font-bold transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-lime/10 text-slate-600 hover:text-jvto-lime-ink rounded-sm text-xs font-bold transition-colors"
           >
             <Pencil size={14} /> Edit Size
           </button>
@@ -123,7 +123,7 @@ export default function EditBookingModals({
             </h3>
             <button
               onClick={() => setShowPickupModal(true)} // Implementasi modal pickup menyusul (Logic kompleks)
-              className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-green/10 text-slate-600 hover:text-jvto-green rounded-sm text-xs font-bold transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-lime/10 text-slate-600 hover:text-jvto-lime-ink rounded-sm text-xs font-bold transition-colors"
             >
               <Pencil size={14} /> Edit
             </button>
@@ -154,7 +154,7 @@ export default function EditBookingModals({
             </h3>
             <button
               onClick={() => setShowDropModal(true)}
-              className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-green/10 text-slate-600 hover:text-jvto-green rounded-sm text-xs font-bold transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-jvto-lime/10 text-slate-600 hover:text-jvto-lime-ink rounded-sm text-xs font-bold transition-colors"
             >
               <Pencil size={14} /> Edit
             </button>
@@ -216,7 +216,7 @@ export default function EditBookingModals({
                     <input
                       type="number"
                       min="0"
-                      className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-green outline-none"
+                      className="w-full border border-slate-300 rounded-sm px-3 py-2 focus:ring-2 focus:ring-jvto-lime outline-none"
                       value={sizes[key as keyof typeof sizes]}
                       onChange={(e) =>
                         setSizes({ ...sizes, [key]: Number(e.target.value) })
@@ -229,7 +229,7 @@ export default function EditBookingModals({
               <button
                 onClick={handleSaveTshirt}
                 disabled={loading || !isValidTshirt}
-                className="w-full bg-jvto-green hover:bg-[#8cb82b] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-sm flex items-center justify-center gap-2 transition-all"
+                className="w-full bg-jvto-lime hover:bg-[#8cb82b] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-sm flex items-center justify-center gap-2 transition-all"
               >
                 {loading ? (
                   <Loader2 className="animate-spin" />

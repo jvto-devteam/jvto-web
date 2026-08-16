@@ -125,30 +125,30 @@ function getInclusionIcon(text: string) {
     lower.includes("jeep") ||
     lower.includes("vehicle")
   )
-    return <Car size={20} className="text-jvto-green" />;
+    return <Car size={20} className="text-jvto-lime" />;
   if (lower.includes("guide"))
-    return <UserCheck size={20} className="text-jvto-green" />;
+    return <UserCheck size={20} className="text-jvto-lime" />;
   if (lower.includes("hotel") || lower.includes("accommodation"))
-    return <Home size={20} className="text-jvto-green" />;
+    return <Home size={20} className="text-jvto-lime" />;
   if (
     lower.includes("meal") ||
     lower.includes("breakfast") ||
     lower.includes("water")
   )
-    return <Utensils size={20} className="text-jvto-green" />;
+    return <Utensils size={20} className="text-jvto-lime" />;
   if (
     lower.includes("ticket") ||
     lower.includes("entrance") ||
     lower.includes("permit")
   )
-    return <Ticket size={20} className="text-jvto-green" />;
+    return <Ticket size={20} className="text-jvto-lime" />;
   if (
     lower.includes("equipment") ||
     lower.includes("mask") ||
     lower.includes("pole")
   )
-    return <Mountain size={20} className="text-jvto-green" />;
-  return <Check size={20} className="text-jvto-green" />;
+    return <Mountain size={20} className="text-jvto-lime" />;
+  return <Check size={20} className="text-jvto-lime" />;
 }
 
 // ... (Helper getExperienceIcon juga TETAP SAMA jika ada) ...
@@ -159,20 +159,20 @@ function getExperienceIcon(name: string) {
     lower.includes("air") ||
     lower.includes("tumpak")
   )
-    return <Waves size={24} className="text-jvto-green" />;
+    return <Waves size={24} className="text-jvto-lime" />;
   if (
     lower.includes("bromo") ||
     lower.includes("mount") ||
     lower.includes("sunrise")
   )
-    return <Mountain size={24} className="text-jvto-green" />;
+    return <Mountain size={24} className="text-jvto-lime" />;
   if (
     lower.includes("ijen") ||
     lower.includes("fire") ||
     lower.includes("blue")
   )
-    return <Flame size={24} className="text-jvto-green" />;
-  return <MapPin size={24} className="text-jvto-green" />;
+    return <Flame size={24} className="text-jvto-lime" />;
+  return <MapPin size={24} className="text-jvto-lime" />;
 }
 function calculateDownPayment(dateStr: string, total: number) {
   if (!dateStr) return 0;
@@ -432,18 +432,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center text-white hover:text-jvto-green transition-colors text-sm font-bold uppercase tracking-wide bg-black/20 backdrop-blur-md px-4 py-2 rounded-full"
+            className="inline-flex items-center text-white hover:text-jvto-lime transition-colors text-sm font-bold uppercase tracking-wide bg-black/20 backdrop-blur-md px-4 py-2 rounded-full"
           >
             <ArrowLeft size={16} className="mr-2" /> Back
           </button>
-          <button aria-label="Save to favorites" className="text-white hover:text-jvto-green transition-colors">
+          <button aria-label="Save to favorites" className="text-white hover:text-jvto-lime transition-colors">
             <Heart size={28} />
           </button>
         </div>
 
         <div className="absolute bottom-0 w-full z-20 pb-12">
           <div className="container mx-auto px-6">
-            <div className="flex items-center gap-2 text-jvto-green text-xs font-black uppercase tracking-widest mb-4">
+            <div className="flex items-center gap-2 text-jvto-lime text-xs font-black uppercase tracking-widest mb-4">
               <MapPin size={14} /> From {pkg.originCity}, Indonesia
             </div>
             <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-6 max-w-5xl">
@@ -451,29 +451,29 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </h1>
             <div className="flex flex-wrap items-center gap-3 md:gap-10 text-white text-sm font-bold uppercase tracking-wide">
               <div className="flex items-center gap-2">
-                <Shield size={18} className="text-jvto-green" />
+                <Shield size={18} className="text-jvto-lime" />
                 <span>{pkg.category}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={18} className="text-jvto-green" />
+                <Clock size={18} className="text-jvto-lime" />
                 <span>{pkg.marketedDurationLabel}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mountain size={18} className="text-jvto-green" />
+                <Mountain size={18} className="text-jvto-lime" />
                 <span>{pkg.physicalDifficulty}</span>
                 <div className="flex gap-1 md:ml-2">
-                  <div className="w-2 h-2 rounded-full bg-jvto-green"></div>
+                  <div className="w-2 h-2 rounded-full bg-jvto-lime"></div>
                   <div
                     className={`w-2 h-2 rounded-full ${["moderate", "hard"].includes(
                       pkg.physicalDifficulty.toLowerCase(),
                     )
-                      ? "bg-jvto-green"
+                      ? "bg-jvto-lime"
                       : "bg-slate-600"
                       }`}
                   ></div>
                   <div
                     className={`w-2 h-2 rounded-full ${["hard"].includes(pkg.physicalDifficulty.toLowerCase())
-                      ? "bg-jvto-green"
+                      ? "bg-jvto-lime"
                       : "bg-slate-600"
                       }`}
                   ></div>
@@ -533,7 +533,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-green/30"
+                className="mt-8 w-full lg:w-auto bg-jvto-lime hover:bg-[#8cb82b] text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-lime/30"
               >
                 Dates & Prices
               </button>
@@ -550,7 +550,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </h3>
             <button
               onClick={() => openLightbox(0)}
-              className="text-xs font-bold uppercase text-jvto-green hover:text-white transition-colors flex items-center gap-1"
+              className="text-xs font-bold uppercase text-jvto-lime hover:text-white transition-colors flex items-center gap-1"
             >
               View All Photos <ChevronRight size={14} />
             </button>
@@ -642,7 +642,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* Description (With Show More/Less) */}
             <div>
               <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 About This Trip
               </h2>
 
@@ -672,7 +672,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsDescriptionExpanded(!isDescriptionExpanded)
                     }
-                    className="mt-4 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-jvto-green hover:text-jvto-green transition-colors"
+                    className="mt-4 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-jvto-lime hover:text-jvto-lime transition-colors"
                   >
                     {isDescriptionExpanded ? (
                       <>
@@ -692,7 +692,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 Quick Answers
               </h2>
               <div className="space-y-5">
@@ -711,12 +711,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       qa.uiLink ? (
                         <Link
                           href={qa.uiLink}
-                          className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full hover:bg-jvto-green/15 transition-colors"
+                          className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-lime-ink bg-jvto-lime/5 px-3 py-1 rounded-full hover:bg-jvto-lime/15 transition-colors"
                         >
                           {qa.uiMeta} →
                         </Link>
                       ) : (
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full">
+                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-lime-ink bg-jvto-lime/5 px-3 py-1 rounded-full">
                           {qa.uiMeta}
                         </span>
                       )
@@ -728,7 +728,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* Highlights (Design Gambar 2) */}
             <div>
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 Trip Highlights
               </h2>
 
@@ -783,7 +783,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                ========================================================= */}
             <div>
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 Itinerary
               </h2>
 
@@ -798,12 +798,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         key={day.day}
                         onClick={() => setOpenDay(day.day)}
                         className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${isActive
-                          ? "bg-white border-jvto-green shadow-md translate-x-2"
+                          ? "bg-white border-jvto-lime shadow-md translate-x-2"
                           : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
                           }`}
                       >
                         <span
-                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-green" : "text-slate-400"
+                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-lime-ink" : "text-slate-400"
                             }`}
                         >
                           Day {day.day.toString().padStart(2, "0")}
@@ -850,7 +850,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             <h3 className="text-2xl font-black uppercase leading-none mb-2">
                               {day.title}
                             </h3>
-                            <div className="flex items-center gap-4 text-xs font-bold text-jvto-green uppercase tracking-wide">
+                            <div className="flex items-center gap-4 text-xs font-bold text-jvto-lime uppercase tracking-wide">
                               <span className="flex items-center gap-1">
                                 <MapPin size={14} />{" "}
                                 {day.overnight || "On Transport"}
@@ -871,14 +871,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <div key={idx} className="relative pl-10">
                                 <div
                                   className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${idx % 2 === 0
-                                    ? "bg-jvto-green"
+                                    ? "bg-jvto-lime"
                                     : "bg-slate-900"
                                     }`}
                                 >
                                   {getActivityIcon(act.name)}
                                 </div>
                                 <div>
-                                  <span className="inline-block mb-1 text-xs font-bold text-jvto-green uppercase tracking-wider bg-jvto-green/5 px-2 py-0.5 rounded">
+                                  <span className="inline-block mb-1 text-xs font-bold text-jvto-lime uppercase tracking-wider bg-jvto-lime/5 px-2 py-0.5 rounded">
                                     {act.timeWindow}
                                   </span>
                                   <h4 className="text-base font-bold text-slate-900 mb-1">
@@ -905,7 +905,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     className={`px-3 py-1.5 rounded text-xs font-bold uppercase border flex items-center gap-2 ${(status as string)
                                       .toLowerCase()
                                       .includes("included")
-                                      ? "bg-jvto-green/5 text-jvto-green border-jvto-green/30"
+                                      ? "bg-jvto-lime/5 text-jvto-lime border-jvto-lime/30"
                                       : "bg-slate-50 text-slate-400 border-slate-100"
                                       }`}
                                   >
@@ -932,7 +932,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   {pkg.itineraryDays[0] && (
                     <div className="flex gap-4 items-start">
                       <div className="flex flex-col items-center mt-1.5">
-                        <div className="w-3 h-3 rounded-full bg-jvto-green ring-4 ring-jvto-green/10"></div>
+                        <div className="w-3 h-3 rounded-full bg-jvto-lime ring-4 ring-jvto-lime/10"></div>
                         <div className="w-0.5 h-full border-l-2 border-dashed border-slate-300 min-h-[40px] mt-1"></div>
                       </div>
                       <div className="flex-1 space-y-3 pb-8">
@@ -954,7 +954,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="absolute bottom-6 left-0 w-full text-center z-20">
                     <button
                       onClick={() => setIsItineraryModalOpen(true)}
-                      className="text-jvto-green font-bold text-sm uppercase tracking-widest hover:text-jvto-green transition-colors flex items-center justify-center gap-1 mx-auto"
+                      className="text-jvto-lime-ink font-bold text-sm uppercase tracking-widest hover:text-jvto-lime-ink transition-colors flex items-center justify-center gap-1 mx-auto"
                     >
                       Show More <ChevronDown size={16} />
                     </button>
@@ -991,7 +991,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               onClick={() => setModalOpenDay(day.day)}
                               className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${modalOpenDay === day.day
-                                ? "border-jvto-green text-jvto-green"
+                                ? "border-jvto-lime text-jvto-lime-ink"
                                 : "border-transparent text-slate-400 hover:text-slate-600"
                                 }`}
                             >
@@ -1010,8 +1010,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               className="space-y-6 animate-in fade-in duration-300"
                             >
-                              <div className="p-4 bg-white rounded-sm border border-jvto-green/30 shadow-sm">
-                                <h4 className="text-xs font-bold uppercase text-jvto-green mb-2 tracking-widest">
+                              <div className="p-4 bg-white rounded-sm border border-jvto-lime/30 shadow-sm">
+                                <h4 className="text-xs font-bold uppercase text-jvto-lime-ink mb-2 tracking-widest">
                                   Overview
                                 </h4>
                                 <p className="text-sm text-slate-600 leading-relaxed italic">
@@ -1027,7 +1027,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     key={idx}
                                     className="relative pl-8 pb-8 last:pb-0"
                                   >
-                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-slate-50 bg-jvto-green z-10"></div>
+                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-slate-50 bg-jvto-lime z-10"></div>
                                     <span className="inline-block mb-1 text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                                       {act.timeWindow}
                                     </span>
@@ -1036,7 +1036,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                         {act.name}
                                       </h5>
                                       {act.location && (
-                                        <div className="flex items-center gap-1 text-xs font-medium text-jvto-green mb-2 uppercase tracking-wide">
+                                        <div className="flex items-center gap-1 text-xs font-medium text-jvto-lime-ink mb-2 uppercase tracking-wide">
                                           <MapPin size={10} /> {act.location}
                                         </div>
                                       )}
@@ -1067,7 +1067,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           className={`font-medium uppercase text-xs px-2 py-0.5 rounded ${(status as string)
                                             .toLowerCase()
                                             .includes("included")
-                                            ? "bg-jvto-green/10 text-jvto-green"
+                                            ? "bg-jvto-lime/10 text-jvto-lime-ink"
                                             : "bg-slate-100 text-slate-400"
                                             }`}
                                         >
@@ -1095,7 +1095,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {initialData.trip?.vehiclePlan && (
                 <div>
                   <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-jvto-green block"></span>
+                    <span className="w-8 h-1 bg-jvto-lime block"></span>
                     Accommodation
                   </h2>
 
@@ -1129,7 +1129,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               </div>
                             )}
                             <div className="absolute top-4 left-4">
-                              <span className="bg-slate-900/80 backdrop-blur-sm text-jvto-green text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
+                              <span className="bg-slate-900/80 backdrop-blur-sm text-jvto-lime text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
                                 Night {acc.night}
                               </span>
                             </div>
@@ -1159,7 +1159,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {initialData.trip?.vehiclePlan && (
                 <div>
                   <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-jvto-green block"></span>
+                    <span className="w-8 h-1 bg-jvto-lime block"></span>
                     Transport
                   </h2>
                   <p className="mb-8 text-slate-600 text-sm">
@@ -1199,7 +1199,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 <h4 className="font-bold text-lg text-slate-900 mb-1">
                                   {vehicle.model}
                                 </h4>
-                                <p className="text-xs font-bold uppercase text-jvto-green mb-4">
+                                <p className="text-xs font-bold uppercase text-jvto-lime-ink mb-4">
                                   {vehicle.type}
                                 </p>
 
@@ -1259,7 +1259,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <h4 className="font-bold text-lg text-slate-900 mb-1">
                                 Bromo Jeep
                               </h4>
-                              <p className="text-xs font-bold uppercase text-jvto-green mb-4">
+                              <p className="text-xs font-bold uppercase text-jvto-lime-ink mb-4">
                                 4x4 Off-Road Vehicle
                               </p>
 
@@ -1301,7 +1301,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* --- The Practicalities Section (NEW) --- */}
             <div>
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 The Practicalities
               </h2>
 
@@ -1326,7 +1326,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           >
                             <CheckCircle
                               size={18}
-                              className="text-jvto-green shrink-0 mt-0.5"
+                              className="text-jvto-lime shrink-0 mt-0.5"
                             />
                             <span>{item}</span>
                           </li>
@@ -1373,7 +1373,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsInclusionsExpanded(!isInclusionsExpanded)
                     }
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-jvto-green hover:text-jvto-green transition-colors bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-jvto-green/30 hover:bg-white shadow-sm"
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-jvto-lime-ink hover:text-jvto-lime-ink transition-colors bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-jvto-lime/30 hover:bg-white shadow-sm"
                   >
                     {isInclusionsExpanded ? (
                       <>
@@ -1392,9 +1392,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Fitness Level */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <Activity size={24} className="text-jvto-green" />
+                      <Activity size={24} className="text-jvto-lime-ink" />
                       <h4 className="font-bold text-slate-900">
                         Fitness Level
                       </h4>
@@ -1407,9 +1407,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
 
                   {/* Health & Safety */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <Thermometer size={24} className="text-jvto-green" />
+                      <Thermometer size={24} className="text-jvto-lime-ink" />
                       <h4 className="font-bold text-slate-900">
                         Health & Safety
                       </h4>
@@ -1420,9 +1420,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
 
                   {/* Essential Gear */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <ShoppingBag size={24} className="text-jvto-green" />
+                      <ShoppingBag size={24} className="text-jvto-lime-ink" />
                       <h4 className="font-bold text-slate-900">
                         Essential Gear
                       </h4>
@@ -1440,7 +1440,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-slate-200 mt-12">
               <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
+                <span className="w-8 h-1 bg-jvto-lime block"></span>
                 Why Travel With Us?
               </h2>
               <ReviewsClient
@@ -1521,7 +1521,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <div className="bg-slate-50 p-6 rounded-sm border border-slate-100 relative h-full">
                             <Quote
                               size={40}
-                              className="text-jvto-green/60 absolute top-4 left-4 opacity-40"
+                              className="text-jvto-lime/60 absolute top-4 left-4 opacity-40"
                             />
                             <div className="relative z-10 pt-2">
                               <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
@@ -1578,7 +1578,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           key={idx}
                           className="flex flex-col items-center text-center gap-3 group"
                         >
-                          <div className="w-20 h-20 rounded-full border-2 border-slate-200 text-slate-600 flex items-center justify-center bg-white shadow-sm transition-all group-hover:border-jvto-green group-hover:text-jvto-green group-hover:shadow-md">
+                          <div className="w-20 h-20 rounded-full border-2 border-slate-200 text-slate-600 flex items-center justify-center bg-white shadow-sm transition-all group-hover:border-jvto-lime group-hover:text-jvto-lime-ink group-hover:shadow-md">
                             {item.icon}
                           </div>
                           <span className="text-xs font-bold text-slate-700 leading-tight max-w-[100px]">
@@ -1601,9 +1601,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         )}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-jvto-green transition-colors bg-white px-5 py-3 rounded-sm border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-jvto-lime-ink transition-colors bg-white px-5 py-3 rounded-sm border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
                       >
-                        <MessageCircle size={18} className="text-jvto-green" />
+                        <MessageCircle size={18} className="text-jvto-lime-ink" />
                         Contact us on WhatsApp: {pkg.provider.official.whatsapp}
                       </a>
                     </div>
@@ -1620,7 +1620,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-slate-200 bg-white shadow-xl"
             >
               <div className="bg-slate-900 p-6 text-white">
-                <p className="text-xs font-bold uppercase tracking-widest text-jvto-green">
+                <p className="text-xs font-bold uppercase tracking-widest text-jvto-lime">
                   Private Expedition
                 </p>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -1633,13 +1633,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               <div className="p-6">
                 <div className="flex gap-4 mb-6 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-1">
-                    <Shield size={14} className="text-jvto-green" /> Safe
+                    <Shield size={14} className="text-jvto-lime" /> Safe
                   </div>
                   <div className="flex items-center gap-1">
-                    <Users size={14} className="text-jvto-green" /> Private
+                    <Users size={14} className="text-jvto-lime" /> Private
                   </div>
                   <div className="flex items-center gap-1">
-                    <Calendar size={14} className="text-jvto-green" /> Flexible
+                    <Calendar size={14} className="text-jvto-lime" /> Flexible
                   </div>
                 </div>
 
@@ -1657,7 +1657,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       min={todayISO}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-jvto-green/20"
+                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-lime focus:outline-none focus:ring-2 focus:ring-jvto-lime/20"
                       required
                     />
                   </div>
@@ -1709,7 +1709,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <div
                                 key={idx}
                                 className={`rounded-sm p-3 transition-all ${isInRange
-                                  ? "bg-jvto-green/5 border-2 border-jvto-green"
+                                  ? "bg-jvto-lime/5 border-2 border-jvto-lime"
                                   : "bg-slate-50 border-2 border-slate-100"
                                   }`}
                               >
@@ -1791,7 +1791,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <button
                             type="button"
                             onClick={() => setShowTravelersPicker(false)}
-                            className="w-full bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
+                            className="w-full bg-jvto-lime hover:bg-[#8cb82b] text-slate-900 font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
                           >
                             Done
                           </button>
@@ -1818,7 +1818,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <button
                     type="submit"
-                    className="w-full bg-jvto-green text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
+                    className="w-full bg-jvto-lime text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
                   >
                     Instant Book
                   </button>
@@ -1859,7 +1859,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   setShowAddOnModal(false);
                   setSearchTerm(""); // Reset search saat close
                 }}
-                className="text-white hover:text-jvto-green transition-colors"
+                className="text-white hover:text-jvto-lime transition-colors"
               >
                 <X size={24} />
               </button>
@@ -1877,7 +1877,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   placeholder="Search add-ons"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-green/20 focus:border-jvto-green transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-lime/20 focus:border-jvto-lime transition-all"
                 />
               </div>
             </div>
@@ -1943,8 +1943,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     <label
                       key={item.addOnId}
                       className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${item.selected
-                        ? "border-jvto-green bg-jvto-green/5"
-                        : "border-slate-200 bg-white hover:border-jvto-green/40"
+                        ? "border-jvto-lime bg-jvto-lime/5"
+                        : "border-slate-200 bg-white hover:border-jvto-lime/40"
                         }`}
                     >
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
@@ -1993,7 +1993,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           }}
                           className="peer sr-only"
                         />
-                        <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-jvto-green peer-checked:bg-jvto-green transition-all flex items-center justify-center">
+                        <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-jvto-lime peer-checked:bg-jvto-lime transition-all flex items-center justify-center">
                           {item.selected && (
                             <Check size={14} className="text-white" />
                           )}
@@ -2036,7 +2036,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 <button
                   type="button"
                   onClick={handleConfirmAddOns}
-                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-slate-900 hover:bg-[#8cb82b] shadow-md"
+                  className="flex-1 rounded-sm bg-jvto-lime py-3 text-sm font-bold uppercase text-slate-900 hover:bg-[#8cb82b] shadow-md"
                 >
                   Continue
                 </button>
@@ -2054,7 +2054,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               Start From
             </p>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg font-black text-jvto-green">
+              <span className="text-lg font-black text-jvto-lime-ink">
                 {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
               </span>
               <span className="text-[10px] font-medium text-slate-400">
@@ -2067,7 +2067,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           {/* Action Button */}
           <button
             onClick={scrollToBooking}
-            className="flex-1 text-sm bg-jvto-green hover:bg-[#8cb82b] text-black font-bold uppercase tracking-wide py-3 px-2 rounded-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
+            className="flex-1 text-sm bg-jvto-lime hover:bg-[#8cb82b] text-black font-bold uppercase tracking-wide py-3 px-2 rounded-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
           >
             Instant Book <ChevronRight size={16} />
           </button>

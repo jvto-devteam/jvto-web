@@ -19,7 +19,7 @@ export default function CrewTransportCards({ crews, vehicles }: Props) {
       {allCrews.length > 0 && (
         <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
+                <span className="w-2 h-2 rounded-full bg-jvto-lime"></span>
                 Meet Your Crew
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -50,7 +50,7 @@ export default function CrewTransportCards({ crews, vehicles }: Props) {
       {vehicles.length > 0 && (
         <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
+                <span className="w-2 h-2 rounded-full bg-jvto-lime"></span>
                 Transportation Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

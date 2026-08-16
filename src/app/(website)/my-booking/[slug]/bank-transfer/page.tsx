@@ -97,14 +97,14 @@ export default function BankTransferUploadPage() {
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="animate-spin text-jvto-green" size={40} />
+        <Loader2 className="animate-spin text-jvto-lime" size={40} />
       </div>
     );
 
   if (isSuccess)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 px-4 text-center">
-        <div className="h-20 w-20 bg-jvto-green/10 rounded-full flex items-center justify-center text-jvto-green mb-6">
+        <div className="h-20 w-20 bg-jvto-lime/10 rounded-full flex items-center justify-center text-jvto-lime mb-6">
           <CheckCircle size={40} />
         </div>
         <h1 className="text-3xl font-black text-slate-900 uppercase">
@@ -136,7 +136,7 @@ export default function BankTransferUploadPage() {
           <div className="bg-slate-900 p-8 text-white">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-jvto-green text-xs font-black uppercase tracking-widest mb-1">
+                <p className="text-jvto-lime text-xs font-black uppercase tracking-widest mb-1">
                   Payment Confirmation
                 </p>
                 <h2 className="text-2xl font-black">Upload Proof</h2>
@@ -177,7 +177,7 @@ export default function BankTransferUploadPage() {
                   href="https://javavolcano-touroperator.com/policy/booking-payment-cancellation"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-jvto-green hover:text-jvto-green font-bold underline"
+                  className="text-jvto-lime-ink hover:text-jvto-lime-ink font-bold underline"
                 >
                   Booking & Payment Policy
                 </a>
@@ -195,7 +195,7 @@ export default function BankTransferUploadPage() {
                 placeholder="Full name on bank account"
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-jvto-green focus:ring-4 focus:ring-jvto-green/10 outline-none transition-all font-bold"
+                className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-jvto-lime focus:ring-4 focus:ring-jvto-lime/10 outline-none transition-all font-bold"
               />
             </div>
 
@@ -207,7 +207,7 @@ export default function BankTransferUploadPage() {
               <div
                 className={`relative border-2 border-dashed rounded-sm transition-all ${
                   previewUrl
-                    ? "border-jvto-green bg-jvto-green/5/30"
+                    ? "border-jvto-lime bg-jvto-lime/5/30"
                     : "border-slate-200 bg-slate-50 hover:border-slate-300"
                 }`}
               >
@@ -248,7 +248,7 @@ export default function BankTransferUploadPage() {
                         </div>
                       )}
 
-                      <p className="text-xs font-bold text-jvto-green flex items-center justify-center gap-1">
+                      <p className="text-xs font-bold text-jvto-lime flex items-center justify-center gap-1">
                         <CheckCircle size={14} />{" "}
                         {file?.type === "application/pdf"
                           ? "PDF Document"
@@ -278,7 +278,7 @@ export default function BankTransferUploadPage() {
             <button
               type="submit"
               disabled={isSubmitting || !file}
-              className="w-full bg-jvto-green hover:bg-[#8cb82b] disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-sm shadow-lg shadow-jvto-green/20 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-jvto-lime hover:bg-[#8cb82b] disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-sm shadow-lg shadow-jvto-lime/20 transition-all flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

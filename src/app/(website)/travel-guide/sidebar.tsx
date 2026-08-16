@@ -91,9 +91,9 @@ export default function Sidebar({ isMobile, onBack }: SidebarProps) {
             onClick={onBack}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <ArrowLeft size={24} className="text-jvto-dark" />
+            <ArrowLeft size={24} className="text-jvto-navy" />
           </button>
-          <span className="font-bold text-lg uppercase tracking-wider text-jvto-dark">
+          <span className="font-bold text-lg uppercase tracking-wider text-jvto-navy">
             Travel Guide Menu
           </span>
         </div>

@@ -18,8 +18,6 @@ export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
   return (
     <>
       <style>{`
-        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
-
         .jvto-sidebar {
           font-family: 'DM Sans', sans-serif;
           background: #ffffff;

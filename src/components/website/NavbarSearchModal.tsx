@@ -39,7 +39,7 @@ const NavbarSearchModal = ({
             autoFocus
             type="text"
             placeholder="Search tour packages (e.g. Bromo, Ijen...)"
-            className="w-full outline-none text-jvto-dark text-lg font-medium"
+            className="w-full outline-none text-jvto-navy text-lg font-medium"
             value={searchQuery}
             onChange={(e) => onSearchQueryChange(e.target.value)}
           />
@@ -79,7 +79,7 @@ const NavbarSearchModal = ({
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-[14px] font-bold text-jvto-dark leading-snug group-hover:text-jvto-green transition-colors line-clamp-1">
+                      <h3 className="text-[14px] font-bold text-jvto-navy leading-snug group-hover:text-jvto-lime-ink transition-colors line-clamp-1">
                         {tour.name}
                       </h3>
                       <div className="flex items-center gap-2 mt-1.5">
@@ -92,13 +92,13 @@ const NavbarSearchModal = ({
                         </span>
                       </div>
                       <div className="mt-2 flex items-center justify-between">
-                        <p className="text-[14px] font-black text-jvto-green">
+                        <p className="text-[14px] font-black text-jvto-lime-ink">
                           IDR {tour.startFrom?.toLocaleString("id-ID")}
                           <span className="text-[10px] text-gray-400 font-normal ml-1 tracking-normal italic lowercase">
                             / person
                           </span>
                         </p>
-                        <span className="text-[10px] font-bold text-jvto-green opacity-0 group-hover:opacity-100 flex items-center gap-1 transition-all -translate-x-2 group-hover:translate-x-0">
+                        <span className="text-[10px] font-bold text-jvto-lime-ink opacity-0 group-hover:opacity-100 flex items-center gap-1 transition-all -translate-x-2 group-hover:translate-x-0">
                           DETAILS <ArrowRight size={12} />
                         </span>
                       </div>
