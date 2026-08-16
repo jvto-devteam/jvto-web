@@ -60,11 +60,6 @@ https://db.java-tour.com
 
 User `admin` dan user `postgres`. Password: lihat vault tim, entri "Adminer / PostgreSQL admin".
 
-### Akses Grafana
-http://31.97.223.43:4000/login
-
-User `admin`. Password: lihat vault tim, entri "Grafana admin".
-
 ## 4. Runbook Operasional (Panduan Teknis)
 ### Prosedur Deployment Versi Baru
 Setiap kali ada perubahan baru yang sudah digabungkan (merge) ke branch main di GitHub, lakukan langkah-langkah berikut di terminal VPS:
