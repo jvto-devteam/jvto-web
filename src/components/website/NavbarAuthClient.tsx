@@ -158,7 +158,7 @@ const LoginModal = ({
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-3 bg-jvto-dark text-white font-bold rounded-xl hover:bg-black transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-jvto-navy text-white font-bold rounded-xl hover:bg-black transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Sending..." : "Send Login Link"}
                   </button>
@@ -200,8 +200,8 @@ const ProfileDropdown = () => {
       <button
         className={`hidden md:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase rounded-sm border-2 transition-all ${
           isOpen
-            ? "bg-jvto-green text-jvto-dark border-jvto-dark"
-            : "border-jvto-green bg-jvto-green text-jvto-dark hover:bg-jvto-dark hover:border-jvto-dark hover:text-white"
+            ? "bg-jvto-lime text-jvto-navy border-jvto-navy"
+            : "border-jvto-lime bg-jvto-lime text-jvto-navy hover:bg-jvto-navy hover:border-jvto-navy hover:text-white"
         }`}
       >
         <User size={16} /> My Account
@@ -218,7 +218,7 @@ const ProfileDropdown = () => {
           <Link
             href="/my-booking"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-jvto-green"
+            className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-jvto-lime-ink"
           >
             <LayoutDashboard size={16} />
             My Booking
@@ -285,7 +285,7 @@ const MobileAuthInner = ({
           <Link
             href="/my-booking"
             prefetch={false}
-            className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
+            className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-lime hover:text-jvto-navy transition-colors"
           >
             <LayoutDashboard size={20} /> My Booking
           </Link>
@@ -299,7 +299,7 @@ const MobileAuthInner = ({
       ) : (
         <button
           onClick={openLogin}
-          className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark hover:text-jvto-green transition-colors text-left"
+          className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-navy hover:text-jvto-lime transition-colors text-left"
         >
           <LogIn size={20} /> Log In
         </button>

@@ -5,7 +5,7 @@ const TourRequirements = () => {
     <section className="my-8 p-6 bg-white rounded-sm shadow-sm border border-gray-100">
       
       <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-        <span className="w-8 h-1 bg-jvto-green block"></span>
+        <span className="w-8 h-1 bg-jvto-lime block"></span>
         Mandatory Requirements: Ijen Crater Tour
       </h2>
 

@@ -28,7 +28,7 @@ const ALERT_COLORS: Record<
   VolcanicStatusData["alert_code"],
   { dot: string; text: string }
 > = {
-  "level-1": { dot: "bg-jvto-green", text: "text-jvto-green" },
+  "level-1": { dot: "bg-jvto-lime", text: "text-jvto-lime" },
   "level-2": { dot: "bg-yellow-500", text: "text-yellow-500" },
   "level-3": { dot: "bg-orange-500", text: "text-orange-500" },
   "level-4": { dot: "bg-red-500", text: "text-red-500" },
@@ -119,7 +119,7 @@ export default function HomeVolcanoStatus({
                 <div className="flex items-center justify-between gap-2 pt-3 border-t border-jvto-border">
                   <span
                     className={`text-xs font-bold ${
-                      status.tours_operating ? "text-jvto-green" : "text-red-500"
+                      status.tours_operating ? "text-jvto-lime-ink" : "text-red-500"
                     }`}
                   >
                     {status.tours_operating ? "● Tours operating" : "● Tours suspended"}

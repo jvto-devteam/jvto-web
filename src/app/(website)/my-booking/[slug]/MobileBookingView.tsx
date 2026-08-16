@@ -255,7 +255,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
             </div>
 
             {/* Trip details */}
-            <Section iconBg="bg-jvto-green/10" iconColor="text-jvto-green" icon={Calendar} title="Trip Details">
+            <Section iconBg="bg-jvto-lime/10" iconColor="text-jvto-lime" icon={Calendar} title="Trip Details">
               <InfoGrid items={[
                 { label: "Departure Date", value: fmtDate(booking.travel_date_start) },
                 { label: "Duration",       value: booking.duration },
@@ -265,7 +265,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
               {booking.pickup && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-jvto-green mr-2 mt-0.5 shrink-0" />
+                    <MapPin className="h-5 w-5 text-jvto-lime mr-2 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-gray-500 text-sm mb-0.5">Pickup</p>
                       <p className="font-medium">{booking.pickup}: {booking.pickup_time}</p>
@@ -457,7 +457,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
         href={`https://chat.javavolcano-touroperator.com/chat/${booking.url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-20 right-4 z-40 flex items-center gap-2 bg-jvto-green text-jvto-dark font-semibold text-sm px-4 py-3 rounded-full shadow-lg active:scale-95 transition-transform"
+        className="fixed bottom-20 right-4 z-40 flex items-center gap-2 bg-jvto-lime text-jvto-navy font-semibold text-sm px-4 py-3 rounded-full shadow-lg active:scale-95 transition-transform"
       >
         <MessageCircle className="h-5 w-5 shrink-0" />
         Chat

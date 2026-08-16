@@ -63,7 +63,7 @@ const ContactMapEmbed: React.FC<ContactMapEmbedProps> = ({ defer = false }) => {
             <button
               type="button"
               onClick={() => setShouldLoad(true)}
-              className="inline-flex items-center justify-center bg-jvto-dark text-white px-5 py-3 rounded-full font-bold text-sm hover:bg-black transition-colors"
+              className="inline-flex items-center justify-center bg-jvto-navy text-white px-5 py-3 rounded-full font-bold text-sm hover:bg-black transition-colors"
             >
               Load Map
             </button>

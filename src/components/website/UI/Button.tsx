@@ -36,11 +36,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       "inline-flex items-center justify-center font-bold transition-colors duration-200 rounded-sm uppercase tracking-wide";
 
     const variants = {
-      primary: "bg-jvto-green text-jvto-dark hover:bg-[#8Cb82b]",
-      secondary: "bg-jvto-dark text-white hover:bg-gray-800",
+      primary: "bg-jvto-lime text-jvto-navy hover:bg-[#8Cb82b]",
+      secondary: "bg-jvto-navy text-white hover:bg-gray-800",
       outline:
-        "border-2 border-jvto-dark text-jvto-dark hover:bg-jvto-dark hover:text-white",
-      white: "bg-white text-jvto-dark hover:bg-gray-100",
+        "border-2 border-jvto-navy text-jvto-navy hover:bg-jvto-navy hover:text-white",
+      white: "bg-white text-jvto-navy hover:bg-gray-100",
       default:
         "bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft",
       ghost: "hover:bg-accent hover:text-accent-foreground",
