@@ -3,7 +3,10 @@
 
 /* ====== CUSTOM THEME (Tailwind v4 way) ====== */
 @theme {
-  --font-sans: "Inter", sans-serif;
+  /* Fed by next/font/google in src/app/layout.tsx, which sets --font-inter on
+     <html>. The literal names stay as a fallback for surfaces rendered outside
+     the root layout. */
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
 
   /* ── Legacy tokens (keep — other pages still reference these) ── */
   --color-jvto-green: #9fce33;
@@ -25,6 +28,7 @@
 
   /* ── DS v2 — display font (mono ditunda ke Fase 3/Verify; lihat plan) ── */
   --font-display: var(--font-raleway), Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   /* ── DS v2 — radius scale (sumber: tokens/radii-shadows.css) ── */
   --radius-jvto-sm: 12px;
