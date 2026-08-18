@@ -5,7 +5,10 @@
 import { buildLlmsTxt } from "@/lib/llms-txt";
 
 export const revalidate = 60;
-const CONTENT_SIGNAL = "search=yes,ai-train=no,use=reference";
+// Matches robots.ts, which allows every AI-training crawler (GPTBot, CCBot,
+// ClaudeBot, Google-Extended, Bytespider, etc.) — ai-train=yes so the header
+// doesn't contradict what the site actually permits. Owner decision 2026-08-18.
+const CONTENT_SIGNAL = "search=yes,ai-train=yes,use=reference";
 
 export async function GET() {
   return new Response(await buildLlmsTxt(), {
