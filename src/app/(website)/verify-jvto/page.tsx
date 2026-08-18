@@ -2,7 +2,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
-import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
+import { notFound } from "next/navigation";
+import { getEcosystemVerifyAssetsInventory } from "@/lib/ecosystemContent/verifyAssetsInventory";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
@@ -47,11 +48,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VerifyJvtoPage() {
-  const [seo, googleStats, reviewProfiles] = await Promise.all([
+  const [seo, googleStats, reviewProfiles, ssotData] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto", fallbackSeo),
     getGoogleReviewStats(),
     getEcosystemReviewProfiles(),
+    getEcosystemVerifyAssetsInventory(),
   ]);
+  if (!ssotData) notFound();
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -875,7 +878,7 @@ export default async function VerifyJvtoPage() {
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
                 { label: "Database", value: "Evidence_Database_v2.0" },
-                { label: "Records", value: "24" },
+                { label: "Records", value: String(visibleAssets.length) },
                 { label: "Last audit", value: "2026-05-12" },
                 { label: "Status", value: "OPEN" },
               ].map(({ label, value }) => (
@@ -1094,7 +1097,7 @@ export default async function VerifyJvtoPage() {
             ))}
           </div>
           <p className="font-mono text-[11px] tracking-[0.14em] text-white/35 uppercase mt-8">
-            195 independent reviews across three platforms · Trustpilot is the schema-primary source
+            {reviewProfiles.reduce((sum, p) => sum + (p.reviewCount ?? 0), 0)} independent reviews across three platforms · Trustpilot is the schema-primary source
           </p>
         </div>
       </section>
