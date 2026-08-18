@@ -11,12 +11,25 @@
 // meta.title is the visible H1 (and what pageRow.seo.title carries — not
 // browserTitle — to stay consistent with those pages).
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
-import type { PageSeoResult } from "./getPageSeo";
 
 type FallbackPageSeo = {
   title: string;
   h1?: string;
   description?: string;
+};
+
+export type PageSeoResult = {
+  title: string;
+  h1: string;
+  description: string;
+  row: {
+    route: string;
+    lang: string;
+    seo: { title?: string; description?: string; [key: string]: unknown };
+    content: { h1?: string; [key: string]: unknown };
+    created_at?: Date;
+    updated_at?: Date;
+  };
 };
 
 export async function getEcosystemPageSeo(

@@ -11,7 +11,7 @@ import TrustVerification from "@/components/website/Home/TrustVerification";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getDestinationsForHomepage } from "@/lib/destinations/getWebDestinationsList";
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
@@ -39,7 +39,7 @@ const fallbackSeo = {
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/", fallbackSeo);
 
   return {
     title: seo.title,
@@ -60,7 +60,7 @@ async function getDestinations(): Promise<Destination[]> {
 
 const Home = async () => {
   const [seo, destinations] = await Promise.all([
-    getPageSeo("/", fallbackSeo),
+    getEcosystemPageSeo("/", fallbackSeo),
     getDestinations(),
   ]);
   const volcanicStatus = getAllVolcanicStatus();
