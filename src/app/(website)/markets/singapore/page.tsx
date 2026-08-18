@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { MarketPageSections } from "@/components/website/MarketPageSections";
@@ -16,14 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const content = await getEcosystemMarket("singapore");
   if (!content) return { title: "Page Not Found" };
 
-  const seo = await getPageSeo(ROUTE, {
-    title: content.title,
-    h1: content.h1,
-    description: content.description,
-  });
   return {
-    title: seo.title,
-    description: seo.description,
+    title: content.title,
+    description: content.description,
     alternates: { canonical: `${BASE_URL}${ROUTE}` },
   };
 }
@@ -32,12 +26,6 @@ export default async function SingaporeMarketPage() {
   const content = await getEcosystemMarket("singapore");
   if (!content) return notFound();
   const googleRating = await getPublicAggregateRating();
-
-  const seo = await getPageSeo(ROUTE, {
-    title: content.title,
-    h1: content.h1,
-    description: content.description,
-  });
 
   // Markets pages source their FAQ set directly from jvto-ekosistem (content.faqs) —
   // they no longer go through resolveFaqsForPage's narrative_claims/canonical-registry
@@ -52,21 +40,14 @@ export default async function SingaporeMarketPage() {
     ROUTE,
   );
 
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: ROUTE,
-        lang: "en",
-        seo: { title: seo.title, description: seo.description },
-        content: { h1: seo.h1 },
-      };
+  // content is already 100% ekosistem-sourced (getEcosystemMarket) — pageRow is built
+  // straight from it rather than through getPageSeo()'s legacy content_pages DB lookup.
+  const pageRow = {
+    route: ROUTE,
+    lang: "en",
+    seo: { title: content.h1 ?? content.title, description: content.description },
+    content: { h1: content.h1 ?? content.title },
+  };
 
   return (
     <>
