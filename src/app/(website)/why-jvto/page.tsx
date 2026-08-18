@@ -3,7 +3,7 @@ import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import { Faq } from "@/components/content/Faq";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getCrewCounts, getPublicCrew } from "@/lib/people/canonicalPeople";
 import { DiffChipsPanel, QuoteRotator, StoryTabsPanel, StandardsAccordion } from "@/components/website/WhyJvtoInteractive";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
@@ -25,7 +25,7 @@ const defaultWhyDescription =
   "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? defaultWhyTitle;
   const description = page?.meta.description ?? defaultWhyDescription;
   return buildStaticRouteMetadata(ROUTE, {
@@ -49,8 +49,8 @@ const ArrowRight = () => (
 );
 
 export default async function WhyJvtoPage() {
-  const page = await loadStaticPage(ROUTE);
-  const teamPage = await loadStaticPage("/why-jvto/our-team");
+  const page = await loadEcosystemPage(ROUTE);
+  const teamPage = await loadEcosystemPage("/why-jvto/our-team");
   const counts = await getCrewCounts();
   const crew = await getPublicCrew();
   // Per-platform figures from the ekosistem review-platforms.json record (its own

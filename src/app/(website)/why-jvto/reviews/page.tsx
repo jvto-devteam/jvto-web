@@ -4,7 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import {
   buildIndividualReviewSchemas,
@@ -29,7 +29,7 @@ const WHY_JVTO_NAV = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? "Guest Reviews · Why JVTO";
   const description =
     page?.meta.description ??
@@ -50,7 +50,7 @@ const ArrowRight = () => (
 );
 
 export default async function WhyJvtoReviewsPage() {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const sections = page?.sections ?? [];
   const faqItems = (page?.faq ?? []).map((item) => ({
     q: item.question,

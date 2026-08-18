@@ -4,7 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
@@ -27,7 +27,7 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? "Our Story — JVTO";
   const description =
     page?.meta.description ??
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function OurStoryPage() {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const sections = page?.sections ?? [];
   const bio = sections.find((s) => s.id === "company-bio-0");
   const howWeGotHere = sections.find((s) => s.id === "how-we-got-here-1");

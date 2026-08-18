@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
 
 const POLICY_TILES = [
@@ -50,7 +50,7 @@ const PRECEDENCE = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await loadStaticPage("/policy");
+  const page = await loadEcosystemPage("/policy");
   if (page && page.meta.status !== "published") return { title: "Page Not Found" };
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
@@ -67,7 +67,7 @@ const ArrowRight = () => (
 );
 
 export default async function PolicyHubPage() {
-  const page = await loadStaticPage("/policy");
+  const page = await loadEcosystemPage("/policy");
   if (page && page.meta.status !== "published") return notFound();
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";

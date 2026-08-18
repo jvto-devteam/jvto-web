@@ -26,7 +26,14 @@ function normalizeRoute(route: string): string {
   return normalized.toLowerCase();
 }
 
-export async function loadStaticPage(
+/**
+ * Named `loadEcosystemPage` (not `loadStaticPage`) on purpose: `src/lib/static-content/loadStaticPage.ts`
+ * is an unrelated, legacy local-file resolver with an identical name. The
+ * collision made a 2026-08-18 audit misread this ekosistem-first path as
+ * one of several competing content sources, when every page.tsx caller is
+ * already on this path exclusively.
+ */
+export async function loadEcosystemPage(
   route: string,
 ): Promise<EcosystemStaticPage | null> {
   return getEcosystemWebsitePage(route);

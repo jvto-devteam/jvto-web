@@ -11,7 +11,7 @@ import {
   type PublicCrewMember,
 } from "@/lib/people/canonicalPeople";
 import { buildTeamItemListSchema, buildTeamAboutPageSchema } from "@/lib/schemas/buildTeamSchemas";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -42,7 +42,7 @@ type CrewBio = {
 };
 
 function getCrewBio(
-  page: Awaited<ReturnType<typeof loadStaticPage>>,
+  page: Awaited<ReturnType<typeof loadEcosystemPage>>,
   code: string,
 ): CrewBio | null {
   if (!page || page.format !== "structured") return null;
@@ -104,7 +104,7 @@ function CrewCard({
 
 export async function generateMetadata(): Promise<Metadata> {
   const counts = await getCrewCounts();
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? `Our Team — ${counts.total} Named JVTO Crew · KTA-Holding Guides & Drivers`;
   const description =
     page?.meta.description ??
@@ -128,7 +128,7 @@ export default async function OurTeamPage() {
     getPublicGuides(),
     getPublicDrivers(),
     getCrewCounts(),
-    loadStaticPage(ROUTE),
+    loadEcosystemPage(ROUTE),
   ]);
   const allCrew = [...guides, ...drivers];
   const sections = page?.sections ?? [];

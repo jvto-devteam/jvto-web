@@ -6,7 +6,7 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "@/components/website/AppLink";
 import {
-  loadStaticPage,
+  loadEcosystemPage,
   listPublishedStaticPages,
   buildStaticRouteMetadata,
   type StructuredSection,
@@ -199,7 +199,7 @@ export async function generatePolicyEcosystemStaticParams() {
 export async function generatePolicyEcosystemMetadata(
   route: string,
 ): Promise<Metadata> {
-  const page = await loadStaticPage(route);
+  const page = await loadEcosystemPage(route);
   if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
@@ -211,7 +211,7 @@ export async function generatePolicyEcosystemMetadata(
 }
 
 export async function PolicyEcosystemPage({ route }: { route: string }) {
-  const page = await loadStaticPage(route);
+  const page = await loadEcosystemPage(route);
   if (!page || page.meta.status !== "published") return notFound();
 
   const isHubPage = page.meta.route === "/policy";

@@ -22,7 +22,7 @@ import {
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   listPublishedStaticPages,
-  loadStaticPage,
+  loadEcosystemPage,
   staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type StaticPage,
@@ -97,7 +97,7 @@ function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await loadStaticPage(`/why-jvto/${slug}`);
+  const page = await loadEcosystemPage(`/why-jvto/${slug}`);
   if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
@@ -147,7 +147,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
   const route = `/why-jvto/${slug}`;
 
-  const page = await loadStaticPage(route);
+  const page = await loadEcosystemPage(route);
   if (!page || page.meta.status !== "published" || !page.sections?.length) {
     return notFound();
   }

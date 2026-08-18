@@ -4,7 +4,7 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
-import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
@@ -27,7 +27,7 @@ const ArrowRight = () => (
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? "Community Standards — JVTO";
   const description =
     page?.meta.description ??
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CommunityStandardsPage() {
-  const page = await loadStaticPage(ROUTE);
+  const page = await loadEcosystemPage(ROUTE);
   const sections = page?.sections ?? [];
   const intro = sections.find((s) => s.id === "read-the-rulebook-before-you-book-0");
   const writtenRules = sections.find((s) => s.id === "written-rules-before-booking-1");
@@ -56,9 +56,9 @@ export default async function CommunityStandardsPage() {
   const dontDo = sections.find((s) => s.id === "what-we-don-t-do-4");
   const trustAnchor = sections.find((s) => s.id === "trust-anchor-5");
   const policyPages = await Promise.all([
-    loadStaticPage("/policy/booking-payment-cancellation"),
-    loadStaticPage("/policy/inclusions-exclusions"),
-    loadStaticPage("/policy/privacy"),
+    loadEcosystemPage("/policy/booking-payment-cancellation"),
+    loadEcosystemPage("/policy/inclusions-exclusions"),
+    loadEcosystemPage("/policy/privacy"),
   ]);
   const heroRows = [
     { label: "Owner", value: page?.meta.owner ?? "company" },

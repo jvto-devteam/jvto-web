@@ -11,7 +11,7 @@ import {
 import { crewJobTitle, buildTeamProfileSchema } from "@/lib/schemas/buildTeamSchemas";
 import { getCrewFeaturedReviews } from "@/lib/people/crewReviews";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
-import { loadStaticPage, staticRouteCanonical } from "@/lib/ecosystemContent/staticPageAdapter";
+import { loadEcosystemPage, staticRouteCanonical } from "@/lib/ecosystemContent/staticPageAdapter";
 
 const WHY_JVTO_NAV = [
   { href: "/why-jvto", label: "Why JVTO overview" },
@@ -35,7 +35,7 @@ export async function generateStaticParams() {
  * content file, not the canonical people record. Matched by first-name slug —
  * the same convention jvto-ekosistem people-and-crew/people.json's `code` field already uses. */
 async function getCrewBio(slug: string) {
-  const page = await loadStaticPage("/why-jvto/our-team");
+  const page = await loadEcosystemPage("/why-jvto/our-team");
   if (!page || page.format !== "structured") return null;
   for (const section of page.sections ?? []) {
     for (const block of (section as any).blocks ?? []) {
@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const member = await getPublicCrewByCode(slug);
   if (!member) return { title: "Team Member Not Found" };
-  const page = await loadStaticPage(`/why-jvto/our-team/${slug}`);
+  const page = await loadEcosystemPage(`/why-jvto/our-team/${slug}`);
   const jobTitle = crewJobTitle(member.role);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? `${member.name} — JVTO ${jobTitle}`;
   const description =
@@ -94,7 +94,7 @@ export default async function CrewMemberPage({ params }: Props) {
   const member = await getPublicCrewByCode(slug);
   if (!member) notFound();
 
-  const ecosystemPage = await loadStaticPage(`/why-jvto/our-team/${slug}`);
+  const ecosystemPage = await loadEcosystemPage(`/why-jvto/our-team/${slug}`);
   const bio = await getCrewBio(slug);
   const reviews = getCrewFeaturedReviews(slug);
   const jobTitle = crewJobTitle(member.role);
