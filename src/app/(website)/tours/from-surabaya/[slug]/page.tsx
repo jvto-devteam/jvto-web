@@ -34,6 +34,7 @@ import {
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 
 export const revalidate = 3600;
 
@@ -450,13 +451,15 @@ function dbSlugForSurabaya(bareSlug: string | string[]): string {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
   const dbSlug = dbSlugForSurabaya(slug);
-  const [data, reviews, org, allClaims, dbFaqs, googleStats] = await Promise.all([
+  const [data, reviews, org, allClaims, dbFaqs, googleStats, reviewProfiles] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
     getAllNarrativeClaims().catch(() => []),
     getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
     getGoogleReviewStats(),
+    // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
+    getEcosystemReviewProfiles(),
   ]);
 
   if (!data) notFound();
@@ -507,7 +510,7 @@ export default async function Page({ params }: Props) {
       <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <JsonLd data={tourEntityAugmentSchema} />
-      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} />
     </>
   );
 }

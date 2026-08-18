@@ -7,7 +7,7 @@ import { loadStaticPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent
 import { getCrewCounts, getPublicCrew } from "@/lib/people/canonicalPeople";
 import { DiffChipsPanel, QuoteRotator, StoryTabsPanel, StandardsAccordion } from "@/components/website/WhyJvtoInteractive";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
-import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import {
   whyGridItems,
   whyImage,
@@ -53,6 +53,13 @@ export default async function WhyJvtoPage() {
   const teamPage = await loadStaticPage("/why-jvto/our-team");
   const counts = await getCrewCounts();
   const crew = await getPublicCrew();
+  // Per-platform figures from the ekosistem review-platforms.json record (its own
+  // `_comment` declares it the single source of truth). Empty when unreachable —
+  // the cards then render nothing rather than a stale figure.
+  const reviewProfiles = (await getEcosystemReviewProfiles()).filter(
+    (p) => typeof p.rating === "number" && typeof p.reviewCount === "number",
+  );
+  const trustpilot = reviewProfiles.find((p) => p.platform === "Trustpilot");
   const heroSignals = whySection(page, "hero-signals");
   const difference = whySection(page, "difference");
   const reviewsSignal = whySection(page, "reviews-signal");
@@ -254,8 +261,12 @@ export default async function WhyJvtoPage() {
                     <polygon points="12 2 15 8.5 22 9.3 17 14 18.2 21 12 17.8 5.8 21 7 14 2 9.3 9 8.5" />
                   </svg>
                   <div>
-                    <div className="font-semibold text-jvto-navy text-[11px] leading-tight">4.8 ★ Trustpilot</div>
-                    <div className="text-[10px] text-[#6b7280]">51 verified reviews</div>
+                    <div className="font-semibold text-jvto-navy text-[11px] leading-tight">
+                      {trustpilot ? `${trustpilot.rating} ★ Trustpilot` : "Trustpilot"}
+                    </div>
+                    <div className="text-[10px] text-[#6b7280]">
+                      {trustpilot ? `${trustpilot.reviewCount} verified reviews` : "Verified reviews"}
+                    </div>
                   </div>
                 </div>
               </figure>
@@ -274,13 +285,13 @@ export default async function WhyJvtoPage() {
                 {whyString(page?.raw.page.summary, "Feedback grouped by what it proves, across independent platforms.")}
               </p>
               <div className="grid grid-cols-3 gap-3 mb-6">
-                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((platform) => (
+                {reviewProfiles.slice(0, 3).map((platform) => (
                   <div key={platform.platform} className="bg-white rounded-[16px] p-4 border border-[#E3E0DA]">
                     <div className="font-black text-jvto-navy leading-none mb-1" style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "clamp(24px, 3vw, 36px)", letterSpacing: "-0.04em" }}>
                       {platform.rating}
                     </div>
                     <div className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#9ca3af] mb-0.5">{platform.platform}</div>
-                    <div className="text-[11px] text-jvto-orange">{platform.count} reviews</div>
+                    <div className="text-[11px] text-jvto-orange">{platform.reviewCount} reviews</div>
                   </div>
                 ))}
               </div>

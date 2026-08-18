@@ -17,7 +17,7 @@ import {
   buildToursHubFaqSchema,
   buildToursHubAggregateRatingSchema,
 } from "@/lib/schemas/buildToursHubSchemas";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { ArrowRight, Shield, Users, FileText, Award, Check } from "lucide-react";
 
 export const revalidate = 3600;
@@ -163,14 +163,15 @@ export default async function ToursPageSurabaya() {
   };
 
   const hubFaqSchema = buildToursHubFaqSchema();
-  const googleStats = await getGoogleReviewStats();
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-surabaya", liveStats: googleStats });
+  // Google Maps only — the single figure allowed to be presented as THE rating.
+  // Null (both sources unreachable) => the node is omitted, never guessed.
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-surabaya", liveStats: await getPublicAggregateRating() });
 
   return (
     <>
       <StructuredData data={schema} />
       <StructuredData data={hubFaqSchema} />
-      <StructuredData data={hubAggregateRatingSchema} />
+      {hubAggregateRatingSchema && <StructuredData data={hubAggregateRatingSchema} />}
 
       {/* ── 1. HERO ───────────────────────────────────── */}
       <section className="bg-jvto-navy text-white pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">

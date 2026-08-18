@@ -15,7 +15,11 @@ import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
-import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import {
+  getEcosystemReviewProfiles,
+  type EcosystemReviewProfile,
+} from "@/lib/ecosystemContent/reviewPlatforms";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   listPublishedStaticPages,
   loadStaticPage,
@@ -104,9 +108,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-/** Aggregate rating cards for /why-jvto/reviews — real canonical platform data, HTML-only (not schema). */
-function ReviewsAggregateCards() {
-  const platforms = REVIEW_PLATFORMS.filter((p) => p.rating != null && p.count != null);
+/**
+ * Aggregate rating cards for /why-jvto/reviews — HTML-only (not schema).
+ * `profiles` come from the ekosistem review-platforms.json record, which declares
+ * itself the single source of truth for the public platform totals. Renders
+ * nothing when that record is unreachable rather than showing a stale figure.
+ */
+function ReviewsAggregateCards({ profiles }: { profiles: EcosystemReviewProfile[] }) {
+  const platforms = profiles.filter(
+    (p) => typeof p.rating === "number" && typeof p.reviewCount === "number",
+  );
+  if (!platforms.length) return null;
   return (
     <div className="jw-agg-grid" style={{ marginBottom: "2rem" }}>
       {platforms.map((p) => (
@@ -122,8 +134,8 @@ function ReviewsAggregateCards() {
             ))}
           </span>
           <span className="jw-agg-meta">
-            <span>{p.count} reviews</span>
-            <span>{p.lastVerified ? `Verified ${p.lastVerified}` : "—"}</span>
+            <span>{p.reviewCount} reviews</span>
+            <span>{p.verifiedAt ? `Verified ${p.verifiedAt}` : "—"}</span>
           </span>
         </div>
       ))}
@@ -142,6 +154,8 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   const reviewsData =
     slug === "reviews" ? await getReviewsForSchema().catch(() => []) : [];
+  const reviewProfiles =
+    slug === "reviews" ? await getEcosystemReviewProfiles() : [];
 
   const h1 = page.meta.title;
   const faqItems = page.faq ?? [];
@@ -151,7 +165,8 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
     faqSchemaNode,
     ...(slug === "reviews"
       ? [
-          buildWhyJvtoReviewsAggregateRatingSchema(),
+          // Google Maps only — the single figure allowed to be presented as THE rating.
+          buildWhyJvtoReviewsAggregateRatingSchema(await getPublicAggregateRating()),
           ...buildIndividualReviewSchemas(
             reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
           ),
@@ -270,7 +285,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
               <div style={{ minWidth: 0 }}>
                 {/* ── Reviews-only aggregate score cards ── */}
-                {slug === "reviews" && <ReviewsAggregateCards />}
+                {slug === "reviews" && <ReviewsAggregateCards profiles={reviewProfiles} />}
 
                 {/* ── Sections ── */}
                 {page.sections.map((sec) => (

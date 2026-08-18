@@ -1,7 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
-import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+
+/**
+ * Minimal shape of one row of the ekosistem review-platforms.json record
+ * (getEcosystemReviewProfiles()). Declared structurally rather than imported so
+ * this file stays free of the node:fs reader — TrustBar's only parent,
+ * TourDetail, is a "use client" component, so TrustBar ships in the client
+ * bundle and cannot read the ekosistem record itself. The owning Server
+ * Component fetches it and passes it down.
+ */
+export interface TrustBarReviewProfile {
+  platform: string;
+  rating: number | null;
+  reviewCount: number | null;
+}
 
 type LogoSpec =
   | { kind: "image"; src: string; alt: string; width: number; height: number }
@@ -16,15 +29,21 @@ interface Partner {
   external: boolean;
 }
 
-const partners: Partner[] = [
+function buildPartners(profiles: TrustBarReviewProfile[]): Partner[] {
+  const tp = profiles.find((p) => p.platform === "Trustpilot");
+  // No stale fallback: when the ekosistem record is unreachable the badge keeps
+  // its label and drops the numbers rather than asserting a figure we cannot source.
+  const trustpilotSub =
+    tp && typeof tp.rating === "number" && typeof tp.reviewCount === "number"
+      ? `${tp.rating} ★ · ${tp.reviewCount} reviews`
+      : "Verified reviews";
+
+  return [
   {
     key: "trustpilot",
     logo: { kind: "image", src: "/assets/img/icons/trustpilot-icon.webp", alt: "Trustpilot", width: 26, height: 26 },
     name: "Trustpilot",
-    sub: (() => {
-      const tp = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
-      return tp ? `${tp.rating} ★ · ${tp.count} reviews` : "4.93 ★ · 44 reviews";
-    })(),
+    sub: trustpilotSub,
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     external: true,
   },
@@ -52,7 +71,8 @@ const partners: Partner[] = [
     href: "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
     external: true,
   },
-];
+  ];
+}
 
 function PartnerLogo({ logo }: { logo: LogoSpec }) {
   if (logo.kind === "image") {
@@ -89,7 +109,13 @@ function PartnerItem({ logo, name, sub }: PartnerItemProps) {
   );
 }
 
-export default function TrustBar() {
+export default function TrustBar({
+  reviewProfiles = [],
+}: {
+  /** From getEcosystemReviewProfiles(), passed down by the owning Server Component. */
+  reviewProfiles?: TrustBarReviewProfile[];
+}) {
+  const partners = buildPartners(reviewProfiles);
   return (
     <div className="bg-slate-900 border-t border-slate-800 py-7">
       <div className="container mx-auto px-6">

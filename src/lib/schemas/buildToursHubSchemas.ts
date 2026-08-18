@@ -15,7 +15,7 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
+import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
 import { getToursHubQaPairs } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -128,25 +128,27 @@ export function buildToursHubFaqSchema(): WithContext<FAQPage> {
 
 /**
  * Standalone AggregateRating that explicitly references the Organization via @id.
- * Pass `liveStats` from `getGoogleReviewStats()` to override with live DB values.
+ *
+ * `liveStats` MUST come from `getPublicAggregateRating()` (Google Maps only — the
+ * one figure allowed to be presented as the JVTO rating). No hardcoded fallback:
+ * returns null when no source can answer, and the caller omits the node.
  */
 export function buildToursHubAggregateRatingSchema({
   hubPath,
   liveStats,
-}: Pick<HubArgs, 'hubPath'> & { liveStats?: { rating: number; count: number } | null }): WithContext<AggregateRating> {
+}: Pick<HubArgs, 'hubPath'> & { liveStats?: { rating: number; count: number } | null }): WithContext<AggregateRating> | null {
+  if (!liveStats) return null;
   const url = hubUrl(hubPath);
-  const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
-  const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${url}#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(ratingValue),
+    ratingValue: String(liveStats.rating),
     // schema.org types reviewCount as Integer; emitted as a numeric string (unchanged
     // runtime output) — the assertion narrows `string` to the numeric-string form.
-    reviewCount: String(reviewCount) as `${number}`,
-    bestRating: String(AGGREGATE_RATING.bestRating),
-    worstRating: String(AGGREGATE_RATING.worstRating),
+    reviewCount: String(liveStats.count) as `${number}`,
+    bestRating: String(BEST_RATING),
+    worstRating: String(WORST_RATING),
   };
 }

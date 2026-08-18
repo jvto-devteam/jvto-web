@@ -10,7 +10,9 @@ import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
-import { REVIEW_PLATFORMS, REVIEW_THEMES } from "@/lib/jvtoReviews";
+import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
+import { REVIEW_THEMES } from "./reviewThemes";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
@@ -57,6 +59,13 @@ export default async function WhyJvtoReviewsPage() {
   // Preserved DB exception: real review records feed the individual Review
   // JSON-LD nodes. Dynamic data is allowed to stay DB-owned.
   const reviewsData = await getReviewsForSchema().catch(() => []);
+  // Per-platform figures come from the ekosistem review-platforms.json record —
+  // its own `_comment` declares it the single source of truth for these totals.
+  // Empty array (record unreachable) => the platform blocks render without
+  // numbers rather than showing a figure nobody can vouch for.
+  const reviewProfiles = (await getEcosystemReviewProfiles()).filter(
+    (p) => typeof p.rating === "number" && typeof p.reviewCount === "number",
+  );
   const excerptReviews = reviewsData.slice(0, 8).map((review) => ({
     tag: `${review.platform} · ${review.star ?? 5} star`,
     quote: review.review,
@@ -64,7 +73,8 @@ export default async function WhyJvtoReviewsPage() {
     source: `${review.platform} · ${review.date.toISOString().slice(0, 10)}`,
   }));
   const extraSchemas = [
-    buildWhyJvtoReviewsAggregateRatingSchema(),
+    // Google Maps only — the single figure allowed to be presented as THE rating.
+    buildWhyJvtoReviewsAggregateRatingSchema(await getPublicAggregateRating()),
     ...buildIndividualReviewSchemas(reviewsData),
   ].filter(Boolean);
 
@@ -123,12 +133,10 @@ export default async function WhyJvtoReviewsPage() {
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
-                ...REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count)
-                  .slice(0, 3)
-                  .map((platform) => ({
-                    label: platform.platform,
-                    value: `${platform.rating} / 5 · ${platform.count}`,
-                  })),
+                ...reviewProfiles.slice(0, 3).map((platform) => ({
+                  label: platform.platform,
+                  value: `${platform.rating} / 5 · ${platform.reviewCount}`,
+                })),
                 { label: "Themes", value: `${REVIEW_THEMES.length} patterns` },
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
@@ -201,7 +209,7 @@ export default async function WhyJvtoReviewsPage() {
                 Verified across three platforms.
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-5">
-                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((p) => (
+                {reviewProfiles.slice(0, 3).map((p) => (
                   <div key={p.platform} className="bg-white border border-[#E3E0DA] rounded-xl p-9 flex flex-col gap-2" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
                     <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#9ca3af]">{p.platform}</span>
                     <span className="font-black text-jvto-navy leading-none" style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "56px", letterSpacing: "-0.03em" }}>
@@ -214,8 +222,8 @@ export default async function WhyJvtoReviewsPage() {
                       ))}
                     </div>
                     <div className="font-mono text-[11px] tracking-[0.14em] text-[#9ca3af] mt-auto pt-4 flex justify-between" style={{ borderTop: "1px solid #E3E0DA" }}>
-                      <span>{p.count} reviews</span>
-                      <span>{p.lastVerified ? `Verified ${p.lastVerified}` : "Verified externally"}</span>
+                      <span>{p.reviewCount} reviews</span>
+                      <span>{p.verifiedAt ? `Verified ${p.verifiedAt}` : "Verified externally"}</span>
                     </div>
                   </div>
                 ))}
@@ -223,12 +231,12 @@ export default async function WhyJvtoReviewsPage() {
 
               <p className="font-mono text-[11px] tracking-[0.12em] text-[#9ca3af] leading-[1.9] mb-14">
                 Live profiles:{" "}
-                {REVIEW_PLATFORMS.filter((platform) => platform.rating && platform.count).slice(0, 3).map((p, i) => (
+                {reviewProfiles.slice(0, 3).map((p, i, arr) => (
                   <span key={p.platform}>
-                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-jvto-orange border-b border-current hover:opacity-75 transition-opacity">
+                    <a href={p.profileUrl} target="_blank" rel="noopener noreferrer" className="text-jvto-orange border-b border-current hover:opacity-75 transition-opacity">
                       {p.platform}
                     </a>
-                    {i < 2 && " · "}
+                    {i < arr.length - 1 && " · "}
                   </span>
                 ))}
               </p>

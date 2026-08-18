@@ -14,7 +14,7 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
+import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
 
@@ -162,20 +162,27 @@ export function buildNarrativeClaimsItemList(
 }
 
 /**
- * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level rating at reviews page level.
- * itemReviewed cross-refs Organization @id; same data as ORG schema's aggregateRating (jvtoReviews.ts canonical).
+ * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level
+ * rating at reviews page level. itemReviewed cross-refs the Organization @id.
+ *
+ * `liveStats` MUST come from `getPublicAggregateRating()` (Google Maps only — the
+ * one figure allowed to be presented as the JVTO rating). No hardcoded fallback:
+ * returns null when no source can answer, and the caller omits the node.
  */
-export function buildWhyJvtoReviewsAggregateRatingSchema(): WithContext<AggregateRating> {
+export function buildWhyJvtoReviewsAggregateRatingSchema(
+  liveStats?: { rating: number; count: number } | null,
+): WithContext<AggregateRating> | null {
+  if (!liveStats) return null;
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${BASE_URL}/why-jvto/reviews#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(AGGREGATE_RATING.ratingValue),
+    ratingValue: String(liveStats.rating),
     // schema.org types reviewCount as Integer; emitted as a numeric string (unchanged
     // runtime output) — the assertion narrows `string` to the numeric-string form.
-    reviewCount: String(AGGREGATE_RATING.reviewCount) as `${number}`,
-    bestRating: String(AGGREGATE_RATING.bestRating),
-    worstRating: String(AGGREGATE_RATING.worstRating),
+    reviewCount: String(liveStats.count) as `${number}`,
+    bestRating: String(BEST_RATING),
+    worstRating: String(WORST_RATING),
   };
 }

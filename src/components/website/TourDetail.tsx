@@ -8,10 +8,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
-// TODO: apply AGGREGATE_RATING when the ReviewStats block (lines ~1447–1609) is uncommented
-import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
+// NOTE: the commented-out ReviewStats block below (~1447–1609) used to reference a
+// hardcoded AGGREGATE_RATING constant. That constant carried a stale blended
+// 4.91 / 203 and has been deleted. If that block is ever uncommented, feed it the
+// live Google Maps figure — `getPublicAggregateRating()` on the server, drilled in
+// as a prop (this is a Client Component and cannot read it directly).
 import AuthorityShield from "@/components/website/AuthorityShield";
-import TrustBar from "@/components/website/TrustBar";
+import TrustBar, { type TrustBarReviewProfile } from "@/components/website/TrustBar";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
@@ -69,6 +72,11 @@ interface Props {
   reviews?: any[];
   /** AEO/GEO port (2026-04-29): when true, includes the Ijen-specific spine Q&A pair (BBKSDA SE.1658). */
   ijenRelevant?: boolean;
+  /**
+   * Per-platform review profiles from getEcosystemReviewProfiles(), fetched by the
+   * Server Component page. Drilled through because TrustBar sits in the client bundle.
+   */
+  reviewProfiles?: TrustBarReviewProfile[];
 }
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
@@ -203,7 +211,7 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
-export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false }: Props) {
+export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false, reviewProfiles = [] }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
 
@@ -1838,7 +1846,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
         </div>
       </div>
-      <TrustBar />
+      <TrustBar reviewProfiles={reviewProfiles} />
       {/* --- ADD-ON MODAL WITH SEARCH --- */}
       {showAddOnModal && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">

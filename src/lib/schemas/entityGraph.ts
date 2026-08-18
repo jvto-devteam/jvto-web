@@ -22,8 +22,6 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
-
 /**
  * `EducationalOccupationalCredential` + `dateIssued`.
  *
@@ -135,16 +133,14 @@ export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
   },
   geo: { '@type': 'GeoCoordinates', latitude: -7.9151, longitude: 113.8232 },
   founder: { '@id': AGUNG_ID },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: String(AGGREGATE_RATING.ratingValue),
-    // schema.org types reviewCount as Integer; the value is emitted as a numeric string
-    // (unchanged runtime output, accepted by Google) — the assertion narrows `string` to
-    // the numeric-string form schema-dts requires without altering what is serialised.
-    reviewCount: String(AGGREGATE_RATING.reviewCount) as `${number}`,
-    bestRating: String(AGGREGATE_RATING.bestRating),
-    worstRating: String(AGGREGATE_RATING.worstRating),
-  },
+  // NO aggregateRating here — deliberately. A module-level constant cannot read the
+  // live rating, and the only figure permitted to be presented as the JVTO rating is
+  // the Google Maps one from `getPublicAggregateRating()` (owner decision 2026-08-15;
+  // see the `_comment` in jvto-ekosistem organization-identity/organization.json).
+  // This property previously carried a hand-copied blended 4.91 / 203 that had drifted
+  // from every source of truth. Pages that need the node emit it separately via
+  // buildHomepageAggregateRatingSchema / buildToursHubAggregateRatingSchema /
+  // buildWhyJvtoReviewsAggregateRatingSchema, all fed from getPublicAggregateRating().
 
   // Historical artifacts — proves operational continuity since 2015
   award: [

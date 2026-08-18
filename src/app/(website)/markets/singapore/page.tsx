@@ -4,6 +4,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { MarketPageSections } from "@/components/website/MarketPageSections";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemMarket, buildMarketSchemas } from "@/lib/ecosystemContent/markets";
 
 export const revalidate = 86400;
@@ -30,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SingaporeMarketPage() {
   const content = await getEcosystemMarket("singapore");
   if (!content) return notFound();
+  const googleRating = await getPublicAggregateRating();
 
   const seo = await getPageSeo(ROUTE, {
     title: content.title,
@@ -73,7 +75,7 @@ export default async function SingaporeMarketPage() {
         extraSchemas={[...buildMarketSchemas(content), faqNode]}
         suppressCmsFaq={true}
       />
-      <MarketPageSections content={content} />
+      <MarketPageSections content={content} googleRating={googleRating} />
     </>
   );
 }

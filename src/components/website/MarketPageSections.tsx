@@ -3,8 +3,8 @@
 // model. Static, SSG-safe (no DB fetch, no client interactivity) — v1 per GAP-09. Visual mode
 // follows the Trust/verify cluster (dark slate + jvto-green accent).
 import Link from "next/link";
-import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 import type { MarketContent } from "@/lib/ecosystemContent/markets";
+import type { PublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -15,7 +15,15 @@ import {
 
 const WHATSAPP_URL = "https://wa.me/6282244788833";
 
-export function MarketPageSections({ content }: { content: MarketContent }) {
+export function MarketPageSections({
+  content,
+  googleRating = null,
+}: {
+  content: MarketContent;
+  /** From getPublicAggregateRating() — Google Maps only, per the owner decision
+   *  recorded in organization.json. Fetched by the owning page. */
+  googleRating?: PublicAggregateRating | null;
+}) {
   return (
     <main className="bg-slate-950 text-slate-200">
       {/* ── Hero ── */}
@@ -230,7 +238,9 @@ export function MarketPageSections({ content }: { content: MarketContent }) {
             </div>
             <p className="text-slate-500 text-xs mt-6">
               <Link href="/why-jvto/reviews" className="text-jvto-green hover:text-white transition-colors">
-                See all {AGGREGATE_RATING.reviewCount} reviews across Trustpilot, Google & TripAdvisor →
+                {googleRating
+                  ? `See all ${googleRating.count} Google reviews →`
+                  : "See all Google reviews →"}
               </Link>
             </p>
           </div>
