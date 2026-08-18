@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import TrustClaimBlock from "@/components/trust/TrustClaimBlock";
 import TrustFaqBlock from "@/components/trust/TrustFaqBlock";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getEcosystemTrustClaims } from "@/lib/ecosystemContent/trustClaims";
 import {
   buildTrustFaqPageSchema,
@@ -24,7 +24,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/trust", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/trust", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -49,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TrustPage() {
-  const seo = await getPageSeo("/trust", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/trust", fallbackSeo);
   const pageRow = seo.row ?? {
     route: "/trust",
     lang: "en",
