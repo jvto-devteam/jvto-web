@@ -1,50 +1,30 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 
-// Menggunakan logika serializer yang Anda berikan
-function serializeForXML(pkg: any) {
-  // --- Logika Gambar ---
-  const imageAssets = (pkg.package_assets ?? [])
-    .filter((pa: any) => pa.asset?.type === "image")
-    .map((pa: any) => ({
-      url: pa.asset?.url || "",
-      isPrimary: pa.is_primary === true,
-    }));
-
-  const primaryImage =
-    imageAssets.find((img: any) => img.isPrimary) || imageAssets[0];
-  const additionalImages = imageAssets.slice(1, 11); // Ambil up to 10 gambar tambahan
-
-  // --- Logika Harga ---
-  const validPrices: number[] = (pkg.package_prices ?? [])
-    .map((p: any) => p.price)
-    .filter((price: any) => typeof price === "number" && price > 0);
-  const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+// Migrated 2026-08-18: no internal caller found for this route (checked fetch calls,
+// imports, git history) — sourced from ekosistem per owner decision. 24h feed cache
+// already tolerates the "snapshot, not live" trade-off that comes with ekosistem.
+function serializeForXML(pkg: Awaited<ReturnType<typeof getEcosystemPackagesList>>[number]) {
+  const images = pkg.images.map((img) => img.url);
+  const primaryImage = images[0];
+  const additionalImages = images.slice(1, 11);
 
   return {
-    id: pkg.code, // Google menyarankan ID yang stabil, slug sangat cocok
+    id: pkg.slug,
     title: pkg.name,
-    description: pkg.highlights_bullets?.join(". ") || pkg.name,
+    description: pkg.highlights.join(". ") || pkg.name,
     link: `https://javavolcano-touroperator.com/${pkg.slug}`,
-    image_link: primaryImage?.url,
-    additional_images: additionalImages,
-    price: `${startFrom} IDR`,
-    startDestination: pkg.start_destination?.name || "Surabaya",
-    durationLabel: `${pkg.durations?.day || 0}D${pkg.durations?.night || 0}N`,
+    image_link: primaryImage,
+    additional_images: additionalImages.map((url) => ({ url })),
+    price: `${pkg.startFrom} IDR`,
+    startDestination: pkg.startDestination || "Surabaya",
+    durationLabel: `${pkg.duration.day}D${pkg.duration.night}N`,
   };
 }
 
 export async function GET() {
   try {
-    const pkgs = await prisma.packages.findMany({
-      where: { is_publish: true },
-      include: {
-        start_destination: true,
-        durations: true,
-        package_prices: true,
-        package_assets: { include: { asset: true } },
-      },
-    });
+    const pkgs = await getEcosystemPackagesList();
 
     const baseUrl = "https://javavolcano-touroperator.com";
 

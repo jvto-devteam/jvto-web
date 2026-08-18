@@ -1,7 +1,18 @@
-import { prisma } from "@/lib/prisma";
+// Migrated 2026-08-18: no internal caller found for this route (checked fetch calls,
+// imports, git history) — sourced from ekosistem per owner decision. aggregateRating
+// is the one field kept live from Prisma (review_stats): review counts are genuinely
+// operational data, not catalog content, same distinction applied throughout this
+// migration for the tour-detail and destination pages.
+import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 function roundRating(value: number) {
   return Number(value.toFixed(1));
+}
+
+function resolveEcosystemSlug(bareSlug: string): string {
+  if (bareSlug.includes("tours/")) return bareSlug;
+  return `tours/from-surabaya/${bareSlug}`;
 }
 
 export async function GET(
@@ -10,90 +21,16 @@ export async function GET(
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-  const { slug } = await context.params; // ✅ await the Promise
+  const { slug } = await context.params;
 
-  const pkg = await prisma.packages.findFirst({
-    where: { slug },
-    include: {
-      order_channels: true,
-      durations: true,
-      start_destination: true,
-      end_destination: true,
-      package_addons: { include: { addons: true } },
-      package_categories: true,
-      package_destinations: {
-        where: { deleted_at: null },
-        include: {
-          destinations: {
-            include: { activities: true },
-          },
-        },
-      },
-      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
-      package_hotel_options: {
-        orderBy: { day_no: "asc" },
-        include: { hotels: true },
-      },
-      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
-      package_itinerary_days: {
-        where: { deleted_at: null },
-        orderBy: { day_no: "asc" },
-        include: {
-          package_itinerary_day_details: {
-            include: { activities: true },
-          },
-        },
-      },
-      package_prices: {
-        where: { deleted_at: null },
-        include: { price_tiers: true },
-        orderBy: {
-          price_tiers: {
-            min_pax: "asc",
-          },
-        },
-      },
-    },
-  });
+  const detail = await getEcosystemTourPackageDetail(resolveEcosystemSlug(slug));
 
-  if (!pkg) {
+  if (!detail) {
     return Response.json({ error: "Package not found" }, { status: 404 });
   }
 
-  const googleStats = await prisma.review_stats.findUnique({ where: { source: "google" } });
-
-  const serialized = JSON.parse(
-    JSON.stringify(pkg, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
-    )
-  );
-
-  // ✅ Safe array handling with strict equality
-  const routePackage =
-    serialized.package_destinations
-      ?.filter((d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4)
-      .map((d: any) => d.destinations?.name)
-      .filter(Boolean)
-      .join(" • ") || "";
-
-  const keyExperiences =
-    serialized.package_destinations
-      ?.filter((d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4)
-      .flatMap((d: any) => d.destinations?.activities || [])
-      .map((a: any) => a.activity_name)
-      .filter(Boolean) || [];
-
-  function ucwords(str: string) {
-    if (!str) return "";
-    str = str.toLowerCase();
-    return str.replace(/\b\w/g, function (char) {
-      return char.toUpperCase();
-    });
-  }
-
-  const prices = serialized.package_prices?.map((p: any) => p.price) || [];
-  const lowPrice = prices.length ? Math.min(...prices) : 0;
-  const highPrice = prices.length ? Math.max(...prices) : 0;
+  const pkg = detail.product;
+  const googleStats = await getGoogleReviewStats();
 
   const travelerRequirements = [
     "Moderate fitness required (night hikes, uneven surfaces)",
@@ -101,11 +38,9 @@ export async function GET(
     "Sturdy hiking shoes",
   ];
 
-  const hasIjen = Array.isArray(serialized.package_destinations)
-    ? serialized.package_destinations.some(
-        (d: any) => Number(d.destination_id) === 2
-      )
-    : false;
+  const hasIjen = (pkg.route ?? []).some((name: string) =>
+    name.toLowerCase().includes("ijen")
+  );
 
   if (hasIjen) {
     travelerRequirements.push("Printed passport copy required for Ijen permit");
@@ -113,67 +48,36 @@ export async function GET(
 
   const mapped: any =
     all === "true"
-      ? serialized
+      ? detail
       : {
-          id: serialized.code,
-          slug: serialized.slug,
-          name: serialized.name,
-          shortLabel: `${serialized.durations?.day || 0}D${serialized.durations?.night || 0}N ${routePackage}`,
-          description: serialized.description || "",
-          originCity: serialized.start_destination?.name || "",
-          endCity: serialized.end_destination?.name || "",
-          durationDays: serialized.durations?.day || 0,
-          durationNights: serialized.durations?.night || 0,
+          id: pkg.packageId,
+          slug: pkg.slug,
+          name: pkg.name,
+          shortLabel: `${pkg.durationDays || 0}D${pkg.durationNights || 0}N ${(pkg.route ?? []).join(" • ")}`,
+          description: pkg.description || "",
+          originCity: pkg.originCity || "",
+          endCity: pkg.endCity || "",
+          durationDays: pkg.durationDays || 0,
+          durationNights: pkg.durationNights || 0,
 
           tripRef: {
-            tripId: `trip-${serialized.code}`,
-            href: `/jvto_master/trips/trip-${serialized.code}.json`,
+            tripId: `trip-${pkg.packageId}`,
+            href: `/jvto_master/trips/trip-${pkg.packageId}.json`,
           },
 
-          keyExperiences: keyExperiences,
-          physicality: serialized.physicality || "",
+          keyExperiences: (pkg.keyExperiences ?? []).map((k: any) => k.highlight ?? k.name ?? ""),
+          physicality: pkg.physicalDifficulty || "",
 
-          inclusions: (serialized.package_includes || []).map((inc: any) =>
-            inc.item_includes?.item?.replace(/<\/?b>/g, "") || ""
-          ),
+          inclusions: pkg.inclusions ?? [],
+          exclusions: pkg.exclusions ?? [],
 
-          exclusions: (serialized.package_excludes || []).map((exc: any) =>
-            exc.item_excludes?.item?.replace(/<\/?b>/g, "") || ""
-          ),
-
-          addOns: (serialized.package_addons || []).map((addon: any) => ({
-            name: addon.addons?.is_transport
-              ? `Transport to ${ucwords(addon.addons?.name || "")}`
-              : addon.addons?.name || "",
-            description: addon.addons?.is_transport
-              ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
-                  addon.addons?.transport_type || ""
-                )} Car (${
-                  addon.addons?.transport_type === "small"
-                    ? "1-3 Pax"
-                    : addon.addons?.transport_type === "medium"
-                    ? "4-9 Pax"
-                    : "10 Pax Above"
-                })`
-              : "",
-            price: addon.addons?.price || 0,
+          addOns: (pkg.addOns ?? []).map((addon: any) => ({
+            name: addon.name ?? "",
+            description: addon.description ?? "",
+            price: addon.price ?? 0,
           })),
 
-          offers: {
-            currency: "IDR",
-            aggregateOffer: {
-              lowPrice: lowPrice,
-              highPrice: highPrice,
-              priceCurrency: "IDR",
-            },
-            tiers: (serialized.package_prices || []).map((p: any) => ({
-              sku: `${serialized.code}-${p.price_tiers?.min_pax || 0}-${p.price_tiers?.max_pax || 0}PAX`,
-              paxMin: p.price_tiers?.min_pax || 0,
-              paxMax: p.price_tiers?.max_pax || 0,
-              pricePerPerson: p.price || 0,
-              unit: "person",
-            })),
-          },
+          offers: pkg.offers,
 
           aggregateRating: {
             ratingValue: googleStats ? roundRating(googleStats.rating) : 4.8,
@@ -190,21 +94,17 @@ export async function GET(
           travelerRequirements: travelerRequirements,
 
           marketing: {
-            perfectFor: [
+            perfectFor: pkg.marketing?.perfectFor ?? [
               "Couples, friends, and small private groups seeking an intense volcano & waterfall experience in East Java",
             ],
-            highlightsBullets: (serialized.package_destinations || [])
-              .filter(
-                (d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4
-              )
-              .map((d: any) => d.destinations?.highlight || "")
-              .filter(Boolean),
+            highlightsBullets: pkg.marketing?.highlightsBullets ?? [],
             safetyPositioning: [
-              "Locally operated, professional guides, safety gear included",
+              pkg.marketing?.safetyPositioning ||
+                "Locally operated, professional guides, safety gear included",
             ],
             tone: "",
           },
-          operationalComplexityNote: [],
+          operationalComplexityNote: pkg.operationalComplexityNote ? [pkg.operationalComplexityNote] : [],
           provider: {
             name: "Java Volcano Tour Operator (JVTO)",
             legalEntity: "PT. JAVA VOLCANO RENDEZVOUS",
@@ -217,7 +117,7 @@ export async function GET(
     return new Response(JSON.stringify(mapped, null, 2), {
       headers: {
         "Content-Type": "application/json",
-        "Content-Disposition": `attachment; filename="product-${serialized.slug}.json"`,
+        "Content-Disposition": `attachment; filename="product-${pkg.slug}.json"`,
       },
     });
   }

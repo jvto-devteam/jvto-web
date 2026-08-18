@@ -1,43 +1,33 @@
-import { prisma } from "@/lib/prisma";
+// Migrated 2026-08-18: was a raw Prisma dump with a hardcoded `take: 2` limit on both
+// packages and destinations (no internal caller found — looked like a debug/dev leftover,
+// not a real production contract). Now sources all 17 packages + 5 destinations from
+// ekosistem, no artificial limit.
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
+import {
+  getEcosystemDestinationDetail,
+  getEcosystemDestinationRoutes,
+} from "@/lib/ecosystemContent/destinationDetail";
 
 export async function GET() {
-  const packages = await prisma.packages.findMany({
-    include: {
-      package_categories: true,
-      durations: true,
-      start_destination: true,
-      end_destination: true,
-      package_prices: { where: { deleted_at: null }, include: { price_tiers: true } },
-    },
-    where: { is_publish: true },
-    take:2,
-  });
-  const durations = await prisma.durations.findMany({
-    orderBy: { name: "asc" },
-  });
-  const destinations = await prisma.destinations.findMany({
-    orderBy: { name: "asc" },
-    take:2,
-  });
-  const serializedPackages = JSON.parse(
-    JSON.stringify(packages, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
+  const [packages, destinationRoutes] = await Promise.all([
+    getEcosystemPackagesList(),
+    getEcosystemDestinationRoutes(),
+  ]);
+
+  const destinations = (
+    await Promise.all(
+      destinationRoutes.map((r) => getEcosystemDestinationDetail(r.slug)),
     )
-  );
-  const serializedDurations = JSON.parse(
-    JSON.stringify(durations, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
-    )
-  );
-  const serializedDestinations = JSON.parse(
-    JSON.stringify(destinations, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
-    )
+  ).filter(Boolean);
+
+  const durations = Array.from(
+    new Map(
+      packages.map((p) => [
+        `${p.duration.day}D${p.duration.night}N`,
+        { day: p.duration.day, night: p.duration.night, name: `${p.duration.day}D${p.duration.night}N` },
+      ]),
+    ).values(),
   );
 
-  return Response.json({
-    packages: serializedPackages,
-    durations: serializedDurations,
-    destinations: serializedDestinations,
-  });
+  return Response.json({ packages, durations, destinations });
 }

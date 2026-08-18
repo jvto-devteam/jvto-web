@@ -1,4 +1,14 @@
-import { prisma } from "@/lib/prisma";
+// Migrated 2026-08-18: no internal caller found for this route (checked fetch calls,
+// imports, git history) — sourced from ekosistem per owner decision. The gear/crew/
+// safety-note business logic below was always hardcoded (never DB-driven) — it's
+// re-keyed off destination *names* in the ekosistem route[] array instead of Prisma
+// destination_id numbers, same matching intent as before.
+import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
+
+function resolveEcosystemSlug(bareSlug: string): string {
+  if (bareSlug.includes("tours/")) return bareSlug;
+  return `tours/from-surabaya/${bareSlug}`;
+}
 
 export async function GET(
   request: Request,
@@ -6,92 +16,25 @@ export async function GET(
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-  const { slug } = await context.params; // ✅ await the Promise
+  const { slug } = await context.params;
 
-  const pkg = await prisma.packages.findFirst({
-    where: { slug },
-    include: {
-      order_channels: true,
-      durations: true,
-      start_destination: true,
-      end_destination: true,
-      package_addons: { include: { addons: true } },
-      package_categories: true,
-      package_destinations: {
-        where: { deleted_at: null },
-        include: {
-          destinations: {
-            include: { activities: true },
-          },
-        },
-      },
-      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
-      package_hotel_options: {
-        orderBy: { day_no: "asc" },
-        include: {
-          hotels: {
-            include: { destinations: true },
-          },
-        },
-      },
-      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
-      package_itinerary_days: {
-        where: { deleted_at: null },
-        orderBy: { day_no: "asc" },
-        include: {
-          package_itinerary_day_details: {
-            orderBy: { sort_order: "asc" },
-            include: {
-              activities: {
-                include: { destinations: true, activity_categories: true },
-              },
-              locations_from: true,
-              locations_to: true,
-            },
-          },
-          hotels: true,
-        },
-      },
-      package_prices: {
-        where: { deleted_at: null },
-        include: { price_tiers: true },
-        orderBy: {
-          price_tiers: {
-            min_pax: "asc",
-          },
-        },
-      },
-    },
-  });
+  const detail = await getEcosystemTourPackageDetail(resolveEcosystemSlug(slug));
 
-  if (!pkg) {
+  if (!detail) {
     return Response.json({ error: "Package not found" }, { status: 404 });
   }
 
-  const serialized = JSON.parse(
-    JSON.stringify(pkg, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value
-    )
+  const serialized = detail.product;
+  const route: string[] = serialized.route ?? [];
+
+  const hasIjen = route.some((name) => name.toLowerCase().includes("ijen"));
+  const hasBromo = route.some((name) => name.toLowerCase().includes("bromo"));
+  const hasWaterfall = route.some(
+    (name) =>
+      name.toLowerCase().includes("waterfall") ||
+      name.toLowerCase().includes("tumpak") ||
+      name.toLowerCase().includes("madakaripura"),
   );
-
-  // ✅ FIXED: Safe array checks with strict equality
-  const hasIjen = Array.isArray(serialized.package_destinations)
-    ? serialized.package_destinations.some(
-        (d: any) => Number(d.destination_id) === 2
-      )
-    : false;
-
-  const hasBromo = Array.isArray(serialized.package_destinations)
-    ? serialized.package_destinations.some(
-        (d: any) => Number(d.destination_id) === 1
-      )
-    : false;
-
-  const hasWaterfall = Array.isArray(serialized.package_destinations)
-    ? serialized.package_destinations.some(
-        (d: any) => Number(d.destination_id) === 7 || Number(d.destination_id) === 6
-      )
-    : false;
 
   const gearRecommended = [
     "Warm jacket, beanie, gloves (5–10°C before sunrise)",
@@ -101,12 +44,6 @@ export async function GET(
     "Driver (full-trip)",
     "Escort Guide / English-speaking driver-guide",
   ];
-
-  function formatTime(timeString: string | null | undefined) {
-    if (!timeString) return "";
-    const [hours, minutes] = timeString.split(":");
-    return `${hours}:${minutes}`;
-  }
 
   // Tambahkan item berdasarkan destinasi
   if (hasIjen) {
@@ -169,27 +106,24 @@ export async function GET(
     );
   }
 
-  // ✅ FIXED: Strict equality untuk ID checks
-  const startDestId = Number(serialized.start_destination?.id);
-  const endDestId = Number(serialized.end_destination?.id);
+  const isBaliOrigin = (serialized.originCity ?? "").toLowerCase() === "bali";
+  const isBaliEnd = (serialized.endCity ?? "").toLowerCase() === "bali";
 
   const mapped: any =
     all === "true"
       ? serialized
       : {
-          tripId: serialized.code,
+          tripId: serialized.packageId,
           name: serialized.name,
           duration: {
-            days: serialized.durations?.day || 0,
-            nights: serialized.durations?.night || 0,
-            iso8601: serialized.durations
-              ? `P${serialized.durations.day}D${serialized.durations.night}N`
-              : "",
+            days: serialized.durationDays || 0,
+            nights: serialized.durationNights || 0,
+            iso8601: `P${serialized.durationDays || 0}D${serialized.durationNights || 0}N`,
           },
           start: {
-            city: serialized.start_destination?.name || "",
+            city: serialized.originCity || "",
             pickupOptions:
-              startDestId === 3
+              isBaliOrigin
                 ? [
                     {
                       type: "airport",
@@ -221,9 +155,9 @@ export async function GET(
                   ],
           },
           end: {
-            city: serialized.end_destination?.name || "",
+            city: serialized.endCity || "",
             dropoffOptions:
-              endDestId === 3
+              isBaliEnd
                 ? [
                     "Hotel in Bali (Kuta, Seminyak, Ubud, etc.)",
                     "Ngurah Rai International Airport (DPS)",
@@ -234,108 +168,50 @@ export async function GET(
                     "Juanda International Airport (SUB)",
                   ],
             recommendedDepartureNote:
-              endDestId === 3
+              isBaliEnd
                 ? `For flights from Ngurah Rai International Airport (DPS) on the final day, we strongly recommend booking flights that depart after 20:00 (8:00 PM).`
                 : `For flights from Juanda International Airport (SUB) on the final day, we strongly recommend booking flights that depart after 20:00 (8:00 PM).`,
           },
-          route:
-            serialized.package_destinations?.map(
-              (d: any) => d.destinations?.name || ""
-            ) || [],
-          accommodationPlan:
-            serialized.package_hotel_options?.map((h: any) => ({
-              night: h.day_no || 0,
-              area: h.hotels?.destinations?.name || "",
-              hotel: h.hotels?.name || "",
-            })) || [],
+          route,
+          accommodationPlan: (serialized.accommodationPlan ?? []).map((h: any) => ({
+            night: h.night || 0,
+            area: h.area || "",
+            hotel: h.name || "",
+          })),
           gearProvided: hasIjen
             ? ["Gas mask (sanitized after each use)", "Trekking poles"]
             : [],
           gearRecommended: gearRecommended,
-          itineraryDays:
-            serialized.package_itinerary_days?.map((day: any) => {
-              // Buat array mealsIncluded berdasarkan boolean
-              const mealsIncluded: string[] = [];
-              if (day.meal_breakfast) mealsIncluded.push("Breakfast");
-              if (day.meal_lunch) mealsIncluded.push("Lunch");
-              if (day.meal_dinner) mealsIncluded.push("Dinner");
+          itineraryDays: (serialized.itineraryDays ?? []).map((day: any) => {
+            const mealsIncluded: string[] = [];
+            if (day.mealsPlan?.breakfast === "included") mealsIncluded.push("Breakfast");
+            if (day.mealsPlan?.lunch === "included") mealsIncluded.push("Lunch");
+            if (day.mealsPlan?.dinner === "included") mealsIncluded.push("Dinner");
 
-              return {
-                day: day.day_no || 0,
-                title: day.title || "",
-                summary: day.activity || "",
-                mealsIncluded: mealsIncluded,
-                activities:
-                  day.package_itinerary_day_details?.map((act: any) => {
-                    // ✅ FIXED: Safe access dengan optional chaining
-                    const actCatId = Number(act.activities?.activity_category_id);
-                    const actNotes = act.notes || "";
-
-                    const type =
-                      actCatId === 2
-                        ? "TouristAttractionVisit"
-                        : actCatId === 3 &&
-                          actNotes.toLowerCase().includes("check in")
-                        ? "CheckInAction"
-                        : actCatId === 4
-                        ? "MealsAction"
-                        : "TravelAction";
-
-                    if (type === "TravelAction") {
-                      const travelData: any = {
-                        type,
-                        timeApprox: formatTime(act.time) || "",
-                        fromLocation: { name: act.locations_from?.name || "" },
-                        toLocation: { name: act.locations_to?.name || "" },
-                        destination: act.destination_slug
-                          ? {
-                              slug: act.destination_slug,
-                              name: act.destination_name || "",
-                            }
-                          : undefined,
-                        description: actNotes,
-                      };
-
-                      if (actCatId === 5) {
-                        travelData.transport = act.activities?.activity_name || "";
-                      }
-
-                      return travelData;
-                    }
-
-                    if (type === "CheckInAction") {
-                      const todayHotel = day.hotels?.name || "";
-                      return {
-                        type,
-                        timeApprox: formatTime(act.time) || "",
-                        location: { name: todayHotel },
-                        description: actNotes,
-                      };
-                    }
-
-                    if (type === "MealsAction") {
-                      return {
-                        type,
-                        timeApprox: formatTime(act.time) || "",
-                        description: actNotes,
-                        location: { name: act.locations_from?.name || "" },
-                      };
-                    }
-
-                    if (type === "TouristAttractionVisit") {
-                      return {
-                        type,
-                        timeApprox: formatTime(act.time) || "",
-                        location: {
-                          slug: act.activities?.destinations?.slug || "",
-                          name: act.activities?.destinations?.name || "",
-                        },
-                        description: actNotes,
-                      };
-                    }
-                  }) || [],
-              };
-            }) || [],
+            return {
+              day: day.day || 0,
+              title: day.title || "",
+              summary: day.summary || "",
+              mealsIncluded,
+              activities: (day.activities ?? []).map((act: any) => {
+                if (act.type === "TravelAction") {
+                  return {
+                    type: act.type,
+                    timeApprox: act.timeWindow || "",
+                    fromLocation: { name: act.fromLocation || "" },
+                    toLocation: { name: act.toLocation || "" },
+                    description: act.description || "",
+                  };
+                }
+                return {
+                  type: act.type || "TouristAttractionVisit",
+                  timeApprox: act.timeWindow || "",
+                  location: { name: act.location || "" },
+                  description: act.description || "",
+                };
+              }),
+            };
+          }),
           crewRolesNeeded: crewRolesNeeded,
           operationalNotes: operationalNotes,
         };
