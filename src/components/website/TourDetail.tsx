@@ -218,7 +218,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
   // AEO/GEO port (2026-04-29): canonical spine Q&A pairs for visible AnswerBlock cluster.
   // Same source as the FAQPage JSON-LD on the server (single source of truth via lib/tourFaqs.ts).
   // Inlined here to avoid prop drilling 4-5 strings; pure data: zero runtime cost.
-  const spineQaPairs = getTourSpineQaPairs({ ijenRelevant });
+  const spineQaPairs = getTourSpineQaPairs({ ijenRelevant }, reviewProfiles);
 
   // --- STATE ---
   // State untuk Hero Background (tetap ada jika ingin bisa ganti hero, tapi trigger lightbox beda)

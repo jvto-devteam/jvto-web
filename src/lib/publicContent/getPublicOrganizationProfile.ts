@@ -1,55 +1,6 @@
-import prisma from "@/lib/prisma";
 import { getEcosystemOrganizationNode } from "@/lib/ecosystemContent/schema";
 import { publicOrganizationProfileSnapshot } from "./organizationSnapshot";
 import type { PublicOrganizationProfileSnapshot } from "./types";
-
-type OrganizationProfileRow = {
-  legal_name?: string | null;
-  brand_name?: string | null;
-  alternate_name?: string | null;
-  founding_date?: Date | null;
-  description?: string | null;
-  price_range?: string | null;
-  contact_email?: string | null;
-  contact_phone?: string | null;
-  available_languages?: string[] | null;
-  address_json?: unknown | null;
-  same_as_urls?: string[] | null;
-  website_url?: string | null;
-  logo_url?: string | null;
-  hero_image_url?: string | null;
-  schema_json?: unknown | null;
-  updated_at?: Date | null;
-};
-
-const globalForPublicContent = globalThis as unknown as {
-  __jvtoPublicOrgWarnings?: Set<string>;
-};
-
-function getWarningSet(): Set<string> {
-  if (!globalForPublicContent.__jvtoPublicOrgWarnings) {
-    globalForPublicContent.__jvtoPublicOrgWarnings = new Set<string>();
-  }
-
-  return globalForPublicContent.__jvtoPublicOrgWarnings;
-}
-
-function logOnce(level: "warn" | "error", message: string) {
-  const key = `${level}:${message}`;
-  const seen = getWarningSet();
-  if (seen.has(key)) return;
-
-  seen.add(key);
-  console[level](message);
-}
-
-function canUseDatabaseFallback(): boolean {
-  if (process.env.NODE_ENV !== "production") return true;
-  if (process.env.VERCEL_ENV === "preview") return true;
-  if (process.env.PUBLIC_CONTENT_ALLOW_DB_FALLBACK === "true") return true;
-
-  return process.env.CI !== "true";
-}
 
 function stringFromValue(value: unknown): string | null {
   return typeof value === "string" && value.trim() ? value : null;
@@ -84,37 +35,18 @@ function mapEcosystemOrganizationProfile(node: Record<string, any>): PublicOrgan
   };
 }
 
+/**
+ * Organization profile for JSON-LD/SEO — ekosistem-first, with a last-resort static
+ * snapshot fallback (publicOrganizationProfileSnapshot) if the ekosistem record is
+ * genuinely unreachable. Migrated 2026-08-19: the Prisma `organization_profile`
+ * fallback path (flag-gated, previously reachable via PUBLIC_CONTENT_PREFER_DB_ORGANIZATION)
+ * has been removed — ekosistem is now the only live source, per the single-content-source
+ * consolidation.
+ */
 export async function getPublicOrganizationProfile(): Promise<PublicOrganizationProfileSnapshot> {
   const ecosystemNode = await getEcosystemOrganizationNode();
   if (ecosystemNode) {
     return mapEcosystemOrganizationProfile(ecosystemNode);
-  }
-
-  const shouldUseDatabaseOverride =
-    canUseDatabaseFallback() &&
-    process.env.PUBLIC_CONTENT_PREFER_DB_ORGANIZATION === "true";
-
-  if (!shouldUseDatabaseOverride) {
-    return publicOrganizationProfileSnapshot;
-  }
-
-  try {
-    const row = (await prisma.organization_profile.findFirst({
-      orderBy: { id: "asc" },
-    })) as OrganizationProfileRow | null;
-
-    if (row) {
-      logOnce(
-        "warn",
-        "[publicContent] Using organization_profile database override.",
-      );
-      return row as PublicOrganizationProfileSnapshot;
-    }
-  } catch (error) {
-    logOnce(
-      "error",
-      `[publicContent] Failed to read organization_profile fallback: ${error instanceof Error ? error.message : String(error)}`,
-    );
   }
 
   return publicOrganizationProfileSnapshot;

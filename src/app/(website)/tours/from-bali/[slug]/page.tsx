@@ -470,7 +470,7 @@ export default async function Page({ params }: Props) {
     destinations: [],
     faqs: packageFaqs,
   };
-  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
+  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims, reviewProfiles });
 
   // Augment live's existing TouristTrip + Product nodes with mentions[] (DefinedTerm @ids) +
   // subjectOf founder. Emitted as a small additional schema block that AI engines correlate via @id.

@@ -97,3 +97,29 @@ export async function getEcosystemReviewProfiles(): Promise<
   const profiles = record?.profiles;
   return Array.isArray(profiles) ? profiles : [];
 }
+
+export interface EcosystemReviewSummary {
+  averageRating: number | null;
+  totalReviews: number;
+  profiles: EcosystemReviewProfile[];
+}
+
+/**
+ * The pre-computed cross-platform average_rating field + total review count,
+ * for the small number of callers (e.g. tour-page FAQ copy) that legitimately
+ * need a single blended headline number alongside the per-platform breakdown —
+ * NOT a substitute for getPublicAggregateRating() (the Google-only figure).
+ */
+export async function getEcosystemReviewSummary(): Promise<EcosystemReviewSummary> {
+  const record = (await readLocal()) ?? (await fetchRemote());
+  const profiles = Array.isArray(record?.profiles) ? record.profiles : [];
+  const totalReviews = profiles.reduce(
+    (sum, p) => sum + (typeof p.reviewCount === "number" ? p.reviewCount : 0),
+    0,
+  );
+  return {
+    averageRating: typeof record?.average_rating === "number" ? record.average_rating : null,
+    totalReviews,
+    profiles,
+  };
+}

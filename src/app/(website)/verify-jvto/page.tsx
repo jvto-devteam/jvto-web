@@ -7,6 +7,7 @@ import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getAllDocs } from "@/lib/data-loader";
 
 export const revalidate = 86400;
@@ -46,9 +47,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VerifyJvtoPage() {
-  const [seo, googleStats] = await Promise.all([
+  const [seo, googleStats, reviewProfiles] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto", fallbackSeo),
     getGoogleReviewStats(),
+    getEcosystemReviewProfiles(),
   ]);
   const pageRow = seo.row
     ? {
@@ -1045,11 +1047,33 @@ export default async function VerifyJvtoPage() {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { platform: "Trustpilot", score: "4.8 / 5", desc: "51 verified reviews", href: "https://www.trustpilot.com/review/javavolcano-touroperator.com" },
-              { platform: "Google Maps", score: "4.9 / 5", desc: "123 reviews · verified location", href: "https://www.google.com/maps?cid=1266403973589689021" },
-              { platform: "TripAdvisor", score: "4.95 / 5", desc: "21 reviews", href: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html" },
-            ].map(({ platform, score, desc, href }) => (
+            {(() => {
+              const find = (platform: string) =>
+                reviewProfiles.find((p) => p.platform === platform);
+              const trustpilot = find("Trustpilot");
+              const google = find("Google Maps");
+              const tripadvisor = find("TripAdvisor");
+              return [
+                {
+                  platform: "Trustpilot",
+                  score: trustpilot ? `${trustpilot.rating} / 5` : "—",
+                  desc: trustpilot ? `${trustpilot.reviewCount} verified reviews` : "",
+                  href: trustpilot?.profileUrl ?? "https://www.trustpilot.com/review/javavolcano-touroperator.com",
+                },
+                {
+                  platform: "Google Maps",
+                  score: google ? `${google.rating} / 5` : "—",
+                  desc: google ? `${google.reviewCount} reviews · verified location` : "",
+                  href: google?.profileUrl ?? "https://www.google.com/maps?cid=1266403973589689021",
+                },
+                {
+                  platform: "TripAdvisor",
+                  score: tripadvisor ? `${tripadvisor.rating} / 5` : "—",
+                  desc: tripadvisor ? `${tripadvisor.reviewCount} reviews` : "",
+                  href: tripadvisor?.profileUrl ?? "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+                },
+              ];
+            })().map(({ platform, score, desc, href }) => (
               <a
                 key={platform}
                 href={href}

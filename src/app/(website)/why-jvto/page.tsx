@@ -585,7 +585,10 @@ export default async function WhyJvtoPage() {
             </Link>
           </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
-            PT Java Volcano Rendezvous · NIB 1102230032918 · Trustpilot 4.8 / 5 (51 reviews, verified 2026-05-09)
+            PT Java Volcano Rendezvous · NIB 1102230032918
+            {trustpilot
+              ? ` · Trustpilot ${trustpilot.rating} / 5 (${trustpilot.reviewCount} reviews, verified ${trustpilot.verifiedAt})`
+              : ""}
           </p>
         </div>
       </section>

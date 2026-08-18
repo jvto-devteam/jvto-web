@@ -96,7 +96,7 @@ export default async function CrewMemberPage({ params }: Props) {
 
   const ecosystemPage = await loadEcosystemPage(`/why-jvto/our-team/${slug}`);
   const bio = await getCrewBio(slug);
-  const reviews = getCrewFeaturedReviews(slug);
+  const reviews = await getCrewFeaturedReviews(slug);
   const jobTitle = crewJobTitle(member.role);
   const route = `/why-jvto/our-team/${slug}`;
   const photo = bio?.photo_url ? getWhyJvtoOptimizedImageSrc(bio.photo_url) ?? bio.photo_url : member.image?.src;

@@ -60,12 +60,52 @@ export function getToursHubQaPairs(): QaPair[] {
   ];
 }
 
+export interface ReviewProfileLite {
+  platform: string;
+  rating: number | null;
+  reviewCount: number | null;
+}
+
+function buildReviewSummaryAnswer(reviewProfiles: ReviewProfileLite[]): string {
+  const withCounts = reviewProfiles.filter(
+    (p): p is ReviewProfileLite & { rating: number; reviewCount: number } =>
+      typeof p.rating === 'number' && typeof p.reviewCount === 'number',
+  );
+  if (!withCounts.length) {
+    return (
+      `JVTO's reviews are independently verifiable across Trustpilot, Google Maps, and TripAdvisor. ` +
+      `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
+      `All review profiles link to the original platform so you can verify authenticity.`
+    );
+  }
+  const totalReviews = withCounts.reduce((sum, p) => sum + p.reviewCount, 0);
+  const averageRating =
+    Math.round(
+      (withCounts.reduce((sum, p) => sum + p.rating, 0) / withCounts.length) * 10,
+    ) / 10;
+  const breakdown = withCounts
+    .map((p) => `${p.platform} (${p.reviewCount})`)
+    .join(', ');
+  return (
+    `JVTO holds ${averageRating} ★ across ${totalReviews} verified reviews on ${breakdown}. ` +
+    `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
+    `All review profiles link to the original platform so you can verify authenticity.`
+  );
+}
+
 /**
  * Returns the canonical Q&A pairs for a tour spine page.
  * These four pairs bridge schema to copy and route to verify / why-jvto / travel-guide / policy clusters.
  * The Ijen-specific question is included only when tour.ijenRelevant.
+ *
+ * `reviewProfiles`, when passed, replaces the hardcoded review-count answer with live
+ * per-platform figures (same ekosistem record as TrustBar/getEcosystemReviewProfiles) —
+ * prevents this copy from drifting the way the old hand-copied numbers did.
  */
-export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
+export function getTourSpineQaPairs(
+  tour: TourFaqSeed,
+  reviewProfiles: ReviewProfileLite[] = [],
+): QaPair[] {
   const pairs: QaPair[] = [
     {
       question: 'What exactly is covered in the all-inclusive price?',
@@ -146,10 +186,7 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     },
     {
       question: 'What do past guests say about JVTO?',
-      answer:
-        `JVTO holds 4.9 ★ across 195 verified reviews on Trustpilot (51), Google Maps (123), and TripAdvisor (21). ` +
-        `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
-        `All review profiles link to the original platform so you can verify authenticity.`,
+      answer: buildReviewSummaryAnswer(reviewProfiles),
       uiMeta: 'Read verified reviews',
       uiLink: '/why-jvto/reviews',
     },

@@ -61,12 +61,14 @@ export function buildTourFaqSchema({
   tour,
   fullData,
   narrativeClaims,
+  reviewProfiles = [],
 }: {
   tour: TourDetailSeed;
   fullData: FullPackageDbDataSeed | null;
   narrativeClaims: NarrativeClaimLite[];
+  reviewProfiles?: import('@/lib/tourFaqs').ReviewProfileLite[];
 }): WithContext<FAQPage> | null {
-  const spinePairs = getTourSpineQaPairs(tour);
+  const spinePairs = getTourSpineQaPairs(tour, reviewProfiles);
   const claimPairs = narrativeClaims.map((c) => ({ question: c.pillar, answer: c.core_claim }));
   const dbPairs = (fullData?.faqs ?? []).map((f) => ({ question: f.question, answer: f.answer }));
   const all = [...spinePairs, ...claimPairs, ...dbPairs];

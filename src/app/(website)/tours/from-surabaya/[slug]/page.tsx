@@ -469,7 +469,7 @@ export default async function Page({ params }: Props) {
     destinations: [],
     faqs: packageFaqs,
   };
-  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
+  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims, reviewProfiles });
 
   // Augment existing TouristTrip with mentions[] + subjectOf founder.
   const slugString = Array.isArray(data.product.slug) ? data.product.slug.join("/") : data.product.slug;

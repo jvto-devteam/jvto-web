@@ -18,6 +18,7 @@ import {
   buildToursHubAggregateRatingSchema,
 } from "@/lib/schemas/buildToursHubSchemas";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
+import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { ArrowRight, Shield, Users, FileText, Award, Check, Ship } from "lucide-react";
 
 export const revalidate = 3600;
@@ -85,20 +86,33 @@ const BOOKING_STEPS = [
   { step: "04", text: "Receive your e-voucher with full trip details and a pre-trip guide." },
 ];
 
-const TRUST_SIGNALS = [
-  { label: "Trustpilot", value: "4.8 / 5 · 51 reviews" },
-  { label: "Google Maps", value: "4.90 / 5 · 123 reviews" },
-  { label: "TripAdvisor", value: "4.95 / 5 · 21 reviews" },
-  { label: "Founded", value: "2015" },
-  { label: "ISIC Provider", value: "ID 259268 (isic.org verifiable)" },
-];
+function buildTrustSignals(
+  reviewProfiles: Awaited<ReturnType<typeof getEcosystemReviewProfiles>>,
+) {
+  const platformSignals = ["Trustpilot", "Google Maps", "TripAdvisor"]
+    .map((platform) => {
+      const p = reviewProfiles.find((r) => r.platform === platform);
+      if (!p || p.rating == null || p.reviewCount == null) return null;
+      return { label: platform, value: `${p.rating} / 5 · ${p.reviewCount} reviews` };
+    })
+    .filter((s): s is { label: string; value: string } => s !== null);
+
+  return [
+    ...platformSignals,
+    { label: "Founded", value: "2015" },
+    { label: "ISIC Provider", value: "ID 259268 (isic.org verifiable)" },
+  ];
+}
 
 export default async function ToursPageBali() {
-  const [seo, initialTours, org] = await Promise.all([
+  const [seo, initialTours, org, reviewProfiles] = await Promise.all([
     getEcosystemPageSeo("/tours/from-bali", fallbackSeo),
     getToursFromBali(),
     getOrganizationProfile(),
+    getEcosystemReviewProfiles(),
   ]);
+  const trustSignals = buildTrustSignals(reviewProfiles);
+  const trustpilot = reviewProfiles.find((p) => p.platform === "Trustpilot");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const pageUrl = `${siteUrl}/tours/from-bali`;
   const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, siteUrl));
@@ -201,7 +215,13 @@ export default async function ToursPageBali() {
           </p>
 
           <div className="flex flex-wrap gap-3 mb-10">
-            {["NIB 1102230032918", "Trustpilot 4.8/5 · 51 reviews", "Founded 2015"].map((tag) => (
+            {[
+              "NIB 1102230032918",
+              trustpilot
+                ? `Trustpilot ${trustpilot.rating}/5 · ${trustpilot.reviewCount} reviews`
+                : "Trustpilot",
+              "Founded 2015",
+            ].map((tag) => (
               <span
                 key={tag}
                 className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-semibold text-white/60 uppercase tracking-[0.1em]"
@@ -447,7 +467,7 @@ export default async function ToursPageBali() {
                 Check us before you book
               </h3>
               <div className="space-y-4 mb-8">
-                {TRUST_SIGNALS.map(({ label, value }) => (
+                {trustSignals.map(({ label, value }) => (
                   <div key={label} className="flex items-center justify-between py-3 border-b border-jvto-border last:border-0">
                     <span className="text-xs text-jvto-muted font-semibold uppercase tracking-[0.1em]">{label}</span>
                     <span className="text-xs text-jvto-navy font-bold text-right">{value}</span>
