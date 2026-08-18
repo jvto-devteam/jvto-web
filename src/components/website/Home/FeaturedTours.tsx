@@ -1,17 +1,19 @@
 import Link from "@/components/website/AppLink";
 import { ArrowRight } from "lucide-react";
 import { ListTourPackage } from "@/types";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import TourRowClient from "./TourRowClient";
 
-async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
-  return getWebPackagesList({ fromId: id, limit: 6 });
+async function getToursByLocation(
+  fromPrefix: "tours/from-bali" | "tours/from-surabaya",
+): Promise<ListTourPackage[]> {
+  return getEcosystemPackagesList({ fromPrefix, limit: 6 });
 }
 
 const FeaturedTours = async () => {
   const [surabayaTours, baliTours] = await Promise.all([
-    getToursByLocation(4),
-    getToursByLocation(3),
+    getToursByLocation("tours/from-surabaya"),
+    getToursByLocation("tours/from-bali"),
   ]);
 
   return (

@@ -6,7 +6,6 @@
 import type {
   AggregateRating,
   BreadcrumbList,
-  FAQPage,
   ItemList,
   ListItem,
   Review,
@@ -15,7 +14,6 @@ import type {
 } from 'schema-dts';
 
 import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
-import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -57,25 +55,6 @@ export function buildWhyJvtoBreadcrumbSchema({ subpath, pageName }: WhyPageArgs)
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items,
-  };
-}
-
-/**
- * FAQPage from narrative_claims wired to a why-jvto page (primary_page = '/why-jvto/...').
- * Empty input → returns null (no schema injection). Each claim's pillar = Question, core_claim = Answer.
- */
-export function buildWhyJvtoFaqSchema(claims: NarrativeClaim[], subpath: WhyPageArgs['subpath']): WithContext<FAQPage> | null {
-  const usable = claims.filter((c) => c.pillar && c.core_claim);
-  if (!usable.length) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${pageUrl(subpath)}#faq`,
-    mainEntity: usable.map((c) => ({
-      '@type': 'Question',
-      name: c.pillar as string,
-      acceptedAnswer: { '@type': 'Answer', text: c.core_claim as string },
-    })),
   };
 }
 
@@ -130,35 +109,6 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): WithCo
       name: r.platform,
     },
   }));
-}
-
-/**
- * Hub-level ItemList of all 9 narrative claims as mainEntity for /why-jvto WebPage.
- * Signals to AI that the hub page IS the authoritative index of all JVTO trust pillars.
- * Each claim links to its primary_page where the evidence is concentrated.
- */
-export function buildNarrativeClaimsItemList(
-  // Only these two fields feed the ItemList. The hub (its only caller) now
-  // supplies them from content/entities/narrative-claims.json — never the DB.
-  claims: Array<Pick<NarrativeClaim, "pillar" | "primary_page">>,
-): WithContext<ItemList> {
-  const usable = claims.filter((c) => c.pillar);
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    '@id': `${BASE_URL}/why-jvto#narrative-claims`,
-    name: 'JVTO Trust Pillars — 9 Verifiable Claims',
-    description:
-      'Nine canonical narrative claims that define the operational identity of PT Java Volcano Rendezvous (NIB 1102230032918, trading as Java Volcano Tour Operator), each with a dedicated evidence page for independent verification.',
-    mainEntityOfPage: { '@id': `${BASE_URL}/why-jvto#webpage` },
-    numberOfItems: usable.length,
-    itemListElement: usable.map((c, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: c.pillar as string,
-      url: c.primary_page ? `${BASE_URL}${c.primary_page}` : `${BASE_URL}/why-jvto`,
-    })),
-  };
 }
 
 /**

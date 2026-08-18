@@ -5,7 +5,6 @@
 // Special case /ijen-health-screening (Phase 4.6 augment 2026-04-29): MedicalWebPage + HowTo + DOCTOR + BBKSDA + SE1658 cross-refs.
 import type {
   BreadcrumbList,
-  FAQPage,
   HowTo,
   ItemList,
   ListItem,
@@ -14,8 +13,6 @@ import type {
   WebPage,
   WithContext,
 } from 'schema-dts';
-
-import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -55,25 +52,6 @@ export function buildTgBreadcrumbSchema({ subpath, pageName }: TgPageArgs): With
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items,
-  };
-}
-
-/**
- * FAQPage from narrative_claims wired to a travel-guide page (primary_page='/travel-guide/...').
- * Empty input → returns null (no schema injection). Mirrors why-jvto pattern.
- */
-export function buildTgFaqSchema(claims: NarrativeClaim[], subpath: string): WithContext<FAQPage> | null {
-  const usable = claims.filter((c) => c.pillar && c.core_claim);
-  if (!usable.length) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${pageUrl(subpath)}#faq`,
-    mainEntity: usable.map((c) => ({
-      '@type': 'Question',
-      name: c.pillar as string,
-      acceptedAnswer: { '@type': 'Answer', text: c.core_claim as string },
-    })),
   };
 }
 

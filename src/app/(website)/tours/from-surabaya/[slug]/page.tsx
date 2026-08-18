@@ -20,8 +20,7 @@ import {
   toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
+import { getEcosystemNarrativeClaims } from "@/lib/ecosystemContent/narrativeClaims";
 import {
   getEcosystemTourPackageDetail,
   getEcosystemTourPackageRoutes,
@@ -440,20 +439,13 @@ function adaptToTourDetailSeed(
   };
 }
 
-function dbSlugForSurabaya(bareSlug: string | string[]): string {
-  const s = Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
-  return s.includes("tours/") ? s : `tours/from-surabaya/${s}`;
-}
-
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const dbSlug = dbSlugForSurabaya(slug);
-  const [data, reviews, org, allClaims, dbFaqs, googleStats, reviewProfiles] = await Promise.all([
+  const [data, reviews, org, allClaims, googleStats, reviewProfiles] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
-    getAllNarrativeClaims().catch(() => []),
-    getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
+    getEcosystemNarrativeClaims(),
     getGoogleReviewStats(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
@@ -472,9 +464,10 @@ export default async function Page({ params }: Props) {
     .filter((c) => c.pillar && c.core_claim)
     .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
   const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
+  const packageFaqs = (data.product as any).faqs as Array<{ question: string; answer: string }> ?? [];
   const fullData: FullPackageDbDataSeed | null = {
     destinations: [],
-    faqs: dbFaqs ?? [],
+    faqs: packageFaqs,
   };
   const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
 

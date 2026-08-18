@@ -1,5 +1,8 @@
+// Migrated 2026-08-18: no internal caller found for this route (checked fetch calls,
+// imports, git history) — sourced from ekosistem per owner decision, same as its
+// sibling routes (/api/tours, /api/tours-feed, /api/trip/[slug], /api/product/[slug]).
 import { NextRequest, NextResponse } from "next/server";
-import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
+import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
 
 export async function GET(req: NextRequest) {
   try {
@@ -8,7 +11,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
     }
 
-    const pkg = await getWebPackageDetail(slug);
+    const pkg = await getEcosystemTourPackageDetail(slug);
 
     if (!pkg) {
       return NextResponse.json(

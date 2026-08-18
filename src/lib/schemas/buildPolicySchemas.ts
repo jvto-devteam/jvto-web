@@ -5,14 +5,11 @@
 // Per cluster_role_contracts.md Cluster 6: BreadcrumbList universal MH; cross-ref custom DefinedTerms
 // (JVTO_TRAVEL_CREDIT, JVTO_FOC_SCHEME) via WebPage.mentions to anchor brand operational terms in entity graph.
 import type {
-  FAQPage,
   ItemList,
   SpecialAnnouncement,
   WebPage,
   WithContext,
 } from 'schema-dts';
-
-import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -106,25 +103,6 @@ export function buildJvtoTravelCreditAnnouncementSchema(): WithContext<SpecialAn
       'Transferable to another person once, with written authorisation.',
     announcementLocation: { '@id': `${BASE_URL}/#organization` },
     category: 'https://www.wikidata.org/wiki/Q81068910',
-  };
-}
-
-/**
- * FAQPage from narrative_claims wired to a policy page (primary_page='/policy/...').
- * Empty input → returns null. Mirrors why-jvto / travel-guide pattern.
- */
-export function buildPolicyFaqSchema(claims: NarrativeClaim[], subpath: string): WithContext<FAQPage> | null {
-  const usable = claims.filter((c) => c.pillar && c.core_claim);
-  if (!usable.length) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${pageUrl(subpath)}#faq`,
-    mainEntity: usable.map((c) => ({
-      '@type': 'Question',
-      name: c.pillar as string,
-      acceptedAnswer: { '@type': 'Answer', text: c.core_claim as string },
-    })),
   };
 }
 

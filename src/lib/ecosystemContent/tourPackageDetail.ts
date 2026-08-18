@@ -169,6 +169,9 @@ export async function getEcosystemTourPackageDetail(
       uniqueSellingPoints: [],
     },
     operationalComplexityNote: editorial.operationalComplexityNote ?? "",
+    faqs: Array.isArray(editorial.faqs)
+      ? (editorial.faqs as Array<{ question: string; answer: string }>)
+      : [],
     provider: editorial.provider,
     compliance: editorial.compliance ?? {
       destinationsWhitelist: true,
@@ -271,6 +274,7 @@ export interface EcosystemPackageListItem {
   physicality: string;
   tags: string[];
   highlights: string[];
+  route: string[];
 }
 
 const FROM_ID_TO_PREFIX: Record<number, "tours/from-bali" | "tours/from-surabaya"> = {
@@ -349,6 +353,7 @@ export async function getEcosystemPackagesList(
           highlights: Array.isArray((editorial.marketing as any)?.highlightsBullets)
             ? ((editorial.marketing as any).highlightsBullets as string[])
             : [],
+          route: Array.isArray(editorial.route) ? (editorial.route as string[]) : [],
         } satisfies EcosystemPackageListItem;
       }),
     )

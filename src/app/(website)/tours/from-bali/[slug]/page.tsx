@@ -20,8 +20,7 @@ import {
   toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
+import { getEcosystemNarrativeClaims } from "@/lib/ecosystemContent/narrativeClaims";
 import {
   getEcosystemTourPackageDetail,
   getEcosystemTourPackageRoutes,
@@ -436,24 +435,15 @@ function adaptToTourDetailSeed(
   };
 }
 
-// Build the slug used for DB package_faqs lookup. Live stores Bali tour slugs as full path
-// (e.g., "tours/from-bali/bromo-ijen-3d2n"); the URL slug param is just the bare name.
-function dbSlugForBali(bareSlug: string | string[]): string {
-  const s = Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
-  return s.includes("tours/") ? s : `tours/from-bali/${s}`;
-}
-
 // --- 7. MAIN PAGE COMPONENT ---
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const dbSlug = dbSlugForBali(slug);
-  const [data, reviews, org, allClaims, dbFaqs, googleStats, reviewProfiles] = await Promise.all([
+  const [data, reviews, org, allClaims, googleStats, reviewProfiles] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
-    getAllNarrativeClaims().catch(() => []),
-    getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
+    getEcosystemNarrativeClaims(),
     getGoogleReviewStats(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
@@ -469,15 +459,16 @@ export default async function Page({ params }: Props) {
 
   // FAQPage composed from 3 sources: spine Q&A + narrative_claims relevant + published package_faqs.
   // Spine pairs hand-written canonical (always present); narrative_claims wired per-tour-relevance;
-  // DB faqs add tour-specific Q&A from CMS-managed master (filtered is_published=true).
+  // package faqs add tour-specific Q&A, both ekosistem-sourced as of 2026-08-18.
   const tourSeed = adaptToTourDetailSeed(data);
   const claimsLite: NarrativeClaimLite[] = (allClaims ?? [])
     .filter((c) => c.pillar && c.core_claim)
     .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
   const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
+  const packageFaqs = (data.product as any).faqs as Array<{ question: string; answer: string }> ?? [];
   const fullData: FullPackageDbDataSeed | null = {
     destinations: [],
-    faqs: dbFaqs ?? [],
+    faqs: packageFaqs,
   };
   const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
 

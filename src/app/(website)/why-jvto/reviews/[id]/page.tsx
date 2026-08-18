@@ -1,4 +1,9 @@
 // app/why-jvto/reviews/[id]/page.tsx
+// Migrated 2026-08-18: package name/slug resolved from ekosistem instead of the Prisma
+// `packages` relation — reviews themselves stay Prisma (live/operational), but the
+// editorial package name+slug they reference now comes from the single content source.
+// The Prisma lookup below fetches ONLY the id->slug mapping (a stable foreign-key
+// resolution, not editorial content), then hands the slug to ekosistem for the name.
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Avatar from "@/components/website/Avatar";
@@ -6,6 +11,7 @@ import { Star } from "lucide-react";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -23,22 +29,36 @@ interface PageProps {
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
+async function resolveReviewPackage(
+  packageId: bigint | null,
+): Promise<{ name: string | null; slug: string | null }> {
+  if (packageId == null) return { name: null, slug: null };
+
+  const pkg = await prisma.packages.findUnique({
+    where: { id: packageId },
+    select: { slug: true },
+  });
+  if (!pkg?.slug) return { name: null, slug: null };
+
+  const ecosystemPkg = await getEcosystemTourPackageDetail(pkg.slug);
+  return { name: ecosystemPkg?.product.name ?? null, slug: pkg.slug };
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const reviewId = BigInt(id);
 
   const review = await prisma.reviews.findUnique({
     where: { id: reviewId },
-    include: {
-      package: true,
-    },
+    select: { id: true, customer_name: true, review: true, package_id: true },
   });
 
   if (!review) {
     return { title: "Review Not Found" };
   }
 
-  const packageName = review.package?.name ?? "Java Volcano Tour Package";
+  const { name: resolvedName } = await resolveReviewPackage(review.package_id);
+  const packageName = resolvedName ?? "Java Volcano Tour Package";
   const title = `${review.customer_name} Review | ${packageName}`;
   const description =
     review.review?.slice(0, 160) ??
@@ -61,9 +81,6 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   const [review, org] = await Promise.all([
     prisma.reviews.findUnique({
       where: { id: reviewId },
-      include: {
-        package: true,
-      },
     }),
     getOrganizationProfile(),
   ]);
@@ -71,11 +88,15 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   if (!review) {
     notFound();
   }
-  const packageName = review.package?.name ?? "Java Volcano Tour Package";
-  const packageUrl = review.package?.slug
-    ? review.package.slug.startsWith("tours/")
-      ? `${SITE_URL}/${review.package.slug}`
-      : `${SITE_URL}/tours/${review.package.slug}`
+
+  const { name: resolvedName, slug: resolvedSlug } = await resolveReviewPackage(
+    review.package_id,
+  );
+  const packageName = resolvedName ?? "Java Volcano Tour Package";
+  const packageUrl = resolvedSlug
+    ? resolvedSlug.startsWith("tours/")
+      ? `${SITE_URL}/${resolvedSlug}`
+      : `${SITE_URL}/tours/${resolvedSlug}`
     : `${SITE_URL}/tours`;
 
   const schema = {
@@ -170,13 +191,13 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         <p>{review.review}</p>
       </article>
 
-      {review.package && (
+      {resolvedName && (
         <section className="border rounded-sm p-6 bg-gray-50">
           <h2 className="font-bold text-lg mb-2">Related Tour Package</h2>
 
-          <p className="font-semibold text-slate-800">{review.package.name}</p>
+          <p className="font-semibold text-slate-800">{resolvedName}</p>
 
-          {review.package.slug && (
+          {resolvedSlug && (
             <a
               href={packageUrl}
               className="inline-block mt-2 text-orange-600 font-semibold hover:underline"
