@@ -21,6 +21,7 @@ import type {
   TravelAgency,
   WithContext,
 } from 'schema-dts';
+import { EXTERNAL_ENTITIES, entityRef } from './externalEntities';
 
 /**
  * `EducationalOccupationalCredential` + `dateIssued`.
@@ -65,10 +66,7 @@ export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
     ],
     url: `${BASE_URL}/legal/NIB-1102230032918.pdf`,
     credentialCategory: 'Indonesian Business Registration',
-    recognizedBy: {
-      '@type': 'GovernmentOrganization',
-      name: 'Kementerian Investasi / BKPM Indonesia',
-    },
+    recognizedBy: EXTERNAL_ENTITIES.bkpm,
   },
   {
     '@type': 'EducationalOccupationalCredential',
@@ -80,10 +78,7 @@ export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
     dateIssued: '2023-02-11',
     url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
     credentialCategory: 'Indonesian Tourism Business Licence',
-    recognizedBy: {
-      '@type': 'GovernmentOrganization',
-      name: 'Kementerian Pariwisata dan Ekonomi Kreatif',
-    },
+    recognizedBy: EXTERNAL_ENTITIES.kemenparekraf,
   },
   {
     '@type': 'EducationalOccupationalCredential',
@@ -96,11 +91,7 @@ export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
     },
     url: `${BASE_URL}/legal/HPWKI-approval.pdf`,
     credentialCategory: 'Volcanic Tourism Association — BBKSDA supervised',
-    recognizedBy: {
-      '@type': 'Organization',
-      name: 'HPWKI — supervised by BBKSDA Jawa Timur',
-      sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
-    },
+    recognizedBy: entityRef('hpwki'),
   },
 ];
 
@@ -151,24 +142,13 @@ export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
   // Verified credentials (legal + association) — see ORGANIZATION_HAS_CREDENTIAL above.
   hasCredential: ORGANIZATION_HAS_CREDENTIAL,
 
-  // Association memberships
+  // Association memberships — canonical full definitions for HPWKI/INDECON/ISIC
+  // live in externalEntities.ts; every other mention of these three in this
+  // file references them by @id instead (see entityRef()).
   memberOf: [
-    {
-      '@type': 'Organization',
-      name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
-      description: 'Ijen volcano guide association; members receive annual BBKSDA safety training on volcanic gas protocols.',
-      sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
-    },
-    {
-      '@type': 'Organization',
-      name: 'INDECON (Indonesian Ecotourism Network)',
-      sameAs: 'https://www.indecon.id/spotlight-networks/java-volcano-tour-operator',
-    },
-    {
-      '@type': 'Organization',
-      name: 'ISIC (International Student Identity Card)',
-      sameAs: 'https://www.isic.org/discounts/?providerId=259268',
-    },
+    EXTERNAL_ENTITIES.hpwki,
+    EXTERNAL_ENTITIES.indecon,
+    EXTERNAL_ENTITIES.isic,
   ],
 
   // Third-party press and editorial coverage
@@ -178,7 +158,7 @@ export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
       headline: 'Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin',
       datePublished: '2021-03-14',
       url: 'https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin',
-      publisher: { '@type': 'Organization', name: 'Detik.com', url: 'https://detik.com' },
+      publisher: EXTERNAL_ENTITIES.detikcom,
       about: { '@id': AGUNG_ID },
       image: `${BASE_URL}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png`,
     },
@@ -186,7 +166,7 @@ export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
       '@type': 'NewsArticle',
       headline: 'Polpar Dibentuk untuk Mendukung Ijen Geopark',
       url: 'https://radarjember.jawapos.com/bondowoso/791102263/polpar-dibentuk-untuk-mendukung-ijen-geopark',
-      publisher: { '@type': 'Organization', name: 'Radar Jember / Jawa Pos' },
+      publisher: EXTERNAL_ENTITIES.radarJemberJawaPos,
       about: { '@type': 'Organization', name: 'Tourist Police Unit, Bondowoso' },
       image: `${BASE_URL}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png`,
     },
@@ -198,7 +178,7 @@ export const ORGANIZATION_SCHEMA: WithContext<TravelAgency> = {
       inLanguage: 'de',
       numberOfPages: 772,
       bookEdition: '4',
-      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
+      publisher: EXTERNAL_ENTITIES.dumontReiseverlag,
       url: 'https://www.tripplanner.at/en/product-page/stefan-loose-reisef%C3%BChrer-indonesien',
       description: 'German-language travel guide; independently features Ijen Bondowoso Homestay (JVTO) — non-paid editorial listing.',
       image: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
@@ -238,11 +218,7 @@ const FOUNDER_HAS_CREDENTIAL: IssuedCredential[] = [
     },
     url: `${BASE_URL}/legal/SPRIN-POLPAR.pdf`,
     image: `${BASE_URL}/legal/SPRIN-POLPAR.webp`,
-    recognizedBy: {
-      '@type': 'GovernmentOrganization',
-      name: 'Indonesian National Police (POLRI)',
-      url: 'https://polri.go.id',
-    },
+    recognizedBy: EXTERNAL_ENTITIES.polri,
   },
   {
     '@type': 'EducationalOccupationalCredential',
@@ -256,20 +232,13 @@ const FOUNDER_HAS_CREDENTIAL: IssuedCredential[] = [
       value: '179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3',
     },
     url: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp`,
-    recognizedBy: {
-      '@type': 'GovernmentOrganization',
-      name: 'Indonesian National Police (POLRI)',
-    },
+    recognizedBy: entityRef('polri'),
   },
   {
     '@type': 'EducationalOccupationalCredential',
     name: 'HPWKI Certified Volcano Guide (Himpunan Pelaku Wisata Khusus Ijen)',
     credentialCategory: 'Professional Mountain Guiding Certification',
-    recognizedBy: {
-      '@type': 'Organization',
-      name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
-      sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
-    },
+    recognizedBy: entityRef('hpwki'),
   },
 ];
 
@@ -305,12 +274,7 @@ export const FOUNDER_SCHEMA: WithContext<Person> = {
       description: 'Tourist Police directorate responsible for securing vital tourism objects in Indonesia.',
     },
   ],
-  memberOf: {
-    '@type': 'Organization',
-    name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
-    description: 'Ijen volcano guide association supervised by BBKSDA Jawa Timur (Ministry of Environment). HPWKI members receive annual training on volcanic gas protocols and evacuation procedures.',
-    sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
-  },
+  memberOf: entityRef('hpwki'),
   // Police credentials — verifiable government documents.
   // identifier carries the SHA-256 forensic anchor of each source document (published in
   // public/llms.txt) as a PropertyValue — machine-verifiable proof the credential file is
@@ -336,7 +300,7 @@ export const FOUNDER_SCHEMA: WithContext<Person> = {
       headline: 'Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin',
       datePublished: '2021-03-14',
       url: 'https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin',
-      publisher: { '@type': 'Organization', name: 'Detik.com', url: 'https://detik.com' },
+      publisher: entityRef('detikcom'),
       description: 'National press article naming "Bripka Agung Sambuko" as Tourist Police, Bondowoso — third-party identity confirmation.',
     },
     {
@@ -347,7 +311,7 @@ export const FOUNDER_SCHEMA: WithContext<Person> = {
       inLanguage: 'de',
       numberOfPages: 772,
       bookEdition: '4',
-      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
+      publisher: entityRef('dumontReiseverlag'),
       description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay (non-paid editorial).',
       image: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`,
     },
@@ -405,11 +369,7 @@ export const DOCTOR_SCHEMA: WithContext<Physician> & {
       name: 'SIP (Surat Izin Praktik) — Medical Practice Licence',
       credentialCategory: 'Indonesian Medical Practice Licence',
       url: 'https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217',
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Kementerian Kesehatan Republik Indonesia (Ministry of Health)',
-        url: 'https://kemkes.go.id',
-      },
+      recognizedBy: EXTERNAL_ENTITIES.kemenkes,
       description: 'Publicly verifiable at satusehat.kemkes.go.id — the Indonesian national health registry.',
     },
     {
@@ -417,11 +377,7 @@ export const DOCTOR_SCHEMA: WithContext<Physician> & {
       name: 'KKI Registration (Konsil Kedokteran Indonesia)',
       credentialCategory: 'Indonesian Medical Council Registration',
       url: 'https://kki.go.id/cekdokter/form',
-      recognizedBy: {
-        '@type': 'GovernmentOrganization',
-        name: 'Konsil Kedokteran Indonesia (Indonesian Medical Council)',
-        url: 'https://kki.go.id',
-      },
+      recognizedBy: EXTERNAL_ENTITIES.kki,
     },
   ],
 };
@@ -434,11 +390,7 @@ export const BBKSDA_REGULATION_SCHEMA: WithContext<GovernmentService> = {
   name: 'Ijen Crater Access — Health Certificate Requirement',
   description:
     'Under SE.1658/KSA.9/2024 issued by BBKSDA Jawa Timur, visitors to Kawah Ijen must present a health certificate from a licensed clinic confirming blood pressure and oxygen saturation readings are within safe limits.',
-  provider: {
-    '@type': 'GovernmentOrganization',
-    name: 'BBKSDA Jawa Timur (Balai Besar Konservasi Sumber Daya Alam)',
-    description: 'Indonesian Ministry of Environment body responsible for Ijen Crater nature reserve management.',
-  },
+  provider: EXTERNAL_ENTITIES.bbksdaJatim,
   serviceOutput: {
     '@type': 'DigitalDocument',
     name: 'Health Certificate for Ijen Crater Access (Surat Keterangan Sehat)',
@@ -671,10 +623,7 @@ export function buildCrewPersonSchema(member: {
         identifier: member.ktaId,
         credentialCategory: 'Indonesian Tour Guide Licence',
         ...(member.ktaCardUrl ? { url: member.ktaCardUrl } : {}),
-        recognizedBy: {
-          '@type': 'Organization',
-          name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
-        },
+        recognizedBy: entityRef('hpwki'),
       },
     } : {}),
     // Social identity — verifiable real person, not anonymous
