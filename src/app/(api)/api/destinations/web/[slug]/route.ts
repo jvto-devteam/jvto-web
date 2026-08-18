@@ -1,9 +1,9 @@
 // app/api/destinations/web/[slug]/route.ts
-// Refactored 2026-08-15 (Task 4.4, data-source-consolidation): the snapshot-first path
-// (destinationDetailSnapshot.ts, deleted this task) is gone — this route now reads Prisma
-// directly, same DB-only reader the Server Component page uses. No snapshot fallback.
+// Migrated 2026-08-18: sourced from ekosistem instead of Prisma, same reader the
+// Server Component page (destinations/[slug]/page.tsx) already uses — part of the
+// single-content-source consolidation.
 import { NextRequest, NextResponse } from "next/server";
-import { getDestinationDetailFromDatabase } from "@/lib/publicContent/databaseDestinationDetail";
+import { getEcosystemDestinationDetail } from "@/lib/ecosystemContent/destinationDetail";
 
 export async function GET(
   _req: NextRequest,
@@ -20,7 +20,7 @@ export async function GET(
       );
     }
 
-    const dest = await getDestinationDetailFromDatabase(slug);
+    const dest = await getEcosystemDestinationDetail(slug);
 
     if (!dest) {
       return NextResponse.json(

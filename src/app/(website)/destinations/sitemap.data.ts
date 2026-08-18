@@ -1,17 +1,17 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
 import { getLastModified, type LastModifiedMap } from "@/app/sitemap-utils";
-import { getPublishedDestinationRoutes } from "@/lib/publicContent/databaseDestinationDetail";
+import { getEcosystemDestinationRoutes } from "@/lib/ecosystemContent/destinationDetail";
 
 export async function sitemapDestinations(
   t: Date,
   lastModifiedMap: LastModifiedMap,
 ): Promise<MetadataRoute.Sitemap> {
-  const destinations = await getPublishedDestinationRoutes();
+  const destinations = await getEcosystemDestinationRoutes();
   const dynamicDestinations: MetadataRoute.Sitemap = destinations.map(
     (dest) => ({
       url: url(`/destinations/${dest.slug}`),
-      lastModified: dest.updatedAt ?? t,
+      lastModified: t,
       changeFrequency: "monthly",
       priority: 0.8,
     }),

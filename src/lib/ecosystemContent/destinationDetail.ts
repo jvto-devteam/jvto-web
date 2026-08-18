@@ -92,3 +92,93 @@ export async function getEcosystemDestinationRoutes(): Promise<
 > {
   return KNOWN_SLUGS.map((slug) => ({ slug }));
 }
+
+/** Shape returned for homepage/hub listing cards — mirrors the retired getWebDestinationsList. */
+export interface EcosystemDestinationListItem {
+  id: number;
+  name: string;
+  slug: string;
+  short_slug: string | null;
+  featured: boolean;
+  banner: { url: string; alt: string };
+  summary: string;
+  highlight: string;
+  description: string;
+  geo: { latitude: number | null; longitude: number | null; altitude: number };
+  keyInfo: {
+    difficulty_level: string;
+    temperature_range: string;
+    best_time_to_visit: string;
+  };
+  permit_required: boolean;
+  permit_details: string;
+  physical_requirements: string;
+  seo: { title: string | null; description: string | null };
+  tags: string[];
+  schema_json: Record<string, any> | null;
+  main_attractions: Array<{ title: string; description: string }>;
+}
+
+export interface EcosystemDestinationsListFilters {
+  featured?: boolean;
+  limit?: number;
+}
+
+/**
+ * Published destination listings for homepage/hub cards, filtered by featured flag.
+ * Pure ekosistem read — no Prisma. Returns empty array on miss (caller-friendly).
+ */
+export async function getEcosystemDestinationsList(
+  filters: EcosystemDestinationsListFilters = {},
+): Promise<EcosystemDestinationListItem[]> {
+  const { featured, limit } = filters;
+
+  const items = (
+    await Promise.all(
+      KNOWN_SLUGS.map(async (slug) => {
+        const d = (await readLocal(slug)) ?? (await fetchRemote(slug));
+        if (!d) return null;
+        const dAny = d as any;
+
+        if (featured && !dAny.featured) return null;
+
+        return {
+          id: d.id,
+          name: d.name,
+          slug: dAny.slug ?? slug,
+          short_slug: dAny.short_slug ?? null,
+          featured: dAny.featured ?? false,
+          banner: {
+            url: dAny.hero_image_url ?? "",
+            alt: d.name,
+          },
+          summary: d.summary ?? "",
+          highlight: d.highlight ?? "",
+          description: d.description ?? "",
+          geo: {
+            latitude: null as number | null,
+            longitude: null as number | null,
+            altitude: d.altitude,
+          },
+          keyInfo: {
+            difficulty_level: d.difficulty_level ?? "",
+            temperature_range: d.temperature_range ?? "",
+            best_time_to_visit: d.best_time_to_visit ?? "",
+          },
+          permit_required: d.permit_required ?? false,
+          permit_details: d.permit_details ?? "",
+          physical_requirements: d.physical_requirements ?? "",
+          seo: {
+            title: d.seo_title ?? null,
+            description: d.seo_description ?? null,
+          },
+          tags: Array.isArray(d.tags) ? d.tags : [],
+          schema_json: d.schema_json ?? null,
+          main_attractions: Array.isArray(d.main_attractions) ? d.main_attractions : [],
+        } satisfies EcosystemDestinationListItem;
+      }),
+    )
+  ).filter((item): item is EcosystemDestinationListItem => item !== null);
+
+  return limit !== undefined ? items.slice(0, limit) : items;
+}
