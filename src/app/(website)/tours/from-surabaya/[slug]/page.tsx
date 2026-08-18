@@ -22,9 +22,10 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
-import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
-import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
-import { routeSlugToParam } from "@/lib/routing/staticParams";
+import {
+  getEcosystemTourPackageDetail,
+  getEcosystemTourPackageRoutes,
+} from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -96,11 +97,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const routes = await getPublishedPackageSlugs({ categoryId: 1, fromId: 4 });
-  return routes
-    .map((r) => routeSlugToParam(r.slug, "tours/from-surabaya"))
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
+  return getEcosystemTourPackageRoutes("tours/from-surabaya");
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -153,7 +150,7 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  return getWebPackageDetail(
+  return getEcosystemTourPackageDetail(
     slugParam.includes("tours/")
       ? slugParam
       : `tours/from-surabaya/${slugParam}`,

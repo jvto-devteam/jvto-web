@@ -22,9 +22,10 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
-import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
-import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
-import { routeSlugToParam } from "@/lib/routing/staticParams";
+import {
+  getEcosystemTourPackageDetail,
+  getEcosystemTourPackageRoutes,
+} from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -96,11 +97,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const routes = await getPublishedPackageSlugs({ categoryId: 1, fromId: 3 });
-  return routes
-    .map((r) => routeSlugToParam(r.slug, "tours/from-bali"))
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
+  return getEcosystemTourPackageRoutes("tours/from-bali");
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -153,7 +150,7 @@ function getDestinationUrl(name: string) {
 // Now calls the same transform logic directly via shared helper. React `cache` still memoizes per-request
 // so generateMetadata + Page don't double-query Prisma.
 const getTourData = cache(async (slugParam: string) => {
-  return getWebPackageDetail(
+  return getEcosystemTourPackageDetail(
     slugParam.includes("tours/")
       ? slugParam
       : `tours/from-bali/${slugParam}`,

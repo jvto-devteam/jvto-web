@@ -8,9 +8,9 @@ import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
-  getDestinationDetailFromDatabase,
-  getPublishedDestinationRoutes,
-} from "@/lib/publicContent/databaseDestinationDetail";
+  getEcosystemDestinationDetail,
+  getEcosystemDestinationRoutes,
+} from "@/lib/ecosystemContent/destinationDetail";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -78,17 +78,17 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const routes = await getPublishedDestinationRoutes();
+  const routes = await getEcosystemDestinationRoutes();
   return routes.map((route) => ({ slug: route.slug }));
 }
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
-// DB-only, no snapshot fallback (Task 4.4, data-source-consolidation): if Prisma is
-// unreachable, getDestinationDetailFromDatabase throws and this page errors — it does not
-// silently degrade to stale snapshot data.
+// Ekosistem-only (single-content-source consolidation, 2026-08-18): destination
+// editorial content — every field DestinationDetail declares — now lives in
+// jvto-ekosistem, not Prisma. See ecosystemContent/destinationDetail.ts.
 
 const getDestination = cache(async (slug: string): Promise<DestinationDetail | null> =>
-  getDestinationDetailFromDatabase(slug),
+  getEcosystemDestinationDetail(slug),
 );
 
 // 3D trail data is managed through jvto-cms (GPX upload -> route_geojson + route_* stat
