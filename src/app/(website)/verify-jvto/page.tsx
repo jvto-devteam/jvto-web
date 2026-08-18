@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -23,7 +23,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function VerifyJvtoPage() {
   const [seo, googleStats] = await Promise.all([
-    getPageSeo("/verify-jvto", fallbackSeo),
+    getEcosystemPageSeo("/verify-jvto", fallbackSeo),
     getGoogleReviewStats(),
   ]);
   const pageRow = seo.row

@@ -1,6 +1,6 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
@@ -43,12 +43,12 @@ const POLICE_CREDENTIALS = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto/police-safety", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function PoliceSafetyPage() {
-  const seo = await getPageSeo("/verify-jvto/police-safety", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo);
   const docs = await getDocsByGroup("policeSafety");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/police-safety");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/police-safety");

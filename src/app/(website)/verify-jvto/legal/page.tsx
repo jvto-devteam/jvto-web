@@ -1,6 +1,6 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import {
@@ -58,12 +58,12 @@ const LEGAL_CREDENTIALS = [
 void LEGAL_CREDENTIALS; // kept for schema cross-reference data — used by LEGAL_DIGITAL_DOCUMENTS
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto/legal", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/legal", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function LegalPage() {
-  const seo = await getPageSeo("/verify-jvto/legal", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/legal", fallbackSeo);
   const docs = await getDocsByGroup("legal");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/legal");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/legal");

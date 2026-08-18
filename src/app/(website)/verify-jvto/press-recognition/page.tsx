@@ -1,6 +1,6 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -21,12 +21,12 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto/press-recognition", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function PressRecognitionPage() {
-  const seo = await getPageSeo("/verify-jvto/press-recognition", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo);
   const docs = await getDocsByGroup("pressRecognition");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/press-recognition");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/press-recognition");

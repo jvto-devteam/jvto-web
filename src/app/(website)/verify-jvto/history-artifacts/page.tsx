@@ -1,6 +1,6 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -125,12 +125,12 @@ const HISTORY_TIMELINE_SCHEMA = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function HistoryArtifactsPage() {
-  const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   const docs = await getDocsByGroup("historyArtifacts");
   const faqResolution = await resolveFaqsForPage("/verify-jvto/history-artifacts");
   const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/history-artifacts");
