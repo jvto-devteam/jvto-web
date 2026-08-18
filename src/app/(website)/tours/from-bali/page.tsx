@@ -236,7 +236,7 @@ export default async function ToursPageBali() {
       <section id="packages" className="bg-jvto-off py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
               {initialTours.length} Packages
             </span>
           </div>
@@ -287,7 +287,7 @@ export default async function ToursPageBali() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
               What&apos;s Included
             </span>
           </div>
@@ -309,7 +309,7 @@ export default async function ToursPageBali() {
                 className="flex gap-4 p-5 bg-jvto-off rounded-[20px] border border-jvto-border card-jvto"
               >
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-jvto-lime/20 flex items-center justify-center mt-0.5">
-                  <Check className="w-3.5 h-3.5 text-jvto-lime" strokeWidth={2.5} />
+                  <Check className="w-3.5 h-3.5 text-jvto-lime-ink" strokeWidth={2.5} />
                 </div>
                 <div>
                   <p
@@ -390,7 +390,7 @@ export default async function ToursPageBali() {
             {/* Left — steps */}
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
                   Book Direct
                 </span>
               </div>

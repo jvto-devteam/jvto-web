@@ -118,7 +118,7 @@ function MyBookingPageInner() {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center gap-4">
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-slate-200 border-t-jvto-green rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-slate-200 border-t-jvto-lime rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <Plane className="text-slate-300" size={20} />
           </div>
@@ -134,8 +134,8 @@ function MyBookingPageInner() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center max-w-md bg-white p-8 rounded-sm shadow-xl border border-slate-100">
-          <div className="w-20 h-20 bg-jvto-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Sparkles size={32} className="text-jvto-green" />
+          <div className="w-20 h-20 bg-jvto-lime/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Sparkles size={32} className="text-jvto-lime-ink" />
           </div>
           <h2 className="text-2xl font-black text-slate-800 mb-2">
             Login Required
@@ -145,7 +145,7 @@ function MyBookingPageInner() {
           </p>
           <Link
             href="/"
-            className="inline-block w-full py-3 bg-jvto-dark text-white font-bold rounded-sm hover:bg-black transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="inline-block w-full py-3 bg-jvto-navy text-white font-bold rounded-sm hover:bg-black transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             Back to Home
           </Link>
@@ -160,7 +160,7 @@ function MyBookingPageInner() {
     <div className="min-h-screen bg-gray-100 md:bg-[#F8F9FA] pb-28 pt-20 md:pt-32">
 
       {/* desktop decoration */}
-      <div className="hidden md:block fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-jvto-green/5 to-transparent -z-10 pointer-events-none" />
+      <div className="hidden md:block fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-jvto-lime/5 to-transparent -z-10 pointer-events-none" />
 
       <div className="container mx-auto px-4">
 
@@ -172,8 +172,8 @@ function MyBookingPageInner() {
                 <h1 className="text-xl font-black text-gray-800">Hello, {firstName}</h1>
                 <p className="text-gray-500 text-sm mt-0.5">Member Dashboard · JVTO</p>
               </div>
-              <div className="bg-jvto-green/10 rounded-full p-3">
-                <Palmtree className="h-6 w-6 text-jvto-green" />
+              <div className="bg-jvto-lime/10 rounded-full p-3">
+                <Palmtree className="h-6 w-6 text-jvto-lime-ink" />
               </div>
             </div>
           </div>
@@ -186,12 +186,12 @@ function MyBookingPageInner() {
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white rounded-sm shadow-sm p-3">
                 <div className="flex">
-                  <div className="bg-jvto-green/10 rounded-full p-2 mr-2 shrink-0">
-                    <Palmtree className="h-4 w-4 text-jvto-green" />
+                  <div className="bg-jvto-lime/10 rounded-full p-2 mr-2 shrink-0">
+                    <Palmtree className="h-4 w-4 text-jvto-lime-ink" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-gray-600 mb-1">Total Trips</p>
-                    <p className="text-xl font-bold text-jvto-green">
+                    <p className="text-xl font-bold text-jvto-lime-ink">
                       {stats.total}{" "}
                       <span className="text-xs text-gray-500 font-normal">trips</span>
                     </p>
@@ -229,7 +229,7 @@ function MyBookingPageInner() {
             </h1>
             <p className="text-slate-500 mt-2 text-lg">
               You have{" "}
-              <span className="font-bold text-jvto-green">{stats.upcoming} upcoming</span>{" "}
+              <span className="font-bold text-jvto-lime-ink">{stats.upcoming} upcoming</span>{" "}
               adventures waiting for you.
             </p>
           </div>
@@ -238,7 +238,7 @@ function MyBookingPageInner() {
               <p className="text-xs text-slate-400 font-bold uppercase">Total Trips</p>
               <p className="text-2xl font-black text-slate-900">{stats.total}</p>
             </div>
-            <div className="bg-jvto-dark p-4 rounded-sm shadow-lg min-w-[100px] text-center transform rotate-2">
+            <div className="bg-jvto-navy p-4 rounded-sm shadow-lg min-w-[100px] text-center transform rotate-2">
               <p className="text-xs text-white/60 font-bold uppercase">Next Trip</p>
               <p className="text-2xl font-black text-white">
                 {stats.upcoming > 0 ? "Soon" : "-"}
@@ -255,7 +255,7 @@ function MyBookingPageInner() {
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                 activeTab === tab
-                  ? "bg-jvto-green text-white shadow-sm"
+                  ? "bg-jvto-lime text-white shadow-sm"
                   : "bg-white text-gray-600 border border-gray-200"
               }`}
             >
@@ -271,7 +271,7 @@ function MyBookingPageInner() {
               <div key={booking.id}>
 
                 {/* ── DESKTOP CARD (md+) ── */}
-                <div className="hidden md:block group relative bg-white rounded-sm p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-jvto-green/30 transition-all duration-300">
+                <div className="hidden md:block group relative bg-white rounded-sm p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-jvto-lime/30 transition-all duration-300">
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="relative w-full md:w-72 h-56 md:h-auto shrink-0 rounded-sm overflow-hidden">
                       <Image
@@ -305,20 +305,20 @@ function MyBookingPageInner() {
                           </div>
                           <StatusBadge status={booking.status} />
                         </div>
-                        <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 group-hover:text-jvto-green transition-colors leading-tight">
+                        <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 group-hover:text-jvto-lime-ink transition-colors leading-tight">
                           {booking.package_name}
                         </h3>
                         <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600 bg-slate-50 p-4 rounded-sm border border-slate-100">
                           <div className="flex items-center gap-2">
-                            <Clock size={16} className="text-jvto-green" />
+                            <Clock size={16} className="text-jvto-lime-ink" />
                             <span>{booking.duration}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Users size={16} className="text-jvto-green" />
+                            <Users size={16} className="text-jvto-lime-ink" />
                             <span>{booking.total_pax} Travelers</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Calendar size={16} className="text-jvto-green" />
+                            <Calendar size={16} className="text-jvto-lime-ink" />
                             <span>
                               {new Date(booking.travel_date_start).toLocaleDateString("id-ID", {
                                 day: "numeric",
@@ -378,10 +378,10 @@ function MyBookingPageInner() {
                   </div>
 
                   {/* Action footer (sam-app colored footer strip) */}
-                  <div className="bg-jvto-green/5 px-4 py-3 border-t border-jvto-green/15">
+                  <div className="bg-jvto-lime/5 px-4 py-3 border-t border-jvto-lime/15">
                     <Link
                       href={`/my-booking/${booking.url}`}
-                      className="text-jvto-green text-sm font-medium"
+                      className="text-jvto-lime-ink text-sm font-medium"
                     >
                       Lihat Detail Booking →
                     </Link>
@@ -393,9 +393,9 @@ function MyBookingPageInner() {
           ) : (
             <div className="text-center py-24 bg-white rounded-sm border border-dashed border-slate-200">
               <div className="relative inline-block mb-6">
-                <div className="absolute inset-0 bg-jvto-green/20 rounded-full blur-xl opacity-50"></div>
-                <div className="relative w-24 h-24 bg-jvto-green/5 rounded-full flex items-center justify-center">
-                  <Palmtree size={40} className="text-jvto-green" />
+                <div className="absolute inset-0 bg-jvto-lime/20 rounded-full blur-xl opacity-50"></div>
+                <div className="relative w-24 h-24 bg-jvto-lime/5 rounded-full flex items-center justify-center">
+                  <Palmtree size={40} className="text-jvto-lime-ink" />
                 </div>
               </div>
               <h3 className="text-2xl font-black text-slate-900 mb-2">
@@ -406,7 +406,7 @@ function MyBookingPageInner() {
               </p>
               <Link
                 href="/tours"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-black text-lg rounded-sm transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-lime hover:bg-[#8cb82b] text-slate-900 font-black text-lg rounded-sm transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
               >
                 Start an Adventure <Sparkles size={20} />
               </Link>

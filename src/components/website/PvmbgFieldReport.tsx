@@ -81,7 +81,7 @@ export default function PvmbgFieldReport({ report, sourceUrl, lastVerified }: Pr
             href={sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[9px] text-slate-600 hover:text-jvto-green transition-colors leading-none shrink-0"
+            className="inline-flex items-center gap-1 text-[9px] text-slate-600 hover:text-jvto-lime transition-colors leading-none shrink-0"
           >
             Source
             <ExternalLink size={8} />

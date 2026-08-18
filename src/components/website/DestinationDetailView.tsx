@@ -487,7 +487,7 @@ export default function DestinationDetailView({
                     className="bg-white rounded-[20px] p-6 border border-[#E3E0DA] border-l-[3px] border-l-jvto-lime"
                     style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
                   >
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-lime mb-2">
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-lime-ink mb-2">
                       Fully accessible
                     </p>
                     <h3
@@ -521,11 +521,11 @@ export default function DestinationDetailView({
 
                 {/* Lime callout */}
                 <div className="flex gap-4 p-5 md:p-6 rounded-[20px] bg-jvto-lime/[0.07] border border-jvto-lime/20">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-jvto-lime shrink-0 mt-0.5" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-jvto-lime-ink shrink-0 mt-0.5" aria-hidden="true">
                     <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
                   </svg>
                   <div>
-                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-lime mb-1">
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-lime-ink mb-1">
                       Effect on your itinerary · minimal
                     </p>
                     <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">
@@ -567,7 +567,7 @@ export default function DestinationDetailView({
                 key={title}
                 className="bg-white/[0.05] border border-white/10 rounded-[20px] p-6 md:p-7"
               >
-                <div className="text-jvto-lime mb-4">
+                <div className="text-jvto-lime-ink mb-4">
                   <Icon />
                 </div>
                 <h3

@@ -1,7 +1,7 @@
 // src/components/website/MarketPageSections.tsx
 // Shared Server Component rendering a /markets/* geographic landing page from a MarketContent
 // model. Static, SSG-safe (no DB fetch, no client interactivity) — v1 per GAP-09. Visual mode
-// follows the Trust/verify cluster (dark slate + jvto-green accent).
+// follows the Trust/verify cluster (dark slate + jvto-lime accent).
 import Link from "next/link";
 import type { MarketContent } from "@/lib/ecosystemContent/markets";
 import type { PublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
@@ -29,7 +29,7 @@ export function MarketPageSections({
       {/* ── Hero ── */}
       <section className="border-b border-slate-800">
         <div className="container mx-auto px-6 py-16 max-w-4xl">
-          <p className="text-[10px] font-black uppercase tracking-widest text-jvto-green mb-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-jvto-lime mb-4">
             {content.country} · East Java Volcano Tours
           </p>
           <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
@@ -51,7 +51,7 @@ export function MarketPageSections({
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-jvto-green text-slate-950 font-bold text-sm px-5 py-3 rounded-lg hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-jvto-lime text-slate-950 font-bold text-sm px-5 py-3 rounded-lg hover:opacity-90 transition-opacity"
             >
               <MessageCircle size={16} />
               WhatsApp JVTO: +62 822 4478 8833
@@ -94,7 +94,7 @@ export function MarketPageSections({
                   <tr key={row.flightPlan} className="border-b border-slate-900 align-top">
                     <td className="py-3 pr-6 text-slate-300">{row.flightPlan}</td>
                     <td className="py-3 pr-6">
-                      <span className="text-[11px] font-bold text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                      <span className="text-[11px] font-bold text-jvto-lime bg-jvto-lime/10 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
                         {row.start}
                       </span>
                     </td>
@@ -154,7 +154,7 @@ export function MarketPageSections({
           <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
             {content.inclusions.map((item) => (
               <li key={item} className="flex items-start gap-2.5 text-slate-300 text-sm leading-relaxed">
-                <CheckCircle2 size={15} className="text-jvto-green shrink-0 mt-0.5" />
+                <CheckCircle2 size={15} className="text-jvto-lime shrink-0 mt-0.5" />
                 <span>{item}</span>
               </li>
             ))}
@@ -184,7 +184,7 @@ export function MarketPageSections({
       <section className="border-b border-slate-800">
         <div className="container mx-auto px-6 py-12 max-w-4xl">
           <div className="flex items-center gap-2 mb-6">
-            <ShieldCheck size={15} className="text-jvto-green" />
+            <ShieldCheck size={15} className="text-jvto-lime" />
             <h2 className="text-xl font-bold text-white">Verify JVTO before you send money</h2>
           </div>
           <div className="overflow-x-auto mb-6">
@@ -204,7 +204,7 @@ export function MarketPageSections({
               <Link
                 key={link.href}
                 href={link.href}
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold text-jvto-green hover:text-white transition-colors uppercase tracking-widest"
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold text-jvto-lime hover:text-white transition-colors uppercase tracking-widest"
               >
                 {link.label}
                 <ArrowRight size={12} />
@@ -222,7 +222,7 @@ export function MarketPageSections({
             <div className="grid md:grid-cols-2 gap-5">
               {content.reviews.map((review) => (
                 <figure key={review.author} className="border border-slate-800 rounded-lg p-5 bg-slate-950/50">
-                  <Quote size={16} className="text-jvto-green/50 mb-3" />
+                  <Quote size={16} className="text-jvto-lime/50 mb-3" />
                   <blockquote className="text-slate-300 text-sm leading-relaxed mb-3">
                     &ldquo;{review.quote}&rdquo;
                   </blockquote>
@@ -237,7 +237,7 @@ export function MarketPageSections({
               ))}
             </div>
             <p className="text-slate-500 text-xs mt-6">
-              <Link href="/why-jvto/reviews" className="text-jvto-green hover:text-white transition-colors">
+              <Link href="/why-jvto/reviews" className="text-jvto-lime hover:text-white transition-colors">
                 {googleRating
                   ? `See all ${googleRating.count} Google reviews →`
                   : "See all Google reviews →"}
@@ -273,7 +273,7 @@ export function MarketPageSections({
                 href={cta.href}
                 className="inline-flex items-center gap-2 text-slate-200 hover:text-white text-sm font-medium transition-colors"
               >
-                <ArrowRight size={14} className="text-jvto-green shrink-0" />
+                <ArrowRight size={14} className="text-jvto-lime shrink-0" />
                 {cta.label}
               </Link>
             ))}
@@ -282,7 +282,7 @@ export function MarketPageSections({
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-jvto-green text-slate-950 font-bold text-sm px-5 py-3 rounded-lg hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 bg-jvto-lime text-slate-950 font-bold text-sm px-5 py-3 rounded-lg hover:opacity-90 transition-opacity"
           >
             <MessageCircle size={16} />
             Message JVTO on WhatsApp

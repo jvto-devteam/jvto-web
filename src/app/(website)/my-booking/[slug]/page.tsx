@@ -104,7 +104,7 @@ export default async function MyBookingPage({
       <div className="bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="container mx-auto px-4 py-4 md:flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 bg-slate-900 rounded-sm flex items-center justify-center text-jvto-green font-black text-xs">
+            <div className="h-8 w-8 bg-slate-900 rounded-sm flex items-center justify-center text-jvto-lime font-black text-xs">
               JV
             </div>
             <div>
@@ -122,7 +122,7 @@ export default async function MyBookingPage({
           {booking.channel != "KLOOK" && (
             <div className="mt-2 md:mt-0 md:text-right">
               {isFullyPaid ? (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-jvto-green/10 text-jvto-green border border-jvto-green/30">
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-jvto-lime/10 text-jvto-lime border border-jvto-lime/30">
                   <CheckCircle size={12} /> Confirmed & Paid
                 </span>
               ) : isConfirmed ? (
@@ -153,7 +153,7 @@ export default async function MyBookingPage({
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-slate-900">
             Hello,{" "}
-            <span className="text-jvto-green">
+            <span className="text-jvto-lime">
               {booking.customer_name}
             </span>
             ! 👋
@@ -294,7 +294,7 @@ export default async function MyBookingPage({
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4">
                 <div>
-                  <div className="flex items-center gap-2 text-jvto-green mb-1">
+                  <div className="flex items-center gap-2 text-jvto-lime-ink mb-1">
                     <Calendar size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Date</span>
                   </div>
@@ -303,7 +303,7 @@ export default async function MyBookingPage({
                   </p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-jvto-green mb-1">
+                  <div className="flex items-center gap-2 text-jvto-lime-ink mb-1">
                     <Clock size={16} />{" "}
                     <span className="text-xs font-bold uppercase">
                       Duration
@@ -312,7 +312,7 @@ export default async function MyBookingPage({
                   <p className="font-bold text-slate-900">{booking.duration}</p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-jvto-green mb-1">
+                  <div className="flex items-center gap-2 text-jvto-lime-ink mb-1">
                     <Users size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Pax</span>
                   </div>
@@ -321,7 +321,7 @@ export default async function MyBookingPage({
                   </p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-jvto-green mb-1">
+                  <div className="flex items-center gap-2 text-jvto-lime-ink mb-1">
                     <MapPin size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Start</span>
                   </div>
@@ -367,7 +367,7 @@ export default async function MyBookingPage({
                   ))}
                   <div className="flex justify-between items-center pt-4">
                     <p className="font-bold text-slate-500">Total Add-ons</p>
-                    <p className="text-xl font-black text-jvto-green">
+                    <p className="text-xl font-black text-jvto-lime-ink">
                       {formatIDR(booking.finance.total_addons)}
                     </p>
                   </div>
@@ -478,8 +478,8 @@ export default async function MyBookingPage({
             {/* 2. DOCUMENTS DOWNLOAD */}
             {booking.channel != "KLOOK" && (
               <div className="bg-slate-900 text-white rounded-sm p-6 shadow-lg overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-10 bg-jvto-green blur-3xl opacity-20 rounded-full pointer-events-none"></div>
-                <h3 className="font-bold uppercase tracking-widest mb-2 text-jvto-green text-xs relative z-10">
+                <div className="absolute top-0 right-0 p-10 bg-jvto-lime blur-3xl opacity-20 rounded-full pointer-events-none"></div>
+                <h3 className="font-bold uppercase tracking-widest mb-2 text-jvto-lime text-xs relative z-10">
                   Documents
                 </h3>
                 <p className="text-white/60 text-xs mb-4 relative z-10 font-mono">
@@ -524,7 +524,7 @@ export default async function MyBookingPage({
               </div>
             )}
             {booking.channel != "KLOOK" && (
-              <div className="bg-gradient-to-br from-jvto-green to-green-600 text-white rounded-sm p-6 shadow-lg overflow-hidden relative">
+              <div className="bg-gradient-to-br from-jvto-lime to-green-600 text-white rounded-sm p-6 shadow-lg overflow-hidden relative">
                 <div className="absolute top-0 right-0 p-10 bg-white blur-3xl opacity-20 rounded-full pointer-events-none"></div>
                 <h3 className="font-bold uppercase tracking-widest mb-4 text-white/80 text-xs relative z-10">
                   Grand Total
@@ -568,7 +568,7 @@ export default async function MyBookingPage({
                           <p className="font-bold text-slate-900 text-sm">
                             {formatIDR(hist.nominal)}
                           </p>
-                          <span className="text-[10px] uppercase font-bold text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded">
+                          <span className="text-[10px] uppercase font-bold text-jvto-lime-ink bg-jvto-lime/10 px-1.5 py-0.5 rounded">
                             Success
                           </span>
                         </div>
@@ -587,7 +587,7 @@ export default async function MyBookingPage({
         href={`https://chat.javavolcano-touroperator.com/chat/${booking.url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-[#8cb82b] text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
+        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-lime hover:bg-[#8cb82b] text-jvto-navy font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
       >
         <MessageCircle size={18} />
         Chat with Us

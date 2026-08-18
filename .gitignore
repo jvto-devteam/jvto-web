@@ -53,3 +53,5 @@ docs/design_atlas/manifest.json
 
 # Claude Code local settings — machine-specific, has held real credentials before
 .claude/settings.local.json
+env
+env.download

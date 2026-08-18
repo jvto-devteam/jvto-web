@@ -71,11 +71,11 @@ export default function MobileBookingNav({ children }: { children: React.ReactNo
                     key={id}
                     onClick={() => setActiveTab(id)}
                     className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-3 relative transition-colors ${
-                      active ? "text-jvto-green" : "text-gray-400"
+                      active ? "text-jvto-lime-ink" : "text-gray-400"
                     }`}
                   >
                     {active && (
-                      <span className="absolute top-0 inset-x-2 h-0.5 bg-jvto-green rounded-full" />
+                      <span className="absolute top-0 inset-x-2 h-0.5 bg-jvto-lime rounded-full" />
                     )}
                     <Icon size={19} strokeWidth={active ? 2.5 : 1.8} />
                     <span className="text-[9.5px] font-semibold tracking-wide">{label}</span>
@@ -110,11 +110,11 @@ export default function MobileBookingNav({ children }: { children: React.ReactNo
                       key={tab.label}
                       href={tab.href}
                       className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-3 relative transition-colors ${
-                        isActive ? "text-jvto-green" : "text-gray-400"
+                        isActive ? "text-jvto-lime" : "text-gray-400"
                       }`}
                     >
                       {isActive && (
-                        <span className="absolute top-0 inset-x-2 h-0.5 bg-jvto-green rounded-full" />
+                        <span className="absolute top-0 inset-x-2 h-0.5 bg-jvto-lime rounded-full" />
                       )}
                       <tab.Icon size={19} strokeWidth={isActive ? 2.5 : 1.8} />
                       <span className="text-[9.5px] font-semibold tracking-wide">{tab.label}</span>

@@ -371,7 +371,7 @@ const NavbarInner: React.FC = () => {
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X size={24} className="text-jvto-dark" />
+                <X size={24} className="text-jvto-navy" />
               ) : (
                 <Menu size={24} className={finalMenuIconClass} />
               )}
