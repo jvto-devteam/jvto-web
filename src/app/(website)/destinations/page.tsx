@@ -10,7 +10,7 @@ import {
   buildBreadcrumbJsonLd,
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getEcosystemWebsitePage } from "@/lib/ecosystemContent/website";
 import DestinationsHub from "@/components/website/DestinationsHub";
 
@@ -29,7 +29,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo(ROUTE, fallbackSeo);
+  const seo = await getEcosystemPageSeo(ROUTE, fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -65,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function DestinationsPage() {
   const [seo, org, ecosystemPage] = await Promise.all([
-    getPageSeo(ROUTE, fallbackSeo),
+    getEcosystemPageSeo(ROUTE, fallbackSeo),
     getOrganizationProfile(),
     getEcosystemWebsitePage(ROUTE),
   ]);
