@@ -4,6 +4,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
 
+function resolveEcosystemSlug(bareSlug: string): string {
+  if (bareSlug.includes("tours/")) return bareSlug;
+  return `tours/from-surabaya/${bareSlug}`;
+}
+
 export async function GET(req: NextRequest) {
   try {
     const slug = req.nextUrl.searchParams.get("slug");
@@ -11,7 +16,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
     }
 
-    const pkg = await getEcosystemTourPackageDetail(slug);
+    const pkg = await getEcosystemTourPackageDetail(resolveEcosystemSlug(slug));
 
     if (!pkg) {
       return NextResponse.json(
