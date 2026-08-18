@@ -8,10 +8,7 @@
 // URL builder convention is preserved. Caller is responsible for filtering tours by origin where needed.
 import type {
   AggregateRating,
-  BreadcrumbList,
-  CollectionPage,
   FAQPage,
-  ListItem,
   WithContext,
 } from 'schema-dts';
 
@@ -46,66 +43,6 @@ interface HubArgs {
 
 function hubUrl(hubPath: HubArgs['hubPath']): string {
   return hubPath ? `${BASE_URL}/tours/${hubPath}` : `${BASE_URL}/tours`;
-}
-
-/**
- * CollectionPage wrapping an ItemList of TouristTrip items.
- * mainEntity points to the ItemList so AI engines extract the trip catalogue with the page as anchor.
- * isPartOf cross-refs the global Organization, anchoring the catalogue to the entity graph.
- */
-export function buildToursHubCollectionPageSchema({ tours, hubPath, hubName, hubDescription }: HubArgs): WithContext<CollectionPage> {
-  const url = hubUrl(hubPath);
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    '@id': `${url}#collection`,
-    url,
-    name: hubName,
-    description: hubDescription,
-    isPartOf: { '@id': `${BASE_URL}/#organization` },
-    about: { '@id': `${BASE_URL}/#organization` },
-    mainEntity: {
-      '@type': 'ItemList',
-      numberOfItems: tours.length,
-      itemListElement: tours.map((tour, i) => {
-        const fullUrl = tour.url.startsWith('http') ? tour.url : `${BASE_URL}${tour.url}`;
-        return {
-          '@type': 'ListItem',
-          position: i + 1,
-          item: {
-            '@type': 'TouristTrip',
-            '@id': fullUrl,
-            name: tour.name,
-            description: tour.shortDesc,
-            image: tour.image,
-            url: fullUrl,
-            provider: { '@id': `${BASE_URL}/#organization` },
-            offers: {
-              '@type': 'Offer',
-              price: tour.priceFrom,
-              priceCurrency: 'IDR',
-              availability: 'https://schema.org/InStock',
-            },
-          },
-        };
-      }),
-    },
-  };
-}
-
-export function buildToursHubBreadcrumbSchema({ hubPath, hubName }: HubArgs): WithContext<BreadcrumbList> {
-  const items: ListItem[] = [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-    { '@type': 'ListItem', position: 2, name: 'Tours', item: `${BASE_URL}/tours` },
-  ];
-  if (hubPath) {
-    items.push({ '@type': 'ListItem', position: 3, name: hubName, item: hubUrl(hubPath) });
-  }
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items,
-  };
 }
 
 /**

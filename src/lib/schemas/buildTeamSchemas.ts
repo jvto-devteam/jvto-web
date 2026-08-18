@@ -10,7 +10,6 @@
  */
 import type {
   AboutPage,
-  FAQPage,
   ImageObject,
   ItemList,
   Person,
@@ -19,7 +18,6 @@ import type {
 } from "schema-dts";
 
 import type { PublicCrewMember } from "@/lib/people/canonicalPeople";
-import type { TeamFaq } from "@/lib/people/teamFaqs";
 
 const BASE = "https://javavolcano-touroperator.com";
 const ORG_ID = `${BASE}/#organization`;
@@ -114,19 +112,5 @@ export function buildTeamAboutPageSchema(): WithContext<AboutPage> {
     name: "JVTO Field Team — Guides, Drivers, Leadership & Medical Screening",
     about: [{ "@id": ORG_ID }, { "@id": FOUNDER_ID }, { "@id": DOCTOR_ID }],
     mainEntity: { "@id": `${BASE}/why-jvto/our-team#crew-index` },
-  };
-}
-
-/** FAQPage from the record-derived Team FAQ (same output the page renders). */
-export function buildTeamFaqSchema(faqs: TeamFaq[]): WithContext<FAQPage> {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "@id": `${BASE}/why-jvto/our-team#faq`,
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
-    })),
   };
 }

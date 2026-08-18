@@ -7,11 +7,7 @@
 // Decoupled from rewrite's specific types: caller adapts its Prisma `packages` query result
 // to the minimal seed contracts below. This keeps the schema builder portable across stacks.
 import type {
-  BreadcrumbList,
   FAQPage,
-  HowTo,
-  LocationFeatureSpecification,
-  TouristTrip,
   WithContext,
 } from 'schema-dts';
 
@@ -41,17 +37,6 @@ export interface TourDetailSeed extends TourFaqSeed {
   }>;
 }
 
-/**
- * Optional DB-enriched fields. When live page fetches package detail via Prisma, map these fields.
- * If null, builder falls back to TourDetailSeed equivalents where applicable.
- */
-export interface PackageDbDataSeed {
-  ai_summary?: string | null;
-  suitable_for?: string | null;
-  aggregate_rating_value?: number | null;
-  aggregate_rating_count?: number | null;
-}
-
 export interface FullPackageDbDataSeed {
   destinations: Array<{ name: string; slug: string }>;
   faqs: Array<{ question: string; answer: string }>;
@@ -62,172 +47,6 @@ export interface NarrativeClaimLite {
   id: string;
   pillar: string;
   core_claim: string;
-}
-
-interface BuildArgs {
-  tour: TourDetailSeed;
-  dbData: PackageDbDataSeed | null;
-  fullData: FullPackageDbDataSeed | null;
-  routePrefix: 'tours/from-bali' | 'tours/from-surabaya';
-  bareSlug: string;
-}
-
-// Map tour properties → relevant DEFINED_TERMS @ids that AI/AEO graphs should associate with this trip.
-// All tours mention NIB+TDUP+HPWKI (operator-level). Ijen tours add KTA+BBKSDA+SE1658 (regulatory chain).
-// POLPAR mentioned for any tour (founder is active POLPAR officer). Refs are stable @ids
-// declared in lib/schemas/entityGraph.ts and globally injected via (website)/layout.tsx.
-function buildMentions(tour: TourDetailSeed) {
-  const mentions: { '@id': string }[] = [
-    { '@id': `${BASE_URL}/#term-nib` },
-    { '@id': `${BASE_URL}/#term-tdup` },
-    { '@id': `${BASE_URL}/#term-hpwki` },
-    { '@id': `${BASE_URL}/#term-polpar` },
-  ];
-  if (tour.ijenRelevant) {
-    mentions.push(
-      { '@id': `${BASE_URL}/#term-kta` },
-      { '@id': `${BASE_URL}/#term-bbksda` },
-      { '@id': `${BASE_URL}/#term-se1658` },
-    );
-  }
-  return mentions;
-}
-
-/**
- * TouristTrip + the two deliberate off-spec safety signals this builder emits for Ijen tours.
- * schema.org defines neither `healthRequirement` (no such property) nor `amenityFeature` on
- * Trip/TouristTrip (it belongs to Place / Accommodation). Both are retained by design — the
- * inline comment below predates this type pass and states the intent: AI engines parse them
- * regardless of spec alignment. Declaring them here keeps every other property fully checked.
- */
-type TouristTripWithSafetySignals = TouristTrip & {
-  healthRequirement?: string;
-  amenityFeature?: LocationFeatureSpecification[];
-  /**
-   * `mentions` is a CreativeWork property; TouristTrip sits on the Intangible branch, so
-   * schema.org does not define it here. The DefinedTerm cross-refs (NIB / TDUP / HPWKI /
-   * POLPAR, plus KTA / BBKSDA / SE1658 on Ijen tours) are emitted unchanged, but they would
-   * carry more weight on the page's WebPage node, which does support `mentions`.
-   * Flagged in the task report as the highest-value follow-up from this pass.
-   */
-  mentions?: { '@id': string }[];
-};
-
-export function buildTourTouristTripSchema({ tour, dbData, fullData, routePrefix, bareSlug }: BuildArgs): WithContext<TouristTripWithSafetySignals> {
-  const tourUrl = `${BASE_URL}/${routePrefix}/${bareSlug}`;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'TouristTrip',
-    '@id': `${BASE_URL}/#tour-${routePrefix.replace(/\//g, '-')}-${bareSlug}`,
-    url: tourUrl,
-    name: tour.name,
-    description: dbData?.ai_summary ?? tour.shortDesc,
-    image: tour.image,
-    provider: { '@id': `${BASE_URL}/#organization` },
-    // Ijen tours emit YMYL-specific safety signals — touristType, healthRequirement, amenityFeature.
-    // These are AI-parseable structured signals for queries like "is Ijen safe for asthmatics?" or
-    // "what safety equipment is provided?". healthRequirement and amenityFeature extend TouristTrip
-    // beyond strict Schema.org spec; AI engines parse the properties regardless of spec alignment.
-    ...(tour.ijenRelevant
-      ? {
-          touristType: dbData?.suitable_for
-            ? [dbData.suitable_for, 'Non-Asthmatic']
-            : ['Adventure Traveler', 'Non-Asthmatic'],
-          // SE.1658/KSA.9/2024 — BBKSDA regulation mandating health screening for Ijen crater access.
-          healthRequirement:
-            'Mandatory Medical Screening required: Blood Pressure, Heart Rate, and O2 Saturation (SpO₂) checks by a licensed physician. Regulatory basis: SE.1658/KSA.9/2024 issued by BBKSDA Jawa Timur.',
-          amenityFeature: [
-            {
-              '@type': 'LocationFeatureSpecification',
-              name: 'Professional Dual-Filter Gas Mask',
-              value: 'Provided by JVTO for every guest — ISO-certified volcanic SO₂ gas protection',
-            },
-          ],
-        }
-      : {
-          touristType: dbData?.suitable_for ?? 'Adventure Traveler',
-        }),
-    // Founder cross-ref reinforces police-led safety story at the trip level.
-    subjectOf: { '@id': `${BASE_URL}/#agung-sambuko` },
-    // Cross-reference globally-injected DefinedTerms — gives AI a stable entity graph
-    // anchoring this trip to NIB/TDUP/HPWKI/POLPAR (always) and KTA/BBKSDA/SE1658 (Ijen).
-    mentions: buildMentions(tour),
-    ...(fullData?.destinations.length
-      ? {
-          itinerary: {
-            '@type': 'ItemList',
-            numberOfItems: fullData.destinations.length,
-            itemListElement: fullData.destinations.map((d, i) => ({
-              '@type': 'ListItem',
-              position: i + 1,
-              name: d.name,
-              url: `${BASE_URL}/destinations/${d.slug}`,
-            })),
-          },
-        }
-      : {}),
-    offers: {
-      '@type': 'Offer',
-      price: tour.priceFrom,
-      priceCurrency: 'IDR',
-      availability: 'https://schema.org/InStock',
-      seller: { '@id': `${BASE_URL}/#organization` },
-    },
-    ...(dbData?.aggregate_rating_value && dbData.aggregate_rating_count && dbData.aggregate_rating_count > 0
-      ? {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: dbData.aggregate_rating_value,
-            reviewCount: dbData.aggregate_rating_count,
-            bestRating: 5,
-            worstRating: 1,
-          },
-        }
-      : {}),
-  };
-}
-
-// HowTo schema: itinerary execution as ordered steps. AI engines treat HowTo as
-// structured procedural answer surface; very valuable for "what does day X of {tour} look like" queries.
-export function buildTourHowToSchema({ tour, routePrefix, bareSlug }: BuildArgs): WithContext<HowTo> | null {
-  if (!tour.itinerary?.length) return null;
-  const tourUrl = `${BASE_URL}/${routePrefix}/${bareSlug}`;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'HowTo',
-    '@id': `${tourUrl}#howto`,
-    name: `How to do the ${tour.name} itinerary`,
-    description: `Day-by-day execution plan for the ${tour.duration} ${tour.name} private tour from ${tour.origin}.`,
-    totalTime: `P${tour.duration.match(/\d+/)?.[0] ?? '1'}D`,
-    estimatedCost: {
-      '@type': 'MonetaryAmount',
-      currency: 'IDR',
-      value: tour.priceFrom,
-    },
-    supply: tour.inclusions.map((item) => ({ '@type': 'HowToSupply', name: item })),
-    step: tour.itinerary.map((day, i) => ({
-      '@type': 'HowToStep',
-      position: i + 1,
-      name: day.title ?? day.day ?? `Day ${i + 1}`,
-      text: day.summary ?? '',
-      url: `${tourUrl}#day-${i + 1}`,
-    })),
-  };
-}
-
-export function buildTourBreadcrumbSchema({ tour, routePrefix, bareSlug }: BuildArgs): WithContext<BreadcrumbList> {
-  const cityLabel = routePrefix === 'tours/from-bali' ? 'From Bali' : 'From Surabaya';
-  const cityHubUrl = `${BASE_URL}/${routePrefix}`;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Tours', item: `${BASE_URL}/tours` },
-      { '@type': 'ListItem', position: 3, name: cityLabel, item: cityHubUrl },
-      { '@type': 'ListItem', position: 4, name: tour.name, item: `${BASE_URL}/${routePrefix}/${bareSlug}` },
-    ],
-  };
 }
 
 /**

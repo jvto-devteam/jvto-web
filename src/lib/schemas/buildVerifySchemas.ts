@@ -4,70 +4,8 @@
 // Per cluster_role_contracts.md Cluster 4: WebPage + BreadcrumbList + FAQPage + DigitalDocument chain
 // + cross-refs to globally-injected ORG / FOUNDER / DEFINED_TERMS / DOCTOR (where relevant).
 import { DOCTOR_SCHEMA } from '@/lib/schemas/entityGraph';
-import type { QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
-
-interface VerifyPageArgs {
-  /** Path segment after /verify-jvto/ — '' for hub, 'legal'/'police-safety'/etc for sub-pages. */
-  subpath: '' | 'legal' | 'police-safety' | 'press-recognition' | 'history-artifacts';
-  /** Page display name for breadcrumb. */
-  pageName: string;
-  /** WebPage description for AEO. */
-  description: string;
-  /** Cross-referenced DefinedTerm @ids that this page mentions (always-global, just rendered in copy). */
-  mentionsTermIds?: string[];
-}
-
-function pageUrl(subpath: VerifyPageArgs['subpath']): string {
-  return subpath ? `${BASE_URL}/verify-jvto/${subpath}` : `${BASE_URL}/verify-jvto`;
-}
-
-export function buildVerifyWebPageSchema({ subpath, pageName, description, mentionsTermIds }: VerifyPageArgs) {
-  const url = pageUrl(subpath);
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${url}#webpage`,
-    url,
-    name: pageName,
-    description,
-    isPartOf: { '@id': `${BASE_URL}/#organization` },
-    about: { '@id': `${BASE_URL}/#organization` },
-    ...(mentionsTermIds?.length
-      ? { mentions: mentionsTermIds.map((id) => ({ '@id': `${BASE_URL}/${id}` })) }
-      : {}),
-  };
-}
-
-export function buildVerifyBreadcrumbSchema({ subpath, pageName }: VerifyPageArgs) {
-  const items = [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-    { '@type': 'ListItem', position: 2, name: 'Verify JVTO', item: `${BASE_URL}/verify-jvto` },
-  ];
-  if (subpath) {
-    items.push({ '@type': 'ListItem', position: 3, name: pageName, item: pageUrl(subpath) });
-  }
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items,
-  };
-}
-
-export function buildVerifyFaqSchema(faqs: QaPair[], subpath: VerifyPageArgs['subpath']) {
-  if (!faqs.length) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${pageUrl(subpath)}#faq`,
-    mainEntity: faqs.map((p) => ({
-      '@type': 'Question',
-      name: p.question,
-      acceptedAnswer: { '@type': 'Answer', text: p.answer },
-    })),
-  };
-}
 
 /**
  * DigitalDocument chain for /verify-jvto/legal — NIB + TDUP + HPWKI as scannable evidence.
