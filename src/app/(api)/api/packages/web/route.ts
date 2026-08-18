@@ -1,8 +1,10 @@
 // src/app/(api)/api/packages/web/route.ts
 // Refactored 2026-04-29: list transform + filter logic moved to src/lib/packages/getWebPackagesList.ts.
 // Server Components (tour hub pages) call the helper directly; this route still serves external clients.
+// Migrated 2026-08-18 to the ekosistem-sourced reader (Navbar search box is the confirmed internal
+// caller of this route) — part of the single-content-source consolidation.
 import { NextRequest, NextResponse } from "next/server";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -27,10 +29,10 @@ export async function GET(request: NextRequest) {
     limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
 
   try {
-    const payload = await getWebPackagesList({
+    const payload = await getEcosystemPackagesList({
       fromId,
       durationId,
-      categoryId,
+      categoryId: categoryId === 2 ? 2 : categoryId === 1 ? 1 : undefined,
       limit,
     });
 

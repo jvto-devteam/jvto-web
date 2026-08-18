@@ -273,11 +273,20 @@ export interface EcosystemPackageListItem {
   highlights: string[];
 }
 
+const FROM_ID_TO_PREFIX: Record<number, "tours/from-bali" | "tours/from-surabaya"> = {
+  3: "tours/from-bali",
+  4: "tours/from-surabaya",
+};
+
 export interface EcosystemPackagesListFilters {
   /** "tours/from-bali" (3) or "tours/from-surabaya" (4) per live's data convention. */
   fromPrefix?: "tours/from-bali" | "tours/from-surabaya";
+  /** Numeric start_destination_id (3 = Bali, 4 = Surabaya) — API-compat alternative to fromPrefix. */
+  fromId?: number;
   /** All known ekosistem tour products are category 1 (reguler); none are category 2 (student). */
   categoryId?: 1 | 2;
+  /** Matches the Prisma durations.id snapshotted into each file's duration.durationId. */
+  durationId?: number;
   limit?: number;
 }
 
@@ -288,7 +297,8 @@ export interface EcosystemPackagesListFilters {
 export async function getEcosystemPackagesList(
   filters: EcosystemPackagesListFilters = {},
 ): Promise<EcosystemPackageListItem[]> {
-  const { fromPrefix, categoryId, limit } = filters;
+  const { categoryId, durationId, limit } = filters;
+  const fromPrefix = filters.fromPrefix ?? (filters.fromId !== undefined ? FROM_ID_TO_PREFIX[filters.fromId] : undefined);
 
   // categoryId 2 (student) has no published packages in ekosistem today.
   if (categoryId === 2) return [];
@@ -302,6 +312,13 @@ export async function getEcosystemPackagesList(
       slugs.map(async (slug) => {
         const editorial = (await readLocal(slug)) ?? (await fetchRemote(slug));
         if (!editorial) return null;
+
+        if (
+          durationId !== undefined &&
+          Number((editorial.duration as any)?.durationId) !== durationId
+        ) {
+          return null;
+        }
 
         const gallery = Array.isArray(editorial.gallery)
           ? (editorial.gallery as string[])
