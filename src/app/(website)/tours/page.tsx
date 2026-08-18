@@ -2,7 +2,7 @@ import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
   buildOrganizationJsonLd,
@@ -26,7 +26,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/tours", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/tours", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -44,7 +44,7 @@ function compactIdr(value: number): string {
 
 export default async function ToursPageGlobal() {
   const [seo, initialTours, org] = await Promise.all([
-    getPageSeo("/tours", fallbackSeo),
+    getEcosystemPageSeo("/tours", fallbackSeo),
     getAllTours(),
     getOrganizationProfile(),
   ]);

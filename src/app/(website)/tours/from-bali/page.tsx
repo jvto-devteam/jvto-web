@@ -3,7 +3,7 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import Link from "@/components/website/AppLink";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import {
@@ -30,7 +30,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/tours/from-bali", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -95,7 +95,7 @@ const TRUST_SIGNALS = [
 
 export default async function ToursPageBali() {
   const [seo, initialTours, org] = await Promise.all([
-    getPageSeo("/tours/from-bali", fallbackSeo),
+    getEcosystemPageSeo("/tours/from-bali", fallbackSeo),
     getToursFromBali(),
     getOrganizationProfile(),
   ]);

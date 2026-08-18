@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   ArrowRight
 } from "lucide-react";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 export const revalidate = 3600;
 
@@ -24,7 +24,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/isic/student-package", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -36,7 +36,7 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function IsicStudentPackagePage() {
-  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/isic/student-package", fallbackSeo);
   const studentPackages = await getAllTours();
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||

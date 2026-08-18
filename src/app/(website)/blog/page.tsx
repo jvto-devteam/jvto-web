@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import Breadcrumbs from "@/components/website/Breadcrumbs";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getEcosystemBlogPosts } from "@/lib/ecosystemContent/blog";
 
 export const revalidate = 3600;
@@ -15,7 +15,7 @@ const fallbackSeo = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/blog", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/blog", fallbackSeo);
   return {
     title: seo.title,
     description: seo.description,
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Insights() {
-  const seo = await getPageSeo("/blog", fallbackSeo);
+  const seo = await getEcosystemPageSeo("/blog", fallbackSeo);
   const posts = await getEcosystemBlogPosts();
 
   const pageRow = seo.row

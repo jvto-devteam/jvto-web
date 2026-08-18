@@ -1,19 +1,23 @@
 import ContactPage from "@/components/website/ContactPage";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const ROUTE = "/contact";
 
+const fallbackSeo = {
+  title: "Contact JVTO Tours | Plan Your East Java Adventure",
+  h1: "Contact Us",
+  description:
+    "Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7.",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublicPageSnapshot(ROUTE);
-  const title = page.snapshot.seo.title;
-  const description = page.snapshot.seo.description ?? "";
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : title;
+  const seo = await getEcosystemPageSeo(ROUTE, fallbackSeo);
+  const title = seo.title;
+  const description = seo.description;
+  const h1 = seo.h1;
 
   return {
     title,
@@ -44,17 +48,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Contact() {
-  const page = await getPublicPageSnapshot(ROUTE);
-  const description = page.snapshot.seo.description ?? "";
-  const h1 =
-    typeof page.snapshot.content.h1 === "string"
-      ? page.snapshot.content.h1
-      : page.snapshot.seo.title;
+  const seo = await getEcosystemPageSeo(ROUTE, fallbackSeo);
 
   return (
     <>
-      <PageJsonLdCombined pageRow={page.pageRow} />
-      <ContactPage title={h1} description={description} />
+      <PageJsonLdCombined pageRow={seo.row as any} />
+      <ContactPage title={seo.h1} description={seo.description} />
     </>
   );
 }
