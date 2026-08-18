@@ -1,7 +1,36 @@
 import Link from "@/components/website/AppLink";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
-const HomeCTA: React.FC = () => {
+interface CtaSection {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  subLabel2?: string;
+}
+
+// Fallback: same copy as the pre-migration hardcoded version, used only if the
+// ekosistem section (home/index.source.json, section id "cta") is unreachable —
+// same pattern as fallbackSeo elsewhere.
+const FALLBACK: Required<CtaSection> = {
+  eyebrow: "Ready to book?",
+  heading: "Private tours, documented legitimacy, written policies.",
+  description:
+    "Read the Rulebook Before You Book — cancellation rules, inclusions, and screening protocols are published in full before payment.",
+  subLabel2: "Check licenses, press coverage, and founder credentials",
+};
+
+interface HomeCTAProps {
+  section?: CtaSection;
+  /** Live package count — replaces the old hardcoded "16 private itineraries". */
+  packageCount?: number;
+}
+
+const HomeCTA: React.FC<HomeCTAProps> = ({ section, packageCount }) => {
+  const eyebrow = section?.eyebrow ?? FALLBACK.eyebrow;
+  const heading = section?.heading ?? FALLBACK.heading;
+  const description = section?.description ?? FALLBACK.description;
+  const subLabel2 = section?.subLabel2 ?? FALLBACK.subLabel2;
+
   return (
     <section
       className="py-24 md:py-32 bg-jvto-navy-mid text-white"
@@ -12,7 +41,7 @@ const HomeCTA: React.FC = () => {
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-8">
           <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-            Ready to book?
+            {eyebrow}
           </span>
         </div>
 
@@ -21,15 +50,12 @@ const HomeCTA: React.FC = () => {
           className="text-3xl md:text-5xl font-black leading-tight mb-6 max-w-3xl mx-auto"
           style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
         >
-          Private tours,{" "}
-          <em className="text-jvto-orange not-italic">documented legitimacy,</em>{" "}
-          written policies.
+          {heading}
         </h2>
 
-        {/* Policy reminder — wiki verbatim */}
+        {/* Policy reminder */}
         <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed">
-          Read the Rulebook Before You Book — cancellation rules, inclusions,
-          and screening protocols are published in full before payment.
+          {description}
         </p>
 
         {/* CTAs */}
@@ -53,11 +79,13 @@ const HomeCTA: React.FC = () => {
           </Link>
         </div>
 
-        {/* Sub-labels — wiki CTA section verbatim */}
+        {/* Sub-labels */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] text-white/50">
-          <span>16 private itineraries from Surabaya and Bali</span>
+          <span>
+            {packageCount ? `${packageCount} private itineraries from Surabaya and Bali` : "Private itineraries from Surabaya and Bali"}
+          </span>
           <span className="hidden sm:inline">·</span>
-          <span>Check licenses, press coverage, and founder credentials</span>
+          <span>{subLabel2}</span>
         </div>
 
       </div>

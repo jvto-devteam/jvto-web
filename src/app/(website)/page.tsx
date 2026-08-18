@@ -12,7 +12,9 @@ import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getEcosystemDestinationsList } from "@/lib/ecosystemContent/destinationDetail";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
@@ -58,11 +60,15 @@ async function getDestinations(): Promise<Destination[]> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
-  const [seo, destinations] = await Promise.all([
+  const [seo, destinations, ecosystemPage, packages] = await Promise.all([
     getEcosystemPageSeo("/", fallbackSeo),
     getDestinations(),
+    loadEcosystemPage("/"),
+    getEcosystemPackagesList(),
   ]);
   const volcanicStatus = getAllVolcanicStatus();
+  const homeSections = (ecosystemPage?.sections ?? []) as any[];
+  const findSection = (id: string) => homeSections.find((s) => s.id === id);
 
   const pageRow = seo.row
     ? {
@@ -151,7 +157,7 @@ const Home = async () => {
       <Hero title={seo.h1} description={seo.description} />
 
       {/* 2. WHY JVTO — 6 Differentiators */}
-      <Differentiators />
+      <Differentiators section={findSection("differentiators")} />
 
       {/* 3. Destinations */}
       <HomeDestinations destinations={destinations} />
@@ -209,13 +215,13 @@ const Home = async () => {
       </section>
 
       {/* 6. Trust & Verification */}
-      <TrustVerification />
+      <TrustVerification section={findSection("trust-verification")} />
 
       {/* 7. Our Story */}
-      <WhyJVTO />
+      <WhyJVTO section={findSection("story-teaser")} />
 
       {/* 8. CTA */}
-      <HomeCTA />
+      <HomeCTA section={findSection("cta")} packageCount={packages.length} />
     </div>
   );
 };

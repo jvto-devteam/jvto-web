@@ -58,7 +58,7 @@ const MegaMenuLink: React.FC<{
   </li>
 );
 
-const ToursDropdown: React.FC = () => {
+const ToursDropdown: React.FC<{ packageCount?: number }> = ({ packageCount }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -161,7 +161,7 @@ const ToursDropdown: React.FC = () => {
                 All Tours
               </Link>
               <p className="text-xs text-white/50 text-center">
-                16 private itineraries · Surabaya &amp; Bali
+                {packageCount ? `${packageCount} private itineraries` : "Private itineraries"} · Surabaya &amp; Bali
               </p>
             </div>
           </div>
@@ -187,7 +187,11 @@ const DesktopGuestButton = ({
   </button>
 );
 
-const NavbarInner: React.FC = () => {
+interface NavbarInnerProps {
+  packageCount?: number;
+}
+
+const NavbarInner: React.FC<NavbarInnerProps> = ({ packageCount }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -377,7 +381,7 @@ const NavbarInner: React.FC = () => {
               )}
             </button>
             <div className="hidden lg:flex items-center lg:gap-3 xl:gap-8 font-bold lg:text-xs xl:text-sm uppercase tracking-wider">
-              <ToursDropdown />
+              <ToursDropdown packageCount={packageCount} />
               <Link
                 href="/destinations"
                 prefetch={false}

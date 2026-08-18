@@ -7,53 +7,92 @@ import {
   Compass,
 } from "lucide-react";
 
-const LARGE_CARDS = [
-  {
-    icon: ShieldCheck,
-    headline: "Police-Led",
-    body: "Mr. Sam is an active Polpar officer — the only licensed East Java operator founded and led by an active Tourist Police.",
-    href: "/verify-jvto/police-safety",
-  },
-  {
-    icon: Users,
-    headline: "100% Private",
-    body: "Your booking = your vehicle, your driver, your guide. No shared groups, no strangers added to your seat.",
-    href: "/tours",
-  },
-];
+const ICON_MAP = {
+  ShieldCheck,
+  Users,
+  FileCheck,
+  Activity,
+  BadgeCheck,
+  Compass,
+} as const;
 
-const SMALL_CARDS = [
-  {
-    icon: FileCheck,
-    headline: "All-Inclusive — No Surprises",
-    body: "Entrance fees, jeep, accommodation, breakfast, gas masks, and transfers — bundled in writing before payment.",
-    href: "/policy/inclusions-exclusions",
-    variant: "lime" as const,
-  },
-  {
-    icon: Activity,
-    headline: "Ijen Health Screening",
-    body: "Medical screening coordinated before the hike — not improvised. Licensed doctor on file with Kemenkes RI.",
-    href: "/travel-guide/ijen-health-screening",
-    variant: "white" as const,
-  },
-  {
-    icon: BadgeCheck,
-    headline: "Verifiable Licenses",
-    body: "Business license, guide association, and park clearance — all publicly verifiable, SHA-256 anchored.",
-    href: "/verify-jvto/legal",
-    variant: "white" as const,
-  },
-  {
-    icon: Compass,
-    headline: "Written Plan B",
-    body: "If a site closes, you get an alternative route — briefed before departure, not improvised at the gate.",
-    href: "/travel-guide/weather-and-closures",
-    variant: "white" as const,
-  },
-];
+type IconName = keyof typeof ICON_MAP;
 
-const Differentiators: React.FC = () => {
+interface CardData {
+  icon: IconName;
+  headline: string;
+  body: string;
+  href: string;
+  variant?: "lime" | "white";
+}
+
+interface DifferentiatorsSection {
+  heading?: string;
+  largeCards?: CardData[];
+  smallCards?: CardData[];
+}
+
+// Fallback: same copy as the pre-migration hardcoded version, used only if the
+// ekosistem section (home/index.source.json, section id "differentiators") is
+// unreachable — same pattern as fallbackSeo elsewhere.
+const FALLBACK: Required<DifferentiatorsSection> = {
+  heading:
+    "Six things that separate JVTO from every other operator in East Java.",
+  largeCards: [
+    {
+      icon: "ShieldCheck",
+      headline: "Police-Led",
+      body: "Mr. Sam is an active Polpar officer — the only licensed East Java operator founded and led by an active Tourist Police.",
+      href: "/verify-jvto/police-safety",
+    },
+    {
+      icon: "Users",
+      headline: "100% Private",
+      body: "Your booking = your vehicle, your driver, your guide. No shared groups, no strangers added to your seat.",
+      href: "/tours",
+    },
+  ],
+  smallCards: [
+    {
+      icon: "FileCheck",
+      headline: "All-Inclusive — No Surprises",
+      body: "Entrance fees, jeep, accommodation, breakfast, gas masks, and transfers — bundled in writing before payment.",
+      href: "/policy/inclusions-exclusions",
+      variant: "lime",
+    },
+    {
+      icon: "Activity",
+      headline: "Ijen Health Screening",
+      body: "Medical screening coordinated before the hike — not improvised. Licensed doctor on file with Kemenkes RI.",
+      href: "/travel-guide/ijen-health-screening",
+      variant: "white",
+    },
+    {
+      icon: "BadgeCheck",
+      headline: "Verifiable Licenses",
+      body: "Business license, guide association, and park clearance — all publicly verifiable, SHA-256 anchored.",
+      href: "/verify-jvto/legal",
+      variant: "white",
+    },
+    {
+      icon: "Compass",
+      headline: "Written Plan B",
+      body: "If a site closes, you get an alternative route — briefed before departure, not improvised at the gate.",
+      href: "/travel-guide/weather-and-closures",
+      variant: "white",
+    },
+  ],
+};
+
+interface DifferentiatorsProps {
+  section?: DifferentiatorsSection;
+}
+
+const Differentiators: React.FC<DifferentiatorsProps> = ({ section }) => {
+  const heading = section?.heading ?? FALLBACK.heading;
+  const largeCards = section?.largeCards?.length ? section.largeCards : FALLBACK.largeCards;
+  const smallCards = section?.smallCards?.length ? section.smallCards : FALLBACK.smallCards;
+
   return (
     <section className="py-20 md:py-32 bg-jvto-off">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -67,16 +106,14 @@ const Differentiators: React.FC = () => {
             className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight max-w-2xl"
             style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
           >
-            Six things that separate JVTO{" "}
-            <em className="text-jvto-orange not-italic">from every other operator</em>{" "}
-            in East Java.
+            {heading}
           </h2>
         </div>
 
         {/* Top row — 2 large navy cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-          {LARGE_CARDS.map((card) => {
-            const Icon = card.icon;
+          {largeCards.map((card) => {
+            const Icon = ICON_MAP[card.icon] ?? ShieldCheck;
             return (
               <a
                 key={card.headline}
@@ -103,8 +140,8 @@ const Differentiators: React.FC = () => {
 
         {/* Bottom row — 4 small cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {SMALL_CARDS.map((card) => {
-            const Icon = card.icon;
+          {smallCards.map((card) => {
+            const Icon = ICON_MAP[card.icon] ?? FileCheck;
             const isLime = card.variant === "lime";
             return (
               <a

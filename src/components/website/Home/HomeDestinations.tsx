@@ -7,16 +7,6 @@ interface HomeDestinationsProps {
   destinations: Destination[];
 }
 
-const DEST_META: Record<string, string> = {
-  "ijen-crater": "Blue Fire Crater · 2,386m · Pre-dawn hike",
-  "kawah-ijen": "Blue Fire Crater · 2,386m · Pre-dawn hike",
-  "mount-bromo": "Penanjakan Sunrise · 2,329m · 4WD jeep",
-  "tumpak-sewu-waterfall": "Curtain Waterfall · ~120m · Canyon descent",
-  "tumpak-sewu": "Curtain Waterfall · ~120m · Canyon descent",
-  "madakaripura-waterfall": "Tallest Java Waterfall · Canyon wade",
-  "madakaripura": "Tallest Java Waterfall · Canyon wade",
-};
-
 const HomeDestinations: React.FC<HomeDestinationsProps> = ({ destinations }) => {
   if (!destinations.length) return null;
 
@@ -49,7 +39,7 @@ const HomeDestinations: React.FC<HomeDestinationsProps> = ({ destinations }) => 
             const isPopular = dest.slug === "mount-bromo";
             const variantSet = getHomeImageVariantSet(dest.banner.url);
             const imgSrc = variantSet?.medium || dest.banner.url;
-            const metaLine = DEST_META[dest.slug] ?? dest.description?.slice(0, 60);
+            const metaLine = (dest as any).hero_meta_line ?? dest.description?.slice(0, 60);
 
             return (
               <Link
@@ -115,7 +105,7 @@ const HomeDestinations: React.FC<HomeDestinationsProps> = ({ destinations }) => 
               const isPopular = dest.slug === "mount-bromo";
               const variantSet = getHomeImageVariantSet(dest.banner.url);
               const imgSrc = variantSet?.medium || dest.banner.url;
-              const metaLine = DEST_META[dest.slug] ?? dest.description?.slice(0, 60);
+              const metaLine = (dest as any).hero_meta_line ?? dest.description?.slice(0, 60);
 
               return (
                 <Link

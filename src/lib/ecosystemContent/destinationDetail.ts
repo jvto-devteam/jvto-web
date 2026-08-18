@@ -117,6 +117,7 @@ export interface EcosystemDestinationListItem {
   tags: string[];
   schema_json: Record<string, any> | null;
   main_attractions: Array<{ title: string; description: string }>;
+  hero_meta_line: string | null;
 }
 
 export interface EcosystemDestinationsListFilters {
@@ -175,6 +176,7 @@ export async function getEcosystemDestinationsList(
           tags: Array.isArray(d.tags) ? d.tags : [],
           schema_json: d.schema_json ?? null,
           main_attractions: Array.isArray(d.main_attractions) ? d.main_attractions : [],
+          hero_meta_line: (dAny.hero_meta_line as string | null) ?? null,
         } satisfies EcosystemDestinationListItem;
       }),
     )

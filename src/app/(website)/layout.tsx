@@ -2,6 +2,7 @@ import { Suspense } from "react";
 // Pastikan path import komponen di bawah ini sesuai dengan struktur folder Anda
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Navbar from "@/components/website/Navbar";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import Footer from "@/components/website/Footer";
 import StickyWhatsApp from "@/components/website/LandingPage/StickyWhatsApp";
 import { contactInfo } from "@/constants";
@@ -60,11 +61,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WebsiteLayout({
+export default async function WebsiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const packages = await getEcosystemPackagesList();
   return (
     <Providers>
       <div className="bg-background-light dark:bg-background-dark text-ink-neutral-700 dark:text-ink-neutral-300">
@@ -81,7 +83,7 @@ export default function WebsiteLayout({
             Skip to main content
           </a>
           <header>
-            <Navbar />
+            <Navbar packageCount={packages.length} />
           </header>
 
           <main id="main-content" className="flex-1">{children}</main>

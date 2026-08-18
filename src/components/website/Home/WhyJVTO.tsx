@@ -1,7 +1,48 @@
 import Link from "@/components/website/AppLink";
 import Image from "next/image";
 
-const WhyJVTO: React.FC = () => {
+interface StoryTeaserSection {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  bodyStrongPhrase?: string;
+  quote?: string;
+  founderName?: string;
+  founderTitle?: string;
+}
+
+// Fallback: same copy as the pre-migration hardcoded version, used only if the
+// ekosistem section (home/index.source.json, section id "story-teaser") is
+// unreachable — same pattern as fallbackSeo elsewhere.
+const FALLBACK: Required<StoryTeaserSection> = {
+  eyebrow: "Our Story",
+  heading: "Built by someone who saw what the alternatives looked like.",
+  body:
+    "We saw the gaps first-hand — unlicensed guides, no medical screening, operators with no BBKSDA clearance, no written rules for guests. We built something different: private-only routes, realistic driving days, and clear written policies — shaped by a founder who is an active Tourist Police officer.",
+  bodyStrongPhrase:
+    "private-only routes, realistic driving days, and clear written policies",
+  quote:
+    "The Tourist Police experience isn't a marketing credential — it's how every safety decision is made.",
+  founderName: "Agung \"Mr. Sam\" Sambuko",
+  founderTitle: "Founder · Active Tourist Police Officer",
+};
+
+interface WhyJVTOProps {
+  section?: StoryTeaserSection;
+}
+
+const WhyJVTO: React.FC<WhyJVTOProps> = ({ section }) => {
+  const heading = section?.heading ?? FALLBACK.heading;
+  const body = section?.body ?? FALLBACK.body;
+  const bodyStrongPhrase = section?.bodyStrongPhrase ?? FALLBACK.bodyStrongPhrase;
+  const quote = section?.quote ?? FALLBACK.quote;
+  const founderName = section?.founderName ?? FALLBACK.founderName;
+  const founderTitle = section?.founderTitle ?? FALLBACK.founderTitle;
+
+  const strongIndex = bodyStrongPhrase ? body.indexOf(bodyStrongPhrase) : -1;
+  const bodyBefore = strongIndex >= 0 ? body.slice(0, strongIndex) : body;
+  const bodyAfter = strongIndex >= 0 ? body.slice(strongIndex + bodyStrongPhrase.length) : "";
+
   return (
     <section className="py-24 md:py-32 bg-jvto-navy text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
@@ -11,7 +52,7 @@ const WhyJVTO: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-7">
               <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
-                Our Story
+                {section?.eyebrow ?? FALLBACK.eyebrow}
               </span>
             </div>
 
@@ -19,23 +60,16 @@ const WhyJVTO: React.FC = () => {
               className="text-4xl md:text-5xl font-black leading-[1.05] mb-8"
               style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
-              Built by someone who saw
-              <br className="hidden md:block" />
-              <em className="text-jvto-orange not-italic">
-                {" "}what the alternatives looked like.
-              </em>
+              {heading}
             </h2>
 
             <div className="text-white/60 text-sm md:text-base leading-relaxed font-light">
               <p>
-                We saw the gaps first-hand — unlicensed guides, no medical
-                screening, operators with no BBKSDA clearance, no written rules
-                for guests. We built something different:{" "}
-                <strong className="text-white font-semibold">
-                  private-only routes, realistic driving days, and clear written
-                  policies
-                </strong>{" "}
-                — shaped by a founder who is an active Tourist Police officer.
+                {bodyBefore}
+                {strongIndex >= 0 && (
+                  <strong className="text-white font-semibold">{bodyStrongPhrase}</strong>
+                )}
+                {bodyAfter}
               </p>
             </div>
 
@@ -66,8 +100,7 @@ const WhyJVTO: React.FC = () => {
               style={{ boxShadow: "var(--shadow-jvto-orange)" }}
             >
               <p className="text-[10px] text-white italic leading-relaxed">
-                &ldquo;The Tourist Police experience isn&apos;t a marketing
-                credential — it&apos;s how every safety decision is made.&rdquo;
+                &ldquo;{quote}&rdquo;
               </p>
             </div>
 
@@ -91,10 +124,10 @@ const WhyJVTO: React.FC = () => {
                   className="font-black text-white text-lg tracking-tight mb-1"
                   style={{ fontFamily: "Raleway, Inter, sans-serif" }}
                 >
-                  Agung &ldquo;Mr. Sam&rdquo; Sambuko
+                  {founderName}
                 </p>
                 <p className="text-[9px] text-jvto-lime font-bold uppercase tracking-[0.2em]">
-                  Founder · Active Tourist Police Officer
+                  {founderTitle}
                 </p>
               </div>
             </div>
