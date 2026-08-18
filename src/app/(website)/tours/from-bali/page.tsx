@@ -5,7 +5,7 @@ import Link from "@/components/website/AppLink";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
-  return getWebPackagesList({ fromId: 3, categoryId: 1 });
+  return getEcosystemPackagesList({ fromPrefix: "tours/from-bali", categoryId: 1 });
 }
 
 const INCLUSIONS_BALI = [

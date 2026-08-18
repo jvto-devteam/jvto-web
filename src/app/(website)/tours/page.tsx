@@ -9,7 +9,7 @@ import {
   toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildToursHubFaqSchema,
   buildToursHubAggregateRatingSchema,
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  return getWebPackagesList({ categoryId: 1 });
+  return getEcosystemPackagesList({ categoryId: 1 });
 }
 
 function compactIdr(value: number): string {

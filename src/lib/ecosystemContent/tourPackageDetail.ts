@@ -1,20 +1,23 @@
 // src/lib/ecosystemContent/tourPackageDetail.ts
 //
 // Fetches a tour-package detail record from jvto-ekosistem
-// (2-product-and-commercial-core/tour-products/<route>.product-contract.json)
-// for editorial content (name, description, marketing, itinerary, gear,
-// accommodation, inclusions/exclusions, etc.) and merges it with a live
-// Prisma read for the operational/transactional fields that must stay
-// live: pricing (offers), add-on prices, and channel/booking metadata.
+// (2-product-and-commercial-core/tour-products/<route>.product-contract.json).
 // Same local-first / HTTP-fallback pattern as ecosystemContent/destinationDetail.ts.
 //
-// Part of the single-content-source (ekosistem-only) consolidation — editorial
-// tour-package content now has exactly one canonical home. No live sync exists
-// between Prisma and the ekosistem file by design (owner decision 2026-08-18):
-// edits to editorial content go directly into the ekosistem source going forward.
+// Part of the single-content-source (ekosistem-only) consolidation. Initially
+// (2026-08-18) editorial fields came from ekosistem while pricing/availability
+// stayed live from Prisma; owner then explicitly extended the directive to
+// pricing/add-ons/compliance/channel metadata too ("literally semua, termasuk
+// pricing") — this reader is now a pure ekosistem read, no Prisma involved.
+// This applies to the public-facing tour listing/detail pages only; booking
+// creation, checkout price-validation, and /my-booking (individual customer
+// reservation records) remain Prisma-backed by necessity — they are live
+// transactional state, not editorial/catalog content, and were explicitly
+// out of scope for this migration. No live sync exists between Prisma and
+// the ekosistem file by design: price and availability changes now go
+// directly into the ekosistem source and are deployed like any other edit.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { prisma } from "@/lib/prisma";
 import type { TourPackageDetail } from "@/interfaces";
 
 const DEFAULT_ECOSYSTEM_BASE_URL =
@@ -74,14 +77,6 @@ async function fetchRemote(slug: string): Promise<Record<string, unknown> | null
   }
 }
 
-function replaceBigInt<T>(obj: T): T {
-  return JSON.parse(
-    JSON.stringify(obj, (_, value) =>
-      typeof value === "bigint" ? value.toString() : value,
-    ),
-  );
-}
-
 const STATIC_VEHICLE_PLAN = {
   primary: [
     {
@@ -115,138 +110,16 @@ const STATIC_VEHICLE_PLAN = {
   },
 };
 
-function ucwords(str: string) {
-  if (!str) return "";
-  str = str.toLowerCase();
-  return str.replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
 /**
- * Live, operational-only Prisma read: pricing, add-on prices, and
- * booking/channel metadata. Everything editorial comes from ekosistem.
- */
-async function fetchLiveOperationalData(slug: string) {
-  const pkg = await prisma.packages.findUnique({
-    where: { slug },
-    include: {
-      start_destination: true,
-      end_destination: true,
-      package_destinations: {
-        where: { deleted_at: null },
-        include: { destinations: true },
-      },
-      package_prices: {
-        where: { deleted_at: null },
-        include: { price_tiers: true },
-        orderBy: { price: "asc" },
-      },
-      package_addons: { include: { addons: true } },
-    },
-  });
-
-  if (!pkg) return null;
-
-  const allTiers = (pkg.package_prices ?? [])
-    .map((p) => p.price_tiers)
-    .filter((t) => t != null);
-  const calculatedMinPax =
-    allTiers.length > 0 ? Math.min(...allTiers.map((t) => t?.min_pax ?? 1)) : 1;
-  const calculatedMaxPax = 100;
-
-  const prices = (pkg.package_prices ?? [])
-    .map((p) => p.price)
-    .filter((v): v is number => typeof v === "number");
-
-  return replaceBigInt({
-    offers: {
-      currency: "IDR",
-      aggregateOffer: {
-        lowPrice: prices.length ? Math.min(...prices) : 0,
-        highPrice: prices.length ? Math.max(...prices) : 0,
-      },
-      tiers: (pkg.package_prices ?? []).map((price, key) => ({
-        sku: pkg.code + "-" + (key + 1),
-        paxMin: price.price_tiers?.min_pax ?? 0,
-        paxMax: price.price_tiers?.max_pax ?? 0,
-        pricePerPerson: price.price ?? 0,
-      })),
-    },
-    addOns: (pkg.package_addons ?? []).map((addon: any) => ({
-      id: addon.addons?.id,
-      name: addon.addons?.is_transport
-        ? `Transport to ${ucwords(addon.addons?.name || "")}`
-        : addon.addons?.name || "",
-      type:
-        addon.addons?.id == 2
-          ? "madakaripura"
-          : addon.addons?.is_transport
-            ? "transport"
-            : null,
-      description: addon.addons?.is_transport
-        ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
-            addon.addons?.transport_type || "",
-          )} Car (${
-            addon.addons?.transport_type === "small"
-              ? "1-3 Pax"
-              : addon.addons?.transport_type === "medium"
-                ? "4-9 Pax"
-                : "10 Pax Above"
-          })`
-        : "",
-      transportType: addon.addons?.transport_type ?? null,
-      transportDestination: addon.addons?.name ?? null,
-      price: addon.addons?.price ?? 0,
-    })),
-    compliance: {
-      destinationsWhitelist: true,
-      itineraryTablesGenerated: true,
-      healthScreeningIncluded: (pkg.package_destinations ?? []).some(
-        (pd) => Number(pd.destination_id) === 2,
-      ),
-      touristPoliceSupport: true,
-    },
-    channelMetadata: {
-      internalPackageId: pkg.code,
-      orderChannelEnabled: {
-        JVTO: true,
-        KLOOK: false,
-        TRAVELOKA: false,
-        TIKETCOM: false,
-        OTHERS: false,
-      },
-      externalPackageIds: { klook: "", traveloka: "", tiketcom: "" },
-      isFreesale: true,
-      requiresAvailabilityCheck: false,
-      supportedPickupCities: pkg.start_destination?.name
-        ? [pkg.start_destination.name]
-        : [],
-      supportedDropoffCities: pkg.end_destination?.name
-        ? [pkg.end_destination.name]
-        : [],
-      languageOffered: ["en"],
-      status: "active",
-      minLeadTimeHours: 24,
-      maxPaxRecommended: calculatedMaxPax,
-      minPaxOperational: calculatedMinPax,
-    },
-    aggregateRating: { ratingValue: 0, reviewCount: 0 },
-  });
-}
-
-/**
- * Full tour-package detail: editorial content from ekosistem, merged with
- * live operational (pricing/booking) data from Prisma. Returns null if
- * either the ekosistem record or the live package can't be found.
+ * Full tour-package detail — editorial AND operational (pricing, add-ons,
+ * compliance, channel metadata) fields, all read from ekosistem. Returns
+ * null when the ekosistem record can't be found.
  */
 export async function getEcosystemTourPackageDetail(
   slug: string,
 ): Promise<TourPackageDetail | null> {
-  const [editorial, operational] = await Promise.all([
-    (async () => (await readLocal(slug)) ?? (await fetchRemote(slug)))(),
-    fetchLiveOperationalData(slug),
-  ]);
-
-  if (!editorial || !operational) return null;
+  const editorial = (await readLocal(slug)) ?? (await fetchRemote(slug));
+  if (!editorial) return null;
 
   const product = {
     id: editorial.id,
@@ -270,18 +143,25 @@ export async function getEcosystemTourPackageDetail(
     description: editorial.description ?? "",
     keyExperiences: editorial.keyExperiences ?? [],
     physicalDifficulty: editorial.physicalDifficulty ?? "",
-    offers: (operational as any).offers,
+    offers: editorial.offers ?? {
+      currency: "IDR",
+      aggregateOffer: { lowPrice: 0, highPrice: 0 },
+      tiers: [],
+    },
     inclusions: editorial.inclusions ?? [],
     exclusions: editorial.exclusions ?? [],
     travelerRequirements: editorial.travelerRequirements ?? [],
-    addOns: (operational as any).addOns,
+    addOns: editorial.addOns ?? [],
     accommodationPlan: editorial.accommodationPlan ?? [],
     gear: editorial.gear ?? { provided: [], recommended: [] },
     itineraryDays: editorial.itineraryDays ?? [],
     gallery: editorial.gallery ?? [],
     imageUrl: editorial.imageUrl ?? "",
     tags: editorial.tags ?? [],
-    aggregateRating: (operational as any).aggregateRating,
+    aggregateRating: editorial.aggregateRating ?? {
+      ratingValue: 0,
+      reviewCount: 0,
+    },
     marketing: editorial.marketing ?? {
       perfectFor: [],
       highlightsBullets: [],
@@ -290,8 +170,32 @@ export async function getEcosystemTourPackageDetail(
     },
     operationalComplexityNote: editorial.operationalComplexityNote ?? "",
     provider: editorial.provider,
-    compliance: (operational as any).compliance,
-    channelMetadata: (operational as any).channelMetadata,
+    compliance: editorial.compliance ?? {
+      destinationsWhitelist: true,
+      itineraryTablesGenerated: true,
+      healthScreeningIncluded: false,
+      touristPoliceSupport: true,
+    },
+    channelMetadata: editorial.channelMetadata ?? {
+      internalPackageId: editorial.packageId ?? "",
+      orderChannelEnabled: {
+        JVTO: true,
+        KLOOK: false,
+        TRAVELOKA: false,
+        TIKETCOM: false,
+        OTHERS: false,
+      },
+      externalPackageIds: { klook: "", traveloka: "", tiketcom: "" },
+      isFreesale: true,
+      requiresAvailabilityCheck: false,
+      supportedPickupCities: editorial.originCity ? [editorial.originCity] : [],
+      supportedDropoffCities: editorial.endCity ? [editorial.endCity] : [],
+      languageOffered: ["en"],
+      status: "active",
+      minLeadTimeHours: 24,
+      maxPaxRecommended: 100,
+      minPaxOperational: 1,
+    },
     _cms: {
       contentType: "tour-package",
       version: "2.0",
@@ -350,4 +254,88 @@ export function getEcosystemTourPackageRoutes(
   return KNOWN_TOUR_SLUGS.filter((s) => s.startsWith(`${prefix}/`)).map(
     (s) => ({ slug: s.slice(prefix.length + 1) }),
   );
+}
+
+/** Shape returned for hub/listing-page cards — mirrors the retired getWebPackagesList. */
+export interface EcosystemPackageListItem {
+  id: number;
+  name: string;
+  startDestination: string;
+  endDestination: string;
+  duration: { day: number; night: number };
+  banner: { url: string; alt: string };
+  keyExperiences: string[];
+  images: { url: string; alt: string }[];
+  startFrom: number;
+  slug: string;
+  physicality: string;
+  tags: string[];
+  highlights: string[];
+}
+
+export interface EcosystemPackagesListFilters {
+  /** "tours/from-bali" (3) or "tours/from-surabaya" (4) per live's data convention. */
+  fromPrefix?: "tours/from-bali" | "tours/from-surabaya";
+  /** All known ekosistem tour products are category 1 (reguler); none are category 2 (student). */
+  categoryId?: 1 | 2;
+  limit?: number;
+}
+
+/**
+ * Published tour-package listings for hub/card pages, filtered by origin/category.
+ * Pure ekosistem read — no Prisma. Returns empty array on miss (caller-friendly).
+ */
+export async function getEcosystemPackagesList(
+  filters: EcosystemPackagesListFilters = {},
+): Promise<EcosystemPackageListItem[]> {
+  const { fromPrefix, categoryId, limit } = filters;
+
+  // categoryId 2 (student) has no published packages in ekosistem today.
+  if (categoryId === 2) return [];
+
+  const slugs = KNOWN_TOUR_SLUGS.filter(
+    (s) => !fromPrefix || s.startsWith(`${fromPrefix}/`),
+  );
+
+  const items = (
+    await Promise.all(
+      slugs.map(async (slug) => {
+        const editorial = (await readLocal(slug)) ?? (await fetchRemote(slug));
+        if (!editorial) return null;
+
+        const gallery = Array.isArray(editorial.gallery)
+          ? (editorial.gallery as string[])
+          : [];
+        const bannerUrl =
+          (editorial.imageUrl as string) || gallery[0] || "/fallback-banner.jpg";
+
+        return {
+          id: Number(editorial.id) || 0,
+          name: (editorial.name as string) ?? "",
+          startDestination: (editorial.originCity as string) ?? "",
+          endDestination: (editorial.endCity as string) ?? "",
+          duration: {
+            day: Number((editorial.duration as any)?.days) || 0,
+            night: Number((editorial.duration as any)?.nights) || 0,
+          },
+          banner: { url: bannerUrl, alt: (editorial.name as string) ?? "Package banner" },
+          keyExperiences: Array.isArray(editorial.keyExperiences)
+            ? (editorial.keyExperiences as Array<{ highlight?: string }>)
+                .map((k) => k.highlight ?? "")
+                .filter(Boolean)
+            : [],
+          images: [{ url: bannerUrl, alt: (editorial.name as string) ?? "Package banner" }],
+          startFrom: Number((editorial.offers as any)?.aggregateOffer?.lowPrice) || 0,
+          slug: (editorial.slug as string) ?? slug,
+          physicality: (editorial.physicalDifficulty as string) ?? "",
+          tags: Array.isArray(editorial.tags) ? (editorial.tags as string[]) : [],
+          highlights: Array.isArray((editorial.marketing as any)?.highlightsBullets)
+            ? ((editorial.marketing as any).highlightsBullets as string[])
+            : [],
+        } satisfies EcosystemPackageListItem;
+      }),
+    )
+  ).filter((item): item is EcosystemPackageListItem => item !== null);
+
+  return limit !== undefined ? items.slice(0, limit) : items;
 }

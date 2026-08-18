@@ -13,7 +13,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
-import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  return getWebPackagesList({ categoryId: 2, limit: 8 });
+  return getEcosystemPackagesList({ categoryId: 2, limit: 8 });
 }
 
 export default async function IsicStudentPackagePage() {

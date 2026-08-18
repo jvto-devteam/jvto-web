@@ -1,18 +1,15 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
-import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
+import { getEcosystemTourPackageRoutes } from "@/lib/ecosystemContent/tourPackageDetail";
 
 export async function sitemapToursFromSurabaya(
   t: Date,
 ): Promise<MetadataRoute.Sitemap> {
-  const packages = await getPublishedPackageSlugs({
-    categoryId: 1,
-    fromId: 4,
-  });
+  const packages = getEcosystemTourPackageRoutes("tours/from-surabaya");
 
   return packages.map((pkg) => ({
-    url: url(`/${pkg.slug}`),
-    lastModified: pkg.updatedAt ?? t,
+    url: url(`/tours/from-surabaya/${pkg.slug}`),
+    lastModified: t,
     changeFrequency: "weekly",
     priority: 0.8,
   }));
