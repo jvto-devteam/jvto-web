@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -132,8 +131,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HistoryArtifactsPage() {
   const seo = await getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   const docs = await getDocsByGroup("historyArtifacts");
-  const faqResolution = await resolveFaqsForPage("/verify-jvto/history-artifacts");
-  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/history-artifacts");
 
   const pageRow = seo.row
     ? {
@@ -181,9 +178,8 @@ export default async function HistoryArtifactsPage() {
             docs,
           }),
           HISTORY_TIMELINE_SCHEMA,
-          faqResolvedNode,
         ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}

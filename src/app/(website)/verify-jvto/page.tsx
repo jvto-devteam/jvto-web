@@ -6,7 +6,6 @@ import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getAllDocs } from "@/lib/data-loader";
 
@@ -790,12 +789,6 @@ export default async function VerifyJvtoPage() {
     ],
   };
 
-  // Phase 5 (2026-04-29): canonical hub Q&A via resolver. /verify-jvto has 2 narrative_claims wired
-  // → narrative_claims overrides VERIFY_HUB_FAQS canonical (which would otherwise apply) → suppresses CMS FAQ.
-  // Per cluster_role_contracts.md Cluster 4 hub MH.
-  const hubFaqResolution = await resolveFaqsForPage("/verify-jvto");
-  const hubFaqResolvedNode = buildResolvedFaqSchema(hubFaqResolution, "/verify-jvto");
-
   const _categoryMeta: Record<string, { meta: string; href: string; icon: string }> = {
     BusinessID:  { meta: "Legal · Business ID",     href: "/verify-jvto/legal",            icon: "doc"    },
     License:     { meta: "Legal · License",          href: "/verify-jvto/legal",            icon: "doc"    },
@@ -843,8 +836,8 @@ export default async function VerifyJvtoPage() {
     <>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[jsonLd, hubFaqResolvedNode]}
-        suppressCmsFaq={hubFaqResolution.suppressCmsFaq}
+        extraSchemas={[jsonLd]}
+        suppressCmsFaq
       />
 
       {/* ── Hero — navy ───────────────────────────────────────────────────── */}

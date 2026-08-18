@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import {
   PRESS_RECOGNITION_SCHEMAS,
   PRESS_ORGANIZATION_SUBJECTS,
@@ -28,8 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PressRecognitionPage() {
   const seo = await getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo);
   const docs = await getDocsByGroup("pressRecognition");
-  const faqResolution = await resolveFaqsForPage("/verify-jvto/press-recognition");
-  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/press-recognition");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -66,11 +63,10 @@ export default async function PressRecognitionPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          faqResolvedNode,
           ...PRESS_RECOGNITION_SCHEMAS,
           PRESS_ORGANIZATION_SUBJECTS,
         ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}

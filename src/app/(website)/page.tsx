@@ -16,7 +16,6 @@ import { getDestinationsForHomepage } from "@/lib/destinations/getWebDestination
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import {
   BBKSDA_REGULATION_SCHEMA,
@@ -101,9 +100,8 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // ── FAQPage schema (AEO — emits JSON-LD even without visual FAQ section) ────
-  const faqResolution = await resolveFaqsForPage("/");
-  const faqNode = buildResolvedFaqSchema(faqResolution, "/");
+  // FAQPage schema comes from the ekosistem-first branch of PageJsonLdCombined
+  // (home/index.source.json's faq block) — no runtime resolver needed here.
   const googleStats = await getGoogleReviewStats();
   const aggregateRatingNode = buildHomepageAggregateRatingSchema(googleStats);
 
@@ -145,9 +143,8 @@ const Home = async () => {
           serviceNode,
           healthAppNode,
           aggregateRatingNode,
-          faqNode,
         ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* 1. Hero */}

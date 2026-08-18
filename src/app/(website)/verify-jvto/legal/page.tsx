@@ -8,7 +8,6 @@ import {
   DOCTOR_SCHEMA,
 } from "@/lib/schemas/buildVerifySchemas";
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { SHA256_ANCHORS } from "@/lib/forensic-anchors";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
@@ -65,8 +64,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LegalPage() {
   const seo = await getEcosystemPageSeo("/verify-jvto/legal", fallbackSeo);
   const docs = await getDocsByGroup("legal");
-  const faqResolution = await resolveFaqsForPage("/verify-jvto/legal");
-  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/legal");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -106,9 +103,8 @@ export default async function LegalPage() {
           ...LEGAL_DIGITAL_DOCUMENTS,
           DOCTOR_SCHEMA,
           BBKSDA_REGULATION_SCHEMA,
-          faqResolvedNode,
         ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}

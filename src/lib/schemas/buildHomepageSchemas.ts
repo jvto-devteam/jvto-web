@@ -5,7 +5,6 @@
 // WebSite + WebPage + FAQPage + AggregateRating + BreadcrumbList. FOUNDER + DOCTOR + BBKSDA + 9 DefinedTerms
 // already injected globally via (website)/layout.tsx. Organization injected per-page via PageJsonLdCombined.
 import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
-import { HOMEPAGE_FAQS } from '@/lib/homepageFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -55,23 +54,6 @@ export function buildHomepageWebPageSchema() {
       '@type': 'ImageObject',
       url: `${BASE_URL}/assets/img/hero/home.webp`,
     },
-  };
-}
-
-/**
- * FAQPage from HOMEPAGE_FAQS canonical source. Same data renders in HomeClient as visible Q&A
- * (single source of truth across schema and copy).
- */
-export function buildHomepageFaqSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${BASE_URL}/#faq`,
-    mainEntity: HOMEPAGE_FAQS.map((p) => ({
-      '@type': 'Question',
-      name: p.question,
-      acceptedAnswer: { '@type': 'Answer', text: p.answer },
-    })),
   };
 }
 

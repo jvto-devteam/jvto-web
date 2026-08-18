@@ -4,7 +4,6 @@ import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -50,8 +49,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PoliceSafetyPage() {
   const seo = await getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo);
   const docs = await getDocsByGroup("policeSafety");
-  const faqResolution = await resolveFaqsForPage("/verify-jvto/police-safety");
-  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/police-safety");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -91,9 +88,8 @@ export default async function PoliceSafetyPage() {
             docs,
           }),
           ...POLICE_SAFETY_DIGITAL_DOCUMENTS,
-          faqResolvedNode,
         ]}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
