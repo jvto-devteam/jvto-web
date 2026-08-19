@@ -1,13 +1,4 @@
 import { notFound } from "next/navigation";
-
-// SEO AUDIT 2026-05-17 (QW-8 + QW-9): title and description overrides for high-value Bali package pages.
-const SLUG_TITLE_OVERRIDES: Record<string, string> = {
-  "bromo-ijen-3d2n": "3D2N Private Bromo Ijen Blue Fire Tour from Bali | JVTO",
-};
-
-const SLUG_DESC_OVERRIDES: Record<string, string> = {
-  "bromo-ijen-3d2n": "Private 3D2N Bromo & Ijen blue fire tour from Bali, ferry crossing included. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 4.05M/pax.",
-};
 import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
@@ -35,6 +26,7 @@ import {
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
+import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
 
 export const revalidate = 3600;
 
@@ -362,9 +354,8 @@ export async function generateMetadata(
   const cleanDesc = stripHtml(pkg.description).substring(0, 160);
   const price = formatCurrency(pkg.offers?.aggregateOffer?.lowPrice || 0);
   const metaTitle =
-    SLUG_TITLE_OVERRIDES[slug] || pkg.seoTitle?.trim() || `${pkg.name} | Private Tour from ${pkg.originCity}`;
+    pkg.seoTitle?.trim() || `${pkg.name} | Private Tour from ${pkg.originCity}`;
   const metaDesc =
-    SLUG_DESC_OVERRIDES[slug] ||
     pkg.seoDescription?.trim() ||
     `Book ${pkg.name}. Starts from ${price}. ${cleanDesc}...`;
 
@@ -439,7 +430,7 @@ function adaptToTourDetailSeed(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims, googleStats, reviewProfiles] = await Promise.all([
+  const [data, reviews, org, allClaims, googleStats, reviewProfiles, ijenCraterRequirements] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
@@ -447,6 +438,8 @@ export default async function Page({ params }: Props) {
     getGoogleReviewStats(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
+    // Ijen Crater mandatory-requirements table + FAQ for TourRequirements (client bundle — must be drilled in).
+    getEcosystemIjenCraterRequirements(),
   ]);
 
   if (!data) notFound();
@@ -506,7 +499,7 @@ export default async function Page({ params }: Props) {
       <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <JsonLd data={tourEntityAugmentSchema} />
-      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
   );
 }

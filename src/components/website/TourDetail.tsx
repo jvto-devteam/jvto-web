@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
+import type { IjenCraterRequirementsContent } from "@/lib/ecosystemContent/ijenCraterRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
 // NOTE: the commented-out ReviewStats block below (~1447–1609) used to reference a
 // hardcoded AGGREGATE_RATING constant. That constant carried a stale blended
@@ -77,6 +78,12 @@ interface Props {
    * Server Component page. Drilled through because TrustBar sits in the client bundle.
    */
   reviewProfiles?: TrustBarReviewProfile[];
+  /**
+   * Ijen Crater mandatory-requirements table + FAQ from
+   * getEcosystemIjenCraterRequirements(), fetched by the Server Component page.
+   * Drilled through because TourRequirements sits in the client bundle.
+   */
+  ijenCraterRequirements?: Partial<IjenCraterRequirementsContent> | null;
 }
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
@@ -211,7 +218,7 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
-export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false, reviewProfiles = [] }: Props) {
+export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false, reviewProfiles = [], ijenCraterRequirements = null }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
 
@@ -1444,7 +1451,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </div>
               </div>
             </div>
-            {pkg.route.includes("Ijen Crater") && <TourRequirements />}
+            {pkg.route.includes("Ijen Crater") && <TourRequirements pageContent={ijenCraterRequirements} />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-slate-200 mt-12">
               <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
