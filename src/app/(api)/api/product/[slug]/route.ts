@@ -4,7 +4,7 @@
 // operational data, not catalog content, same distinction applied throughout this
 // migration for the tour-detail and destination pages.
 import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 
 function roundRating(value: number) {
   return Number(value.toFixed(1));
@@ -30,7 +30,7 @@ export async function GET(
   }
 
   const pkg = detail.product;
-  const googleStats = await getGoogleReviewStats();
+  const googleStats = await getPublicAggregateRating();
 
   const travelerRequirements = [
     "Moderate fitness required (night hikes, uneven surfaces)",

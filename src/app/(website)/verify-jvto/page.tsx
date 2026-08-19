@@ -8,7 +8,7 @@ import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import { getAllDocs } from "@/lib/data-loader";
@@ -69,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function VerifyJvtoPage() {
   const [seo, googleStats, reviewProfiles, ssotData, page, packages] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto", fallbackSeo),
-    getGoogleReviewStats(),
+    getPublicAggregateRating(),
     getEcosystemReviewProfiles(),
     getEcosystemVerifyAssetsInventory(),
     loadEcosystemPage("/verify-jvto"),

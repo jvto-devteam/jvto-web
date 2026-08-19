@@ -24,7 +24,7 @@ import {
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
 
@@ -442,7 +442,7 @@ export default async function Page({ params }: Props) {
     getReviewsData(),
     getOrganizationProfile(),
     getEcosystemNarrativeClaims(),
-    getGoogleReviewStats(),
+    getPublicAggregateRating(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
     // Ijen Crater mandatory-requirements table + FAQ for TourRequirements (client bundle — must be drilled in).

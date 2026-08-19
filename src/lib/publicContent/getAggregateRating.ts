@@ -7,14 +7,21 @@
 // A blended cross-platform average is explicitly NOT that figure.
 //
 // This module invents no data. It only composes the two existing readers:
-//   1. getGoogleReviewStats()        — Prisma `review_stats` row, source "google" (live).
-//   2. getEcosystemReviewProfiles()  — the ekosistem review-platforms.json record,
-//                                      which declares itself the single source of
-//                                      truth for the public platform totals.
-// The ekosistem "Google Maps" profile is the fallback when the DB is unreachable,
-// so a stale hand-copied constant is never needed. When neither source answers,
-// this returns null and callers omit the AggregateRating node entirely rather
-// than emit a number nobody can vouch for.
+//   1. getEcosystemReviewProfiles()  — ekosistem's review-platforms.json,
+//                                      synced daily from the Google Business
+//                                      Profile API by ekosistem's own
+//                                      sync-google-rating.yml (2026-08-19) —
+//                                      the PRIMARY source, per the
+//                                      single-content-source-of-truth
+//                                      migration this repo underwent 2026-08.
+//   2. getGoogleReviewStats()        — Prisma `review_stats` row, written by
+//                                      jvto-web's own (older) sync-google-
+//                                      reviews.yml. Kept only as a fallback
+//                                      for the window where ekosistem's daily
+//                                      sync hasn't run yet or is unreachable;
+//                                      not the source of truth.
+// When neither source answers, this returns null and callers omit the
+// AggregateRating node entirely rather than emit a number nobody can vouch for.
 import { cache } from "react";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
@@ -30,16 +37,11 @@ export interface PublicAggregateRating {
   rating: number;
   count: number;
   /** Which source answered — useful when debugging a schema diff. */
-  source: "review_stats" | "ekosistem";
+  source: "ekosistem" | "review_stats";
 }
 
 export const getPublicAggregateRating = cache(
   async (): Promise<PublicAggregateRating | null> => {
-    const live = await getGoogleReviewStats();
-    if (live) {
-      return { rating: live.rating, count: live.count, source: "review_stats" };
-    }
-
     const profiles = await getEcosystemReviewProfiles();
     const google = profiles.find((p) => p.platform === AGGREGATE_PLATFORM);
     if (
@@ -52,6 +54,11 @@ export const getPublicAggregateRating = cache(
         count: google.reviewCount,
         source: "ekosistem",
       };
+    }
+
+    const live = await getGoogleReviewStats();
+    if (live) {
+      return { rating: live.rating, count: live.count, source: "review_stats" };
     }
 
     return null;

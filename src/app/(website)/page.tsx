@@ -18,7 +18,7 @@ import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDeta
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
+import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   BBKSDA_REGULATION_SCHEMA,
   DEFINED_TERMS,
@@ -108,7 +108,7 @@ const Home = async () => {
 
   // FAQPage schema comes from the ekosistem-first branch of PageJsonLdCombined
   // (home/index.source.json's faq block) — no runtime resolver needed here.
-  const googleStats = await getGoogleReviewStats();
+  const googleStats = await getPublicAggregateRating();
   const aggregateRatingNode = buildHomepageAggregateRatingSchema(googleStats);
 
   // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
