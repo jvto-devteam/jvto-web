@@ -1,6 +1,7 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import Image from "next/image";
@@ -16,6 +17,32 @@ const fallbackSeo = {
   description:
     "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT incorporation.",
 };
+
+// Rich-text segment: plain text, or text wrapped in strong, or a link
+// (external if href starts with http, internal Link if it starts with "/").
+type RichSegment = { text: string; strong?: boolean; href?: string };
+
+function renderRich(segments: RichSegment[]) {
+  return segments.map((seg, i) => {
+    if (seg.href) {
+      const className = "text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors";
+      if (seg.href.startsWith("/")) {
+        return (
+          <Link key={i} href={seg.href} prefetch={false} className={className}>
+            {seg.text}
+          </Link>
+        );
+      }
+      return (
+        <a key={i} href={seg.href} target="_blank" rel="noopener noreferrer" className={className}>
+          {seg.text}
+        </a>
+      );
+    }
+    if (seg.strong) return <strong key={i} className="text-jvto-navy font-semibold">{seg.text}</strong>;
+    return <span key={i}>{seg.text}</span>;
+  });
+}
 
 const HISTORY_TIMELINE_SCHEMA = {
   "@context": "https://schema.org",
@@ -123,14 +150,81 @@ const HISTORY_TIMELINE_SCHEMA = {
   ],
 };
 
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  heroStats: [
+    { label: "Earliest record", value: "2015" },
+    { label: "Web snapshots", value: "27+" },
+    { label: "Press references", value: "8" },
+    { label: "Audit trail", value: "Wayback Machine" },
+  ],
+  articleIntro: "JVTO is not a new operator. We have a documented operational history dating to 2015, with public web archives that anyone can audit.",
+  timeline: [
+    { year: "'15", h4: "2015", p: "Ijen Bondowoso Homestay opens on Jl. Khairil Anwar No.102. Booking.com guest score 9.4/10; award shipped to the Bondowoso address." },
+    { year: "'16", h4: "2016", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same address." },
+    { year: "'18", h4: "2018", p: "Stefan Loose Reiseführer Indonesien (4th ed., ISBN 978-3-7701-7881-0, p. 287) names \"Agung\" as operator." },
+    { year: "'21", h4: "2021", p: "Independent press: Detik.com (2021-03-14) and Radar Jember (2021-03-24) name Bripka Agung Sambuko in Tourist Police duties." },
+    { year: "'23", h4: "2023", p: "TDUP formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
+    { year: "'26", h4: "2026", p: "16 private itineraries; a 14-person named crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
+  ],
+  recognitionIntro: "Two pieces of dated, third-party recognition bracket the guesthouse-to-PT transition — both tied to the same Bondowoso address.",
+  recognitionDataBox: [
+    { k: "Booking.com Guest Review Award", v: "9.4 / 10 · 2015" },
+    { k: "Awarded to", v: "Ijen Bondowoso Homestay" },
+    { k: "Stefan Loose Reiseführer", v: "4th ed. · 2018 · p. 287" },
+    { k: "ISBN", v: "978-3-7701-7881-0" },
+  ],
+  recognitionAfterSegments: [
+    { text: "The 2015 Booking.com award was shipped to " },
+    { text: "\"Agung, Jl. Khairil Anwar No.102, Bondowoso\"", strong: true },
+    { text: " — the same address line as today's PT office. That shipping label is the continuity anchor: it places the founder, the name, and the address together a full year before PT Java Volcano Rendezvous was incorporated. The Stefan Loose guidebook then names \"Agung\" as the operator of Ijen Bondowoso Homestay, confirming an international reputation in print well before any social media existed. Both artifacts are catalogued on the " },
+    { text: "Press & Recognition page", href: "/verify-jvto/press-recognition" },
+    { text: "." },
+  ] as RichSegment[],
+  recognitionImages: [
+    { src: "/history/booking-2015-plaque.jpg", alt: "Booking.com Guest Review Award 2015 plaque — Ijen Bondowoso Homestay" },
+    { src: "/history/booking-2015-shipping-label.jpg", alt: "Booking.com award shipping label addressed to Agung, Jl. Khairil Anwar No.102, Bondowoso" },
+    { src: "/history/stefan_loose_crop_enh.jpg", alt: "Stefan Loose Reiseführer Indonesien — Agung / Ijen Bondowoso Homestay entry" },
+    { src: "/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg", alt: "Mr. Sam with guests at Ijen Bondowoso Homestay" },
+  ],
+  archiveIntroSegments: [
+    { text: "The Wayback Machine (web.archive.org) holds 27+ snapshots of " },
+    { text: "javavolcano-touroperator.com", strong: true },
+    { text: " dating from 2016 forward. Anyone can audit:" },
+  ] as RichSegment[],
+  archiveList: [
+    "Domain age and continuity",
+    "Founder name consistency",
+    "Address consistency",
+    "NIB displayed after 2016 incorporation",
+  ],
+  rulesOutText: "The Wayback footprint rules out the \"scammer registered a domain last month\" pattern. Anyone running a years-long operation under one name, at one address, with one founder, is publicly auditable. Anyone who isn't, isn't.",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function HistoryArtifactsPage() {
-  const seo = await getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
-  const docs = await getDocsByGroup("historyArtifacts");
+  const [seo, docs, page] = await Promise.all([
+    getEcosystemPageSeo("/verify-jvto/history-artifacts", fallbackSeo),
+    getDocsByGroup("historyArtifacts"),
+    loadEcosystemPage("/verify-jvto/history-artifacts"),
+  ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+
+  const heroStats = pc.heroStats ?? FALLBACK.heroStats;
+  const articleIntro = pc.articleIntro ?? FALLBACK.articleIntro;
+  const timeline = pc.timeline ?? FALLBACK.timeline;
+  const recognitionIntro = pc.recognitionIntro ?? FALLBACK.recognitionIntro;
+  const recognitionDataBox = pc.recognitionDataBox ?? FALLBACK.recognitionDataBox;
+  const recognitionAfterSegments = pc.recognitionAfterSegments ?? FALLBACK.recognitionAfterSegments;
+  const recognitionImages = pc.recognitionImages ?? FALLBACK.recognitionImages;
+  const archiveIntroSegments = pc.archiveIntroSegments ?? FALLBACK.archiveIntroSegments;
+  const archiveList = pc.archiveList ?? FALLBACK.archiveList;
+  const rulesOutText = pc.rulesOutText ?? FALLBACK.rulesOutText;
 
   const pageRow = seo.row
     ? {
@@ -155,15 +249,6 @@ export default async function HistoryArtifactsPage() {
     { href: "/verify-jvto/press-recognition", label: "Press & Recognition", active: false },
     { href: "/verify-jvto/police-safety", label: "Police & Safety", active: false },
   ];
-
-  const TIMELINE = [
-    { year: "'15", h4: "2015", p: "Ijen Bondowoso Homestay opens on Jl. Khairil Anwar No.102. Booking.com guest score 9.4/10; award shipped to the Bondowoso address." },
-    { year: "'16", h4: "2016", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same address." },
-    { year: "'18", h4: "2018", p: "Stefan Loose Reiseführer Indonesien (4th ed., ISBN 978-3-7701-7881-0, p. 287) names \"Agung\" as operator." },
-    { year: "'21", h4: "2021", p: "Independent press: Detik.com (2021-03-14) and Radar Jember (2021-03-24) name Bripka Agung Sambuko in Tourist Police duties." },
-    { year: "'23", h4: "2023", p: "TDUP formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
-    { year: "'26", h4: "2026", p: "16 private itineraries; a 14-person named crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
-  ] as const;
 
   return (
     <>
@@ -207,12 +292,7 @@ export default async function HistoryArtifactsPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Earliest record", value: "2015" },
-                { label: "Web snapshots", value: "27+" },
-                { label: "Press references", value: "8" },
-                { label: "Audit trail", value: "Wayback Machine" },
-              ].map(({ label, value }) => (
+              {heroStats.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
                   <strong className="font-semibold text-sm text-right text-white">{value}</strong>
@@ -258,12 +338,12 @@ export default async function HistoryArtifactsPage() {
             <article className="bg-white rounded-2xl p-8 md:p-10">
               <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#9ca3af] mb-5">Audit record · HIST-001</span>
               <p className="text-[17px] text-[#374151] font-light leading-relaxed mb-8">
-                JVTO is not a new operator. We have a documented operational history dating to 2015, with public web archives that anyone can audit.
+                {articleIntro}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-6 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Operational timeline</h2>
               <ol className="mb-10" style={{ maxWidth: "none" }}>
-                {TIMELINE.map(({ year, h4, p }) => (
+                {timeline.map(({ year, h4, p }) => (
                   <li key={year} className="flex gap-6" style={{ borderTop: "1px solid #E3E0DA", padding: "1.25rem 0" }}>
                     <div className="font-mono text-[12px] font-black text-jvto-orange flex-shrink-0 w-8 mt-0.5">{year}</div>
                     <div>
@@ -276,15 +356,10 @@ export default async function HistoryArtifactsPage() {
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Recognition artifacts</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
-                Two pieces of dated, third-party recognition bracket the guesthouse-to-PT transition — both tied to the same Bondowoso address.
+                {recognitionIntro}
               </p>
               <div className="rounded-xl overflow-hidden mb-6" style={{ border: "1px solid #E3E0DA" }}>
-                {[
-                  { k: "Booking.com Guest Review Award", v: "9.4 / 10 · 2015" },
-                  { k: "Awarded to", v: "Ijen Bondowoso Homestay" },
-                  { k: "Stefan Loose Reiseführer", v: "4th ed. · 2018 · p. 287" },
-                  { k: "ISBN", v: "978-3-7701-7881-0" },
-                ].map(({ k, v }) => (
+                {recognitionDataBox.map(({ k, v }) => (
                   <div key={k} className="flex justify-between items-center px-4 py-3" style={{ borderBottom: "1px solid #E3E0DA" }}>
                     <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#9ca3af]">{k}</span>
                     <span className="text-[14px] font-medium text-jvto-navy text-right">{v}</span>
@@ -292,15 +367,10 @@ export default async function HistoryArtifactsPage() {
                 ))}
               </div>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-6">
-                The 2015 Booking.com award was shipped to <strong className="text-jvto-navy font-semibold">"Agung, Jl. Khairil Anwar No.102, Bondowoso"</strong> — the same address line as today's PT office. That shipping label is the continuity anchor: it places the founder, the name, and the address together a full year before PT Java Volcano Rendezvous was incorporated. The Stefan Loose guidebook then names "Agung" as the operator of Ijen Bondowoso Homestay, confirming an international reputation in print well before any social media existed. Both artifacts are catalogued on the <Link href="/verify-jvto/press-recognition" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Press &amp; Recognition page</Link>.
+                {renderRich(recognitionAfterSegments)}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 mb-10">
-                {[
-                  { src: "/history/booking-2015-plaque.jpg", alt: "Booking.com Guest Review Award 2015 plaque — Ijen Bondowoso Homestay" },
-                  { src: "/history/booking-2015-shipping-label.jpg", alt: "Booking.com award shipping label addressed to Agung, Jl. Khairil Anwar No.102, Bondowoso" },
-                  { src: "/history/stefan_loose_crop_enh.jpg", alt: "Stefan Loose Reiseführer Indonesien — Agung / Ijen Bondowoso Homestay entry" },
-                  { src: "/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg", alt: "Mr. Sam with guests at Ijen Bondowoso Homestay" },
-                ].map(({ src, alt }) => (
+                {recognitionImages.map(({ src, alt }) => (
                   <div key={src} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2]" style={{ border: "1px solid #E3E0DA" }}>
                     <Image src={src} alt={alt} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, 33vw" />
                   </div>
@@ -309,18 +379,17 @@ export default async function HistoryArtifactsPage() {
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Independent web archive</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
-                The Wayback Machine (web.archive.org) holds 27+ snapshots of <strong className="text-jvto-navy font-semibold">javavolcano-touroperator.com</strong> dating from 2016 forward. Anyone can audit:
+                {renderRich(archiveIntroSegments)}
               </p>
               <ul className="space-y-2 mb-8 pl-5 list-disc marker:text-jvto-orange">
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Domain age and continuity</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Founder name consistency</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Address consistency</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">NIB displayed after 2016 incorporation</li>
+                {archiveList.map((item, i) => (
+                  <li key={i} className="text-[15px] text-[#374151] font-light leading-relaxed">{item}</li>
+                ))}
               </ul>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What this rules out</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed">
-                The Wayback footprint rules out the "scammer registered a domain last month" pattern. Anyone running a years-long operation under one name, at one address, with one founder, is publicly auditable. Anyone who isn't, isn't.
+                {rulesOutText}
               </p>
             </article>
           </div>

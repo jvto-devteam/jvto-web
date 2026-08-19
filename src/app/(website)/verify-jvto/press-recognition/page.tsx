@@ -1,6 +1,7 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import {
@@ -19,14 +20,171 @@ const fallbackSeo = {
     "Independent press coverage confirming JVTO's identity: Detik.com Tourist Police article, Stefan Loose Indonesia guidebook, and editorial recognition.",
 };
 
+// Rich-text segment: plain text, or text wrapped in strong/em/mono, or a link
+// (external if href starts with http, internal Link if it starts with "/").
+type RichSegment = { text: string; strong?: boolean; em?: boolean; mono?: boolean; href?: string };
+
+function renderRich(segments: RichSegment[]) {
+  return segments.map((seg, i) => {
+    if (seg.href) {
+      const className = "text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors";
+      if (seg.href.startsWith("/")) {
+        return (
+          <Link key={i} href={seg.href} prefetch={false} className={className}>
+            {seg.text}
+          </Link>
+        );
+      }
+      return (
+        <a key={i} href={seg.href} target="_blank" rel="noopener noreferrer" className={className}>
+          {seg.text}
+        </a>
+      );
+    }
+    if (seg.strong) return <strong key={i} className="text-jvto-navy font-semibold">{seg.text}</strong>;
+    if (seg.em) return <em key={i}>{seg.text}</em>;
+    if (seg.mono) return <span key={i} className="font-mono text-[12.5px]">{seg.text}</span>;
+    return <span key={i}>{seg.text}</span>;
+  });
+}
+
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  heroStats: [
+    { label: "Press articles", value: "4 independent" },
+    { label: "Newsrooms", value: "3 unrelated" },
+    { label: "Latest", value: "2024 (BBKSDA)" },
+    { label: "Paid placements", value: "0" },
+  ],
+  articleIntro: "JVTO does not run paid press placements. Every reference below is independently authored — three unrelated journalists, a government conservation agency, and a German travel publisher — none of them paid, all of them link-checkable.",
+  pressCoverageIntro: "The first three articles form a cross-corroboration of the same person — Bripka Agung Sambuko — across separate newsrooms. The fourth is the park authority itself documenting the training chain JVTO's guides belong to.",
+  pressCoverageTable: [
+    {
+      date: "2021-03-14",
+      pub: "Detik.com",
+      title: "\"Suka Duka Polisi Pariwisata Bondowoso.\"",
+      body: "Indonesia's top-traffic news outlet quotes Bripka Agung Sambuko as active Tourist Police during a COVID-19 overnight deployment at Kawah Wurung.",
+      link: { text: "Read →", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" } as { text: string; href: string } | null,
+      note: null as string | null,
+    },
+    {
+      date: "2021-03-24",
+      pub: "Radar Jember",
+      title: "\"Polpar Dibentuk untuk Mendukung Ijen Geopark.\"",
+      body: "Regional press reports the Tourist Police unit was formed specifically to support the Ijen Geopark — confirming the role is institutional.",
+      link: null as { text: string; href: string } | null,
+      note: "(paywalled)" as string | null,
+    },
+    {
+      date: "2021-05-27",
+      pub: "Radar Jember",
+      title: "\"Tak Seharusnya Bau Menyengat Itu Ada.\"",
+      body: "Active Tourist Police patrol at the Ijen crater, monitoring sulfuric-odor conditions and visitor safety.",
+      link: null as { text: string; href: string } | null,
+      note: "(paywalled)" as string | null,
+    },
+    {
+      date: "2024-05-24",
+      pub: "BBKSDA Jawa Timur",
+      title: "\"Pelatihan Pemandu Kawah Ijen.\"",
+      body: "The park authority's own report on a 3-day guide training (SAR + emergency medical) for HPWKI members at Paltuding — proof HPWKI membership equals government-supervised training.",
+      link: { text: "Read →", href: "https://bbksdajatim.org/pelatihan-pemandu-kawah-ijen/" } as { text: string; href: string } | null,
+      note: null as string | null,
+    },
+  ],
+  quote: "\"Ya mau gimana lagi, Mas. Sudah tugas. Yang penting, masyarakat yang berwisata aman.\"",
+  quoteAttribution: "— Bripka Agung Sambuko, Detik.com, 14 March 2021.",
+  pressScreenshots: [
+    { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
+    { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
+  ],
+  crossCorroborationIntro: "Three unrelated journalists, across two newsrooms, independently named the same officer in Tourist Police contexts — with no JVTO involvement in any of them. This is the standard for confidence: it is not JVTO claiming police status; it is the press, the park authority, and a travel publisher converging on the same person.",
+  sourceIndependenceTable: [
+    { source: "Detik.com", independence: "National commercial media" },
+    { source: "Radar Jember (×2)", independence: "Regional commercial media (Jawa Pos group)" },
+    { source: "BBKSDA Jatim", independence: "Government conservation agency" },
+    { source: "Stefan Loose", independence: "International travel publisher" },
+  ],
+  guidebookSegments: [
+    { text: "Stefan Loose Reiseführer Indonesien", strong: true },
+    { text: ", 4th Edition (DuMont Reiseverlag, 2018, ISBN 978-3-7701-7881-0), names \"Agung\" as the operator of Ijen Bondowoso Homestay on " },
+    { text: "page 287", strong: true },
+    { text: " — an editorial recommendation in a major German-language travel guide, not a paid placement. It establishes that the founder was operating and attracting international visitors before any digital marketing existed." },
+  ] as RichSegment[],
+  guidebookImages: [
+    { src: "/history/stefan-loose-ijen-bondowoso-page.png", alt: "Stefan Loose Reiseführer Indonesien page 287 — Ijen Bondowoso Homestay entry" },
+    { src: "/history/stefan_loose_crop_enh.jpg", alt: "Close-up of Stefan Loose guide entry naming Agung as operator" },
+  ],
+  partnershipTable: [
+    {
+      partner: "HPWKI",
+      segments: [
+        { text: "State-recognized Ijen guide association · " },
+        { text: "AHU-0001072.AH.01.07.TAHUN 2024", mono: true },
+        { text: ". Membership = BBKSDA-supervised safety training." },
+      ] as RichSegment[],
+    },
+    {
+      partner: "ISIC",
+      segments: [
+        { text: "UNESCO-endorsed student-identity program · " },
+        { text: "Provider 259268", href: "https://www.isic.org/discounts/?providerId=259268" },
+        { text: "." },
+      ] as RichSegment[],
+    },
+    {
+      partner: "INDECON",
+      segments: [
+        { text: "Indonesian Ecotourism Network member · " },
+        { text: "network listing", href: "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator" },
+        { text: ", validating the community \"Local Boys\" policy." },
+      ] as RichSegment[],
+    },
+  ],
+  partnershipOutroSegments: [
+    { text: "Earlier institutional recognition — the Booking.com Guest Review Award (9.4/10, 2015) — is documented on the " },
+    { text: "History & Artifacts page", href: "/verify-jvto/history-artifacts" },
+    { text: "." },
+  ] as RichSegment[],
+  whatWeDontClaim: "We do not claim a Condé Nast feature, an Aman partnership, or any recognition we have not earned. We are a niche operator with a niche reputation. The references above are real and link-checkable; everything else, we leave to other operators.",
+  howToVerifyList: [
+    "Open the Detik.com and BBKSDA links above directly — both are full-access.",
+    "For the paywalled Radar Jember pieces, search the title on radarjember.jawapos.com.",
+    "For ISIC and INDECON, search \"Java Volcano Tour Operator\" on each official site.",
+    "For Stefan Loose, check ISBN 978-3-7701-7881-0, page 287.",
+  ],
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function PressRecognitionPage() {
-  const seo = await getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo);
-  const docs = await getDocsByGroup("pressRecognition");
+  const [seo, docs, page] = await Promise.all([
+    getEcosystemPageSeo("/verify-jvto/press-recognition", fallbackSeo),
+    getDocsByGroup("pressRecognition"),
+    loadEcosystemPage("/verify-jvto/press-recognition"),
+  ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+
+  const heroStats = pc.heroStats ?? FALLBACK.heroStats;
+  const articleIntro = pc.articleIntro ?? FALLBACK.articleIntro;
+  const pressCoverageIntro = pc.pressCoverageIntro ?? FALLBACK.pressCoverageIntro;
+  const pressCoverageTable = pc.pressCoverageTable ?? FALLBACK.pressCoverageTable;
+  const quote = pc.quote ?? FALLBACK.quote;
+  const quoteAttribution = pc.quoteAttribution ?? FALLBACK.quoteAttribution;
+  const pressScreenshots = pc.pressScreenshots ?? FALLBACK.pressScreenshots;
+  const crossCorroborationIntro = pc.crossCorroborationIntro ?? FALLBACK.crossCorroborationIntro;
+  const sourceIndependenceTable = pc.sourceIndependenceTable ?? FALLBACK.sourceIndependenceTable;
+  const guidebookSegments = pc.guidebookSegments ?? FALLBACK.guidebookSegments;
+  const guidebookImages = pc.guidebookImages ?? FALLBACK.guidebookImages;
+  const partnershipTable = pc.partnershipTable ?? FALLBACK.partnershipTable;
+  const partnershipOutroSegments = pc.partnershipOutroSegments ?? FALLBACK.partnershipOutroSegments;
+  const whatWeDontClaim = pc.whatWeDontClaim ?? FALLBACK.whatWeDontClaim;
+  const howToVerifyList = pc.howToVerifyList ?? FALLBACK.howToVerifyList;
+
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -94,12 +252,7 @@ export default async function PressRecognitionPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Press articles", value: "4 independent" },
-                { label: "Newsrooms", value: "3 unrelated" },
-                { label: "Latest", value: "2024 (BBKSDA)" },
-                { label: "Paid placements", value: "0" },
-              ].map(({ label, value }) => (
+              {heroStats.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
                   <strong className={`font-semibold text-sm text-right ${value === "0" ? "text-[#8CC63F]" : "text-white"}`}>{value}</strong>
@@ -145,12 +298,12 @@ export default async function PressRecognitionPage() {
             <article className="bg-white rounded-2xl p-8 md:p-10">
               <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#9ca3af] mb-5">Audit record · PRESS-001</span>
               <p className="text-[17px] text-[#374151] font-light leading-relaxed mb-8">
-                JVTO does not run paid press placements. Every reference below is independently authored — three unrelated journalists, a government conservation agency, and a German travel publisher — none of them paid, all of them link-checkable.
+                {articleIntro}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Independent press coverage</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
-                The first three articles form a cross-corroboration of the same person — Bripka Agung Sambuko — across separate newsrooms. The fourth is the park authority itself documenting the training chain JVTO's guides belong to.
+                {pressCoverageIntro}
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse mb-10">
@@ -161,65 +314,36 @@ export default async function PressRecognitionPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
-                        2021-03-14
-                        <br />
-                        <span className="font-normal text-[#9ca3af] text-[13px]">Detik.com</span>
-                      </td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        <em>"Suka Duka Polisi Pariwisata Bondowoso."</em> Indonesia's top-traffic news outlet quotes Bripka Agung Sambuko as active Tourist Police during a COVID-19 overnight deployment at Kawah Wurung.{" "}
-                        <a href="https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" target="_blank" rel="noopener noreferrer" className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Read →</a>
-                      </td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
-                        2021-03-24
-                        <br />
-                        <span className="font-normal text-[#9ca3af] text-[13px]">Radar Jember</span>
-                      </td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        <em>"Polpar Dibentuk untuk Mendukung Ijen Geopark."</em> Regional press reports the Tourist Police unit was formed specifically to support the Ijen Geopark — confirming the role is institutional.{" "}
-                        <span className="font-mono text-[12.5px] text-[#9ca3af]">(paywalled)</span>
-                      </td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
-                        2021-05-27
-                        <br />
-                        <span className="font-normal text-[#9ca3af] text-[13px]">Radar Jember</span>
-                      </td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        <em>"Tak Seharusnya Bau Menyengat Itu Ada."</em> Active Tourist Police patrol at the Ijen crater, monitoring sulfuric-odor conditions and visitor safety.{" "}
-                        <span className="font-mono text-[12.5px] text-[#9ca3af]">(paywalled)</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
-                        2024-05-24
-                        <br />
-                        <span className="font-normal text-[#9ca3af] text-[13px]">BBKSDA Jawa Timur</span>
-                      </td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        <em>"Pelatihan Pemandu Kawah Ijen."</em> The park authority's own report on a 3-day guide training (SAR + emergency medical) for HPWKI members at Paltuding — proof HPWKI membership equals government-supervised training.{" "}
-                        <a href="https://bbksdajatim.org/pelatihan-pemandu-kawah-ijen/" target="_blank" rel="noopener noreferrer" className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Read →</a>
-                      </td>
-                    </tr>
+                    {pressCoverageTable.map((row, idx) => (
+                      <tr key={row.date + row.pub} style={idx < pressCoverageTable.length - 1 ? { borderBottom: "1px solid #E3E0DA" } : undefined}>
+                        <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
+                          {row.date}
+                          <br />
+                          <span className="font-normal text-[#9ca3af] text-[13px]">{row.pub}</span>
+                        </td>
+                        <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
+                          <em>{row.title}</em> {row.body}{" "}
+                          {row.link && (
+                            <a href={row.link.href} target="_blank" rel="noopener noreferrer" className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">{row.link.text}</a>
+                          )}
+                          {row.note && (
+                            <span className="font-mono text-[12.5px] text-[#9ca3af]">{row.note}</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
 
               <blockquote className="border-l-4 border-jvto-orange pl-5 my-6">
-                <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">"Ya mau gimana lagi, Mas. Sudah tugas. Yang penting, masyarakat yang berwisata aman."</p>
+                <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">{quote}</p>
               </blockquote>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6 -mt-2">
-                — Bripka Agung Sambuko, Detik.com, 14 March 2021.
+                {quoteAttribution}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                {[
-                  { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
-                  { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
-                ].map(({ src, label, href }) => (
+                {pressScreenshots.map(({ src, label, href }) => (
                   <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
                     <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
                       <Image src={src} alt={`Press screenshot: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
@@ -231,7 +355,7 @@ export default async function PressRecognitionPage() {
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Why cross-corroboration matters</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
-                Three unrelated journalists, across two newsrooms, independently named the same officer in Tourist Police contexts — with no JVTO involvement in any of them. This is the standard for confidence: it is not JVTO claiming police status; it is the press, the park authority, and a travel publisher converging on the same person.
+                {crossCorroborationIntro}
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse mb-10">
@@ -242,12 +366,7 @@ export default async function PressRecognitionPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[
-                      { source: "Detik.com", independence: "National commercial media" },
-                      { source: "Radar Jember (×2)", independence: "Regional commercial media (Jawa Pos group)" },
-                      { source: "BBKSDA Jatim", independence: "Government conservation agency" },
-                      { source: "Stefan Loose", independence: "International travel publisher" },
-                    ].map(({ source, independence }) => (
+                    {sourceIndependenceTable.map(({ source, independence }) => (
                       <tr key={source} style={{ borderBottom: "1px solid #E3E0DA" }}>
                         <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">{source}</td>
                         <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">{independence}</td>
@@ -259,13 +378,10 @@ export default async function PressRecognitionPage() {
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Guidebook mention</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-6">
-                <strong className="text-jvto-navy font-semibold">Stefan Loose Reiseführer Indonesien</strong>, 4th Edition (DuMont Reiseverlag, 2018, ISBN 978-3-7701-7881-0), names "Agung" as the operator of Ijen Bondowoso Homestay on <strong className="text-jvto-navy font-semibold">page 287</strong> — an editorial recommendation in a major German-language travel guide, not a paid placement. It establishes that the founder was operating and attracting international visitors before any digital marketing existed.
+                {renderRich(guidebookSegments)}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                {[
-                  { src: "/history/stefan-loose-ijen-bondowoso-page.png", alt: "Stefan Loose Reiseführer Indonesien page 287 — Ijen Bondowoso Homestay entry" },
-                  { src: "/history/stefan_loose_crop_enh.jpg", alt: "Close-up of Stefan Loose guide entry naming Agung as operator" },
-                ].map(({ src, alt }) => (
+                {guidebookImages.map(({ src, alt }) => (
                   <div key={src} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2]" style={{ border: "1px solid #E3E0DA" }}>
                     <Image src={src} alt={alt} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
                   </div>
@@ -282,42 +398,31 @@ export default async function PressRecognitionPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">HPWKI</td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        State-recognized Ijen guide association · <span className="font-mono text-[12.5px]">AHU-0001072.AH.01.07.TAHUN 2024</span>. Membership = BBKSDA-supervised safety training.
-                      </td>
-                    </tr>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">ISIC</td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        UNESCO-endorsed student-identity program · <a href="https://www.isic.org/discounts/?providerId=259268" target="_blank" rel="noopener noreferrer" className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Provider 259268</a>.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">INDECON</td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
-                        Indonesian Ecotourism Network member · <a href="https://www.indecon.id/spotlight-networks/java-volcano-tour-operator" target="_blank" rel="noopener noreferrer" className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">network listing</a>, validating the community "Local Boys" policy.
-                      </td>
-                    </tr>
+                    {partnershipTable.map((row, idx) => (
+                      <tr key={row.partner} style={idx < partnershipTable.length - 1 ? { borderBottom: "1px solid #E3E0DA" } : undefined}>
+                        <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">{row.partner}</td>
+                        <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">
+                          {renderRich(row.segments)}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
-                Earlier institutional recognition — the Booking.com Guest Review Award (9.4/10, 2015) — is documented on the <Link href="/verify-jvto/history-artifacts" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">History &amp; Artifacts page</Link>.
+                {renderRich(partnershipOutroSegments)}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What we don't claim</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
-                We do not claim a Condé Nast feature, an Aman partnership, or any recognition we have not earned. We are a niche operator with a niche reputation. The references above are real and link-checkable; everything else, we leave to other operators.
+                {whatWeDontClaim}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>How to verify</h2>
               <ol className="space-y-2 pl-5 list-decimal">
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Open the Detik.com and BBKSDA links above directly — both are full-access.</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">For the paywalled Radar Jember pieces, search the title on radarjember.jawapos.com.</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">For ISIC and INDECON, search "Java Volcano Tour Operator" on each official site.</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">For Stefan Loose, check ISBN 978-3-7701-7881-0, page 287.</li>
+                {howToVerifyList.map((item, i) => (
+                  <li key={i} className="text-[15px] text-[#374151] font-light leading-relaxed">{item}</li>
+                ))}
               </ol>
             </article>
           </div>

@@ -1,6 +1,7 @@
 import { getDocsByGroup } from "@/lib/data-loader";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
@@ -41,14 +42,155 @@ const POLICE_CREDENTIALS = [
   },
 ];
 
+// Rich-text segment: plain text, or text wrapped in strong/em, or a link
+// (external if href starts with http, internal Link if it starts with "/").
+type RichSegment = { text: string; strong?: boolean; em?: boolean; href?: string };
+
+function renderRich(segments: RichSegment[]) {
+  return segments.map((seg, i) => {
+    if (seg.href) {
+      const className = "text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors";
+      if (seg.href.startsWith("/")) {
+        return (
+          <Link key={i} href={seg.href} prefetch={false} className={className}>
+            {seg.text}
+          </Link>
+        );
+      }
+      return (
+        <a key={i} href={seg.href} target="_blank" rel="noopener noreferrer" className={className}>
+          {seg.text}
+        </a>
+      );
+    }
+    if (seg.strong) return <strong key={i} className="text-jvto-navy font-semibold">{seg.text}</strong>;
+    if (seg.em) return <em key={i}>{seg.text}</em>;
+    return <span key={i}>{seg.text}</span>;
+  });
+}
+
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  heroStats: [
+    { label: "Officer", value: "Bripka Agung Sambuko" },
+    { label: "Unit", value: "Ditpamobvit · East Java" },
+    { label: "SPRIN documents", value: "2 · SHA-256 anchored" },
+    { label: "Evidence layers", value: "4" },
+  ],
+  articleIntro: "\"Tourist Police-Led\" is a strong claim. Here is exactly what is behind it — and how to check each layer without taking our word for any of it.",
+  whatPoliceLedMeansSegments: [
+    { text: "JVTO founder Agung Sambuko (\"Mr. Sam\") is " },
+    { text: "Bripka Agung Sambuko", strong: true },
+    { text: " — an active serving officer of the Indonesian National Police (Polri), assigned to " },
+    { text: "Ditpamobvit", strong: true },
+    { text: " (Direktorat Pengamanan Objek Vital — the Directorate of Vital Object Security, East Java). Ditpamobvit's mandate covers tourist safety at designated vital objects, and the Kawah Ijen area is within that jurisdiction." },
+  ] as RichSegment[],
+  whatPoliceLedMeansPara2: "This is not a retired officer's background or an advisory title. It is active duty, documented annually in police travel orders. In practice it means:",
+  whatPoliceLedMeansList: [
+    "Every JVTO tour operates under someone with active institutional responsibility for tourist safety in this area — a legal duty, not a marketing position.",
+    "Traffic Police escort for airport and ferry transfers is requested through formal police channels, not sold as a private security service.",
+    "Police support-vehicle presence at group departures is photographed and recurring.",
+  ],
+  layer1Intro: "Two active-duty documents are on file, each published with a SHA-256 fingerprint so a copy you receive can be verified as unaltered.",
+  docsTable: [
+    { doc: "SPRIN POLPAR", dateLine: null as string | null, detail: "Surat Perintah — the formal assignment of Bripka Agung Sambuko to Tourist Police duties." },
+    { doc: "SPRIN WAL-TRAVEL", dateLine: "2024-02-12" as string | null, detail: "Police travel order authorizing him to accompany tourist groups on field operations. A 2024 date — an active-year order, not a historical artifact." },
+  ],
+  docImages: [
+    { src: "/legal/SPRIN-POLPAR.webp", label: "SPRIN POLPAR", hrefSuffix: "/legal/SPRIN-POLPAR.pdf" },
+    { src: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp", label: "SPRIN WAL-TRAVEL · 2024-02-12", hrefSuffix: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf" },
+  ],
+  docHashes: [
+    { label: "SPRIN POLPAR", hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab" },
+    { label: "SPRIN WAL-TRAVEL · 2024-02-12", hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3" },
+  ],
+  layer2Text: "Escort photographs document the police connection as a recurring operational pattern, not a one-off staged photo. Two arrival photos at the Bondowoso hotel — one in daylight, one at night, both showing the same type of patrol car and uniformed Traffic Police officer — establish repetition across separate trips. A further photo shows Mr. Sam conducting a Tourist Police briefing at the Ijen Geopark Information Center with local sulfur miners present: coordination with the Ijen community, not just guest-escort work.",
+  layer3Intro: "Three unrelated journalists across two publications named Bripka Agung Sambuko in Tourist Police contexts — with no JVTO involvement. No tour operator can arrange independent press across three separate stories.",
+  pressTable: [
+    { date: "2021-03-14", pub: "Detik.com", detail: "Direct quotes from Bripka Agung Sambuko during an overnight COVID-19 deployment at Kawah Wurung. National media, full access." },
+    { date: "2021-03-24", pub: "Radar Jember", detail: "The Tourist Police unit (Polpar) documented as an institutional response to the Ijen Geopark — confirming the role is structural, not personal." },
+    { date: "2021-05-27", pub: "Radar Jember", detail: "Active patrol at the Ijen crater monitoring sulfuric odor conditions — event-driven safety work, not a ceremonial title." },
+  ],
+  quote: "\"Sejak libur hari Kamis kemarin, saya tak pernah pulang. Stand by dan nginap di sini terus.\"",
+  quoteAttributionSegments: [
+    { text: "— Bripka Agung Sambuko to Detik.com, on staying on-site overnight at 10°C in rain and fog to enforce health protocols (14 March 2021). Full coverage on the " },
+    { text: "Press & Recognition page", href: "/verify-jvto/press-recognition" },
+    { text: "." },
+  ] as RichSegment[],
+  pressScreenshots: [
+    { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
+    { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
+  ],
+  institutionalTable: [
+    { field: "Rank", value: "Bripka (Brigadir Kepala — Senior Constable, Indonesian National Police)" },
+    { field: "Unit", value: "Ditpamobvit — Direktorat Pengamanan Objek Vital (Directorate of Vital Object Security)" },
+    { field: "Sub-unit", value: "East Java Tourist Police (Polisi Pariwisata — Polpar)" },
+    { field: "Scope", value: "Tourist safety at designated vital objects in East Java, including the Kawah Ijen area" },
+  ],
+  rulesOutIntro: "No single document is the whole argument. Together, the four layers answer every skeptical question:",
+  rulesOutList: [
+    { title: "Document", before: "SPRIN POLPAR + SPRIN WAL-TRAVEL (SHA-256) rule out ", em: "\"the founder just claims to be a police officer.\"", after: "" },
+    { title: "Visual", before: "Day and night escort photos + the Geopark briefing rule out ", em: "\"the police connection is theoretical, not operational.\"", after: "" },
+    { title: "Press", before: "Three independent articles across two newsrooms rule out ", em: "\"only JVTO says this — no independent verification exists.\"", after: "" },
+    { title: "Institutional", before: "The Polpar unit formed to support the Ijen Geopark rules out ", em: "\"this is a personal affiliation, not an institutional structure.\"", after: "" },
+  ],
+  trafficEscortText: "JVTO submits a formal request to the Traffic Police (Lalu Lintas) — it does not provide its own escort or operate a private security service. When the request is granted, a uniformed Traffic Police officer accompanies the transfer vehicle in a Polri patrol car. That is why the escort photos show a real officer and a real patrol car, not branded security guards.",
+  healthScreeningSegments: [
+    { text: "A health certificate is mandatory for every guest before Kawah Ijen crater entry. This is a " },
+    { text: "regulatory requirement set by BBKSDA", strong: true },
+    { text: " (Surat Edaran SE.1658/KSA.9/2024, cited as supporting authority), not a rule JVTO invents. JVTO coordinates the mandatory clinic workflow with Dr. Ahmad Irwandanu (SIP-licensed, Kemenkes-verifiable). The check measures oxygen saturation, blood pressure, heart rate, and respiratory history; a QR-verified " },
+    { text: "surat sehat", em: true },
+    { text: " is issued and scanned at the BBKSDA access gate. Screening can be done at " },
+    { text: "Klinik Bakti Husada", strong: true },
+    { text: " (Bondowoso), " },
+    { text: "Puskesmas Licin", strong: true },
+    { text: " (Banyuwangi), or at your partner hotel before departure." },
+  ] as RichSegment[],
+  healthScreeningOutroSegments: [
+    { text: "Full protocol, personnel, and regulatory basis are on the " },
+    { text: "Ijen health-screening guide", href: "/travel-guide/ijen-health-screening" },
+    { text: "." },
+  ] as RichSegment[],
+  whatWeWillNotDoText: "We will not stage uniformed photo opportunities, we will not exaggerate police involvement on individual tours, and we will not claim authority over locations where we do not coordinate. The line is honest; the operation behind it is honest too.",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo);
   return { title: seo.title, description: seo.description };
 }
 
 export default async function PoliceSafetyPage() {
-  const seo = await getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo);
-  const docs = await getDocsByGroup("policeSafety");
+  const [seo, docs, page] = await Promise.all([
+    getEcosystemPageSeo("/verify-jvto/police-safety", fallbackSeo),
+    getDocsByGroup("policeSafety"),
+    loadEcosystemPage("/verify-jvto/police-safety"),
+  ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+
+  const heroStats = pc.heroStats ?? FALLBACK.heroStats;
+  const articleIntro = pc.articleIntro ?? FALLBACK.articleIntro;
+  const whatPoliceLedMeansSegments = pc.whatPoliceLedMeansSegments ?? FALLBACK.whatPoliceLedMeansSegments;
+  const whatPoliceLedMeansPara2 = pc.whatPoliceLedMeansPara2 ?? FALLBACK.whatPoliceLedMeansPara2;
+  const whatPoliceLedMeansList = pc.whatPoliceLedMeansList ?? FALLBACK.whatPoliceLedMeansList;
+  const layer1Intro = pc.layer1Intro ?? FALLBACK.layer1Intro;
+  const docsTable = pc.docsTable ?? FALLBACK.docsTable;
+  const docImages = pc.docImages ?? FALLBACK.docImages;
+  const docHashes = pc.docHashes ?? FALLBACK.docHashes;
+  const layer2Text = pc.layer2Text ?? FALLBACK.layer2Text;
+  const layer3Intro = pc.layer3Intro ?? FALLBACK.layer3Intro;
+  const pressTable = pc.pressTable ?? FALLBACK.pressTable;
+  const quote = pc.quote ?? FALLBACK.quote;
+  const quoteAttributionSegments = pc.quoteAttributionSegments ?? FALLBACK.quoteAttributionSegments;
+  const pressScreenshots = pc.pressScreenshots ?? FALLBACK.pressScreenshots;
+  const institutionalTable = pc.institutionalTable ?? FALLBACK.institutionalTable;
+  const rulesOutIntro = pc.rulesOutIntro ?? FALLBACK.rulesOutIntro;
+  const rulesOutList = pc.rulesOutList ?? FALLBACK.rulesOutList;
+  const trafficEscortText = pc.trafficEscortText ?? FALLBACK.trafficEscortText;
+  const healthScreeningSegments = pc.healthScreeningSegments ?? FALLBACK.healthScreeningSegments;
+  const healthScreeningOutroSegments = pc.healthScreeningOutroSegments ?? FALLBACK.healthScreeningOutroSegments;
+  const whatWeWillNotDoText = pc.whatWeWillNotDoText ?? FALLBACK.whatWeWillNotDoText;
+
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -117,12 +259,7 @@ export default async function PoliceSafetyPage() {
               </p>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Officer", value: "Bripka Agung Sambuko" },
-                { label: "Unit", value: "Ditpamobvit · East Java" },
-                { label: "SPRIN documents", value: "2 · SHA-256 anchored" },
-                { label: "Evidence layers", value: "4" },
-              ].map(({ label, value }) => (
+              {heroStats.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
                   <strong className="font-semibold text-sm text-right text-white">{value}</strong>
@@ -168,25 +305,25 @@ export default async function PoliceSafetyPage() {
             <article className="bg-white rounded-2xl p-8 md:p-10">
               <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#9ca3af] mb-5">Audit record · SAFE-001</span>
               <p className="text-[17px] text-[#374151] font-light leading-relaxed mb-8">
-                "Tourist Police-Led" is a strong claim. Here is exactly what is behind it — and how to check each layer without taking our word for any of it.
+                {articleIntro}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What "police-led" means operationally</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
-                JVTO founder Agung Sambuko ("Mr. Sam") is <strong className="text-jvto-navy font-semibold">Bripka Agung Sambuko</strong> — an active serving officer of the Indonesian National Police (Polri), assigned to <strong className="text-jvto-navy font-semibold">Ditpamobvit</strong> (Direktorat Pengamanan Objek Vital — the Directorate of Vital Object Security, East Java). Ditpamobvit's mandate covers tourist safety at designated vital objects, and the Kawah Ijen area is within that jurisdiction.
+                {renderRich(whatPoliceLedMeansSegments)}
               </p>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
-                This is not a retired officer's background or an advisory title. It is active duty, documented annually in police travel orders. In practice it means:
+                {whatPoliceLedMeansPara2}
               </p>
               <ul className="space-y-2 mb-8 pl-5 list-disc marker:text-jvto-orange">
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Every JVTO tour operates under someone with active institutional responsibility for tourist safety in this area — a legal duty, not a marketing position.</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Traffic Police escort for airport and ferry transfers is requested through formal police channels, not sold as a private security service.</li>
-                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Police support-vehicle presence at group departures is photographed and recurring.</li>
+                {whatPoliceLedMeansList.map((item, i) => (
+                  <li key={i} className="text-[15px] text-[#374151] font-light leading-relaxed">{item}</li>
+                ))}
               </ul>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Layer 1 — Official police documents</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
-                Two active-duty documents are on file, each published with a SHA-256 fingerprint so a copy you receive can be verified as unaltered.
+                {layer1Intro}
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse mb-6">
@@ -197,27 +334,26 @@ export default async function PoliceSafetyPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: "1px solid #E3E0DA" }}>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">SPRIN POLPAR</td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">Surat Perintah — the formal assignment of Bripka Agung Sambuko to Tourist Police duties.</td>
-                    </tr>
-                    <tr>
-                      <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55]">
-                        SPRIN WAL-TRAVEL
-                        <br />
-                        <span className="font-normal text-[#9ca3af] text-[13px]">2024-02-12</span>
-                      </td>
-                      <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">Police travel order authorizing him to accompany tourist groups on field operations. A 2024 date — an active-year order, not a historical artifact.</td>
-                    </tr>
+                    {docsTable.map((row, idx) => (
+                      <tr key={row.doc} style={idx < docsTable.length - 1 ? { borderBottom: "1px solid #E3E0DA" } : undefined}>
+                        <td className={`font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] ${row.dateLine ? "" : "whitespace-nowrap"}`}>
+                          {row.doc}
+                          {row.dateLine && (
+                            <>
+                              <br />
+                              <span className="font-normal text-[#9ca3af] text-[13px]">{row.dateLine}</span>
+                            </>
+                          )}
+                        </td>
+                        <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">{row.detail}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-6">
-                {[
-                  { src: "/legal/SPRIN-POLPAR.webp", label: "SPRIN POLPAR", href: `${BASE_URL}/legal/SPRIN-POLPAR.pdf` },
-                  { src: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp", label: "SPRIN WAL-TRAVEL · 2024-02-12", href: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf` },
-                ].map(({ src, label, href }) => (
-                  <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
+                {docImages.map(({ src, label, hrefSuffix }) => (
+                  <a key={src} href={`${BASE_URL}${hrefSuffix}`} target="_blank" rel="noopener noreferrer" className="group">
                     <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
                       <Image src={src} alt={`Document preview: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 768px) 50vw, 33vw" />
                     </div>
@@ -226,24 +362,22 @@ export default async function PoliceSafetyPage() {
                 ))}
               </div>
               <ul className="mb-10" style={{ borderTop: "1px solid #E3E0DA" }}>
-                <li className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>
-                  <span className="font-bold text-[15px] text-jvto-navy">SPRIN POLPAR</span>
-                  <span className="font-mono text-[11.5px] text-[#9ca3af] break-all leading-relaxed">03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab</span>
-                </li>
-                <li className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>
-                  <span className="font-bold text-[15px] text-jvto-navy">SPRIN WAL-TRAVEL · 2024-02-12</span>
-                  <span className="font-mono text-[11.5px] text-[#9ca3af] break-all leading-relaxed">179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3</span>
-                </li>
+                {docHashes.map(({ label, hash }) => (
+                  <li key={label} className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>
+                    <span className="font-bold text-[15px] text-jvto-navy">{label}</span>
+                    <span className="font-mono text-[11.5px] text-[#9ca3af] break-all leading-relaxed">{hash}</span>
+                  </li>
+                ))}
               </ul>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Layer 2 — Field operations</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
-                Escort photographs document the police connection as a recurring operational pattern, not a one-off staged photo. Two arrival photos at the Bondowoso hotel — one in daylight, one at night, both showing the same type of patrol car and uniformed Traffic Police officer — establish repetition across separate trips. A further photo shows Mr. Sam conducting a Tourist Police briefing at the Ijen Geopark Information Center with local sulfur miners present: coordination with the Ijen community, not just guest-escort work.
+                {layer2Text}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Layer 3 — Independent press</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
-                Three unrelated journalists across two publications named Bripka Agung Sambuko in Tourist Police contexts — with no JVTO involvement. No tour operator can arrange independent press across three separate stories.
+                {layer3Intro}
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse mb-6">
@@ -254,11 +388,7 @@ export default async function PoliceSafetyPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[
-                      { date: "2021-03-14", pub: "Detik.com", detail: "Direct quotes from Bripka Agung Sambuko during an overnight COVID-19 deployment at Kawah Wurung. National media, full access." },
-                      { date: "2021-03-24", pub: "Radar Jember", detail: "The Tourist Police unit (Polpar) documented as an institutional response to the Ijen Geopark — confirming the role is structural, not personal." },
-                      { date: "2021-05-27", pub: "Radar Jember", detail: "Active patrol at the Ijen crater monitoring sulfuric odor conditions — event-driven safety work, not a ceremonial title." },
-                    ].map(({ date, pub, detail }) => (
+                    {pressTable.map(({ date, pub, detail }) => (
                       <tr key={date} style={{ borderBottom: "1px solid #E3E0DA" }}>
                         <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">
                           {date}
@@ -272,16 +402,13 @@ export default async function PoliceSafetyPage() {
                 </table>
               </div>
               <blockquote className="border-l-4 border-jvto-orange pl-5 my-6">
-                <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">"Sejak libur hari Kamis kemarin, saya tak pernah pulang. Stand by dan nginap di sini terus."</p>
+                <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">{quote}</p>
               </blockquote>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6 -mt-2">
-                — Bripka Agung Sambuko to Detik.com, on staying on-site overnight at 10°C in rain and fog to enforce health protocols (14 March 2021). Full coverage on the <Link href="/verify-jvto/press-recognition" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Press &amp; Recognition page</Link>.
+                {renderRich(quoteAttributionSegments)}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                {[
-                  { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
-                  { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
-                ].map(({ src, label, href }) => (
+                {pressScreenshots.map(({ src, label, href }) => (
                   <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
                     <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
                       <Image src={src} alt={`Press screenshot: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
@@ -301,12 +428,7 @@ export default async function PoliceSafetyPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[
-                      { field: "Rank", value: "Bripka (Brigadir Kepala — Senior Constable, Indonesian National Police)" },
-                      { field: "Unit", value: "Ditpamobvit — Direktorat Pengamanan Objek Vital (Directorate of Vital Object Security)" },
-                      { field: "Sub-unit", value: "East Java Tourist Police (Polisi Pariwisata — Polpar)" },
-                      { field: "Scope", value: "Tourist safety at designated vital objects in East Java, including the Kawah Ijen area" },
-                    ].map(({ field, value }) => (
+                    {institutionalTable.map(({ field, value }) => (
                       <tr key={field} style={{ borderBottom: "1px solid #E3E0DA" }}>
                         <td className="font-bold text-jvto-navy py-4 pr-4 align-top text-[15px] leading-[1.55] whitespace-nowrap">{field}</td>
                         <td className="text-jvto-navy py-4 align-top text-[15px] leading-[1.55] font-light">{value}</td>
@@ -317,19 +439,14 @@ export default async function PoliceSafetyPage() {
               </div>
 
               <h3 className="font-bold text-lg mt-8 mb-3 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What each layer rules out</h3>
-              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">No single document is the whole argument. Together, the four layers answer every skeptical question:</p>
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">{rulesOutIntro}</p>
               <ol className="mb-10" style={{ borderTop: "1px solid #E3E0DA" }}>
-                {([
-                  { title: "Document", desc: <>SPRIN POLPAR + SPRIN WAL-TRAVEL (SHA-256) rule out <em className="text-jvto-navy">"the founder just claims to be a police officer."</em></> },
-                  { title: "Visual", desc: <>Day and night escort photos + the Geopark briefing rule out <em className="text-jvto-navy">"the police connection is theoretical, not operational."</em></> },
-                  { title: "Press", desc: <>Three independent articles across two newsrooms rule out <em className="text-jvto-navy">"only JVTO says this — no independent verification exists."</em></> },
-                  { title: "Institutional", desc: <>The Polpar unit formed to support the Ijen Geopark rules out <em className="text-jvto-navy">"this is a personal affiliation, not an institutional structure."</em></> },
-                ] as const).map(({ title, desc }, i) => (
+                {rulesOutList.map(({ title, before, em, after }, i) => (
                   <li key={title} className="grid items-start gap-4 py-5" style={{ borderBottom: "1px solid #E3E0DA", gridTemplateColumns: "34px 1fr" }}>
                     <span className="font-mono text-[12px] font-bold text-jvto-orange bg-orange-50 rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0">{i + 1}</span>
                     <div>
                       <div className="font-bold text-jvto-navy text-[17px] mb-1 leading-tight" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{title}</div>
-                      <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">{desc}</p>
+                      <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">{before}<em className="text-jvto-navy">{em}</em>{after}</p>
                     </div>
                   </li>
                 ))}
@@ -337,20 +454,20 @@ export default async function PoliceSafetyPage() {
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>How the Traffic Police escort actually works</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
-                JVTO submits a formal request to the Traffic Police (Lalu Lintas) — it does not provide its own escort or operate a private security service. When the request is granted, a uniformed Traffic Police officer accompanies the transfer vehicle in a Polri patrol car. That is why the escort photos show a real officer and a real patrol car, not branded security guards.
+                {trafficEscortText}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Health screening — mandatory for every Ijen guest</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
-                A health certificate is mandatory for every guest before Kawah Ijen crater entry. This is a <strong className="text-jvto-navy font-semibold">regulatory requirement set by BBKSDA</strong> (Surat Edaran SE.1658/KSA.9/2024, cited as supporting authority), not a rule JVTO invents. JVTO coordinates the mandatory clinic workflow with Dr. Ahmad Irwandanu (SIP-licensed, Kemenkes-verifiable). The check measures oxygen saturation, blood pressure, heart rate, and respiratory history; a QR-verified <em>surat sehat</em> is issued and scanned at the BBKSDA access gate. Screening can be done at <strong className="text-jvto-navy font-semibold">Klinik Bakti Husada</strong> (Bondowoso), <strong className="text-jvto-navy font-semibold">Puskesmas Licin</strong> (Banyuwangi), or at your partner hotel before departure.
+                {renderRich(healthScreeningSegments)}
               </p>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
-                Full protocol, personnel, and regulatory basis are on the <Link href="/travel-guide/ijen-health-screening" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Ijen health-screening guide</Link>.
+                {renderRich(healthScreeningOutroSegments)}
               </p>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What we will not do</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed">
-                We will not stage uniformed photo opportunities, we will not exaggerate police involvement on individual tours, and we will not claim authority over locations where we do not coordinate. The line is honest; the operation behind it is honest too.
+                {whatWeWillNotDoText}
               </p>
             </article>
           </div>
