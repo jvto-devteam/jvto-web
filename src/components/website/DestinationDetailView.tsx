@@ -99,48 +99,53 @@ const FALLBACK_VOLCANIC_VANTAGES: Record<string, {
   },
 };
 
-// Icons are structural (not editorial content) and stay in code, zipped by index with
-// the ekosistem-sourced { title, desc, meta } tile content below.
-const WHY_TILES_ICONS = [
-  () => (
+// Icons are structural (not editorial content) and stay in code, looked up by the
+// `icon` identifier on each ekosistem-sourced { title, desc, meta, icon } tile below —
+// never by array position (a reordered/added/removed tile must not silently mismatch).
+const WHY_TILES_ICONS: Record<string, () => React.ReactNode> = {
+  shield: () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
     </svg>
   ),
-  () => (
+  crew: () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
     </svg>
   ),
-  () => (
+  checklist: () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
     </svg>
   ),
-  () => (
+  calendar: () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/>
     </svg>
   ),
-];
+};
 
 const FALLBACK_WHY_TILES = [
   {
+    icon: "shield",
     title: "Police-led",
     desc: "Founder Mr. Sam (Bripka Agung Sambuko) is an active Ditpamobvit officer. Route decisions answer to police protocol, not marketing metrics.",
     meta: "Authority",
   },
   {
+    icon: "crew",
     title: "100% private",
     desc: "Your own vehicle, driver, and crew — no shared jeeps, no strangers, no compromise on timing or pace.",
     meta: "Private",
   },
   {
+    icon: "checklist",
     title: "All-inclusive",
     desc: "Transport, entrance fees, accommodation, water, and T-shirt bundled. No surprise local payments on the day.",
     meta: "Written inclusions",
   },
   {
+    icon: "calendar",
     title: "Verifiable",
     desc: "NIB 1102230032918 checkable at OSS. POLPAR, BBKSDA, and HPWKI credentials listed. Every document publicly verifiable before you pay.",
     meta: "Proof library",
@@ -576,8 +581,8 @@ export default function DestinationDetailView({
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {whyTiles.map(({ title, desc, meta }, i) => {
-              const Icon = WHY_TILES_ICONS[i] ?? WHY_TILES_ICONS[0];
+            {whyTiles.map(({ icon, title, desc, meta }) => {
+              const Icon = WHY_TILES_ICONS[icon] ?? WHY_TILES_ICONS.shield;
               return (
               <div
                 key={title}

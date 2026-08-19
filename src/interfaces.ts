@@ -107,7 +107,7 @@ export interface DestinationDetail {
     linkHref: string;
     linkLabel: string;
   } | null;
-  why_jvto_tiles?: Array<{ title: string; desc: string; meta: string }>;
+  why_jvto_tiles?: Array<{ icon: string; title: string; desc: string; meta: string }>;
   inclusions?: string[];
 }
 

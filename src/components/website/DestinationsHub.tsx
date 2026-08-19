@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
-import type { PublicDestinationListSnapshot } from "@/lib/publicContent/types";
+import type { EcosystemDestinationListItem } from "@/lib/ecosystemContent/destinationDetail";
 
-type DestItem = PublicDestinationListSnapshot["items"][number];
+type DestItem = EcosystemDestinationListItem;
 
 interface Props {
   items: DestItem[];
@@ -158,25 +158,24 @@ export default function DestinationsHub({ items, answerFirst, lastReviewed, tran
           {items.map((dest, i) => {
             const slug = dest.slug ?? "";
             const fallbackIndex = String(i + 1).padStart(2, "0");
-            const destAny = dest as any;
             const fallbackDisplay = FALLBACK_DEST_DISPLAY[slug];
             const meta = {
               index: fallbackDisplay?.index ?? fallbackIndex,
-              region: destAny.hub_region ?? fallbackDisplay?.region ?? "",
+              region: dest.hub_region ?? fallbackDisplay?.region ?? "",
               elevation:
-                destAny.hub_elevation_label ??
+                dest.hub_elevation_label ??
                 fallbackDisplay?.elevation ??
                 (dest.geo?.altitude
                   ? `${Number(dest.geo.altitude).toLocaleString()} m`
                   : ""),
               diff:
-                destAny.hub_difficulty_label ??
+                dest.hub_difficulty_label ??
                 fallbackDisplay?.diff ??
                 dest.keyInfo?.difficulty_level ??
                 "",
               chips:
-                ((Array.isArray(destAny.hub_chips) && destAny.hub_chips.length > 0
-                  ? destAny.hub_chips
+                ((Array.isArray(dest.hub_chips) && dest.hub_chips.length > 0
+                  ? dest.hub_chips
                   : fallbackDisplay?.chips) ?? []) as string[],
             };
             const isReverse = i % 2 !== 0;
