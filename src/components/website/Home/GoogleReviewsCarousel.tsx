@@ -1,101 +1,65 @@
 import { cache } from "react";
-import { prisma } from "@/lib/prisma";
+import { getEcosystemReviews, type PublicReviewPhotos } from "@/lib/ecosystemContent/reviews";
 import { GoogleReviewsCarouselClient } from "./GoogleReviewsCarouselClient";
 import type {
   PublicReviewApiFeedItem,
   PublicReviewMediaItem,
 } from "@/lib/publicContent/types";
 
-function parseReviewMedia(photos: string | null): PublicReviewMediaItem[] {
-  if (!photos) return [];
+// jvto-ekosistem's reviews.json already hands back `photos` as a parsed object
+// (not a JSON string column like Prisma's), so this just projects it into
+// PublicReviewMediaItem[] instead of JSON.parse-ing anything.
+function parseReviewMedia(photos: PublicReviewPhotos | null): PublicReviewMediaItem[] {
+  if (!photos || !Array.isArray(photos.items)) return [];
 
-  try {
-    const parsed = JSON.parse(photos) as unknown;
-    if (!parsed || typeof parsed !== "object") return [];
+  const mediaItems: PublicReviewMediaItem[] = [];
 
-    const items = Array.isArray(parsed)
-      ? parsed
-      : Array.isArray((parsed as { items?: unknown }).items)
-        ? (parsed as { items: unknown[] }).items
-        : [];
+  photos.items.forEach((media, index) => {
+    if (!media || typeof media !== "object") return;
 
-    const mediaItems: PublicReviewMediaItem[] = [];
+    const thumbnailUrl = media.thumbnailUrl ?? null;
+    const videoUrl = media.videoUrl ?? null;
 
-    items.forEach((item, index) => {
-      if (!item || typeof item !== "object") return;
+    if (!thumbnailUrl && !videoUrl) return;
 
-      const media = item as Record<string, unknown>;
-      const thumbnailUrl =
-        typeof media.thumbnailUrl === "string"
-          ? media.thumbnailUrl
-          : typeof media.url === "string"
-            ? media.url
-            : null;
-      const videoUrl =
-        typeof media.videoUrl === "string" ? media.videoUrl : null;
-
-      if (!thumbnailUrl && !videoUrl) return;
-
-      mediaItems.push({
-        id:
-          typeof media.id === "string" ? media.id : `review-media-${index + 1}`,
-        type: media.type === "video" ? "video" : "photo",
-        thumbnailUrl,
-        thumbnailLabel:
-          typeof media.thumbnailLabel === "string"
-            ? media.thumbnailLabel
-            : null,
-        videoUrl,
-        source:
-          typeof media.source === "string"
-            ? media.source
-            : "Google Business Profile reviewMediaItems",
-      });
+    mediaItems.push({
+      id: media.id || `review-media-${index + 1}`,
+      type: media.type === "video" ? "video" : "photo",
+      thumbnailUrl,
+      thumbnailLabel: media.thumbnailLabel ?? null,
+      videoUrl,
+      source: media.source || "Google Business Profile reviewMediaItems",
     });
+  });
 
-    return mediaItems;
-  } catch {
-    return [];
-  }
+  return mediaItems;
 }
 
-// Query DB directly so we always show the latest Google reviews
-// (the static snapshot is regenerated infrequently; the DB is synced daily
-// via sync-google-reviews.yml → POST /api/review/sync-google)
+// Reads jvto-ekosistem's reviews.json (Phase 2 of the Google Reviews migration —
+// review CONTENT is no longer read from Prisma). That file is kept current daily
+// via ekosistem's own sync-google-reviews.yml workflow (server-side, ekosistem repo).
 const getLatestGoogleReviews = cache(
   async (): Promise<PublicReviewApiFeedItem[]> => {
-    const rows = await prisma.reviews.findMany({
-      where: { platform: "Google", star: { gte: 4 } },
-      orderBy: { date: "desc" },
-      take: 10,
-      select: {
-        id: true,
-        customer_name: true,
-        platform: true,
-        date: true,
-        star: true,
-        review: true,
-        photos: true,
-        url: true,
-        url_reference: true,
-        profile_photo: true,
-      },
-    });
+    const rows = await getEcosystemReviews();
 
-    return rows.map((r) => ({
-      id: r.id.toString(),
-      customer_name: r.customer_name,
-      platform: r.platform,
-      date: r.date.toISOString(),
-      star: r.star ?? 5,
-      review: r.review,
-      url: r.url || r.url_reference || null,
-      profile_photo: r.profile_photo,
-      review_media: parseReviewMedia(r.photos),
-      package_id: null,
-      crews: [],
-      has_internal_crew: false,
-    }));
+    return rows
+      .filter((r) => r.platform === "Google" && (r.star ?? 0) >= 4)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 10)
+      .map((r) => ({
+        id: r.id.toString(),
+        customer_name: r.customerName,
+        platform: r.platform,
+        date: new Date(r.date).toISOString(),
+        star: r.star ?? 5,
+        review: r.review,
+        url: r.url || r.urlReference || null,
+        profile_photo: null,
+        review_media: parseReviewMedia(r.photos),
+        package_id: null,
+        crews: [],
+        has_internal_crew: false,
+      }));
   },
 );
 

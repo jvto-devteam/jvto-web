@@ -1,17 +1,20 @@
 // app/why-jvto/reviews/[id]/page.tsx
 // Migrated 2026-08-18: package name/slug resolved from ekosistem instead of the Prisma
-// `packages` relation — reviews themselves stay Prisma (live/operational), but the
-// editorial package name+slug they reference now comes from the single content source.
-// The Prisma lookup below fetches ONLY the id->slug mapping (a stable foreign-key
-// resolution, not editorial content), then hands the slug to ekosistem for the name.
-import { prisma } from "@/lib/prisma";
+// `packages` relation.
+// Migrated 2026-08-19 (Phase 2 of the Google Reviews migration): the review record
+// itself now also comes from jvto-ekosistem's reviews.json instead of Prisma —
+// packageSlug/packageName are already baked onto each review record there, so the
+// separate Prisma packages lookup this page used to do is no longer needed at all.
+// `id` here is the numeric id preserved verbatim from Prisma's `reviews.id` at
+// export time — it is the same id this page's URL and JSON-LD `#review-{id}`
+// @id have always used, never renumbered.
 import { notFound } from "next/navigation";
 import Avatar from "@/components/website/Avatar";
 import { Star } from "lucide-react";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
+import { getEcosystemReviewById } from "@/lib/ecosystemContent/reviews";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -29,37 +32,27 @@ interface PageProps {
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
-async function resolveReviewPackage(
-  packageId: bigint | null,
-): Promise<{ name: string | null; slug: string | null }> {
-  if (packageId == null) return { name: null, slug: null };
-
-  const pkg = await prisma.packages.findUnique({
-    where: { id: packageId },
-    select: { slug: true },
-  });
-  if (!pkg?.slug) return { name: null, slug: null };
-
-  const ecosystemPkg = await getEcosystemTourPackageDetail(pkg.slug);
-  return { name: ecosystemPkg?.product.name ?? null, slug: pkg.slug };
+function packageUrlFor(slug: string | null): string {
+  if (!slug) return `${SITE_URL}/tours`;
+  return slug.startsWith("tours/")
+    ? `${SITE_URL}/${slug}`
+    : `${SITE_URL}/tours/${slug}`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const reviewId = BigInt(id);
+  const reviewId = Number(id);
 
-  const review = await prisma.reviews.findUnique({
-    where: { id: reviewId },
-    select: { id: true, customer_name: true, review: true, package_id: true },
-  });
+  const review = Number.isFinite(reviewId)
+    ? await getEcosystemReviewById(reviewId)
+    : null;
 
   if (!review) {
     return { title: "Review Not Found" };
   }
 
-  const { name: resolvedName } = await resolveReviewPackage(review.package_id);
-  const packageName = resolvedName ?? "Java Volcano Tour Package";
-  const title = `${review.customer_name} Review | ${packageName}`;
+  const packageName = review.packageName ?? "Java Volcano Tour Package";
+  const title = `${review.customerName} Review | ${packageName}`;
   const description =
     review.review?.slice(0, 160) ??
     `Customer review for ${packageName} with Java Volcano Tour Operator.`;
@@ -68,7 +61,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/why-jvto/reviews/${review.id.toString()}`,
+      canonical: `${SITE_URL}/why-jvto/reviews/${review.id}`,
     },
   };
 }
@@ -76,12 +69,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ReviewDetailPage({ params }: PageProps) {
   const { id } = await params;
 
-  const reviewId = BigInt(id);
+  const reviewId = Number(id);
 
   const [review, org] = await Promise.all([
-    prisma.reviews.findUnique({
-      where: { id: reviewId },
-    }),
+    Number.isFinite(reviewId) ? getEcosystemReviewById(reviewId) : Promise.resolve(null),
     getOrganizationProfile(),
   ]);
 
@@ -89,15 +80,10 @@ export default async function ReviewDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const { name: resolvedName, slug: resolvedSlug } = await resolveReviewPackage(
-    review.package_id,
-  );
+  const resolvedName = review.packageName;
+  const resolvedSlug = review.packageSlug;
   const packageName = resolvedName ?? "Java Volcano Tour Package";
-  const packageUrl = resolvedSlug
-    ? resolvedSlug.startsWith("tours/")
-      ? `${SITE_URL}/${resolvedSlug}`
-      : `${SITE_URL}/tours/${resolvedSlug}`
-    : `${SITE_URL}/tours`;
+  const packageUrl = packageUrlFor(resolvedSlug);
 
   const schema = {
     "@context": "https://schema.org",
@@ -106,9 +92,9 @@ export default async function ReviewDetailPage({ params }: PageProps) {
       buildWebSiteJsonLd(SITE_URL),
       {
         "@type": "WebPage",
-        "@id": `${SITE_URL}/why-jvto/reviews/${review.id.toString()}#webpage`,
-        url: `${SITE_URL}/why-jvto/reviews/${review.id.toString()}`,
-        name: `${review.customer_name} Review | ${packageName}`,
+        "@id": `${SITE_URL}/why-jvto/reviews/${review.id}#webpage`,
+        url: `${SITE_URL}/why-jvto/reviews/${review.id}`,
+        name: `${review.customerName} Review | ${packageName}`,
         description:
           review.review?.slice(0, 160) ??
           `Customer review for ${packageName} with Java Volcano Tour Operator.`,
@@ -117,7 +103,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
       },
       {
         "@type": "Product",
-        "@id": `${SITE_URL}/why-jvto/reviews/${review.id.toString()}#product`,
+        "@id": `${SITE_URL}/why-jvto/reviews/${review.id}#product`,
         name: packageName,
         brand: { "@id": `${SITE_URL}/#organization` },
         url: packageUrl,
@@ -131,10 +117,10 @@ export default async function ReviewDetailPage({ params }: PageProps) {
           },
           author: {
             "@type": "Person",
-            name: review.customer_name,
+            name: review.customerName,
           },
           reviewBody: review.review,
-          datePublished: review.date.toISOString(),
+          datePublished: new Date(review.date).toISOString(),
           publisher: { "@id": `${SITE_URL}/#organization` },
         },
       },
@@ -147,12 +133,12 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
       <header className="mb-8">
         <h1 className="text-3xl font-black text-slate-900">
-          {review.customer_name} Review
+          {review.customerName} Review
         </h1>
 
         <p className="text-sm text-gray-500 mt-2">
           Posted on{" "}
-          {review.date.toLocaleDateString("en-GB", {
+          {new Date(review.date).toLocaleDateString("en-GB", {
             year: "numeric",
             month: "long",
             day: "numeric",
@@ -162,12 +148,12 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
       <section className="flex items-center gap-4 mb-6">
         <Avatar
-          name={review.customer_name}
-          photo={review.profile_photo}
+          name={review.customerName}
+          photo={null}
           size={56}
         />
         <div>
-          <p className="font-bold text-slate-800">{review.customer_name}</p>
+          <p className="font-bold text-slate-800">{review.customerName}</p>
           <p className="text-sm text-gray-500">via {review.platform}</p>
         </div>
       </section>
