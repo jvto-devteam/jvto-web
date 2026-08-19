@@ -4,6 +4,8 @@ import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
+import type { QaPair } from "@/lib/tourFaqs";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -43,11 +45,15 @@ function compactIdr(value: number): string {
 }
 
 export default async function ToursPageGlobal() {
-  const [seo, initialTours, org] = await Promise.all([
+  const [seo, initialTours, org, page] = await Promise.all([
     getEcosystemPageSeo("/tours", fallbackSeo),
     getAllTours(),
     getOrganizationProfile(),
+    loadEcosystemPage("/tours"),
   ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as {
+    hubFaqPairs?: QaPair[];
+  };
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
@@ -103,7 +109,7 @@ export default async function ToursPageGlobal() {
 
   // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs)
   // + standalone AggregateRating cross-ref to Organization. Per cluster_role_contracts.md Cluster 1 hub MH.
-  const hubFaqSchema = buildToursHubFaqSchema();
+  const hubFaqSchema = buildToursHubFaqSchema(pc.hubFaqPairs);
   // Google Maps only — the single figure allowed to be presented as THE rating.
   // Null (both sources unreachable) => the node is omitted, never guessed.
   const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '', liveStats: await getPublicAggregateRating() });

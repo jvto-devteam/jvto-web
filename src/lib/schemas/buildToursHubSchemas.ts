@@ -13,7 +13,7 @@ import type {
 } from 'schema-dts';
 
 import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
-import { getToursHubQaPairs } from '@/lib/tourFaqs';
+import { getToursHubQaPairs, type QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -49,13 +49,16 @@ function hubUrl(hubPath: HubArgs['hubPath']): string {
  * Hub-level FAQPage. /tours uses the canonical 3 hub Q&A pairs (Bali vs Surabaya, Ijen vs Bromo, shortest vs longest).
  * Departure-city hubs (/tours/from-bali, /tours/from-surabaya) reuse the same hub Q&A — they remain valid comparison
  * questions for arriving visitors and reinforce the cluster's discovery role.
+ *
+ * `pairs`, when passed, overrides the hardcoded fallback in getToursHubQaPairs() with the
+ * ekosistem-sourced content.payload.pageContent.hubFaqPairs (single-content-source consolidation).
  */
-export function buildToursHubFaqSchema(): WithContext<FAQPage> {
-  const pairs = getToursHubQaPairs();
+export function buildToursHubFaqSchema(pairs?: QaPair[]): WithContext<FAQPage> {
+  const finalPairs = getToursHubQaPairs(pairs);
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: pairs.map((p) => ({
+    mainEntity: finalPairs.map((p) => ({
       '@type': 'Question',
       name: p.question,
       acceptedAnswer: { '@type': 'Answer', text: p.answer },

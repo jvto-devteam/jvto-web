@@ -31,7 +31,8 @@ const NIB_NUMBER = '1102230032918';
  * These answer the three highest-intent comparison questions visitors arrive with:
  * choosing departure city, distinguishing Ijen vs Bromo, and picking duration.
  */
-export function getToursHubQaPairs(): QaPair[] {
+export function getToursHubQaPairs(pairs?: QaPair[]): QaPair[] {
+  if (pairs && pairs.length > 0) return pairs;
   return [
     {
       question: 'Should I depart from Bali or Surabaya?',

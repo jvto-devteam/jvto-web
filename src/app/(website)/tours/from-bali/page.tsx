@@ -5,6 +5,7 @@ import Link from "@/components/website/AppLink";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildOrganizationJsonLd,
@@ -19,7 +20,7 @@ import {
 } from "@/lib/schemas/buildToursHubSchemas";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
-import { ArrowRight, Shield, Users, FileText, Award, Check, Ship } from "lucide-react";
+import { ArrowRight, Shield, Users, FileText, Award, Check, Ship, type LucideIcon } from "lucide-react";
 
 export const revalidate = 3600;
 
@@ -42,49 +43,60 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
   return getEcosystemPackagesList({ fromPrefix: "tours/from-bali", categoryId: 1 });
 }
 
-const INCLUSIONS_BALI = [
-  { label: "Bali–Java ferry crossing", detail: "Gilimanuk–Ketapang, one-way (3 packages) or both directions (3D2N Bali-return package)." },
-  { label: "Private transport", detail: "AC MPV (1–3 guests) or Toyota Hiace (4–9 guests). Fuel, tolls, and parking included." },
-  { label: "Dedicated crew", detail: "English-speaking driver-guide (1–3 guests), or professional driver + escort guide (4+ guests)." },
-  { label: "Entrance fees & permits", detail: "All attractions on the itinerary — no surprise gate payments." },
-  { label: "Accommodation + breakfast", detail: "All nights, per itinerary." },
-  { label: "Private 4WD Jeep", detail: "Bromo crater area. One jeep per ≤4 guests; additional jeeps for larger groups." },
-  { label: "Gas masks & trekking poles", detail: "Ijen crater hike." },
-  { label: "Health-certificate coordination", detail: "For Ijen routes when current access rules require it." },
-  { label: "Daily mineral water", detail: "Supplied throughout the trip." },
-  { label: "Pick-up to drop-off", detail: "Full assistance from your Bali hotel or address." },
-  { label: "JVTO travel T-shirt", detail: "One per participant." },
-];
+// Icon identifiers are looked up by key (not array position) so a reorder or a count
+// mismatch between ekosistem content and this map can never silently break rendering.
+const ICONS: Record<string, LucideIcon> = {
+  shield: Shield,
+  users: Users,
+  fileText: FileText,
+  award: Award,
+};
 
-const WHY_ITEMS = [
-  {
-    Icon: Shield,
-    title: "Police-Led Operations",
-    body: "Mr. Sam holds the rank of Bripka — active officer of Ditpamobvit East Java (Tourist Police). Confirmed by Detik.com, 2021. No other East Java operator is led by a serving Tourist Police officer.",
-  },
-  {
-    Icon: Users,
-    title: "100% Private — No Shared Groups",
-    body: "Your booking receives a dedicated vehicle and crew. No join-in option exists. Group size determines vehicle type; timing and route decisions apply to your group only.",
-  },
-  {
-    Icon: FileText,
-    title: "All-Inclusive — Written Before You Book",
-    body: "Ferry crossing, entrance fees, accommodation, gas masks, and all transport costs are bundled. Inclusions confirmed in your voucher — mid-trip negotiations do not occur on JVTO routes.",
-  },
-  {
-    Icon: Award,
-    title: "Verifiable Credentials",
-    body: "NIB 1102230032918 verifiable via OSS. HPWKI AHU-0001072.AH.01.07.TAHUN 2024. BBKSDA clearance and POLPAR authorisation on file. All guides hold KTA 2024.",
-  },
-];
-
-const BOOKING_STEPS = [
-  { step: "01", text: "WhatsApp +62 822 4478 8833 with your dates, group size, preferred package, and Bali pick-up location." },
-  { step: "02", text: "Receive a price confirmation per the pricing table for your group size." },
-  { step: "03", text: "Pay 20% deposit via secure JVTO checkout to confirm the booking." },
-  { step: "04", text: "Receive your e-voucher with full trip details and a pre-trip guide." },
-];
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  inclusions: [
+    { label: "Bali–Java ferry crossing", detail: "Gilimanuk–Ketapang, one-way (3 packages) or both directions (3D2N Bali-return package)." },
+    { label: "Private transport", detail: "AC MPV (1–3 guests) or Toyota Hiace (4–9 guests). Fuel, tolls, and parking included." },
+    { label: "Dedicated crew", detail: "English-speaking driver-guide (1–3 guests), or professional driver + escort guide (4+ guests)." },
+    { label: "Entrance fees & permits", detail: "All attractions on the itinerary — no surprise gate payments." },
+    { label: "Accommodation + breakfast", detail: "All nights, per itinerary." },
+    { label: "Private 4WD Jeep", detail: "Bromo crater area. One jeep per ≤4 guests; additional jeeps for larger groups." },
+    { label: "Gas masks & trekking poles", detail: "Ijen crater hike." },
+    { label: "Health-certificate coordination", detail: "For Ijen routes when current access rules require it." },
+    { label: "Daily mineral water", detail: "Supplied throughout the trip." },
+    { label: "Pick-up to drop-off", detail: "Full assistance from your Bali hotel or address." },
+    { label: "JVTO travel T-shirt", detail: "One per participant." },
+  ],
+  whyItems: [
+    {
+      icon: "shield",
+      title: "Police-Led Operations",
+      body: "Mr. Sam holds the rank of Bripka — active officer of Ditpamobvit East Java (Tourist Police). Confirmed by Detik.com, 2021. No other East Java operator is led by a serving Tourist Police officer.",
+    },
+    {
+      icon: "users",
+      title: "100% Private — No Shared Groups",
+      body: "Your booking receives a dedicated vehicle and crew. No join-in option exists. Group size determines vehicle type; timing and route decisions apply to your group only.",
+    },
+    {
+      icon: "fileText",
+      title: "All-Inclusive — Written Before You Book",
+      body: "Ferry crossing, entrance fees, accommodation, gas masks, and all transport costs are bundled. Inclusions confirmed in your voucher — mid-trip negotiations do not occur on JVTO routes.",
+    },
+    {
+      icon: "award",
+      title: "Verifiable Credentials",
+      body: "NIB 1102230032918 verifiable via OSS. HPWKI AHU-0001072.AH.01.07.TAHUN 2024. BBKSDA clearance and POLPAR authorisation on file. All guides hold KTA 2024.",
+    },
+  ],
+  bookingSteps: [
+    { step: "01", text: "WhatsApp +62 822 4478 8833 with your dates, group size, preferred package, and Bali pick-up location." },
+    { step: "02", text: "Receive a price confirmation per the pricing table for your group size." },
+    { step: "03", text: "Pay 20% deposit via secure JVTO checkout to confirm the booking." },
+    { step: "04", text: "Receive your e-voucher with full trip details and a pre-trip guide." },
+  ],
+};
 
 function buildTrustSignals(
   reviewProfiles: Awaited<ReturnType<typeof getEcosystemReviewProfiles>>,
@@ -105,12 +117,17 @@ function buildTrustSignals(
 }
 
 export default async function ToursPageBali() {
-  const [seo, initialTours, org, reviewProfiles] = await Promise.all([
+  const [seo, initialTours, org, reviewProfiles, page] = await Promise.all([
     getEcosystemPageSeo("/tours/from-bali", fallbackSeo),
     getToursFromBali(),
     getOrganizationProfile(),
     getEcosystemReviewProfiles(),
+    loadEcosystemPage("/tours/from-bali"),
   ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const inclusions = pc.inclusions ?? FALLBACK.inclusions;
+  const whyItems = pc.whyItems ?? FALLBACK.whyItems;
+  const bookingSteps = pc.bookingSteps ?? FALLBACK.bookingSteps;
   const trustSignals = buildTrustSignals(reviewProfiles);
   const trustpilot = reviewProfiles.find((p) => p.platform === "Trustpilot");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -323,7 +340,7 @@ export default async function ToursPageBali() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-            {INCLUSIONS_BALI.map((item) => (
+            {inclusions.map((item) => (
               <div
                 key={item.label}
                 className="flex gap-4 p-5 bg-jvto-off rounded-[20px] border border-jvto-border card-jvto"
@@ -381,23 +398,27 @@ export default async function ToursPageBali() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {WHY_ITEMS.map(({ Icon, title, body }) => (
-              <div
-                key={title}
-                className="bg-white/5 border border-white/10 rounded-[24px] p-6 hover:bg-white/8 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-jvto-orange/15 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-jvto-orange" strokeWidth={1.5} />
-                </div>
-                <h3
-                  className="font-black text-white text-sm mb-3"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+            {whyItems.map(({ icon, title, body }) => {
+              const Icon = ICONS[icon];
+              if (!Icon) return null;
+              return (
+                <div
+                  key={title}
+                  className="bg-white/5 border border-white/10 rounded-[24px] p-6 hover:bg-white/8 transition-colors"
                 >
-                  {title}
-                </h3>
-                <p className="text-xs text-white/50 leading-relaxed">{body}</p>
-              </div>
-            ))}
+                  <div className="w-10 h-10 rounded-full bg-jvto-orange/15 flex items-center justify-center mb-5">
+                    <Icon className="w-5 h-5 text-jvto-orange" strokeWidth={1.5} />
+                  </div>
+                  <h3
+                    className="font-black text-white text-sm mb-3"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {title}
+                  </h3>
+                  <p className="text-xs text-white/50 leading-relaxed">{body}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -427,7 +448,7 @@ export default async function ToursPageBali() {
               </p>
 
               <div className="space-y-4 mb-10">
-                {BOOKING_STEPS.map(({ step, text }) => (
+                {bookingSteps.map(({ step, text }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-9 h-9 rounded-full bg-jvto-navy flex items-center justify-center">
                       <span className="text-[9px] font-bold text-white font-mono">{step}</span>
