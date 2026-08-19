@@ -118,6 +118,10 @@ export interface EcosystemDestinationListItem {
   schema_json: Record<string, any> | null;
   main_attractions: Array<{ title: string; description: string }>;
   hero_meta_line: string | null;
+  hub_region: string | null;
+  hub_elevation_label: string | null;
+  hub_difficulty_label: string | null;
+  hub_chips: string[];
 }
 
 export interface EcosystemDestinationsListFilters {
@@ -177,6 +181,10 @@ export async function getEcosystemDestinationsList(
           schema_json: d.schema_json ?? null,
           main_attractions: Array.isArray(d.main_attractions) ? d.main_attractions : [],
           hero_meta_line: (dAny.hero_meta_line as string | null) ?? null,
+          hub_region: (dAny.hub_region as string | null) ?? null,
+          hub_elevation_label: (dAny.hub_elevation_label as string | null) ?? null,
+          hub_difficulty_label: (dAny.hub_difficulty_label as string | null) ?? null,
+          hub_chips: Array.isArray(dAny.hub_chips) ? dAny.hub_chips : [],
         } satisfies EcosystemDestinationListItem;
       }),
     )

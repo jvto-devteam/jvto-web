@@ -8,10 +8,15 @@ interface Props {
   items: DestItem[];
   answerFirst?: string;
   lastReviewed?: string;
+  transportNote?: string;
 }
 
-// Editorial metadata per slug (canonical from CLAUDE.md §1)
-const DEST_DISPLAY: Record<
+// Ekosistem-only (single-content-source consolidation, 2026-08-19): this used to be a
+// slug-keyed map hardcoded here. Now read per-destination from ekosistem
+// (destination-knowledge/<slug>.content.json — hub_region/hub_elevation_label/
+// hub_difficulty_label/hub_chips fields), with the original hardcoded values kept below
+// as a last-resort FALLBACK.
+const FALLBACK_DEST_DISPLAY: Record<
   string,
   { index: string; region: string; elevation: string; diff: string; chips: string[] }
 > = {
@@ -69,7 +74,12 @@ const Check = () => (
   </svg>
 );
 
-export default function DestinationsHub({ items, answerFirst, lastReviewed }: Props) {
+const FALLBACK_TRANSPORT_NOTE =
+  "Every destination on this list is reached by dedicated private vehicle — AC MPV " +
+  "for smaller groups, Toyota Hiace for larger ones. No public buses. No shared " +
+  "transfers.";
+
+export default function DestinationsHub({ items, answerFirst, lastReviewed, transportNote }: Props) {
   const volcanoCount = items.filter((d) => (d.tags ?? []).includes("volcano")).length;
   const waterfallCount = items.filter((d) => (d.tags ?? []).includes("waterfall")).length;
   const coastalCount = items.filter(
@@ -148,14 +158,26 @@ export default function DestinationsHub({ items, answerFirst, lastReviewed }: Pr
           {items.map((dest, i) => {
             const slug = dest.slug ?? "";
             const fallbackIndex = String(i + 1).padStart(2, "0");
-            const meta = DEST_DISPLAY[slug] ?? {
-              index: fallbackIndex,
-              region: "",
-              elevation: dest.geo?.altitude
-                ? `${Number(dest.geo.altitude).toLocaleString()} m`
-                : "",
-              diff: dest.keyInfo?.difficulty_level ?? "",
-              chips: [],
+            const destAny = dest as any;
+            const fallbackDisplay = FALLBACK_DEST_DISPLAY[slug];
+            const meta = {
+              index: fallbackDisplay?.index ?? fallbackIndex,
+              region: destAny.hub_region ?? fallbackDisplay?.region ?? "",
+              elevation:
+                destAny.hub_elevation_label ??
+                fallbackDisplay?.elevation ??
+                (dest.geo?.altitude
+                  ? `${Number(dest.geo.altitude).toLocaleString()} m`
+                  : ""),
+              diff:
+                destAny.hub_difficulty_label ??
+                fallbackDisplay?.diff ??
+                dest.keyInfo?.difficulty_level ??
+                "",
+              chips:
+                ((Array.isArray(destAny.hub_chips) && destAny.hub_chips.length > 0
+                  ? destAny.hub_chips
+                  : fallbackDisplay?.chips) ?? []) as string[],
             };
             const isReverse = i % 2 !== 0;
             const text = dest.summary ?? dest.description ?? "";
@@ -270,9 +292,7 @@ export default function DestinationsHub({ items, answerFirst, lastReviewed }: Pr
                 <span className="text-jvto-orange">Your schedule.</span>
               </h2>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[46ch]">
-                Every destination on this list is reached by dedicated private vehicle — AC MPV
-                for smaller groups, Toyota Hiace for larger ones. No public buses. No shared
-                transfers.
+                {transportNote ?? FALLBACK_TRANSPORT_NOTE}
               </p>
             </div>
 

@@ -76,6 +76,10 @@ export default async function DestinationsPage() {
   const items = await getEcosystemDestinationsList();
   const destinations = items;
 
+  const pc = ((ecosystemPage?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as {
+    transportNote?: string;
+  };
+
   const orgNode = toOrganizationReferenceOnly(buildOrganizationJsonLd(org as any, SITE_URL));
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const breadcrumb = buildBreadcrumbJsonLd(ROUTE, SITE_URL);
@@ -93,6 +97,7 @@ export default async function DestinationsPage() {
         items={items}
         answerFirst={ecosystemPage?.raw.page.answerFirst}
         lastReviewed={ecosystemPage?.meta.lastReviewed ?? "2026-08-15"}
+        transportNote={pc.transportNote}
       />
     </>
   );

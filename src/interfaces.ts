@@ -84,6 +84,31 @@ export interface DestinationDetail {
   route_elev_min_m?: number | null;
   route_max_alt_m?: number | null;
   route_bbox?: number[] | null;
+  // Ekosistem-sourced editorial overrides (single-content-source migration, 2026-08-19) —
+  // per-destination fields that used to be slug-keyed maps hardcoded in jvto-web.
+  meta_title_override?: string | null;
+  meta_description_override?: string | null;
+  hero_meta_override?: {
+    elevation: string;
+    viewpoint: string;
+    fromSurabaya: string;
+    difficulty: string;
+  } | null;
+  travel_guide_link?: { href: string; label: string } | null;
+  related_destinations?: Array<{ slug: string; name: string }>;
+  volcanic_vantage?: {
+    accessible: { title: string; text: string };
+    restricted: { title: string; text: string };
+    planB: string;
+  } | null;
+  health_certificate_coordination?: {
+    heading: string;
+    paragraph: string;
+    linkHref: string;
+    linkLabel: string;
+  } | null;
+  why_jvto_tiles?: Array<{ title: string; desc: string; meta: string }>;
+  inclusions?: string[];
 }
 
 export interface Destination {

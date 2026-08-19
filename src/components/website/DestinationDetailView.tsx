@@ -25,8 +25,12 @@ const Route3DEmbedded = dynamic(
 );
 
 // ─── Editorial maps (canonical per slug) ─────────────────────────────────────
+// Ekosistem-only (single-content-source consolidation, 2026-08-19): these used to be
+// slug-keyed maps hardcoded here. Now read per-destination from ekosistem
+// (destination-knowledge/<slug>.content.json) via `data.*`, with the original hardcoded
+// values kept below as a last-resort FALLBACK if ekosistem doesn't return a field.
 
-const DEST_HERO_META: Record<string, {
+const FALLBACK_HERO_META: Record<string, {
   elevation: string; viewpoint: string; fromSurabaya: string; difficulty: string;
 }> = {
   "mount-bromo": {
@@ -55,7 +59,7 @@ const DEST_HERO_META: Record<string, {
   },
 };
 
-const DEST_VOLCANIC_VANTAGES: Record<string, {
+const FALLBACK_VOLCANIC_VANTAGES: Record<string, {
   accessible: { title: string; text: string };
   restricted: { title: string; text: string };
   planB: string;
@@ -95,50 +99,55 @@ const DEST_VOLCANIC_VANTAGES: Record<string, {
   },
 };
 
-const WHY_TILES = [
+// Icons are structural (not editorial content) and stay in code, zipped by index with
+// the ekosistem-sourced { title, desc, meta } tile content below.
+const WHY_TILES_ICONS = [
+  () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+    </svg>
+  ),
+  () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+    </svg>
+  ),
+  () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+    </svg>
+  ),
+  () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/>
+    </svg>
+  ),
+];
+
+const FALLBACK_WHY_TILES = [
   {
     title: "Police-led",
     desc: "Founder Mr. Sam (Bripka Agung Sambuko) is an active Ditpamobvit officer. Route decisions answer to police protocol, not marketing metrics.",
     meta: "Authority",
-    Icon: () => (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
-      </svg>
-    ),
   },
   {
     title: "100% private",
     desc: "Your own vehicle, driver, and crew — no shared jeeps, no strangers, no compromise on timing or pace.",
     meta: "Private",
-    Icon: () => (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
-      </svg>
-    ),
   },
   {
     title: "All-inclusive",
     desc: "Transport, entrance fees, accommodation, water, and T-shirt bundled. No surprise local payments on the day.",
     meta: "Written inclusions",
-    Icon: () => (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-      </svg>
-    ),
   },
   {
     title: "Verifiable",
     desc: "NIB 1102230032918 checkable at OSS. POLPAR, BBKSDA, and HPWKI credentials listed. Every document publicly verifiable before you pay.",
     meta: "Proof library",
-    Icon: () => (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/>
-      </svg>
-    ),
   },
 ];
 
-const GENERIC_INCLUSIONS = [
+const FALLBACK_GENERIC_INCLUSIONS = [
   "Private AC transport (fuel, tolls, parking)",
   "Dedicated driver and English-speaking guide",
   "BBKSDA national-park entrance fees",
@@ -173,7 +182,7 @@ export default function DestinationDetailView({
   volcanicStatus?: VolcanicStatusData | null;
   slug?: string;
 }) {
-  const heroMeta = DEST_HERO_META[slug] ?? {
+  const heroMeta = data.hero_meta_override ?? FALLBACK_HERO_META[slug] ?? {
     elevation: `${data.altitude} m`,
     viewpoint: data.region,
     fromSurabaya: data.duration,
@@ -192,12 +201,17 @@ export default function DestinationDetailView({
     ? "●".repeat(data.physical_demand) + "○".repeat(5 - data.physical_demand)
     : null;
 
-  const volcanicVantage = volcanicStatus ? (DEST_VOLCANIC_VANTAGES[slug] ?? null) : null;
+  const volcanicVantage = volcanicStatus
+    ? (data.volcanic_vantage ?? FALLBACK_VOLCANIC_VANTAGES[slug] ?? null)
+    : null;
 
   const inclusions =
-    slug === "mount-bromo"
-      ? [...GENERIC_INCLUSIONS, "Bromo 4WD private jeep"]
-      : GENERIC_INCLUSIONS;
+    data.inclusions ??
+    (slug === "mount-bromo"
+      ? [...FALLBACK_GENERIC_INCLUSIONS, "Bromo 4WD private jeep"]
+      : FALLBACK_GENERIC_INCLUSIONS);
+
+  const whyTiles = data.why_jvto_tiles ?? FALLBACK_WHY_TILES;
 
   const primaryAsset = data.destination_assets?.find((a) => a.type === "primary");
   const heroImageUrl = primaryAsset?.asset?.url ?? data.featured_image;
@@ -562,7 +576,9 @@ export default function DestinationDetailView({
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {WHY_TILES.map(({ title, desc, meta, Icon }) => (
+            {whyTiles.map(({ title, desc, meta }, i) => {
+              const Icon = WHY_TILES_ICONS[i] ?? WHY_TILES_ICONS[0];
+              return (
               <div
                 key={title}
                 className="bg-white/[0.05] border border-white/10 rounded-[20px] p-6 md:p-7"
@@ -583,7 +599,8 @@ export default function DestinationDetailView({
                   {meta}
                 </span>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

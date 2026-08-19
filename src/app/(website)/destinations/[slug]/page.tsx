@@ -39,9 +39,14 @@ export interface RouteStats {
   bbox: [number, number, number, number];
 }
 
+// Ekosistem-only (single-content-source consolidation, 2026-08-19): these used to be
+// slug-keyed maps hardcoded here. Now read per-destination from ekosistem
+// (destination-knowledge/<slug>.content.json) via `data.*`, with the original hardcoded
+// values kept below as a last-resort FALLBACK if ekosistem doesn't return a field.
+//
 // SEO AUDIT 2026-05-17 (QW-8): keyword-optimised title tag overrides per destination.
 // "Mount Ijen" leads (5-10× more searched than "Kawah Ijen" internationally).
-const DEST_TITLE_OVERRIDES: Record<string, string> = {
+const FALLBACK_TITLE_OVERRIDES: Record<string, string> = {
   "ijen-crater":           "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
   "mount-bromo":           "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
   "tumpak-sewu-waterfall": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
@@ -51,7 +56,7 @@ const DEST_TITLE_OVERRIDES: Record<string, string> = {
 
 // SEO AUDIT 2026-05-17 (QW-9): 3-part meta description formula per destination.
 // Formula: [Destination + key feature] · [Differentiator] · [Trust signal]
-const DEST_DESC_OVERRIDES: Record<string, string> = {
+const FALLBACK_DESC_OVERRIDES: Record<string, string> = {
   "ijen-crater":           "Private Ijen blue fire hike from Surabaya or Bali. Gas mask, BBKSDA permit & health certificate coordinated. Tourist Police-led. 4.8★ Trustpilot.",
   "mount-bromo":           "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
   "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led. 4.8★ Trustpilot.",
@@ -59,18 +64,30 @@ const DEST_DESC_OVERRIDES: Record<string, string> = {
   "papuma-beach":          "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
 };
 
-const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
+const FALLBACK_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
   "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
   "mount-bromo": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   "tumpak-sewu-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
   "madakaripura-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
 };
 
-const DEST_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
+const FALLBACK_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
   "ijen-crater": [{ slug: "mount-bromo", name: "Mount Bromo" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
   "mount-bromo": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
   "tumpak-sewu-waterfall": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "mount-bromo", name: "Mount Bromo" }],
   "madakaripura-waterfall": [{ slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+};
+
+// Health Certificate Coordination block — ijen-crater only (wiki spec: ijen_relevant = true).
+const FALLBACK_HEALTH_CERT_COORDINATION = {
+  heading: "Health Certificate Coordination",
+  paragraph:
+    "Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024 " +
+    "thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu " +
+    "(SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the " +
+    "crater access gate.",
+  linkHref: "/travel-guide/ijen-health-screening",
+  linkLabel: "How Ijen Health Screening Works →",
 };
 
 interface Props {
@@ -201,9 +218,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Destination Not Found" };
 
-  const title = DEST_TITLE_OVERRIDES[slug] || data.seo_title?.trim() || `${data.name} | JVTO Tours`;
+  const title =
+    (data.meta_title_override || FALLBACK_TITLE_OVERRIDES[slug]) ||
+    data.seo_title?.trim() ||
+    `${data.name} | JVTO Tours`;
   const description =
-    DEST_DESC_OVERRIDES[slug] ||
+    (data.meta_description_override || FALLBACK_DESC_OVERRIDES[slug]) ||
     data.seo_description?.trim() ||
     data.summary ||
     data.highlight ||
@@ -317,8 +337,12 @@ export default async function DestinationDetailPage({ params }: Props) {
     "@type": "WebPage",
     "@id": `${SITE_URL}/destinations/${slug}#webpage`,
     url: `${SITE_URL}/destinations/${slug}`,
-    name: DEST_TITLE_OVERRIDES[slug] || `${destinationName} | JVTO`,
-    description: DEST_DESC_OVERRIDES[slug] || data.summary || data.highlight || "",
+    name: (data.meta_title_override || FALLBACK_TITLE_OVERRIDES[slug]) || `${destinationName} | JVTO`,
+    description:
+      (data.meta_description_override || FALLBACK_DESC_OVERRIDES[slug]) ||
+      data.summary ||
+      data.highlight ||
+      "",
     inLanguage: "en",
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/destinations/${slug}#attraction` },
@@ -342,8 +366,12 @@ export default async function DestinationDetailPage({ params }: Props) {
     ].filter(Boolean),
   };
 
-  const travelGuideLink = DEST_TRAVEL_GUIDE_LINKS[slug];
-  const relatedDests = DEST_RELATED[slug] ?? [];
+  const travelGuideLink = data.travel_guide_link ?? FALLBACK_TRAVEL_GUIDE_LINKS[slug];
+  const relatedDests = data.related_destinations ?? FALLBACK_RELATED[slug] ?? [];
+  const healthCert =
+    slug === "ijen-crater"
+      ? data.health_certificate_coordination ?? FALLBACK_HEALTH_CERT_COORDINATION
+      : null;
 
   return (
     <>
@@ -351,23 +379,20 @@ export default async function DestinationDetailPage({ params }: Props) {
       <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} slug={slug} />
 
       {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
-      {slug === "ijen-crater" && (
+      {healthCert && (
         <div className="border-t border-amber-200 bg-amber-50">
           <div className="container mx-auto px-4 max-w-6xl py-8">
             <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">
-              Health Certificate Coordination
+              {healthCert.heading}
             </p>
             <p className="text-sm text-gray-700 leading-relaxed max-w-2xl mb-3">
-              Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024
-              thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu
-              (SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the
-              crater access gate.
+              {healthCert.paragraph}
             </p>
             <Link
-              href="/travel-guide/ijen-health-screening"
+              href={healthCert.linkHref}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
             >
-              How Ijen Health Screening Works →
+              {healthCert.linkLabel}
             </Link>
           </div>
         </div>
