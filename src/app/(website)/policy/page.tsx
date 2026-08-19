@@ -6,31 +6,25 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
 
-const POLICY_ICONS = [
-  (
+const POLICY_ICONS: Record<string, React.ReactNode> = {
+  "booking-payment-cancellation": (
     <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <rect x="2" y="5" width="20" height="14" rx="2" />
       <path d="M2 10h20M6 15h4" />
     </svg>
   ),
-  (
+  "inclusions-exclusions": (
     <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path d="M9 11l3 3L22 4" />
       <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
     </svg>
   ),
-  (
+  privacy: (
     <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   ),
-] as const;
-
-const POLICY_SLUGS = [
-  "booking-payment-cancellation",
-  "inclusions-exclusions",
-  "privacy",
-] as const;
+};
 
 // FALLBACK — exact copy of the content that used to be hardcoded here.
 // Used only if ekosistem doesn't return a `pageContent` section for this route.
@@ -43,14 +37,17 @@ const FALLBACK = {
   ],
   policyTiles: [
     {
+      slug: "booking-payment-cancellation",
       name: "Booking, Payment & Cancellation",
       desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Lifetime Package Credit terms, and force-majeure handling.",
     },
     {
+      slug: "inclusions-exclusions",
       name: "Inclusions & Exclusions",
       desc: "Exactly what is and is not included in a confirmed private package — transport, accommodation, crew, tickets, safety gear, meals — and the write-it-to-bind-it rule.",
     },
     {
+      slug: "privacy",
       name: "Privacy & Data Protection",
       desc: "What personal data JVTO collects during booking, how it is used for logistics and legal compliance, who it may be shared with, and how to request access or deletion.",
     },
@@ -193,14 +190,14 @@ export default async function PolicyHubPage() {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {policyTiles.map(({ name, desc }, i) => (
+            {policyTiles.filter((tile) => POLICY_ICONS[tile.slug]).map(({ slug, name, desc }) => (
               <Link
-                key={POLICY_SLUGS[i]}
-                href={`/policy/${POLICY_SLUGS[i]}`}
+                key={slug}
+                href={`/policy/${slug}`}
                 prefetch={false}
                 className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
               >
-                <div className="mb-4">{POLICY_ICONS[i]}</div>
+                <div className="mb-4">{POLICY_ICONS[slug]}</div>
                 <h3
                   className="font-black text-jvto-navy text-xl mb-3 leading-snug"
                   style={{ fontFamily: "Raleway, Inter, sans-serif" }}

@@ -27,16 +27,19 @@ const FALLBACK = {
   ],
   rulebookCards: [
     {
+      icon: "pvmbg",
       label: "PVMBG-aligned",
       title: "Safety boundaries",
       desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
     },
     {
+      icon: "screening",
       label: "Real screening",
       title: "Health requirements",
       desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
     },
     {
+      icon: "operator",
       label: "Not a broker",
       title: "Operational control",
       desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
@@ -67,11 +70,13 @@ const FALLBACK = {
   },
   extraPracticalCards: [
     {
+      icon: "altitude",
       title: "Altitude & temperature",
       desc: "Bromo can drop to 0 C. Ijen is at 2,386m. Prepare for cold mornings and thin air.",
       footerLabel: "Critical info",
     },
     {
+      icon: "connectivity",
       title: "Money & connectivity",
       desc: "Cash is king in remote areas. SIM cards and Wi-Fi availability vary by location.",
       footerLabel: "Logistics",
@@ -253,7 +258,11 @@ const OperatorIcon = () => (
   </svg>
 );
 
-const RULEBOOK_ICONS = [PvmbgIcon, ScreeningIcon, OperatorIcon];
+const RULEBOOK_ICONS: Record<string, () => React.ReactNode> = {
+  pvmbg: PvmbgIcon,
+  screening: ScreeningIcon,
+  operator: OperatorIcon,
+};
 
 const AltitudeIcon = () => (
   <svg
@@ -283,7 +292,10 @@ const ConnectivityIcon = () => (
   </svg>
 );
 
-const EXTRA_PRACTICAL_ICONS = [AltitudeIcon, ConnectivityIcon];
+const EXTRA_PRACTICAL_ICONS: Record<string, () => React.ReactNode> = {
+  altitude: AltitudeIcon,
+  connectivity: ConnectivityIcon,
+};
 
 function SectionHeading({
   index,
@@ -521,8 +533,9 @@ export default async function TravelGuideHubPage() {
             label="Three boundaries"
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {rulebookCards.map(({ label, title: cardTitle, desc }, i) => {
-              const Icon = RULEBOOK_ICONS[i];
+            {rulebookCards.map(({ icon, label, title: cardTitle, desc }) => {
+              const Icon = RULEBOOK_ICONS[icon];
+              if (!Icon) return null;
               return (
                 <div
                   key={cardTitle}
@@ -587,8 +600,9 @@ export default async function TravelGuideHubPage() {
               desc={packingCard.desc}
               action={packingCard.action}
             />
-            {extraPracticalCards.map(({ title: cardTitle, desc, footerLabel }, i) => {
-              const Icon = EXTRA_PRACTICAL_ICONS[i];
+            {extraPracticalCards.map(({ icon, title: cardTitle, desc, footerLabel }) => {
+              const Icon = EXTRA_PRACTICAL_ICONS[icon];
+              if (!Icon) return null;
               return (
                 <div
                   key={cardTitle}
