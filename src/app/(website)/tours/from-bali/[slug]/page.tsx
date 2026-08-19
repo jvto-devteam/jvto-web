@@ -154,10 +154,12 @@ function StructuredData({
   data,
   globalNodes,
   googleStats,
+  tourAugment,
 }: {
   data: TourPackageDetailResponse;
   globalNodes: any[];
   googleStats: { rating: number; count: number } | null;
+  tourAugment?: { subjectOf: { "@id": string }; mentions: { "@id": string }[] } | null;
 }) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -295,6 +297,9 @@ function StructuredData({
           },
         ],
         mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+        ...(tourAugment
+          ? { subjectOf: tourAugment.subjectOf, mentions: tourAugment.mentions }
+          : {}),
       },
       {
         "@type": "Product",
@@ -465,10 +470,10 @@ export default async function Page({ params }: Props) {
   };
   const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims, reviewProfiles });
 
-  // Augment live's existing TouristTrip + Product nodes with mentions[] (DefinedTerm @ids) +
-  // subjectOf founder. Emitted as a small additional schema block that AI engines correlate via @id.
-  const slugString = Array.isArray(data.product.slug) ? data.product.slug.join("/") : data.product.slug;
-  const pageUrl = `${siteUrl}/${slugString.startsWith("/") ? slugString.substring(1) : slugString}`;
+  // Augment the TouristTrip node (emitted inside StructuredData below) with
+  // mentions[] (DefinedTerm @ids) + subjectOf founder — merged directly onto
+  // that node rather than declared again in a second <script> tag, which
+  // used to ship a duplicate `@id ...#tour` node (fixed 2026-08-19).
   const tourMentions: { "@id": string }[] = [
     { "@id": DEFINED_TERMS.NIB["@id"] },
     { "@id": DEFINED_TERMS.TDUP["@id"] },
@@ -482,10 +487,7 @@ export default async function Page({ params }: Props) {
       { "@id": DEFINED_TERMS.SE1658["@id"] },
     );
   }
-  const tourEntityAugmentSchema = {
-    "@context": "https://schema.org",
-    "@type": "TouristTrip",
-    "@id": `${pageUrl}#tour`,
+  const tourAugment = {
     subjectOf: { "@id": `${siteUrl}/#agung-sambuko` },
     mentions: tourMentions,
   };
@@ -496,9 +498,8 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} />
+      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} tourAugment={tourAugment} />
       {faqSchema && <JsonLd data={faqSchema} />}
-      <JsonLd data={tourEntityAugmentSchema} />
       <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
   );

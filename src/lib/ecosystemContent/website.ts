@@ -421,6 +421,38 @@ function normalizeSections(sections: unknown): EcosystemSection[] | undefined {
   });
 }
 
+/**
+ * Content-source precedence for a route (documented 2026-08-19 per GEO audit
+ * P1-B — "3 sumber kebenaran"; this is the single reader every page.tsx and
+ * PageJsonLdCombined ultimately calls through getEcosystemPageSeo/
+ * loadEcosystemPage, not 3 independently-consulted sources):
+ *
+ *   1. Local dev shortcut — if JVTO_EKOSYSTEM_CONTENT_BASE_URL is unset,
+ *      read the pre-rendered output straight off disk (used only when
+ *      running against a local ekosistem checkout without the env pointed
+ *      at a live server).
+ *   2. Remote ekosistem API (`/api/website/page?route=...`) — the real
+ *      production source of truth.
+ *   3. Local fallback file (`5-experience-engine/public-website/pages/*
+ *      .website-output.json`) — used if the remote call fails (network
+ *      blip, deploy race). Same content as tier 2 would return, just
+ *      read from a locally-synced copy instead of live.
+ *   4. `requiresEcosystemPayload(route)` gate — for routes ekosistem is
+ *      known to fully own (travel-guide/*, policy(/*), why-jvto(/*)),
+ *      return null here rather than risk silently serving stale legacy
+ *      content if tiers 1-3 all miss.
+ *   5. `loadStaticPage()` (src/lib/static-content/) — legacy local
+ *      content/pages/*.md|*.json files. Last-resort fallback for routes
+ *      NOT gated by tier 4, only if the file's own status is "published".
+ *      Nothing outside this module calls loadStaticPage directly (verified
+ *      2026-08-19: no page.tsx or component imports it) — it is not a
+ *      competing source, it's this function's bottom fallback tier.
+ *
+ * DO NOT remove tier 5 (or any tier) without confirming zero routes still
+ * depend on it — check by finding routes with no ekosistem source file
+ * under 5-experience-engine/public-website/pages/ AND a "published" file
+ * under content/pages/.
+ */
 export async function getEcosystemWebsitePage(
   route: string,
 ): Promise<EcosystemStaticPage | null> {
