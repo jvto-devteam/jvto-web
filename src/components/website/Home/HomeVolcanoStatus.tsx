@@ -60,12 +60,12 @@ export default function HomeVolcanoStatus({
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
+            <p className="text-micro font-semibold uppercase tracking-[0.15em] text-jvto-muted mb-2">
               Live Status
             </p>
             <h2
               id="volcano-heading"
-              className="font-black text-2xl md:text-3xl text-jvto-navy"
+              className="font-display font-black text-body-lg md:text-subheading text-jvto-navy"
             >
               Volcano Activity
             </h2>
@@ -74,7 +74,7 @@ export default function HomeVolcanoStatus({
             href="https://magma.esdm.go.id/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-bold text-jvto-muted hover:text-jvto-navy transition-colors"
+            className="text-caption font-semibold text-jvto-muted hover:text-jvto-navy transition-colors"
           >
             Source: PVMBG / MAGMA Indonesia ↗
           </a>
@@ -87,19 +87,19 @@ export default function HomeVolcanoStatus({
             return (
               <div
                 key={meta.slug}
-                className="bg-white rounded-sm border border-jvto-border p-6 md:p-8"
+                className="bg-white rounded-cards border border-jvto-border p-6 md:p-8"
               >
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="font-black text-jvto-navy text-lg mb-0.5">{meta.name}</h3>
-                    <p className="text-jvto-muted text-xs">{meta.elevation}</p>
+                    <h3 className="font-display font-black text-jvto-navy text-body mb-0.5">{meta.name}</h3>
+                    <p className="text-jvto-muted text-micro">{meta.elevation}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className={`w-2.5 h-2.5 rounded-full ${colors.dot}`} aria-hidden="true" />
                     <div className="text-right">
-                      <p className={`text-sm font-black ${colors.text}`}>Level {level}</p>
+                      <p className={`text-caption font-black ${colors.text}`}>Level {level}</p>
                       {name && (
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-jvto-muted">
+                        <p className="text-micro font-semibold uppercase tracking-wider text-jvto-muted">
                           {name}
                         </p>
                       )}
@@ -107,10 +107,10 @@ export default function HomeVolcanoStatus({
                   </div>
                 </div>
 
-                <p className="text-jvto-muted text-sm leading-relaxed mb-4">{status.notes}</p>
+                <p className="text-jvto-muted text-caption mb-4">{status.notes}</p>
 
                 {status.exclusion_zone_active && status.exclusion_zone_radius_km && (
-                  <p className="text-[11px] font-bold text-jvto-muted mb-4">
+                  <p className="text-micro font-semibold text-jvto-muted mb-4">
                     ⚠ {status.exclusion_zone_radius_km} km exclusion zone active — JVTO routes
                     stay outside it.
                   </p>
@@ -118,8 +118,8 @@ export default function HomeVolcanoStatus({
 
                 <div className="flex items-center justify-between gap-2 pt-3 border-t border-jvto-border">
                   <span
-                    className={`text-xs font-bold ${
-                      status.tours_operating ? "text-jvto-lime-ink" : "text-red-500"
+                    className={`text-micro font-semibold ${
+                      status.tours_operating ? "text-jvto-lime-ink" : "text-jvto-status-closed"
                     }`}
                   >
                     {status.tours_operating ? "● Tours operating" : "● Tours suspended"}
@@ -128,7 +128,7 @@ export default function HomeVolcanoStatus({
                     href={status.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] font-bold uppercase tracking-wider text-jvto-muted hover:text-jvto-navy transition-colors"
+                    className="text-micro font-semibold uppercase tracking-wider text-jvto-muted hover:text-jvto-navy transition-colors"
                   >
                     Verified {status.last_verified} ↗
                   </a>

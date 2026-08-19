@@ -73,18 +73,15 @@ const TrustVerification: React.FC<TrustVerificationProps> = ({ section }) => {
     <section className="py-20 md:py-28 bg-jvto-off">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-tags bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
+            <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime-ink">
               {eyebrow}
             </span>
           </div>
-          <h2
-            className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight mb-4 max-w-2xl"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h2 className="font-display text-subheading md:text-heading-sm font-black text-jvto-navy mb-4 max-w-2xl">
             {heading}
           </h2>
-          <p className="text-jvto-muted text-sm md:text-base max-w-xl leading-relaxed">
+          <p className="text-jvto-muted text-caption md:text-body-sm max-w-xl">
             {description}
           </p>
         </div>
@@ -93,26 +90,23 @@ const TrustVerification: React.FC<TrustVerificationProps> = ({ section }) => {
           {credentials.map((cred) => (
             <div
               key={cred.tier}
-              className="bg-white rounded-[24px] border border-jvto-border p-6 flex gap-4 card-jvto"
+              className="bg-white rounded-largecards border border-jvto-border p-6 flex gap-4 card-jvto"
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-jvto-navy flex items-center justify-center mt-0.5">
-                <span className="text-[9px] font-bold text-white font-mono">{cred.tier}</span>
+                <span className="text-micro font-semibold text-white font-mono">{cred.tier}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <h3
-                  className="font-black text-jvto-navy text-sm mb-2"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                >
+                <h3 className="font-display font-black text-jvto-navy text-body-sm mb-2">
                   {cred.label}
                 </h3>
-                <p className="text-xs text-jvto-muted leading-relaxed mb-3">
+                <p className="text-micro text-jvto-muted mb-3">
                   {cred.summary}
                 </p>
                 <a
                   href={cred.link}
                   target={cred.external ? "_blank" : undefined}
                   rel={cred.external ? "noopener noreferrer" : undefined}
-                  className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.12em] text-jvto-orange hover:underline"
+                  className="inline-flex items-center gap-1 text-micro font-semibold uppercase tracking-[0.12em] text-jvto-orange-ink hover:underline"
                 >
                   {cred.linkLabel}
                   <ExternalLink className="w-2.5 h-2.5" />
@@ -126,12 +120,12 @@ const TrustVerification: React.FC<TrustVerificationProps> = ({ section }) => {
           <Link
             href="/verify-jvto"
             prefetch={false}
-            className="inline-flex items-center gap-2 border border-jvto-navy/30 text-jvto-navy px-6 py-3 rounded-full font-bold text-[10px] uppercase tracking-[0.18em] hover:bg-jvto-navy hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 border border-jvto-navy/30 text-jvto-navy px-6 py-3 rounded-buttons font-semibold text-micro uppercase tracking-[0.18em] hover:bg-jvto-navy hover:text-white transition-colors"
           >
             {ctaLabel}
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-          <span className="text-xs text-jvto-muted text-center md:text-left">
+          <span className="text-micro text-jvto-muted text-center md:text-left">
             {ctaSubLabel}
           </span>
         </div>

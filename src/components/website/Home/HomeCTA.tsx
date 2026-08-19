@@ -39,22 +39,19 @@ const HomeCTA: React.FC<HomeCTAProps> = ({ section, packageCount }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
 
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-8">
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-tags border border-white/20 bg-white/5 mb-8">
+          <span className="text-micro font-semibold uppercase tracking-[0.2em] text-white/70">
             {eyebrow}
           </span>
         </div>
 
         {/* Heading */}
-        <h2
-          className="text-3xl md:text-5xl font-black leading-tight mb-6 max-w-3xl mx-auto"
-          style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-        >
+        <h2 className="font-display text-subheading md:text-heading-sm font-black mb-6 max-w-3xl mx-auto">
           {heading}
         </h2>
 
         {/* Policy reminder */}
-        <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed">
+        <p className="text-white/70 text-caption md:text-body-sm max-w-xl mx-auto mb-12">
           {description}
         </p>
 
@@ -63,7 +60,7 @@ const HomeCTA: React.FC<HomeCTAProps> = ({ section, packageCount }) => {
           <Link
             href="/tours"
             prefetch={false}
-            className="inline-flex items-center gap-2 bg-jvto-orange text-white px-10 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
+            className="inline-flex items-center gap-2 bg-jvto-orange text-white px-10 py-4 font-semibold text-micro uppercase tracking-[0.2em] rounded-buttons hover:bg-jvto-orange-hover transition-colors"
             style={{ boxShadow: "var(--shadow-jvto-orange)" }}
           >
             Browse Tours
@@ -72,7 +69,7 @@ const HomeCTA: React.FC<HomeCTAProps> = ({ section, packageCount }) => {
           <Link
             href="/verify-jvto"
             prefetch={false}
-            className="inline-flex items-center gap-2 border border-jvto-lime/50 text-jvto-lime px-10 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-lime/10 transition-colors"
+            className="inline-flex items-center gap-2 border border-jvto-lime/50 text-jvto-lime px-10 py-4 font-semibold text-micro uppercase tracking-[0.2em] rounded-buttons hover:bg-jvto-lime/10 transition-colors"
           >
             Verify JVTO
             <ExternalLink className="w-4 h-4" />
@@ -80,7 +77,7 @@ const HomeCTA: React.FC<HomeCTAProps> = ({ section, packageCount }) => {
         </div>
 
         {/* Sub-labels */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] text-white/50">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-micro text-white/60">
           <span>
             {packageCount ? `${packageCount} private itineraries from Surabaya and Bali` : "Private itineraries from Surabaya and Bali"}
           </span>

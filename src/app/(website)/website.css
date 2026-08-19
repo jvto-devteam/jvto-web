@@ -77,6 +77,73 @@
      dengan --shadow-jvto-hover lama di blok :root di bawah ── */
   --shadow-jvto-soft: 0 12px 32px -16px rgba(13, 27, 42, 0.12), 0 2px 6px -2px rgba(13, 27, 42, 0.04);
   --shadow-jvto-card-hover: 0 30px 60px -25px rgba(13, 27, 42, 0.22), 0 4px 12px -4px rgba(13, 27, 42, 0.06);
+
+  /* ════════════════════════════════════════════════════════════════════
+     BEACON STRUCTURAL LAYER — docs/design-reference/DESIGN.md
+
+     Structure only: type scale, tracking, and element radii. Colour and
+     typeface stay DS v2 above, deliberately:
+
+       · DS v2 ships an ink partner per signal colour with measured AA
+         ratios (orange-ink 5.50:1, lime-ink 5.10:1, gold-ink 5.54:1) and
+         a five-state status ladder measured on white, canvas AND navy.
+         Beacon has no equivalent — swapping palettes would drop audited
+         contrast work for an unaudited palette telling the same
+         navy + orange story that visual_modes_canonical.md already locks.
+       · --font-display (Raleway 900) already fills Beacon's display-face
+         role, so Beacon's usage rules are applied to it rather than
+         swapping the face.
+
+     What Beacon does add, and what the homepage was missing: one named
+     type scale instead of text-[8px]/[9px]/[10px] magic values, tracking
+     that travels with the size, and named element radii instead of
+     rounded-[32px]. 12px is the floor — Beacon has no step below it.
+     ════════════════════════════════════════════════════════════════════ */
+
+  /* Beacon type scale. Tailwind v4 pairs line-height and tracking to the
+     size, so `text-heading` carries all three. Uppercase eyebrow labels
+     keep their own positive tracking utility — Beacon's negative values
+     are for normal-case text. */
+  --text-micro: 12px;
+  --text-micro--line-height: 1.63;
+  --text-micro--letter-spacing: -0.036px;
+  --text-caption: 14px;
+  --text-caption--line-height: 1.55;
+  --text-caption--letter-spacing: -0.07px;
+  --text-body-sm: 16px;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--letter-spacing: -0.096px;
+  --text-body: 18px;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.126px;
+  --text-body-lg: 25px;
+  --text-body-lg--line-height: 1.3;
+  --text-body-lg--letter-spacing: -0.225px;
+  --text-subheading: 36px;
+  --text-subheading--line-height: 1.25;
+  --text-subheading--letter-spacing: -0.396px;
+  --text-heading-sm: 45px;
+  --text-heading-sm--line-height: 1.1;
+  --text-heading-sm--letter-spacing: -0.495px;
+  --text-heading: 61px;
+  --text-heading--line-height: 1.1;
+  --text-heading--letter-spacing: -0.915px;
+  --text-heading-lg: 89px;
+  --text-heading-lg--line-height: 0.85;
+  --text-heading-lg--letter-spacing: -2.67px;
+  --text-display: 105px;
+  --text-display--line-height: 0.85;
+  --text-display--letter-spacing: -3.15px;
+
+  /* Beacon named element radii. --radius-largecards (28px) matches
+     --radius-jvto-lg exactly, so the two systems already agree there. */
+  --radius-cards: 10px;
+  --radius-inputs: 10px;
+  --radius-buttons: 9999px;
+  --radius-tags: 9999px;
+  --radius-navsegments: 9999px;
+  --radius-largecards: 28px;
+  --radius-imagemasks: 1000px;
 }
 
 /* ====== BASE GLOBAL STYLE ====== */

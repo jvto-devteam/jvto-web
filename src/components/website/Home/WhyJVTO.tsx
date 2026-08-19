@@ -50,20 +50,17 @@ const WhyJVTO: React.FC<WhyJVTOProps> = ({ section }) => {
 
           {/* Left — editorial copy */}
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-7">
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-tags bg-jvto-lime/10 border border-jvto-lime/30 mb-7">
+              <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime">
                 {section?.eyebrow ?? FALLBACK.eyebrow}
               </span>
             </div>
 
-            <h2
-              className="text-4xl md:text-5xl font-black leading-[1.05] mb-8"
-              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-            >
+            <h2 className="font-display text-subheading md:text-heading-sm font-black mb-8">
               {heading}
             </h2>
 
-            <div className="text-white/60 text-sm md:text-base leading-relaxed font-light">
+            <div className="text-white/70 text-caption md:text-body-sm">
               <p>
                 {bodyBefore}
                 {strongIndex >= 0 && (
@@ -77,14 +74,14 @@ const WhyJVTO: React.FC<WhyJVTOProps> = ({ section }) => {
               <Link
                 href="/why-jvto/our-story"
                 prefetch={false}
-                className="font-bold border-b-2 border-jvto-lime text-white hover:text-jvto-lime transition-colors pb-1 text-sm"
+                className="font-semibold border-b-2 border-jvto-lime text-white hover:text-jvto-lime transition-colors pb-1 text-body-sm"
               >
                 Read the Full Story
               </Link>
               <Link
                 href="/verify-jvto"
                 prefetch={false}
-                className="font-bold border-b-2 border-white/20 text-white/60 hover:text-white hover:border-white transition-colors pb-1 text-sm"
+                className="font-semibold border-b-2 border-white/20 text-white/70 hover:text-white hover:border-white transition-colors pb-1 text-body-sm"
               >
                 How to Verify Us
               </Link>
@@ -96,17 +93,17 @@ const WhyJVTO: React.FC<WhyJVTOProps> = ({ section }) => {
 
             {/* Quote badge — OUTSIDE overflow-hidden card, anchored on relative wrapper */}
             <div
-              className="absolute -top-4 -right-4 z-10 bg-jvto-orange rounded-[18px] p-4 max-w-[200px]"
+              className="absolute -top-4 -right-4 z-10 bg-jvto-orange rounded-jvto-md p-4 max-w-[200px]"
               style={{ boxShadow: "var(--shadow-jvto-orange)" }}
             >
-              <p className="text-[10px] text-white italic leading-relaxed">
+              <p className="text-micro text-white italic">
                 &ldquo;{quote}&rdquo;
               </p>
             </div>
 
             {/* Founder card — separate element so quote badge overflows correctly */}
             <div
-              className="relative z-0 rounded-[40px] overflow-hidden border border-white/10 w-full max-w-md aspect-[4/5]"
+              className="relative z-0 rounded-jvto-xl overflow-hidden border border-white/10 w-full max-w-md aspect-[4/5]"
               style={{ boxShadow: "var(--shadow-jvto-hover)" }}
             >
               <Image
@@ -120,13 +117,10 @@ const WhyJVTO: React.FC<WhyJVTOProps> = ({ section }) => {
                 className="object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-jvto-navy/95 via-jvto-navy/60 to-transparent p-8">
-                <p
-                  className="font-black text-white text-lg tracking-tight mb-1"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                >
+                <p className="font-display font-black text-white text-body-lg mb-1">
                   {founderName}
                 </p>
-                <p className="text-[9px] text-jvto-lime font-bold uppercase tracking-[0.2em]">
+                <p className="text-micro text-jvto-lime font-semibold uppercase tracking-[0.2em]">
                   {founderTitle}
                 </p>
               </div>

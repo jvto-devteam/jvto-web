@@ -37,25 +37,22 @@ const Hero: React.FC<HeroProps> = async ({
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 pt-24 pb-16">
 
         {/* Eyebrow chip */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-jvto-lime/40 bg-jvto-lime/10 backdrop-blur-sm mb-7">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-tags border border-jvto-lime/40 bg-jvto-lime/10 backdrop-blur-sm mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-jvto-lime animate-pulse flex-shrink-0" />
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+          <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime">
             Java Volcano Tour Operator
           </span>
         </div>
 
         {/* H1 */}
-        <h1
-          className="text-4xl md:text-6xl font-black text-white leading-[1.0] mb-6 max-w-4xl"
-          style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.035em" }}
-        >
+        <h1 className="font-display text-heading-sm md:text-heading font-black text-white mb-6 max-w-4xl">
           Tourist Police-Led{" "}
           <em className="text-jvto-orange not-italic">Private Volcano Tours</em>{" "}
           in East Java
         </h1>
 
         {/* Subheadline */}
-        <p className="text-base md:text-lg text-white/70 max-w-2xl mb-5 leading-relaxed">
+        <p className="text-body-sm md:text-body text-white/70 max-w-2xl mb-5">
           {description}
         </p>
 
@@ -118,13 +115,10 @@ const Hero: React.FC<HeroProps> = async ({
                 i === 2 ? "md:border-l md:border-white/10" : "",
               ].filter(Boolean).join(" ")}
             >
-              <span
-                className="block text-lg font-black text-white leading-none"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <span className="block font-display text-body-lg font-black text-white leading-none">
                 {stat.val}
               </span>
-              <span className="block text-[8px] uppercase tracking-[0.12em] text-white/40 mt-1">
+              <span className="block text-micro uppercase tracking-[0.12em] text-white/50 mt-1">
                 {stat.lbl}
               </span>
             </div>
