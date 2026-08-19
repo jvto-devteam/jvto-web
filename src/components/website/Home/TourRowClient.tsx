@@ -103,13 +103,10 @@ const TourRowClient = ({ id, title, tours }: TourRowClientProps) => {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h3
-            className="text-2xl md:text-3xl font-black text-jvto-navy tracking-tight"
-            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-          >
+          <h3 className="font-display text-body-lg md:text-subheading font-black text-jvto-navy tracking-tight">
             {title}
           </h3>
-          <p className="text-jvto-muted mt-1 text-sm">
+          <p className="text-jvto-muted mt-1 text-caption">
             {tours.length} private itineraries available
           </p>
         </div>

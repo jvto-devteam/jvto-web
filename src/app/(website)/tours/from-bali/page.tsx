@@ -196,20 +196,17 @@ export default async function ToursPageBali() {
         />
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/15 mb-6">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+            <span className="text-micro font-semibold uppercase tracking-[0.2em] text-white/60">
               From Bali
             </span>
           </div>
 
-          <h1
-            className="text-4xl md:text-6xl font-black leading-[1.05] mb-6 max-w-3xl"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h1 className="font-display text-heading-sm md:text-heading font-black mb-6 max-w-3xl">
             Private East Java Volcano Tours from Bali —{" "}
             <em className="text-jvto-orange not-italic">Police-Led, Ferry Included.</em>
           </h1>
 
-          <p className="text-white/60 text-base md:text-lg max-w-2xl mb-8 leading-relaxed font-light">
+          <p className="text-white/60 text-body-sm md:text-body max-w-2xl mb-8 font-light">
             {initialTours.length} private packages: Kawah Ijen, Mount Bromo, Tumpak Sewu &amp; Papuma Beach.
             Cross from Bali to East Java with your own vehicle, your own crew, and no hidden costs.
           </p>
@@ -224,7 +221,7 @@ export default async function ToursPageBali() {
             ].map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-semibold text-white/60 uppercase tracking-[0.1em]"
+                className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-micro font-semibold text-white/60 uppercase tracking-[0.1em]"
               >
                 {tag}
               </span>
@@ -235,7 +232,7 @@ export default async function ToursPageBali() {
             <Link
               href="#packages"
               prefetch={false}
-              className="inline-flex items-center gap-2 bg-jvto-orange text-white px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
+              className="inline-flex items-center gap-2 bg-jvto-orange text-white px-8 py-4 font-bold text-micro uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
               style={{ boxShadow: "var(--shadow-jvto-orange)" }}
             >
               Browse {initialTours.length} Packages
@@ -244,7 +241,7 @@ export default async function ToursPageBali() {
             <Link
               href="/verify-jvto"
               prefetch={false}
-              className="inline-flex items-center gap-2 border border-white/20 text-white/70 px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors"
+              className="inline-flex items-center gap-2 border border-white/20 text-white/70 px-8 py-4 font-bold text-micro uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-colors"
             >
               Verify JVTO
             </Link>
@@ -256,36 +253,30 @@ export default async function ToursPageBali() {
       <section id="packages" className="bg-jvto-off py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
+            <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime-ink">
               {initialTours.length} Packages
             </span>
           </div>
-          <h2
-            className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight mb-4 max-w-2xl"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h2 className="font-display text-subheading md:text-heading-sm font-black text-jvto-navy mb-4 max-w-2xl">
             {initialTours.length} Private Tours from Bali.{" "}
-            <em className="text-jvto-orange not-italic">Ferry crossing included.</em>
+            <em className="text-jvto-orange-ink not-italic">Ferry crossing included.</em>
           </h2>
-          <p className="text-jvto-muted text-sm md:text-base max-w-xl leading-relaxed mb-8">
+          <p className="text-jvto-muted text-caption md:text-body-sm max-w-xl mb-8">
             Dedicated vehicle, English-speaking crew, ferry crossing (Gilimanuk–Ketapang), entrance fees,
             accommodation + breakfast, gas masks, mineral water, JVTO T-shirt.
             Price per person — no hidden local payments.
           </p>
 
           {/* Route overview highlight */}
-          <div className="flex gap-4 p-5 bg-white rounded-[20px] border border-jvto-border card-jvto">
+          <div className="flex gap-4 p-5 bg-white rounded-jvto-md border border-jvto-border card-jvto">
             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-jvto-navy/10 flex items-center justify-center mt-0.5">
               <Ship className="w-5 h-5 text-jvto-navy" strokeWidth={1.5} />
             </div>
             <div>
-              <p
-                className="font-black text-jvto-navy text-sm mb-1"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <p className="font-display font-black text-jvto-navy text-caption mb-1">
                 Bali to East Java — what the route looks like
               </p>
-              <p className="text-xs text-jvto-muted leading-relaxed">
+              <p className="text-micro text-jvto-muted">
                 All {initialTours.length} Bali packages cross from Bali to East Java by ferry on Day 1.
                 Three packages finish in Surabaya (one-way overland); one package returns you to Bali on Day 3.
                 Pick-up is from your Bali hotel or address.
@@ -307,18 +298,15 @@ export default async function ToursPageBali() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
+            <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime-ink">
               What&apos;s Included
             </span>
           </div>
-          <h2
-            className="text-3xl md:text-5xl font-black text-jvto-navy leading-tight mb-4 max-w-2xl"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h2 className="font-display text-subheading md:text-heading-sm font-black text-jvto-navy mb-4 max-w-2xl">
             Every Bali package includes —{" "}
-            <em className="text-jvto-orange not-italic">in writing.</em>
+            <em className="text-jvto-orange-ink not-italic">in writing.</em>
           </h2>
-          <p className="text-jvto-muted text-sm md:text-base max-w-xl leading-relaxed mb-12">
+          <p className="text-jvto-muted text-caption md:text-body-sm max-w-xl mb-12">
             All {initialTours.length} packages include the following. No surprise local payments.
           </p>
 
@@ -326,30 +314,27 @@ export default async function ToursPageBali() {
             {INCLUSIONS_BALI.map((item) => (
               <div
                 key={item.label}
-                className="flex gap-4 p-5 bg-jvto-off rounded-[20px] border border-jvto-border card-jvto"
+                className="flex gap-4 p-5 bg-jvto-off rounded-jvto-md border border-jvto-border card-jvto"
               >
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-jvto-lime/20 flex items-center justify-center mt-0.5">
                   <Check className="w-3.5 h-3.5 text-jvto-lime-ink" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p
-                    className="font-black text-jvto-navy text-sm mb-0.5"
-                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                  >
+                  <p className="font-display font-black text-jvto-navy text-caption mb-0.5">
                     {item.label}
                   </p>
-                  <p className="text-xs text-jvto-muted leading-relaxed">{item.detail}</p>
+                  <p className="text-micro text-jvto-muted">{item.detail}</p>
                 </div>
               </div>
             ))}
           </div>
 
           <div className="space-y-2 border-t border-jvto-border pt-6">
-            <p className="text-xs text-jvto-muted">
+            <p className="text-micro text-jvto-muted">
               <strong className="text-jvto-navy font-semibold">Not included:</strong>{" "}
               flights, tips, personal expenses, travel insurance, Indonesian VISA (if applicable).
             </p>
-            <p className="text-xs text-jvto-muted">
+            <p className="text-micro text-jvto-muted">
               <strong className="text-jvto-navy font-semibold">End point note:</strong>{" "}
               Three of four Bali packages finish in Surabaya — plan onward transport from Surabaya (flights, train, or bus) in advance.
             </p>
@@ -365,18 +350,15 @@ export default async function ToursPageBali() {
         />
         <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
+            <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime">
               Why JVTO
             </span>
           </div>
-          <h2
-            className="text-3xl md:text-5xl font-black leading-tight mb-4 max-w-2xl"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h2 className="font-display text-subheading md:text-heading-sm font-black mb-4 max-w-2xl">
             The facts{" "}
             <em className="text-jvto-orange not-italic">behind the booking.</em>
           </h2>
-          <p className="text-white/50 text-sm md:text-base max-w-xl leading-relaxed mb-12">
+          <p className="text-white/50 text-caption md:text-body-sm max-w-xl mb-12">
             Every claim below is documented and verifiable. No marketing language — just the record.
           </p>
 
@@ -384,18 +366,15 @@ export default async function ToursPageBali() {
             {WHY_ITEMS.map(({ Icon, title, body }) => (
               <div
                 key={title}
-                className="bg-white/5 border border-white/10 rounded-[24px] p-6 hover:bg-white/8 transition-colors"
+                className="bg-white/5 border border-white/10 rounded-largecards p-6 hover:bg-white/8 transition-colors"
               >
                 <div className="w-10 h-10 rounded-full bg-jvto-orange/15 flex items-center justify-center mb-5">
                   <Icon className="w-5 h-5 text-jvto-orange" strokeWidth={1.5} />
                 </div>
-                <h3
-                  className="font-black text-white text-sm mb-3"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                >
+                <h3 className="font-display font-black text-white text-caption mb-3">
                   {title}
                 </h3>
-                <p className="text-xs text-white/50 leading-relaxed">{body}</p>
+                <p className="text-micro text-white/50">{body}</p>
               </div>
             ))}
           </div>
@@ -410,18 +389,15 @@ export default async function ToursPageBali() {
             {/* Left — steps */}
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/30 mb-5">
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime-ink">
+                <span className="text-micro font-semibold uppercase tracking-[0.2em] text-jvto-lime-ink">
                   Book Direct
                 </span>
               </div>
-              <h2
-                className="text-3xl md:text-4xl font-black text-jvto-navy leading-tight mb-4"
-                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-              >
+              <h2 className="font-display text-subheading md:text-heading-sm font-black text-jvto-navy mb-4">
                 Book direct —{" "}
-                <em className="text-jvto-orange not-italic">no agency fees.</em>
+                <em className="text-jvto-orange-ink not-italic">no agency fees.</em>
               </h2>
-              <p className="text-jvto-muted text-sm md:text-base leading-relaxed mb-10">
+              <p className="text-jvto-muted text-caption md:text-body-sm mb-10">
                 Deposit 20%. Balance by card (5 days before) or bank wire / Wise (3 days before).
                 Cancellation ≥ 48h before Day 1 → 100% converted to Lifetime Travel Credit.
               </p>
@@ -430,9 +406,9 @@ export default async function ToursPageBali() {
                 {BOOKING_STEPS.map(({ step, text }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-9 h-9 rounded-full bg-jvto-navy flex items-center justify-center">
-                      <span className="text-[9px] font-bold text-white font-mono">{step}</span>
+                      <span className="text-micro font-semibold text-white font-mono">{step}</span>
                     </div>
-                    <p className="text-sm text-jvto-muted leading-relaxed pt-2">{text}</p>
+                    <p className="text-caption text-jvto-muted pt-2">{text}</p>
                   </div>
                 ))}
               </div>
@@ -442,7 +418,7 @@ export default async function ToursPageBali() {
                   href="https://wa.me/6282244788833"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-jvto-orange text-white px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
+                  className="inline-flex items-center gap-2 bg-jvto-orange text-white px-8 py-4 font-bold text-micro uppercase tracking-[0.2em] rounded-full hover:bg-jvto-orange-hover transition-colors"
                   style={{ boxShadow: "var(--shadow-jvto-orange)" }}
                 >
                   WhatsApp Us
@@ -451,7 +427,7 @@ export default async function ToursPageBali() {
                 <Link
                   href="/tours"
                   prefetch={false}
-                  className="inline-flex items-center gap-2 border border-jvto-navy/30 text-jvto-navy px-8 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-navy hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 border border-jvto-navy/30 text-jvto-navy px-8 py-4 font-bold text-micro uppercase tracking-[0.2em] rounded-full hover:bg-jvto-navy hover:text-white transition-colors"
                 >
                   Browse All Tours
                 </Link>
@@ -459,22 +435,19 @@ export default async function ToursPageBali() {
             </div>
 
             {/* Right — trust signals */}
-            <div className="bg-white rounded-[32px] border border-jvto-border p-8 card-jvto">
-              <h3
-                className="font-black text-jvto-navy text-sm mb-6 uppercase tracking-[0.15em]"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+            <div className="bg-white rounded-largecards border border-jvto-border p-8 card-jvto">
+              <h3 className="font-display font-black text-jvto-navy text-caption mb-6 uppercase tracking-[0.15em]">
                 Check us before you book
               </h3>
               <div className="space-y-4 mb-8">
                 {trustSignals.map(({ label, value }) => (
                   <div key={label} className="flex items-center justify-between py-3 border-b border-jvto-border last:border-0">
-                    <span className="text-xs text-jvto-muted font-semibold uppercase tracking-[0.1em]">{label}</span>
-                    <span className="text-xs text-jvto-navy font-bold text-right">{value}</span>
+                    <span className="text-micro text-jvto-muted font-semibold uppercase tracking-[0.1em]">{label}</span>
+                    <span className="text-micro text-jvto-navy font-bold text-right">{value}</span>
                   </div>
                 ))}
               </div>
-              <p className="text-[10px] text-jvto-muted leading-relaxed border-t border-jvto-border pt-5">
+              <p className="text-micro text-jvto-muted border-t border-jvto-border pt-5">
                 JVTO does not ask for CVV codes, OTP codes, or online banking passwords via chat or email.
                 Pay only via the official JVTO website or confirmed WhatsApp{" "}
                 <strong className="text-jvto-navy">+62 822 4478 8833</strong>.

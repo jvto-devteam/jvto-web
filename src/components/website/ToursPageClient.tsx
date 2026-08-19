@@ -50,9 +50,9 @@ const FilterSection = ({
     <div className="border-b border-jvto-border py-5 last:border-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between font-bold text-jvto-navy hover:text-jvto-orange mb-3 transition-colors"
+        className="flex w-full items-center justify-between font-semibold text-jvto-navy hover:text-jvto-orange-ink mb-3 transition-colors"
       >
-        <span className="text-[9px] uppercase tracking-[0.18em]">{title}</span>
+        <span className="text-micro uppercase tracking-[0.18em]">{title}</span>
         {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
       </button>
       <div
@@ -245,7 +245,7 @@ export default function ToursPageClient({
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, search: e.target.value }))
           }
-          className="w-full pl-9 pr-4 py-3 border border-jvto-border bg-jvto-off rounded-full text-sm focus:outline-none focus:border-jvto-navy focus:bg-white transition-all text-jvto-navy placeholder:text-jvto-muted/60"
+          className="w-full pl-9 pr-4 py-3 border border-jvto-border bg-jvto-off rounded-inputs text-caption focus:outline-none focus:border-jvto-navy focus:bg-white transition-all text-jvto-navy placeholder:text-jvto-muted/60"
         />
       </div>
 
@@ -260,7 +260,7 @@ export default function ToursPageClient({
                   key={loc}
                   onClick={() => handleLocationToggle(loc as StartLocation)}
                   className={`
-                    flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
+                    flex items-center justify-between p-3 rounded-cards border transition-all text-caption group
                     ${
                       isSelected
                         ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
@@ -270,7 +270,7 @@ export default function ToursPageClient({
                 >
                   <div className="flex items-center gap-3">
                     <MapPin size={16} strokeWidth={1.5} />
-                    <span className="text-sm">From {loc}</span>
+                    <span className="text-caption">From {loc}</span>
                   </div>
                   {isSelected && <Check size={14} className="text-jvto-navy" />}
                 </button>
@@ -290,7 +290,7 @@ export default function ToursPageClient({
                 key={range}
                 onClick={() => handleDurationToggle(range)}
                 className={`
-                  px-4 py-2 rounded-full text-xs font-bold border transition-all duration-200
+                  px-4 py-2 rounded-tags text-micro font-semibold border transition-all duration-200
                   ${
                     isSelected
                       ? "bg-jvto-lime border-jvto-lime text-jvto-navy shadow-sm scale-105"
@@ -324,8 +324,8 @@ export default function ToursPageClient({
             className="w-full h-2 bg-jvto-border rounded-full appearance-none cursor-pointer accent-jvto-lime"
           />
           <div className="flex justify-between items-center mt-3">
-            <span className="text-xs text-jvto-muted">Up to</span>
-            <span className="text-sm font-bold text-jvto-navy">
+            <span className="text-micro text-jvto-muted">Up to</span>
+            <span className="text-caption font-semibold text-jvto-navy">
               {formatIDR(filters.maxPrice)}
             </span>
           </div>
@@ -349,7 +349,7 @@ export default function ToursPageClient({
                 key={type.value}
                 onClick={() => handleCategoryToggle(type.value as TourCategory)}
                 className={`
-                  flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
+                  flex items-center justify-between p-3 rounded-cards border transition-all text-caption group
                   ${
                     isSelected
                       ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
@@ -359,7 +359,7 @@ export default function ToursPageClient({
               >
                 <div className="flex items-center gap-3">
                   <type.icon size={16} strokeWidth={1.5} />
-                  <span className="text-sm">{type.label}</span>
+                  <span className="text-caption">{type.label}</span>
                 </div>
                 {isSelected && <Check size={14} className="text-jvto-navy" />}
               </button>
@@ -370,7 +370,7 @@ export default function ToursPageClient({
 
       <button
         onClick={clearFilters}
-        className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-xs text-jvto-muted hover:text-jvto-orange transition-colors uppercase tracking-[0.1em] font-semibold"
+        className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-micro text-jvto-muted hover:text-jvto-orange-ink transition-colors uppercase tracking-[0.1em] font-semibold"
       >
         <RotateCcw size={14} />
         Reset filters
@@ -384,27 +384,24 @@ export default function ToursPageClient({
       {!hideHeader && (
         <div className="mb-12">
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-full border border-jvto-border bg-white font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-muted">
+            <span className="inline-flex items-center px-3 py-1 rounded-tags border border-jvto-border bg-white font-mono text-micro font-semibold uppercase tracking-[0.18em] text-jvto-muted">
               Tours hub
             </span>
             {lastReviewed ? (
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-muted/70">
+              <span className="font-mono text-micro font-semibold uppercase tracking-[0.18em] text-jvto-muted">
                 Last reviewed {lastReviewed}
               </span>
             ) : null}
           </div>
-          <h1
-            className="text-3xl md:text-4xl font-black text-jvto-navy mb-4"
-            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-          >
+          <h1 className="font-display text-subheading md:text-heading-sm font-black text-jvto-navy mb-4">
             {title ?? `${destinationName} Tours`}
           </h1>
           {answerFirst ? (
-            <p className="text-jvto-navy max-w-3xl leading-relaxed text-base md:text-lg font-medium mb-3">
+            <p className="text-jvto-navy max-w-3xl text-body-sm md:text-body font-medium mb-3">
               {answerFirst}
             </p>
           ) : null}
-          <p className="text-jvto-muted max-w-2xl leading-relaxed text-sm md:text-base">
+          <p className="text-jvto-muted max-w-2xl text-caption md:text-body-sm">
             {description}
           </p>
         </div>
@@ -413,15 +410,12 @@ export default function ToursPageClient({
       <div className="flex flex-col lg:flex-row gap-8 relative">
         {/* --- DESKTOP SIDEBAR --- */}
         <aside className="hidden lg:block w-[280px] shrink-0">
-          <div className="sticky top-32 bg-white p-6 rounded-[24px] border border-jvto-border card-jvto">
+          <div className="sticky top-32 bg-white p-6 rounded-largecards border border-jvto-border card-jvto">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-jvto-border">
-              <h3
-                className="text-[9px] font-black uppercase tracking-[0.2em] text-jvto-navy"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <h3 className="font-display text-micro font-black uppercase tracking-[0.2em] text-jvto-navy">
                 Filters
               </h3>
-              <span className="text-[9px] font-bold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-full text-jvto-navy">
+              <span className="text-micro font-semibold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-tags text-jvto-navy">
                 {filteredTours.length} tours
               </span>
             </div>
@@ -430,18 +424,18 @@ export default function ToursPageClient({
         </aside>
 
         {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md px-5 py-3.5 rounded-full shadow-sm border border-jvto-border flex items-center justify-between sticky top-24 z-30">
+        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md px-5 py-3.5 rounded-buttons shadow-sm border border-jvto-border flex items-center justify-between sticky top-24 z-30">
           <div>
-            <span className="block text-[9px] text-jvto-muted font-semibold uppercase tracking-[0.12em]">
+            <span className="block text-micro text-jvto-muted font-semibold uppercase tracking-[0.12em]">
               Showing
             </span>
-            <span className="font-bold text-jvto-navy text-sm">
+            <span className="font-semibold text-jvto-navy text-caption">
               {filteredTours.length} tours
             </span>
           </div>
           <button
             onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-orange text-white rounded-full text-[10px] font-bold uppercase tracking-[0.12em] active:scale-95 transition-transform"
+            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-orange text-white rounded-buttons text-micro font-semibold uppercase tracking-[0.12em] active:scale-95 transition-transform"
           >
             <Filter size={14} /> Filters
           </button>
@@ -465,10 +459,7 @@ export default function ToursPageClient({
             }`}
           >
             <div className="p-5 border-b border-jvto-border flex items-center justify-between">
-              <h3
-                className="text-[9px] font-black text-jvto-navy uppercase tracking-[0.2em]"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <h3 className="font-display text-micro font-black text-jvto-navy uppercase tracking-[0.2em]">
                 Filter Tours
               </h3>
               <button
@@ -485,7 +476,7 @@ export default function ToursPageClient({
             <div className="p-5 border-t border-jvto-border">
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-jvto-orange text-white py-3.5 rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
+                className="w-full bg-jvto-orange text-white py-3.5 rounded-buttons font-semibold text-micro uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
                 style={{ boxShadow: "var(--shadow-jvto-orange)" }}
               >
                 Show {filteredTours.length} Results
@@ -505,22 +496,19 @@ export default function ToursPageClient({
               ))}
             </div>
           ) : (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-white rounded-[24px] border border-jvto-border">
+            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-white rounded-largecards border border-jvto-border">
               <div className="w-14 h-14 bg-jvto-off rounded-full flex items-center justify-center mb-4">
                 <Search className="w-6 h-6 text-jvto-muted" />
               </div>
-              <h3
-                className="text-lg font-black text-jvto-navy mb-2"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <h3 className="font-display text-body font-black text-jvto-navy mb-2">
                 No tours found
               </h3>
-              <p className="text-jvto-muted text-sm max-w-xs mx-auto mb-6 leading-relaxed">
+              <p className="text-jvto-muted text-caption max-w-xs mx-auto mb-6">
                 Try adjusting your filters to find matching tours.
               </p>
               <button
                 onClick={clearFilters}
-                className="px-8 py-3 bg-jvto-orange text-white rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
+                className="px-8 py-3 bg-jvto-orange text-white rounded-buttons font-semibold text-micro uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
               >
                 Clear Filters
               </button>

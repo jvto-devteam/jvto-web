@@ -122,7 +122,7 @@ export default async function ToursPageGlobal() {
       <StructuredData data={schema} />
       <StructuredData data={hubFaqSchema} />
       {hubAggregateRatingSchema && <StructuredData data={hubAggregateRatingSchema} />}
-      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
+      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-jvto-off min-h-screen">
         <ToursPageClient
           initialTours={initialTours}
           destinationName="All Destinations"

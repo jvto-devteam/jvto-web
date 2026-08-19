@@ -36,7 +36,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
     <div
       role="article"
       aria-labelledby={`tour-title-${tour.id}`}
-      className="group flex flex-col rounded-[24px] bg-white border border-jvto-border overflow-hidden card-jvto h-full"
+      className="group flex flex-col rounded-largecards bg-white border border-jvto-border overflow-hidden card-jvto h-full"
     >
       {/* Image */}
       <Link
@@ -61,7 +61,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
         {tour.physicality && (
           <div
             aria-hidden="true"
-            className="absolute top-3 left-3 z-20 bg-jvto-navy/75 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.12em]"
+            className="absolute top-3 left-3 z-20 bg-jvto-navy/75 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-micro font-semibold uppercase tracking-[0.12em]"
           >
             {tour.physicality}
           </div>
@@ -72,12 +72,12 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
       <div className="p-5 flex flex-col flex-grow">
         {/* Meta */}
         <div className="flex items-center gap-3 mb-3">
-          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
+          <div className="flex items-center gap-1 text-micro text-jvto-muted font-semibold uppercase tracking-[0.08em]">
             <Clock className="w-3 h-3 text-jvto-orange flex-shrink-0" />
             <span>{durationString}</span>
           </div>
-          <span className="text-jvto-border text-xs">·</span>
-          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
+          <span className="text-jvto-border text-micro">·</span>
+          <div className="flex items-center gap-1 text-micro text-jvto-muted font-semibold uppercase tracking-[0.08em]">
             <MapPin className="w-3 h-3 text-jvto-orange flex-shrink-0" />
             <span>{tour.startDestination}</span>
           </div>
@@ -93,8 +93,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
         >
           <Tag
             id={`tour-title-${tour.id}`}
-            className="text-base font-black text-jvto-navy leading-snug line-clamp-2 group-hover:text-jvto-orange transition-colors"
-            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+            className="font-display text-body-sm font-black text-jvto-navy line-clamp-2 group-hover:text-jvto-orange-ink transition-colors"
           >
             {tour.name}
           </Tag>
@@ -102,18 +101,17 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 })
 
         {/* Price + CTA */}
         <div className="border-t border-jvto-border pt-4 mt-auto">
-          <span className="block text-[9px] text-jvto-muted font-bold uppercase tracking-[0.14em] mb-1">
+          <span className="block text-micro text-jvto-muted font-semibold uppercase tracking-[0.14em] mb-1">
             Starts from
           </span>
           <div className="flex items-center justify-between gap-2">
             <div>
               <span
-                className="text-xl font-black text-jvto-navy tracking-tight"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                className="font-display text-body-lg font-black text-jvto-navy tracking-tight"
               >
                 {formatIDR(tour.startFrom)}
               </span>
-              <span className="text-[10px] text-jvto-muted ml-1">/ person</span>
+              <span className="text-micro text-jvto-muted ml-1">/ person</span>
             </div>
             <Link
               target={target}
