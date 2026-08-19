@@ -9,7 +9,6 @@ import {
   DOCTOR_SCHEMA,
 } from "@/lib/schemas/buildVerifySchemas";
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
-import { SHA256_ANCHORS } from "@/lib/forensic-anchors";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -159,6 +158,15 @@ const FALLBACK = {
     { before: "Confirm the record shows JVTO at the Bondowoso domicile.", strong: "", after: "" },
   ],
   onRequestText: "Scans of the Akta Pendirian (Articles of Incorporation), the Kemenkumham (AHU) approval letter, the NIB certificate, and the TDUP can be requested directly via WhatsApp before booking — each matched to the SHA-256 hash above.",
+  forensicAnchors: [
+    { asset: "NIB 1102230032918", hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7", imagePath: "/legal/NIB-1102230032918-preview.png" },
+    { asset: "TDUP 1102230032918", hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3", imagePath: "/legal/TDUP-1102230032918-preview.png" },
+    { asset: "HPWKI Approval", hash: "ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b", imagePath: "/legal/HPWKI-approval-preview.png" },
+    { asset: "SPRIN POLPAR", hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab", imagePath: "/legal/SPRIN-POLPAR.png" },
+    { asset: "SPRIN WAL TRAVEL 2024-02-12", hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3", imagePath: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.png" },
+    { asset: "Press — Detik.com 2021-03-14", hash: "b257b75b3d2b9edebf07c9af89a6c6aa9a4e01d6a716ef3f7c4ca75deda64b77", imagePath: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png" },
+    { asset: "Press — Radar Jember 2021-03-24", hash: "2a60eb168274004283b2b9939ccbf5982c12a7db854fda014308a2494ee2abf4", imagePath: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png" },
+  ],
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -197,6 +205,7 @@ export default async function LegalPage() {
   const addressAfterStrong = pc.addressAfterStrong ?? FALLBACK.addressAfterStrong;
   const howToVerifySteps = pc.howToVerifySteps ?? FALLBACK.howToVerifySteps;
   const onRequestText = pc.onRequestText ?? FALLBACK.onRequestText;
+  const forensicAnchors = pc.forensicAnchors ?? FALLBACK.forensicAnchors;
 
   const pageRow = seo.row
     ? {
@@ -458,20 +467,17 @@ export default async function LegalPage() {
                 {forensicIntroBefore}<span className="font-mono text-[13px] text-[#6b7280]">public/llms.txt</span>{forensicIntroAfter}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
-                {SHA256_ANCHORS.map((a) => {
-                  const imgSrc = a.imageUrl.replace("https://javavolcano-touroperator.com", "");
-                  return (
-                    <a key={a.asset} href={a.imageUrl} target="_blank" rel="noopener noreferrer" className="group">
-                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
-                        <Image src={imgSrc} alt={`Preview of ${a.asset}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw" />
-                      </div>
-                      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{a.asset}</p>
-                    </a>
-                  );
-                })}
+                {forensicAnchors.map((a) => (
+                  <a key={a.asset} href={`${BASE_URL}${a.imagePath}`} target="_blank" rel="noopener noreferrer" className="group">
+                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
+                      <Image src={a.imagePath} alt={`Preview of ${a.asset}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw" />
+                    </div>
+                    <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{a.asset}</p>
+                  </a>
+                ))}
               </div>
               <ul className="mb-10" style={{ borderTop: "1px solid #E3E0DA" }}>
-                {SHA256_ANCHORS.map((a) => (
+                {forensicAnchors.map((a) => (
                   <li key={a.asset} className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>
                     <span className="font-bold text-[15px] text-jvto-navy">{a.asset}</span>
                     <span className="font-mono text-[11.5px] text-[#9ca3af] break-all leading-relaxed">{a.hash}</span>

@@ -5,11 +5,30 @@ import Link from "@/components/website/AppLink";
 import { notFound } from "next/navigation";
 import { getEcosystemVerifyAssetsInventory } from "@/lib/ecosystemContent/verifyAssetsInventory";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
+import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import { getAllDocs } from "@/lib/data-loader";
+
+const FALLBACK = {
+  timeline: [
+    { year: "'15", h4: "2015 · Guesthouse", p: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102. Booking.com guests rate it 9.4/10." },
+    { year: "'16", h4: "2016 · PT incorporation", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same Bondowoso address." },
+    { year: "'18", h4: "2018 · Stefan Loose listing", p: "Stefan Loose Reiseführer Indonesien (4th ed., p. 287) names \"Agung\" as operator — an independent German guidebook." },
+    { year: "'21", h4: "2021 · Independent press", p: "Detik.com and Radar Jember name Bripka Agung Sambuko in Tourist Police duties at Ijen Geopark." },
+    { year: "'23", h4: "2023 · TDUP formalized", p: "Tourism Business Permit formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
+    { year: "'26", h4: "2026 · Today", p: "{PACKAGE_COUNT} private itineraries; 14-person crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
+  ],
+  faq: [
+    { q: "Is Java Volcano Tour Operator a legal business?", a: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918, verifiable via oss.go.id (Indonesia Online Single Submission portal)." },
+    { q: "Is Agung Sambuko really a police officer?", a: "Yes. Agung Sambuko is an active member of the Indonesian Tourist Police (POLRI), Ditpamobvit division. Official SPRIN assignment orders are published in the proof library below." },
+    { q: "How can I verify the documents provided by JVTO?", a: "Documents in the Evidence Locker include a SHA-256 hash. Download the original file and compare its hash to the published value to detect any tampering — mathematically certain proof." },
+    { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/KSA.9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
+  ],
+};
 
 export const revalidate = 86400;
 
@@ -48,13 +67,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VerifyJvtoPage() {
-  const [seo, googleStats, reviewProfiles, ssotData] = await Promise.all([
+  const [seo, googleStats, reviewProfiles, ssotData, page, packages] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto", fallbackSeo),
     getGoogleReviewStats(),
     getEcosystemReviewProfiles(),
     getEcosystemVerifyAssetsInventory(),
+    loadEcosystemPage("/verify-jvto"),
+    getEcosystemPackagesList(),
   ]);
   if (!ssotData) notFound();
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -822,14 +844,11 @@ export default async function VerifyJvtoPage() {
       };
     });
 
-  const TIMELINE = [
-    { year: "'15", h4: "2015 · Guesthouse", p: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102. Booking.com guests rate it 9.4/10." },
-    { year: "'16", h4: "2016 · PT incorporation", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same Bondowoso address." },
-    { year: "'18", h4: "2018 · Stefan Loose listing", p: "Stefan Loose Reiseführer Indonesien (4th ed., p. 287) names \"Agung\" as operator — an independent German guidebook." },
-    { year: "'21", h4: "2021 · Independent press", p: "Detik.com and Radar Jember name Bripka Agung Sambuko in Tourist Police duties at Ijen Geopark." },
-    { year: "'23", h4: "2023 · TDUP formalized", p: "Tourism Business Permit formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
-    { year: "'26", h4: "2026 · Today", p: "16 private itineraries; 14-person crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
-  ] as const;
+  const TIMELINE = (pc.timeline ?? FALLBACK.timeline).map((item) => ({
+    ...item,
+    p: item.p.replace("{PACKAGE_COUNT}", String(packages.length)),
+  }));
+  const FAQ_ITEMS = pc.faq ?? FALLBACK.faq;
 
   const ArrowRight = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
@@ -1118,12 +1137,7 @@ export default async function VerifyJvtoPage() {
             </h2>
           </div>
           <div className="space-y-0">
-            {[
-              { q: "Is Java Volcano Tour Operator a legal business?", a: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918, verifiable via oss.go.id (Indonesia Online Single Submission portal)." },
-              { q: "Is Agung Sambuko really a police officer?", a: "Yes. Agung Sambuko is an active member of the Indonesian Tourist Police (POLRI), Ditpamobvit division. Official SPRIN assignment orders are published in the proof library below." },
-              { q: "How can I verify the documents provided by JVTO?", a: "Documents in the Evidence Locker include a SHA-256 hash. Download the original file and compare its hash to the published value to detect any tampering — mathematically certain proof." },
-              { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/KSA.9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
-            ].map(({ q, a }) => (
+            {FAQ_ITEMS.map(({ q, a }) => (
               <div key={q} className="border-b border-[#E3E0DA] py-7">
                 <h3 className="font-bold text-jvto-navy text-[16px] mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{q}</h3>
                 <p className="text-[#6b7280] text-[15px] font-light leading-relaxed">{a}</p>
