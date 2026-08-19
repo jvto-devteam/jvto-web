@@ -2,6 +2,7 @@ import ContactPage from "@/components/website/ContactPage";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const ROUTE = "/contact";
@@ -48,12 +49,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Contact() {
-  const seo = await getEcosystemPageSeo(ROUTE, fallbackSeo);
+  const [seo, page] = await Promise.all([
+    getEcosystemPageSeo(ROUTE, fallbackSeo),
+    loadEcosystemPage(ROUTE),
+  ]);
+  const pageContent = (page?.raw as any)?.page?.content?.payload?.pageContent ?? null;
 
   return (
     <>
       <PageJsonLdCombined pageRow={seo.row as any} />
-      <ContactPage title={seo.h1} description={seo.description} />
+      <ContactPage title={seo.h1} description={seo.description} content={pageContent} />
     </>
   );
 }

@@ -20,6 +20,34 @@ export const revalidate = 3600;
 const ROUTE = "/why-jvto/our-team";
 const SITE_URL = "https://javavolcano-touroperator.com";
 
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+//
+// Note: getPublicLeadership()/getPublicMedicalPartner() (@/lib/people/canonicalPeople)
+// already read a live, ekosistem-backed leadership/medicalPartner record, but their
+// allowlisted fields (background/role prose) are phrased differently from the text
+// below — wiring them in directly would change the rendered copy, which the
+// pure-data-source-swap mandate for this migration forbids. So these two cards
+// are migrated as verbatim `pageContent`, matching the pattern used everywhere else
+// in this migration, instead of switching to that reader.
+const FALLBACK = {
+  leadershipCard: {
+    badge: "Founder · Active Tourist Police",
+    name: "Agung “Mr. Sam” Sambuko",
+    descBefore:
+      "Active officer in Ditpamobvit — the National Police directorate for security at vital tourist objects, including Ijen Crater. The operational authority behind every route decision and safety call. Police status independently documented in three press articles and SPRIN documents on file.",
+    descAfter: "No other East Java volcano operator is led by an active Tourist Police officer.",
+  },
+  medicalCard: {
+    badge: "Medical Officer · Ijen Screening",
+    name: "Dr. Ahmad Irwandanu",
+    desc:
+      "Holds a valid SIP (Surat Izin Praktik) issued by Kemenkes RI. When BBKSDA rules require a health certificate for crater access, he issues the QR-verified surat sehat scannable at the gate. Based in Bondowoso, East Java.",
+    linkText: "Verify SIP at SatuSehat SDMK →",
+    linkHref: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
+  },
+};
+
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -131,6 +159,9 @@ export default async function OurTeamPage() {
     loadEcosystemPage(ROUTE),
   ]);
   const allCrew = [...guides, ...drivers];
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const leadershipCard = pc.leadershipCard ?? FALLBACK.leadershipCard;
+  const medicalCard = pc.medicalCard ?? FALLBACK.medicalCard;
   const sections = page?.sections ?? [];
   const guardianMindset = sections.find((s) => s.id === "guardian-mindset");
   const trustPillars = sections.find((s) => s.id === "trust-pillar-crew-mapping");
@@ -274,15 +305,15 @@ export default async function OurTeamPage() {
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 8px)" }} aria-hidden="true" />
               </div>
               <div className="p-7 flex flex-col gap-2">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">Founder · Active Tourist Police</span>
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">{leadershipCard.badge}</span>
                 <h3 className="text-[26px] font-black text-jvto-navy leading-[1.1]" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}>
-                  Agung &ldquo;Mr. Sam&rdquo; Sambuko
+                  {leadershipCard.name}
                 </h3>
                 <p className="text-[#6b7280] text-[14px] font-light leading-[1.6]">
-                  Active officer in Ditpamobvit — the National Police directorate for security at vital tourist objects, including Ijen Crater. The operational authority behind every route decision and safety call. Police status independently documented in three press articles and SPRIN documents on file.
+                  {leadershipCard.descBefore}
                 </p>
                 <p className="text-jvto-navy font-medium text-[14px]">
-                  No other East Java volcano operator is led by an active Tourist Police officer.
+                  {leadershipCard.descAfter}
                 </p>
               </div>
             </div>
@@ -292,20 +323,20 @@ export default async function OurTeamPage() {
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 8px)" }} aria-hidden="true" />
               </div>
               <div className="p-7 flex flex-col gap-2">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">Medical Officer · Ijen Screening</span>
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">{medicalCard.badge}</span>
                 <h3 className="text-[26px] font-black text-jvto-navy leading-[1.1]" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.02em" }}>
-                  Dr. Ahmad Irwandanu
+                  {medicalCard.name}
                 </h3>
                 <p className="text-[#6b7280] text-[14px] font-light leading-[1.6]">
-                  Holds a valid SIP (Surat Izin Praktik) issued by Kemenkes RI. When BBKSDA rules require a health certificate for crater access, he issues the QR-verified surat sehat scannable at the gate. Based in Bondowoso, East Java.
+                  {medicalCard.desc}
                 </p>
                 <a
-                  href="https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217"
+                  href={medicalCard.linkHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-jvto-orange text-[13px] font-semibold border-b border-jvto-orange/40 hover:border-jvto-orange transition-colors self-start"
                 >
-                  Verify SIP at SatuSehat SDMK →
+                  {medicalCard.linkText}
                 </a>
               </div>
             </div>

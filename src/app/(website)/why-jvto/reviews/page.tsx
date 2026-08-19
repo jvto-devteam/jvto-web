@@ -12,7 +12,7 @@ import {
 } from "@/lib/schemas/buildWhyJvtoSchemas";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
-import { REVIEW_THEMES } from "./reviewThemes";
+import { REVIEW_THEMES, type ReviewTheme } from "./reviewThemes";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
@@ -51,6 +51,10 @@ const ArrowRight = () => (
 
 export default async function WhyJvtoReviewsPage() {
   const page = await loadEcosystemPage(ROUTE);
+  const pageContentPayload = (page?.raw as any)?.page?.content?.payload?.pageContent ?? {};
+  // FALLBACK: REVIEW_THEMES (imported above) — used only if ekosistem doesn't
+  // return a `pageContent.reviewThemes` for this route.
+  const reviewThemes: ReviewTheme[] = pageContentPayload.reviewThemes ?? REVIEW_THEMES;
   const sections = page?.sections ?? [];
   const faqItems = (page?.faq ?? []).map((item) => ({
     q: item.question,
@@ -137,7 +141,7 @@ export default async function WhyJvtoReviewsPage() {
                   label: platform.platform,
                   value: `${platform.rating} / 5 · ${platform.reviewCount}`,
                 })),
-                { label: "Themes", value: `${REVIEW_THEMES.length} patterns` },
+                { label: "Themes", value: `${reviewThemes.length} patterns` },
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-start gap-4 border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50 flex-shrink-0">{label}</span>
@@ -248,7 +252,7 @@ export default async function WhyJvtoReviewsPage() {
                 Five recurring patterns.
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-                {REVIEW_THEMES.map((t) => (
+                {reviewThemes.map((t) => (
                   <div key={t.themeId} className="bg-white border border-[#E3E0DA] rounded-xl p-8 flex flex-col gap-3" style={{ boxShadow: "0 1px 8px 0 rgba(13,27,42,0.06)" }}>
                     <span className="font-mono text-[11px] font-bold tracking-[0.22em] text-jvto-orange">{t.themeId} · {t.claimLinkage}</span>
                     <h3 className="font-bold text-jvto-navy" style={{ fontSize: "22px", letterSpacing: "-0.01em", lineHeight: 1.15 }}>{t.theme}</h3>

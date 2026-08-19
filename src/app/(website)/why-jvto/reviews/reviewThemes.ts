@@ -5,8 +5,9 @@
 // everything else in it was stale review *statistics* (a hand-copied 4.91 / 203
 // blend that had drifted from the sources of truth), which now come from
 // getPublicAggregateRating() and getEcosystemReviewProfiles(). These themes are
-// page copy, not statistics — no live source exists for them in jvto-ekosistem —
-// so they live next to their only consumer.
+// page copy, not statistics — they now live in ekosistem as
+// why-jvto/reviews.source.json's `content.payload.pageContent.reviewThemes` —
+// this export is kept only as the FALLBACK constant for page.tsx.
 //
 // NOT @type:Review schema. HTML-first content only; the individual Review nodes
 // on this page are built from real DB records via getReviewsForSchema().

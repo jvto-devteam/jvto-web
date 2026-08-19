@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -21,6 +22,48 @@ const fallbackSeo = {
   h1: "Explore Java's Volcanoes with ISIC Benefits",
   description:
     "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator.",
+};
+
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  packagesHeading: "Exclusive Student Package for ISIC Cardholders",
+  packagesIntro:
+    "JVTO collaborates with ISIC to offer student-friendly pricing structures for safe, all-inclusive volcano tours. These prices are only available to ISIC cardholders. To redeem, you must have a valid ISIC card.",
+  noPackagesText: "No packages currently available.",
+  whatIsHeadingBefore: "What is ",
+  whatIsHeadingStrong: "Student Package?",
+  whatIsIntroBefore: "Opting for a student package does ",
+  whatIsIntroStrong: "not",
+  whatIsIntroAfter:
+    " mean cutting corners. It's designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.",
+  features: [
+    { title: "Private Structure", desc: "Strictly private tour structure. No mixed groups." },
+    { title: "All-Inclusive", desc: "Includes park fees, permits, and transport." },
+    { title: "High Safety", desc: "Same high safety standards, including health screening." },
+  ],
+  needCardHeading: "Need an ISIC Card?",
+  needCardIntro:
+    "The International Student Identity Card (ISIC) is the only globally recognized proof of full-time student status. Get yours today to unlock thousands of benefits!",
+  buyNowText: "BUY NOW",
+  howToApplyHeading: "How to Apply the ISIC Code",
+  steps: [
+    {
+      number: "1",
+      title: "Choose Your Adventure",
+      text: 'Visit our website and select the volunteer or tour package you wish to book. Click on the "Book Now" button.',
+    },
+    {
+      number: "2",
+      title: "Fill in Your Details",
+      text: 'Complete the booking form with your personal details. In the "Discount Code" field, enter your unique ISIC code.',
+    },
+    {
+      number: "3",
+      title: "Apply & Verify",
+      text: 'Click "Apply". The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival.',
+    },
+  ],
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -36,8 +79,26 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function IsicStudentPackagePage() {
-  const seo = await getEcosystemPageSeo("/isic/student-package", fallbackSeo);
-  const studentPackages = await getAllTours();
+  const [seo, studentPackages, page] = await Promise.all([
+    getEcosystemPageSeo("/isic/student-package", fallbackSeo),
+    getAllTours(),
+    loadEcosystemPage("/isic/student-package"),
+  ]);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const packagesHeading = pc.packagesHeading ?? FALLBACK.packagesHeading;
+  const packagesIntro = pc.packagesIntro ?? FALLBACK.packagesIntro;
+  const noPackagesText = pc.noPackagesText ?? FALLBACK.noPackagesText;
+  const whatIsHeadingBefore = pc.whatIsHeadingBefore ?? FALLBACK.whatIsHeadingBefore;
+  const whatIsHeadingStrong = pc.whatIsHeadingStrong ?? FALLBACK.whatIsHeadingStrong;
+  const whatIsIntroBefore = pc.whatIsIntroBefore ?? FALLBACK.whatIsIntroBefore;
+  const whatIsIntroStrong = pc.whatIsIntroStrong ?? FALLBACK.whatIsIntroStrong;
+  const whatIsIntroAfter = pc.whatIsIntroAfter ?? FALLBACK.whatIsIntroAfter;
+  const features = pc.features ?? FALLBACK.features;
+  const needCardHeading = pc.needCardHeading ?? FALLBACK.needCardHeading;
+  const needCardIntro = pc.needCardIntro ?? FALLBACK.needCardIntro;
+  const buyNowText = pc.buyNowText ?? FALLBACK.buyNowText;
+  const howToApplyHeading = pc.howToApplyHeading ?? FALLBACK.howToApplyHeading;
+  const steps = pc.steps ?? FALLBACK.steps;
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
@@ -122,13 +183,13 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="font-black text-3xl md:text-4xl text-foreground mb-4">
-                Exclusive Student Package for ISIC Cardholders
+                {packagesHeading}
               </h2>
               <p className="text-muted-foreground max-w-3xl mx-auto">
-                JVTO collaborates with ISIC to offer student-friendly pricing structures for safe, all-inclusive volcano tours. These prices are only available to ISIC cardholders. To redeem, you must have a valid ISIC card.
+                {packagesIntro}
               </p>
             </div>
-            
+
             {studentPackages.length > 0 ? (
                 <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {studentPackages.map((tour) => (
@@ -139,7 +200,7 @@ export default async function IsicStudentPackagePage() {
                 </div>
             ) : (
                 <div className="text-center py-12 bg-muted/20 rounded-sm">
-                    <p className="text-muted-foreground">No packages currently available.</p>
+                    <p className="text-muted-foreground">{noPackagesText}</p>
                 </div>
             )}
           </div>
@@ -151,10 +212,10 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="font-black text-3xl text-foreground">
-                What is <span className="text-primary">Student Package?</span>
+                {whatIsHeadingBefore}<span className="text-primary">{whatIsHeadingStrong}</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-                Opting for a student package does <strong>not</strong> mean cutting corners. It's designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.
+                {whatIsIntroBefore}<strong>{whatIsIntroStrong}</strong>{whatIsIntroAfter}
               </p>
             </div>
 
@@ -164,8 +225,8 @@ export default async function IsicStudentPackagePage() {
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <Users size={40} />
                 </div>
-                <h4 className="font-bold text-xl mb-3">Private Structure</h4>
-                <p className="text-muted-foreground">Strictly private tour structure. No mixed groups.</p>
+                <h4 className="font-bold text-xl mb-3">{features[0].title}</h4>
+                <p className="text-muted-foreground">{features[0].desc}</p>
               </div>
 
               {/* Feature 2 */}
@@ -173,8 +234,8 @@ export default async function IsicStudentPackagePage() {
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <Ticket size={40} />
                 </div>
-                <h4 className="font-bold text-xl mb-3">All-Inclusive</h4>
-                <p className="text-muted-foreground">Includes park fees, permits, and transport.</p>
+                <h4 className="font-bold text-xl mb-3">{features[1].title}</h4>
+                <p className="text-muted-foreground">{features[1].desc}</p>
               </div>
 
               {/* Feature 3 */}
@@ -182,8 +243,8 @@ export default async function IsicStudentPackagePage() {
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <ShieldCheck size={40} />
                 </div>
-                <h4 className="font-bold text-xl mb-3">High Safety</h4>
-                <p className="text-muted-foreground">Same high safety standards, including health screening.</p>
+                <h4 className="font-bold text-xl mb-3">{features[2].title}</h4>
+                <p className="text-muted-foreground">{features[2].desc}</p>
               </div>
             </div>
           </div>
@@ -212,14 +273,14 @@ export default async function IsicStudentPackagePage() {
               {/* Right Column: Content */}
               <div className="flex-1 text-left">
                 <h2 className="font-black text-3xl md:text-4xl text-foreground mb-6">
-                  Need an ISIC Card?
+                  {needCardHeading}
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                  The International Student Identity Card (ISIC) is the only globally recognized proof of full-time student status. Get yours today to unlock thousands of benefits!
+                  {needCardIntro}
                 </p>
                 <Button size="lg" className="w-full md:w-auto">
                   <a href="https://www.isic.org/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    BUY NOW <ArrowRight size={20} />
+                    {buyNowText} <ArrowRight size={20} />
                   </a>
                 </Button>
               </div>
@@ -231,9 +292,9 @@ export default async function IsicStudentPackagePage() {
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <h2 className="font-black text-3xl md:text-4xl text-center mb-16 text-foreground">
-              How to Apply the ISIC Code
+              {howToApplyHeading}
             </h2>
-            
+
             <div className="flex flex-col gap-16 md:gap-24 max-w-5xl mx-auto">
               {/* Step 1 */}
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
@@ -243,9 +304,9 @@ export default async function IsicStudentPackagePage() {
                   </div>
                 </div>
                 <div className="flex-1 flex flex-col items-start">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">1</span>
-                  <h3 className="text-2xl font-bold mb-4">Choose Your Adventure</h3>
-                  <p className="text-muted-foreground text-lg">Visit our website and select the volunteer or tour package you wish to book. Click on the "Book Now" button.</p>
+                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">{steps[0].number}</span>
+                  <h3 className="text-2xl font-bold mb-4">{steps[0].title}</h3>
+                  <p className="text-muted-foreground text-lg">{steps[0].text}</p>
                 </div>
               </div>
 
@@ -257,9 +318,9 @@ export default async function IsicStudentPackagePage() {
                   </div>
                 </div>
                 <div className="flex-1 flex flex-col items-start md:items-end text-left md:text-right">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">2</span>
-                  <h3 className="text-2xl font-bold mb-4">Fill in Your Details</h3>
-                  <p className="text-muted-foreground text-lg">Complete the booking form with your personal details. In the "Discount Code" field, enter your unique ISIC code.</p>
+                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">{steps[1].number}</span>
+                  <h3 className="text-2xl font-bold mb-4">{steps[1].title}</h3>
+                  <p className="text-muted-foreground text-lg">{steps[1].text}</p>
                 </div>
               </div>
 
@@ -271,9 +332,9 @@ export default async function IsicStudentPackagePage() {
                   </div>
                 </div>
                 <div className="flex-1 flex flex-col items-start">
-                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">3</span>
-                  <h3 className="text-2xl font-bold mb-4">Apply & Verify</h3>
-                  <p className="text-muted-foreground text-lg">Click "Apply". The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival.</p>
+                  <span className="text-8xl font-black text-muted/30 leading-none mb-4">{steps[2].number}</span>
+                  <h3 className="text-2xl font-bold mb-4">{steps[2].title}</h3>
+                  <p className="text-muted-foreground text-lg">{steps[2].text}</p>
                 </div>
               </div>
             </div>
