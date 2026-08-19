@@ -16,68 +16,144 @@ const siteUrl =
 
 export const revalidate = 300;
 
-const ARTICLES = [
-  {
-    slug: "ijen-health-screening",
-    label: "Required",
-    name: "Ijen Health Screening",
-    desc: "Mandatory medical clearance - gas mask - clinic protocol.",
-  },
-  {
-    slug: "mount-bromo-logistics",
-    label: "Logistics",
-    name: "Mount Bromo Logistics",
-    desc: "Jeep timings - sunrise viewpoints - altitude prep.",
-  },
-  {
-    slug: "tumpak-sewu-logistics",
-    label: "Logistics",
-    name: "Tumpak Sewu Logistics",
-    desc: "Trekking - footwear - river crossing safety.",
-  },
-  {
-    slug: "packing-and-fitness",
-    label: "Prep",
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  heroStats: [
+    { label: "Guide articles", value: "10" },
+    { label: "Last updated", value: "May 2026" },
+    { label: "Reading time", value: "~25 min" },
+    { label: "Author", value: "JVTO ops team" },
+  ],
+  rulebookCards: [
+    {
+      label: "PVMBG-aligned",
+      title: "Safety boundaries",
+      desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
+    },
+    {
+      label: "Real screening",
+      title: "Health requirements",
+      desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
+    },
+    {
+      label: "Not a broker",
+      title: "Operational control",
+      desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
+    },
+  ],
+  destinationGuides: [
+    {
+      href: "/travel-guide/ijen-health-screening",
+      name: "Ijen Health Screening",
+      desc: "Mandatory medical clearance - gas mask - clinic protocol.",
+    },
+    {
+      href: "/travel-guide/mount-bromo-logistics",
+      name: "Mount Bromo Logistics",
+      desc: "Jeep timings - sunrise viewpoints - altitude prep.",
+    },
+    {
+      href: "/travel-guide/tumpak-sewu-logistics",
+      name: "Tumpak Sewu Logistics",
+      desc: "Trekking - footwear - river crossing safety.",
+    },
+  ],
+  packingCard: {
+    href: "/travel-guide/packing-and-fitness",
     name: "Packing & Fitness",
-    desc: "Layered clothing and fitness expectations.",
+    desc: "Layered clothing, hiking shoes, headlamps, and personal medication. See our full list.",
+    action: "Read packing & fitness",
   },
-  {
-    slug: "weather-and-closures",
-    label: "Conditions",
-    name: "Weather & Closures",
-    desc: "PVMBG alerts - seasonal access - monsoon notes.",
-  },
-  {
-    slug: "safety-on-tours",
-    label: "Safety",
-    name: "Safety on Tours",
-    desc: "Police-led protocols - medical - vehicle standards.",
-  },
-  {
-    slug: "booking-information",
-    label: "Process",
-    name: "Booking Information",
-    desc: "Deposits - confirmation - reschedule mechanics.",
-  },
-  {
-    slug: "police-escort-for-groups",
-    label: "Authority",
-    name: "Police Escort for Groups",
-    desc: "When and how police escort is arranged.",
-  },
-  {
-    slug: "rijik-monthly-closure",
-    label: "Conditions",
-    name: "Ijen Rijik Monthly Closure",
-    desc: "The first-Friday-of-the-month TWA Ijen conservation closure.",
-  },
-  {
-    slug: "faq",
-    label: "Reference",
-    name: "FAQ",
-    desc: "Common questions answered in plain language.",
-  },
-] as const;
+  extraPracticalCards: [
+    {
+      title: "Altitude & temperature",
+      desc: "Bromo can drop to 0 C. Ijen is at 2,386m. Prepare for cold mornings and thin air.",
+      footerLabel: "Critical info",
+    },
+    {
+      title: "Money & connectivity",
+      desc: "Cash is king in remote areas. SIM cards and Wi-Fi availability vary by location.",
+      footerLabel: "Logistics",
+    },
+  ],
+  checklistItems: [
+    {
+      title: "Verify your operator",
+      desc: "Check for a real NIB license and police-led safety oversight. Don't book with unlicensed brokers.",
+    },
+    {
+      title: "Verify your health",
+      desc: "Ensure you have a real medical check at a certified clinic for Ijen. Your safety depends on it.",
+    },
+    {
+      title: "Verify your route",
+      desc: "Confirm your private logistics and safety decision boundaries. Know who makes the call if things change.",
+    },
+  ],
+  articles: [
+    {
+      slug: "ijen-health-screening",
+      label: "Required",
+      name: "Ijen Health Screening",
+      desc: "Mandatory medical clearance - gas mask - clinic protocol.",
+    },
+    {
+      slug: "mount-bromo-logistics",
+      label: "Logistics",
+      name: "Mount Bromo Logistics",
+      desc: "Jeep timings - sunrise viewpoints - altitude prep.",
+    },
+    {
+      slug: "tumpak-sewu-logistics",
+      label: "Logistics",
+      name: "Tumpak Sewu Logistics",
+      desc: "Trekking - footwear - river crossing safety.",
+    },
+    {
+      slug: "packing-and-fitness",
+      label: "Prep",
+      name: "Packing & Fitness",
+      desc: "Layered clothing and fitness expectations.",
+    },
+    {
+      slug: "weather-and-closures",
+      label: "Conditions",
+      name: "Weather & Closures",
+      desc: "PVMBG alerts - seasonal access - monsoon notes.",
+    },
+    {
+      slug: "safety-on-tours",
+      label: "Safety",
+      name: "Safety on Tours",
+      desc: "Police-led protocols - medical - vehicle standards.",
+    },
+    {
+      slug: "booking-information",
+      label: "Process",
+      name: "Booking Information",
+      desc: "Deposits - confirmation - reschedule mechanics.",
+    },
+    {
+      slug: "police-escort-for-groups",
+      label: "Authority",
+      name: "Police Escort for Groups",
+      desc: "When and how police escort is arranged.",
+    },
+    {
+      slug: "rijik-monthly-closure",
+      label: "Conditions",
+      name: "Ijen Rijik Monthly Closure",
+      desc: "The first-Friday-of-the-month TWA Ijen conservation closure.",
+    },
+    {
+      slug: "faq",
+      label: "Reference",
+      name: "FAQ",
+      desc: "Common questions answered in plain language.",
+    },
+  ],
+};
 
 const HUB_FAQ_FALLBACK = [
   {
@@ -134,6 +210,80 @@ const DestinationIcon = () => (
     <circle cx="12" cy="10" r="3" />
   </svg>
 );
+
+const PvmbgIcon = () => (
+  <svg
+    className="h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+);
+
+const ScreeningIcon = () => (
+  <svg
+    className="h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+  </svg>
+);
+
+const OperatorIcon = () => (
+  <svg
+    className="h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <circle cx="9" cy="7" r="4" />
+    <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+    <circle cx="17" cy="7" r="3" />
+  </svg>
+);
+
+const RULEBOOK_ICONS = [PvmbgIcon, ScreeningIcon, OperatorIcon];
+
+const AltitudeIcon = () => (
+  <svg
+    className="mb-4 h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <path d="M14 4v10a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z" />
+  </svg>
+);
+
+const ConnectivityIcon = () => (
+  <svg
+    className="mb-4 h-7 w-7 text-jvto-orange"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15 15 0 0 1 0 20" />
+  </svg>
+);
+
+const EXTRA_PRACTICAL_ICONS = [AltitudeIcon, ConnectivityIcon];
 
 function SectionHeading({
   index,
@@ -269,6 +419,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TravelGuideHubPage() {
   const page = await getEcosystemWebsitePage(ROUTE);
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const heroStats = pc.heroStats ?? FALLBACK.heroStats;
+  const rulebookCards = pc.rulebookCards ?? FALLBACK.rulebookCards;
+  const destinationGuides = pc.destinationGuides ?? FALLBACK.destinationGuides;
+  const packingCard = pc.packingCard ?? FALLBACK.packingCard;
+  const extraPracticalCards = pc.extraPracticalCards ?? FALLBACK.extraPracticalCards;
+  const checklistItems = pc.checklistItems ?? FALLBACK.checklistItems;
+  const articles = pc.articles ?? FALLBACK.articles;
   const title =
     page?.meta.browserTitle ??
     "Travel Guide - Safety, Booking & Practical Info | JVTO";
@@ -333,12 +491,7 @@ export default async function TravelGuideHubPage() {
               </p>
             </div>
             <div className="self-center rounded-[20px] border border-white/10 bg-white/[0.04] p-6 md:mt-10">
-              {[
-                { label: "Guide articles", value: "10" },
-                { label: "Last updated", value: "May 2026" },
-                { label: "Reading time", value: "~25 min" },
-                { label: "Author", value: "JVTO ops team" },
-              ].map(({ label, value }) => (
+              {heroStats.map(({ label, value }) => (
                 <div
                   key={label}
                   className="flex items-center justify-between border-b border-white/10 py-3.5 last:border-0"
@@ -368,81 +521,31 @@ export default async function TravelGuideHubPage() {
             label="Three boundaries"
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {[
-              {
-                icon: (
-                  <svg
-                    className="h-7 w-7 text-jvto-orange"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <path d="M9 12l2 2 4-4" />
-                  </svg>
-                ),
-                label: "PVMBG-aligned",
-                title: "Safety boundaries",
-                desc: "We follow official PVMBG (Volcanology) alerts without exception. If a site is closed, we do not enter. Safety is the non-negotiable.",
-              },
-              {
-                icon: (
-                  <svg
-                    className="h-7 w-7 text-jvto-orange"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    aria-hidden="true"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
-                ),
-                label: "Real screening",
-                title: "Health requirements",
-                desc: "Mandatory certified clinic checks for Ijen. You must be medically cleared for altitude and sulfur exposure. No fake letters.",
-              },
-              {
-                icon: (
-                  <svg
-                    className="h-7 w-7 text-jvto-orange"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    aria-hidden="true"
-                  >
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
-                    <circle cx="17" cy="7" r="3" />
-                  </svg>
-                ),
-                label: "Not a broker",
-                title: "Operational control",
-                desc: "We are the operator, not a broker. We control the vehicles, the guides, and the safety decisions from start to finish.",
-              },
-            ].map(({ icon, label, title: cardTitle, desc }) => (
-              <div
-                key={cardTitle}
-                className="rounded-[20px] border border-[#E3E0DA] bg-white p-7"
-              >
-                <div className="mb-4">{icon}</div>
-                <p className="mb-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange">
-                  {label}
-                </p>
-                <h3
-                  className="mb-3 text-xl font-black text-jvto-navy"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+            {rulebookCards.map(({ label, title: cardTitle, desc }, i) => {
+              const Icon = RULEBOOK_ICONS[i];
+              return (
+                <div
+                  key={cardTitle}
+                  className="rounded-[20px] border border-[#E3E0DA] bg-white p-7"
                 >
-                  {cardTitle}
-                </h3>
-                <p className="text-[15px] font-light leading-relaxed text-[#6b7280]">
-                  {desc}
-                </p>
-              </div>
-            ))}
+                  <div className="mb-4">
+                    <Icon />
+                  </div>
+                  <p className="mb-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-jvto-orange">
+                    {label}
+                  </p>
+                  <h3
+                    className="mb-3 text-xl font-black text-jvto-navy"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {cardTitle}
+                  </h3>
+                  <p className="text-[15px] font-light leading-relaxed text-[#6b7280]">
+                    {desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -459,21 +562,9 @@ export default async function TravelGuideHubPage() {
             label="Practical logistics"
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <GuideCard
-              href="/travel-guide/ijen-health-screening"
-              name="Ijen Health Screening"
-              desc="Mandatory medical clearance - gas mask - clinic protocol."
-            />
-            <GuideCard
-              href="/travel-guide/mount-bromo-logistics"
-              name="Mount Bromo Logistics"
-              desc="Jeep timings - sunrise viewpoints - altitude prep."
-            />
-            <GuideCard
-              href="/travel-guide/tumpak-sewu-logistics"
-              name="Tumpak Sewu Logistics"
-              desc="Trekking - footwear - river crossing safety."
-            />
+            {destinationGuides.map(({ href, name, desc }) => (
+              <GuideCard key={href} href={href} name={name} desc={desc} />
+            ))}
           </div>
         </div>
       </section>
@@ -491,63 +582,34 @@ export default async function TravelGuideHubPage() {
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <GuideCard
-              href="/travel-guide/packing-and-fitness"
-              name="Packing & Fitness"
-              desc="Layered clothing, hiking shoes, headlamps, and personal medication. See our full list."
-              action="Read packing & fitness"
+              href={packingCard.href}
+              name={packingCard.name}
+              desc={packingCard.desc}
+              action={packingCard.action}
             />
-            <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-7">
-              <svg
-                className="mb-4 h-7 w-7 text-jvto-orange"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-              >
-                <path d="M14 4v10a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z" />
-              </svg>
-              <h3
-                className="mb-3 text-xl font-black text-jvto-navy"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                Altitude & temperature
-              </h3>
-              <p className="mb-4 text-[15px] font-light leading-relaxed text-[#6b7280]">
-                Bromo can drop to 0 C. Ijen is at 2,386m. Prepare for cold
-                mornings and thin air.
-              </p>
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">
-                Critical info
-              </span>
-            </div>
-            <div className="rounded-[20px] border border-[#E3E0DA] bg-white p-7">
-              <svg
-                className="mb-4 h-7 w-7 text-jvto-orange"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="2" y1="12" x2="22" y2="12" />
-                <path d="M12 2a15 15 0 0 1 0 20" />
-              </svg>
-              <h3
-                className="mb-3 text-xl font-black text-jvto-navy"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
-                Money & connectivity
-              </h3>
-              <p className="mb-4 text-[15px] font-light leading-relaxed text-[#6b7280]">
-                Cash is king in remote areas. SIM cards and Wi-Fi availability
-                vary by location.
-              </p>
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">
-                Logistics
-              </span>
-            </div>
+            {extraPracticalCards.map(({ title: cardTitle, desc, footerLabel }, i) => {
+              const Icon = EXTRA_PRACTICAL_ICONS[i];
+              return (
+                <div
+                  key={cardTitle}
+                  className="rounded-[20px] border border-[#E3E0DA] bg-white p-7"
+                >
+                  <Icon />
+                  <h3
+                    className="mb-3 text-xl font-black text-jvto-navy"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                  >
+                    {cardTitle}
+                  </h3>
+                  <p className="mb-4 text-[15px] font-light leading-relaxed text-[#6b7280]">
+                    {desc}
+                  </p>
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">
+                    {footerLabel}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -565,20 +627,7 @@ export default async function TravelGuideHubPage() {
             dark
           />
           <ol className="max-w-[64ch]">
-            {[
-              {
-                title: "Verify your operator",
-                desc: "Check for a real NIB license and police-led safety oversight. Don't book with unlicensed brokers.",
-              },
-              {
-                title: "Verify your health",
-                desc: "Ensure you have a real medical check at a certified clinic for Ijen. Your safety depends on it.",
-              },
-              {
-                title: "Verify your route",
-                desc: "Confirm your private logistics and safety decision boundaries. Know who makes the call if things change.",
-              },
-            ].map((item, index) => (
+            {checklistItems.map((item, index) => (
               <li
                 key={item.title}
                 className="grid grid-cols-[44px_1fr] gap-4 border-b border-white/15 py-6 first:border-t first:border-t-white/15"
@@ -612,10 +661,10 @@ export default async function TravelGuideHubPage() {
             index="§ 05"
             title="All"
             accent="articles."
-            label={`${ARTICLES.length} guides`}
+            label={`${articles.length} guides`}
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {ARTICLES.map(({ slug, label, name, desc }) => (
+            {articles.map(({ slug, label, name, desc }) => (
               <Link
                 key={slug}
                 href={`/travel-guide/${slug}`}

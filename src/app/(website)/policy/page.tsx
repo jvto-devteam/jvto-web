@@ -6,48 +6,72 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
 
-const POLICY_TILES = [
-  {
-    slug: "booking-payment-cancellation",
-    icon: (
-      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <rect x="2" y="5" width="20" height="14" rx="2" />
-        <path d="M2 10h20M6 15h4" />
-      </svg>
-    ),
-    name: "Booking, Payment & Cancellation",
-    desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Lifetime Package Credit terms, and force-majeure handling.",
-  },
-  {
-    slug: "inclusions-exclusions",
-    icon: (
-      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M9 11l3 3L22 4" />
-        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
-      </svg>
-    ),
-    name: "Inclusions & Exclusions",
-    desc: "Exactly what is and is not included in a confirmed private package — transport, accommodation, crew, tickets, safety gear, meals — and the write-it-to-bind-it rule.",
-  },
-  {
-    slug: "privacy",
-    icon: (
-      <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-    name: "Privacy & Data Protection",
-    desc: "What personal data JVTO collects during booking, how it is used for logistics and legal compliance, who it may be shared with, and how to request access or deletion.",
-  },
+const POLICY_ICONS = [
+  (
+    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M2 10h20M6 15h4" />
+    </svg>
+  ),
+  (
+    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <path d="M9 11l3 3L22 4" />
+      <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+    </svg>
+  ),
+  (
+    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  ),
 ] as const;
 
-const PRECEDENCE = [
-  { title: "Your Official E-Voucher / Invoice (PDF)", sub: "For the confirmed booking — takes precedence over all else." },
-  { title: "Booking, Payment & Cancellation Policy" },
-  { title: "Inclusions & Exclusions Policy" },
-  { title: "Privacy & Data Protection Policy" },
-  { title: "Travel Guide — Booking Information" },
-];
+const POLICY_SLUGS = [
+  "booking-payment-cancellation",
+  "inclusions-exclusions",
+  "privacy",
+] as const;
+
+// FALLBACK — exact copy of the content that used to be hardcoded here.
+// Used only if ekosistem doesn't return a `pageContent` section for this route.
+const FALLBACK = {
+  heroStats: [
+    { label: "Issued by", value: "PT Java Volcano Rendezvous" },
+    { label: "Version", value: "2026-01-17 (v5)" },
+    { label: "Binding document", value: "E-Voucher PDF" },
+    { label: "Policies", value: "3 published" },
+  ],
+  policyTiles: [
+    {
+      name: "Booking, Payment & Cancellation",
+      desc: "How to book, deposit and balance requirements, deadlines, approved payment methods, the 48-hour cancellation cut-off, Lifetime Package Credit terms, and force-majeure handling.",
+    },
+    {
+      name: "Inclusions & Exclusions",
+      desc: "Exactly what is and is not included in a confirmed private package — transport, accommodation, crew, tickets, safety gear, meals — and the write-it-to-bind-it rule.",
+    },
+    {
+      name: "Privacy & Data Protection",
+      desc: "What personal data JVTO collects during booking, how it is used for logistics and legal compliance, who it may be shared with, and how to request access or deletion.",
+    },
+  ],
+  precedence: [
+    { title: "Your Official E-Voucher / Invoice (PDF)", sub: "For the confirmed booking — takes precedence over all else." },
+    { title: "Booking, Payment & Cancellation Policy" },
+    { title: "Inclusions & Exclusions Policy" },
+    { title: "Privacy & Data Protection Policy" },
+    { title: "Travel Guide — Booking Information" },
+  ],
+  docPrecedenceHeading: "If documents disagree, this order applies.",
+  docPrecedenceIntro:
+    "Your confirmed booking is always governed first by the binding voucher, then by these published policies in sequence.",
+  docPrecedenceIssuedBy: "PT Java Volcano Rendezvous",
+  officialChannelsLines: [
+    "javavolcano-touroperator.com",
+    "WhatsApp +62 822-4478-8833",
+    "hello@javavolcano-touroperator.com",
+  ],
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadEcosystemPage("/policy");
@@ -69,6 +93,14 @@ const ArrowRight = () => (
 export default async function PolicyHubPage() {
   const page = await loadEcosystemPage("/policy");
   if (page && page.meta.status !== "published") return notFound();
+  const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const heroStats = pc.heroStats ?? FALLBACK.heroStats;
+  const policyTiles = pc.policyTiles ?? FALLBACK.policyTiles;
+  const precedence = pc.precedence ?? FALLBACK.precedence;
+  const docPrecedenceHeading = pc.docPrecedenceHeading ?? FALLBACK.docPrecedenceHeading;
+  const docPrecedenceIntro = pc.docPrecedenceIntro ?? FALLBACK.docPrecedenceIntro;
+  const docPrecedenceIssuedBy = pc.docPrecedenceIssuedBy ?? FALLBACK.docPrecedenceIssuedBy;
+  const officialChannelsLines = pc.officialChannelsLines ?? FALLBACK.officialChannelsLines;
   const title =
     page?.meta.browserTitle ?? page?.meta.title ?? "JVTO Policies | Booking, Privacy & Inclusions";
   const description =
@@ -131,12 +163,7 @@ export default async function PolicyHubPage() {
               ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
-              {[
-                { label: "Issued by", value: "PT Java Volcano Rendezvous" },
-                { label: "Version", value: "2026-01-17 (v5)" },
-                { label: "Binding document", value: "E-Voucher PDF" },
-                { label: "Policies", value: "3 published" },
-              ].map(({ label, value }) => (
+              {heroStats.map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
                   <strong className="text-white font-semibold text-sm text-right">{value}</strong>
@@ -166,14 +193,14 @@ export default async function PolicyHubPage() {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {POLICY_TILES.map(({ slug, icon, name, desc }) => (
+            {policyTiles.map(({ name, desc }, i) => (
               <Link
-                key={slug}
-                href={`/policy/${slug}`}
+                key={POLICY_SLUGS[i]}
+                href={`/policy/${POLICY_SLUGS[i]}`}
                 prefetch={false}
                 className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
               >
-                <div className="mb-4">{icon}</div>
+                <div className="mb-4">{POLICY_ICONS[i]}</div>
                 <h3
                   className="font-black text-jvto-navy text-xl mb-3 leading-snug"
                   style={{ fontFamily: "Raleway, Inter, sans-serif" }}
@@ -229,30 +256,33 @@ export default async function PolicyHubPage() {
                 className="font-black text-jvto-navy leading-[1.05] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(26px, 3.2vw, 42px)" }}
               >
-                If documents disagree, this order applies.
+                {docPrecedenceHeading}
               </h2>
               <p className="text-[16px] text-[#6b7280] font-light leading-relaxed mb-8">
-                Your confirmed booking is always governed first by the binding voucher, then by these published policies in sequence.
+                {docPrecedenceIntro}
               </p>
               <div className="bg-[#F6F5F2] rounded-[16px] p-6 border border-[#E3E0DA]">
                 <div className="space-y-3">
                   <div>
                     <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af] mb-1">Issued by</div>
-                    <div className="font-semibold text-jvto-navy text-sm">PT Java Volcano Rendezvous</div>
+                    <div className="font-semibold text-jvto-navy text-sm">{docPrecedenceIssuedBy}</div>
                   </div>
                   <div className="pt-3 border-t border-[#E3E0DA]">
                     <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af] mb-1">Official channels</div>
                     <div className="text-[14px] text-jvto-navy leading-relaxed">
-                      javavolcano-touroperator.com<br />
-                      WhatsApp +62 822-4478-8833<br />
-                      hello@javavolcano-touroperator.com
+                      {officialChannelsLines.map((line, i) => (
+                        <span key={line}>
+                          {line}
+                          {i < officialChannelsLines.length - 1 && <br />}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <ol className="space-y-3 mt-2">
-              {PRECEDENCE.map(({ title, sub }, i) => (
+              {precedence.map(({ title, sub }, i) => (
                 <li key={title} className="flex items-start gap-4 bg-white border border-[#E3E0DA] rounded-[14px] p-5 shadow-[0_2px_8px_rgba(13,27,42,0.04)]">
                   <span className="font-mono text-[12px] font-bold text-jvto-orange border border-[#E3E0DA] rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0">
                     {i + 1}
