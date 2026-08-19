@@ -13,7 +13,7 @@ Beacon speaks in a confident, slightly loud voice: a deep harbor blue (#12263f) 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
 | Harbor Ink | `#12263f` | `--color-harbor-ink` | Dominant brand dark — nav text, dark section backgrounds, primary copy on light surfaces, icon strokes, filled navigation pills. This is the brand's gravity: wherever you need weight or authority, you reach for Harbor Ink |
-| Amber Signal | `#ffb43d` | `--color-amber-signal` | Warm supporting accent for decorative details and low-frequency emphasis. Do not promote it to the primary CTA color |
+| Amber Signal | `#ffb43d` | `--color-amber-signal` | Primary action color and active-state accent — CTA fills, selected tabs, emphasis zones, and headline color on dark sections. Always a fill on light surfaces, never text; one amber element per visible viewport section is usually enough |
 | Deepwater | `#1b3a5c` | `--color-deepwater` | Secondary dark blue for card surfaces, supporting iconography, and tonal depth on dark sections where Harbor Ink is too heavy |
 | Sand Mist | `#ffeed2` | `--color-sand-mist` | Pale warm wash for soft highlight surfaces, tinted card backgrounds, nav hover states. A whisper of the brand accent for low-emphasis containers |
 | Pine | `#2f6f4f` | `--color-pine` | Green supporting accent for decorative details and low-frequency emphasis |
@@ -247,12 +247,12 @@ Quick Color Reference
 - background: #ffffff (Paper) canvas, #eaedf1 (Fog) cards
 - border: #8a8e96 (Pebble) for hairlines, #12263f (Harbor Ink) for emphasis
 - accent: #ffb43d (Amber Signal) for active states and highlights
-- primary action: no distinct CTA color
+- primary action: #ffb43d (Amber Signal) fill with #12263f (Harbor Ink) text
 - dark surface: #12263f (Harbor Ink) for inverted sections
 
 Example Component Prompts
 
-No distinct primary action color was observed; use the neutral button treatments above instead of inventing a filled CTA color.
+1. Primary CTA pill: Amber Signal (#ffb43d) fill, no border and no shadow, 9999px radius, 11px vertical and 24px horizontal padding, label in Inter 500 at 16px in #12263f. Pair it with an underlined text-link secondary in #12263f — never a second filled button beside it.
 
 2. Feature row (3-column): icon at 24px stroke #3f434a, 24px gap to heading at 18px Inter 700 in #0b0e14, 8px gap to body at 16px Inter 400 in #8a8e96. Column gap 32px, centered max-width 1200px.
 
