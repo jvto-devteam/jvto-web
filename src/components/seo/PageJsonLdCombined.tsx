@@ -146,9 +146,19 @@ export async function PageJsonLdCombined({
         schemaTypes(node).filter((type) => singletonTypeIsUsable(node, type)),
       ),
     );
-    const runtimeSchemas = [webSiteJson, breadcrumbJson, ...(extraSchemas || [])].filter(
-      (node) => shouldAppendRuntimeSchema(node, existingTypes),
-    );
+    // Flatten before filtering: shouldAppendRuntimeSchema reads @type off
+    // each node, but a page can pass extraSchemas as a {"@context","@graph":
+    // [...]} wrapper (several verify-jvto pages do). That wrapper has no
+    // @type of its own, so filtering pre-flatten let every node inside it
+    // bypass the singleton/Organization guard — currently harmless only
+    // because those nodes happen to share an @id with something already in
+    // ecosystemNodes (caught by mergeGraphNodes instead). Flattening first
+    // makes the guard actually see what it's guarding.
+    const runtimeSchemas = normalizeNodes([
+      webSiteJson,
+      breadcrumbJson,
+      ...(extraSchemas || []),
+    ]).filter((node) => shouldAppendRuntimeSchema(node, existingTypes));
 
     return (
       <JsonLd
