@@ -38,6 +38,13 @@ jobs:
             npm run build
             npm run audit:ecosystem-visible-content
             pm2 restart jvto-web
+            echo "Waiting for the app to come back up before validating JSON-LD..."
+            for i in $(seq 1 20); do
+              code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "https://javavolcano-touroperator.com/")
+              [ "$code" = "200" ] && break
+              sleep 3
+            done
+            npm run validate:jsonld-schema
       - name: Ping IndexNow (best-effort, non-blocking)
         continue-on-error: true
         run: |
