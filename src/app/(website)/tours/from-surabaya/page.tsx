@@ -116,17 +116,21 @@ function buildTrustSignals(
 }
 
 export default async function ToursPageSurabaya() {
-  const [seo, initialTours, org, reviewProfiles, page] = await Promise.all([
+  const [seo, initialTours, org, reviewProfiles, page, toursHubPage] = await Promise.all([
     getEcosystemPageSeo("/tours/from-surabaya", fallbackSeo),
     getToursFromSurabaya(),
     getOrganizationProfile(),
     getEcosystemReviewProfiles(),
     loadEcosystemPage("/tours/from-surabaya"),
+    loadEcosystemPage("/tours"),
   ]);
   const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
   const inclusions = pc.inclusions ?? FALLBACK.inclusions;
   const whyItems = pc.whyItems ?? FALLBACK.whyItems;
   const bookingSteps = pc.bookingSteps ?? FALLBACK.bookingSteps;
+  // Departure-city hubs reuse the SAME hub Q&A as /tours (single source of
+  // truth) — read it from the canonical /tours ekosistem page, not duplicated.
+  const hubFaqPairs = (toursHubPage?.raw as any)?.page?.content?.payload?.pageContent?.hubFaqPairs;
   const trustSignals = buildTrustSignals(reviewProfiles);
   const trustpilot = reviewProfiles.find((p) => p.platform === "Trustpilot");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -193,7 +197,7 @@ export default async function ToursPageSurabaya() {
     ],
   };
 
-  const hubFaqSchema = buildToursHubFaqSchema();
+  const hubFaqSchema = buildToursHubFaqSchema(hubFaqPairs);
   // Google Maps only — the single figure allowed to be presented as THE rating.
   // Null (both sources unreachable) => the node is omitted, never guessed.
   const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-surabaya", liveStats: await getPublicAggregateRating() });
