@@ -4,7 +4,7 @@ import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
+import { buildPoliceSafetyDigitalDocuments } from "@/lib/schemas/buildVerifySchemas";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -153,6 +153,9 @@ const FALLBACK = {
     { text: "." },
   ] as RichSegment[],
   whatWeWillNotDoText: "We will not stage uniformed photo opportunities, we will not exaggerate police involvement on individual tours, and we will not claim authority over locations where we do not coordinate. The line is honest; the operation behind it is honest too.",
+  schemaFacts: undefined as
+    | Parameters<typeof buildPoliceSafetyDigitalDocuments>[0]
+    | undefined,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -190,6 +193,7 @@ export default async function PoliceSafetyPage() {
   const healthScreeningSegments = pc.healthScreeningSegments ?? FALLBACK.healthScreeningSegments;
   const healthScreeningOutroSegments = pc.healthScreeningOutroSegments ?? FALLBACK.healthScreeningOutroSegments;
   const whatWeWillNotDoText = pc.whatWeWillNotDoText ?? FALLBACK.whatWeWillNotDoText;
+  const schemaFacts = pc.schemaFacts;
 
   const pageRow = seo.row
     ? {
@@ -229,7 +233,7 @@ export default async function PoliceSafetyPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          ...POLICE_SAFETY_DIGITAL_DOCUMENTS,
+          ...buildPoliceSafetyDigitalDocuments(schemaFacts),
         ]}
         suppressCmsFaq
       />

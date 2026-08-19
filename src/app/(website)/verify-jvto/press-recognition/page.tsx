@@ -5,7 +5,7 @@ import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import {
-  PRESS_RECOGNITION_SCHEMAS,
+  buildPressRecognitionSchemas,
   PRESS_ORGANIZATION_SUBJECTS,
 } from "@/lib/schemas/buildVerifySchemas";
 import Image from "next/image";
@@ -154,6 +154,9 @@ const FALLBACK = {
     "For ISIC and INDECON, search \"Java Volcano Tour Operator\" on each official site.",
     "For Stefan Loose, check ISBN 978-3-7701-7881-0, page 287.",
   ],
+  schemaFacts: undefined as
+    | Parameters<typeof buildPressRecognitionSchemas>[0]
+    | undefined,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -184,6 +187,7 @@ export default async function PressRecognitionPage() {
   const partnershipOutroSegments = pc.partnershipOutroSegments ?? FALLBACK.partnershipOutroSegments;
   const whatWeDontClaim = pc.whatWeDontClaim ?? FALLBACK.whatWeDontClaim;
   const howToVerifyList = pc.howToVerifyList ?? FALLBACK.howToVerifyList;
+  const schemaFacts = pc.schemaFacts;
 
   const pageRow = seo.row
     ? {
@@ -221,7 +225,7 @@ export default async function PressRecognitionPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          ...PRESS_RECOGNITION_SCHEMAS,
+          ...buildPressRecognitionSchemas(schemaFacts),
           PRESS_ORGANIZATION_SUBJECTS,
         ]}
         suppressCmsFaq

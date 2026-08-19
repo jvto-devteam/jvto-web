@@ -5,7 +5,7 @@ import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import {
-  LEGAL_DIGITAL_DOCUMENTS,
+  buildLegalDigitalDocuments,
   DOCTOR_SCHEMA,
 } from "@/lib/schemas/buildVerifySchemas";
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
@@ -158,6 +158,9 @@ const FALLBACK = {
     { before: "Confirm the record shows JVTO at the Bondowoso domicile.", strong: "", after: "" },
   ],
   onRequestText: "Scans of the Akta Pendirian (Articles of Incorporation), the Kemenkumham (AHU) approval letter, the NIB certificate, and the TDUP can be requested directly via WhatsApp before booking — each matched to the SHA-256 hash above.",
+  schemaFacts: undefined as
+    | Parameters<typeof buildLegalDigitalDocuments>[0]
+    | undefined,
   forensicAnchors: [
     { asset: "NIB 1102230032918", hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7", imagePath: "/legal/NIB-1102230032918-preview.png" },
     { asset: "TDUP 1102230032918", hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3", imagePath: "/legal/TDUP-1102230032918-preview.png" },
@@ -206,6 +209,7 @@ export default async function LegalPage() {
   const howToVerifySteps = pc.howToVerifySteps ?? FALLBACK.howToVerifySteps;
   const onRequestText = pc.onRequestText ?? FALLBACK.onRequestText;
   const forensicAnchors = pc.forensicAnchors ?? FALLBACK.forensicAnchors;
+  const schemaFacts = pc.schemaFacts;
 
   const pageRow = seo.row
     ? {
@@ -243,7 +247,7 @@ export default async function LegalPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          ...LEGAL_DIGITAL_DOCUMENTS,
+          ...buildLegalDigitalDocuments(schemaFacts),
           DOCTOR_SCHEMA,
           BBKSDA_REGULATION_SCHEMA,
         ]}
