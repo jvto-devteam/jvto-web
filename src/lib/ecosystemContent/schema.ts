@@ -25,7 +25,7 @@ function ecosystemBaseUrl() {
   ).replace(/\/+$/, "");
 }
 
-function nodeTypes(node: SchemaNode): string[] {
+export function nodeTypes(node: SchemaNode): string[] {
   const type = node["@type"];
   if (Array.isArray(type)) return type.filter((item): item is string => typeof item === "string");
   return typeof type === "string" ? [type] : [];

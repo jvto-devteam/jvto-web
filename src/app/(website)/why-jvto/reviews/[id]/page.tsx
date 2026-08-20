@@ -15,7 +15,7 @@ import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getEcosystemReviewById } from "@/lib/ecosystemContent/reviews";
-import { getEcosystemReviewSchema } from "@/lib/ecosystemContent/schema";
+import { getEcosystemReviewSchema, nodeTypes } from "@/lib/ecosystemContent/schema";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -90,7 +90,15 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   // above/below (customerName, star, review text) comes straight from reviews.json via
   // getEcosystemReviewById and is unaffected by this migration.
   const reviewSchema = await getEcosystemReviewSchema(review.id);
-  const productNode = reviewSchema?.["@graph"].find((node) => node["@type"] === "Product") ?? null;
+  // Type-safe check: @type can be a string or an array (the sibling Organization
+  // node in this same graph already uses array-form @type, e.g.
+  // ["Organization", "TravelAgency", "LocalBusiness"]) — a strict `=== "Product"`
+  // check would silently fail (and 404 all 217 review pages at once) if ekosistem
+  // ever emitted the Product node with array-form @type too. See nodeTypes() in
+  // ecosystemContent/schema.ts (same helper pattern as PageJsonLdCombined.tsx's
+  // schemaTypes()).
+  const productNode =
+    reviewSchema?.["@graph"].find((node) => nodeTypes(node).includes("Product")) ?? null;
   if (!productNode) {
     notFound();
   }
