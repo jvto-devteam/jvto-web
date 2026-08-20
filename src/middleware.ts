@@ -40,6 +40,19 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
+  // trailing period — GSC 404 audit 2026-08-20 found several indexed URLs with a
+  // stray "." at the end (e.g. /policy/privacy.), likely from a sentence-ending
+  // period picked up as part of the URL by whatever generated the backlink/sitemap.
+  if (pathname !== "/" && pathname.endsWith(".")) {
+    const clean = pathname.slice(0, -1);
+    const res = NextResponse.redirect(new URL(clean, req.url), 301);
+    if (isNonProduction) {
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
+    trackVisit(req, res);
+    return res;
+  }
+
   const rawHost = req.headers.get("host") || "";
   const host = rawHost.split(":")[0];
   const domain = "javavolcano-touroperator";
@@ -76,32 +89,59 @@ export function middleware(req: NextRequest) {
 
   // daftar exact URL delete permanent
   const goneUrls = [
+    "/&",
     "/all-inclusive/transport",
     "/assets/img/cars/${data}",
     "/assets/img/locations/${data.location.images}?0",
+    "/auth/redirect/facebook",
     // "/base-knowledge",
     "/blog/2025-ijen-volcano-health-certificate-guide",
     "/blog/blue-fire-ijen-crater-hiking-guide-2025",
     "/blog/ijen-volcano-historical-activity-east-java",
     "/destinations//span[",
+    // GSC 404 drilldown 2026-08-20: legacy per-itinerary-waypoint pages from the
+    // old CMS (pickup points, transfer stops) — never real destination content,
+    // no canonical equivalent to redirect to.
+    "/destinations/bali-hotel-pick-up-to-gilimanuk",
+    "/destinations/banyuwangi-hotel",
+    "/destinations/batu",
+    "/destinations/bondowoso-city",
+    "/destinations/bondowoso-hotel",
+    "/destinations/bromo-viewpoint",
+    "/destinations/ferry-crossing-to-ketapang",
+    "/destinations/finish-at-surabaya-city",
+    "/destinations/finish-explore-madakaripura-waterfall",
+    "/destinations/hotel",
+    "/destinations/hotel-in-bromo-area",
+    "/destinations/hotel-in-jember",
+    "/destinations/ijen-area",
+    "/destinations/journey-to-bromo",
+    "/destinations/journey-to-tumpak-sewu",
     "/destinations/juanda-airport",
     "/destinations/madakaripura-area",
+    "/destinations/malang",
     "/destinations/malang-city",
     "/destinations/malang-to-batu-tour-start",
-    "/destinations/map//span[",
-    "/destinations/map/bromo",
-    "/destinations/map/juanda-airport",
-    "/destinations/map/madakaripura",
-    "/destinations/map/surabaya",
-    "/destinations/map/yogyakarta",
     "/destinations/return-to-malang-hotel",
+    "/destinations/safari-area-restaurant",
+    "/destinations/san-terra-de-laponte",
+    "/destinations/surabaya-to-bondowoso-transfer",
     "/destinations/Taman Safari Prigen",
     "/destinations/transfer-to-mount-bromo-area",
+    "/destinations/map//span[",
+    "/destinations/map/bromo",
+    "/destinations/map/coffee-cocoa-science-technopark",
+    "/destinations/map/juanda-airport",
+    "/destinations/map/madakaripura",
+    "/destinations/map/papuma-beach",
+    "/destinations/map/surabaya",
+    "/destinations/map/yogyakarta",
     "/experiences/destination/surabaya",
     "/experiences/family-tours",
     "/experiences/photography-tours",
     "/experiences/volcano-trekking-tours",
     "/fast-track",
+    "/get-page",
     "/how-to-pay",
     "/insights/",
     "/insights/choose-legal-operator",
@@ -114,6 +154,9 @@ export function middleware(req: NextRequest) {
     "/language/ch",
     "/language/en",
     "/login/google/callback",
+    "/mice",
+    "/mount-bromo-private-tour",
+    "/payment-information",
     "/police-escort",
     "/policy/booking.json",
     "/policy/inclusions_exclusions.json",
@@ -130,11 +173,15 @@ export function middleware(req: NextRequest) {
     "/public/destinations/juanda-airport",
     "/public/destinations/madakaripura",
     "/public/destinations/map/madakaripura",
+    "/public/destinations/map/malang",
     "/public/destinations/map/surabaya",
     "/public/destinations/papuma-beach",
+    "/public/destinations/surabaya",
     "/public/mice",
     "/public/office",
+    "/public/packages/bali/4d3n",
     "/public/review",
+    "/public/reviews",
     "/tours/1-day-bromo-midnight-experience-from-surabaya",
     "/tours/2-day-bromo-sunrise-adventure-from-surabaya",
     "/tours/2-day-ijen-blue-fire-expedition-from-surabaya",
@@ -152,11 +199,14 @@ export function middleware(req: NextRequest) {
     "/tours/5-day-ijen-and-bromo-and-madakaripura-waterfall-and-malang-city-adventure-from-surabaya",
     "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
     "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
+    "/tours/destination",
     "/tours/destination/18",
     "/tours/destination/3",
     "/tours/destination/38",
+    "/tours/destination/5",
     "/tours/destination/bali",
     "/tours/destination/bromo",
+    "/tours/destination/coffee-cocoa-science-technopark",
     "/tours/destination/ijen",
     "/tours/destination/madakaripura",
     "/tours/destination/surabaya",
@@ -185,6 +235,7 @@ export function middleware(req: NextRequest) {
     "/tours/yogyakarta/5d4n",
     "/tours/yogyakarta/6d5n",
     "/travel-guide/booking-payment-cancellation",
+    "/trips/trip-1D1N.json",
     "/trips/trip-package-BALI-3D2N-001.json",
     "/trips/trip-package-BALI-3D2N-003.json",
     "/trips/trip-package-BALI-4D3N-001.json",
@@ -194,6 +245,7 @@ export function middleware(req: NextRequest) {
     "/trips/trip-package-SUB-3D2N-003.json",
     "/trips/trip-package-SUB-3D2N-006.json",
     "/trips/trip-package-SUB-4D3N-001.json",
+    "/trips/trip-package-SUB-4D3N-002.json",
     "/trips/trip-package-SUB-4D3N-003.json",
     "/trips/trip-package-SUB-5D4N-001.json",
     "/trips/trip-package-SUB-5D4N-002.json",
@@ -234,6 +286,9 @@ export function middleware(req: NextRequest) {
     "/why-jvto/proof-transparency/police-safety": "/verify-jvto/police-safety",
     "/why-jvto/proof-transparency/history-artifacts":
       "/verify-jvto/history-artifacts",
+    // GSC 404 drilldown 2026-08-20
+    "/why-jvto/press-recognition": "/verify-jvto/press-recognition",
+    "/buy-isic": "/isic/student-package",
     // Pindahan dari goneUrls — seharusnya 301 bukan 410
     "/all-inclusive": "/policy/inclusions-exclusions",
     "/custom-package": "/tours",
