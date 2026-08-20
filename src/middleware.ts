@@ -121,6 +121,7 @@ export function middleware(req: NextRequest) {
     "/destinations/madakaripura-area",
     "/destinations/malang",
     "/destinations/malang-city",
+    "/destinations/malang-hotel-pick-up",
     "/destinations/malang-to-batu-tour-start",
     "/destinations/return-to-malang-hotel",
     "/destinations/safari-area-restaurant",
