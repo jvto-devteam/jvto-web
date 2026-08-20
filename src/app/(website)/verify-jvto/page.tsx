@@ -28,7 +28,42 @@ const FALLBACK = {
     { q: "How can I verify the documents provided by JVTO?", a: "Documents in the Evidence Locker include a SHA-256 hash. Download the original file and compare its hash to the published value to detect any tampering — mathematically certain proof." },
     { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/KSA.9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
   ],
+  // JSON-LD-only editorial facts for this page's own local @graph (organizationSchema,
+  // ijenMedicalUnitSchema, teamPeopleSchema below) — NOT read through entityGraph.ts, since
+  // these 3 crew Person nodes are a deliberately separate, page-local dataset (see the
+  // judgment-call note above teamPeopleSchema). Mirrors ekosistem's verify-jvto.source.json
+  // pageContent.schemaFacts.
+  schemaFacts: {
+    organizationDescription:
+      "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Known for operational certainty, safety standards, and transparent pricing.",
+    ijenMedicalUnit: {
+      description: "Mandatory pre-climb medical assessment unit.",
+      actionDescription: "Mandatory screening prior to ascent (SpO2 & blood pressure) recorded digitally.",
+    },
+    crew: {
+      gufron: {
+        jobTitle: "Senior Guide & Photography Specialist",
+        description: "Specialist in volcanic photography and risk management. Known for capturing 'Blue Fire' imagery while maintaining strict safety protocols.",
+        knowsAbout: ["Volcanic Photography", "Astrophotography", "Risk Management", "English"],
+        credentialName: "Official Ijen Climbing License",
+      },
+      rendi: {
+        jobTitle: "Expedition Safety Lead",
+        description: "Technical safety specialist for Ijen Crater descents. Focuses on physical support and emergency response for high-altitude trekking.",
+        knowsAbout: ["Mountain Rescue", "Expedition Safety", "First Aid", "Volcanology"],
+        credentialName: "Official Ijen Climbing License",
+      },
+      anjas: {
+        jobTitle: "Visual Storyteller & Guide",
+        description: "Youth culture specialist and photographer. Expert in low-light crater photography.",
+        knowsAbout: ["Social Media Content", "Night Photography", "Cultural Interpretation"],
+        credentialName: "Official Ijen Climbing License",
+      },
+    },
+  },
 };
+
+type VerifyJvtoSchemaFacts = typeof FALLBACK.schemaFacts;
 
 export const revalidate = 86400;
 
@@ -77,6 +112,15 @@ export default async function VerifyJvtoPage() {
   ]);
   if (!ssotData) notFound();
   const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
+  const sf: VerifyJvtoSchemaFacts = {
+    organizationDescription: pc.schemaFacts?.organizationDescription ?? FALLBACK.schemaFacts.organizationDescription,
+    ijenMedicalUnit: { ...FALLBACK.schemaFacts.ijenMedicalUnit, ...pc.schemaFacts?.ijenMedicalUnit },
+    crew: {
+      gufron: { ...FALLBACK.schemaFacts.crew.gufron, ...pc.schemaFacts?.crew?.gufron },
+      rendi: { ...FALLBACK.schemaFacts.crew.rendi, ...pc.schemaFacts?.crew?.rendi },
+      anjas: { ...FALLBACK.schemaFacts.crew.anjas, ...pc.schemaFacts?.crew?.anjas },
+    },
+  };
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -433,7 +477,7 @@ export default async function VerifyJvtoPage() {
     "@id": `${siteUrl}/#ijen-health-screening-unit`,
     name: "Ijen Health Screening Unit (JVTO)",
     parentOrganization: { "@id": `${siteUrl}/#organization` },
-    description: "Mandatory pre-climb medical assessment unit.",
+    description: sf.ijenMedicalUnit.description,
     location: {
       "@type": "Place",
       name: "Baratha Hotel Lobby (Screening Station)",
@@ -451,8 +495,7 @@ export default async function VerifyJvtoPage() {
     potentialAction: {
       "@type": "CheckAction",
       name: "Pre-Climb Vital Signs Assessment",
-      description:
-        "Mandatory screening prior to ascent (SpO2 & blood pressure) recorded digitally.",
+      description: sf.ijenMedicalUnit.actionDescription,
       target: {
         "@type": "EntryPoint",
         urlTemplate: "https://health.mountijen.com/",
@@ -481,26 +524,41 @@ export default async function VerifyJvtoPage() {
     numberOfPages: 772,
   };
 
-  // Team persons (from your snippets)
+  // Team persons.
+  //
+  // Judgment call (2026-08-20, entityGraph.ts migration): these 3 Person nodes are NOT
+  // wired to the canonical crew reader (@/lib/people/canonicalPeople.ts → people.json's
+  // crew.roster), even though that reader already exists and already serves the SAME 3
+  // people's real bios on /why-jvto/our-team. The canonical record's public allowlist
+  // (publicFieldAllowlist.crew) deliberately excludes a prose `description`/bio field and
+  // uses a generic `crewJobTitle()` label ("Tour Guide"/"Tour Driver") instead of a
+  // specific title — by design, per canonicalPeople.ts's own header ("no biography ...
+  // invented"). Swapping these nodes to the canonical reader would therefore CHANGE the
+  // rendered JSON-LD content, not just its source: jobTitle would drop from
+  // "Senior Guide & Photography Specialist" to "Tour Guide", the bios would disappear
+  // entirely, `knowsAbout` would change from these curated phrases to the roster's
+  // `specialties` tags (different wording), and `hasCredential.name` would change from
+  // "Official Ijen Climbing License" to "HPWKI membership credential (KTA)" with no `url`
+  // (the canonical kta object carries no image URL). That crosses the line the task draws
+  // for this migration (structure/source may change; rendered content may not) — so this
+  // is a schemaFacts-style migration instead: the exact current wording is preserved
+  // verbatim as FALLBACK.schemaFacts.crew.* above, merged with ekosistem's
+  // verify-jvto.source.json pageContent.schemaFacts.crew.* via `sf.crew` below. Same
+  // reasoning as the why-jvto/our-team leadership-cards call made earlier this session —
+  // verbatim-preserve wins whenever the canonical reader's wording would visibly diverge.
   const teamPeopleSchema = [
     {
       "@type": "Person",
       "@id": `${siteUrl}/why-jvto/our-team/gufron`,
       name: "Gufron",
-      jobTitle: "Senior Guide & Photography Specialist",
+      jobTitle: sf.crew.gufron.jobTitle,
       image: `${siteUrl}/uploads/1768225567764-405955176-gufron.png`,
-      description:
-        "Specialist in volcanic photography and risk management. Known for capturing 'Blue Fire' imagery while maintaining strict safety protocols.",
-      knowsAbout: [
-        "Volcanic Photography",
-        "Astrophotography",
-        "Risk Management",
-        "English",
-      ],
+      description: sf.crew.gufron.description,
+      knowsAbout: sf.crew.gufron.knowsAbout,
       affiliation: { "@id": `${siteUrl}/#organization` },
       hasCredential: {
         "@type": "EducationalOccupationalCredential",
-        name: "Official Ijen Climbing License",
+        name: sf.crew.gufron.credentialName,
         url: `${siteUrl}/uploads/1771428741674-842615436-kta_gufron.jpg`,
         recognizedBy: {
           "@type": "Organization",
@@ -512,20 +570,14 @@ export default async function VerifyJvtoPage() {
       "@type": "Person",
       "@id": `${siteUrl}/why-jvto/our-team/rendi`,
       name: "Rendi",
-      jobTitle: "Expedition Safety Lead",
+      jobTitle: sf.crew.rendi.jobTitle,
       image: `${siteUrl}/uploads/1768228514527-518051332-rendi.png`,
-      description:
-        "Technical safety specialist for Ijen Crater descents. Focuses on physical support and emergency response for high-altitude trekking.",
-      knowsAbout: [
-        "Mountain Rescue",
-        "Expedition Safety",
-        "First Aid",
-        "Volcanology",
-      ],
+      description: sf.crew.rendi.description,
+      knowsAbout: sf.crew.rendi.knowsAbout,
       affiliation: { "@id": `${siteUrl}/#organization` },
       hasCredential: {
         "@type": "EducationalOccupationalCredential",
-        name: "Official Ijen Climbing License",
+        name: sf.crew.rendi.credentialName,
         url: `${siteUrl}/uploads/1771428760524-516116110-kta_rendi.jpg`,
         recognizedBy: { "@type": "Organization", name: "HPWKI" },
       },
@@ -534,19 +586,14 @@ export default async function VerifyJvtoPage() {
       "@type": "Person",
       "@id": `${siteUrl}/why-jvto/our-team/anjas`,
       name: "Anjas",
-      jobTitle: "Visual Storyteller & Guide",
+      jobTitle: sf.crew.anjas.jobTitle,
       image: `${siteUrl}/uploads/1768270423657-690185912-anjas.png`,
-      description:
-        "Youth culture specialist and photographer. Expert in low-light crater photography.",
-      knowsAbout: [
-        "Social Media Content",
-        "Night Photography",
-        "Cultural Interpretation",
-      ],
+      description: sf.crew.anjas.description,
+      knowsAbout: sf.crew.anjas.knowsAbout,
       affiliation: { "@id": `${siteUrl}/#organization` },
       hasCredential: {
         "@type": "EducationalOccupationalCredential",
-        name: "Official Ijen Climbing License",
+        name: sf.crew.anjas.credentialName,
         url: `${siteUrl}/uploads/1771428583288-513992233-kta_anjas.jpg`,
         recognizedBy: { "@type": "Organization", name: "HPWKI" },
       },
@@ -561,8 +608,7 @@ export default async function VerifyJvtoPage() {
     legalName: "PT Java Volcano Rendezvous",
     alternateName: "JVTO",
     url: siteUrl,
-    description:
-      "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Known for operational certainty, safety standards, and transparent pricing.",
+    description: sf.organizationDescription,
     foundingDate: "2015",
     email: "hello@javavolcano-touroperator.com",
     identifier: [

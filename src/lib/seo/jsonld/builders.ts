@@ -1,4 +1,5 @@
 import { ORGANIZATION_HAS_CREDENTIAL } from "@/lib/schemas/entityGraph";
+import { getEcosystemEntityGraphFacts } from "@/lib/ecosystemContent/entityGraphFacts";
 
 // GEO audit Priority 3 (2026-08-15): disambiguate the "Java" entity (island vs
 // programming language) on pages where the term appears without qualifying
@@ -6,13 +7,27 @@ import { ORGANIZATION_HAS_CREDENTIAL } from "@/lib/schemas/entityGraph";
 // Wikidata ID already used for the Java-island category on destinations/[slug]
 // SpecialAnnouncement nodes — reused here for consistency, not a new identifier.
 export const JAVA_ISLAND_PLACE_ID = "https://javavolcano-touroperator.com/#java-island";
-export function buildJavaIslandPlaceNode() {
+
+// FALLBACK — exact copy of the description that used to be hardcoded here. Used
+// whenever ekosistem's entity-graph-schema-facts.json (javaIslandPlace.description)
+// isn't reachable. Self-fetching (async) since this node has 3 independent call
+// sites (tours/from-bali, tours/from-surabaya, markets.ts) with no shared page-load
+// context to pass facts through — same "plain async function that fetches once"
+// shape used elsewhere in this migration.
+const FALLBACK_JAVA_ISLAND_DESCRIPTION =
+  "Java is an island in Indonesia — the world's most populous island, home to Jakarta, Surabaya, Mount Bromo, and Kawah Ijen. Distinct from Java the programming language.";
+
+export async function buildJavaIslandPlaceNode() {
+  const facts = await getEcosystemEntityGraphFacts<{
+    javaIslandPlace?: { description?: string };
+  }>();
+  const description = facts?.javaIslandPlace?.description ?? FALLBACK_JAVA_ISLAND_DESCRIPTION;
+
   return {
     "@type": "Place",
     "@id": JAVA_ISLAND_PLACE_ID,
     name: "Java",
-    description:
-      "Java is an island in Indonesia — the world's most populous island, home to Jakarta, Surabaya, Mount Bromo, and Kawah Ijen. Distinct from Java the programming language.",
+    description,
     sameAs: ["https://en.wikipedia.org/wiki/Java", "https://www.wikidata.org/wiki/Q83"],
     containedInPlace: { "@type": "Country", name: "Indonesia" },
   };

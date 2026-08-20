@@ -197,7 +197,7 @@ export async function getEcosystemMarket(country: MarketCountry): Promise<Market
  * `content.faqs` (see the markets singapore/malaysia page.tsx files); WebPage + BreadcrumbList
  * come from PageJsonLdCombined. Ported unchanged from the pre-migration src/lib/marketContent.ts.
  */
-export function buildMarketSchemas(content: MarketContent): Record<string, unknown>[] {
+export async function buildMarketSchemas(content: MarketContent): Promise<Record<string, unknown>[]> {
   const pageUrl = `${BASE_URL}${content.route}`;
   const itemList = {
     "@context": "https://schema.org",
@@ -237,5 +237,5 @@ export function buildMarketSchemas(content: MarketContent): Record<string, unkno
       };
     }),
   };
-  return [itemList, buildJavaIslandPlaceNode()];
+  return [itemList, await buildJavaIslandPlaceNode()];
 }

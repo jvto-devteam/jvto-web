@@ -20,10 +20,11 @@ import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
-  BBKSDA_REGULATION_SCHEMA,
-  DEFINED_TERMS,
-  DOCTOR_SCHEMA,
-  FOUNDER_SCHEMA,
+  buildBbksdaRegulationSchema,
+  buildDefinedTerms,
+  buildDoctorSchema,
+  buildFounderSchema,
+  getEntityGraphFacts,
 } from "@/lib/schemas/entityGraph";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
@@ -35,6 +36,27 @@ const fallbackSeo = {
   h1: "Tourist Police-Led Private Volcano Tours in East Java",
   description:
     "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+};
+
+// FALLBACK — exact copy of the schema-only content that used to be hardcoded here
+// (serviceNode + healthAppNode). Used whenever ekosistem doesn't return a
+// `pageContent.schemaFacts` block for "/" (home/index.source.json).
+const FALLBACK_HOME_SCHEMA_FACTS = {
+  serviceNode: {
+    description:
+      "Standardized private operations for active-volcano environments, with disciplined risk protocols, own crew execution (not outsourced), and pre-ascent health screening for Mount Ijen when applicable.",
+  },
+  healthApp: {
+    name: "Mount Ijen Digital Health Screening",
+    alternateName: "Ijen Health Screening",
+    aboutThingName: "Pre-ascent health screening (SpO₂ & Blood Pressure)",
+    featureList: [
+      "Digital recording of SpO₂ and blood pressure",
+      "QR-based clearance flow",
+      "Supports go/no-go safety decisions",
+    ],
+    usageInfo: "Operational safety screening only. Does not replace medical diagnosis or treatment.",
+  },
 };
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -60,15 +82,26 @@ async function getDestinations(): Promise<Destination[]> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
-  const [seo, destinations, ecosystemPage, packages] = await Promise.all([
+  const [seo, destinations, ecosystemPage, packages, entityGraphFacts] = await Promise.all([
     getEcosystemPageSeo("/", fallbackSeo),
     getDestinations(),
     loadEcosystemPage("/"),
     getEcosystemPackagesList(),
+    getEntityGraphFacts(),
   ]);
   const volcanicStatus = getAllVolcanicStatus();
   const homeSections = (ecosystemPage?.sections ?? []) as any[];
   const findSection = (id: string) => homeSections.find((s) => s.id === id);
+  const homeSchemaFacts = ((ecosystemPage?.raw as any)?.page?.content?.payload?.pageContent
+    ?.schemaFacts ?? {}) as Partial<typeof FALLBACK_HOME_SCHEMA_FACTS>;
+  const serviceFacts = {
+    ...FALLBACK_HOME_SCHEMA_FACTS.serviceNode,
+    ...homeSchemaFacts.serviceNode,
+  };
+  const healthAppFacts = {
+    ...FALLBACK_HOME_SCHEMA_FACTS.healthApp,
+    ...homeSchemaFacts.healthApp,
+  };
 
   const pageRow = seo.row
     ? {
@@ -101,8 +134,7 @@ const Home = async () => {
       { "@type": "AdministrativeArea", name: "East Java" },
       { "@type": "Country", name: "Indonesia" },
     ],
-    description:
-      "Standardized private operations for active-volcano environments, with disciplined risk protocols, own crew execution (not outsourced), and pre-ascent health screening for Mount Ijen when applicable.",
+    description: serviceFacts.description,
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
@@ -115,25 +147,20 @@ const Home = async () => {
   const healthAppNode = {
     "@type": "WebApplication",
     "@id": "https://health.mountijen.com/#app",
-    name: "Mount Ijen Digital Health Screening",
-    alternateName: "Ijen Health Screening",
+    name: healthAppFacts.name,
+    alternateName: healthAppFacts.alternateName,
     url: "https://health.mountijen.com/",
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
     publisher: { "@id": `${SITE_URL}/#organization` },
     about: [
-      { "@type": "Thing", name: "Pre-ascent health screening (SpO₂ & Blood Pressure)" },
+      { "@type": "Thing", name: healthAppFacts.aboutThingName },
       { "@type": "Place", name: "Mount Ijen" },
     ],
-    featureList: [
-      "Digital recording of SpO₂ and blood pressure",
-      "QR-based clearance flow",
-      "Supports go/no-go safety decisions",
-    ],
+    featureList: healthAppFacts.featureList,
     inLanguage: "en",
-    usageInfo:
-      "Operational safety screening only. Does not replace medical diagnosis or treatment.",
+    usageInfo: healthAppFacts.usageInfo,
   };
 
   return (
@@ -142,10 +169,10 @@ const Home = async () => {
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[
-          FOUNDER_SCHEMA,
-          DOCTOR_SCHEMA,
-          BBKSDA_REGULATION_SCHEMA,
-          ...Object.values(DEFINED_TERMS),
+          buildFounderSchema(entityGraphFacts?.founder),
+          buildDoctorSchema(entityGraphFacts?.doctor),
+          buildBbksdaRegulationSchema(entityGraphFacts?.bbksdaRegulation),
+          ...Object.values(buildDefinedTerms(entityGraphFacts?.definedTerms)),
           serviceNode,
           healthAppNode,
           aggregateRatingNode,

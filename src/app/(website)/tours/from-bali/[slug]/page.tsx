@@ -23,7 +23,7 @@ import {
   type FullPackageDbDataSeed,
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
-import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
+import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
@@ -475,16 +475,16 @@ export default async function Page({ params }: Props) {
   // that node rather than declared again in a second <script> tag, which
   // used to ship a duplicate `@id ...#tour` node (fixed 2026-08-19).
   const tourMentions: { "@id": string }[] = [
-    { "@id": DEFINED_TERMS.NIB["@id"] },
-    { "@id": DEFINED_TERMS.TDUP["@id"] },
-    { "@id": DEFINED_TERMS.HPWKI["@id"] },
-    { "@id": DEFINED_TERMS.POLPAR["@id"] },
+    { "@id": DEFINED_TERM_IDS.NIB },
+    { "@id": DEFINED_TERM_IDS.TDUP },
+    { "@id": DEFINED_TERM_IDS.HPWKI },
+    { "@id": DEFINED_TERM_IDS.POLPAR },
   ];
   if (tourSeed.ijenRelevant) {
     tourMentions.push(
-      { "@id": DEFINED_TERMS.KTA["@id"] },
-      { "@id": DEFINED_TERMS.BBKSDA["@id"] },
-      { "@id": DEFINED_TERMS.SE1658["@id"] },
+      { "@id": DEFINED_TERM_IDS.KTA },
+      { "@id": DEFINED_TERM_IDS.BBKSDA },
+      { "@id": DEFINED_TERM_IDS.SE1658 },
     );
   }
   const tourAugment = {

@@ -10,7 +10,7 @@
 // @id patterns, about/mentions/recognizedBy wiring) stays hardcoded here since @id values are
 // referenced by other nodes and must remain stable. FALLBACK_*_FACTS below hold the exact
 // original literal values, used whenever ekosistem doesn't supply `schemaFacts`.
-import { DOCTOR_SCHEMA } from '@/lib/schemas/entityGraph';
+import { buildDoctorSchema } from '@/lib/schemas/entityGraph';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -172,9 +172,11 @@ export function buildPoliceSafetyDigitalDocuments(facts?: {
 }
 
 /**
- * Re-export DOCTOR_SCHEMA for cross-cluster use on /verify-jvto/legal — proves regulatory chain end-to-end.
+ * Re-export buildDoctorSchema for cross-cluster use on /verify-jvto/legal — proves regulatory
+ * chain end-to-end. entityGraph.ts's facts fetch/merge happens in the calling page (same
+ * pattern as buildLegalDigitalDocuments above) — this is a pure passthrough.
  */
-export { DOCTOR_SCHEMA };
+export { buildDoctorSchema };
 
 const PRESS_URL = `${BASE_URL}/verify-jvto/press-recognition`;
 

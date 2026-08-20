@@ -6,9 +6,9 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import {
   buildLegalDigitalDocuments,
-  DOCTOR_SCHEMA,
+  buildDoctorSchema,
 } from "@/lib/schemas/buildVerifySchemas";
-import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
+import { buildBbksdaRegulationSchema, getEntityGraphFacts } from "@/lib/schemas/entityGraph";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -178,10 +178,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function LegalPage() {
-  const [seo, docs, page] = await Promise.all([
+  const [seo, docs, page, entityGraphFacts] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto/legal", fallbackSeo),
     getDocsByGroup("legal"),
     loadEcosystemPage("/verify-jvto/legal"),
+    getEntityGraphFacts(),
   ]);
   const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
 
@@ -248,8 +249,8 @@ export default async function LegalPage() {
             docs,
           }),
           ...buildLegalDigitalDocuments(schemaFacts),
-          DOCTOR_SCHEMA,
-          BBKSDA_REGULATION_SCHEMA,
+          buildDoctorSchema(entityGraphFacts?.doctor),
+          buildBbksdaRegulationSchema(entityGraphFacts?.bbksdaRegulation),
         ]}
         suppressCmsFaq
       />

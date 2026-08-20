@@ -48,12 +48,13 @@ export default async function MalaysiaMarketPage() {
     seo: { title: content.h1 ?? content.title, description: content.description },
     content: { h1: content.h1 ?? content.title },
   };
+  const marketSchemas = await buildMarketSchemas(content);
 
   return (
     <>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[...buildMarketSchemas(content), faqNode]}
+        extraSchemas={[...marketSchemas, faqNode]}
         suppressCmsFaq={true}
       />
       <MarketPageSections content={content} googleRating={googleRating} />

@@ -143,7 +143,7 @@ export default async function ToursPageSurabaya() {
     "@graph": [
       orgNode,
       siteNode,
-      buildJavaIslandPlaceNode(),
+      await buildJavaIslandPlaceNode(),
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,

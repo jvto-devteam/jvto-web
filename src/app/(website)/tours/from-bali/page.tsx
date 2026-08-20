@@ -144,7 +144,7 @@ export default async function ToursPageBali() {
     "@graph": [
       orgNode,
       siteNode,
-      buildJavaIslandPlaceNode(),
+      await buildJavaIslandPlaceNode(),
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
