@@ -12,11 +12,7 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
-import {
-  buildToursHubFaqSchema,
-  buildToursHubAggregateRatingSchema,
-} from "@/lib/schemas/buildToursHubSchemas";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
+import { buildToursHubFaqSchema } from "@/lib/schemas/buildToursHubSchemas";
 export const revalidate = 3600;
 const HUB_LAST_REVIEWED = "2026-08-15";
 
@@ -107,12 +103,11 @@ export default async function ToursPageGlobal() {
     ],
   };
 
-  // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs)
-  // + standalone AggregateRating cross-ref to Organization. Per cluster_role_contracts.md Cluster 1 hub MH.
+  // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs).
+  // Per cluster_role_contracts.md Cluster 1 hub MH. aggregateRating is no longer
+  // assembled here — it's an inline property of the Organization node `orgNode` above
+  // already carries through toOrganizationReferenceOnly() (Bagian 1 relocation).
   const hubFaqSchema = buildToursHubFaqSchema(pc.hubFaqPairs);
-  // Google Maps only — the single figure allowed to be presented as THE rating.
-  // Null (both sources unreachable) => the node is omitted, never guessed.
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '', liveStats: await getPublicAggregateRating() });
   const minPrice = Math.min(
     ...initialTours
       .map((tour) => Number(tour.startFrom))
@@ -127,7 +122,6 @@ export default async function ToursPageGlobal() {
     <>
       <StructuredData data={schema} />
       <StructuredData data={hubFaqSchema} />
-      {hubAggregateRatingSchema && <StructuredData data={hubAggregateRatingSchema} />}
       <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
         <ToursPageClient
           initialTours={initialTours}

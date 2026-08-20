@@ -14,11 +14,7 @@ import {
   buildJavaIslandPlaceNode,
   JAVA_ISLAND_PLACE_ID,
 } from "@/lib/seo/jsonld/builders";
-import {
-  buildToursHubFaqSchema,
-  buildToursHubAggregateRatingSchema,
-} from "@/lib/schemas/buildToursHubSchemas";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
+import { buildToursHubFaqSchema } from "@/lib/schemas/buildToursHubSchemas";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { ArrowRight, Shield, Users, FileText, Award, Check, Ship, type LucideIcon } from "lucide-react";
 
@@ -198,16 +194,15 @@ export default async function ToursPageBali() {
     ],
   };
 
+  // aggregateRating is no longer assembled here — it's an inline property of the
+  // Organization node `orgNode` above already carries through
+  // toOrganizationReferenceOnly() (Bagian 1 relocation).
   const hubFaqSchema = buildToursHubFaqSchema(hubFaqPairs);
-  // Google Maps only — the single figure allowed to be presented as THE rating.
-  // Null (both sources unreachable) => the node is omitted, never guessed.
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-bali", liveStats: await getPublicAggregateRating() });
 
   return (
     <>
       <StructuredData data={schema} />
       <StructuredData data={hubFaqSchema} />
-      {hubAggregateRatingSchema && <StructuredData data={hubAggregateRatingSchema} />}
 
       {/* ── 1. HERO ───────────────────────────────────── */}
       <section className="bg-jvto-navy text-white pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
