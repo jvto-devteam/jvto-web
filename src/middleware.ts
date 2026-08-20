@@ -84,7 +84,6 @@ export function middleware(req: NextRequest) {
     "/blog/blue-fire-ijen-crater-hiking-guide-2025",
     "/blog/ijen-volcano-historical-activity-east-java",
     "/destinations//span[",
-    "/destinations/ijen",
     "/destinations/juanda-airport",
     "/destinations/madakaripura-area",
     "/destinations/malang-city",
@@ -215,6 +214,13 @@ export function middleware(req: NextRequest) {
     "/reviews": "/why-jvto/reviews",
     "/about": "/why-jvto/our-story",
     "/destinations/mount-ijen": "/destinations/ijen-crater",
+    // GSC audit 2026-08-19: destination cannibalization, ~56k impressions split
+    // across old/new slug pairs. Old slug has more raw impressions (crawled longer)
+    // but worse average position than the current ekosistem-backed canonical page —
+    // consolidate onto the canonical slug, same pattern as mount-ijen above.
+    "/destinations/ijen": "/destinations/ijen-crater",
+    "/destinations/tumpak-sewu": "/destinations/tumpak-sewu-waterfall",
+    "/destinations/bromo": "/destinations/mount-bromo",
     "/how-to-book": "/travel-guide/booking-information",
     "/what-set-us-apart": "/why-jvto/the-jvto-difference",
     "/base-knowledge": "/travel-guide",
