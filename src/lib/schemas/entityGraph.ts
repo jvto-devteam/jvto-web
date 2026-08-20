@@ -225,14 +225,23 @@ export function buildOrganizationReferenceSchema(
     },
     geo: { '@type': 'GeoCoordinates', latitude: -7.9151, longitude: 113.8232 },
     founder: { '@id': AGUNG_ID },
-    // NO aggregateRating here — deliberately. A module-level constant cannot read the
-    // live rating, and the only figure permitted to be presented as the JVTO rating is
-    // the Google Maps one from `getPublicAggregateRating()` (owner decision 2026-08-15;
-    // see the `_comment` in jvto-ekosistem organization-identity/organization.json).
-    // This property previously carried a hand-copied blended 4.91 / 203 that had drifted
-    // from every source of truth. Pages that need the node emit it separately via
-    // buildHomepageAggregateRatingSchema / buildToursHubAggregateRatingSchema /
-    // buildWhyJvtoReviewsAggregateRatingSchema, all fed from getPublicAggregateRating().
+    // NO aggregateRating here — deliberately, for a different reason than before
+    // 2026-08-20. This function has zero consumers (see the file header note above);
+    // if it ever gains one, it must not hand-carry a rating figure. Owner decision
+    // 2026-08-15 (never assert a hand-copied/stale rating) still stands — only WHERE
+    // the live figure is assembled was reversed, not whether static code may invent
+    // one. As of 2026-08-20 the single source of truth is jvto-ekosistem's
+    // buildOrganizationNode() (scripts/lib/build-organization.mjs), which embeds
+    // `aggregateRating` inline on the Organization node it renders into every route's
+    // schema-output.json. jvto-web reads it off that node — via PageJsonLdCombined's
+    // ecosystem branch for most routes, or via getOrganizationProfile() +
+    // toOrganizationReferenceOnly() for the tours hub, which now both carry
+    // `aggregateRating` through when they strip the node to a bare reference. The
+    // three page-level standalone AggregateRating builders that used to read
+    // getPublicAggregateRating() (buildHomepageAggregateRatingSchema,
+    // buildToursHubAggregateRatingSchema, buildWhyJvtoReviewsAggregateRatingSchema)
+    // are deleted — the rating is an inline Organization property now, not a
+    // separate cross-referenced node.
 
     // Historical artifacts — proves operational continuity since 2015
     award: f.award,
