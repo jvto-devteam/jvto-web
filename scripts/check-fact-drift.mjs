@@ -142,11 +142,11 @@ if (ecosystemAvailable) {
 
   // Known pre-existing data-quality issue: NIB and TDUP should NOT share a
   // value (they are different credentials -- NIB is national business
-  // registration, TDUP is the Tourism Business Permit, documented elsewhere in
-  // this repo's ported content e.g. content/pages/why-jvto/our-story.json as
-  // separately issued). Flag it as a warning, not a failure -- fixing it means
-  // hand-editing jvto-ekosistem's content, which is out of scope here; this
-  // just makes sure nobody misses it.
+  // registration, TDUP is the Tourism Business Permit, documented elsewhere as
+  // separately issued -- see jvto-ekosistem's why-jvto/our-story.source.json).
+  // Flag it as a warning, not a failure -- fixing it means hand-editing
+  // jvto-ekosistem's content, which is out of scope here; this just makes
+  // sure nobody misses it.
   if (nibIdentifier?.value && tdupIdentifier?.value && nibIdentifier.value === tdupIdentifier.value) {
     warnings.push(
       `WARN  ${ORG_SOURCE_LABEL}: NIB and TDUP identifiers share the same value ("${nibIdentifier.value}") -- these are documented elsewhere in this repo as different credentials. Likely a data error upstream. Raise with the content owner; do not hand-edit this file to fix it (see jvto-ekosistem's own "do not hand-edit" note in its trust-claims.json _comment).`,

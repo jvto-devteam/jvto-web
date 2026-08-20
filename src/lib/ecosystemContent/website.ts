@@ -1,11 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { Metadata } from "next";
-import {
-  listPublishedStaticPages,
-  loadStaticPage,
-  type StaticPage,
-} from "@/lib/static-content";
 
 const DEFAULT_ECOSYSTEM_BASE_URL =
   "https://ekosistem.javavolcano-touroperator.com";
@@ -140,17 +135,6 @@ function normalizeRoute(route: string): string {
 
 function routeToOutputBase(route: string): string {
   return normalizeRoute(route).split("/").filter(Boolean).join("__") || "home";
-}
-
-function requiresEcosystemPayload(route: string): boolean {
-  const normalizedRoute = normalizeRoute(route);
-  return (
-    normalizedRoute.startsWith("/travel-guide/") ||
-    normalizedRoute === "/policy" ||
-    normalizedRoute.startsWith("/policy/") ||
-    normalizedRoute === "/why-jvto" ||
-    normalizedRoute.startsWith("/why-jvto/")
-  );
 }
 
 function ecosystemContentRoot(): string {
@@ -315,74 +299,6 @@ function collectFaqItems(
   return items.length ? items : undefined;
 }
 
-function staticContentToEcosystemPage(page: StaticPage): EcosystemStaticPage {
-  const route = normalizeRoute(page.meta.route);
-  const slug = route.split("/").filter(Boolean).pop() ?? route;
-  const faqPayload = page.faq?.length
-    ? { key: page.meta.faqKey, payload: { items: page.faq } }
-    : null;
-  const contentPayload =
-    page.format === "markdown"
-      ? {
-          frontmatter: page.meta,
-          body_md: page.body,
-        }
-      : {
-          meta: page.meta,
-          lede: page.lede,
-          sections: page.sections,
-        };
-
-  return {
-    meta: {
-      route,
-      title: page.meta.title,
-      browserTitle: page.meta.browserTitle,
-      description: page.meta.description,
-      section: page.meta.section,
-      status: page.meta.status,
-      owner: page.meta.owner,
-      lastReviewed: page.meta.lastReviewed,
-      schemaTypes: page.meta.schemaTypes,
-      faqKey: page.meta.faqKey,
-      summary: page.meta.summary,
-    },
-    canonicalUrl: page.canonicalUrl,
-    format: page.format,
-    body: page.body,
-    lede: page.lede,
-    sections: normalizeSections(page.sections),
-    faq: page.faq,
-    sourceFile: page.sourceFile,
-    raw: {
-      schema_version: "static-content-fallback",
-      generated_at: "static-content-fallback",
-      route,
-      domain: page.meta.section,
-      slug,
-      status: page.meta.status,
-      seo: {
-        title: page.meta.browserTitle ?? page.meta.title,
-        description: page.meta.description,
-        canonicalRoute: route,
-        schemaTypes: page.meta.schemaTypes,
-      },
-      page: {
-        title: page.meta.title,
-        summary: page.meta.summary,
-        owner: page.meta.owner,
-        lastReviewed: page.meta.lastReviewed,
-        faq: faqPayload,
-        content: {
-          format: page.format,
-          payload: contentPayload,
-        },
-      },
-      faq: faqPayload,
-    },
-  };
-}
-
 function normalizeSections(sections: unknown): EcosystemSection[] | undefined {
   if (!Array.isArray(sections)) return undefined;
 
@@ -437,21 +353,14 @@ function normalizeSections(sections: unknown): EcosystemSection[] | undefined {
  *      .website-output.json`) — used if the remote call fails (network
  *      blip, deploy race). Same content as tier 2 would return, just
  *      read from a locally-synced copy instead of live.
- *   4. `requiresEcosystemPayload(route)` gate — for routes ekosistem is
- *      known to fully own (travel-guide/*, policy(/*), why-jvto(/*)),
- *      return null here rather than risk silently serving stale legacy
- *      content if tiers 1-3 all miss.
- *   5. `loadStaticPage()` (src/lib/static-content/) — legacy local
- *      content/pages/*.md|*.json files. Last-resort fallback for routes
- *      NOT gated by tier 4, only if the file's own status is "published".
- *      Nothing outside this module calls loadStaticPage directly (verified
- *      2026-08-19: no page.tsx or component imports it) — it is not a
- *      competing source, it's this function's bottom fallback tier.
  *
- * DO NOT remove tier 5 (or any tier) without confirming zero routes still
- * depend on it — check by finding routes with no ekosistem source file
- * under 5-experience-engine/public-website/pages/ AND a "published" file
- * under content/pages/.
+ * ekosistem is the exclusive editorial source — no local-file fallback below
+ * tier 3. (A legacy tier 4/5 pair — a route allowlist gate + a
+ * content/pages/*.md|*.json loader — was removed 2026-08-20: it was proven
+ * unreachable for every route it covered, either gated off directly or
+ * shadowed by tiers 1-3 always answering first. Re-introducing a local
+ * fallback here would resurrect the exact competing-source risk this
+ * function was built to avoid.)
  */
 export async function getEcosystemWebsitePage(
   route: string,
@@ -489,15 +398,6 @@ export async function getEcosystemWebsitePage(
 
   if (fallbackPayload) return toStaticPage(fallbackPayload);
 
-  if (requiresEcosystemPayload(normalizedRoute)) {
-    return null;
-  }
-
-  const staticPage = loadStaticPage(normalizedRoute);
-  if (staticPage?.meta.status === "published") {
-    return staticContentToEcosystemPage(staticPage);
-  }
-
   return null;
 }
 
@@ -521,15 +421,7 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
   );
   if (fallbackIndex) return fallbackIndex;
 
-  return {
-    generated_at: "static-content-fallback",
-    routes: listPublishedStaticPages().map((page) => ({
-      route: normalizeRoute(page.meta.route),
-      domain: page.meta.section,
-      slug: normalizeRoute(page.meta.route).split("/").filter(Boolean).pop(),
-      websiteOutput: page.sourceFile,
-    })),
-  };
+  return { generated_at: "unavailable", routes: [] };
 }
 
 export function buildEcosystemRouteMetadata(

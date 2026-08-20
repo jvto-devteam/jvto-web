@@ -160,7 +160,7 @@ export default async function CommunityStandardsPage() {
         </div>
       </header>
 
-      {/* ── Policy docs — off-white, driven from content/pages/why-jvto/community-standards.json ── */}
+      {/* ── Policy docs — off-white, driven from jvto-ekosistem's why-jvto/community-standards.source.json ── */}
       <section
         className="bg-[#F6F5F2] py-16 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.07)" }}

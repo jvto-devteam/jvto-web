@@ -99,6 +99,6 @@ export async function getEcosystemTourSchemaNodes(
   slug: string,
 ): Promise<Record<string, unknown>[] | null> {
   const output = (await readLocal(slug)) ?? (await fetchRemote(slug));
-  if (!output?.json_ld?.["@graph"]) return null;
+  if (!Array.isArray(output?.json_ld?.["@graph"])) return null;
   return output.json_ld["@graph"];
 }

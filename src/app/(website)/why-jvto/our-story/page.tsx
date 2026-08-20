@@ -192,7 +192,7 @@ export default async function OurStoryPage() {
               </Link>
             </aside>
 
-            {/* Article body — driven from content/pages/why-jvto/our-story.json */}
+            {/* Article body — driven from jvto-ekosistem's why-jvto/our-story.source.json */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0 jvto-prose">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-4 block">
                 {bio?.title ?? "Company Bio"}

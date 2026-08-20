@@ -27,11 +27,11 @@ function normalizeRoute(route: string): string {
 }
 
 /**
- * Named `loadEcosystemPage` (not `loadStaticPage`) on purpose: `src/lib/static-content/loadStaticPage.ts`
- * is an unrelated, legacy local-file resolver with an identical name. The
- * collision made a 2026-08-18 audit misread this ekosistem-first path as
- * one of several competing content sources, when every page.tsx caller is
- * already on this path exclusively.
+ * Named `loadEcosystemPage` (not `loadStaticPage`) on purpose: the identically
+ * named legacy local-file resolver it used to collide with (`src/lib/static-
+ * content/loadStaticPage.ts` + the `content/pages/*.md|*.json` tree it read)
+ * was proven unreachable and deleted 2026-08-20 — every page.tsx caller was
+ * already on this ekosistem-first path exclusively.
  */
 export async function loadEcosystemPage(
   route: string,

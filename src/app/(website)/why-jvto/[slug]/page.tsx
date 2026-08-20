@@ -23,13 +23,14 @@ import {
 } from "@/lib/ecosystemContent/staticPageAdapter";
 
 // PACKAGE 05 (2026-08-04): why-jvto structured pages are served from
-// content/pages/why-jvto/ (static-content SSOT). The former DB-preferred path
-// (prefersDbForSlug — a live content_pages row could override the seed at
-// runtime) is removed per AD-10: a migrated route reads only content/. CMS
-// edits to these routes no longer surface — content changes go through the
-// content files (Package 09 formally disables CMS editing for migrated routes).
-// Dynamic review records (Prisma) remain for the reviews page's schema nodes —
-// dynamic data is allowed to stay DB-owned (AD-02).
+// jvto-ekosistem via loadEcosystemPage/staticPageAdapter (single-content-
+// source migration, 2026-08). The former DB-preferred path (prefersDbForSlug
+// — a live content_pages row could override the seed at runtime) is removed
+// per AD-10: a migrated route reads only ekosistem. CMS edits to these routes
+// no longer surface — content changes go through jvto-ekosistem (Package 09
+// formally disables CMS editing for migrated routes). Dynamic review records
+// (Prisma) remain for the reviews page's schema nodes — dynamic data is
+// allowed to stay DB-owned (AD-02).
 
 type Props = {
   params: Promise<{ slug: string }>;
