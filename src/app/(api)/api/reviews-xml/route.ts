@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPublicReviewXmlItemsWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
+import { getPublicReviewXmlItemsWithFallback } from "@/lib/publicContent/reviewApi";
 
 function escapeXml(str?: string | null) {
   if (!str) return "";

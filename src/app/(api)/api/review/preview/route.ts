@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPublicReviewPreviewWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
+import { getPublicReviewPreviewWithFallback } from "@/lib/publicContent/reviewApi";
 
 export async function GET() {
   try {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPublicReviewFeedWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
+import { getPublicReviewFeedWithFallback } from "@/lib/publicContent/reviewApi";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
