@@ -315,7 +315,14 @@ export default async function DestinationDetailPage({ params }: Props) {
       ? buildPvmbgReportSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
       : null;
 
-  const touristAttractionNode = buildTouristAttractionSchema(slug);
+  // Single-content-source (2026-08-20): pass through the already-fetched destination record
+  // + derived route bbox — no new fetch. See buildTouristAttractionSchema for field mapping.
+  const touristAttractionNode = buildTouristAttractionSchema(slug, {
+    altitude: data.altitude,
+    hub_region: data.hub_region,
+    route_bbox: routeStats?.bbox,
+    tourist_attraction_facts: data.tourist_attraction_facts,
+  });
 
   // BreadcrumbList: required on all destination pages (not auto-injected since we use <JsonLd> directly).
   const breadcrumbNode = {

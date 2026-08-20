@@ -109,6 +109,22 @@ export interface DestinationDetail {
   } | null;
   why_jvto_tiles?: Array<{ icon: string; title: string; desc: string; meta: string }>;
   inclusions?: string[];
+  // Ekosistem-sourced (single-content-source migration, 2026-08-20): hub_region is the
+  // locality label used by hub/listing cards (e.g. "Banyuwangi", "Probolinggo") — same
+  // field EcosystemDestinationListItem already surfaces, now also read on the detail page
+  // for TouristAttraction schema `address.addressLocality`. See buildDestinationsSchemas.ts.
+  hub_region?: string | null;
+  // TouristAttraction-only editorial facts (schema name/description differ from the
+  // page's own name/description — e.g. "Kawah Ijen" vs "Ijen Crater") that don't already
+  // exist elsewhere on this record. See buildTouristAttractionSchema in buildDestinationsSchemas.ts.
+  tourist_attraction_facts?: {
+    name: string;
+    alternate_name: string[];
+    description: string;
+    amenity_features?: Array<{ name: string; value: boolean }>;
+    additional_props?: Array<{ name: string; value: string; unit_text?: string }>;
+    estimated_cost?: { currency: string; value: string; name?: string };
+  } | null;
 }
 
 export interface Destination {

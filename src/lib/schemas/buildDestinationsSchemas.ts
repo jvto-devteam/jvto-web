@@ -17,30 +17,40 @@ import type { ToursByDestinationItem } from '@/lib/queries/toursByDestination';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
+// Ekosistem-only (single-content-source consolidation, 2026-08-20): TOURIST_ATTRACTION_DATA
+// used to be a hardcoded slug-keyed map — a second, unsynchronised copy of facts that mostly
+// already exist elsewhere in ekosistem's destination-knowledge/<slug>.content.json:
+//   - lat/lng            -> derived live from `route_bbox` center (same GPX bbox the wiki
+//                            comment below describes; `deriveRouteStats().bbox` on the page
+//                            already exposes this — see destinations/[slug]/page.tsx).
+//   - locality            -> `hub_region` (verified identical to the old hardcoded locality
+//                            for all 5 destinations: Banyuwangi/Probolinggo/Lumajang/Jember).
+//   - elevationMasl        -> `altitude` (verified identical: 2386 / 2329).
+// name/alternateName/description/additionalProps/amenityFeatures/estimatedCost genuinely did
+// NOT already exist in ekosistem in matching form (the record's own `name`/`description` are
+// different editorial content, e.g. "Ijen Crater" vs the schema's "Kawah Ijen") — those moved
+// to a new `tourist_attraction_facts` field on the 5 destination-knowledge content.json files.
+// FALLBACK_* below hold the exact original literal/computed values as a last resort.
+//
 // Wiki: feat(schema) 58e2642 — TouristAttraction + BreadcrumbList for all 5 destinations.
 // Geo coordinates from AllTrails GPX bbox centers per destination wiki pages.
-const TOURIST_ATTRACTION_DATA: Record<string, {
+type TouristAttractionFacts = {
   name: string;
   alternateName: string[];
   description: string;
-  lat: string;
-  lng: string;
-  locality: string;
   amenityFeatures?: Array<{ name: string; value: boolean }>;
   // Quantitative structured facts (wiki-sourced) — surfaced as schema.org
-  // additionalProperty / geo.elevation / estimatedCost so AI engines can quote
-  // trail difficulty, elevation, and entry cost directly instead of parsing prose.
-  // Facts: wiki/destinations/{mount-bromo,kawah-ijen}.md.
-  elevationMasl?: number;
+  // additionalProperty / estimatedCost so AI engines can quote trail difficulty and
+  // entry cost directly instead of parsing prose.
   additionalProps?: Array<{ name: string; value: string; unitText?: string }>;
   estimatedCost?: { currency: string; value: string; name?: string };
-}> = {
+};
+
+const FALLBACK_TOURIST_ATTRACTION_FACTS: Record<string, TouristAttractionFacts> = {
   'ijen-crater': {
     name: 'Kawah Ijen',
     alternateName: ['Ijen Crater', 'Kawah Ijen Volcano'],
     description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination is mandatory for every guest under BBKSDA SE.1658/KSA.9/2024.",
-    lat: '-8.0635', lng: '114.2362', locality: 'Banyuwangi',
-    elevationMasl: 2386,
     additionalProps: [
       { name: 'Crater rim elevation', value: '2386', unitText: 'm' },
       { name: 'Trail distance (one-way)', value: '3', unitText: 'km' },
@@ -61,8 +71,6 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
     name: 'Mount Bromo',
     alternateName: ['Gunung Bromo', 'Bromo Volcano'],
     description: 'Active stratovolcano at 2,329 m in the Tengger caldera, Probolinggo, East Java. Famous for the Penanjakan sunrise viewpoint (2,770 m), sea-of-sand caldera floor traversed by 4WD jeep, and active smoking crater. Part of Bromo Tengger Semeru National Park.',
-    lat: '-7.9308', lng: '112.9581', locality: 'Probolinggo',
-    elevationMasl: 2329,
     additionalProps: [
       { name: 'Summit elevation', value: '2329', unitText: 'm' },
       { name: 'Sunrise viewpoint elevation', value: '2770', unitText: 'm' },
@@ -81,21 +89,41 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
     name: 'Tumpak Sewu Waterfall',
     alternateName: ['Coban Sewu', 'Tumpak Sewu'],
     description: 'Multi-tiered curtain waterfall (~120 m) in Lumajang, East Java. Accessible via jungle trail descending into the canyon. Optional swim at the base. Often combined with Ijen and Bromo tours.',
-    lat: '-8.2311', lng: '112.9189', locality: 'Lumajang',
   },
   'madakaripura-waterfall': {
     name: 'Madakaripura Waterfall',
     alternateName: ['Air Terjun Madakaripura'],
     description: "Java's tallest waterfall in a narrow canyon gorge in Probolinggo. A 45-minute river-crossing trek through the gorge leads to the main fall. Guests get wet — rain poncho recommended.",
-    lat: '-7.8490', lng: '113.0137', locality: 'Probolinggo',
   },
   'papuma-beach': {
     name: 'Papuma Beach',
     alternateName: ['Tanjung Papuma'],
     description: 'White-sand beach with dramatic coastal rock formations and a headland viewpoint in Jember, East Java. Relatively uncrowded. Included in extended Bali-origin itineraries.',
-    lat: '-8.4300', lng: '113.5551', locality: 'Jember',
   },
 };
+
+// Last-resort geo/locality/elevation, used only when the live ekosistem-sourced values
+// (route_bbox center / hub_region / altitude) are unavailable. elevationMasl is present
+// only for the 2 slugs that carried it in the original hardcoded map (preserves identical
+// JSON-LD output for the other 3 — their record does have an `altitude`, but never emitted
+// it here, so we don't start emitting it now).
+const FALLBACK_GEO: Record<string, { lat: string; lng: string; locality: string; elevationMasl?: number }> = {
+  'ijen-crater': { lat: '-8.0635', lng: '114.2362', locality: 'Banyuwangi', elevationMasl: 2386 },
+  'mount-bromo': { lat: '-7.9308', lng: '112.9581', locality: 'Probolinggo', elevationMasl: 2329 },
+  'tumpak-sewu-waterfall': { lat: '-8.2311', lng: '112.9189', locality: 'Lumajang' },
+  'madakaripura-waterfall': { lat: '-7.8490', lng: '113.0137', locality: 'Probolinggo' },
+  'papuma-beach': { lat: '-8.4300', lng: '113.5551', locality: 'Jember' },
+};
+
+/** Center of a [minLng, minLat, maxLng, maxLat] bbox, 4-decimal degrees (matches wiki precision). */
+function centerFromBbox(bbox?: number[] | null): { lat: string; lng: string } | null {
+  if (!bbox || bbox.length !== 4) return null;
+  const [minLng, minLat, maxLng, maxLat] = bbox;
+  return {
+    lat: (((minLat as number) + (maxLat as number)) / 2).toFixed(4),
+    lng: (((minLng as number) + (maxLng as number)) / 2).toFixed(4),
+  };
+}
 
 /**
  * TouristAttraction node + `estimatedCost`.
@@ -112,10 +140,38 @@ type TouristAttractionNode = WithContext<TouristAttractionLeaf> & {
 /**
  * TouristAttraction schema for destination pages.
  * Wiki: feat(schema) 2026-05-18 — commit 58e2642.
+ *
+ * `ecosystemData` is the already-fetched destination record (+ derived route bbox) from
+ * destinations/[slug]/page.tsx — single-content-source migration, 2026-08-20. Nothing here
+ * triggers a new fetch; geo/locality/elevation are read straight off what the page already
+ * has, and `tourist_attraction_facts` (name/description/etc.) merges over the FALLBACK when
+ * ekosistem hasn't been backfilled for a given destination yet.
  */
-export function buildTouristAttractionSchema(destinationSlug: string): TouristAttractionNode | null {
-  const data = TOURIST_ATTRACTION_DATA[destinationSlug];
-  if (!data) return null;
+export function buildTouristAttractionSchema(
+  destinationSlug: string,
+  ecosystemData?: {
+    altitude?: number | null;
+    hub_region?: string | null;
+    route_bbox?: number[] | null;
+    tourist_attraction_facts?: Partial<TouristAttractionFacts> | null;
+  } | null,
+): TouristAttractionNode | null {
+  const fallbackGeo = FALLBACK_GEO[destinationSlug];
+  const fallbackFacts = FALLBACK_TOURIST_ATTRACTION_FACTS[destinationSlug];
+  if (!fallbackGeo || !fallbackFacts) return null;
+
+  const data: TouristAttractionFacts = { ...fallbackFacts, ...ecosystemData?.tourist_attraction_facts };
+  const bboxCenter = centerFromBbox(ecosystemData?.route_bbox);
+  const lat = bboxCenter?.lat ?? fallbackGeo.lat;
+  const lng = bboxCenter?.lng ?? fallbackGeo.lng;
+  const locality = ecosystemData?.hub_region ?? fallbackGeo.locality;
+  // Only the 2 slugs that carried elevationMasl in the original hardcoded map emit geo.elevation
+  // (preserves identical JSON-LD output for the other 3, whose record does have an `altitude`
+  // but never surfaced it here).
+  const elevationMasl = fallbackGeo.elevationMasl != null
+    ? (ecosystemData?.altitude ?? fallbackGeo.elevationMasl)
+    : undefined;
+
   const attraction: TouristAttractionNode = {
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
@@ -126,12 +182,12 @@ export function buildTouristAttractionSchema(destinationSlug: string): TouristAt
     description: data.description,
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: data.lat,
-      longitude: data.lng,
+      latitude: lat,
+      longitude: lng,
       // elevation in metres above sea level (schema.org GeoCoordinates.elevation)
-      ...(data.elevationMasl ? { elevation: `${data.elevationMasl} m` } : {}),
+      ...(elevationMasl ? { elevation: `${elevationMasl} m` } : {}),
     },
-    address: { '@type': 'PostalAddress', addressLocality: data.locality, addressRegion: 'Jawa Timur', addressCountry: 'ID' },
+    address: { '@type': 'PostalAddress', addressLocality: locality, addressRegion: 'Jawa Timur', addressCountry: 'ID' },
     touristType: 'International independent travellers',
     isAccessibleForFree: false,
     containedInPlace: { '@type': 'AdministrativeArea', name: 'East Java, Indonesia' },
