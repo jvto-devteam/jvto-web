@@ -15,7 +15,8 @@
     "audit:travel-guide:live": "node scripts/audit-travel-guide-live-parity.mjs",
     "validate": "node scripts/validate.mjs",
     "validate:packages": "node scripts/validate-package-readiness-consumption.mjs",
-    "validate:jsonld-schema": "node scripts/validate-jsonld-schema.mjs"
+    "validate:jsonld-schema": "node scripts/validate-jsonld-schema.mjs",
+    "validate:review-pages": "node scripts/validate-review-detail-pages.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
