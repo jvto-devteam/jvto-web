@@ -20,18 +20,15 @@
 //                                      for the window where ekosistem's daily
 //                                      sync hasn't run yet or is unreachable;
 //                                      not the source of truth.
-// When neither source answers, this returns null and callers omit the
-// AggregateRating node entirely rather than emit a number nobody can vouch for.
+// When neither source answers, this returns null. Callers (public API + visible
+// "4.9 ★" text) display nothing or a fallback. AggregateRating JSON-LD is built by
+// the sibling jvto-ekosistem repo's Organization node; this file's role is read-only.
 import { cache } from "react";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 
 /** The platform whose figure is the public aggregate. Matches `profiles[].platform`. */
 export const AGGREGATE_PLATFORM = "Google Maps";
-
-/** Star-scale bounds. Not review data — the schema.org rating scale itself. */
-export const BEST_RATING = 5;
-export const WORST_RATING = 1;
 
 export interface PublicAggregateRating {
   rating: number;

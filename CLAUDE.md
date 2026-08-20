@@ -61,7 +61,6 @@ When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally
 |---|---|---|
 | Tour detail | `src/lib/schemas/buildTourSchemas.ts` | `src/lib/tourFaqs.ts` (`getTourSpineQaPairs`) |
 | Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
-| Homepage | `src/lib/schemas/buildHomepageSchemas.ts` | `src/lib/homepageFaqs.ts` (`HOMEPAGE_FAQS`) |
 | Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
 | Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | DB `narrative_claims` + individual `@type:Review` nodes on `/reviews` |
 | Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | DB `narrative_claims` |
