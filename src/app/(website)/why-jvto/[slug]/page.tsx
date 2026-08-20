@@ -10,7 +10,6 @@ import SidebarDesktop from "../SidebarDesktop";
 import { WHY_MENU } from "../sidebarMenu";
 import { WHY_JVTO_STYLES } from "../whyJvtoTokens";
 import { Home, Star } from "lucide-react";
-import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import {
   getEcosystemReviewProfiles,
   type EcosystemReviewProfile,
@@ -147,8 +146,6 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
     return notFound();
   }
 
-  const reviewsData =
-    slug === "reviews" ? await getReviewsForSchema().catch(() => []) : [];
   const reviewProfiles =
     slug === "reviews" ? await getEcosystemReviewProfiles() : [];
 
