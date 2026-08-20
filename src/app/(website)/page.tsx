@@ -17,8 +17,6 @@ import { getEcosystemDestinationsList } from "@/lib/ecosystemContent/destination
 import { getEcosystemPackagesList } from "@/lib/ecosystemContent/tourPackageDetail";
 import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
-import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   buildBbksdaRegulationSchema,
   buildDefinedTerms,
@@ -140,8 +138,10 @@ const Home = async () => {
 
   // FAQPage schema comes from the ekosistem-first branch of PageJsonLdCombined
   // (home/index.source.json's faq block) — no runtime resolver needed here.
-  const googleStats = await getPublicAggregateRating();
-  const aggregateRatingNode = buildHomepageAggregateRatingSchema(googleStats);
+  // aggregateRating is no longer assembled here: it's an inline property of
+  // the Organization node PageJsonLdCombined already reads from ekosistem
+  // (jvto-ekosistem's buildOrganizationNode(), Bagian 1 of the 2026-08-20
+  // schema-rendering-consolidation design).
 
   // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
   const healthAppNode = {
@@ -175,7 +175,6 @@ const Home = async () => {
           ...Object.values(buildDefinedTerms(entityGraphFacts?.definedTerms)),
           serviceNode,
           healthAppNode,
-          aggregateRatingNode,
         ]}
         suppressCmsFaq
       />
