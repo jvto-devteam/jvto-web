@@ -27,6 +27,7 @@ import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
+import { getEcosystemTourSchemaNodes } from "@/lib/ecosystemContent/tourSchemaOutput";
 
 export const revalidate = 3600;
 
@@ -107,35 +108,6 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-// Menghitung waktu selesai berdasarkan start time + durasi menit
-function calculateEndTime(startTime: string, durationMinutes: number): string {
-  if (!startTime) return "17:00";
-  try {
-    // Asumsi format "HH:MM" atau "HH:MM:SS"
-    const timeParts = startTime.split(":");
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-
-    const date = new Date();
-    date.setHours(hours, minutes + durationMinutes);
-
-    // Format kembali ke "HH:MM"
-    const endHours = String(date.getHours()).padStart(2, "0");
-    const endMinutes = String(date.getMinutes()).padStart(2, "0");
-    return `${endHours}:${endMinutes}`;
-  } catch (e) {
-    return startTime; // Fallback
-  }
-}
-
-function getDestinationUrl(name: string) {
-  const slug = name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
-  return `https://javavolcano-touroperator.com/destinations/${slug}`;
-}
-
 // --- 3. DATA FETCHING (DEDUPLICATED) ---
 
 // Menggunakan React 'cache' untuk Request Memoization
@@ -155,11 +127,13 @@ function StructuredData({
   globalNodes,
   googleStats,
   tourAugment,
+  ecosystemNodes,
 }: {
   data: TourPackageDetailResponse;
   globalNodes: any[];
   googleStats: { rating: number; count: number } | null;
   tourAugment?: { subjectOf: { "@id": string }; mentions: { "@id": string }[] } | null;
+  ecosystemNodes: Record<string, unknown>[] | null;
 }) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -183,64 +157,15 @@ function StructuredData({
       ? `${siteUrl}${rawImage}`
       : rawImage;
 
-  // Logic Offers
-  const dynamicOffers =
-    pkg.offers?.tiers?.map((tier) => ({
-      "@type": "Offer",
-      sku: tier.sku,
-      price: tier.pricePerPerson,
-      priceCurrency: "IDR",
-      eligibleQuantity: {
-        "@type": "QuantitativeValue",
-        minValue: tier.paxMin,
-        ...(tier.paxMax > 0 && { maxValue: tier.paxMax }),
-      },
-      availability: "https://schema.org/InStock",
-      url: pageUrl,
-    })) || [];
-
-  // Logic SubTrip (Itinerary Harian)
-  const subTripList =
-    pkg.itineraryDays?.map((dayItem) => {
-      const dayId = `${pageUrl}#day-${dayItem.day}`;
-
-      // Ambil waktu
-      const firstActivity = dayItem.activities?.[0];
-      const lastActivity = dayItem.activities?.[dayItem.activities.length - 1];
-
-      const departureTime = firstActivity?.timeWindow || "08:00";
-      const arrivalTime = lastActivity
-        ? calculateEndTime(
-            lastActivity.timeWindow || "18:00",
-            lastActivity.durationMinutes ?? 0
-          )
-        : "18:00";
-
-      return {
-        "@type": "TouristTrip",
-        "@id": dayId,
-        name: `Day ${dayItem.day}: ${dayItem.title}`,
-        description: dayItem.summary,
-        departureTime: departureTime,
-        arrivalTime: arrivalTime,
-        itinerary: {
-          "@type": "ItemList",
-          itemListElement:
-            dayItem.activities?.map((act, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              item: {
-                "@type": "TouristAttraction",
-                name: act.name,
-                description: act.description,
-                url: getDestinationUrl(act.location || act.name || ""),
-              },
-            })) || [],
-        },
-        provider: { "@id": `${siteUrl}/#organization` },
-        partOfTrip: { "@id": `${pageUrl}#tour` },
-      };
-    }) || [];
+  // TouristTrip + per-day TouristTrip + AggregateOffer now come pre-rendered
+  // from ekosistem (design spec Bagian 3, 2026-08-20). Augment the TouristTrip
+  // node with the DefinedTerm mentions/subjectOf that stay page-local, by @id
+  // match, rather than rebuilding the node here.
+  const augmentedEcosystemNodes = (ecosystemNodes ?? []).map((node) =>
+    node["@id"] === `${pageUrl}#tour` && tourAugment
+      ? { ...node, subjectOf: tourAugment.subjectOf, mentions: tourAugment.mentions }
+      : node,
+  );
 
   const graphSchema = {
     "@context": "https://schema.org",
@@ -272,40 +197,7 @@ function StructuredData({
           { "@type": "ListItem", position: 4, name: pkg.name, item: pageUrl },
         ],
       },
-      {
-        "@type": "TouristTrip",
-        "@id": `${pageUrl}#tour`,
-        name: pkg.name,
-        description: stripHtml(pkg.description),
-        url: pageUrl,
-        image: [schemaImageUrl],
-        inLanguage: "en",
-        duration: pkg.itineraryDays?.length ? `P${pkg.itineraryDays.length}D` : undefined,
-        touristType: pkg.marketing?.perfectFor || ["Adventure seekers"],
-        tripOrigin: { "@type": "Place", name: pkg.originCity },
-        itinerary: {
-          "@type": "ItemList",
-          itemListElement: subTripList.map((trip, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            item: { "@id": trip["@id"] },
-          })),
-        },
-        subTrip: subTripList, // <--- New Structure
-        provider: { "@id": `${siteUrl}/#organization` },
-        offers: { "@id": `${pageUrl}#aggregateOffer` },
-        identifier: [
-          {
-            "@type": "PropertyValue",
-            name: "Internal Package ID",
-            value: pkg.packageId,
-          },
-        ],
-        mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
-        ...(tourAugment
-          ? { subjectOf: tourAugment.subjectOf, mentions: tourAugment.mentions }
-          : {}),
-      },
+      ...augmentedEcosystemNodes,
       {
         "@type": "Product",
         "@id": `${pageUrl}#product`,
@@ -320,16 +212,7 @@ function StructuredData({
           ratingValue: pkg.aggregateRating?.ratingValue || String(googleStats?.rating ?? 4.8),
           reviewCount: pkg.aggregateRating?.reviewCount || String(googleStats?.count ?? 141),
         },
-        offers: {
-          "@type": "AggregateOffer",
-          priceCurrency: "IDR",
-          lowPrice: pkg.offers?.aggregateOffer?.lowPrice,
-          highPrice: pkg.offers?.aggregateOffer?.highPrice,
-          offerCount: pkg.offers?.tiers?.length || 0,
-          offers: dynamicOffers,
-          availability: "https://schema.org/InStock",
-          url: pageUrl,
-        },
+        offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
       },
     ],
@@ -437,7 +320,7 @@ function adaptToTourDetailSeed(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims, googleStats, reviewProfiles, ijenCraterRequirements] = await Promise.all([
+  const [data, reviews, org, allClaims, googleStats, reviewProfiles, ijenCraterRequirements, ecosystemNodes] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
@@ -447,6 +330,8 @@ export default async function Page({ params }: Props) {
     getEcosystemReviewProfiles(),
     // Ijen Crater mandatory-requirements table + FAQ for TourRequirements (client bundle — must be drilled in).
     getEcosystemIjenCraterRequirements(),
+    // Pre-rendered TouristTrip/AggregateOffer nodes (design spec Bagian 3).
+    getEcosystemTourSchemaNodes(`tours/from-surabaya/${slug}`),
   ]);
 
   if (!data) notFound();
@@ -493,7 +378,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} tourAugment={tourAugment} />
+      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
