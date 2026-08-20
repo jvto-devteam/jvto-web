@@ -88,19 +88,35 @@ export function buildPolicyWebPageSchema({
 }
 
 /**
+ * Editorial facts for the /policy/booking-payment-cancellation SpecialAnnouncement.
+ * Mirrors ekosistem's `content.payload.schemaFacts.travelCreditAnnouncement` shape for
+ * booking-payment-cancellation.source.json. FALLBACK holds the exact original literal text,
+ * used whenever ekosistem doesn't supply schemaFacts.
+ */
+export const FALLBACK_TRAVEL_CREDIT_ANNOUNCEMENT_FACTS = {
+  name: 'Lifetime Package Credit Policy',
+  text:
+    'Full cancellation ≥48 hours before Day 1 = 100% Lifetime Package Credit, never cash. Non-expiring. ' +
+    'Locked to the same package, traveler count and price — cannot be split or changed to another package. ' +
+    'Transferable to another person once, with written authorisation.',
+};
+
+type TravelCreditAnnouncementFacts = typeof FALLBACK_TRAVEL_CREDIT_ANNOUNCEMENT_FACTS;
+
+/**
  * SpecialAnnouncement schema for /policy/booking-payment-cancellation — surfaces the JVTO Lifetime Package
  * Credit policy as a structured announcement. AI engines weight SpecialAnnouncement for time-relevant operational notices.
  */
-export function buildJvtoTravelCreditAnnouncementSchema(): WithContext<SpecialAnnouncement> {
+export function buildJvtoTravelCreditAnnouncementSchema(
+  facts?: Partial<TravelCreditAnnouncementFacts>,
+): WithContext<SpecialAnnouncement> {
+  const merged = { ...FALLBACK_TRAVEL_CREDIT_ANNOUNCEMENT_FACTS, ...facts };
   return {
     '@context': 'https://schema.org',
     '@type': 'SpecialAnnouncement',
     '@id': `${BASE_URL}/policy/booking-payment-cancellation#travel-credit-announcement`,
-    name: 'Lifetime Package Credit Policy',
-    text:
-      'Full cancellation ≥48 hours before Day 1 = 100% Lifetime Package Credit, never cash. Non-expiring. ' +
-      'Locked to the same package, traveler count and price — cannot be split or changed to another package. ' +
-      'Transferable to another person once, with written authorisation.',
+    name: merged.name,
+    text: merged.text,
     announcementLocation: { '@id': `${BASE_URL}/#organization` },
     category: 'https://www.wikidata.org/wiki/Q81068910',
   };

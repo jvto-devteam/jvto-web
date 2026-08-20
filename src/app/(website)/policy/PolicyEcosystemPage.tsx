@@ -238,9 +238,18 @@ export async function PolicyEcosystemPage({ route }: { route: string }) {
     description: page.meta.summary ?? page.meta.description,
     mentionsTermIds,
   });
+  const schemaFacts = structuredPayload(page).schemaFacts as
+    | {
+        travelCreditAnnouncement?: Parameters<
+          typeof buildJvtoTravelCreditAnnouncementSchema
+        >[0];
+      }
+    | undefined;
   const announcementSchema =
     slug === "booking-payment-cancellation"
-      ? buildJvtoTravelCreditAnnouncementSchema()
+      ? buildJvtoTravelCreditAnnouncementSchema(
+          schemaFacts?.travelCreditAnnouncement,
+        )
       : null;
 
   return (
