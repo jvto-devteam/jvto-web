@@ -3,8 +3,7 @@
 // Reviews migration), so this filters/sorts in application code over the
 // ekosistem reader instead of hitting Prisma. Return type/shape kept
 // byte-identical (including `id: bigint` / `date: Date`) so downstream
-// consumers (buildIndividualReviewSchemas, why-jvto/reviews/page.tsx) need no
-// changes.
+// consumers (why-jvto/reviews/page.tsx for excerptReviews display) need no changes.
 import { getEcosystemReviews } from '@/lib/ecosystemContent/reviews';
 
 export type ReviewForSchema = {

@@ -12,12 +12,9 @@ import type {
   BreadcrumbList,
   ItemList,
   ListItem,
-  Review,
   WebPage,
   WithContext,
 } from 'schema-dts';
-
-import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -81,35 +78,3 @@ export function buildWhyJvtoHubItemListSchema(): WithContext<ItemList> {
   };
 }
 
-/**
- * Individual @type:Review nodes for /why-jvto/reviews — one node per DB review row.
- * Returns a flat array spread individually into the caller's extraSchemas; not wrapped in @graph.
- * itemReviewed cross-refs Organization @id (globally injected); url omitted when null.
- */
-export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): WithContext<Review>[] {
-  return reviews
-    .filter((r): r is ReviewForSchema & { star: number } => r.star != null)
-    .map((r) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Review',
-    '@id': `${BASE_URL}/#review-${r.id}`,
-    author: {
-      '@type': 'Person',
-      name: r.customer_name,
-    },
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: String(r.star),
-      bestRating: '5',
-      worstRating: '1',
-    },
-    reviewBody: r.review,
-    datePublished: r.date.toISOString().split('T')[0],
-    ...(r.url || r.url_reference ? { url: (r.url || r.url_reference) as string } : {}),
-    itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    publisher: {
-      '@type': 'Organization',
-      name: r.platform,
-    },
-  }));
-}

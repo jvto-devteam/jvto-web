@@ -11,7 +11,6 @@ import { WHY_MENU } from "../sidebarMenu";
 import { WHY_JVTO_STYLES } from "../whyJvtoTokens";
 import { Home, Star } from "lucide-react";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
-import { buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
 import {
   getEcosystemReviewProfiles,
   type EcosystemReviewProfile,
@@ -157,14 +156,10 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const faqItems = page.faq ?? [];
   const faqSchemaNode = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
 
-  const slugExtraSchemas = [
-    faqSchemaNode,
-    ...(slug === "reviews"
-      ? buildIndividualReviewSchemas(
-          reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
-        )
-      : []),
-  ].filter(Boolean);
+  // Individual Review nodes are no longer built here — they now come from
+  // jvto-ekosistem's why-jvto__reviews.schema-output.json, merged in automatically
+  // by PageJsonLdCombined's ecosystemNodes fetch for this route (Bagian 2, 2026-08-20).
+  const slugExtraSchemas = [faqSchemaNode].filter(Boolean);
 
   return (
     <>

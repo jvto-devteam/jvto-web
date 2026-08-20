@@ -6,7 +6,6 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
-import { buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { REVIEW_THEMES, type ReviewTheme } from "./reviewThemes";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
@@ -75,7 +74,10 @@ export default async function WhyJvtoReviewsPage() {
   // aggregateRating no longer assembled here — it's an inline property of the
   // Organization node PageJsonLdCombined already reads from ekosistem
   // (Bagian 1 of the 2026-08-20 schema-rendering-consolidation design).
-  const extraSchemas = buildIndividualReviewSchemas(reviewsData);
+  // Individual Review nodes are no longer built here either (Bagian 2) — they now
+  // come from jvto-ekosistem's why-jvto__reviews.schema-output.json, merged in
+  // automatically by PageJsonLdCombined's ecosystemNodes fetch for this route.
+  const extraSchemas: unknown[] = [];
 
   const pageRow = {
     route: ROUTE,
