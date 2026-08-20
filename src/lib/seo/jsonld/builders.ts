@@ -322,9 +322,15 @@ export function buildOrganizationJsonLd(
       { "@type": "City", "name": "Bondowoso" },
       { "@type": "AdministrativeArea", "name": "East Java", "containedInPlace": { "@type": "Country", "name": "Indonesia" } },
     ],
-    // aggregateRating intentionally omitted here — standalone AggregateRating node in
-    // entityGraph.ts (/#aggregate-rating) already references Organization via itemReviewed.
-    // Nesting it here caused validator to extract/consume the parent TravelAgency node.
+    // aggregateRating intentionally omitted here — this branch only runs when
+    // ekosistem's Organization node (which carries `aggregateRating`, see
+    // jvto-ekosistem scripts/lib/build-organization.mjs) is unreachable, i.e.
+    // exactly the case where no figure can be vouched for. The standalone
+    // /#aggregate-rating node this comment used to reference
+    // (buildHomepageAggregateRatingSchema et al. in entityGraph.ts's
+    // neighbourhood) was deleted 2026-08-20 — aggregateRating is now an inline
+    // property of the Organization node itself, passed through verbatim by the
+    // `org.schema_json` branch above when ekosistem does answer.
     sameAs: sameAs.length ? sameAs : undefined,
     address,
   }));
@@ -340,13 +346,22 @@ export function buildOrganizationJsonLd(
 // (src/lib/seo/jsonld/normalize.ts) drops any node without @type site-wide, so a
 // typeless reference silently vanishes from the graph instead of resolving.
 export function toOrganizationReferenceOnly<T>(node: T): T {
+  // Carries `aggregateRating` through even though every other property is
+  // stripped: it's an inline property of ekosistem's Organization node
+  // (jvto-ekosistem scripts/lib/build-organization.mjs, Bagian 1 of the
+  // 2026-08-20 schema-rendering-consolidation design), not a separate
+  // cross-referenced node. Dropping it here would silently remove the
+  // rating from /tours, /tours/from-bali, /tours/from-surabaya.
+  const toReference = (n: any) => ({
+    "@type": n["@type"],
+    "@id": n["@id"],
+    ...(n.aggregateRating ? { aggregateRating: n.aggregateRating } : {}),
+  });
   if (Array.isArray(node)) {
-    return node.map((n) =>
-      isOrgClassNode(n) && (n as any)["@id"] ? { "@type": (n as any)["@type"], "@id": (n as any)["@id"] } : n,
-    ) as unknown as T;
+    return node.map((n) => (isOrgClassNode(n) && (n as any)["@id"] ? toReference(n) : n)) as unknown as T;
   }
   if (node && isOrgClassNode(node) && (node as any)["@id"]) {
-    return { "@type": (node as any)["@type"], "@id": (node as any)["@id"] } as unknown as T;
+    return toReference(node) as unknown as T;
   }
   return node;
 }

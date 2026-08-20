@@ -95,7 +95,17 @@ function sanitizeSchemaNode(node: any) {
 // without @type, so a bare {"@id"} reference silently vanishes instead of resolving.
 function toOrganizationReference(node: any) {
   if (!node || typeof node !== "object" || !node["@id"]) return node;
-  return { "@type": node["@type"], "@id": node["@id"] };
+  return {
+    "@type": node["@type"],
+    "@id": node["@id"],
+    // Carried through even though every other property is stripped:
+    // aggregateRating is an inline property of ekosistem's Organization node
+    // (jvto-ekosistem scripts/lib/build-organization.mjs, Bagian 1 of the
+    // 2026-08-20 schema-rendering-consolidation design), not a separate
+    // cross-referenced node. Dropping it here would silently remove the
+    // rating from every non-homepage route's JSON-LD.
+    ...(node.aggregateRating ? { aggregateRating: node.aggregateRating } : {}),
+  };
 }
 
 function shouldAppendRuntimeSchema(node: any, existingTypes: Set<string>) {
