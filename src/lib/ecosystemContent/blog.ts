@@ -170,6 +170,23 @@ export async function getEcosystemBlogPost(slug: string): Promise<BlogPost | nul
   return toBlogPost(output, slug);
 }
 
+// Slugs that must NEVER be enumerated here even though their ekosistem source
+// lives under the /blog/ route prefix (so their SEO/canonical metadata stays
+// accurate). Each has its own dedicated, non-generic page.tsx under
+// src/app/(website)/blog/<slug>/ with bespoke one-off JSX that this generic
+// markdown-driven [slug]/page.tsx renderer cannot reproduce. If included
+// here, generateStaticParams (dynamicParams = false) would try to also
+// render that exact path through this generic route, which Next.js treats
+// as two parallel pages resolving to the same URL — a build-time conflict.
+const DEDICATED_PAGE_SLUGS = new Set<string>([
+  // src/app/(website)/blog/why-not-unlicensed-ijen-operator/page.tsx —
+  // migrated 2026-08-20 to read ekosistem `pageContent` via
+  // 1-knowledge-and-evidence-core/blog/why-not-unlicensed-ijen-operator.source.json,
+  // but keeps its custom hero/sidebar/data-box/checklist layout rather than
+  // the generic MarkdownRenderer body used by this route.
+  "why-not-unlicensed-ijen-operator",
+]);
+
 /**
  * All published blog slugs, sourced from ekosistem's route index (the same
  * `/blog/*` routes surfaced by getEcosystemWebsiteRoutes in website.ts) rather
@@ -182,7 +199,8 @@ export async function getEcosystemBlogSlugs(): Promise<string[]> {
     .map((item) => item.route)
     .filter((route) => route.startsWith("/blog/"))
     .map((route) => route.replace("/blog/", ""))
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((slug) => !DEDICATED_PAGE_SLUGS.has(slug));
 }
 
 /** All published posts, newest first — mirrors the pre-migration manifest shape. */
