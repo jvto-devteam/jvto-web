@@ -2,9 +2,13 @@
 // Ported from rewrite repo (e:\test-2-2026\lib\schemas\buildWhyJvtoSchemas.ts) on 2026-04-29 as part of AEO/GEO port.
 //
 // Per cluster_role_contracts.md Cluster 3: WebPage + BreadcrumbList per page; FAQPage from narrative_claims;
-// hub adds mainEntity ItemList(sub-pages); /reviews adds AggregateRating.
+// hub adds mainEntity ItemList(sub-pages); /reviews adds per-review Review nodes.
+// 2026-08-20: the standalone AggregateRating node this file used to add on /reviews
+// (buildWhyJvtoReviewsAggregateRatingSchema, fed from getPublicAggregateRating()) is
+// deleted per the schema-rendering-consolidation design's Bagian 1 — the rating is now
+// an inline property of the Organization node, assembled once in jvto-ekosistem and
+// already reaching this page via PageJsonLdCombined's ecosystem branch.
 import type {
-  AggregateRating,
   BreadcrumbList,
   ItemList,
   ListItem,
@@ -13,7 +17,6 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { BEST_RATING, WORST_RATING } from '@/lib/publicContent/getAggregateRating';
 import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -109,30 +112,4 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): WithCo
       name: r.platform,
     },
   }));
-}
-
-/**
- * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level
- * rating at reviews page level. itemReviewed cross-refs the Organization @id.
- *
- * `liveStats` MUST come from `getPublicAggregateRating()` (Google Maps only — the
- * one figure allowed to be presented as the JVTO rating). No hardcoded fallback:
- * returns null when no source can answer, and the caller omits the node.
- */
-export function buildWhyJvtoReviewsAggregateRatingSchema(
-  liveStats?: { rating: number; count: number } | null,
-): WithContext<AggregateRating> | null {
-  if (!liveStats) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'AggregateRating',
-    '@id': `${BASE_URL}/why-jvto/reviews#aggregate-rating`,
-    itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(liveStats.rating),
-    // schema.org types reviewCount as Integer; emitted as a numeric string (unchanged
-    // runtime output) — the assertion narrows `string` to the numeric-string form.
-    reviewCount: String(liveStats.count) as `${number}`,
-    bestRating: String(BEST_RATING),
-    worstRating: String(WORST_RATING),
-  };
 }

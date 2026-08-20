@@ -11,15 +11,11 @@ import { WHY_MENU } from "../sidebarMenu";
 import { WHY_JVTO_STYLES } from "../whyJvtoTokens";
 import { Home, Star } from "lucide-react";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
-import {
-  buildIndividualReviewSchemas,
-  buildWhyJvtoReviewsAggregateRatingSchema,
-} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
 import {
   getEcosystemReviewProfiles,
   type EcosystemReviewProfile,
 } from "@/lib/ecosystemContent/reviewPlatforms";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
   listPublishedStaticPages,
   loadEcosystemPage,
@@ -164,13 +160,9 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const slugExtraSchemas = [
     faqSchemaNode,
     ...(slug === "reviews"
-      ? [
-          // Google Maps only — the single figure allowed to be presented as THE rating.
-          buildWhyJvtoReviewsAggregateRatingSchema(await getPublicAggregateRating()),
-          ...buildIndividualReviewSchemas(
-            reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
-          ),
-        ]
+      ? buildIndividualReviewSchemas(
+          reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
+        )
       : []),
   ].filter(Boolean);
 

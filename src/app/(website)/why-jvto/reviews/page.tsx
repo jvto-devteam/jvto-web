@@ -6,12 +6,8 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
-import {
-  buildIndividualReviewSchemas,
-  buildWhyJvtoReviewsAggregateRatingSchema,
-} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { REVIEW_THEMES, type ReviewTheme } from "./reviewThemes";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -76,11 +72,10 @@ export default async function WhyJvtoReviewsPage() {
     name: review.customer_name,
     source: `${review.platform} · ${review.date.toISOString().slice(0, 10)}`,
   }));
-  const extraSchemas = [
-    // Google Maps only — the single figure allowed to be presented as THE rating.
-    buildWhyJvtoReviewsAggregateRatingSchema(await getPublicAggregateRating()),
-    ...buildIndividualReviewSchemas(reviewsData),
-  ].filter(Boolean);
+  // aggregateRating no longer assembled here — it's an inline property of the
+  // Organization node PageJsonLdCombined already reads from ekosistem
+  // (Bagian 1 of the 2026-08-20 schema-rendering-consolidation design).
+  const extraSchemas = buildIndividualReviewSchemas(reviewsData);
 
   const pageRow = {
     route: ROUTE,
