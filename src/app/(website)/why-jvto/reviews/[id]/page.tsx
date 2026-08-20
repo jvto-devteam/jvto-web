@@ -15,6 +15,7 @@ import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getEcosystemReviewById } from "@/lib/ecosystemContent/reviews";
+import { getEcosystemReviewSchema } from "@/lib/ecosystemContent/schema";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -80,10 +81,23 @@ export default async function ReviewDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // Migrated (Bagian 2, 2026-08-20): the Review-nested-in-Product JSON-LD node is now
+  // pre-rendered by jvto-ekosistem (scripts/generate-review-schema.mjs), one file per
+  // review id, instead of being built inline here. A missing file 404s this page
+  // rather than rendering without the node — either ekosistem is unreachable, or (same
+  // accepted risk as booking-records) this review was just synced into reviews.json
+  // but the schema regeneration step for it hasn't run yet. The visible review content
+  // above/below (customerName, star, review text) comes straight from reviews.json via
+  // getEcosystemReviewById and is unaffected by this migration.
+  const reviewSchema = await getEcosystemReviewSchema(review.id);
+  const productNode = reviewSchema?.["@graph"].find((node) => node["@type"] === "Product") ?? null;
+  if (!productNode) {
+    notFound();
+  }
+
   const resolvedName = review.packageName;
   const resolvedSlug = review.packageSlug;
   const packageName = resolvedName ?? "Java Volcano Tour Package";
-  const packageUrl = packageUrlFor(resolvedSlug);
 
   const schema = {
     "@context": "https://schema.org",
@@ -101,29 +115,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         isPartOf: { "@id": `${SITE_URL}/#website` },
         about: { "@id": `${SITE_URL}/#organization` },
       },
-      {
-        "@type": "Product",
-        "@id": `${SITE_URL}/why-jvto/reviews/${review.id}#product`,
-        name: packageName,
-        brand: { "@id": `${SITE_URL}/#organization` },
-        url: packageUrl,
-        review: {
-          "@type": "Review",
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: review.star ?? 5,
-            bestRating: 5,
-            worstRating: 1,
-          },
-          author: {
-            "@type": "Person",
-            name: review.customerName,
-          },
-          reviewBody: review.review,
-          datePublished: new Date(review.date).toISOString(),
-          publisher: { "@id": `${SITE_URL}/#organization` },
-        },
-      },
+      productNode,
     ],
   };
 
@@ -185,7 +177,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
           {resolvedSlug && (
             <a
-              href={packageUrl}
+              href={packageUrlFor(resolvedSlug)}
               className="inline-block mt-2 text-orange-600 font-semibold hover:underline"
             >
               View Tour Details →
