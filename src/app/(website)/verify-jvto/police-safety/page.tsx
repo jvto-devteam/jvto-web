@@ -23,7 +23,7 @@ const POLICE_CREDENTIALS = [
   {
     label: "SPRIN-POLPAR",
     name: "Tourist Police Assignment Letter",
-    ref: "Surat Perintah — Ditpamobvit",
+    ref: "Surat Perintah Sprin/4954/XI/2020 — Polres Bondowoso",
     issuer: "Indonesian National Police (POLRI)",
     issuerHref: "https://polri.go.id",
     docHref: `${BASE_URL}/legal/SPRIN-POLPAR.pdf`,
@@ -32,7 +32,7 @@ const POLICE_CREDENTIALS = [
   },
   {
     label: "SPRIN-WAL-TRAVEL",
-    name: "Active Travel Order",
+    name: "Traffic-escort order (Sprin/70/II/HUK.6.6./2024)",
     ref: "February 2024 — Surat Perintah Perjalanan",
     issuer: "Indonesian National Police (POLRI)",
     issuerHref: "https://polri.go.id",
@@ -74,7 +74,7 @@ function renderRich(segments: RichSegment[]) {
 const FALLBACK = {
   heroStats: [
     { label: "Officer", value: "Bripka Agung Sambuko" },
-    { label: "Unit", value: "Ditpamobvit · East Java" },
+    { label: "Unit", value: "POLPAR Bondowoso · East Java" },
     { label: "SPRIN documents", value: "2 · SHA-256 anchored" },
     { label: "Evidence layers", value: "4" },
   ],
@@ -83,8 +83,8 @@ const FALLBACK = {
     { text: "JVTO founder Agung Sambuko (\"Mr. Sam\") is " },
     { text: "Bripka Agung Sambuko", strong: true },
     { text: " — an active serving officer of the Indonesian National Police (Polri), assigned to " },
-    { text: "Ditpamobvit", strong: true },
-    { text: " (Direktorat Pengamanan Objek Vital — the Directorate of Vital Object Security, East Java). Ditpamobvit's mandate covers tourist safety at designated vital objects, and the Kawah Ijen area is within that jurisdiction." },
+    { text: "POLPAR Bondowoso", strong: true },
+    { text: " (Polisi Pariwisata Bondowoso — Tourist Police, Polres Bondowoso). The assignment order places him in tourism governance for Bondowoso Regency, which covers the Kawah Ijen access route." },
   ] as RichSegment[],
   whatPoliceLedMeansPara2: "This is not a retired officer's background or an advisory title. It is active duty, documented annually in police travel orders. In practice it means:",
   whatPoliceLedMeansList: [
@@ -124,7 +124,7 @@ const FALLBACK = {
   ],
   institutionalTable: [
     { field: "Rank", value: "Bripka (Brigadir Kepala — Senior Constable, Indonesian National Police)" },
-    { field: "Unit", value: "Ditpamobvit — Direktorat Pengamanan Objek Vital (Directorate of Vital Object Security)" },
+    { field: "Unit", value: "Polisi Pariwisata (POLPAR) Bondowoso — Tourist Police, Polres Bondowoso" },
     { field: "Sub-unit", value: "East Java Tourist Police (Polisi Pariwisata — Polpar)" },
     { field: "Scope", value: "Tourist safety at designated vital objects in East Java, including the Kawah Ijen area" },
   ],
@@ -139,7 +139,7 @@ const FALLBACK = {
   healthScreeningSegments: [
     { text: "A health certificate is mandatory for every guest before Kawah Ijen crater entry. This is a " },
     { text: "regulatory requirement set by BBKSDA", strong: true },
-    { text: " (Surat Edaran SE.1658/KSA.9/2024, cited as supporting authority), not a rule JVTO invents. JVTO coordinates the mandatory clinic workflow with Dr. Ahmad Irwandanu (SIP-licensed, Kemenkes-verifiable). The check measures oxygen saturation, blood pressure, heart rate, and respiratory history; a QR-verified " },
+    { text: " (Surat Edaran SE.1658/K2/BIDTEK.1/KSA/9/2024, cited as supporting authority), not a rule JVTO invents. JVTO coordinates the mandatory clinic workflow with Dr. Ahmad Irwandanu (SIP-licensed, Kemenkes-verifiable). The check measures oxygen saturation, blood pressure, heart rate, and respiratory history; a QR-verified " },
     { text: "surat sehat", em: true },
     { text: " is issued and scanned at the BBKSDA access gate. Screening can be done at " },
     { text: "Klinik Bakti Husada", strong: true },

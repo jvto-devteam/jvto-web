@@ -118,7 +118,7 @@ export const FALLBACK_POLICE_SAFETY_FACTS = {
     publisherUrl: 'https://polri.go.id',
   },
   sprinWalTravel: {
-    name: 'SPRIN-WAL-TRAVEL (Active Travel Order, February 2024)',
+    name: 'SPRIN-WAL-TRAVEL — traffic-escort order Sprin/70/II/HUK.6.6./2024, 12 February 2024',
     url: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp`,
     dateCreated: '2024-02-12',
     publisherName: 'Indonesian National Police (POLRI)',

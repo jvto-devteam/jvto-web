@@ -24,9 +24,9 @@ const FALLBACK = {
   ],
   faq: [
     { q: "Is Java Volcano Tour Operator a legal business?", a: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918, verifiable via oss.go.id (Indonesia Online Single Submission portal)." },
-    { q: "Is Agung Sambuko really a police officer?", a: "Yes. Agung Sambuko is an active member of the Indonesian Tourist Police (POLRI), Ditpamobvit division. Official SPRIN assignment orders are published in the proof library below." },
+    { q: "Is Agung Sambuko really a police officer?", a: "Yes. Agung Sambuko is an active member of the Indonesian Tourist Police (POLPAR), Polres Bondowoso. Official SPRIN assignment orders are published in the proof library below." },
     { q: "How can I verify the documents provided by JVTO?", a: "Documents in the Evidence Locker include a SHA-256 hash. Download the original file and compare its hash to the published value to detect any tampering — mathematically certain proof." },
-    { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/KSA.9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
+    { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/K2/BIDTEK.1/KSA/9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
   ],
   // JSON-LD-only editorial facts for this page's own local @graph (organizationSchema,
   // ijenMedicalUnitSchema, teamPeopleSchema below) — NOT read through entityGraph.ts, since
@@ -205,7 +205,7 @@ export default async function VerifyJvtoPage() {
           "@type": "Person",
           name: "Agung Sambuko (Mr. Sam)",
           jobTitle: "Active Tourist Police Officer",
-          memberOf: "Ditpamobvit",
+          memberOf: "POLPAR Bondowoso",
         },
       };
     }
@@ -416,13 +416,13 @@ export default async function VerifyJvtoPage() {
     name: "Agung Sambuko",
     alternateName: "Mr. Sam",
     honorificPrefix: "Bripka",
-    jobTitle: "Founder & Active Tourist Police Officer (Ditpamobvit)",
+    jobTitle: "Founder & Active Tourist Police Officer (POLPAR Bondowoso)",
     image: `${siteUrl}/founder/mr-sam-tourist-police-portrait.png`,
     memberOf: {
       "@type": "GovernmentOrganization",
       name: "Indonesian National Police",
       alternateName: "Kepolisian Negara Republik Indonesia",
-      department: "Ditpamobvit (Directorate of Vital Object Security)",
+      department: "Polisi Pariwisata (POLPAR), Polres Bondowoso",
       sameAs: [
         "https://polri.go.id/",
         "https://www.wikidata.org/wiki/Q3103954",
@@ -759,7 +759,7 @@ export default async function VerifyJvtoPage() {
         name: "Does JVTO have official Police authority?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "JVTO is founded by an active Tourist Police officer (Ditpamobvit). Official coordination evidence is provided via SPRIN (Assignment Orders) documents in the Verification Locker.",
+          text: "JVTO is founded by an active Tourist Police officer (POLPAR Bondowoso). Official coordination evidence is provided via SPRIN (Assignment Orders) documents in the Verification Locker.",
         },
       },
       {
@@ -1034,7 +1034,7 @@ export default async function VerifyJvtoPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/60 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#8CC63F]">Bripka Agung Sambuko</span>
-                <p className="text-white/80 text-[13px] font-light mt-1">Active Tourist Police · Ditpamobvit POLRI</p>
+                <p className="text-white/80 text-[13px] font-light mt-1">Active Tourist Police · POLPAR Bondowoso, POLRI</p>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -1069,7 +1069,7 @@ export default async function VerifyJvtoPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-white text-[16px] mb-2" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Ijen Health Screening</h3>
-                    <p className="text-white/50 text-[14px] font-light leading-relaxed">When BBKSDA access rules require it (SE.1658/KSA.9/2024), JVTO coordinates the health certificate process with licensed physician Dr. Ahmad Irwandanu — every screening is documented and real.</p>
+                    <p className="text-white/50 text-[14px] font-light leading-relaxed">When BBKSDA access rules require it (SE.1658/K2/BIDTEK.1/KSA/9/2024), JVTO coordinates the health certificate process with licensed physician Dr. Ahmad Irwandanu — every screening is documented and real.</p>
                   </div>
                 </div>
                 <div className="flex gap-6 items-start">

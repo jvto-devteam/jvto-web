@@ -309,7 +309,7 @@ export function buildOrganizationReferenceSchema(
 }
 
 // ── Agung Sambuko — Founder & Active Tourist Police Officer ───────────────────
-// Evidence chain: SPRIN-POLPAR + SPRIN-WAL-TRAVEL-2024 → Ditpamobvit
+// Evidence chain: SPRIN-POLPAR + SPRIN-WAL-TRAVEL-2024 → POLPAR Bondowoso (Sprin/4954/XI/2020)
 //                 Detik.com "Bripka Agung Sambuko" → identity confirmation
 //                 HPWKI supervisor → BBKSDA training chain
 const FALLBACK_FOUNDER_FACTS: Required<NonNullable<EntityGraphFacts['founder']>> = {
@@ -324,13 +324,13 @@ const FALLBACK_FOUNDER_FACTS: Required<NonNullable<EntityGraphFacts['founder']>>
     'Mount Bromo Tourist Access Management',
     'Indonesian Tourist Police Protocols',
     'HPWKI Volcanic Safety Standards',
-    'SE.1658/KSA.9/2024 — Ijen Health Certificate Regulation',
+    'SE.1658/K2/BIDTEK.1/KSA/9/2024 — Ijen Health Certificate Regulation',
   ],
   subjectOfNewsDescription: 'National press article naming "Bripka Agung Sambuko" as Tourist Police, Bondowoso — third-party identity confirmation.',
   subjectOfBookDescription: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay (non-paid editorial).',
   hasCredential: {
     sprinPolpar: { name: 'SPRIN POLPAR (Tourist Police Assignment Letter)', credentialCategory: 'Law Enforcement — Tourist Police Assignment' },
-    sprinWalTravel: { name: 'SPRIN WAL-TRAVEL (Active Travel Order, February 2024)', credentialCategory: 'Law Enforcement — Active Travel Authorization' },
+    sprinWalTravel: { name: 'SPRIN WAL-TRAVEL — traffic-escort order Sprin/70/II/HUK.6.6./2024, 12 February 2024', credentialCategory: 'Law Enforcement — single-route traffic escort, Satlantas Polres Bondowoso' },
     hpwkiGuide: { name: 'HPWKI Certified Volcano Guide (Himpunan Pelaku Wisata Khusus Ijen)', credentialCategory: 'Professional Mountain Guiding Certification' },
   },
 };
@@ -414,7 +414,7 @@ export function buildFounderSchema(facts?: EntityGraphFacts['founder']): WithCon
       { '@id': ORG_ID },
       {
         '@type': 'GovernmentOrganization',
-        name: 'Direktorat Pengamanan Objek Vital (Ditpamobvit) — Indonesian National Police',
+        name: 'Polisi Pariwisata (POLPAR) Bondowoso — Polres Bondowoso, Indonesian National Police',
         url: 'https://polri.go.id',
         description: f.worksForGovDescription,
       },
@@ -488,7 +488,7 @@ const FALLBACK_DOCTOR_FACTS: Required<NonNullable<EntityGraphFacts['doctor']>> =
   clinic: {
     name: 'Klinik Bakti Husada',
     medicalSpecialty: 'General Practice',
-    description: 'Ministry of Health-licensed clinic coordinating Ijen health screening for JVTO guests. Issues health certificates compliant with BBKSDA SE.1658/KSA.9/2024.',
+    description: 'Ministry of Health-licensed clinic coordinating Ijen health screening for JVTO guests. Issues health certificates compliant with BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024.',
   },
   hasCredential: {
     sip: {
@@ -549,12 +549,12 @@ export function buildDoctorSchema(facts?: EntityGraphFacts['doctor']): DoctorSch
   };
 }
 
-// ── BBKSDA Regulation — SE.1658/KSA.9/2024 ───────────────────────────────────
+// ── BBKSDA Regulation — SE.1658/K2/BIDTEK.1/KSA/9/2024 ───────────────────────────────────
 // Regulatory chain: BBKSDA issues regulation → requires health cert → JVTO coordinates → Dr. Ahmad issues cert
 const FALLBACK_BBKSDA_REGULATION_FACTS: Required<NonNullable<EntityGraphFacts['bbksdaRegulation']>> = {
   name: 'Ijen Crater Access — Health Certificate Requirement',
   description:
-    'Under SE.1658/KSA.9/2024 issued by BBKSDA Jawa Timur, visitors to Kawah Ijen must present a health certificate from a licensed clinic confirming blood pressure and oxygen saturation readings are within safe limits.',
+    'Under SE.1658/K2/BIDTEK.1/KSA/9/2024 issued by BBKSDA Jawa Timur, visitors to Kawah Ijen must present a health certificate from a licensed clinic confirming blood pressure and oxygen saturation readings are within safe limits.',
   serviceOutputName: 'Health Certificate for Ijen Crater Access (Surat Keterangan Sehat)',
   areaServedName: 'Kawah Ijen (Ijen Crater)',
 };
@@ -642,7 +642,7 @@ const FALLBACK_DEFINED_TERMS_FACTS: Record<DefinedTermKey, Required<DefinedTermF
   POLPAR: {
     name: 'POLPAR (Polisi Pariwisata / Tourist Police)',
     description:
-      'Indonesian Tourist Police unit under Ditpamobvit (Directorate of Vital Object Security), Indonesian National Police (POLRI). POLPAR officers are assigned to secure and support tourism areas. Assignment requires a SPRIN (Surat Perintah / Official Order Letter) from POLRI.',
+      'Indonesian Tourist Police unit under Polisi Pariwisata (POLPAR), Polres Bondowoso, Indonesian National Police (POLRI). POLPAR officers are assigned to secure and support tourism areas. Assignment requires a SPRIN (Surat Perintah / Official Order Letter) from POLRI.',
     termSetName: 'Indonesian National Police Specializations',
     termSetUrl: 'https://polri.go.id',
     termSetSameAs: '',
@@ -650,15 +650,15 @@ const FALLBACK_DEFINED_TERMS_FACTS: Record<DefinedTermKey, Required<DefinedTermF
   BBKSDA: {
     name: 'BBKSDA (Balai Besar Konservasi Sumber Daya Alam)',
     description:
-      'Large-Scale Natural Resource Conservation Agency under the Indonesian Ministry of Environment and Forestry. BBKSDA Jawa Timur manages Kawah Ijen nature reserve and issues access regulations including SE.1658/KSA.9/2024 (health certificate requirement).',
+      'Large-Scale Natural Resource Conservation Agency under the Indonesian Ministry of Environment and Forestry. BBKSDA Jawa Timur manages Kawah Ijen nature reserve and issues access regulations including SE.1658/K2/BIDTEK.1/KSA/9/2024 (health certificate requirement).',
     termSetName: 'Indonesian Ministry of Environment Bodies',
     termSetUrl: 'https://www.menlhk.go.id',
     termSetSameAs: '',
   },
   SE1658: {
-    name: 'SE.1658/KSA.9/2024',
+    name: 'SE.1658/K2/BIDTEK.1/KSA/9/2024',
     description:
-      'BBKSDA Jawa Timur circular letter SE.1658/KSA.9/2024. Requires all Kawah Ijen visitors to present a health certificate from a licensed clinic confirming blood pressure and SpO₂ readings are within safe limits before entering the crater area.',
+      'BBKSDA Jawa Timur circular letter SE.1658/K2/BIDTEK.1/KSA/9/2024. Requires all Kawah Ijen visitors to present a health certificate from a licensed clinic confirming blood pressure and SpO₂ readings are within safe limits before entering the crater area.',
     termSetName: 'BBKSDA Jawa Timur Regulatory Circulars',
     termSetUrl: '',
     termSetSameAs: '',

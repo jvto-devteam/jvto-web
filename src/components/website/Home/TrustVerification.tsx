@@ -39,7 +39,7 @@ const FALLBACK: Required<TrustVerificationSection> = {
     {
       tier: "02",
       label: "Founder — Active Tourist Police Officer",
-      summary: "Bripka Agung Sambuko is an active officer, Ditpamobvit (Tourist Police), East Java. SPRIN documents SHA-256 anchored. Corroborated by Detik.com and BBKSDA Jatim.",
+      summary: "Bripka Agung Sambuko is an active officer, Tourist Police (POLPAR) Bondowoso, East Java. SPRIN documents SHA-256 anchored. Corroborated by Detik.com and BBKSDA Jatim.",
       link: "/verify-jvto/police-safety",
       linkLabel: "See police credentials",
       external: false,
@@ -47,7 +47,7 @@ const FALLBACK: Required<TrustVerificationSection> = {
     {
       tier: "03",
       label: "Guide Association & Park Clearance",
-      summary: "HPWKI membership AHU-0001072.AH.01.07.TAHUN 2024 · BBKSDA operator clearance for Bromo Tengger Semeru and Ijen.",
+      summary: "HPWKI supervisory-board seat held by the founder (decree AHU-0001072.AH.01.07.TAHUN 2024) · operating under the BBKSDA Jawa Timur access regime for Kawah Ijen.",
       link: "/verify-jvto/legal",
       linkLabel: "See license",
       external: false,

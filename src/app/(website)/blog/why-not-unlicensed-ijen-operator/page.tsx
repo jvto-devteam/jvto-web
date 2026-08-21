@@ -72,7 +72,7 @@ const FALLBACK = {
       ] as RichSegment[],
       p2: "A licensed operator's guides are trained for this. Membership in HPWKI — the AHU-registered Ijen Specialist Tourism Association — requires completion of BBKSDA-supervised training in search and rescue, first aid, and disaster mitigation. This training was independently documented by BBKSDA Jawa Timur in their 2024 guide training report.",
       p3: "An unlicensed driver who picks you up at your hotel has none of that. He may be a kind person. He may have driven the route a hundred times. But when conditions change at the rim and a decision has to be made about whether to descend into the crater or turn back, you want that decision made by someone whose training is in safety protocol, not in repeat customers.",
-      p4: "The same logic applies to health screening. Because a health certificate is mandatory for every Ijen guest under BBKSDA SE.1658/KSA.9/2024, a licensed operator coordinates the screening workflow with a licensed physician. Unlicensed operators bypass the screening. Some published Ijen incident records — fatalities included — involve travelers who reached the crater rim with pre-existing cardiovascular or respiratory conditions they had never declared.",
+      p4: "The same logic applies to health screening. Because a health certificate is mandatory for every Ijen guest under BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024, a licensed operator coordinates the screening workflow with a licensed physician. Unlicensed operators bypass the screening. Some published Ijen incident records — fatalities included — involve travelers who reached the crater rim with pre-existing cardiovascular or respiratory conditions they had never declared.",
     },
     risk2: {
       heading: "2. Legal risk",
@@ -154,7 +154,7 @@ const FALLBACK = {
       },
       {
         strong: "Tourist Police founder.",
-        text: " Bripka Agung Sambuko is an active officer of the Indonesian Tourist Police (Ditpamobvit, East Java). Press coverage by Detik.com and Radar Jember; SPRIN documents are SHA-256 anchored on our verification page.",
+        text: " Bripka Agung Sambuko is an active officer of the Indonesian Tourist Police (POLPAR) for Bondowoso, East Java. Press coverage by Detik.com and Radar Jember; SPRIN documents are SHA-256 anchored on our verification page.",
       },
       {
         strong: "14 KTA-credentialed crew.",
@@ -162,7 +162,7 @@ const FALLBACK = {
       },
       {
         strong: "Coordinated Ijen health screening.",
-        text: " Supervised by Dr. Ahmad Irwandanu (STR verifiable through Kemenkes) for every guest under BBKSDA SE.1658/KSA.9/2024.",
+        text: " Supervised by Dr. Ahmad Irwandanu (STR verifiable through Kemenkes) for every guest under BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024.",
       },
       {
         strong: "Editorial recognition.",

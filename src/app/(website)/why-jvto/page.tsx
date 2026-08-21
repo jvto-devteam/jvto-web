@@ -224,7 +224,7 @@ export default async function WhyJvtoPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 <span className="absolute bottom-4 left-4 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white bg-black/50 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  Ditpamobvit · operational authority
+                  POLPAR Bondowoso · operational authority
                 </span>
                 <div className="absolute top-4 left-4 bg-white rounded-[14px] px-3.5 py-2.5 flex items-center gap-2.5 shadow-lg max-w-[220px]">
                   <svg className="w-5 h-5 text-jvto-navy flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">

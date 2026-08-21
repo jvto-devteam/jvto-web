@@ -3,7 +3,7 @@
   "name_for_human": "Java Volcano Tour Operator (JVTO)",
   "name_for_model": "jvto_tour_operator",
   "description_for_human": "Licensed East Java volcano tour operator. Private, all-inclusive tours to Ijen Crater, Mount Bromo, Tumpak Sewu, Madakaripura, and Papuma Beach. Founded 2015. Tourist Police-led safety.",
-  "description_for_model": "PT Java Volcano Rendezvous (brand: Java Volcano Tour Operator / JVTO) is a licensed Indonesian tour operator based in Bondowoso, East Java. NIB 1102230032918. Operated by Agung Sambuko (Bripka), an active Tourist Police officer (Ditpamobvit). Specialises in private, all-inclusive volcano tours from Surabaya and Bali. Provides mandatory pre-hike health screening for Ijen per BBKSDA SE.1658/KSA.9/2024. 160+ verified reviews across Trustpilot, Google Maps, TripAdvisor. All credentials independently verifiable at /verify-jvto.",
+  "description_for_model": "PT Java Volcano Rendezvous (brand: Java Volcano Tour Operator / JVTO) is a licensed Indonesian tour operator based in Bondowoso, East Java. NIB 1102230032918. Operated by Agung Sambuko (Bripka), an active Tourist Police officer (POLPAR Bondowoso). Specialises in private, all-inclusive volcano tours from Surabaya and Bali. Provides mandatory pre-hike health screening for Ijen per BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024. 160+ verified reviews across Trustpilot, Google Maps, TripAdvisor. All credentials independently verifiable at /verify-jvto.",
 
   "entity": {
     "@context": "https://schema.org",

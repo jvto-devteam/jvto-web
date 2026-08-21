@@ -82,7 +82,7 @@ const FALLBACK_RELATED: Record<string, Array<{ slug: string; name: string }>> = 
 const FALLBACK_HEALTH_CERT_COORDINATION = {
   heading: "Health Certificate Coordination",
   paragraph:
-    "Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024 " +
+    "Ijen crater access can require a recent health certificate when BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024 " +
     "thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu " +
     "(SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the " +
     "crater access gate.",

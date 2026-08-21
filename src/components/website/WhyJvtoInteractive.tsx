@@ -13,10 +13,10 @@ export type DiffPanelItem = {
 };
 
 const DIFF_DATA: DiffPanelItem[] = [
-  { num: "01", label: "Police-led", title: "Police-Led Safety Authority", text: "Our founder is an active officer in Ditpamobvit — the directorate securing vital objects including Ijen Crater. No other East Java operator is led by an active Tourist Police officer.", proof: "SPRIN documents + independent press" },
+  { num: "01", label: "Police-led", title: "Police-Led Safety Authority", text: "Our founder is an active Tourist Police (POLPAR) officer for Bondowoso, the regency that holds the Kawah Ijen access route. No other East Java operator is led by an active Tourist Police officer.", proof: "SPRIN documents + independent press" },
   { num: "02", label: "100% private", title: "100% Private Tours", text: "A dedicated vehicle, driver, and guide assigned to your group only. No shared groups, no mixed itineraries, no timing compromises.", proof: "NIB + TDUP, OSS-verifiable" },
   { num: "03", label: "All-inclusive", title: "All-Inclusive Clarity", text: "Transport, accommodation, permits, water and safety gear written into the price. If it is not on the E-Voucher, it is not included.", proof: "Inclusions & Exclusions Policy" },
-  { num: "04", label: "Ijen screening", title: "Ijen Health-Screening", text: "A health certificate is mandatory for every Ijen guest (BBKSDA SE.1658/KSA.9/2024). We coordinate a QR-verified surat sehat through an SIP-licensed doctor — scannable at the crater gate.", proof: "BBKSDA SE.1658/KSA.9/2024" },
+  { num: "04", label: "Ijen screening", title: "Ijen Health-Screening", text: "A health certificate is mandatory for every Ijen guest (BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024). We coordinate a QR-verified surat sehat through an SIP-licensed doctor — scannable at the crater gate.", proof: "BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024" },
   { num: "05", label: "Licenses", title: "Verifiable Licenses", text: "NIB, TDUP, HPWKI-credentialed guides, BBKSDA clearance, ISIC provider and ecotourism alignment — a proof library, not a logo wall.", proof: "Proof · /verify-jvto/legal" },
   { num: "06", label: "Plan B", title: "Plan B Framework", text: "Documented alternative routes activated when a site closes or conditions change — a written SOP published before you book.", proof: "Travel Guide, pre-booking" },
 ] as const;

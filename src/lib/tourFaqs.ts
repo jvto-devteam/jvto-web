@@ -46,7 +46,7 @@ export function getToursHubQaPairs(pairs?: QaPair[]): QaPair[] {
       question: 'Which tours include Ijen Blue Fire vs Bromo only?',
       answer:
         'Bromo-only tours are the 1D1N and 2D1N options — no health screening required. Ijen tours start at 2D1N and trigger the BBKSDA ' +
-        'SE.1658/KSA.9/2024 health screening protocol coordinated by JVTO with Dr. Ahmad Irwandanu (Klinik Bakti Husada). The 3D2N and longer ' +
+        'SE.1658/K2/BIDTEK.1/KSA/9/2024 health screening protocol coordinated by JVTO with Dr. Ahmad Irwandanu (Klinik Bakti Husada). The 3D2N and longer ' +
         'routes typically combine both volcanoes plus Madakaripura or Tumpak Sewu waterfalls.',
       uiMeta: 'See /travel-guide/ijen-health-screening for the regulatory chain',
     },
@@ -140,7 +140,7 @@ export function getTourSpineQaPairs(
     {
       question: 'Who runs my tour?',
       answer:
-        `JVTO is founded by Bripka Agung Sambuko (Mr. Sam) — an active Tourist Police officer (POLPAR) under Indonesia's Ditpamobvit, ` +
+        `JVTO is founded by Bripka Agung Sambuko (Mr. Sam) — an active Tourist Police officer (POLPAR) appointed by Polres Bondowoso, ` +
         `also serving as HPWKI Pengawas. On-trip guides are HPWKI-licensed (KTA card) with annual BBKSDA-supervised volcanic-safety training. ` +
         `No anonymous freelancers.`,
       uiMeta: 'See our team + KTA cards',
@@ -159,7 +159,7 @@ export function getTourSpineQaPairs(
     pairs.push({
       question: 'What is the Ijen health screening you mention?',
       answer:
-        `BBKSDA Jawa Timur circular SE.1658/KSA.9/2024 requires Kawah Ijen visitors to present a clinic-issued certificate confirming ` +
+        `BBKSDA Jawa Timur circular SE.1658/K2/BIDTEK.1/KSA/9/2024 requires Kawah Ijen visitors to present a clinic-issued certificate confirming ` +
         `blood pressure and SpO₂ are within safe limits before crater entry. JVTO coordinates the screening with Dr. Ahmad Irwandanu at ` +
         `Klinik Bakti Husada, Bondowoso — his licence is publicly verifiable on satusehat.kemkes.go.id.`,
       uiMeta: 'See health screening guide',
