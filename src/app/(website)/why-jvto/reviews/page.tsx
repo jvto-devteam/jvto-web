@@ -7,6 +7,7 @@ import { Faq } from "@/components/content/Faq";
 import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import { REVIEW_THEMES, type ReviewTheme } from "./reviewThemes";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
@@ -95,11 +96,18 @@ export default async function WhyJvtoReviewsPage() {
     seo: { title: page?.meta.title, description: page?.meta.description },
     content: { h1: page?.meta.title ?? "Reviews" },
   };
+  // Per-platform figures are {TOKEN} placeholders in ekosistem prose, resolved
+  // from the same sources the schema reads. This page used to state "149
+  // reviews" in prose while its own JSON-LD said 152.
+  const liveNumbers = await getLiveNumbers();
   const sectionBody = (section: (typeof sections)[number]) =>
-    (section.blocks ?? [])
-      .filter((b: any) => b.type === "markdown")
-      .map((b: any) => b.body_md)
-      .join("\n\n");
+    applyLiveNumbers(
+      (section.blocks ?? [])
+        .filter((b: any) => b.type === "markdown")
+        .map((b: any) => b.body_md)
+        .join("\n\n"),
+      liveNumbers,
+    );
 
   return (
     <>

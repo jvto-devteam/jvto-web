@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
@@ -271,6 +272,10 @@ export default async function WhyNotUnlicensedPage() {
   const schemaFacts = pc.schemaFacts ?? FALLBACK.schemaFacts;
   const hero = pc.hero ?? FALLBACK.hero;
   const article = pc.article ?? FALLBACK.article;
+  // Review counts in this list are {TOKEN} placeholders in ekosistem prose,
+  // resolved from the same sources the schema reads (it said "123 reviews"
+  // while JSON-LD said 152).
+  const liveNumbers = await getLiveNumbers();
   const cta = pc.cta ?? FALLBACK.cta;
 
   const pageRow = seo.row
@@ -574,7 +579,7 @@ export default async function WhyNotUnlicensedPage() {
                     <CheckIcon />
                     <p className="text-[14px] text-[#4b5563] leading-relaxed">
                       <strong className="text-jvto-navy">{strong}</strong>
-                      {text}
+                      {applyLiveNumbers(text, liveNumbers)}
                     </p>
                   </li>
                 ))}

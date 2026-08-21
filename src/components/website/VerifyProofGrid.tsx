@@ -4,6 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
+export type EvidenceClass =
+  | "official_authority"
+  | "reputable_media"
+  | "operational_record";
+
 type ProofCard = {
   readonly icon: string;
   readonly h3: string;
@@ -11,6 +16,34 @@ type ProofCard = {
   readonly meta: string;
   readonly href: string;
   readonly image?: string;
+  /** Who stands behind the record. Drives the badge, border and sort order. */
+  readonly evidenceClass?: EvidenceClass;
+};
+
+/**
+ * Every card used to render with an identical class string, so a Menkumham
+ * decree and a photo captioned "Evening welcome with guests at JVTO office"
+ * were indistinguishable — same border, same accent, same weight (T-01 of the
+ * 2026-08-20 audit). The grid's own strongest material was flattened into its
+ * weakest. These styles restore the gradation without leaving Forensic Mode:
+ * lime is reserved for documents an authority issued.
+ */
+const EVIDENCE_STYLE: Record<EvidenceClass, { label: string; border: string; badge: string }> = {
+  official_authority: {
+    label: "Official authority",
+    border: "border-[#8CC63F]/45 hover:border-[#8CC63F]/70",
+    badge: "text-[#8CC63F] border-[#8CC63F]/40",
+  },
+  reputable_media: {
+    label: "Independent media",
+    border: "border-white/25 hover:border-white/40",
+    badge: "text-white/70 border-white/30",
+  },
+  operational_record: {
+    label: "Operational record",
+    border: "border-white/10 hover:border-white/20",
+    badge: "text-white/40 border-white/15",
+  },
 };
 
 const CATEGORIES = ["All", "Legal", "Press", "History", "Safety"] as const;
@@ -55,12 +88,14 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filtered.map(({ icon, h3, p, meta, href, image }, i) => (
+        {filtered.map(({ icon, h3, p, meta, href, image, evidenceClass }, i) => {
+          const style = EVIDENCE_STYLE[evidenceClass ?? "operational_record"];
+          return (
           <Link
             key={`${meta}-${i}`}
             href={href}
             prefetch={false}
-            className="bg-white/[0.04] border border-white/10 rounded-[16px] overflow-hidden hover:border-white/20 transition-colors group block"
+            className={`bg-white/[0.04] border ${style.border} rounded-[16px] overflow-hidden transition-colors group block`}
           >
             <div className="bg-white/[0.03] h-48 relative overflow-hidden">
               {image ? (
@@ -83,7 +118,14 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
               )}
             </div>
             <div className="p-5">
-              {icon === "shield" ? <ShieldIcon /> : <DocIcon />}
+              <div className="flex items-center justify-between gap-3">
+                {icon === "shield" ? <ShieldIcon /> : <DocIcon />}
+                <span
+                  className={`font-mono text-[9px] font-bold uppercase tracking-[0.16em] border rounded-full px-2.5 py-1 ${style.badge}`}
+                >
+                  {style.label}
+                </span>
+              </div>
               <h3 className="text-white font-bold text-[15px] mt-3 mb-2 leading-snug">{h3}</h3>
               <p className="text-white/50 text-[13px] leading-relaxed font-light mb-4">{p}</p>
               <div className="flex items-center justify-between">
@@ -92,7 +134,8 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
               </div>
             </div>
           </Link>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

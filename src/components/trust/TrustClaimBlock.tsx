@@ -1,5 +1,43 @@
 import { getEcosystemTrustClaims } from "@/lib/ecosystemContent/trustClaims";
 
+/**
+ * Reader-facing label for each evidence type. Publishing only a count
+ * ("Evidence: 5") flattens a ministerial decree and an internal note into the
+ * same unit, so the number reads as strength while its composition stays
+ * invisible — the finding recorded as T-01 in the 2026-08-20 audit.
+ */
+const EVIDENCE_LABEL: Record<string, string> = {
+  official_authority: "official",
+  reputable_media: "independent media",
+  customer_review: "guest review",
+  structured_dataset: "dataset",
+  jvto_verified_internal: "internal",
+  operational_record: "operational record",
+};
+
+/** "2 official · 1 independent media" — composition, in a fixed order. */
+function describeEvidence(evidence: { type: string }[]): string {
+  const order = [
+    "official_authority",
+    "reputable_media",
+    "customer_review",
+    "structured_dataset",
+    "operational_record",
+    "jvto_verified_internal",
+  ];
+  const counts = new Map<string, number>();
+  for (const item of evidence) {
+    counts.set(item.type, (counts.get(item.type) ?? 0) + 1);
+  }
+  const known = order
+    .filter((type) => counts.has(type))
+    .map((type) => `${counts.get(type)} ${EVIDENCE_LABEL[type] ?? type}`);
+  const unknown = [...counts.keys()]
+    .filter((type) => !order.includes(type))
+    .map((type) => `${counts.get(type)} ${EVIDENCE_LABEL[type] ?? type}`);
+  return [...known, ...unknown].join(" · ");
+}
+
 type Props = {
   heading?: string;
   className?: string;
@@ -37,7 +75,15 @@ export default async function TrustClaimBlock({
                   {claim.narrative.short}
                 </p>
                 <footer className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-jvto-navy/60">
-                  <span>Evidence: {claim.evidence.length}</span>
+                  <span>
+                    Evidence: {claim.evidence.length}
+                    {claim.evidence.length ? (
+                      <span className="text-jvto-navy/45">
+                        {" "}
+                        ({describeEvidence(claim.evidence)})
+                      </span>
+                    ) : null}
+                  </span>
                   <span>Last verified: {claim.last_verified}</span>
                 </footer>
                 {tags.length > 0 ? (

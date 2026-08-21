@@ -862,18 +862,26 @@ export default async function VerifyJvtoPage() {
     ],
   };
 
-  const _categoryMeta: Record<string, { meta: string; href: string; icon: string }> = {
-    BusinessID:  { meta: "Legal · Business ID",     href: "/verify-jvto/legal",            icon: "doc"    },
-    License:     { meta: "Legal · License",          href: "/verify-jvto/legal",            icon: "doc"    },
-    Membership:  { meta: "Legal · Member",           href: "/verify-jvto/legal",            icon: "doc"    },
-    PoliceDocs:  { meta: "Safety · Police",          href: "/verify-jvto/police-safety",    icon: "shield" },
-    Screening:   { meta: "Safety · Screening",       href: "/verify-jvto/police-safety",    icon: "doc"    },
-    Founder:     { meta: "Safety · Founder",         href: "/verify-jvto/police-safety",    icon: "shield" },
-    Credentials: { meta: "Safety · Credentials",     href: "/verify-jvto/police-safety",    icon: "doc"    },
-    OpsPhoto:    { meta: "Safety · Operations",      href: "/verify-jvto/police-safety",    icon: "doc"    },
-    Press:       { meta: "Press · Media",            href: "/verify-jvto/press-recognition", icon: "doc"   },
-    History:     { meta: "History · Archive",        href: "/verify-jvto/history-artifacts", icon: "doc"   },
+  // evidenceClass says WHO stands behind a record, which the category never did.
+  // Every card previously rendered with the same border, type and accent, so a
+  // Menkumham decree and an office photo were visually indistinguishable
+  // (T-01, 2026-08-20 audit). The grid now ranks and labels by this instead.
+  const _categoryMeta: Record<
+    string,
+    { meta: string; href: string; icon: string; evidenceClass: "official_authority" | "reputable_media" | "operational_record" }
+  > = {
+    BusinessID:  { meta: "Legal · Business ID",     href: "/verify-jvto/legal",             icon: "doc",    evidenceClass: "official_authority" },
+    License:     { meta: "Legal · License",          href: "/verify-jvto/legal",             icon: "doc",    evidenceClass: "official_authority" },
+    Membership:  { meta: "Legal · Member",           href: "/verify-jvto/legal",             icon: "doc",    evidenceClass: "official_authority" },
+    PoliceDocs:  { meta: "Safety · Police",          href: "/verify-jvto/police-safety",     icon: "shield", evidenceClass: "official_authority" },
+    Screening:   { meta: "Safety · Screening",       href: "/verify-jvto/police-safety",     icon: "doc",    evidenceClass: "official_authority" },
+    Founder:     { meta: "Safety · Founder",         href: "/verify-jvto/police-safety",     icon: "shield", evidenceClass: "official_authority" },
+    Credentials: { meta: "Safety · Credentials",     href: "/verify-jvto/police-safety",     icon: "doc",    evidenceClass: "official_authority" },
+    OpsPhoto:    { meta: "Safety · Operations",      href: "/verify-jvto/police-safety",     icon: "doc",    evidenceClass: "operational_record" },
+    Press:       { meta: "Press · Media",            href: "/verify-jvto/press-recognition", icon: "doc",    evidenceClass: "reputable_media" },
+    History:     { meta: "History · Archive",        href: "/verify-jvto/history-artifacts", icon: "doc",    evidenceClass: "operational_record" },
   };
+  const _classRank = { official_authority: 0, reputable_media: 1, operational_record: 2 } as const;
 
   const allDocs = await getAllDocs();
   const PROOF_CARDS = allDocs
@@ -886,9 +894,17 @@ export default async function VerifyJvtoPage() {
         p: doc.narrative_context,
         meta: cm.meta,
         href: cm.href,
+        evidenceClass: cm.evidenceClass,
         ...(doc.preview?.url ? { image: doc.preview.url } : {}),
       };
-    });
+    })
+    // Official documents first. The order used to follow the raw array, so a
+    // government decree could sit below an office photo.
+    .sort((a, b) => _classRank[a.evidenceClass] - _classRank[b.evidenceClass]);
+  const PROOF_COUNTS = PROOF_CARDS.reduce<Record<string, number>>((acc, card) => {
+    acc[card.evidenceClass] = (acc[card.evidenceClass] ?? 0) + 1;
+    return acc;
+  }, {});
 
   const TIMELINE = (pc.timeline ?? FALLBACK.timeline).map((item) => ({
     ...item,
@@ -943,7 +959,12 @@ export default async function VerifyJvtoPage() {
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
                 { label: "Database", value: "Evidence_Database_v2.0" },
-                { label: "Records", value: String(visibleAssets.length) },
+                // Split by class rather than one "Records" total. A single
+                // number reads as strength while hiding that most of it is
+                // operational photography, not authority documents.
+                { label: "Official documents", value: String(PROOF_COUNTS.official_authority ?? 0) },
+                { label: "Media references", value: String(PROOF_COUNTS.reputable_media ?? 0) },
+                { label: "Operational records", value: String(PROOF_COUNTS.operational_record ?? 0) },
                 { label: "Last audit", value: "2026-05-12" },
                 { label: "Status", value: "OPEN" },
               ].map(({ label, value }) => (

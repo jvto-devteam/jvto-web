@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   buildBlogPostingSchema,
@@ -36,7 +37,11 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getEcosystemBlogPost(slug);
   if (!post) return notFound();
 
-  const { frontmatter: fm, body } = post;
+  const { frontmatter: fm, body: rawBody } = post;
+  // Review counts and the package count are written as {TOKEN} placeholders in
+  // ekosistem prose and resolved here, so the article can never drift from the
+  // figures the schema publishes (it read "123 reviews" while JSON-LD said 152).
+  const body = applyLiveNumbers(rawBody, await getLiveNumbers());
   const route = `/blog/${slug}`;
 
   const pageRow = {
