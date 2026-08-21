@@ -65,7 +65,11 @@ export default async function Insights() {
         <main className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
+              {/* PageJsonLdCombined above already emits this page's
+                  BreadcrumbList — emitting a second one here is a
+                  duplicate-singleton-type violation. */}
               <Breadcrumbs
+                emitSchema={false}
                 crumbs={[
                   { name: "Home", path: "/" },
                   { name: "Insights", path: "/blog" },

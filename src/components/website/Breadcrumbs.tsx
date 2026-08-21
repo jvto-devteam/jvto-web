@@ -10,9 +10,19 @@ interface Crumb {
 
 interface BreadcrumbsProps {
   crumbs: Crumb[];
+  /**
+   * Emit the BreadcrumbList JSON-LD alongside the visible nav. Default true.
+   *
+   * Set false on a page that also renders <PageJsonLdCombined />, which builds
+   * a BreadcrumbList of its own — two on one page is a duplicate-singleton-type
+   * violation. /blog hit exactly that the moment its legacy redirect was lifted
+   * and the page became reachable (2026-08-21); the clash had been latent for
+   * as long as the page could not be visited.
+   */
+  emitSchema?: boolean;
 }
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ crumbs }) => {
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ crumbs, emitSchema = true }) => {
   const baseUrl = "https://jvto.example.com";
 
   // Schema.org breadcrumb data
@@ -31,7 +41,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ crumbs }) => {
 
   return (
     <>
-      <StructuredData data={breadcrumbSchema} />
+      {emitSchema ? <StructuredData data={breadcrumbSchema} /> : null}
 
       <nav aria-label="Breadcrumb">
         <ol className="flex items-center space-x-1 text-sm text-ink-neutral-500 dark:text-ink-neutral-400">
