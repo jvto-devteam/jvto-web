@@ -10,7 +10,7 @@ import {
 } from "@/lib/people/canonicalPeople";
 import { crewJobTitle, buildTeamProfileSchema } from "@/lib/schemas/buildTeamSchemas";
 import { getCrewFeaturedReviews } from "@/lib/people/crewReviews";
-import { countReviewsNamingCrew } from "@/lib/ecosystemContent/reviews";
+import { getReviewsNamingCrew } from "@/lib/ecosystemContent/reviews";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 import { loadEcosystemPage, staticRouteCanonical } from "@/lib/ecosystemContent/staticPageAdapter";
 
@@ -129,7 +129,13 @@ export default async function CrewMemberPage({ params }: Props) {
   const reviews = await getCrewFeaturedReviews(slug);
   // Total mentions across the whole published corpus, not just the featured
   // few — the count was a real, quantified asset the page never showed.
-  const mentionCount = await countReviewsNamingCrew(slug);
+  const allNaming = await getReviewsNamingCrew(slug);
+  const mentionCount = allNaming.length;
+  // Everything not already shown in full above. Yandi is named in 10 reviews and
+  // only 3 were on the page; the rest were published at /why-jvto/reviews/{id}
+  // and reachable from nowhere else.
+  const featuredIds = new Set(reviews.map((r) => r.permalinkId).filter(Boolean));
+  const otherReviews = allNaming.filter((r) => !featuredIds.has(r.id));
   const jobTitle = crewJobTitle(member.role);
   const route = `/why-jvto/our-team/${slug}`;
   const photo = bio?.photo_url ? getWhyJvtoOptimizedImageSrc(bio.photo_url) ?? bio.photo_url : member.image?.src;
@@ -148,7 +154,27 @@ export default async function CrewMemberPage({ params }: Props) {
     <>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[buildTeamProfileSchema(member, reviews)]}
+        extraSchemas={[
+          buildTeamProfileSchema(member, [
+            ...reviews.map((r) => ({
+              permalinkId: r.permalinkId,
+              reviewerName: r.reviewerName,
+              date: r.date,
+              star: r.star,
+              reviewExcerpt: r.reviewExcerpt,
+            })),
+            // The non-featured ones carry the full review text, so the graph
+            // gets every published review naming this person, not just the
+            // handful the evidence file singles out.
+            ...otherReviews.map((r) => ({
+              permalinkId: r.id,
+              reviewerName: r.customerName,
+              date: String(r.date).slice(0, 10),
+              star: r.star ?? 5,
+              reviewExcerpt: r.review,
+            })),
+          ]),
+        ]}
         suppressCmsFaq
       />
 
@@ -358,15 +384,47 @@ export default async function CrewMemberPage({ params }: Props) {
                             })}
                           </div>
                         )}
-                        {r.originalReviewUrl && (
-                          <a href={r.originalReviewUrl} target="_blank" rel="noopener noreferrer" className="text-jvto-orange text-[12px] font-semibold border-b border-jvto-orange/40 hover:border-jvto-orange transition-colors self-start">
-                            View on Google →
-                          </a>
+                        {/* The "View on Google" link used r.originalReviewUrl, which is
+                            business.google.com/n/<account>/reviews/<id> — the merchant
+                            console. It 302s to a support article for anyone who is not
+                            the account owner, so it promised a source the reader could
+                            not open. The reviewer name above links to our own permalink
+                            for the same review instead. */}
+                        {r.permalinkId && (
+                          <Link href={`/why-jvto/reviews/${r.permalinkId}`} prefetch={false} className="text-jvto-orange text-[12px] font-semibold border-b border-jvto-orange/40 hover:border-jvto-orange transition-colors self-start">
+                            Read the full review →
+                          </Link>
                         )}
                       </div>
                     ))}
                   </div>
                 </>
+              )}
+
+              {otherReviews.length > 0 && (
+                <div className="mb-10">
+                  <h3 className="font-bold text-jvto-navy text-[17px] mb-2">
+                    More guests who named {member.name}
+                  </h3>
+                  <p className="text-[#6b7280] text-[14px] font-light leading-relaxed mb-5 max-w-[62ch]">
+                    The rest of the published reviews mentioning {member.name}, quoted as written.
+                  </p>
+                  <ul className="space-y-4">
+                    {otherReviews.map((r) => (
+                      <li key={r.id} className="border-l-2 border-[#E3E0DA] pl-4">
+                        <p className="text-[14.5px] text-jvto-navy leading-relaxed">&ldquo;{r.review}&rdquo;</p>
+                        <div className="text-[13px] text-[#6b7280] mt-1">
+                          <Link href={`/why-jvto/reviews/${r.id}`} prefetch={false} className="text-jvto-navy border-b border-current hover:opacity-70 transition-opacity">
+                            — {r.customerName}
+                          </Link>
+                          <span className="font-mono text-[11px] text-[#9ca3af]">
+                            {" · "}{r.platform}{" · "}{String(r.date).slice(0, 10)}
+                          </span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               {/* Cross-cluster links */}

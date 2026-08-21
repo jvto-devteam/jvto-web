@@ -133,6 +133,23 @@ export async function getEcosystemReviewById(
  * shortest on the site (T-10, 2026-08-20 audit).
  */
 export async function countReviewsNamingCrew(code: string): Promise<number> {
+  return (await getReviewsNamingCrew(code)).length;
+}
+
+/**
+ * Every published review naming this crew member, newest first.
+ *
+ * The crew pages showed only the 2-5 "featured" reviews held in
+ * crew-featured-review-evidence.json, which left most of the corpus unused:
+ * Yandi is named in 10 reviews and three of them were on the page. These are
+ * already published verbatim at /why-jvto/reviews/{id}, so surfacing them on
+ * the profile adds no new disclosure — it just stops the site's most-praised
+ * asset sitting behind a page nobody reaches.
+ */
+export async function getReviewsNamingCrew(code: string): Promise<PublicReview[]> {
   const reviews = await getEcosystemReviews();
-  return reviews.filter((review) => (review.crewCodes ?? []).includes(code)).length;
+  return reviews
+    .filter((review) => (review.crewCodes ?? []).includes(code))
+    .filter((review) => (review.review ?? "").trim().length > 0)
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }
