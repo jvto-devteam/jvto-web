@@ -142,9 +142,9 @@ const FALLBACK = {
     { text: " (Surat Edaran SE.1658/K2/BIDTEK.1/KSA/9/2024, cited as supporting authority), not a rule JVTO invents. JVTO coordinates the mandatory clinic workflow with Dr. Ahmad Irwandanu (SIP-licensed, Kemenkes-verifiable). The check measures oxygen saturation, blood pressure, heart rate, and respiratory history; a QR-verified " },
     { text: "surat sehat", em: true },
     { text: " is issued and scanned at the BBKSDA access gate. Screening can be done at " },
-    { text: "Klinik Bakti Husada", strong: true },
+    { text: "the guest's hotel in Bondowoso", strong: true },
     { text: " (Bondowoso), " },
-    { text: "Puskesmas Licin", strong: true },
+    { text: "Riverside Homestay, Bondowoso", strong: true },
     { text: " (Banyuwangi), or at your partner hotel before departure." },
   ] as RichSegment[],
   healthScreeningOutroSegments: [

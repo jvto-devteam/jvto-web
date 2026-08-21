@@ -46,7 +46,7 @@ export function getToursHubQaPairs(pairs?: QaPair[]): QaPair[] {
       question: 'Which tours include Ijen Blue Fire vs Bromo only?',
       answer:
         'Bromo-only tours are the 1D1N and 2D1N options — no health screening required. Ijen tours start at 2D1N and trigger the BBKSDA ' +
-        'SE.1658/K2/BIDTEK.1/KSA/9/2024 health screening protocol coordinated by JVTO with Dr. Ahmad Irwandanu (Klinik Bakti Husada). The 3D2N and longer ' +
+        'SE.35/K2/BIDTEK.1/KSA/1/2024 health screening protocol coordinated by JVTO with Dr. Ahmad Irwandanu, who attends your hotel in Bondowoso. The 3D2N and longer ' +
         'routes typically combine both volcanoes plus Madakaripura or Tumpak Sewu waterfalls.',
       uiMeta: 'See /travel-guide/ijen-health-screening for the regulatory chain',
     },
@@ -161,7 +161,7 @@ export function getTourSpineQaPairs(
       answer:
         `BBKSDA Jawa Timur circular SE.1658/K2/BIDTEK.1/KSA/9/2024 requires Kawah Ijen visitors to present a clinic-issued certificate confirming ` +
         `blood pressure and SpO₂ are within safe limits before crater entry. JVTO coordinates the screening with Dr. Ahmad Irwandanu at ` +
-        `Klinik Bakti Husada, Bondowoso — his licence is publicly verifiable on satusehat.kemkes.go.id.`,
+        `Screening is done at the guest's hotel in Bondowoso — currently Baratha Hotel and Riverside Homestay. His licence is publicly verifiable on satusehat.kemkes.go.id.`,
       uiMeta: 'See health screening guide',
       uiLink: '/travel-guide/ijen-health-screening',
     });

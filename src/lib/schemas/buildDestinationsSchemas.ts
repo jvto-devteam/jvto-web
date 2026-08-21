@@ -50,7 +50,7 @@ const FALLBACK_TOURIST_ATTRACTION_FACTS: Record<string, TouristAttractionFacts> 
   'ijen-crater': {
     name: 'Kawah Ijen',
     alternateName: ['Ijen Crater', 'Kawah Ijen Volcano'],
-    description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination is mandatory for every guest under BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024.",
+    description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination is mandatory for every guest under BBKSDA SE.35/K2/BIDTEK.1/KSA/1/2024.",
     additionalProps: [
       { name: 'Crater rim elevation', value: '2386', unitText: 'm' },
       { name: 'Trail distance (one-way)', value: '3', unitText: 'km' },
@@ -58,7 +58,7 @@ const FALLBACK_TOURIST_ATTRACTION_FACTS: Record<string, TouristAttractionFacts> 
       { name: 'Difficulty level', value: 'Strenuous — steep rocky night hike from Paltuding trailhead' },
       { name: 'Crater lake acidity', value: '≈ pH 0 (highest-volume acidic crater lake on Earth)' },
       { name: 'Blue fire', value: 'Pre-dawn sulfuric-gas phenomenon; weather- and gas-dependent, not guaranteed' },
-      { name: 'Health certificate', value: 'Mandatory for every guest before crater entry (BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024)' },
+      { name: 'Health certificate', value: 'Mandatory for every guest before crater entry (BBKSDA SE.35/K2/BIDTEK.1/KSA/1/2024)' },
       { name: 'Best time to visit', value: 'Dry season (April–October); midnight departure for the blue-fire window' },
     ],
     amenityFeatures: [

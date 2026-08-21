@@ -459,7 +459,11 @@ export function buildFounderSchema(facts?: EntityGraphFacts['founder']): WithCon
 // ── Dr. Ahmad Irwandanu — Licensed Physician (Ijen Health Screening) ──────────
 // Evidence chain: SIP → satusehat.kemkes.go.id (live verification)
 //                 KKI → kki.go.id (Indonesian Medical Council)
-//                 WorksFor → Klinik Bakti Husada → licensed by Kemenkes
+//                 Practice   → Praktik Mandiri dr. Ahmad Irwandanu, Pujer, Bondowoso
+// Corrected 2026-08-21: the chain used to name Klinik Bakti Husada as the
+// screening venue. Screening is not done at a clinic — the physician attends the
+// guest's hotel in Bondowoso (Baratha Hotel, Riverside Homestay), which is what
+// the specimen certificate itself records ("Dikeluarkan di: Baratha Hotel").
 // NOTE on the intersection below: schema.org models `Physician` on the MedicalBusiness
 // (Organization) branch, so the two Person-only properties this node uses — `jobTitle` and
 // `worksFor` — are not valid on it per the spec (the spec-correct equivalents would be
@@ -485,7 +489,7 @@ type DoctorSchema = WithContext<Physician> & {
 const FALLBACK_DOCTOR_FACTS: Required<NonNullable<EntityGraphFacts['doctor']>> = {
   jobTitle: 'Licensed General Practitioner',
   clinic: {
-    name: 'Klinik Bakti Husada',
+    name: 'Baratha Hotel / Riverside Homestay, Bondowoso',
     medicalSpecialty: 'General Practice',
     description: 'Ministry of Health-licensed clinic coordinating Ijen health screening for JVTO guests. Issues health certificates compliant with BBKSDA SE.1658/K2/BIDTEK.1/KSA/9/2024.',
   },
