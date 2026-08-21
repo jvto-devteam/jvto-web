@@ -45,7 +45,6 @@ const Footer: React.FC = () => {
               <li><Link href="/why-jvto/our-story" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Our Story</Link></li>
               <li><Link href="/why-jvto/reviews" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Reviews</Link></li>
               <li><Link href="/why-jvto/community-standards" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Community &amp; Guides</Link></li>
-              <li><Link href="/trust" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Trust Bundle</Link></li>
               <li>
                 <Link href="/verify-jvto" prefetch={false} className="font-bold text-jvto-lime hover:text-jvto-lime/80 transition-colors">
                   Verify Us

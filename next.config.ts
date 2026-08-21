@@ -208,6 +208,11 @@ const nextConfig = {
       // link. While the redirect stood, that link bounced readers to
       // /travel-guide, the index was unreachable, and the three live posts had no
       // entry path at all — the orphaning reported as T-03 in the 2026-08-20 audit.
+      // /trust retired 2026-08-21 (owner decision). It duplicated /verify-jvto
+      // — same claims, same evidence, a second surface to keep in sync — and
+      // had sat unlinked for 84 days. /verify-jvto is the proof library it was
+      // summarising, so that is where its traffic belongs.
+      { source: "/trust", destination: "/verify-jvto", permanent: true },
       { source: "/packages/yogyakarta", destination: "/tours", permanent: true },
       // Note: /packages/surabaya/3d2n/{N} skipped — legacy IDs need verification from GSC/server logs first.
     ];
