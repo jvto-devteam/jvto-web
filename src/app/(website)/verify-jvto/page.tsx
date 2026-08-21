@@ -7,6 +7,7 @@ import { getEcosystemVerifyAssetsInventory } from "@/lib/ecosystemContent/verify
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { buildDoctorSchema, buildFounderSchema, getEntityGraphFacts } from "@/lib/schemas/entityGraph";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
@@ -101,14 +102,20 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/** A bare @id reference to a node defined elsewhere in the site's entity graph. */
+function entityRefById(id: string) {
+  return { "@id": id };
+}
+
 export default async function VerifyJvtoPage() {
-  const [seo, googleStats, reviewProfiles, ssotData, page, packages] = await Promise.all([
+  const [seo, googleStats, reviewProfiles, ssotData, page, packages, entityGraphFacts] = await Promise.all([
     getEcosystemPageSeo("/verify-jvto", fallbackSeo),
     getPublicAggregateRating(),
     getEcosystemReviewProfiles(),
     getEcosystemVerifyAssetsInventory(),
     loadEcosystemPage("/verify-jvto"),
     getEcosystemPackagesList(),
+    getEntityGraphFacts(),
   ]);
   if (!ssotData) notFound();
   const pc = ((page?.raw as any)?.page?.content?.payload?.pageContent ?? {}) as Partial<typeof FALLBACK>;
@@ -409,33 +416,16 @@ export default async function VerifyJvtoPage() {
   // CORE ENTITIES (stitched + merged)
   // =========
 
-  // Founder entity (re-usable @id)
-  const founderSchema = {
-    "@type": "Person",
-    "@id": `${siteUrl}/#founder`,
-    name: "Agung Sambuko",
-    alternateName: "Mr. Sam",
-    honorificPrefix: "Bripka",
-    jobTitle: "Founder & Active Tourist Police Officer (POLPAR Bondowoso)",
-    image: `${siteUrl}/founder/mr-sam-tourist-police-portrait.png`,
-    memberOf: {
-      "@type": "GovernmentOrganization",
-      name: "Indonesian National Police",
-      alternateName: "Kepolisian Negara Republik Indonesia",
-      department: "Polisi Pariwisata (POLPAR), Polres Bondowoso",
-      sameAs: [
-        "https://polri.go.id/",
-        "https://www.wikidata.org/wiki/Q3103954",
-      ],
-    },
-    knowsAbout: [
-      "Volcano Safety",
-      "Crisis Management",
-      "Law Enforcement",
-      "Tourism Safety",
-      "Risk Management",
-    ],
-  };
+  // Founder entity — the canonical node lives in entityGraph.ts as
+  // #agung-sambuko, referenced from the tour PDPs, history-artifacts and
+  // buildVerifySchemas. This page used to define a SECOND Person for the same
+  // man at #founder carrying only a name, job title and an inline police
+  // organisation, so Mr Sam existed twice in the graph: once well connected
+  // (worksFor JVTO + police, memberOf HPWKI, SPRIN credentials with hashes,
+  // the Detik article and the Stefan Loose book) and once nearly bare — and it
+  // was the bare one the Organization's founder edge pointed at. One person,
+  // one @id.
+  const founderSchema = buildFounderSchema(entityGraphFacts?.founder);
 
   /**
    * IMPORTANT FIXES (to remove the errors you showed):
@@ -444,32 +434,12 @@ export default async function VerifyJvtoPage() {
    * - Do NOT use non-schema properties on MedicalTest (status, instrument, healthCondition, etc).
    */
 
-  // Physician as Person (safe target for employee)
-  const physicianSchema = {
-    "@type": "Person",
-    "@id": `${siteUrl}/#dr-ahmad-irwandanu`,
-    name: "dr. Ahmad Irwandanu",
-    jobTitle: "Physician",
-    url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
-    identifier: [
-      {
-        "@type": "PropertyValue",
-        propertyID: "SIP",
-        value: "503.446/193/DRU/4/430.9.13/2020",
-        description: "Surat Izin Praktik (Medical Practice License)",
-      },
-      {
-        "@type": "PropertyValue",
-        propertyID: "STR",
-        value: "QN00001073380217",
-        description: "Surat Tanda Registrasi (State Registered Number)",
-      },
-    ],
-    memberOf: {
-      "@type": "MedicalOrganization",
-      name: "Konsil Kesehatan Indonesia (KKI)",
-    },
-  };
+  // Physician — same @id as the canonical node in entityGraph.ts, which was
+  // being defined twice with different content: there it carries the SIP and
+  // KKI credentials with their live verification URLs, here it carried only a
+  // name and job title. Two definitions for one @id means whichever renders
+  // last wins, and the richer one was losing. One doctor, one definition.
+  const physicianSchema = buildDoctorSchema(entityGraphFacts?.doctor);
 
   // Medical unit (Ijen screening) - potentialAction must be Action
   const ijenMedicalUnitSchema = {
@@ -478,15 +448,39 @@ export default async function VerifyJvtoPage() {
     name: "Ijen Health Screening Unit (JVTO)",
     parentOrganization: { "@id": `${siteUrl}/#organization` },
     description: sf.ijenMedicalUnit.description,
-    location: {
-      "@type": "Place",
-      name: "Baratha Hotel Lobby (Screening Station)",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Bondowoso",
-        addressRegion: "East Java",
-        addressCountry: "ID",
+    // Both partner properties. Screening happens where the guest already is,
+    // the night before the climb — the physician attends the hotel rather than
+    // the guest travelling to a clinic.
+    location: [
+      {
+        "@type": "Place",
+        name: "Baratha Hotel, Bondowoso (screening station)",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
+        },
       },
+      {
+        "@type": "Place",
+        name: "Riverside Homestay, Bondowoso (screening station)",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
+        },
+      },
+    ],
+    // Why this unit exists: the conservation authority's reopening circular
+    // introduced the doctor's-letter requirement for crater entry.
+    isBasedOn: {
+      "@type": "Legislation",
+      name: "BBKSDA Jawa Timur SE.35/K2/BIDTEK.1/KSA/1/2024 — TWA Kawah Ijen reopening and climbing conditions",
+      legislationIdentifier: "SE.35/K2/BIDTEK.1/KSA/1/2024",
+      legislationDate: "2024-01-06",
+      legislationPassedBy: entityRefById(`${siteUrl}/entity/#org-bbksda-jatim`),
     },
     // employee expects Person (this is now a Person @id)
     employee: { "@id": `${siteUrl}/#dr-ahmad-irwandanu` },
@@ -636,7 +630,7 @@ export default async function VerifyJvtoPage() {
     priceRange: "$$",
 
     // Link to founder node by @id
-    founder: { "@id": `${siteUrl}/#founder` },
+    founder: { "@id": `${siteUrl}/#agung-sambuko` },
 
     // Medical unit as a department
     department: [{ "@id": `${siteUrl}/#ijen-health-screening-unit` }],
