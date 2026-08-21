@@ -95,6 +95,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CrewMemberPage({ params }: Props) {
   const { slug } = await params;
+  // Distinguish "this person is not on the roster" from "the roster did not
+  // load". Both used to end in notFound(), which meant a transient ekosistem
+  // blip during an ISR revalidate replaced a live crew page with a cached 404
+  // — and the 404 then persisted until the next successful revalidate. That is
+  // exactly what happened on 2026-08-21: an ekosistem deploy restarted the
+  // content server, and all 11 crew pages went 404 while still being present
+  // in the build output. Throwing instead makes Next keep serving the last
+  // good render, which is the correct behaviour for an upstream outage.
+  const roster = await getPublicCrewCodes();
+  if (roster.length === 0) {
+    throw new Error(
+      "Crew roster unavailable from jvto-ekosistem; keeping the previously rendered page rather than caching a 404.",
+    );
+  }
   const member = await getPublicCrewByCode(slug);
   if (!member) notFound();
 
