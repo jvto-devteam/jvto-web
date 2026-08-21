@@ -17,7 +17,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { url } from "@/lib/site";
-import { getEcosystemWebsiteRoutes } from "./website";
+import { getEcosystemWebsitePage, getEcosystemWebsiteRoutes } from "./website";
 
 const DEFAULT_ECOSYSTEM_BASE_URL = "https://ekosistem.javavolcano-touroperator.com";
 const DEFAULT_REVALIDATE_SECONDS = 300;
@@ -203,6 +203,25 @@ export async function getEcosystemBlogSlugs(): Promise<string[]> {
     .filter((slug) => !DEDICATED_PAGE_SLUGS.has(slug));
 }
 
+/**
+ * Every published `/blog/*` route, INCLUDING the dedicated-page slugs above.
+ *
+ * `getEcosystemBlogSlugs()` exists to feed this route's `generateStaticParams`,
+ * so it must exclude the dedicated pages or the build hits a route conflict.
+ * The sitemap has the opposite need: a dedicated page is still a real, live,
+ * indexable URL and belongs in sitemap.xml. Until 2026-08-21 both needs were
+ * served by that one exclusion, so /blog/why-not-unlicensed-ijen-operator —
+ * live and indexable since it shipped — was silently missing from sitemap.xml.
+ * The exclusion was written for the build; dropping the page out of the sitemap
+ * was an unintended side effect of reusing it, not a decision.
+ */
+export async function getAllPublishedBlogRoutes(): Promise<string[]> {
+  const index = await getEcosystemWebsiteRoutes();
+  return (index.routes ?? [])
+    .map((item) => item.route)
+    .filter((route) => route.startsWith("/blog/"));
+}
+
 /** All published posts, newest first — mirrors the pre-migration manifest shape. */
 export async function getEcosystemBlogPosts(): Promise<BlogManifestEntry[]> {
   const slugs = await getEcosystemBlogSlugs();
@@ -227,6 +246,39 @@ export async function getEcosystemBlogPosts(): Promise<BlogManifestEntry[]> {
 
   return posts
     .filter((entry): entry is BlogManifestEntry => entry !== null)
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/**
+ * Everything the /blog index should list: the markdown posts above plus the
+ * dedicated-page slugs.
+ *
+ * A dedicated page carries no markdown frontmatter — its ekosistem source is a
+ * `pageContent` document — so getEcosystemBlogPost() cannot describe it and it
+ * never appeared in the listing. Its page-level `meta` has the fields the card
+ * needs, so it is mapped from there instead of being left out. Without this the
+ * post stays unreachable from the hub even after the /blog redirect was lifted.
+ */
+export async function getEcosystemBlogIndexEntries(): Promise<BlogManifestEntry[]> {
+  const [posts, dedicated] = await Promise.all([
+    getEcosystemBlogPosts(),
+    Promise.all(
+      [...DEDICATED_PAGE_SLUGS].map(async (slug) => {
+        const page = await getEcosystemWebsitePage(`/blog/${slug}`);
+        if (!page || page.meta.status !== "published") return null;
+        const entry: BlogManifestEntry = {
+          slug,
+          title: page.meta.title,
+          date: page.meta.lastReviewed ?? "",
+          status: page.meta.status,
+          seo_description: page.meta.summary ?? page.meta.description,
+        };
+        return entry;
+      }),
+    ),
+  ]);
+
+  return [...posts, ...dedicated.filter((e): e is BlogManifestEntry => e !== null)]
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 

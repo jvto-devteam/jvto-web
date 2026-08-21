@@ -45,6 +45,7 @@ const Footer: React.FC = () => {
               <li><Link href="/why-jvto/our-story" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Our Story</Link></li>
               <li><Link href="/why-jvto/reviews" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Reviews</Link></li>
               <li><Link href="/why-jvto/community-standards" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Community &amp; Guides</Link></li>
+              <li><Link href="/trust" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Trust Bundle</Link></li>
               <li>
                 <Link href="/verify-jvto" prefetch={false} className="font-bold text-jvto-lime hover:text-jvto-lime/80 transition-colors">
                   Verify Us
@@ -59,6 +60,7 @@ const Footer: React.FC = () => {
               <li><Link href="/travel-guide/booking-information" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Booking &amp; Payments</Link></li>
               <li><Link href="/travel-guide/ijen-health-screening" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Ijen Health Screening</Link></li>
               <li><Link href="/isic/student-package" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Student Deals (ISIC)</Link></li>
+              <li><Link href="/blog" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Insights</Link></li>
               <li><Link href="/policy" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Policy</Link></li>
             </ul>
           </div>
@@ -69,6 +71,8 @@ const Footer: React.FC = () => {
               <li><Link href="/destinations/ijen-crater" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Ijen Crater</Link></li>
               <li><Link href="/destinations/tumpak-sewu-waterfall" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Tumpak Sewu</Link></li>
               <li><Link href="/tours" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">All Private Tours</Link></li>
+              <li><Link href="/markets/singapore" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">From Singapore</Link></li>
+              <li><Link href="/markets/malaysia" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">From Malaysia</Link></li>
             </ul>
           </div>
           <div className="col-span-2 lg:col-span-2">

@@ -202,7 +202,12 @@ const nextConfig = {
       { source: "/office", destination: "/contact", permanent: true },
       { source: "/how-to-book", destination: "/travel-guide/booking-information", permanent: true },
       { source: "/terms-and-condition", destination: "/policy", permanent: true },
-      { source: "/blog", destination: "/travel-guide", permanent: true },
+      // "/blog" -> "/travel-guide" removed 2026-08-21. It was a legacy-URL
+      // redirect from before the blog existed, but src/app/(website)/blog/page.tsx
+      // is a real, working index and every post already renders a "back to /blog"
+      // link. While the redirect stood, that link bounced readers to
+      // /travel-guide, the index was unreachable, and the three live posts had no
+      // entry path at all — the orphaning reported as T-03 in the 2026-08-20 audit.
       { source: "/packages/yogyakarta", destination: "/tours", permanent: true },
       // Note: /packages/surabaya/3d2n/{N} skipped — legacy IDs need verification from GSC/server logs first.
     ];
