@@ -172,7 +172,7 @@ export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
       '@type': 'PropertyValue',
       propertyID: 'SHA-256',
       name: 'HPWKI approval letter SHA-256',
-      value: 'ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b',
+      value: 'dbb57389b62b1554e4d66ccd82c6888dd4c31cb0f85619601a9befb786ac32c3',
     },
     url: `${BASE_URL}/legal/HPWKI-approval.pdf`,
     credentialCategory: 'Volcanic Tourism Association — BBKSDA supervised',

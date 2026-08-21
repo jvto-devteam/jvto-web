@@ -164,7 +164,7 @@ const FALLBACK = {
   forensicAnchors: [
     { asset: "NIB 1102230032918", hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7", imagePath: "/legal/NIB-1102230032918-preview.png" },
     { asset: "TDUP 1102230032918", hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3", imagePath: "/legal/TDUP-1102230032918-preview.png" },
-    { asset: "HPWKI Approval", hash: "ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b", imagePath: "/legal/HPWKI-approval-preview.png" },
+    { asset: "HPWKI Approval", hash: "dbb57389b62b1554e4d66ccd82c6888dd4c31cb0f85619601a9befb786ac32c3", imagePath: "/legal/HPWKI-approval-preview.png" },
     { asset: "SPRIN POLPAR", hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab", imagePath: "/legal/SPRIN-POLPAR.png" },
     { asset: "SPRIN WAL TRAVEL 2024-02-12", hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3", imagePath: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.png" },
     { asset: "Press — Detik.com 2021-03-14", hash: "b257b75b3d2b9edebf07c9af89a6c6aa9a4e01d6a716ef3f7c4ca75deda64b77", imagePath: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png" },
