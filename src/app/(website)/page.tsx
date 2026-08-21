@@ -67,6 +67,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: seo.description,
     alternates: {
       canonical: SITE_URL,
+      languages: { en: SITE_URL, "x-default": SITE_URL },
     },
   };
 }

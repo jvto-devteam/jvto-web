@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Facebook, Twitter, Shield, MapPin, FileCheck } from 'lucide-react';
+import { Instagram, Facebook, Shield, MapPin, FileCheck } from 'lucide-react';
 import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import TrackedContactLink from "./TrackedContactLink";
@@ -142,9 +142,12 @@ const Footer: React.FC = () => {
             <a target="_blank" href="https://www.facebook.com/javavolcanotours/" aria-label="Facebook" className="bg-white/10 p-2 rounded-full hover:bg-jvto-navy-mid transition-colors">
               <Facebook size={16} />
             </a>
-            <a target="_blank" href="https://twitter.com/jvto_tours" aria-label="Twitter / X" className="bg-white/10 p-2 rounded-full hover:bg-jvto-navy-mid transition-colors">
-              <Twitter size={16} />
-            </a>
+            {/* Twitter/X icon removed 2026-08-21: twitter.com/jvto_tours returns
+                404 on three attempts while an invented control handle returns
+                200, so the 404 is real and the account does not exist. A dead
+                link in the footer also fed a dead sameAs, which weakens entity
+                consolidation instead of helping it. Restore both together if
+                the handle is ever registered. */}
           </div>
         </div>
 

@@ -28,7 +28,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: `${siteUrl}/trust` },
+    alternates: {
+      canonical: `${siteUrl}/trust`,
+      languages: { en: `${siteUrl}/trust`, "x-default": `${siteUrl}/trust` },
+    },
     openGraph: {
       title: seo.title,
       description: seo.description,

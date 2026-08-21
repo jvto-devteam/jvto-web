@@ -8,6 +8,24 @@ import {
 
 export const PRODUCTION_ORIGIN = "https://javavolcano-touroperator.com";
 
+/**
+ * hreflang for a monolingual site.
+ *
+ * The site had none on any of its 73 pages while running dedicated landing
+ * pages for Singapore and Malaysia, so search engines were given no signal
+ * about which audience each URL serves. Every page is English, so the honest
+ * declaration is `en` plus `x-default` pointing at the same URL — that states
+ * "this is the one version, serve it to everyone" rather than implying
+ * translations that do not exist.
+ *
+ * /markets/* are NOT language variants and must never be declared as hreflang
+ * alternates of each other: they are separate pages about travelling from a
+ * given country, both written in English.
+ */
+export function hreflangFor(canonical: string): Record<string, string> {
+  return { en: canonical, "x-default": canonical };
+}
+
 export type StaticPage = EcosystemStaticPage;
 export type StructuredSection = EcosystemSection;
 
@@ -74,7 +92,7 @@ export function buildStaticRouteMetadata(
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages: hreflangFor(canonical) },
     openGraph: overrides.openGraph ?? {
       title,
       description,

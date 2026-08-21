@@ -31,7 +31,6 @@ export const publicOrganizationProfileSnapshot: PublicOrganizationProfileSnapsho
       "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
       "https://www.facebook.com/javavolcanotours/",
       "https://www.instagram.com/javavolcanotouroperator/",
-      "https://twitter.com/jvto_tours",
     ],
     website_url: "https://javavolcano-touroperator.com",
     logo_url: "/assets/img/jvto-logo.png",

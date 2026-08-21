@@ -303,7 +303,6 @@ export function buildOrganizationReferenceSchema(
       'https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==',
       'https://www.facebook.com/javavolcanotours/',
       'https://www.instagram.com/javavolcanotouroperator/',
-      'https://twitter.com/jvto_tours',
     ],
   };
 }

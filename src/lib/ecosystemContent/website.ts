@@ -434,7 +434,12 @@ export function buildEcosystemRouteMetadata(
   return {
     title,
     description,
-    alternates: { canonical: page.canonicalUrl },
+    alternates: {
+      canonical: page.canonicalUrl,
+      // Monolingual site: declare the one English version rather than leaving
+      // hreflang absent entirely (0/73 pages had it before 2026-08-21).
+      languages: { en: page.canonicalUrl, "x-default": page.canonicalUrl },
+    },
     openGraph: {
       title,
       description,

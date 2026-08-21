@@ -63,6 +63,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     alternates: {
       canonical: `${SITE_URL}/why-jvto/reviews/${review.id}`,
+      languages: {
+        en: `${SITE_URL}/why-jvto/reviews/${review.id}`,
+        "x-default": `${SITE_URL}/why-jvto/reviews/${review.id}`,
+      },
     },
   };
 }

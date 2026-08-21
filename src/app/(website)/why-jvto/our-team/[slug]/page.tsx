@@ -85,7 +85,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: staticRouteCanonical(`/why-jvto/our-team/${slug}`) },
+    alternates: {
+      canonical: staticRouteCanonical(`/why-jvto/our-team/${slug}`),
+      languages: { en: staticRouteCanonical(`/why-jvto/our-team/${slug}`), "x-default": staticRouteCanonical(`/why-jvto/our-team/${slug}`) },
+    },
   };
 }
 

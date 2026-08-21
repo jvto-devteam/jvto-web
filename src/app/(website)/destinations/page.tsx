@@ -35,6 +35,10 @@ export async function generateMetadata(): Promise<Metadata> {
     description: seo.description,
     alternates: {
       canonical: `${SITE_URL}${ROUTE}`,
+      languages: {
+        en: `${SITE_URL}${ROUTE}`,
+        "x-default": `${SITE_URL}${ROUTE}`,
+      },
     },
     openGraph: {
       title: seo.title,

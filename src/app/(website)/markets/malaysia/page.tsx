@@ -18,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: content.title,
     description: content.description,
-    alternates: { canonical: `${BASE_URL}${ROUTE}` },
+    alternates: {
+      canonical: `${BASE_URL}${ROUTE}`,
+      languages: { en: `${BASE_URL}${ROUTE}`, "x-default": `${BASE_URL}${ROUTE}` },
+    },
   };
 }
 

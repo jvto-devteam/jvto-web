@@ -24,10 +24,18 @@
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
+// @id scheme note (2026-08-21): these were `${BASE_URL}/#org-*` — a homepage
+// fragment — while jvto-ekosistem's external-entities.json, the SSOT for the
+// same organisations, used `${BASE_URL}/entity/#org-*`. Both shipped on the
+// same rendered page, so HPWKI (and every other shared entity) appeared to a
+// crawler as two unrelated nodes: exactly the fragmentation this file was
+// created to end, reintroduced by having two sources. Aligned to the
+// ekosistem scheme, and /entity now resolves and defines each one.
+
 export const EXTERNAL_ENTITIES = {
   hpwki: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-hpwki`,
+    '@id': `${BASE_URL}/entity/#org-hpwki`,
     name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
     description:
       'Ijen volcano guide association supervised by BBKSDA Jawa Timur (Ministry of Environment). Members receive annual training on volcanic gas protocols and evacuation procedures.',
@@ -36,33 +44,33 @@ export const EXTERNAL_ENTITIES = {
   },
   indecon: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-indecon`,
+    '@id': `${BASE_URL}/entity/#org-indecon`,
     name: 'INDECON (Indonesian Ecotourism Network)',
     sameAs: 'https://www.indecon.id/spotlight-networks/java-volcano-tour-operator',
   },
   isic: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-isic`,
+    '@id': `${BASE_URL}/entity/#org-isic`,
     name: 'ISIC (International Student Identity Card)',
     sameAs: 'https://www.isic.org/discounts/?providerId=259268',
   },
   detikcom: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-detikcom`,
+    '@id': `${BASE_URL}/entity/#org-detikcom`,
     name: 'Detik.com',
     url: 'https://detik.com',
     sameAs: 'https://detik.com',
   },
   radarJemberJawaPos: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-radar-jember`,
+    '@id': `${BASE_URL}/entity/#org-radar-jember`,
     name: 'Radar Jember / Jawa Pos',
     url: 'https://radarjember.jawapos.com',
     sameAs: 'https://radarjember.jawapos.com',
   },
   dumontReiseverlag: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/#org-dumont-reiseverlag`,
+    '@id': `${BASE_URL}/entity/#org-dumont-reiseverlag`,
     name: 'DuMont Reiseverlag',
     // DuMont Reiseverlag is now an imprint of MairDumont — the current
     // official site of record for the brand.
@@ -71,21 +79,21 @@ export const EXTERNAL_ENTITIES = {
   },
   bkpm: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-bkpm`,
+    '@id': `${BASE_URL}/entity/#org-bkpm`,
     name: 'Kementerian Investasi / BKPM Indonesia',
     url: 'https://www.bkpm.go.id',
     sameAs: 'https://www.bkpm.go.id',
   },
   kemenparekraf: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-kemenparekraf`,
+    '@id': `${BASE_URL}/entity/#org-kemenparekraf`,
     name: 'Kementerian Pariwisata dan Ekonomi Kreatif',
     url: 'https://kemenparekraf.go.id',
     sameAs: 'https://kemenparekraf.go.id',
   },
   bbksdaJatim: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-bbksda-jatim`,
+    '@id': `${BASE_URL}/entity/#org-bbksda-jatim`,
     name: 'BBKSDA Jawa Timur (Balai Besar Konservasi Sumber Daya Alam)',
     description:
       'Indonesian Ministry of Environment body responsible for Ijen Crater nature reserve management.',
@@ -94,21 +102,21 @@ export const EXTERNAL_ENTITIES = {
   },
   polri: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-polri`,
+    '@id': `${BASE_URL}/entity/#org-polri`,
     name: 'Indonesian National Police (POLRI)',
     url: 'https://polri.go.id',
     sameAs: 'https://polri.go.id',
   },
   kemenkes: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-kemenkes`,
+    '@id': `${BASE_URL}/entity/#org-kemenkes`,
     name: 'Kementerian Kesehatan Republik Indonesia (Ministry of Health)',
     url: 'https://kemkes.go.id',
     sameAs: 'https://kemkes.go.id',
   },
   kki: {
     '@type': 'GovernmentOrganization',
-    '@id': `${BASE_URL}/#org-kki`,
+    '@id': `${BASE_URL}/entity/#org-kki`,
     name: 'Konsil Kedokteran Indonesia (Indonesian Medical Council)',
     url: 'https://kki.go.id',
     sameAs: 'https://kki.go.id',
