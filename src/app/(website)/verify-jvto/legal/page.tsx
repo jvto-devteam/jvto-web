@@ -108,7 +108,7 @@ const FALLBACK = {
       monoLineBreak: false,
       segments: [
         { text: "Operator authorization to run trips inside Bromo Tengger Semeru National Park and the Ijen conservation area. Issued by BBKSDA Jawa Timur (" },
-        { text: "bbksdajatim.org", href: "https://bbksdajatim.org" },
+        { text: "bbksdajatim.org", href: "https://ayoketamannasional.kehutanan.go.id/en/taman-wisata-alam/kawah-ijen" },
         { text: ")." },
       ],
     },

@@ -97,8 +97,12 @@ export const EXTERNAL_ENTITIES = {
     name: 'BBKSDA Jawa Timur (Balai Besar Konservasi Sumber Daya Alam)',
     description:
       'Indonesian Ministry of Environment body responsible for Ijen Crater nature reserve management.',
-    url: 'https://bbksdajatim.org',
-    sameAs: 'https://bbksdajatim.org',
+    // bbksdajatim.org stopped resolving (verified 2026-08-21 with a control URL,
+    // so this is a real outage rather than a bot block), and so did its ticket
+    // subdomain. The Ministry of Forestry portal is where the TWA Kawah Ijen
+    // rules and ticketing now live.
+    url: 'https://ayoketamannasional.kehutanan.go.id/en/taman-wisata-alam/kawah-ijen',
+    sameAs: 'https://ayoketamannasional.kehutanan.go.id/en/taman-wisata-alam/kawah-ijen',
   },
   polri: {
     '@type': 'GovernmentOrganization',

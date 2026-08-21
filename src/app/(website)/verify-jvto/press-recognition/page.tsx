@@ -89,7 +89,10 @@ const FALLBACK = {
       pub: "BBKSDA Jawa Timur",
       title: "\"Pelatihan Pemandu Kawah Ijen.\"",
       body: "The park authority's own report on a 3-day guide training (SAR + emergency medical) for HPWKI members at Paltuding — proof HPWKI membership equals government-supervised training.",
-      link: { text: "Read →", href: "https://bbksdajatim.org/pelatihan-pemandu-kawah-ijen/" } as { text: string; href: string } | null,
+      // Source article retired with the bbksdajatim.org domain (verified unreachable
+      // 2026-08-21, control URL fine). The screenshot evidence is retained; the dead
+      // link is not published as if a reader could still open it.
+      link: null as { text: string; href: string } | null,
       note: null as string | null,
     },
   ],

@@ -297,8 +297,8 @@ export default async function VerifyJvtoPage() {
         sha256: asset.sha256,
         about: {
           "@type": "WebPage",
-          name: "tiket.bbksdajatim.org - Terms & Conditions",
-          url: "https://tiket.bbksdajatim.org",
+          name: "Ayo ke Taman Nasional — TWA Kawah Ijen access terms (Ministry of Forestry)",
+          url: "https://ayoketamannasional.kehutanan.go.id/en/pesan-tiket/kawah-ijen",
         },
       };
     }
