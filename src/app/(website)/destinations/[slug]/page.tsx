@@ -26,7 +26,14 @@ import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadg
 import fs from "fs";
 import path from "path";
 export const revalidate = 3600;
-export const dynamicParams = false;
+// dynamicParams = true (2026-08-21). See why-jvto/our-team/[slug] for the full
+// account: with false, any path evicted from the cache 404s instead of
+// re-rendering, because Next no longer holds the build-time param list at
+// runtime. These routes are all in ekosistem's revalidation set, so every
+// ekosistem deploy could evict them and turn live pages into 404s. Unknown
+// slugs still 404 through the notFound() guard below, which checks the real
+// content source rather than the build list.
+export const dynamicParams = true;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 

@@ -25,7 +25,19 @@ const WHY_JVTO_NAV = [
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+// dynamicParams = true (2026-08-21). It was false, which means "any path not in
+// the build-time generateStaticParams list is a 404". That is fine until a path
+// gets evicted from the cache: revalidatePath clears the entry, Next no longer
+// has the param list at runtime, and the URL 404s instead of re-rendering — even
+// though the page prerendered correctly in the same build. Because
+// /why-jvto/our-team/* is in ekosistem's revalidation set, every ekosistem
+// deploy triggered exactly that, and all 11 crew pages stayed 404 for hours on
+// 2026-08-21.
+//
+// With true, an evicted path simply renders on demand. Unknown slugs still 404,
+// via the notFound() below, which checks the roster rather than the build list —
+// so nothing becomes reachable that should not be.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const codes = await getPublicCrewCodes();
