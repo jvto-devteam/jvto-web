@@ -66,8 +66,52 @@ export function buildCrewPersonNode(member: PublicCrewMember): Person {
   };
 }
 
-/** /why-jvto/our-team/[slug] — ProfilePage wrapping the crew Person. */
-export function buildTeamProfileSchema(member: PublicCrewMember): WithContext<ProfilePage> {
+/** One guest review that names this crew member, as a schema.org Review. */
+export type CrewReviewForSchema = {
+  permalinkId: number | null;
+  reviewerName: string;
+  date: string;
+  star: number;
+  reviewExcerpt: string;
+};
+
+/**
+ * /why-jvto/our-team/[slug] — ProfilePage wrapping the crew Person.
+ *
+ * The page renders guest reviews that name this person, but the graph carried
+ * only the Person node, so the reviews were visible to readers and invisible
+ * to machines — the strongest asset on the page, unreadable in the layer that
+ * reads it (T-10, 2026-08-20 audit). The reviews are attached as Review nodes
+ * on the Person, each pointing at the permalink we host rather than the
+ * merchant-console link the source data carries.
+ */
+export function buildTeamProfileSchema(
+  member: PublicCrewMember,
+  reviews: CrewReviewForSchema[] = [],
+): WithContext<ProfilePage> {
+  const person = buildCrewPersonNode(member);
+  const reviewNodes = reviews
+    .filter((review) => review.reviewExcerpt?.trim())
+    .map((review) => ({
+      "@type": "Review" as const,
+      ...(review.permalinkId
+        ? {
+            "@id": `${BASE}/why-jvto/reviews/${review.permalinkId}#crew-${member.code}`,
+            url: `${BASE}/why-jvto/reviews/${review.permalinkId}`,
+          }
+        : {}),
+      author: { "@type": "Person" as const, name: review.reviewerName },
+      datePublished: review.date,
+      reviewBody: review.reviewExcerpt,
+      reviewRating: {
+        "@type": "Rating" as const,
+        ratingValue: String(review.star),
+        bestRating: "5",
+        worstRating: "1",
+      },
+      itemReviewed: { "@id": ORG_ID },
+    }));
+
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
@@ -75,7 +119,13 @@ export function buildTeamProfileSchema(member: PublicCrewMember): WithContext<Pr
     url: `${BASE}/why-jvto/our-team/${member.code}`,
     name: `${member.name} — JVTO ${crewJobTitle(member.role)}`,
     about: { "@id": ORG_ID },
-    mainEntity: buildCrewPersonNode(member),
+    // schema-dts types Person as a union, so it cannot be spread directly.
+    mainEntity: reviewNodes.length
+      ? ({
+          ...(person as unknown as Record<string, unknown>),
+          review: reviewNodes,
+        } as unknown as Person)
+      : person,
   };
 }
 

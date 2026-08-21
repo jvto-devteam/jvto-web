@@ -28,6 +28,12 @@ export interface VerifyAssetsInventory {
   organization_profile: Record<string, any>;
   verification_credentials: Array<Record<string, any>>;
   assets_inventory: Array<Record<string, any>>;
+  /**
+   * Date the weekly job last re-hashed every published document and found
+   * each still matching (ekosistem: scripts/verify-evidence-hashes.mjs).
+   * Absent until that job has run once.
+   */
+  last_hash_verification?: string;
 }
 
 function ecosystemContentRoot(): string {

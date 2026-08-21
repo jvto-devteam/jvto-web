@@ -121,3 +121,18 @@ export async function getEcosystemReviewById(
   const reviews = await getEcosystemReviews();
   return reviews.find((r) => r.id === id) ?? null;
 }
+
+/**
+ * How many published reviews name this crew member.
+ *
+ * Derived from the review corpus rather than read from people.json, whose
+ * googleReviewMentions figure is deliberately excluded by the public field
+ * allowlist. This counts only what is already published, so it adds no new
+ * disclosure — it just stops the site sitting on a quantified fact
+ * (723 crew-name mentions across the corpus) while its crew pages remain the
+ * shortest on the site (T-10, 2026-08-20 audit).
+ */
+export async function countReviewsNamingCrew(code: string): Promise<number> {
+  const reviews = await getEcosystemReviews();
+  return reviews.filter((review) => (review.crewCodes ?? []).includes(code)).length;
+}

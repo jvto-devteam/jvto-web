@@ -965,7 +965,16 @@ export default async function VerifyJvtoPage() {
                 { label: "Official documents", value: String(PROOF_COUNTS.official_authority ?? 0) },
                 { label: "Media references", value: String(PROOF_COUNTS.reputable_media ?? 0) },
                 { label: "Operational records", value: String(PROOF_COUNTS.operational_record ?? 0) },
-                { label: "Last audit", value: "2026-05-12" },
+                // "Last audit 2026-05-12" sat on this page while the
+                // commercial layer refreshed daily, and from outside there was
+                // no way to tell "not verified since May" from "verified
+                // constantly, date never written down". A weekly job now
+                // re-hashes every published document and stamps the day it
+                // ran, so the date reports something that actually happened.
+                {
+                  label: "Hashes re-verified",
+                  value: (ssotData as any).last_hash_verification ?? "2026-05-12",
+                },
                 { label: "Status", value: "OPEN" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">

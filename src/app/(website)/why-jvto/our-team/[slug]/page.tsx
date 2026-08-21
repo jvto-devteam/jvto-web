@@ -10,6 +10,7 @@ import {
 } from "@/lib/people/canonicalPeople";
 import { crewJobTitle, buildTeamProfileSchema } from "@/lib/schemas/buildTeamSchemas";
 import { getCrewFeaturedReviews } from "@/lib/people/crewReviews";
+import { countReviewsNamingCrew } from "@/lib/ecosystemContent/reviews";
 import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 import { loadEcosystemPage, staticRouteCanonical } from "@/lib/ecosystemContent/staticPageAdapter";
 
@@ -100,6 +101,9 @@ export default async function CrewMemberPage({ params }: Props) {
   const ecosystemPage = await loadEcosystemPage(`/why-jvto/our-team/${slug}`);
   const bio = await getCrewBio(slug);
   const reviews = await getCrewFeaturedReviews(slug);
+  // Total mentions across the whole published corpus, not just the featured
+  // few — the count was a real, quantified asset the page never showed.
+  const mentionCount = await countReviewsNamingCrew(slug);
   const jobTitle = crewJobTitle(member.role);
   const route = `/why-jvto/our-team/${slug}`;
   const photo = bio?.photo_url ? getWhyJvtoOptimizedImageSrc(bio.photo_url) ?? bio.photo_url : member.image?.src;
@@ -118,7 +122,7 @@ export default async function CrewMemberPage({ params }: Props) {
     <>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[buildTeamProfileSchema(member)]}
+        extraSchemas={[buildTeamProfileSchema(member, reviews)]}
         suppressCmsFaq
       />
 
@@ -265,7 +269,17 @@ export default async function CrewMemberPage({ params }: Props) {
                     Reviews naming {member.name}
                   </h2>
                   <p className="text-[#6b7280] text-[15px] font-light leading-relaxed mb-8 max-w-[62ch]">
-                    Guest reviews from Google that specifically mention {member.name} by name, with the original guest media.
+                    {mentionCount > reviews.length ? (
+                      <>
+                        {member.name} is named in{" "}
+                        <Link href="/why-jvto/reviews" prefetch={false} className="text-jvto-orange border-b border-current">
+                          {mentionCount} published guest reviews
+                        </Link>
+                        . These {reviews.length} are shown in full, with the original guest media; each links to the review&apos;s own page.
+                      </>
+                    ) : (
+                      <>Guest reviews that name {member.name}, with the original guest media. Each links to the review&apos;s own page.</>
+                    )}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
                     {reviews.map((r) => (
@@ -276,7 +290,17 @@ export default async function CrewMemberPage({ params }: Props) {
                         </div>
                         <p className="text-[14.5px] text-jvto-navy leading-relaxed">&ldquo;{r.reviewExcerpt}&rdquo;</p>
                         <div className="text-[13px] text-[#6b7280]">
-                          — {r.reviewerName}
+                          {/* Link the reviewer to the review's own page. The
+                              source data carries originalReviewUrl, but that is
+                              the Google merchant console: it 302s to a support
+                              article for anyone who is not the account owner. */}
+                          {r.permalinkId ? (
+                            <Link href={`/why-jvto/reviews/${r.permalinkId}`} prefetch={false} className="text-jvto-navy border-b border-current hover:opacity-70 transition-opacity">
+                              — {r.reviewerName}
+                            </Link>
+                          ) : (
+                            <>— {r.reviewerName}</>
+                          )}
                           {r.package && (
                             <>
                               {" · "}

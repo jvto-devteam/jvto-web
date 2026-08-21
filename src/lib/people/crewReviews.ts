@@ -33,6 +33,19 @@ export interface CrewReviewMedia {
 
 export interface CrewFeaturedReview {
   reviewId: string;
+  /**
+   * Our own permalink id for this review, parsed from reviewId
+   * ("google-review-171" -> 171), so the crew page can link to
+   * /why-jvto/reviews/171 instead of originalReviewUrl.
+   *
+   * originalReviewUrl points at business.google.com/n/<account>/reviews/<id>,
+   * the merchant console — it 302s to a support article for anyone who is not
+   * the account owner, so it reads as a citation while being unopenable.
+   * Every crew featured review resolves to a permalink we host (verified: 39
+   * of 39), so there is no reason to send a reader to a door that will not
+   * open. Null only if the id ever stops carrying a numeric suffix.
+   */
+  permalinkId: number | null;
   reviewerName: string;
   date: string;
   star: number;
@@ -104,5 +117,8 @@ export async function getCrewFeaturedReviews(
 ): Promise<CrewFeaturedReview[]> {
   const file = (await readLocal()) ?? (await fetchRemote());
   const rec = file?.crew.find((c) => c.code === code);
-  return rec?.featuredReviews ?? [];
+  return (rec?.featuredReviews ?? []).map((review) => {
+    const match = /(\d+)$/.exec(review.reviewId ?? "");
+    return { ...review, permalinkId: match ? Number(match[1]) : null };
+  });
 }
