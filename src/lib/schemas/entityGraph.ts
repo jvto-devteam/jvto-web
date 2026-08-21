@@ -55,7 +55,11 @@ const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID   = `${BASE_URL}/#organization`;
 const AGUNG_ID = `${BASE_URL}/#agung-sambuko`;
 const DOCTOR_ID = `${BASE_URL}/#dr-ahmad-irwandanu`;
-const CLINIC_ID = `${BASE_URL}/#klinik-bakti-husada`;
+// Renamed from #klinik-bakti-husada 2026-08-21. Screening is not done at a
+// clinic — the physician attends the guest's hotel in Bondowoso — so an id
+// naming a clinic described the wrong thing, and a stale identifier is how a
+// corrected fact quietly keeps asserting the old one.
+const SCREENING_SERVICE_ID = `${BASE_URL}/#ijen-screening-service`;
 
 // ── ekosistem facts shape + fetcher ──────────────────────────────────────────
 
@@ -519,7 +523,7 @@ export function buildDoctorSchema(facts?: EntityGraphFacts['doctor']): DoctorSch
     jobTitle: facts?.jobTitle ?? FALLBACK_DOCTOR_FACTS.jobTitle,
     worksFor: {
       '@type': 'MedicalBusiness',
-      '@id': CLINIC_ID,
+      '@id': SCREENING_SERVICE_ID,
       name: clinic.name,
       medicalSpecialty: clinic.medicalSpecialty,
       address: {
