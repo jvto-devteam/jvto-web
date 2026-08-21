@@ -60,7 +60,25 @@ export default async function TrustPage() {
     content: { h1: seo.h1 },
   };
 
-  const { faq: trustFaqItems } = await getEcosystemTrustClaims();
+  const { claims: trustClaimsForByline, faq: trustFaqItems } =
+    await getEcosystemTrustClaims();
+  // Derived, not hand-maintained. trustManifest is a frozen snapshot whose own
+  // comment says it must be updated by hand — so the byline read "Compiled
+  // 2026-07-07" indefinitely, on a page whose entire premise is that the
+  // verification is current, and its "18 evidence items" went stale the moment
+  // the evidence set changed. These come from the live record instead.
+  const claimCount = trustClaimsForByline.length;
+  const evidenceCount = trustClaimsForByline.reduce(
+    (total, claim) => total + (claim.evidence?.length ?? 0),
+    0,
+  );
+  // The OLDEST date, deliberately. For a bundle, "last verified" honestly means
+  // "every claim here has been checked at least since X" — taking the newest
+  // would let one freshly-reviewed claim make the whole set look current.
+  const lastVerified = trustClaimsForByline
+    .map((claim) => claim.last_verified)
+    .filter(Boolean)
+    .sort()[0];
   const faqPageSchema = buildTrustFaqPageSchema(trustFaqItems);
 
   const touristTrips = Array.isArray(touristTripSchema)
@@ -89,8 +107,8 @@ export default async function TrustPage() {
             {seo.description}
           </p>
           <p className="mt-3 text-xs text-white/50">
-            Compiled {trustManifest.compiled_at.slice(0, 10)} from {trustManifest.inputs.claims} claims,{" "}
-            {trustManifest.inputs.evidence} evidence items, {trustManifest.inputs.entities} entities.
+            {claimCount} claims · {evidenceCount} evidence items
+            {lastVerified ? ` · last verified ${lastVerified}` : ""}
           </p>
         </div>
       </header>
