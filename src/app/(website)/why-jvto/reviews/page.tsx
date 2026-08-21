@@ -66,10 +66,20 @@ export default async function WhyJvtoReviewsPage() {
     (p) => typeof p.rating === "number" && typeof p.reviewCount === "number",
   );
   const excerptReviews = reviewsData.slice(0, 8).map((review) => ({
+    id: String(review.id),
     tag: `${review.platform} · ${review.star ?? 5} star`,
     quote: review.review,
     name: review.customer_name,
     source: `${review.platform} · ${review.date.toISOString().slice(0, 10)}`,
+  }));
+  // Every review permalink, so those pages have an inbound link and not only a
+  // sitemap entry. They were already live, self-canonical and "index, follow",
+  // but reachable from nowhere on the site (T-05 of the 2026-08-20 audit).
+  // Owner chose to embrace them rather than noindex them, 2026-08-21.
+  const allReviewLinks = reviewsData.map((review) => ({
+    id: String(review.id),
+    name: review.customer_name,
+    year: review.date.getUTCFullYear(),
   }));
   // aggregateRating no longer assembled here — it's an inline property of the
   // Organization node PageJsonLdCombined already reads from ekosistem
@@ -270,7 +280,9 @@ export default async function WhyJvtoReviewsPage() {
                     <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-orange">{e.tag}</span>
                     <p className="text-jvto-navy leading-snug" style={{ fontSize: "19px", lineHeight: 1.4 }}>{e.quote}</p>
                     <div className="flex items-center gap-3 mt-1">
-                      <span className="font-semibold text-[13px] text-jvto-navy">{e.name}</span>
+                      <Link href={`/why-jvto/reviews/${e.id}`} prefetch={false} className="font-semibold text-[13px] text-jvto-navy border-b border-current hover:opacity-70 transition-opacity">
+                        {e.name}
+                      </Link>
                       <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9ca3af]">{e.source}</span>
                     </div>
                   </div>
@@ -289,6 +301,34 @@ export default async function WhyJvtoReviewsPage() {
                   </p>
                 </div>
               </div>
+
+              {allReviewLinks.length ? (
+                <div className="mt-12 border border-[#E3E0DA] rounded-xl overflow-hidden">
+                  <div className="px-6 py-5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af] block mb-3">
+                      Every review, individually
+                    </span>
+                    <p className="text-jvto-navy text-[15px] leading-relaxed font-light mb-5">
+                      All {allReviewLinks.length} reviews have their own page, each linking back to
+                      the original profile on the platform it was left on. Nothing here is
+                      paraphrased or summarised.
+                    </p>
+                    <ul className="flex flex-wrap gap-x-4 gap-y-2">
+                      {allReviewLinks.map((r) => (
+                        <li key={r.id}>
+                          <Link
+                            href={`/why-jvto/reviews/${r.id}`}
+                            prefetch={false}
+                            className="font-mono text-[11px] text-[#6b7280] hover:text-jvto-orange transition-colors"
+                          >
+                            {r.name} <span className="text-[#c3c0ba]">{r.year}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ) : null}
             </article>
           </div>
         </div>
