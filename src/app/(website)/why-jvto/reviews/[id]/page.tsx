@@ -16,6 +16,7 @@ import type { Metadata } from "next";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getEcosystemReviewById } from "@/lib/ecosystemContent/reviews";
 import { getEcosystemReviewSchema, nodeTypes } from "@/lib/ecosystemContent/schema";
+import { getPublicCrew } from "@/lib/people/canonicalPeople";
 import {
   buildOrganizationJsonLd,
   toOrganizationReferenceOnly,
@@ -109,6 +110,15 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
   const resolvedName = review.packageName;
   const resolvedSlug = review.packageSlug;
+  // The crew pages link out to these permalinks; nothing linked back, so a
+  // review naming three guides was a dead end for both a reader following the
+  // name and a crawler trying to connect the person to the praise. Only crew
+  // still on the published roster resolve — a name that no longer belongs to
+  // anyone is left as plain text rather than linked to a page that 404s.
+  const roster = await getPublicCrew().catch(() => []);
+  const namedCrew = (review.crewCodes ?? [])
+    .map((code) => roster.find((member) => member.code === code))
+    .filter((member): member is NonNullable<typeof member> => Boolean(member));
   const packageName = resolvedName ?? "Java Volcano Tour Package";
 
   const schema = {
@@ -126,6 +136,18 @@ export default async function ReviewDetailPage({ params }: PageProps) {
           `Customer review for ${packageName} with Java Volcano Tour Operator.`,
         isPartOf: { "@id": `${SITE_URL}/#website` },
         about: { "@id": `${SITE_URL}/#organization` },
+        // The same edge the visible links make, in the graph: this page is
+        // about these specific people. Their Person nodes are defined on their
+        // own crew pages, where each carries an HPWKI credential and worksFor
+        // JVTO — so a crawler reading a review that praises a guide by name can
+        // reach the guide, and see he is staff rather than a freelancer.
+        ...(namedCrew.length
+          ? {
+              mentions: namedCrew.map((member) => ({
+                "@id": `${SITE_URL}/why-jvto/our-team/${member.code}#person`,
+              })),
+            }
+          : {}),
       },
       productNode,
     ],
@@ -180,6 +202,28 @@ export default async function ReviewDetailPage({ params }: PageProps) {
       <article className="prose prose-slate max-w-none mb-10">
         <p>{review.review}</p>
       </article>
+
+      {namedCrew.length > 0 && (
+        <section className="mb-10">
+          <h2 className="font-bold text-lg mb-2">Crew named in this review</h2>
+          <p className="text-sm text-gray-500 mb-3">
+            Each of them is a JVTO crew member with an HPWKI climbing credential,
+            not a freelancer booked for the day.
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {namedCrew.map((member) => (
+              <li key={member.code}>
+                <a
+                  href={`${SITE_URL}/why-jvto/our-team/${member.code}`}
+                  className="inline-block border rounded-full px-4 py-1.5 text-sm font-semibold text-slate-800 hover:border-orange-500 hover:text-orange-600 transition-colors"
+                >
+                  {member.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {resolvedName && (
         <section className="border rounded-sm p-6 bg-gray-50">
