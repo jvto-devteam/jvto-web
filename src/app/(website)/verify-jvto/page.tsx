@@ -152,6 +152,11 @@ export default async function VerifyJvtoPage() {
   const visibleAssets = (ssotData as any).assets_inventory.filter(
     (a: any) => a.is_show === true,
   );
+  // The slugs that become real #asset- nodes below. Anything outside this set
+  // must not be referenced by @id anywhere in the graph.
+  const publishedAssetSlugs = new Set<string>(
+    visibleAssets.map((a: any) => a.slug as string),
+  );
 
   // Map asset slug -> credential
   const credentialByAssetSlug = new Map<string, any>();
@@ -823,9 +828,17 @@ export default async function VerifyJvtoPage() {
           }))
         : undefined,
       url: cred.identifiers?.registry_url,
-      subjectOf: cred.evidence_asset_slugs?.map((slug: string) => ({
-        "@id": `${siteUrl}/verify-jvto#asset-${slug}`,
-      })),
+      // Only reference assets this page actually publishes as nodes. A credential
+      // may cite evidence that is deliberately withheld (is_show false) or a slug
+      // that never existed in the inventory at all; either way, pointing subjectOf
+      // at it emits an @id nothing defines. Eight such references were live: the
+      // NIB, TDUP, HPWKI decree and two SPRIN orders (all withheld), plus three
+      // "-preview-png" slugs absent from the inventory entirely.
+      subjectOf: cred.evidence_asset_slugs
+        ?.filter((slug: string) => publishedAssetSlugs.has(slug))
+        .map((slug: string) => ({
+          "@id": `${siteUrl}/verify-jvto#asset-${slug}`,
+        })),
     })) || [];
 
   // Link credential nodes into organization.hasCredential (by @id only)

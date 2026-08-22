@@ -70,7 +70,11 @@ export const EXTERNAL_ENTITIES = {
   },
   dumontReiseverlag: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}/entity/#org-dumont-reiseverlag`,
+    // Must match the id the ekosistem entity registry defines for this record
+    // (external-entities.json, key "dumont"). This read #org-dumont-reiseverlag,
+    // so every publisher reference on / and /verify-jvto pointed at a node the
+    // /entity page never emits.
+    '@id': `${BASE_URL}/entity/#org-dumont`,
     name: 'DuMont Reiseverlag',
     // DuMont Reiseverlag is now an imprint of MairDumont — the current
     // official site of record for the brand.
@@ -124,6 +128,17 @@ export const EXTERNAL_ENTITIES = {
     name: 'Konsil Kedokteran Indonesia (Indonesian Medical Council)',
     url: 'https://kki.go.id',
     sameAs: 'https://kki.go.id',
+  },
+  // The authority that actually issues a physician's SIP in Indonesia: the
+  // kabupaten one-stop permit office. The published licence
+  // (SIP 503.446/664/DRU/4/430.9.13/2026, 6 January 2026) is signed by its head.
+  // The Ministry of Health appears on that document as the regulation-maker
+  // (Permenkes 2052/Menkes/Per/X/2011) and as first carbon copy — not as issuer.
+  // Mirrors external-entities.json key "dpmptsp-bondowoso".
+  dpmptspBondowoso: {
+    '@type': 'GovernmentOrganization',
+    '@id': `${BASE_URL}/entity/#org-dpmptsp-bondowoso`,
+    name: 'Dinas Penanaman Modal, PTSP dan Tenaga Kerja Kabupaten Bondowoso',
   },
 } as const;
 

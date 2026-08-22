@@ -86,7 +86,7 @@ export interface EntityGraphFacts {
     clinic?: { name?: string; medicalSpecialty?: string; description?: string };
     hasCredential?: {
       sip?: { name?: string; credentialCategory?: string; description?: string };
-      kki?: { name?: string; credentialCategory?: string };
+      kki?: { name?: string; credentialCategory?: string; description?: string };
     };
   };
   bbksdaRegulation?: {
@@ -501,11 +501,14 @@ const FALLBACK_DOCTOR_FACTS: Required<NonNullable<EntityGraphFacts['doctor']>> =
     sip: {
       name: 'SIP (Surat Izin Praktik) — Medical Practice Licence',
       credentialCategory: 'Indonesian Medical Practice Licence',
-      description: 'Publicly verifiable at satusehat.kemkes.go.id — the Indonesian national health registry.',
+      description:
+        'SIP 503.446/664/DRU/4/430.9.13/2026, issued in Bondowoso on 6 January 2026 by Dinas Penanaman Modal, PTSP dan Tenaga Kerja Kabupaten Bondowoso under Permenkes 2052/Menkes/Per/X/2011. Practice of record: Praktik Mandiri dr. Ahmad Irwandanu, Pujer, Bondowoso.',
     },
     kki: {
       name: 'KKI Registration (Konsil Kedokteran Indonesia)',
       credentialCategory: 'Indonesian Medical Council Registration',
+      description:
+        'STR QN00001073380217, valid to 6 January 2031. Issued through Konsil Kedokteran Indonesia and verifiable in the Kemenkes SATUSEHAT health-workforce registry.',
     },
   },
 };
@@ -535,22 +538,42 @@ export function buildDoctorSchema(facts?: EntityGraphFacts['doctor']): DoctorSch
       isAcceptingNewPatients: true,
       description: clinic.description,
     },
-    // Both credentials publicly verifiable online
+    // Both credentials publicly verifiable online — but by different authorities,
+    // which the graph used to conflate. The SIP is issued by the Bondowoso permit
+    // office; the STR is a Konsil Kedokteran Indonesia registration published in
+    // the Ministry of Health's SATUSEHAT registry. Reading the published licence
+    // settles it: Kemenkes appears there as the regulation-maker and first carbon
+    // copy, never as the issuing authority. Pointing the SIP at Kemenkes credited
+    // the wrong body and left the SATUSEHAT link attached to the wrong credential.
     hasCredential: [
       {
         '@type': 'EducationalOccupationalCredential',
         name: sip.name,
         credentialCategory: sip.credentialCategory,
-        url: 'https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217',
-        recognizedBy: EXTERNAL_ENTITIES.kemenkes,
+        url: `${BASE_URL}/screening/SIP_DOKTER_AHMAD_IRWANDANU_2026.pdf`,
+        identifier: {
+          '@type': 'PropertyValue',
+          propertyID: 'SIP',
+          value: '503.446/664/DRU/4/430.9.13/2026',
+        },
+        recognizedBy: EXTERNAL_ENTITIES.dpmptspBondowoso,
         description: sip.description,
       },
       {
         '@type': 'EducationalOccupationalCredential',
         name: kki.name,
         credentialCategory: kki.credentialCategory,
-        url: 'https://kki.go.id/cekdokter/form',
-        recognizedBy: EXTERNAL_ENTITIES.kki,
+        // The registry entry where this registration is checkable is Kemenkes';
+        // the council that issues it is KKI. Both are named, so the Ministry of
+        // Health keeps the relationship it genuinely has with this physician.
+        url: 'https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217',
+        identifier: {
+          '@type': 'PropertyValue',
+          propertyID: 'STR',
+          value: 'QN00001073380217',
+        },
+        recognizedBy: [EXTERNAL_ENTITIES.kki, EXTERNAL_ENTITIES.kemenkes],
+        description: kki.description,
       },
     ],
   };
