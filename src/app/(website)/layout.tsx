@@ -19,6 +19,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: "./",
+    // Site-wide hreflang. "./" resolves against metadataBase to the current
+    // path, so every page that does not declare its own `alternates` inherits
+    // this — which is how the 17 tour pages, the largest section of the site,
+    // ended up with a canonical but no hreflang: they set no alternates at all,
+    // and a child that does set them replaces this block entirely.
+    // The site is monolingual, so `en` and `x-default` point at the same URL:
+    // one English version, serve it to everyone.
+    languages: { en: "./", "x-default": "./" },
   },
 
   // Open Graph global fallback (Akan dipakai jika halaman anak TIDAK mendefinisikan OG Image)

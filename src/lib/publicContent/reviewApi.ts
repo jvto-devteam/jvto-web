@@ -200,6 +200,18 @@ export const getPublicReviewXmlItemsWithFallback = cache(
   async (): Promise<PublicReviewXmlItem[]> => {
     const reviews = await getEcosystemReviews();
 
+    // Product-review feed: every entry must carry a product (mpn/sku/product_url),
+    // so a review with no package is genuinely out of scope here — this is not a
+    // stale snapshot, and the count differing from the review corpus is by design.
+    //
+    // Worth knowing, though: of 58 reviews dated 2026 only 7 carry a packageSlug,
+    // against 71 of 77 for 2025. sync-google-reviews.mjs writes packageSlug: null
+    // for every new review because the Google Business Profile API does not say
+    // which package a guest booked, and guessing it from review text would be
+    // exactly the kind of invented attribution this repo refuses elsewhere. The
+    // effect is that the product-review feed is fed only by historical records
+    // and stops growing. Closing that needs a real link — booking records or a
+    // human assigning the package — not a heuristic.
     return reviews
       .filter((r) => r.packageSlug != null)
       .sort(byDateDesc)

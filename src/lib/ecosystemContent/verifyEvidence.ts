@@ -80,6 +80,12 @@ export type Doc = {
   last_verified: string;
   sha256?: string;
   category: string;
+  /**
+   * Who stands behind this record, set per asset in ekosistem's inventory.
+   * Category alone is too coarse to carry it — "Screening" holds both session
+   * photographs and a screenshot of a government-issued licence.
+   */
+  evidenceClass?: "official_authority" | "reputable_media" | "operational_record";
   preview?: { url: string; format: string }; // thumbnail
   external_validation_url?: string;
 
@@ -93,6 +99,7 @@ type PresentationDocument = {
   slug: string;
   filename: string;
   caption: string;
+  evidenceClass?: Doc["evidenceClass"];
   preview: string;
   category: string;
   is_show: boolean;
@@ -254,6 +261,7 @@ function toDoc(entry: PresentationDocument, hashFact: HashFact | undefined): Doc
     last_verified: hashFact?.lastReviewed ?? hashFact?.dateIssued ?? "2025-01-01",
     sha256: hashFact?.sha256,
     category: entry.category,
+    evidenceClass: entry.evidenceClass,
     preview,
     external_validation_url: undefined,
     official_title: hashFact?.name ?? entry.caption,

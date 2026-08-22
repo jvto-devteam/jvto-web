@@ -161,14 +161,19 @@ const FALLBACK = {
   schemaFacts: undefined as
     | Parameters<typeof buildLegalDigitalDocuments>[0]
     | undefined,
+  // Each hash belongs to the DOCUMENT, and documentPath is what the card links
+  // to. Until 2026-08-22 the link pointed at imagePath — the preview thumbnail —
+  // so a reader who followed it and hashed what they got found a mismatch, which
+  // is exactly the doubt a forensic anchor exists to remove. The two press hashes
+  // were also stale and have been recomputed from the files being served.
   forensicAnchors: [
-    { asset: "NIB 1102230032918", hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7", imagePath: "/legal/NIB-1102230032918-preview.png" },
-    { asset: "TDUP 1102230032918", hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3", imagePath: "/legal/TDUP-1102230032918-preview.png" },
-    { asset: "HPWKI Approval", hash: "dbb57389b62b1554e4d66ccd82c6888dd4c31cb0f85619601a9befb786ac32c3", imagePath: "/legal/HPWKI-approval-preview.png" },
-    { asset: "SPRIN POLPAR", hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab", imagePath: "/legal/SPRIN-POLPAR.png" },
-    { asset: "SPRIN WAL TRAVEL 2024-02-12", hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3", imagePath: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.png" },
-    { asset: "Press — Detik.com 2021-03-14", hash: "b257b75b3d2b9edebf07c9af89a6c6aa9a4e01d6a716ef3f7c4ca75deda64b77", imagePath: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png" },
-    { asset: "Press — Radar Jember 2021-03-24", hash: "2a60eb168274004283b2b9939ccbf5982c12a7db854fda014308a2494ee2abf4", imagePath: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png" },
+    { asset: "NIB 1102230032918", hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7", documentPath: "/legal/NIB-1102230032918.pdf", imagePath: "/legal/NIB-1102230032918-preview.png" },
+    { asset: "TDUP 1102230032918", hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3", documentPath: "/legal/TDUP-1102230032918.pdf", imagePath: "/legal/TDUP-1102230032918-preview.png" },
+    { asset: "HPWKI Approval", hash: "dbb57389b62b1554e4d66ccd82c6888dd4c31cb0f85619601a9befb786ac32c3", documentPath: "/legal/HPWKI-approval.pdf", imagePath: "/legal/HPWKI-approval-preview.png" },
+    { asset: "SPRIN POLPAR", hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab", documentPath: "/legal/SPRIN-POLPAR.pdf", imagePath: "/legal/SPRIN-POLPAR.png" },
+    { asset: "SPRIN WAL TRAVEL 2024-02-12", hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3", documentPath: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf", imagePath: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.png" },
+    { asset: "Press — Detik.com 2021-03-14", hash: "a68a0ac0ef30d7d9fc14557832ede29098faf08570f768034fa44d6e38a48490", documentPath: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", imagePath: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png" },
+    { asset: "Press — Radar Jember 2021-03-24", hash: "034be340ccd4354374e1f8cad009f501f975df5c5b08f2e75e7a399a3f1f5bba", documentPath: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", imagePath: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png" },
   ],
 };
 
@@ -473,7 +478,7 @@ export default async function LegalPage() {
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
                 {forensicAnchors.map((a) => (
-                  <a key={a.asset} href={`${BASE_URL}${a.imagePath}`} target="_blank" rel="noopener noreferrer" className="group">
+                  <a key={a.asset} href={`${BASE_URL}${a.documentPath ?? a.imagePath}`} target="_blank" rel="noopener noreferrer" className="group">
                     <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
                       <Image src={a.imagePath} alt={`Preview of ${a.asset}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw" />
                     </div>

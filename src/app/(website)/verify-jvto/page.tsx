@@ -888,7 +888,12 @@ export default async function VerifyJvtoPage() {
         p: doc.narrative_context,
         meta: cm.meta,
         href: cm.href,
-        evidenceClass: cm.evidenceClass,
+        // Per-asset first, category only as a fallback. The category map alone
+        // was too coarse: it put the founder's portrait and four screening
+        // session photos in the same class as a ministerial decree, inflating
+        // the "official documents" count and diluting the very class the
+        // gradation exists to protect.
+        evidenceClass: (doc.evidenceClass as typeof cm.evidenceClass) ?? cm.evidenceClass,
         ...(doc.preview?.url ? { image: doc.preview.url } : {}),
       };
     })
