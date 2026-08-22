@@ -170,6 +170,15 @@ export default async function TheJvtoDifferencePage() {
                   page?.meta.description ||
                   "Six things that make JVTO operationally different from other East Java volcano tour operators. Each one is backed by a verifiable credential — not marketing language."}
               </p>
+              {(page?.lede?.length ?? 0) > 1 ? (
+                <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 max-w-[58ch] space-y-2">
+                  {page!.lede!.slice(1).map((line) => (
+                    <p key={line} className="text-sm leading-relaxed text-white/80">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroRows.map(({ label, value }) => (
