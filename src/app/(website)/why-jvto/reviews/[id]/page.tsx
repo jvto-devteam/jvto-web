@@ -104,6 +104,18 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   // schemaTypes()).
   const productNode =
     reviewSchema?.["@graph"].find((node) => nodeTypes(node).includes("Product")) ?? null;
+  // The Review lives nested inside the Product, which is the canonical shape for
+  // a product review — but nothing said it is what this page is ABOUT. A page
+  // whose entire purpose is to publish one review left its main entity
+  // undeclared, so a reader of the graph saw a Product page that happens to
+  // contain a review rather than a review page. Point mainEntity at the node
+  // that already exists; do not define it twice.
+  const nestedReview = (() => {
+    const found = (productNode as any)?.review;
+    const first = Array.isArray(found) ? found[0] : found;
+    return typeof first?.["@id"] === "string" ? (first["@id"] as string) : null;
+  })();
+
   if (!productNode) {
     notFound();
   }
@@ -136,6 +148,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
           `Customer review for ${packageName} with Java Volcano Tour Operator.`,
         isPartOf: { "@id": `${SITE_URL}/#website` },
         about: { "@id": `${SITE_URL}/#organization` },
+        ...(nestedReview ? { mainEntity: { "@id": nestedReview } } : {}),
         // The same edge the visible links make, in the graph: this page is
         // about these specific people. Their Person nodes are defined on their
         // own crew pages, where each carries an HPWKI credential and worksFor
