@@ -54,16 +54,88 @@ const ROLE_LABEL: Record<string, string> = {
 export default async function EntityPage() {
   const entities = await getEcosystemExternalEntities();
 
-  const graph = entities.map((entity) => ({
-    "@type": entity.schemaType ?? "Organization",
-    "@id": entity.id,
-    name: entity.canonicalName,
-    ...(entity.aliases?.length ? { alternateName: entity.aliases } : {}),
-    ...(entity.description ? { description: entity.description } : {}),
-    ...(entity.sameAs?.length
-      ? { sameAs: entity.sameAs.length === 1 ? entity.sameAs[0] : entity.sameAs }
-      : {}),
-  }));
+  // Resolve a registry key to the @id of the record it names, so relations
+  // between two registry entries become edges rather than repeated prose.
+  const idByKey = new Map(entities.map((e) => [e.key, e.id]));
+  const refTo = (key?: string) => {
+    const id = key ? idByKey.get(key) : undefined;
+    return id ? { "@id": id } : undefined;
+  };
+
+  const graph = entities.map((entity) => {
+    const reg = entity.legalRegistration;
+    // An association is either a registered legal body or it is not, and the
+    // difference is exactly what a reader checking an operator wants to know.
+    // Where the registry documents the establishment, say so in the node.
+    const recognizers = [refTo(reg?.registeredBy), refTo(entity.regulator)].filter(
+      Boolean,
+    );
+    const identifiers = [
+      reg?.decreeNumber && {
+        "@type": "PropertyValue",
+        propertyID: "Kemenkumham decree",
+        value: reg.decreeNumber,
+      },
+      reg?.registrationNumber && {
+        "@type": "PropertyValue",
+        propertyID: "AHU/SABH registration",
+        value: reg.registrationNumber,
+      },
+    ].filter(Boolean);
+
+    return {
+      "@type": entity.schemaType ?? "Organization",
+      "@id": entity.id,
+      name: entity.canonicalName,
+      ...(entity.aliases?.length ? { alternateName: entity.aliases } : {}),
+      ...(reg?.legalName ? { legalName: reg.legalName } : {}),
+      ...(entity.description ? { description: entity.description } : {}),
+      ...(identifiers.length
+        ? { identifier: identifiers.length === 1 ? identifiers[0] : identifiers }
+        : {}),
+      ...(reg?.decisionDate ? { foundingDate: reg.decisionDate } : {}),
+      ...(reg?.seat
+        ? {
+            location: {
+              "@type": "Place",
+              name: reg.seat,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: reg.seat,
+                addressRegion: "Jawa Timur",
+                addressCountry: "ID",
+              },
+            },
+          }
+        : {}),
+      ...(recognizers.length
+        ? { recognizedBy: recognizers.length === 1 ? recognizers[0] : recognizers }
+        : {}),
+      ...(reg?.documentUrl
+        ? {
+            subjectOf: {
+              "@type": "DigitalDocument",
+              name: `${reg.decreeNumber ?? "Establishment decree"} — ${entity.canonicalName}`,
+              url: reg.documentUrl,
+              // Same forensic anchor the rest of the evidence layer uses: the
+              // hash is what makes "we publish the decree" checkable.
+              ...(reg.sha256
+                ? {
+                    identifier: {
+                      "@type": "PropertyValue",
+                      propertyID: "SHA-256",
+                      value: reg.sha256,
+                    },
+                  }
+                : {}),
+            },
+          }
+        : {}),
+      ...(entity.sameAs?.length
+        ? { sameAs: entity.sameAs.length === 1 ? entity.sameAs[0] : entity.sameAs }
+        : {}),
+    };
+  });
 
   const schema = {
     "@context": "https://schema.org",
@@ -144,6 +216,50 @@ export default async function EntityPage() {
                         .map((role) => ROLE_LABEL[role] ?? role)
                         .join(" · ")}
                     </p>
+                  ) : null}
+
+                  {/* The machine layer now carries the establishment decree, so
+                      the human layer has to as well — otherwise a reader has no
+                      way to see what a crawler is being told. */}
+                  {entity.legalRegistration ? (
+                    <dl className="mt-3 rounded-lg border border-jvto-navy/10 bg-jvto-navy/[0.03] px-4 py-3 text-[13px] leading-relaxed">
+                      {(
+                        [
+                          ["Legal form", "Registered legal body (badan hukum perkumpulan)"],
+                          ["Decree", entity.legalRegistration.decreeNumber],
+                          ["Registration", entity.legalRegistration.registrationNumber],
+                          ["Established", entity.legalRegistration.decisionDate],
+                          ["Seat", entity.legalRegistration.seat],
+                          ["Founding deed", entity.legalRegistration.foundingDeed],
+                        ] as const
+                      )
+                        .filter(([, value]) => Boolean(value))
+                        .map(([label, value]) => (
+                          <div key={label} className="flex gap-3 py-0.5">
+                            <dt className="w-[7.5rem] flex-shrink-0 text-jvto-navy/55">
+                              {label}
+                            </dt>
+                            <dd className="text-jvto-navy/85">{value}</dd>
+                          </div>
+                        ))}
+                      {entity.legalRegistration.documentUrl ? (
+                        <div className="flex gap-3 py-0.5">
+                          <dt className="w-[7.5rem] flex-shrink-0 text-jvto-navy/55">
+                            Document
+                          </dt>
+                          <dd>
+                            <a
+                              href={entity.legalRegistration.documentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-jvto-orange hover:underline"
+                            >
+                              Read the decree
+                            </a>
+                          </dd>
+                        </div>
+                      ) : null}
+                    </dl>
                   ) : null}
 
                   {entity.sameAs?.length ? (

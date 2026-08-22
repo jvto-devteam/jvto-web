@@ -38,6 +38,31 @@ export type ExternalEntityRecord = {
   evidenceStatus?: string;
   sourceNote?: string;
   description?: string;
+  /**
+   * Key of the entity that regulates this one. The registry has carried this
+   * for HPWKI since the record was written, but nothing read it — so the
+   * relation lived in the SSOT and never reached the graph.
+   */
+  regulator?: string;
+  /**
+   * Present when the entity's legal establishment is documented and that
+   * document is published. Lets the graph state that an association is a
+   * registered legal body instead of leaving it to be inferred from a bare
+   * registry link.
+   */
+  legalRegistration?: {
+    registeredBy?: string;
+    legalName?: string;
+    decreeNumber?: string;
+    registrationNumber?: string;
+    decisionDate?: string;
+    decisionPlace?: string;
+    seat?: string;
+    foundingDeed?: string;
+    documentUrl?: string;
+    sha256?: string;
+    sourceNote?: string;
+  };
 };
 
 type ExternalEntitiesRoot = {
