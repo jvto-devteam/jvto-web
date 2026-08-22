@@ -140,15 +140,6 @@ export default async function WhyJvtoReviewsPage() {
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts."}
               </p>
-              {(page?.lede?.length ?? 0) > 1 ? (
-                <div className="mt-5 space-y-2 max-w-[58ch]">
-                  {page!.lede!.slice(1).map((line) => (
-                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[

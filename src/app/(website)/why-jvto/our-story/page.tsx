@@ -132,15 +132,6 @@ export default async function OurStoryPage() {
                   page?.meta.description ||
                   "JVTO grew from a humble local guesthouse in Bondowoso into a licensed tour operator shaped by the Tourist Police experience of our founder, Mr. Sam."}
               </p>
-              {(page?.lede?.length ?? 0) > 1 ? (
-                <div className="mt-5 space-y-2 max-w-[58ch]">
-                  {page!.lede!.slice(1).map((line) => (
-                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroRows.map(({ label, value }) => (

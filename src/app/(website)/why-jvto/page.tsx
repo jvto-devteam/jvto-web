@@ -145,26 +145,21 @@ export default async function WhyJvtoPage() {
                 </span>
               </div>
               <h1
-                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
+                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
                 {page?.meta.title ?? "Why Travel with Java Volcano Tour Operator (JVTO)"}
               </h1>
-              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
-                {answerFirst}
+              {/* Short lede, long answer boxed — the same split /travel-guide uses.
+                  The hero previously opened with the four-line answerFirst and then
+                  stacked three more mono paragraphs under it, which made the entry
+                  point to this section the densest block on the site. */}
+              <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
+                {page?.meta.description ?? whyLede(page)}
               </p>
-              {page?.meta.lastReviewed ? (
-                <p className="mt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                  Last reviewed {page.meta.lastReviewed}
-                </p>
-              ) : null}
-              {(page?.lede?.length ?? 0) > 1 ? (
-                <div className="mt-5 space-y-2 max-w-[58ch]">
-                  {page!.lede!.slice(1).map((line) => (
-                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
-                      {line}
-                    </p>
-                  ))}
+              {answerFirst ? (
+                <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 text-sm leading-relaxed text-white/80 max-w-[58ch]">
+                  {answerFirst}
                 </div>
               ) : null}
             </div>

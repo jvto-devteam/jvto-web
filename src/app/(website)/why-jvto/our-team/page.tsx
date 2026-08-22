@@ -205,24 +205,15 @@ export default async function OurTeamPage() {
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">FILE 004D</span>
               </div>
               <h1
-                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-5"
+                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
                 {page?.meta.title ?? "Local Team, Daily Execution"}
               </h1>
-              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
+              <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {whyLede(page) ||
                   `${counts.guides} guides and ${counts.drivers} drivers — individually named, photographed, and license-linked.`}
               </p>
-              {(page?.lede?.length ?? 0) > 1 ? (
-                <div className="mt-5 space-y-2 max-w-[58ch]">
-                  {page!.lede!.slice(1).map((line) => (
-                    <p key={line} className="font-mono text-[11px] leading-relaxed tracking-[0.08em] text-white/45">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[
