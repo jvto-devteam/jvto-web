@@ -122,7 +122,7 @@ export default async function OurStoryPage() {
                 </span>
               </div>
               <h1
-                className="text-4xl md:text-[3.75rem] font-black text-white leading-[0.98] mb-6"
+                className="text-4xl md:text-6xl font-black text-white leading-[0.98] mb-5"
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
                 {page?.meta.title ?? "Our Story"}
