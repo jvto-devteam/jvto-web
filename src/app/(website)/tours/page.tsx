@@ -1,4 +1,5 @@
 import { ListTourPackage } from "@/types";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
@@ -113,10 +114,20 @@ export default async function ToursPageGlobal() {
       .map((tour) => Number(tour.startFrom))
       .filter((price) => Number.isFinite(price) && price > 0),
   );
+  // Ekosistem is the source. The count and the catalogue floor arrive as
+  // {PACKAGE_COUNT} / {PRICE_FROM} tokens so the sentence stays live without
+  // being assembled in this file. The old locally-built string is kept as the
+  // fallback for the case where the route has no answerFirst yet.
+  const liveNumbers = await getLiveNumbers();
+  const ecosystemAnswer =
+    typeof (page?.raw as any)?.page?.answerFirst === "string"
+      ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), liveNumbers)
+      : null;
   const answerFirst =
+    ecosystemAnswer ??
     `Choose from ${initialTours.length} private Bromo, Ijen, Tumpak Sewu, Madakaripura and Papuma tours from Surabaya or Bali. ` +
-    `JVTO runs no shared groups: each booking gets private transport, confirmed crew, all-inclusive planning, Tourist Police-led safety culture and review proof. ` +
-    `Prices start from ${compactIdr(minPrice)}.`;
+      `JVTO runs no shared groups: each booking gets private transport, confirmed crew, all-inclusive planning, Tourist Police-led safety culture and review proof. ` +
+      `Prices start from ${compactIdr(minPrice)}.`;
 
   return (
     <>

@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import Link from "@/components/website/AppLink";
 import { Faq } from "@/components/content/Faq";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
@@ -501,6 +502,11 @@ export default async function TravelGuideHubPage() {
                 comprehensive guide to understand the boundaries, logistics, and
                 safety protocols of East Java expeditions.
               </p>
+              <AnswerBlock>
+                {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                  ? ((page!.raw as any).page.answerFirst as string)
+                  : null}
+              </AnswerBlock>
             </div>
             <div className="self-center rounded-[20px] border border-white/10 bg-white/[0.04] p-6 md:mt-10">
               {heroStats.map(({ label, value }) => (

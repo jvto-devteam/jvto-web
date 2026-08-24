@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import { notFound } from "next/navigation";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -29,6 +31,14 @@ export default async function MalaysiaMarketPage() {
   const content = await getEcosystemMarket("malaysia");
   if (!content) return notFound();
   const googleRating = await getPublicAggregateRating();
+  const [page, liveNumbers] = await Promise.all([
+    loadEcosystemPage(ROUTE),
+    getLiveNumbers(),
+  ]);
+  const answerFirst =
+    typeof (page?.raw as any)?.page?.answerFirst === "string"
+      ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), liveNumbers)
+      : null;
 
   // Markets pages source their FAQ set directly from jvto-ekosistem (content.faqs) —
   // they no longer go through resolveFaqsForPage's narrative_claims/canonical-registry
@@ -60,7 +70,7 @@ export default async function MalaysiaMarketPage() {
         extraSchemas={[...marketSchemas, faqNode]}
         suppressCmsFaq={true}
       />
-      <MarketPageSections content={content} googleRating={googleRating} />
+      <MarketPageSections content={content} googleRating={googleRating} answerFirst={answerFirst} />
     </>
   );
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
@@ -43,12 +45,14 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getEcosystemBlogPost(slug);
   if (!post) return notFound();
+  const page = await loadEcosystemPage(`/blog/${slug}`);
 
   const { frontmatter: fm, body: rawBody } = post;
   // Review counts and the package count are written as {TOKEN} placeholders in
   // ekosistem prose and resolved here, so the article can never drift from the
   // figures the schema publishes (it read "123 reviews" while JSON-LD said 152).
-  const body = applyLiveNumbers(rawBody, await getLiveNumbers());
+  const liveNumbers = await getLiveNumbers();
+  const body = applyLiveNumbers(rawBody, liveNumbers);
   const route = `/blog/${slug}`;
 
   const pageRow = {
@@ -126,6 +130,16 @@ export default async function BlogPostPage({ params }: Props) {
                 ))}
               </div>
             )}
+            {/* The article's own answer, before the article. Tokens run through
+                the same applyLiveNumbers pass the body already uses. */}
+            <AnswerBlock tone="light">
+              {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                ? applyLiveNumbers(
+                    ((page!.raw as any).page.answerFirst as string).trim(),
+                    liveNumbers,
+                  )
+                : null}
+            </AnswerBlock>
           </header>
 
           <MarkdownRenderer markdown={body} />

@@ -59,6 +59,18 @@ export const getLiveNumbers = cache(async (): Promise<LiveNumbers> => {
 
   if (packages.length) out.PACKAGE_COUNT = String(packages.length);
 
+  // Catalogue floor, derived rather than stored. A price written into a
+  // sentence is stale the day a cheaper package is published — which is
+  // exactly how "From IDR 1.55M" outlived a 1.0M package on this site.
+  const floor = Math.min(
+    ...packages
+      .map((pkg) => Number((pkg as { startFrom?: unknown }).startFrom))
+      .filter((price) => Number.isFinite(price) && price > 0),
+  );
+  if (Number.isFinite(floor) && floor > 0) {
+    out.PRICE_FROM = `IDR ${(floor / 1_000_000).toFixed(2).replace(/\.00$/, "")}M/pax`;
+  }
+
   // Sum of the per-platform totals actually published. Deliberately derived
   // rather than stored: a stored total drifts the moment one platform moves.
   const totals = [out.TRUSTPILOT_COUNT, out.GOOGLE_REVIEW_COUNT, out.TRIPADVISOR_COUNT]

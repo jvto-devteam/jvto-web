@@ -58,7 +58,16 @@ export default async function Contact() {
   return (
     <>
       <PageJsonLdCombined pageRow={seo.row as any} />
-      <ContactPage title={seo.h1} description={seo.description} content={pageContent} />
+      <ContactPage
+        title={seo.h1}
+        description={seo.description}
+        content={pageContent}
+        answerFirst={
+          typeof (page?.raw as any)?.page?.answerFirst === "string"
+            ? ((page!.raw as any).page.answerFirst as string)
+            : null
+        }
+      />
     </>
   );
 }

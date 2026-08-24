@@ -1,4 +1,5 @@
 import Link from "@/components/website/AppLink";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import { type Metadata } from "next";
 import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
@@ -175,6 +176,11 @@ export default async function IsicStudentPackagePage() {
             <p className="text-lg md:text-xl font-medium max-w-3xl drop-shadow-md">
               {seo.description}
             </p>
+            <AnswerBlock className="text-white/85">
+              {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                ? ((page!.raw as any).page.answerFirst as string)
+                : null}
+            </AnswerBlock>
           </div>
         </section>
 

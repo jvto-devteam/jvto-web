@@ -1,6 +1,7 @@
 // components/website/ContactPage.tsx
 
 import BookingForm from './BookingForm';
+import AnswerBlock from "@/components/website/AnswerBlock";
 import TrackedContactLink from './TrackedContactLink';
 import { contactInfo, proofLinks } from '@/constants';
 import { MapPin, Phone, Mail } from "lucide-react";
@@ -27,12 +28,15 @@ interface ContactPageProps {
   title?: string;
   description?: string;
   content?: ContactPageContent | null;
+  /** Office address, phone, email and the booking-channel rule, stated up front. */
+  answerFirst?: string | null;
 }
 
 const ContactPage = ({
   title = "Contact Us",
   description = "We're here to help you plan your perfect East Java adventure. Reach out with any questions!",
   content,
+  answerFirst = null,
 }: ContactPageProps) => {
   const pc = content ?? {};
   const getInTouchHeading = pc.getInTouchHeading ?? FALLBACK.getInTouchHeading;
@@ -58,6 +62,9 @@ const ContactPage = ({
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {description}
         </p>
+        <AnswerBlock tone="light" className="mx-auto text-left">
+          {answerFirst}
+        </AnswerBlock>
       </header>
       
       {/* Main Content */}

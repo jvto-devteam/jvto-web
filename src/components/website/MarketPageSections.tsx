@@ -3,6 +3,7 @@
 // model. Static, SSG-safe (no DB fetch, no client interactivity) — v1 per GAP-09. Visual mode
 // follows the Trust/verify cluster (dark slate + jvto-lime accent).
 import Link from "next/link";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import type { MarketContent } from "@/lib/ecosystemContent/markets";
 import type { PublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import {
@@ -18,8 +19,11 @@ const WHATSAPP_URL = "https://wa.me/6282244788833";
 export function MarketPageSections({
   content,
   googleRating = null,
+  answerFirst = null,
 }: {
   content: MarketContent;
+  /** Route of entry, tour structure, currency and the licence numbers, up front. */
+  answerFirst?: string | null;
   /** From getPublicAggregateRating() — Google Maps only, per the owner decision
    *  recorded in organization.json. Fetched by the owning page. */
   googleRating?: PublicAggregateRating | null;
@@ -43,6 +47,7 @@ export function MarketPageSections({
           <p className="text-slate-300 text-base leading-relaxed mb-6">
             {content.subheadline}
           </p>
+          <AnswerBlock className="mt-0 mb-6">{answerFirst}</AnswerBlock>
           <p className="text-slate-500 text-xs leading-relaxed mb-8">
             {content.credibilityLine}
           </p>

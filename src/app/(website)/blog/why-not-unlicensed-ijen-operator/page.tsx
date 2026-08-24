@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
@@ -357,6 +358,11 @@ export default async function WhyNotUnlicensedPage() {
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[52ch]">
                 {hero.lede}
               </p>
+              <AnswerBlock>
+                {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                  ? ((page!.raw as any).page.answerFirst as string)
+                  : null}
+              </AnswerBlock>
             </div>
 
             {/* Right: meta block */}

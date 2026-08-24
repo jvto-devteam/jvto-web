@@ -1,4 +1,5 @@
 import { ListTourPackage } from "@/types";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import Link from "@/components/website/AppLink";
@@ -229,6 +230,12 @@ export default async function ToursPageSurabaya() {
             {initialTours.length} private packages: Kawah Ijen, Mount Bromo, Tumpak Sewu &amp; Madakaripura.
             Your own vehicle. Your own crew. Led by an active Tourist Police officer.
           </p>
+
+          <AnswerBlock className="mb-8">
+            {typeof (page?.raw as any)?.page?.answerFirst === "string"
+              ? ((page!.raw as any).page.answerFirst as string)
+              : null}
+          </AnswerBlock>
 
           <div className="flex flex-wrap gap-3 mb-10">
             {[

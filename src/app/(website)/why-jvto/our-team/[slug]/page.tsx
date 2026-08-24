@@ -1,5 +1,6 @@
 // app/(website)/why-jvto/our-team/[slug]/page.tsx
 import { Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { Globe, ShieldCheck, Star, Instagram, Facebook } from "lucide-react";
@@ -215,6 +216,15 @@ export default async function CrewMemberPage({ params }: Props) {
               {bio?.about && (
                 <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">{bio.about}</p>
               )}
+              {/* Role, credential and how many guest reviews name this person —
+                  the three facts that answer "is this a real employee or a
+                  freelancer booked for the day". They were spread across the
+                  badge strip, the schema and the review list below. */}
+              <AnswerBlock>
+                {typeof (ecosystemPage?.raw as any)?.page?.answerFirst === "string"
+                  ? ((ecosystemPage!.raw as any).page.answerFirst as string)
+                  : null}
+              </AnswerBlock>
             </div>
             <div className="flex items-center gap-5 md:mt-10">
               <div className="w-24 h-24 rounded-full overflow-hidden bg-white/10 border-2 border-white/20 flex-shrink-0">

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
+import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import Link from "@/components/website/AppLink";
 import Breadcrumbs from "@/components/website/Breadcrumbs";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
@@ -25,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Insights() {
   const seo = await getEcosystemPageSeo("/blog", fallbackSeo);
   const posts = await getEcosystemBlogIndexEntries();
+  const page = await loadEcosystemPage("/blog");
 
   const pageRow = seo.row
     ? {
@@ -59,6 +62,11 @@ export default async function Insights() {
             <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
               {seo.description}
             </p>
+            <AnswerBlock className="mx-auto text-left">
+              {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                ? ((page!.raw as any).page.answerFirst as string)
+                : null}
+            </AnswerBlock>
           </div>
         </header>
 
