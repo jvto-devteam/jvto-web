@@ -101,6 +101,8 @@ export interface EcosystemDestinationListItem {
   short_slug: string | null;
   featured: boolean;
   banner: { url: string; alt: string };
+  /** Answer-first block: the page's question answered in 40-60 fact-dense words. */
+  answerFirst?: string;
   summary: string;
   highlight: string;
   description: string;
@@ -157,6 +159,9 @@ export async function getEcosystemDestinationsList(
             url: dAny.hero_image_url ?? "",
             alt: d.name,
           },
+          ...(typeof dAny.answerFirst === "string" && dAny.answerFirst.trim()
+            ? { answerFirst: dAny.answerFirst.trim() }
+            : {}),
           summary: d.summary ?? "",
           highlight: d.highlight ?? "",
           description: d.description ?? "",

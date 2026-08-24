@@ -30,6 +30,8 @@ export interface DestinationDetail {
     url: string;
     alt: string;
   };
+  /** Answer-first block rendered directly under the hero lede. */
+  answerFirst?: string;
   category: string;
   region: string;
   province: string;

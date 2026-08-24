@@ -1,5 +1,6 @@
 // src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import { notFound } from "next/navigation";
@@ -967,6 +968,14 @@ export default async function VerifyJvtoPage() {
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[52ch]">
                 Audit JVTO's legal identity, historical continuity, and safety authority through our verifiable proof library.
               </p>
+              {/* The proof on this page is real but arrives as a gallery; the
+                  opening now states what it amounts to, in the position
+                  generative engines weight most heavily. */}
+              <AnswerBlock>
+                {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                  ? ((page!.raw as any).page.answerFirst as string)
+                  : null}
+              </AnswerBlock>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {[

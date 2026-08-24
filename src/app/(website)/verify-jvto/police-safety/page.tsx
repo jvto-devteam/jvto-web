@@ -1,4 +1,5 @@
 import { getDocsByGroup } from "@/lib/data-loader";
+import AnswerBlock from "@/components/website/AnswerBlock";
 import type { Metadata } from "next";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
@@ -261,6 +262,14 @@ export default async function PoliceSafetyPage() {
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[52ch]">
                 "Tourist Police-Led" is a strong claim, so we prove it in four independent layers: official police documents, field photographs, independent press, and institutional structure.
               </p>
+              {/* The proof on this page is real but arrives as a gallery; the
+                  opening now states what it amounts to, in the position
+                  generative engines weight most heavily. */}
+              <AnswerBlock>
+                {typeof (page?.raw as any)?.page?.answerFirst === "string"
+                  ? ((page!.raw as any).page.answerFirst as string)
+                  : null}
+              </AnswerBlock>
             </div>
             <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
               {heroStats.map(({ label, value }) => (

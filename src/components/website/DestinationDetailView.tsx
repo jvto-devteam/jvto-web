@@ -9,6 +9,7 @@ import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 import AppLink from "@/components/website/AppLink";
+import AnswerBlock from "@/components/website/AnswerBlock";
 
 const Route3DEmbedded = dynamic(
   () => import("@/components/website/Route3DEmbedded"),
@@ -280,6 +281,12 @@ export default function DestinationDetailView({
                   {data.summary}
                 </p>
               )}
+              {/* Elevation, trailhead, duration, permit and season are all
+                  already on this page — but scattered down the article and in
+                  the meta card beside it. Stated together in the opening, they
+                  answer the question the page exists to answer before a reader
+                  or a crawler has to assemble them. */}
+              <AnswerBlock>{data.answerFirst}</AnswerBlock>
             </div>
 
             {/* Right: meta block */}
