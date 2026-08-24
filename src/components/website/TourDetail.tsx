@@ -2177,7 +2177,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           width, the action takes the rest, and the right inset keeps both
           clear of the floating WhatsApp button. */}
       <div className="fixed bottom-0 left-0 z-50 w-full border-t border-jvto-border bg-white/95 px-5 py-3.5 backdrop-blur-md lg:hidden shadow-[0_-12px_32px_-16px_rgba(13,27,42,0.25)]">
-        <div className="flex items-center gap-3 pr-[64px]">
+        <div className="flex items-center gap-10">
           <div className="shrink-0 whitespace-nowrap">
             <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-jvto-muted">
               Starts from
