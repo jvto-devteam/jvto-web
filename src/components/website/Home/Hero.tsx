@@ -65,11 +65,6 @@ const Hero: React.FC<HeroProps> = async ({
         {/* The entity answer. The homepage opened on a positioning line and
             left the legal identity, the founding year and the rating to be
             gathered from four sections further down. */}
-        {answerFirst ? (
-          <div className="mb-6 max-w-2xl rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 text-sm leading-relaxed text-white/80">
-            {answerFirst}
-          </div>
-        ) : null}
 
         {/* Body paragraph 1 */}
         {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">
@@ -92,7 +87,7 @@ const Hero: React.FC<HeroProps> = async ({
               prefetch={false}
               variant="outline"
               size="md"
-              className="border-jvto-lime/50 text-jvto-lime hover:bg-jvto-lime/10 rounded-full"
+              className="border-jvto-orange/50 text-jvto-orange hover:bg-jvto-orange/10 rounded-full"
             >
               Verify JVTO
             </Button>
@@ -106,7 +101,7 @@ const Hero: React.FC<HeroProps> = async ({
               prefetch={false}
               variant="outline"
               size="lg"
-              className="border-jvto-lime/50 text-jvto-lime hover:bg-jvto-lime/10 rounded-full"
+              className="border-jvto-orange/50 text-jvto-orange hover:bg-jvto-orange/10 rounded-full"
             >
               Verify JVTO
             </Button>
