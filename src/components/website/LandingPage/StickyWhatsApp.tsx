@@ -39,15 +39,6 @@ export default function StickyWhatsApp({
   const pathname = usePathname();
   const [showHint, setShowHint] = useState(false);
 
-  if (pathname.startsWith("/my-booking")) {
-    return null;
-  }
-
-  const href = message
-    ? `${WA_BASE}?text=${encodeURIComponent(message)}`
-    : (PAGE_HREFS[pathname] ??
-        `${WA_BASE}?text=${encodeURIComponent(PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE)}`);
-
   useEffect(() => {
     const show = setTimeout(() => setShowHint(true), 4000);
     const hide = setTimeout(() => setShowHint(false), 9000);
@@ -56,6 +47,21 @@ export default function StickyWhatsApp({
       clearTimeout(hide);
     };
   }, []);
+
+  // Tour detail pages ship their own sticky booking bar. A second floating
+  // action competes with it for the same corner and covers the CTA on mobile,
+  // so the button stands down there. The two hub routes keep it — they have
+  // no bar of their own and their own PAGE_HREFS entries above.
+  const isTourDetail = /^\/tours\/from-[^/]+\/[^/]+/.test(pathname);
+
+  if (pathname.startsWith("/my-booking") || isTourDetail) {
+    return null;
+  }
+
+  const href = message
+    ? `${WA_BASE}?text=${encodeURIComponent(message)}`
+    : (PAGE_HREFS[pathname] ??
+        `${WA_BASE}?text=${encodeURIComponent(PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE)}`);
 
   return (
     <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">

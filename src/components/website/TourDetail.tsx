@@ -68,6 +68,54 @@ import {
   MessageCircle,
 } from "lucide-react";
 
+/**
+ * Section head. The page used to open every block with a 32×4 lime tick beside
+ * a 24px uppercase Inter line — the quietest device on the site while every
+ * neighbouring surface had moved to the Raleway display face and a full-width
+ * rule. This is that same idea at the scale the rest of the site already uses.
+ */
+function SectionHead({
+  children,
+  kicker,
+  tone = "light",
+  className = "",
+}: {
+  children: React.ReactNode;
+  kicker?: string;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const isDark = tone === "dark";
+  return (
+    <div className={`mb-8 ${className}`}>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h2
+          className={`font-black leading-[1.02] ${isDark ? "text-white" : "text-jvto-navy"}`}
+          style={{
+            fontFamily: "Raleway, Georgia, serif",
+            fontSize: "clamp(26px, 3.4vw, 42px)",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {children}
+        </h2>
+        {kicker ? (
+          <span
+            className={`font-mono text-[10px] font-semibold uppercase tracking-[0.2em] ${isDark ? "text-white/40" : "text-jvto-muted"}`}
+          >
+            {kicker}
+          </span>
+        ) : null}
+      </div>
+      <div
+        className={`mt-5 h-px w-full ${isDark ? "bg-white/12" : "bg-jvto-border"}`}
+      >
+        <div className="h-px w-16 bg-jvto-orange" />
+      </div>
+    </div>
+  );
+}
+
 interface Props {
   initialData: TourPackageDetail;
   reviews?: any[];
@@ -174,20 +222,20 @@ function getExperienceIcon(name: string) {
     lower.includes("air") ||
     lower.includes("tumpak")
   )
-    return <Waves size={24} className="text-jvto-lime" />;
+    return <Waves size={24} className="text-jvto-orange" />;
   if (
     lower.includes("bromo") ||
     lower.includes("mount") ||
     lower.includes("sunrise")
   )
-    return <Mountain size={24} className="text-jvto-lime" />;
+    return <Mountain size={24} className="text-jvto-orange" />;
   if (
     lower.includes("ijen") ||
     lower.includes("fire") ||
     lower.includes("blue")
   )
-    return <Flame size={24} className="text-jvto-lime" />;
-  return <MapPin size={24} className="text-jvto-lime" />;
+    return <Flame size={24} className="text-jvto-orange" />;
+  return <MapPin size={24} className="text-jvto-orange" />;
 }
 function calculateDownPayment(dateStr: string, total: number) {
   if (!dateStr) return 0;
@@ -427,100 +475,163 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-20 font-sans text-slate-900">
-      {/* 1. HUGE HERO IMAGE AREA */}
-      <div className="relative h-[80vh] w-full bg-slate-900 overflow-hidden">
+    <div className="bg-jvto-off min-h-screen pb-28 lg:pb-20 font-sans text-jvto-navy">
+      {/* 1. HERO — the decision opens here: identity on the left, evidence and
+          the action on the right. DS v2 vocabulary (navy ground, Raleway
+          display, mono chrome, orange action) so the page reads as the same
+          site as the card the visitor just clicked. */}
+      <header className="relative min-h-[68vh] md:min-h-[76vh] w-full overflow-hidden bg-jvto-navy flex flex-col justify-end">
         <div className="absolute inset-0">
-          {/* Tampilkan Hero Image (bisa statis dari pkg.imageUrl atau dinamis jika kita tambah tombol ganti hero) */}
           <Image
             src={heroImage}
             alt={pkg.name}
             fill
             priority
             fetchPriority="high"
-            className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+            className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/30"></div>
+          <div className="absolute inset-0 bg-jvto-navy/35" />
+          <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy via-jvto-navy/55 to-jvto-navy/10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-jvto-navy/75 via-transparent to-transparent" />
         </div>
 
-        <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
-          <button
-            onClick={() => router.back()}
-            className="inline-flex items-center text-white hover:text-jvto-lime transition-colors text-sm font-bold uppercase tracking-wide bg-black/20 backdrop-blur-md px-4 py-2 rounded-full"
-          >
-            <ArrowLeft size={16} className="mr-2" /> Back
-          </button>
-          <button aria-label="Save to favorites" className="text-white hover:text-jvto-lime transition-colors">
-            <Heart size={28} />
-          </button>
-        </div>
 
-        <div className="absolute bottom-0 w-full z-20 pb-12">
-          <div className="container mx-auto px-6">
-            <div className="flex items-center gap-2 text-jvto-lime text-xs font-black uppercase tracking-widest mb-4">
-              <MapPin size={14} /> From {pkg.originCity}, Indonesia
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 pb-12 md:pb-16 pt-[148px] md:pt-[190px]">
+          <div className="grid md:grid-cols-[1.45fr_1fr] gap-10 md:gap-14 items-end">
+
+            {/* Identity */}
+            <div>
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                {pkg.route.map((stop: string) => (
+                  <span
+                    key={stop}
+                    className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.07] px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm"
+                  >
+                    {stop}
+                  </span>
+                ))}
+              </div>
+
+              <h1
+                className="font-black text-white leading-[0.96] mb-5"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(38px, 6vw, 78px)",
+                  letterSpacing: "-0.035em",
+                }}
+              >
+                {pkg.name}
+              </h1>
+
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange">
+                <MapPin size={13} className="inline-block mb-0.5 mr-2" />
+                From {pkg.originCity}, Indonesia · {pkg.marketedDurationLabel}
+              </p>
             </div>
-            <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-6 max-w-5xl">
-              {pkg.name}
-            </h1>
-            <div className="flex flex-wrap items-center gap-3 md:gap-10 text-white text-sm font-bold uppercase tracking-wide">
-              <div className="flex items-center gap-2">
-                <Shield size={18} className="text-jvto-lime" />
-                <span>{pkg.category}</span>
+
+            {/* Evidence + action */}
+            <div className="rounded-[20px] border border-white/15 bg-jvto-navy/45 p-5 md:p-6 backdrop-blur-md">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
+                Starts from
+              </p>
+              <div className="mt-1.5 mb-5 flex items-baseline gap-2">
+                <span
+                  className="font-black text-white leading-none"
+                  style={{
+                    fontFamily: "Raleway, Georgia, serif",
+                    fontSize: "clamp(28px, 3.4vw, 40px)",
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
+                  / person
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={18} className="text-jvto-lime" />
-                <span>{pkg.marketedDurationLabel}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mountain size={18} className="text-jvto-lime" />
-                <span>{pkg.physicalDifficulty}</span>
-                <div className="flex gap-1 md:ml-2">
-                  <div className="w-2 h-2 rounded-full bg-jvto-lime"></div>
-                  <div
-                    className={`w-2 h-2 rounded-full ${["moderate", "hard"].includes(
-                      pkg.physicalDifficulty.toLowerCase(),
-                    )
-                      ? "bg-jvto-lime"
-                      : "bg-slate-600"
-                      }`}
-                  ></div>
-                  <div
-                    className={`w-2 h-2 rounded-full ${["hard"].includes(pkg.physicalDifficulty.toLowerCase())
-                      ? "bg-jvto-lime"
-                      : "bg-slate-600"
-                      }`}
-                  ></div>
+
+              {[
+                { k: "Trip type", v: pkg.category },
+                { k: "Duration", v: pkg.marketedDurationLabel },
+              ].map(({ k, v }) => (
+                <div
+                  key={k}
+                  className="flex items-center justify-between border-b border-white/10 py-3"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
+                    {k}
+                  </span>
+                  <strong className="max-w-[58%] text-right text-sm font-semibold leading-snug text-white">
+                    {v}
+                  </strong>
+                </div>
+              ))}
+
+              <div className="flex items-center justify-between border-b border-white/10 py-3">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
+                  Physicality
+                </span>
+                <div className="flex items-center gap-2.5">
+                  <strong className="text-sm font-semibold capitalize text-white">
+                    {pkg.physicalDifficulty}
+                  </strong>
+                  <div className="flex gap-1" aria-hidden>
+                    <span className="h-1.5 w-4 rounded-full bg-jvto-orange" />
+                    <span
+                      className={`h-1.5 w-4 rounded-full ${["moderate", "hard"].includes(
+                        pkg.physicalDifficulty.toLowerCase(),
+                      )
+                        ? "bg-jvto-orange"
+                        : "bg-white/20"
+                        }`}
+                    />
+                    <span
+                      className={`h-1.5 w-4 rounded-full ${["hard"].includes(pkg.physicalDifficulty.toLowerCase())
+                        ? "bg-jvto-orange"
+                        : "bg-white/20"
+                        }`}
+                    />
+                  </div>
                 </div>
               </div>
+
+              <button
+                onClick={scrollToBooking}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-jvto-orange px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-jvto-orange-hover"
+              >
+                Check dates & prices <ChevronRight size={14} />
+              </button>
             </div>
+
           </div>
         </div>
-      </div>
+      </header>
       <AuthorityShield ijenRelevant={ijenRelevant} />
-      {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
-      <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div className="flex-1">
-              <h3 className="text-lg font-black uppercase tracking-widest mb-8 text-white">
-                {`What's Included?`}
-              </h3>
+      {/* 2. THE DARK BAND — inclusions and the gallery share one navy floor so
+          the page has a single dark passage between the hero and the article,
+          instead of two adjacent slabs of the same grey. */}
+      <section className="bg-jvto-navy text-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-16 md:py-20">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+            <div className="flex-1 min-w-0">
+              <SectionHead tone="dark" kicker={`${pkg.inclusions.length} items covered`}>
+                {`What's Included`}
+              </SectionHead>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
                 {pkg.inclusions.slice(0, 6).map((inc, idx) => {
                   const title = inc.split(":")[0];
                   const desc = inc.split(":")[1] || inc;
                   return (
                     <div key={idx} className="flex gap-4">
-                      <div className="shrink-0 mt-1">
+                      <div className="shrink-0 mt-0.5">
                         {getInclusionIcon(title)}
                       </div>
-                      <div>
-                        <h4 className="font-bold text-sm uppercase text-white mb-1">
+                      <div className="min-w-0">
+                        <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white mb-1.5">
                           {title}
                         </h4>
-                        <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
+                        <p className="text-[13px] text-white/50 leading-relaxed line-clamp-2">
                           {desc}
                         </p>
                       </div>
@@ -529,76 +640,83 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 })}
               </div>
             </div>
-            <div className="lg:w-1/3 shrink-0 flex flex-col justify-between items-start lg:items-end border-t lg:border-t-0 lg:border-l border-slate-700 pt-8 lg:pt-0 lg:pl-12">
-              <div className="text-left lg:text-right">
-                {/* Label Kecil di Atas */}
-                <p className="text-xs font-bold uppercase text-slate-400 tracking-widest mb-1">
-                  Hassle-Free
+
+            <div className="lg:w-[340px] shrink-0 flex flex-col justify-between items-start rounded-[24px] border border-white/10 bg-white/[0.05] p-7 backdrop-blur-sm">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-jvto-orange mb-3">
+                  Hassle-free
                 </p>
-
-                {/* Teks Utama Besar (Style Asli Dipertahankan) */}
-                <div className="text-5xl font-black text-white mb-2 tracking-tight">
-                  ALL INCLUSIVE
+                <div
+                  className="font-black text-white leading-[0.94] mb-3"
+                  style={{
+                    fontFamily: "Raleway, Georgia, serif",
+                    fontSize: "clamp(34px, 4vw, 52px)",
+                    letterSpacing: "-0.035em",
+                  }}
+                >
+                  All inclusive
                 </div>
-
-                {/* Label Kecil di Bawah */}
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
-                  Meals, Gear & Medical Checkup Covered
+                <p className="text-[13px] leading-relaxed text-white/50">
+                  Meals, gear and medical checkup covered.
                 </p>
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-lime hover:bg-[#8cb82b] text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-lime/30"
+                className="mt-8 w-full rounded-full bg-jvto-orange px-8 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-jvto-orange-hover"
               >
-                Dates & Prices
+                Dates & prices
               </button>
             </div>
           </div>
-        </div>
-      </div>
-      {/* 3. GALLERY STRIP (Memicu Lightbox) */}
-      <div className="bg-slate-900 pb-12">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center mb-6 pt-8 border-t border-slate-800">
-            <h3 className="text-lg font-black uppercase tracking-widest text-white">
-              {`What's It Like?`}
-            </h3>
-            <button
-              onClick={() => openLightbox(0)}
-              className="text-xs font-bold uppercase text-jvto-lime hover:text-white transition-colors flex items-center gap-1"
-            >
-              View All Photos <ChevronRight size={14} />
-            </button>
-          </div>
 
-          {/* Thumbnail Container */}
-          {/* Mobile: Flex & Scroll Horizontal. Desktop: Grid System. */}
-          <div className="flex gap-3 overflow-x-auto pb-4 md:grid md:grid-cols-4 lg:grid-cols-6 md:pb-0 md:overflow-visible no-scrollbar">
-            {pkg.gallery.slice(0, 6).map((img, idx) => (
-              <button
-                key={idx}
-                aria-label={`View photo ${idx + 1} of ${pkg.gallery.length}`}
-                onClick={() => openLightbox(idx)}
-                // Class: shrink-0 & fixed width pada mobile agar bisa di-scroll
-                className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-sm bg-slate-800"
+          {/* 3. GALLERY STRIP (Memicu Lightbox) */}
+          <div className="mt-16 md:mt-20 pt-10 border-t border-white/10">
+            <div className="flex justify-between items-baseline gap-6 mb-6">
+              <h3
+                className="font-black text-white leading-none"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(20px, 2.2vw, 28px)",
+                  letterSpacing: "-0.03em",
+                }}
               >
-                <Image
-                  src={img}
-                  alt={`${pkg.name} — photo ${idx + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
-                  sizes="(max-width: 768px) 128px, 200px"
-                />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="bg-black/50 p-2 rounded-full text-white backdrop-blur-sm">
-                    <Maximize2 size={16} />
-                  </div>
-                </div>
+                {`What's it like?`}
+              </h3>
+              <button
+                onClick={() => openLightbox(0)}
+                className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange transition-colors hover:text-white"
+              >
+                All {pkg.gallery.length} photos <ChevronRight size={13} />
               </button>
-            ))}
+            </div>
+
+            {/* Mobile: horizontal scroll. Desktop: grid. */}
+            <div className="flex gap-3 overflow-x-auto pb-4 md:grid md:grid-cols-4 lg:grid-cols-6 md:pb-0 md:overflow-visible no-scrollbar">
+              {pkg.gallery.slice(0, 6).map((img, idx) => (
+                <button
+                  key={idx}
+                  aria-label={`View photo ${idx + 1} of ${pkg.gallery.length}`}
+                  onClick={() => openLightbox(idx)}
+                  className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.04]"
+                >
+                  <Image
+                    src={img}
+                    alt={`${pkg.name} — photo ${idx + 1}`}
+                    fill
+                    className="object-cover opacity-70 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                    sizes="(max-width: 768px) 128px, 200px"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-jvto-navy/40 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="rounded-full bg-white/15 p-2.5 text-white backdrop-blur-sm">
+                      <Maximize2 size={15} />
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
       {/* --- LIGHTBOX POPUP --- */}
       {isLightboxOpen && (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
@@ -640,7 +758,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             <img
               src={pkg.gallery[photoIndex]}
               alt={`${pkg.name} — tour photo ${photoIndex + 1} of ${pkg.gallery.length}`}
-              className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
+              className="max-h-full max-w-full rounded-[20px] object-contain shadow-2xl"
             />
             {/* Counter */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white text-xs font-bold tracking-widest backdrop-blur-sm">
@@ -650,27 +768,24 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       )}
       {/* --- MAIN CONTENT GRID (Tetap sama) --- */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-16 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
           {/* LEFT COLUMN: INFO & ITINERARY */}
-          <div className="lg:col-span-2 space-y-16">
+          <div className="lg:col-span-2 space-y-20 md:space-y-28">
             {/* Description (With Show More/Less) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
-                About This Trip
-              </h2>
+              <SectionHead>About This Trip</SectionHead>
 
               <div className="relative">
                 {/* FULL HTML */}
                 {isDescriptionExpanded ? (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="max-w-[640px] text-[17px] text-jvto-ink-soft leading-[1.7] transition-all duration-500"
                     dangerouslySetInnerHTML={{ __html: pkg.description }}
                   />
                 ) : (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="max-w-[640px] text-[17px] text-jvto-ink-soft leading-[1.7] transition-all duration-500"
                     dangerouslySetInnerHTML={{
                       __html:
                         stripHtml(pkg.description).length < 350
@@ -687,7 +802,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsDescriptionExpanded(!isDescriptionExpanded)
                     }
-                    className="mt-4 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-jvto-lime hover:text-jvto-lime transition-colors"
+                    className="mt-5 inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange-ink transition-colors hover:text-jvto-navy"
                   >
                     {isDescriptionExpanded ? (
                       <>
@@ -706,20 +821,17 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
-                Quick Answers
-              </h2>
+              <SectionHead>Quick Answers</SectionHead>
               <div className="space-y-5">
                 {spineQaPairs.map((qa) => (
                   <div
                     key={qa.question}
-                    className="bg-white border border-slate-200 rounded-sm p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="rounded-[20px] border border-jvto-border bg-white p-7 card-jvto"
                   >
-                    <h3 className="text-base font-bold text-slate-900 mb-3 leading-snug">
+                    <h3 className="text-base font-bold text-jvto-navy mb-3 leading-snug">
                       {qa.question}
                     </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-3">
+                    <p className="text-sm text-jvto-ink-soft leading-relaxed mb-3">
                       {qa.answer}
                     </p>
                     {qa.uiMeta && (
@@ -742,27 +854,24 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* Highlights (Design Gambar 2) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
-                Trip Highlights
-              </h2>
+              <SectionHead>Trip Highlights</SectionHead>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-6">
+                  <h3 className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
                     Key Experiences
                   </h3>
                   <div className="space-y-6">
                     {pkg.keyExperiences?.map((exp: any, idx: number) => (
                       <div key={idx} className="flex gap-4 items-start">
-                        <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-sm shrink-0">
+                        <div className="p-3 bg-white border border-jvto-border shadow-sm rounded-[16px] shrink-0">
                           {getExperienceIcon(exp.name)}
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-900 text-sm md:text-base leading-tight">
+                          <h4 className="font-bold text-jvto-navy text-sm md:text-base leading-tight">
                             {exp.name}
                           </h4>
-                          <p className="text-sm text-slate-600 leading-relaxed mt-1">
+                          <p className="text-sm text-jvto-ink-soft leading-relaxed mt-1">
                             {exp.highlight}
                           </p>
                         </div>
@@ -771,7 +880,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-6">
+                  <h3 className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
                     Why This Trip is Unique
                   </h3>
                   <ul className="space-y-4">
@@ -779,9 +888,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       (point: string, idx: number) => (
                         <li
                           key={idx}
-                          className="flex gap-3 items-start text-slate-600"
+                          className="flex gap-3 items-start text-jvto-ink-soft"
                         >
-                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-900 shrink-0" />
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-jvto-orange shrink-0" />
                           <span className="text-sm leading-relaxed">
                             {point}
                           </span>
@@ -797,10 +906,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 ITINERARY SECTION (RESPONSIVE WITH MEALS)
                ========================================================= */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
-                Itinerary
-              </h2>
+              <SectionHead kicker={`${pkg.itineraryDays.length}-day plan`}>Itinerary</SectionHead>
 
               {/* --- A. DESKTOP VIEW --- */}
               <div className="hidden lg:grid grid-cols-12 gap-10 items-start">
@@ -812,21 +918,21 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       <button
                         key={day.day}
                         onClick={() => setOpenDay(day.day)}
-                        className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${isActive
-                          ? "bg-white border-jvto-lime shadow-md translate-x-2"
-                          : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
+                        className={`group w-full rounded-[16px] border p-4 text-left transition-all duration-300 ${isActive
+                          ? "border-jvto-orange bg-white translate-x-2 shadow-[0_20px_40px_-24px_rgba(13,27,42,0.35)]"
+                          : "border-jvto-border/60 bg-transparent hover:border-jvto-border hover:bg-white"
                           }`}
                       >
                         <span
-                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-lime-ink" : "text-slate-400"
+                          className={`mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${isActive ? "text-jvto-orange-ink" : "text-jvto-muted"
                             }`}
                         >
                           Day {day.day.toString().padStart(2, "0")}
                         </span>
                         <h4
                           className={`font-bold text-sm leading-tight ${isActive
-                            ? "text-slate-900"
-                            : "text-slate-500 group-hover:text-slate-700"
+                            ? "text-jvto-navy"
+                            : "text-jvto-muted group-hover:text-jvto-navy"
                             }`}
                         >
                           {day.title}
@@ -849,7 +955,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     return (
                       <div
                         key={day.day}
-                        className="bg-white rounded-sm border border-slate-200 overflow-hidden shadow-sm animate-in fade-in slide-in-from-right-4 duration-500"
+                        className="overflow-hidden rounded-[24px] border border-jvto-border bg-white animate-in fade-in slide-in-from-right-4 duration-500"
                       >
                         {/* Header Image */}
                         <div className="relative h-64 w-full">
@@ -860,7 +966,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             className="object-cover"
                             sizes="(max-width: 768px) 100vw, 800px"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/95 via-jvto-navy/40 to-transparent"></div>
                           <div className="absolute bottom-0 left-0 p-6 text-white w-full">
                             <h3 className="text-2xl font-black uppercase leading-none mb-2">
                               {day.title}
@@ -876,30 +982,30 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                         {/* Content */}
                         <div className="p-8">
-                          <div className="mb-10 p-4 border border-slate-200 bg-slate-50 rounded-sm italic text-slate-600 text-sm leading-relaxed">
+                          <div className="mb-10 p-4 border border-jvto-border bg-jvto-off rounded-[16px] italic text-jvto-ink-soft text-sm leading-relaxed">
                             {`"${day.summary}"`}
                           </div>
 
                           {/* Timeline */}
-                          <div className="relative border-l-2 border-slate-100 ml-4 space-y-10 pb-4">
+                          <div className="relative border-l-2 border-jvto-border ml-4 space-y-10 pb-4">
                             {day.activities.map((act: any, idx: number) => (
                               <div key={idx} className="relative pl-10">
                                 <div
                                   className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${idx % 2 === 0
                                     ? "bg-jvto-lime"
-                                    : "bg-slate-900"
+                                    : "bg-jvto-navy"
                                     }`}
                                 >
                                   {getActivityIcon(act.name)}
                                 </div>
                                 <div>
-                                  <span className="inline-block mb-1 text-xs font-bold text-jvto-lime uppercase tracking-wider bg-jvto-lime/5 px-2 py-0.5 rounded">
+                                  <span className="inline-block mb-1.5 rounded-full bg-jvto-orange/[0.08] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-orange-ink">
                                     {act.timeWindow}
                                   </span>
-                                  <h4 className="text-base font-bold text-slate-900 mb-1">
+                                  <h4 className="text-base font-bold text-jvto-navy mb-1">
                                     {act.name}
                                   </h4>
-                                  <p className="text-sm text-slate-500 leading-relaxed">
+                                  <p className="text-sm text-jvto-muted leading-relaxed">
                                     {act.description}
                                   </p>
                                 </div>
@@ -908,8 +1014,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           </div>
 
                           {/* --- MEALS SECTION (NEW) --- */}
-                          <div className="mt-8 pt-6 border-t border-slate-100">
-                            <h5 className="text-xs font-bold uppercase text-slate-400 mb-3 flex items-center gap-2">
+                          <div className="mt-8 pt-6 border-t border-jvto-border">
+                            <h5 className="text-xs font-bold uppercase text-jvto-muted mb-3 flex items-center gap-2">
                               <Utensils size={14} /> Meals Included
                             </h5>
                             <div className="flex flex-wrap gap-3">
@@ -920,11 +1026,11 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     className={`px-3 py-1.5 rounded text-xs font-bold uppercase border flex items-center gap-2 ${(status as string)
                                       .toLowerCase()
                                       .includes("included")
-                                      ? "bg-jvto-lime/5 text-jvto-lime border-jvto-lime/30"
-                                      : "bg-slate-50 text-slate-400 border-slate-100"
+                                      ? "bg-jvto-lime/[0.08] text-jvto-lime-ink border-jvto-lime/30"
+                                      : "bg-jvto-off text-jvto-muted border-jvto-border"
                                       }`}
                                   >
-                                    <span className="text-slate-900 capitalize">
+                                    <span className="text-jvto-navy capitalize">
                                       {meal}:
                                     </span>
                                     <span>{status as string}</span>
@@ -943,23 +1049,23 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {/* --- B. MOBILE VIEW --- */}
               <div className="block lg:hidden">
                 {/* Preview Snippet */}
-                <div className="relative overflow-hidden rounded-sm border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="relative overflow-hidden rounded-[16px] border border-jvto-border bg-white p-6 shadow-sm">
                   {pkg.itineraryDays[0] && (
                     <div className="flex gap-4 items-start">
                       <div className="flex flex-col items-center mt-1.5">
                         <div className="w-3 h-3 rounded-full bg-jvto-lime ring-4 ring-jvto-lime/10"></div>
-                        <div className="w-0.5 h-full border-l-2 border-dashed border-slate-300 min-h-[40px] mt-1"></div>
+                        <div className="w-0.5 h-full border-l-2 border-dashed border-jvto-border min-h-[40px] mt-1"></div>
                       </div>
                       <div className="flex-1 space-y-3 pb-8">
                         <div>
-                          <span className="block text-lg font-black text-slate-900 mb-1">
+                          <span className="block text-lg font-black text-jvto-navy mb-1">
                             {pkg.itineraryDays[0].activities[0]?.timeWindow}
                           </span>
-                          <h4 className="text-base font-bold text-slate-800 leading-snug">
+                          <h4 className="text-base font-bold text-jvto-navy leading-snug">
                             {pkg.itineraryDays[0].activities[0]?.name}
                           </h4>
                         </div>
-                        <p className="text-sm text-slate-500 leading-relaxed line-clamp-3">
+                        <p className="text-sm text-jvto-muted leading-relaxed line-clamp-3">
                           {pkg.itineraryDays[0].summary}
                         </p>
                       </div>
@@ -969,7 +1075,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="absolute bottom-6 left-0 w-full text-center z-20">
                     <button
                       onClick={() => setIsItineraryModalOpen(true)}
-                      className="text-jvto-lime-ink font-bold text-sm uppercase tracking-widest hover:text-jvto-lime-ink transition-colors flex items-center justify-center gap-1 mx-auto"
+                      className="mx-auto flex items-center justify-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange-ink transition-colors hover:text-jvto-navy"
                     >
                       Show More <ChevronDown size={16} />
                     </button>
@@ -984,18 +1090,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       onClick={() => setIsItineraryModalOpen(false)}
                     ></div>
 
-                    <div className="relative w-full max-w-lg bg-white rounded-t-3xl sm:rounded-sm shadow-2xl h-[85vh] sm:h-[80vh] flex flex-col animate-in slide-in-from-bottom duration-300">
+                    <div className="relative w-full max-w-lg bg-white rounded-t-[28px] sm:rounded-[28px] shadow-2xl h-[85vh] sm:h-[80vh] flex flex-col animate-in slide-in-from-bottom duration-300">
                       {/* Header */}
-                      <div className="shrink-0 pt-2 pb-0 bg-white rounded-t-3xl z-10 border-b border-slate-100">
-                        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-4"></div>
+                      <div className="shrink-0 pt-2 pb-0 bg-white rounded-t-[28px] z-10 border-b border-jvto-border">
+                        <div className="w-12 h-1.5 bg-jvto-border rounded-full mx-auto mt-3 mb-4"></div>
                         <div className="flex justify-between items-center px-6 mb-4">
-                          <h3 className="text-lg font-black uppercase text-slate-900 tracking-wide">
+                          <h3 className="text-lg font-black uppercase text-jvto-navy tracking-wide">
                             Tour Itinerary
                           </h3>
                           <button
                             aria-label="Close itinerary"
                             onClick={() => setIsItineraryModalOpen(false)}
-                            className="p-2 bg-slate-100 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"
+                            className="p-2 bg-jvto-off rounded-full text-jvto-muted hover:bg-jvto-border transition-colors"
                           >
                             <X size={20} />
                           </button>
@@ -1006,8 +1112,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               onClick={() => setModalOpenDay(day.day)}
                               className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${modalOpenDay === day.day
-                                ? "border-jvto-lime text-jvto-lime-ink"
-                                : "border-transparent text-slate-400 hover:text-slate-600"
+                                ? "border-jvto-orange text-jvto-orange-ink"
+                                : "border-transparent text-jvto-muted hover:text-jvto-ink-soft"
                                 }`}
                             >
                               Day {day.day}
@@ -1017,7 +1123,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       </div>
 
                       {/* Body */}
-                      <div className="flex-1 overflow-y-auto p-6 bg-slate-50">
+                      <div className="flex-1 overflow-y-auto p-6 bg-jvto-off">
                         {pkg.itineraryDays.map((day) => {
                           if (modalOpenDay !== day.day) return null;
                           return (
@@ -1025,29 +1131,29 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               className="space-y-6 animate-in fade-in duration-300"
                             >
-                              <div className="p-4 bg-white rounded-sm border border-jvto-lime/30 shadow-sm">
+                              <div className="p-4 bg-white rounded-[16px] border border-jvto-lime/30 shadow-sm">
                                 <h4 className="text-xs font-bold uppercase text-jvto-lime-ink mb-2 tracking-widest">
                                   Overview
                                 </h4>
-                                <p className="text-sm text-slate-600 leading-relaxed italic">
+                                <p className="text-sm text-jvto-ink-soft leading-relaxed italic">
                                   {`"${day.summary}"`}
                                 </p>
                               </div>
 
                               {/* Timeline */}
                               <div className="relative pl-2 space-y-0">
-                                <div className="absolute left-[7px] top-2 bottom-4 w-0.5 bg-slate-200"></div>
+                                <div className="absolute left-[7px] top-2 bottom-4 w-0.5 bg-jvto-border"></div>
                                 {day.activities.map((act: any, idx: number) => (
                                   <div
                                     key={idx}
                                     className="relative pl-8 pb-8 last:pb-0"
                                   >
-                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-slate-50 bg-jvto-lime z-10"></div>
-                                    <span className="inline-block mb-1 text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-jvto-border bg-jvto-lime z-10"></div>
+                                    <span className="inline-block mb-1 text-xs font-bold text-jvto-muted bg-jvto-off px-2 py-0.5 rounded border border-jvto-border">
                                       {act.timeWindow}
                                     </span>
                                     <div className="mt-2">
-                                      <h5 className="text-base font-bold text-slate-900 mb-1 leading-tight">
+                                      <h5 className="text-base font-bold text-jvto-navy mb-1 leading-tight">
                                         {act.name}
                                       </h5>
                                       {act.location && (
@@ -1055,7 +1161,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           <MapPin size={10} /> {act.location}
                                         </div>
                                       )}
-                                      <p className="text-sm text-slate-600 leading-relaxed">
+                                      <p className="text-sm text-jvto-ink-soft leading-relaxed">
                                         {act.description}
                                       </p>
                                     </div>
@@ -1064,8 +1170,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               </div>
 
                               {/* --- MEALS SECTION (NEW IN MOBILE) --- */}
-                              <div className="bg-white p-4 rounded-sm border border-slate-200">
-                                <h5 className="text-xs font-bold uppercase text-slate-400 mb-3 flex items-center gap-2">
+                              <div className="bg-white p-4 rounded-[16px] border border-jvto-border">
+                                <h5 className="text-xs font-bold uppercase text-jvto-muted mb-3 flex items-center gap-2">
                                   <Utensils size={14} /> Meals Plan
                                 </h5>
                                 <div className="space-y-2">
@@ -1073,9 +1179,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     ([meal, status]) => (
                                       <div
                                         key={meal}
-                                        className="flex justify-between text-sm border-b border-slate-50 last:border-0 pb-2 last:pb-0"
+                                        className="flex justify-between text-sm border-b border-jvto-border last:border-0 pb-2 last:pb-0"
                                       >
-                                        <span className="font-bold text-slate-700 capitalize">
+                                        <span className="font-bold text-jvto-navy capitalize">
                                           {meal}
                                         </span>
                                         <span
@@ -1083,7 +1189,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                             .toLowerCase()
                                             .includes("included")
                                             ? "bg-jvto-lime/10 text-jvto-lime-ink"
-                                            : "bg-slate-100 text-slate-400"
+                                            : "bg-jvto-off text-jvto-muted"
                                             }`}
                                         >
                                           {status as string}
@@ -1103,16 +1209,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
             </div>
             {/* --- Accommodation & Transport Section (SWIPER VERSION) --- */}
-            <div className="space-y-16 overflow-hidden">
+            <div className="space-y-20 md:space-y-28 overflow-hidden">
               {/* Added overflow-hidden to prevent horizontal scrollbar on body if swiper goes wide */}
 
               {/* 1. ACCOMMODATION SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-jvto-lime block"></span>
-                    Accommodation
-                  </h2>
+                  <SectionHead kicker={`${pkg.durationNights} night${pkg.durationNights === 1 ? "" : "s"}`}>Accommodation</SectionHead>
 
                   <Swiper
                     modules={[Pagination]}
@@ -1127,9 +1230,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   >
                     {pkg.accommodationPlan?.map((acc: any, idx: number) => (
                       <SwiperSlide key={idx} className="h-auto">
-                        <div className="group h-full overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md flex flex-col">
+                        <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-jvto-border bg-white card-jvto">
                           {/* Image Container */}
-                          <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
+                          <div className="relative h-48 w-full overflow-hidden bg-jvto-off shrink-0">
                             {acc.image && acc.image.includes("http") ? (
                               <Image
                                 src={acc.image}
@@ -1139,12 +1242,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 sizes="(max-width: 768px) 100vw, 400px"
                               />
                             ) : (
-                              <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                              <div className="flex h-full w-full items-center justify-center bg-jvto-off text-jvto-border">
                                 <Bed size={48} />
                               </div>
                             )}
                             <div className="absolute top-4 left-4">
-                              <span className="bg-slate-900/80 backdrop-blur-sm text-jvto-lime text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
+                              <span className="rounded-full bg-jvto-navy/85 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-lime backdrop-blur-sm">
                                 Night {acc.night}
                               </span>
                             </div>
@@ -1152,13 +1255,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                           {/* Content */}
                           <div className="p-5 flex-1 flex flex-col">
-                            <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-slate-400 mb-2">
+                            <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-jvto-muted mb-2">
                               <MapPin size={14} /> {acc.area}
                             </h4>
-                            <p className="font-bold text-slate-900 text-sm md:text-base leading-tight mb-2">
+                            <p className="font-bold text-jvto-navy text-sm md:text-base leading-tight mb-2">
                               {acc.name}
                             </p>
-                            <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+                            <p className="text-xs text-jvto-muted line-clamp-3 leading-relaxed">
                               Relax in a curated accommodation selected for
                               comfort and proximity to nature.
                             </p>
@@ -1173,11 +1276,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {/* 2. TRANSPORT SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-jvto-lime block"></span>
+                  <SectionHead className="mb-5" kicker="Private fleet">
                     Transport
-                  </h2>
-                  <p className="mb-8 text-slate-600 text-sm">
+                  </SectionHead>
+                  <p className="mb-8 max-w-[60ch] text-jvto-ink-soft text-[15px] leading-relaxed">
                     Travel in comfort and safety with our private fleet.
                   </p>
 
@@ -1196,8 +1298,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     {initialData.trip.vehiclePlan.primary.map(
                       (vehicle: any, idx: number) => (
                         <SwiperSlide key={`vehicle-${idx}`} className="h-auto">
-                          <div className="flex h-full flex-col overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">
-                            <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
+                          <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-jvto-border bg-white card-jvto">
+                            <div className="relative h-40 w-full bg-jvto-off p-4 flex items-center justify-center shrink-0">
                               {vehicle.banner ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -1206,23 +1308,23 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   className="max-h-full object-contain"
                                 />
                               ) : (
-                                <Car size={64} className="text-slate-300" />
+                                <Car size={64} className="text-jvto-border" />
                               )}
                             </div>
                             <div className="p-5 flex-1 flex flex-col justify-between">
                               <div>
-                                <h4 className="font-bold text-lg text-slate-900 mb-1">
+                                <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                   {vehicle.model}
                                 </h4>
                                 <p className="text-xs font-bold uppercase text-jvto-lime-ink mb-4">
                                   {vehicle.type}
                                 </p>
 
-                                <div className="space-y-2 text-sm text-slate-600">
+                                <div className="space-y-2 text-sm text-jvto-ink-soft">
                                   <div className="flex items-center gap-2">
                                     <Users
                                       size={16}
-                                      className="text-slate-400"
+                                      className="text-jvto-muted"
                                     />
                                     <span className="text-xs font-medium">
                                       Max {vehicle.maxPax} Pax
@@ -1231,7 +1333,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   <div className="flex items-center gap-2">
                                     <Briefcase
                                       size={16}
-                                      className="text-slate-400"
+                                      className="text-jvto-muted"
                                     />
                                     <span className="text-xs font-medium">
                                       {vehicle.baggageCapacity}
@@ -1245,7 +1347,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   (feat: string, i: number) => (
                                     <span
                                       key={i}
-                                      className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded"
+                                      className="bg-jvto-off text-jvto-muted text-[10px] font-bold uppercase px-2 py-1 rounded"
                                     >
                                       {feat}
                                     </span>
@@ -1261,8 +1363,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     {/* Jeep Special Card (Added as the last slide) */}
                     {initialData.trip.vehiclePlan.jeepSpecs && (
                       <SwiperSlide className="h-auto">
-                        <div className="flex h-full flex-col overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">
-                          <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
+                        <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-jvto-border bg-white card-jvto">
+                          <div className="relative h-40 w-full bg-jvto-off p-4 flex items-center justify-center shrink-0">
                             <img
                               src="/assets/img/cars/jeep.webp"
                               alt="Bromo Jeep"
@@ -1271,16 +1373,16 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           </div>
                           <div className="p-5 flex-1 flex flex-col justify-between">
                             <div>
-                              <h4 className="font-bold text-lg text-slate-900 mb-1">
+                              <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                 Bromo Jeep
                               </h4>
                               <p className="text-xs font-bold uppercase text-jvto-lime-ink mb-4">
                                 4x4 Off-Road Vehicle
                               </p>
 
-                              <div className="space-y-2 text-sm text-slate-600">
+                              <div className="space-y-2 text-sm text-jvto-ink-soft">
                                 <div className="flex items-center gap-2">
-                                  <Users size={16} className="text-slate-400" />
+                                  <Users size={16} className="text-jvto-muted" />
                                   <span className="text-xs font-medium">
                                     Max 4 Pax
                                   </span>
@@ -1288,7 +1390,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 <div className="flex items-center gap-2">
                                   <Briefcase
                                     size={16}
-                                    className="text-slate-400"
+                                    className="text-jvto-muted"
                                   />
                                   <span className="text-xs font-medium">
                                     2 medium bags
@@ -1298,10 +1400,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             </div>
 
                             <div className="mt-4 flex flex-wrap gap-1.5">
-                              <span className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded">
+                              <span className="bg-jvto-off text-jvto-muted text-[10px] font-bold uppercase px-2 py-1 rounded">
                                 4X4 DRIVE
                               </span>
-                              <span className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded">
+                              <span className="bg-jvto-off text-jvto-muted text-[10px] font-bold uppercase px-2 py-1 rounded">
                                 OPEN-AIR
                               </span>
                             </div>
@@ -1315,10 +1417,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* --- The Practicalities Section (NEW) --- */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
-                The Practicalities
-              </h2>
+              <SectionHead>The Practicalities</SectionHead>
 
               {/* Part 1: What's Covered & Not Covered */}
               <div className="mb-12 relative">
@@ -1330,18 +1429,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-8">
                     {/* Covered */}
                     <div>
-                      <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="mb-5 flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
                         {`What's Covered`}
                       </h3>
                       <ul className="space-y-3">
                         {pkg.inclusions.map((item, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-3 text-sm text-slate-600"
+                            className="flex items-start gap-3 text-sm text-jvto-ink-soft"
                           >
                             <CheckCircle
                               size={18}
-                              className="text-jvto-lime shrink-0 mt-0.5"
+                              className="text-jvto-lime-ink shrink-0 mt-0.5"
                             />
                             <span>{item}</span>
                           </li>
@@ -1351,18 +1450,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                     {/* Not Covered */}
                     <div>
-                      <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="mb-5 flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
                         {`What's Not Covered`}
                       </h3>
                       <ul className="space-y-3">
                         {pkg.exclusions.map((item, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-3 text-sm text-slate-500"
+                            className="flex items-start gap-3 text-sm text-jvto-muted"
                           >
                             <XCircle
                               size={18}
-                              className="text-red-400 shrink-0 mt-0.5"
+                              className="text-jvto-status-closed shrink-0 mt-0.5"
                             />
                             <span>{item}</span>
                           </li>
@@ -1374,7 +1473,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                 {/* Gradient Overlay (Visible only when collapsed) */}
                 {!isInclusionsExpanded && (
-                  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent z-10 pointer-events-none"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-jvto-off via-jvto-off/85 to-transparent z-10 pointer-events-none"></div>
                 )}
 
                 {/* Toggle Button for Part 1 Only */}
@@ -1388,7 +1487,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsInclusionsExpanded(!isInclusionsExpanded)
                     }
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-jvto-lime-ink hover:text-jvto-lime-ink transition-colors bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-jvto-lime/30 hover:bg-white shadow-sm"
+                    className="inline-flex items-center gap-2 rounded-full border border-jvto-border bg-white/95 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-orange-ink shadow-[0_12px_32px_-16px_rgba(13,27,42,0.25)] backdrop-blur-sm transition-colors hover:border-jvto-orange/40 hover:text-jvto-navy"
                   >
                     {isInclusionsExpanded ? (
                       <>
@@ -1403,48 +1502,44 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </div>
               </div>
 
-              {/* Part 2: Essential Info Cards */}
-              <div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Fitness Level */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
-                    <div className="flex items-center gap-3 mb-3">
-                      <Activity size={24} className="text-jvto-lime-ink" />
-                      <h4 className="font-bold text-slate-900">
-                        Fitness Level
-                      </h4>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+              {/* Part 2: know-before-you-go. These three answer one question
+                  between them, so they read as one panel divided by rules
+                  rather than three identical cards floating apart. */}
+              <div className="overflow-hidden rounded-[24px] border border-jvto-border bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-3 divide-y divide-jvto-border md:divide-y-0 md:divide-x">
+                  <div className="p-7 md:p-8">
+                    <Activity size={20} className="text-jvto-orange mb-4" />
+                    <h4 className="mb-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-navy">
+                      Fitness level
+                    </h4>
+                    <p className="text-sm text-jvto-ink-soft leading-relaxed">
                       {pkg.physicalDifficulty.toLowerCase() === "moderate"
                         ? "Requires good physical condition. Expect hiking on uneven terrain for 2-4 hours, including steep sections."
                         : "Suitable for most travelers. Involves light walking on relatively flat terrain with minimal physical exertion."}
                     </p>
                   </div>
 
-                  {/* Health & Safety */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
-                    <div className="flex items-center gap-3 mb-3">
-                      <Thermometer size={24} className="text-jvto-lime-ink" />
-                      <h4 className="font-bold text-slate-900">
-                        Health & Safety
-                      </h4>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                  <div className="p-7 md:p-8">
+                    <Thermometer size={20} className="text-jvto-orange mb-4" />
+                    <h4 className="mb-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-navy">
+                      Health &amp; safety
+                    </h4>
+                    <p className="text-sm text-jvto-ink-soft leading-relaxed">
                       {pkg.marketing.safetyPositioning}
                     </p>
                   </div>
 
-                  {/* Essential Gear */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-lime/40 transition-colors">
-                    <div className="flex items-center gap-3 mb-3">
-                      <ShoppingBag size={24} className="text-jvto-lime-ink" />
-                      <h4 className="font-bold text-slate-900">
-                        Essential Gear
-                      </h4>
-                    </div>
-                    <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
+                  <div className="p-7 md:p-8">
+                    <ShoppingBag size={20} className="text-jvto-orange mb-4" />
+                    <h4 className="mb-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-navy">
+                      Essential gear
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-jvto-ink-soft">
                       {pkg.gear.recommended.map((g, i) => (
-                        <li key={i}>{g}</li>
+                        <li key={i} className="flex gap-2.5">
+                          <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-jvto-orange" />
+                          <span className="leading-relaxed">{g}</span>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -1453,25 +1548,24 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {pkg.route.includes("Ijen Crater") && <TourRequirements pageContent={ijenCraterRequirements} />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
-            <div className="md:py-12 border-t border-slate-200 mt-12">
-              <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-jvto-lime block"></span>
+            <div className="md:py-12 border-t border-jvto-border mt-12">
+              <SectionHead className="mb-8 hidden md:block">
                 Why Travel With Us?
-              </h2>
+              </SectionHead>
               <ReviewsClient
                 reviews={reviews}
                 totalCount={reviews?.length ?? 0}
               />
               {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                <div className="bg-white rounded-sm border border-slate-200 p-8 shadow-sm flex flex-col">
-                  <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
+                <div className="bg-white rounded-[16px] border border-jvto-border p-8 shadow-sm flex flex-col">
+                  <h3 className="text-sm font-bold text-jvto-navy mb-6 uppercase tracking-widest border-b border-jvto-border pb-4">
                     Guest Reviews
                   </h3>
 
                   <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
-                    <span className="text-6xl font-black text-slate-900 tracking-tighter">
+                    <span className="text-6xl font-black text-jvto-navy tracking-tighter">
                       {AGGREGATE_RATING.ratingValue.toFixed(1)}
-                      <span className="text-3xl text-slate-400 font-medium">
+                      <span className="text-3xl text-jvto-muted font-medium">
                         /5
                       </span>
                     </span>
@@ -1483,12 +1577,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             size={20}
                             fill="currentColor"
                             className={
-                              star === 5 ? "text-slate-200 fill-slate-200" : ""
+                              star === 5 ? "text-jvto-border fill-jvto-border" : ""
                             }
                           />
                         ))}
                       </div>
-                      <span className="text-sm font-bold text-slate-500">
+                      <span className="text-sm font-bold text-jvto-muted">
                         Rated by 112 adventurers
                       </span>
                     </div>
@@ -1533,13 +1627,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         },
                       ].map((review, idx) => (
                         <SwiperSlide key={idx}>
-                          <div className="bg-slate-50 p-6 rounded-sm border border-slate-100 relative h-full">
+                          <div className="bg-jvto-off p-6 rounded-[16px] border border-jvto-border relative h-full">
                             <Quote
                               size={40}
                               className="text-jvto-lime/60 absolute top-4 left-4 opacity-40"
                             />
                             <div className="relative z-10 pt-2">
-                              <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
+                              <p className="text-base text-jvto-navy leading-relaxed mb-6 italic font-medium">
                                 {review.review}
                               </p>
                               <div className="flex items-center gap-3">
@@ -1555,10 +1649,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   />
                                 </div>
                                 <div>
-                                  <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
+                                  <span className="block text-sm font-bold text-jvto-navy uppercase tracking-wide">
                                     {review.customer_name}
                                   </span>
-                                  <span className="block text-xs text-slate-500">
+                                  <span className="block text-xs text-jvto-muted">
                                     {review.date}
                                   </span>
                                 </div>
@@ -1573,7 +1667,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                 <div className="flex flex-col gap-8">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
+                    <h3 className="text-sm font-bold text-jvto-navy mb-6 uppercase tracking-widest border-b border-jvto-border pb-4">
                       Our Commitment to Safety
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -1593,10 +1687,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           key={idx}
                           className="flex flex-col items-center text-center gap-3 group"
                         >
-                          <div className="w-20 h-20 rounded-full border-2 border-slate-200 text-slate-600 flex items-center justify-center bg-white shadow-sm transition-all group-hover:border-jvto-lime group-hover:text-jvto-lime-ink group-hover:shadow-md">
+                          <div className="w-20 h-20 rounded-full border-2 border-jvto-border text-jvto-ink-soft flex items-center justify-center bg-white shadow-sm transition-all group-hover:border-jvto-lime group-hover:text-jvto-lime-ink group-hover:shadow-md">
                             {item.icon}
                           </div>
-                          <span className="text-xs font-bold text-slate-700 leading-tight max-w-[100px]">
+                          <span className="text-xs font-bold text-jvto-navy leading-tight max-w-[100px]">
                             {item.label}
                           </span>
                         </div>
@@ -1616,7 +1710,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         )}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-jvto-lime-ink transition-colors bg-white px-5 py-3 rounded-sm border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-jvto-navy hover:text-jvto-lime-ink transition-colors bg-white px-5 py-3 rounded-[16px] border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
                       >
                         <MessageCircle size={18} className="text-jvto-lime-ink" />
                         Contact us on WhatsApp: {pkg.provider.official.whatsapp}
@@ -1632,29 +1726,38 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           <div className="lg:col-span-1 relative">
             <div
               id="booking-card"
-              className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-slate-200 bg-white shadow-xl"
+              className="sticky top-32 h-fit z-10 overflow-auto rounded-[24px] border border-jvto-border bg-white card-jvto"
             >
-              <div className="bg-slate-900 p-6 text-white">
-                <p className="text-xs font-bold uppercase tracking-widest text-jvto-lime">
-                  Private Expedition
+              <div className="bg-jvto-navy p-7 text-white">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-jvto-orange">
+                  Private expedition
                 </p>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-xs text-slate-400">Total</span>
-                  <span className="text-3xl font-black text-white">
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span
+                    className="font-black text-white leading-none"
+                    style={{
+                      fontFamily: "Raleway, Georgia, serif",
+                      fontSize: "clamp(30px, 3vw, 40px)",
+                      letterSpacing: "-0.035em",
+                    }}
+                  >
                     {formatCurrency(total)}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">
+                    total
                   </span>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="flex gap-4 mb-6 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
-                  <div className="flex items-center gap-1">
-                    <Shield size={14} className="text-jvto-lime" /> Safe
+              <div className="p-7">
+                <div className="flex flex-wrap gap-x-5 gap-y-2 mb-6 border-b border-jvto-border pb-5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-jvto-muted">
+                  <div className="flex items-center gap-1.5">
+                    <Shield size={13} className="text-jvto-lime-ink" /> Safe
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Users size={14} className="text-jvto-lime" /> Private
+                  <div className="flex items-center gap-1.5">
+                    <Users size={13} className="text-jvto-lime-ink" /> Private
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar size={14} className="text-jvto-lime" /> Flexible
+                  <div className="flex items-center gap-1.5">
+                    <Calendar size={13} className="text-jvto-lime-ink" /> Flexible
                   </div>
                 </div>
 
@@ -1662,9 +1765,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div>
                     <label
                       htmlFor="startDate"
-                      className="block text-xs font-bold uppercase text-slate-900 mb-1"
+                      className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-navy"
                     >
-                      Travel Date
+                      Travel date
                     </label>
                     <input
                       id="startDate"
@@ -1672,13 +1775,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       min={todayISO}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-lime focus:outline-none focus:ring-2 focus:ring-jvto-lime/20"
+                      className="w-full rounded-[12px] border border-jvto-border bg-white px-4 py-3.5 text-sm font-medium text-jvto-navy transition-colors focus:border-jvto-orange focus:outline-none focus:ring-2 focus:ring-jvto-orange/20"
                       required
                     />
                   </div>
                   {/* UBAH BAGIAN INPUT TRAVELERS - FIX Z-INDEX */}
                   <div className="relative z-50">
-                    <label className="block text-xs font-bold uppercase text-slate-900 mb-2">
+                    <label className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-navy">
                       Travelers
                     </label>
 
@@ -1688,19 +1791,19 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       onClick={() =>
                         setShowTravelersPicker(!showTravelersPicker)
                       }
-                      className="w-full rounded-sm border-2 border-slate-200 bg-white px-3 py-2.5 text-left flex items-center justify-between hover:border-slate-300 transition-all relative z-10"
+                      className="relative z-10 flex w-full items-center justify-between rounded-[12px] border border-jvto-border bg-white px-4 py-3.5 text-left transition-colors hover:border-jvto-navy/30"
                     >
                       <div className="flex items-center gap-2">
-                        <Users size={16} className="text-slate-400" />
+                        <Users size={16} className="text-jvto-muted" />
                         <div>
-                          <span className="text-sm font-bold text-slate-900">
+                          <span className="text-sm font-semibold text-jvto-navy">
                             {pax} Travelers
                           </span>
                         </div>
                       </div>
                       <ChevronDown
                         size={16}
-                        className={`text-slate-400 transition-transform ${showTravelersPicker ? "rotate-180" : ""}`}
+                        className={`text-jvto-muted transition-transform ${showTravelersPicker ? "rotate-180" : ""}`}
                       />
                     </button>
 
@@ -1713,7 +1816,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           onClick={() => setShowTravelersPicker(false)}
                         />
 
-                        <div className="absolute left-0 right-0 mt-2 rounded-sm border-2 border-slate-200 bg-white shadow-xl p-2 space-y-2 z-50">
+                        <div className="absolute left-0 right-0 z-50 mt-2 space-y-2 rounded-[16px] border border-jvto-border bg-white p-2.5 shadow-[0_30px_60px_-25px_rgba(13,27,42,0.35)]">
                           {pkg.offers.tiers.map((tier, idx) => {
                             const isInRange =
                               Number(pax) >= tier.paxMin &&
@@ -1723,15 +1826,15 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             return (
                               <div
                                 key={idx}
-                                className={`rounded-sm p-3 transition-all ${isInRange
-                                  ? "bg-jvto-lime/5 border-2 border-jvto-lime"
-                                  : "bg-slate-50 border-2 border-slate-100"
+                                className={`rounded-[12px] p-3 transition-colors ${isInRange
+                                  ? "bg-jvto-orange/[0.06] border border-jvto-orange"
+                                  : "bg-jvto-off border border-jvto-border"
                                   }`}
                               >
                                 {/* Header */}
                                 <div className="flex items-center justify-between">
                                   <div>
-                                    <h4 className="text-xs text-slate-900">
+                                    <h4 className="text-xs text-jvto-navy">
                                       {tier.paxMin}
                                       {tier.paxMax === 0
                                         ? "+"
@@ -1743,7 +1846,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                                 {/* Price & Counter */}
                                 <div className="flex items-center justify-between">
-                                  <div className="text-sm font-bold text-slate-900">
+                                  <div className="text-sm font-bold text-jvto-navy">
                                     {formatCurrency(tier.pricePerPerson)}
                                   </div>
 
@@ -1762,12 +1865,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                         }
                                       }}
                                       disabled={tierPax === 0}
-                                      className="w-6 h-6 rounded-sm bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                      className="flex h-7 w-7 items-center justify-center rounded-full border border-jvto-border bg-white text-lg font-bold text-jvto-navy transition-colors hover:border-jvto-navy/40 disabled:cursor-not-allowed disabled:opacity-30"
                                     >
                                       −
                                     </button>
 
-                                    <div className="w-12 text-center font-bold text-slate-900">
+                                    <div className="w-12 text-center font-bold text-jvto-navy">
                                       {tierPax}
                                     </div>
 
@@ -1792,7 +1895,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           setPax(newVal);
                                         }
                                       }}
-                                      className="w-6 h-6 rounded-sm bg-white border border-slate-300 hover:bg-slate-100 transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                      className="flex h-7 w-7 items-center justify-center rounded-full border border-jvto-border bg-white text-lg font-bold text-jvto-navy transition-colors hover:border-jvto-navy/40"
                                     >
                                       +
                                     </button>
@@ -1806,7 +1909,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <button
                             type="button"
                             onClick={() => setShowTravelersPicker(false)}
-                            className="w-full bg-jvto-lime hover:bg-[#8cb82b] text-slate-900 font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
+                            className="mt-2 w-full rounded-full bg-jvto-navy py-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-jvto-navy-raise"
                           >
                             Done
                           </button>
@@ -1814,18 +1917,27 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       </>
                     )}
                   </div>
-                  <div className="bg-slate-50 p-4 rounded-sm text-sm space-y-2 border border-slate-100">
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Price per person:</span>
-                      <span className="font-bold text-slate-700">
+                  <div className="rounded-[16px] border border-jvto-border bg-jvto-off p-5 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-jvto-muted">
+                        Price per person
+                      </span>
+                      <span className="font-semibold text-jvto-navy">
                         {pricePerPerson ? formatCurrency(pricePerPerson) : "-"}
                       </span>
                     </div>
-                    <div className="flex justify-between border-t border-slate-200 pt-2 mt-1">
-                      <span className="font-bold text-slate-900">
-                        Grand Total :
+                    <div className="mt-3 flex items-baseline justify-between border-t border-jvto-border pt-3">
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-jvto-navy">
+                        Grand total
                       </span>
-                      <span className="font-black text-lg text-slate-900">
+                      <span
+                        className="font-black text-jvto-navy leading-none"
+                        style={{
+                          fontFamily: "Raleway, Georgia, serif",
+                          fontSize: "22px",
+                          letterSpacing: "-0.03em",
+                        }}
+                      >
                         {pricePerPerson ? formatCurrency(total) : "-"}
                       </span>
                     </div>
@@ -1833,7 +1945,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <button
                     type="submit"
-                    className="w-full bg-jvto-lime text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
+                    className="w-full rounded-full bg-jvto-orange py-[18px] font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-jvto-orange-hover active:scale-[0.99]"
                   >
                     Instant Book
                   </button>
@@ -1842,7 +1954,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       href="/policy/booking-payment-cancellation"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4 transition"
+                      className="font-mono text-[10px] uppercase tracking-[0.14em] text-jvto-muted underline underline-offset-4 transition-colors hover:text-jvto-navy"
                     >
                       View Cancellation Policy
                     </a>
@@ -1856,15 +1968,15 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <TrustBar reviewProfiles={reviewProfiles} />
       {/* --- ADD-ON MODAL WITH SEARCH --- */}
       {showAddOnModal && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg overflow-hidden rounded-sm bg-white shadow-2xl flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-jvto-navy/80 p-4 backdrop-blur-sm">
+          <div className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-[24px] bg-white shadow-2xl">
             {/* Header */}
-            <div className="bg-slate-900 px-6 py-4 flex justify-between items-center shrink-0">
+            <div className="bg-jvto-navy px-6 py-5 flex justify-between items-center shrink-0">
               <div>
                 <h2 className="text-lg font-bold uppercase tracking-wide text-white">
                   Enhance Your Trip
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-jvto-muted">
                   Optional extras for your group
                 </p>
               </div>
@@ -1881,10 +1993,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
 
             {/* SEARCH BAR SECTION */}
-            <div className="px-6 py-4 border-b border-slate-100 bg-white shrink-0">
+            <div className="px-6 py-4 border-b border-jvto-border bg-white shrink-0">
               <div className="relative">
                 <Search
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-jvto-muted"
                   size={18}
                 />
                 <input
@@ -1892,7 +2004,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   placeholder="Search add-ons"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-lime/20 focus:border-jvto-lime transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-jvto-off border border-jvto-border rounded-[16px] text-sm focus:outline-none focus:ring-2 focus:ring-jvto-lime/20 focus:border-jvto-lime transition-all"
                 />
               </div>
             </div>
@@ -1930,7 +2042,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 if (filteredItems.length === 0) {
                   return (
                     <div className="text-center py-10">
-                      <p className="text-slate-400 text-sm italic">
+                      <p className="text-jvto-muted text-sm italic">
                         No add-ons found for "{searchTerm}"
                       </p>
                     </div>
@@ -1957,14 +2069,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   return (
                     <label
                       key={item.addOnId}
-                      className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${item.selected
+                      className={`flex cursor-pointer items-center gap-4 rounded-[16px] border p-4 transition-all ${item.selected
                         ? "border-jvto-lime bg-jvto-lime/5"
-                        : "border-slate-200 bg-white hover:border-jvto-lime/40"
+                        : "border-jvto-border bg-white hover:border-jvto-lime/40"
                         }`}
                     >
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
                       {item.type === "transport" && transportImage && (
-                        <div className="h-16 w-20 shrink-0 overflow-hidden rounded-sm bg-slate-100 border border-slate-200">
+                        <div className="h-16 w-20 shrink-0 overflow-hidden rounded-[16px] bg-jvto-off border border-jvto-border">
                           <img
                             src={transportImage}
                             alt={item.label}
@@ -1975,17 +2087,17 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                       {/* Info Teks */}
                       <div className="flex-1">
-                        <p className="font-bold text-slate-900 leading-tight">
+                        <p className="font-bold text-jvto-navy leading-tight">
                           {item.label}
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-jvto-muted mt-1">
                           {formatCurrency(item.price)}
                           {item.type === "transport"
                             ? " / unit (Flat Rate)"
                             : ` x ${pax} pax`}
                         </p>
                         {item.type === "transport" && (
-                          <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-white border border-slate-200 text-slate-500 px-1.5 py-0.5 rounded">
+                          <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-white border border-jvto-border text-jvto-muted px-1.5 py-0.5 rounded">
                             {item.transportType} Car
                           </span>
                         )}
@@ -2008,7 +2120,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           }}
                           className="peer sr-only"
                         />
-                        <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-jvto-lime peer-checked:bg-jvto-lime transition-all flex items-center justify-center">
+                        <div className="h-6 w-6 rounded border-2 border-jvto-border peer-checked:border-jvto-lime peer-checked:bg-jvto-lime transition-all flex items-center justify-center">
                           {item.selected && (
                             <Check size={14} className="text-white" />
                           )}
@@ -2021,12 +2133,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
 
             {/* Footer Modal */}
-            <div className="border-t border-slate-100 bg-slate-50 p-6 shrink-0">
+            <div className="border-t border-jvto-border bg-jvto-off p-6 shrink-0">
               <div className="flex justify-between items-center mb-4 text-sm">
-                <span className="font-medium text-slate-600">
+                <span className="font-medium text-jvto-ink-soft">
                   Add-ons Total:
                 </span>
-                <span className="font-bold text-slate-900 text-lg">
+                <span className="font-bold text-jvto-navy text-lg">
                   {formatCurrency(
                     addOnSelections.reduce((sum, a) => {
                       if (!a.selected) return sum;
@@ -2044,14 +2156,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     setPendingBasePayload(null);
                     setSearchTerm("");
                   }}
-                  className="flex-1 rounded-sm border border-slate-300 bg-white py-3 text-sm font-bold uppercase text-slate-600 hover:bg-slate-100"
+                  className="flex-1 rounded-[16px] border border-jvto-border bg-white py-3 text-sm font-bold uppercase text-jvto-ink-soft hover:bg-jvto-off"
                 >
                   Skip
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmAddOns}
-                  className="flex-1 rounded-sm bg-jvto-lime py-3 text-sm font-bold uppercase text-slate-900 hover:bg-[#8cb82b] shadow-md"
+                  className="flex-1 rounded-[16px] bg-jvto-lime py-3 text-sm font-bold uppercase text-jvto-navy hover:bg-[#8cb82b] shadow-md"
                 >
                   Continue
                 </button>
@@ -2060,31 +2172,38 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
         </div>
       )}{" "}
-      {/* --- MOBILE STICKY BOTTOM BAR (New) --- */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <div className="flex items-center justify-between gap-5">
-          {/* Price Info */}
-          <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">
-              Start From
+      {/* --- MOBILE STICKY BOTTOM BAR --- */}
+      {/* One row that must never wrap: the price block holds its intrinsic
+          width, the action takes the rest, and the right inset keeps both
+          clear of the floating WhatsApp button. */}
+      <div className="fixed bottom-0 left-0 z-50 w-full border-t border-jvto-border bg-white/95 px-5 py-3.5 backdrop-blur-md lg:hidden shadow-[0_-12px_32px_-16px_rgba(13,27,42,0.25)]">
+        <div className="flex items-center gap-3 pr-[64px]">
+          <div className="shrink-0 whitespace-nowrap">
+            <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-jvto-muted">
+              Starts from
             </p>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg font-black text-jvto-lime-ink">
+              <span
+                className="font-black text-jvto-navy leading-none"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "18px",
+                  letterSpacing: "-0.03em",
+                }}
+              >
                 {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
               </span>
-              <span className="text-[10px] font-medium text-slate-400">
+              <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-jvto-muted">
                 /pax
               </span>
             </div>
-            {/* Optional Strikethrough Price (Mockup) */}
           </div>
 
-          {/* Action Button */}
           <button
             onClick={scrollToBooking}
-            className="flex-1 text-sm bg-jvto-lime hover:bg-[#8cb82b] text-black font-bold uppercase tracking-wide py-3 px-2 rounded-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
+            className="flex min-w-0 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-jvto-orange px-4 py-3.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-jvto-orange-hover active:scale-[0.98]"
           >
-            Instant Book <ChevronRight size={16} />
+            Instant book <ChevronRight size={14} />
           </button>
         </div>
       </div>
