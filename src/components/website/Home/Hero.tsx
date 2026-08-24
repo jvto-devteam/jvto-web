@@ -5,11 +5,14 @@ import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatfor
 interface HeroProps {
   title?: string;
   description?: string;
+  /** 40-60 fact-dense words stating what JVTO is, before anything else. */
+  answerFirst?: string | null;
 }
 
 const Hero: React.FC<HeroProps> = async ({
   title = "Tourist Police-Led Private Volcano Tours in East Java",
   description = "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (NIB 1102230032918), led by an active Tourist Police officer.",
+  answerFirst = null,
 }) => {
   // Resolve platform data at render time — live ekosistem record, not the
   // deleted jvtoReviews.ts snapshot (which had drifted stale).
@@ -58,6 +61,15 @@ const Hero: React.FC<HeroProps> = async ({
         <p className="text-base md:text-lg text-white/70 max-w-2xl mb-5 leading-relaxed">
           {description}
         </p>
+
+        {/* The entity answer. The homepage opened on a positioning line and
+            left the legal identity, the founding year and the rating to be
+            gathered from four sections further down. */}
+        {answerFirst ? (
+          <div className="mb-6 max-w-2xl rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 text-sm leading-relaxed text-white/80">
+            {answerFirst}
+          </div>
+        ) : null}
 
         {/* Body paragraph 1 */}
         {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">

@@ -109,6 +109,15 @@ export default async function WhyJvtoReviewsPage() {
       liveNumbers,
     );
 
+  const answerFirst =
+
+    typeof (page?.raw as any)?.page?.answerFirst === "string"
+
+      ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), liveNumbers)
+
+      : null;
+
+
   return (
     <>
       <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={extraSchemas as any} suppressCmsFaq />
@@ -140,9 +149,16 @@ export default async function WhyJvtoReviewsPage() {
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
                 {whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts."}
               </p>
-              {(page?.lede?.length ?? 0) > 1 ? (
+              {/* Answer first, supporting lines after — one box, so the
+                  opening states the finding before it elaborates. The lede
+                  lines stay rendered here; they are ekosistem content and
+                  nothing else on the page carries them. */}
+              {answerFirst || (page?.lede?.length ?? 0) > 1 ? (
                 <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 max-w-[58ch] space-y-2">
-                  {page!.lede!.slice(1).map((line) => (
+                  {answerFirst ? (
+                    <p className="text-sm leading-relaxed text-white/90">{answerFirst}</p>
+                  ) : null}
+                  {(page?.lede ?? []).slice(1).map((line) => (
                     <p key={line} className="text-sm leading-relaxed text-white/80">
                       {line}
                     </p>

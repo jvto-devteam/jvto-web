@@ -1,5 +1,6 @@
 // app/(website)/page.tsx
 import type { Metadata } from "next";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
 import Differentiators from "@/components/website/Home/Differentiators";
@@ -89,6 +90,14 @@ const Home = async () => {
     getEntityGraphFacts(),
   ]);
   const volcanicStatus = getAllVolcanicStatus();
+  const liveNumbers = await getLiveNumbers();
+  const homeAnswerFirst =
+    typeof (ecosystemPage?.raw as any)?.page?.answerFirst === "string"
+      ? applyLiveNumbers(
+          ((ecosystemPage!.raw as any).page.answerFirst as string).trim(),
+          liveNumbers,
+        )
+      : null;
   const homeSections = (ecosystemPage?.sections ?? []) as any[];
   const findSection = (id: string) => homeSections.find((s) => s.id === id);
   const homeSchemaFacts = ((ecosystemPage?.raw as any)?.page?.content?.payload?.pageContent
@@ -181,7 +190,7 @@ const Home = async () => {
       />
 
       {/* 1. Hero */}
-      <Hero title={seo.h1} description={seo.description} />
+      <Hero title={seo.h1} description={seo.description} answerFirst={homeAnswerFirst} />
 
       {/* 2. WHY JVTO — 6 Differentiators */}
       <Differentiators section={findSection("differentiators")} />

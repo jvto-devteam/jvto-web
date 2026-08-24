@@ -1,5 +1,6 @@
 // app/(website)/why-jvto/community-standards/page.tsx
 import { type Metadata } from "next";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
@@ -93,6 +94,17 @@ export default async function CommunityStandardsPage() {
       .map((b: any) => b.body_md)
       .join("\n\n");
 
+  const liveNumbers = await getLiveNumbers();
+
+  const answerFirst =
+
+    typeof (page?.raw as any)?.page?.answerFirst === "string"
+
+      ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), liveNumbers)
+
+      : null;
+
+
   return (
     <>
       <PageJsonLdCombined
@@ -138,9 +150,16 @@ export default async function CommunityStandardsPage() {
                   page?.meta.description ||
                   "JVTO publishes its rules, policies, and commitments before you pay anything. Guests who understand the terms before booking have better trips."}
               </p>
-              {(page?.lede?.length ?? 0) > 1 ? (
+              {/* Answer first, supporting lines after — one box, so the
+                  opening states the finding before it elaborates. The lede
+                  lines stay rendered here; they are ekosistem content and
+                  nothing else on the page carries them. */}
+              {answerFirst || (page?.lede?.length ?? 0) > 1 ? (
                 <div className="mt-6 rounded-xl border border-jvto-lime/25 bg-white/10 px-5 py-4 max-w-[58ch] space-y-2">
-                  {page!.lede!.slice(1).map((line) => (
+                  {answerFirst ? (
+                    <p className="text-sm leading-relaxed text-white/90">{answerFirst}</p>
+                  ) : null}
+                  {(page?.lede ?? []).slice(1).map((line) => (
                     <p key={line} className="text-sm leading-relaxed text-white/80">
                       {line}
                     </p>
