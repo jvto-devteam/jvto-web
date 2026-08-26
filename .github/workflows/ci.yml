@@ -58,18 +58,21 @@ jobs:
         continue-on-error: true
         run: npm run lint
 
-      # sync:trust and src/data/trust-bundle were removed on 2026-08-15 in
-      # 1542fb08 — trust content flows through ekosistem now — but this step
-      # kept calling them, so every run since has failed on a missing script.
-      # The last green run of this workflow was 2026-08-11.
+      # Only package-readiness still flows from llm-wiki.
+      #
+      # sync:trust and src/data/trust-bundle went on 2026-08-15 in 1542fb08.
+      # Blog followed: jvto-web reads posts through
+      # lib/ecosystemContent/blog.ts from the ekosistem content API, src/data/blog
+      # is not in the repo, and sync:blog now fails outright because a published
+      # post has no counterpart under llm-wiki's output. Both were still named
+      # here, so this step gated the branch on producing artifacts nothing reads.
       - name: Sync bundles and check for drift
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
         run: |
           npm run sync:packages
-          npm run sync:blog
-          git diff --exit-code src/data/package-readiness src/data/blog \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:blog' and commit."; exit 1; }
+          git diff --exit-code src/data/package-readiness \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages' and commit."; exit 1; }
 
       - name: Validate package-readiness artifacts (offline)
         run: npm run validate:packages -- --offline
