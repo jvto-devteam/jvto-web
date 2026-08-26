@@ -24,7 +24,6 @@ import {
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
-import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
 import { getEcosystemTourSchemaNodes } from "@/lib/ecosystemContent/tourSchemaOutput";
@@ -125,13 +124,11 @@ const getTourData = cache(async (slugParam: string) => {
 function StructuredData({
   data,
   globalNodes,
-  googleStats,
   tourAugment,
   ecosystemNodes,
 }: {
   data: TourPackageDetailResponse;
   globalNodes: any[];
-  googleStats: { rating: number; count: number } | null;
   tourAugment?: { subjectOf: { "@id": string }; mentions: { "@id": string }[] } | null;
   ecosystemNodes: Record<string, unknown>[] | null;
 }) {
@@ -162,6 +159,25 @@ function StructuredData({
       ? { ...node, subjectOf: tourAugment.subjectOf, mentions: tourAugment.mentions }
       : node,
   );
+
+  // The Product node's rating must be THIS tour's rating, not the company's.
+  //
+  // It used to read `pkg.aggregateRating?.ratingValue || googleStats.rating`.
+  // Every product contract ships `aggregateRating: {ratingValue: 0,
+  // reviewCount: 0}` — a placeholder nothing ever filled — and 0 is falsy, so
+  // `||` fell through to the company-wide Google figure on every tour page.
+  // All seventeen claimed "4.9 from 156 reviews" for themselves, including the
+  // seven with no reviews at all, while the Organization node on the same page
+  // carried those same 156 as what they actually are.
+  //
+  // ekosistem now emits a real per-tour aggregateRating on the #tour node,
+  // computed from the Review nodes that tour publishes
+  // (scripts/lib/review-schema/build-review-nodes.mjs). Lift it from there, and
+  // when the tour has none, emit no rating — an absent rating says "not rated
+  // yet", which is true; a borrowed one says something false.
+  const tourAggregateRating = (ecosystemNodes ?? []).find(
+    (node) => node["@id"] === `${pageUrl}#tour`,
+  )?.aggregateRating as Record<string, unknown> | undefined;
 
   const graphSchema = {
     "@context": "https://schema.org",
@@ -203,11 +219,7 @@ function StructuredData({
         sku: pkg.packageId,
         productID: pkg.packageId,
         brand: { "@id": `${siteUrl}/#organization` },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || String(googleStats?.rating ?? 4.8),
-          reviewCount: pkg.aggregateRating?.reviewCount || String(googleStats?.count ?? 141),
-        },
+        ...(tourAggregateRating ? { aggregateRating: tourAggregateRating } : {}),
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
       },
@@ -319,12 +331,11 @@ function adaptToTourDetailSeed(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims, googleStats, reviewProfiles, ijenCraterRequirements, ecosystemNodes] = await Promise.all([
+  const [data, reviews, org, allClaims, reviewProfiles, ijenCraterRequirements, ecosystemNodes] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
     getEcosystemNarrativeClaims(),
-    getPublicAggregateRating(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
     // Ijen Crater mandatory-requirements table + FAQ for TourRequirements (client bundle — must be drilled in).
@@ -384,7 +395,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
+      <StructuredData data={data} globalNodes={globalNodes} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
