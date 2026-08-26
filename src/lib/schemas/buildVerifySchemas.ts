@@ -148,11 +148,7 @@ export function buildPoliceSafetyDigitalDocuments(facts?: {
       url: polpar.url,
       encodingFormat: 'application/pdf',
       about: { '@id': `${BASE_URL}/#agung-sambuko` },
-      publisher: {
-        '@type': 'GovernmentOrganization',
-        name: polpar.publisherName,
-        url: polpar.publisherUrl,
-      },
+      publisher: entityRef('polri'),
       inLanguage: 'id',
     },
     {

@@ -233,6 +233,7 @@ export default async function VerifyJvtoPage() {
         "kta-taufik": "Mohammad Taufik",
       };
       const personName = nameMap[asset.slug] || "Ijen Guide";
+      const crewCode = asset.slug.startsWith("kta-") ? asset.slug.slice(4) : null;
       return {
         "@type": "ImageObject",
         ...propsWithDate,
@@ -241,11 +242,13 @@ export default async function VerifyJvtoPage() {
           ? "image/png"
           : "image/jpeg",
         sha256: asset.sha256,
-        about: {
-          "@type": "Person",
-          name: personName,
-          description: "Licensed Ijen crater guide",
-        },
+        // Reference the crew member's own node rather than naming them again.
+        // Written inline, the person on this credential image and the person on
+        // their profile page were two people as far as the graph could tell.
+        // Falls back to a bare description only for an unmapped credential.
+        about: crewCode
+          ? { "@id": `${siteUrl}/why-jvto/our-team/${crewCode}#person` }
+          : { "@type": "Person", description: "Licensed Ijen crater guide" },
       };
     }
 

@@ -176,7 +176,8 @@ function buildStatusAnnouncementSchema(
     category: "https://www.wikidata.org/wiki/Q83",
     ...(pvmbg?.image_url ? { image: pvmbg.image_url } : {}),
     isBasedOn: pvmbg ? { "@id": `${siteUrl}/destinations/${slug}#pvmbg-report` } : undefined,
-    spatialCoverage: { "@id": `${siteUrl}/destinations/${slug}` },
+    // The page defines #attraction; the bare route URL is the page, not the place.
+    spatialCoverage: { "@id": `${siteUrl}/destinations/${slug}#attraction` },
     about: { "@id": `${siteUrl}/#organization` },
   };
 }
@@ -213,7 +214,7 @@ function buildPvmbgReportSchema(
       name: "MAGMA Indonesia / Badan Geologi ESDM",
       url: "https://magma.esdm.go.id",
     },
-    about: { "@id": `${siteUrl}/destinations/${slug}` },
+    about: { "@id": `${siteUrl}/destinations/${slug}#attraction` },
   };
 }
 

@@ -300,6 +300,6 @@ export function buildDestinationTravelGuideHandoffSchema({
     '@id': `${BASE_URL}/destinations/${destinationSlug}#related-travel-guide`,
     url: `${BASE_URL}${guidePath}`,
     name: `Travel Guide for ${destinationName}`,
-    isPartOf: { '@id': `${BASE_URL}/destinations/${destinationSlug}` },
+    isPartOf: { '@id': `${BASE_URL}/destinations/${destinationSlug}#attraction` },
   };
 }
