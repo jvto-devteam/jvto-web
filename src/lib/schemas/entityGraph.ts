@@ -415,12 +415,10 @@ export function buildFounderSchema(facts?: EntityGraphFacts['founder']): WithCon
     ],
     worksFor: [
       { '@id': ORG_ID },
-      {
-        '@type': 'GovernmentOrganization',
-        name: 'Polisi Pariwisata (POLPAR) Bondowoso — Polres Bondowoso, Indonesian National Police',
-        url: 'https://polri.go.id',
-        description: f.worksForGovDescription,
-      },
+      // Reference the registry node rather than describing the unit again.
+      // Written inline, the founder's POLPAR and the registry's POLPAR were two
+      // organisations as far as any machine reading the graph could tell.
+      entityRef('polparBondowoso'),
     ],
     memberOf: entityRef('hpwki'),
     // Police credentials — verifiable government documents.

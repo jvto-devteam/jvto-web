@@ -108,6 +108,15 @@ export const EXTERNAL_ENTITIES = {
     url: 'https://ayoketamannasional.kehutanan.go.id/en/taman-wisata-alam/kawah-ijen',
     sameAs: 'https://ayoketamannasional.kehutanan.go.id/en/taman-wisata-alam/kawah-ijen',
   },
+  // Mirrors external-entities.json key "polpar-bondowoso". The founder's
+  // worksFor edge described this unit inline, so to a machine the unit on the
+  // founder node and the one in the registry were two different organisations.
+  polparBondowoso: {
+    '@type': 'GovernmentOrganization',
+    '@id': `${BASE_URL}/entity/#org-polpar-bondowoso`,
+    name: 'Polisi Pariwisata (POLPAR) Bondowoso — Polres Bondowoso, Indonesian National Police',
+    url: 'https://polri.go.id',
+  },
   polri: {
     '@type': 'GovernmentOrganization',
     '@id': `${BASE_URL}/entity/#org-polri`,

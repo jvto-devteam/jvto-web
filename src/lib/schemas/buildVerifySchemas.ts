@@ -11,6 +11,10 @@
 // referenced by other nodes and must remain stable. FALLBACK_*_FACTS below hold the exact
 // original literal values, used whenever ekosistem doesn't supply `schemaFacts`.
 import { buildDoctorSchema } from '@/lib/schemas/entityGraph';
+// Third-party organisations are defined once in the registry and referenced by
+// @id everywhere else. Written inline, the same ministry or news outlet reads as
+// a fresh anonymous node on every page that mentions it.
+import { entityRef } from '@/lib/schemas/externalEntities';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -81,10 +85,7 @@ export function buildLegalDigitalDocuments(facts?: {
       encodingFormat: 'application/pdf',
       dateCreated: tdup.dateCreated,
       about: { '@id': `${BASE_URL}/#term-tdup` },
-      publisher: {
-        '@type': 'GovernmentOrganization',
-        name: tdup.publisherName,
-      },
+      publisher: entityRef('kemenparekraf'),
       inLanguage: 'id',
     },
     {
@@ -162,10 +163,7 @@ export function buildPoliceSafetyDigitalDocuments(facts?: {
       url: walTravel.url,
       dateCreated: walTravel.dateCreated,
       about: { '@id': `${BASE_URL}/#agung-sambuko` },
-      publisher: {
-        '@type': 'GovernmentOrganization',
-        name: walTravel.publisherName,
-      },
+      publisher: entityRef('polri'),
       inLanguage: 'id',
     },
   ];
@@ -254,11 +252,7 @@ export function buildPressRecognitionSchemas(facts?: {
       '@id': `${PRESS_URL}#stefan-loose`,
       name: stefanLoose.name,
       isbn: stefanLoose.isbn,
-      publisher: {
-        '@type': 'Organization',
-        name: stefanLoose.publisherName,
-        url: stefanLoose.publisherUrl,
-      },
+      publisher: entityRef('dumontReiseverlag'),
       datePublished: stefanLoose.datePublished,
       inLanguage: 'de',
       about: { '@id': `${BASE_URL}/#organization` },
@@ -272,11 +266,7 @@ export function buildPressRecognitionSchemas(facts?: {
       headline: detik2021.headline,
       datePublished: detik2021.datePublished,
       url: detik2021.url,
-      publisher: {
-        '@type': 'NewsMediaOrganization',
-        name: detik2021.publisherName,
-        url: detik2021.publisherUrl,
-      },
+      publisher: entityRef('detikcom'),
       about: { '@id': `${BASE_URL}/#organization` },
       mentions: [{ '@id': `${BASE_URL}/#agung-sambuko` }],
       image: detik2021.image,
@@ -288,11 +278,7 @@ export function buildPressRecognitionSchemas(facts?: {
       headline: radarjember2021.headline,
       datePublished: radarjember2021.datePublished,
       url: radarjember2021.url,
-      publisher: {
-        '@type': 'NewsMediaOrganization',
-        name: radarjember2021.publisherName,
-        url: radarjember2021.publisherUrl,
-      },
+      publisher: entityRef('radarJemberJawaPos'),
       about: { '@id': `${BASE_URL}/#organization` },
       mentions: [{ '@id': `${BASE_URL}/#agung-sambuko` }],
       image: radarjember2021.image,

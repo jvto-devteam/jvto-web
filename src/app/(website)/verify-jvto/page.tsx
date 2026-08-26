@@ -516,7 +516,9 @@ export default async function VerifyJvtoPage() {
     "@type": "Book",
     "@id": `${siteUrl}/#book-stefan-loose-indonesien`,
     name: "Stefan Loose Reiseführer Indonesien",
-    publisher: { "@type": "Organization", name: "DuMont Reiseverlag" },
+    // Reference the registry node; naming the publisher inline here made it a
+    // second anonymous DuMont beside the one /entity defines.
+    publisher: entityRefById(`${siteUrl}/entity/#org-dumont`),
     bookEdition: "4th Edition",
     datePublished: "2018-07-05",
     isbn: "978-3-7701-7881-0",
