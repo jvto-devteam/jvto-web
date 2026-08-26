@@ -1,3 +1,33 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
+// The expected Content-Signal is a POLICY, not a constant, and it belongs to
+// the owner rather than to this script. It was frozen here as "ai-train=no"
+// while the owner changed it to "ai-train=yes" on 2026-08-18 (commit 904e8219),
+// because robots.ts already allowed every AI-training crawler and AEO/GEO
+// visibility is a stated goal of the site. This audit then reported eleven
+// false failures per run for eight days, and nobody trusted it.
+//
+// Read it from jvto-ekosistem/state/goals.json instead. A checker that freezes
+// a policy is a checker that will eventually contradict its owner.
+const FALLBACK_CONTENT_SIGNAL = "search=yes,ai-train=yes,use=reference";
+
+function expectedContentSignal() {
+  const root =
+    process.env.JVTO_EKOSYSTEM_CONTENT_ROOT ??
+    path.resolve(process.cwd(), "..", "jvto-ekosistem");
+  try {
+    const goals = JSON.parse(
+      readFileSync(path.join(root, "state", "goals.json"), "utf8"),
+    );
+    const signal = goals?.policies?.contentSignal;
+    if (typeof signal === "string" && signal.trim()) return signal.trim();
+  } catch {
+    // goals.json absent or unreadable — fall through to the recorded default.
+  }
+  return FALLBACK_CONTENT_SIGNAL;
+}
+
 const BASE_URL = (
   process.env.GEO_AUDIT_BASE_URL ?? "https://javavolcano-touroperator.com"
 ).replace(/\/$/, "");
@@ -184,8 +214,10 @@ for (const route of ROUTES) {
   rows.push(row);
 
   if (response.status !== 200) failures.push(`${route} returned HTTP ${response.status}`);
-  if (row.contentSignal !== "search=yes,ai-train=no,use=reference") {
-    failures.push(`${route} missing expected Content-Signal header`);
+  if (row.contentSignal !== expectedContentSignal()) {
+    failures.push(
+      `${route} Content-Signal is "${row.contentSignal}", expected "${expectedContentSignal()}"`,
+    );
   }
   if (!row.maxSnippet) failures.push(`${route} missing max-snippet:-1`);
   if (!h1 || GENERIC_H1.has(h1.toLowerCase())) warnings.push(`${route} has generic or missing H1: "${h1}"`);

@@ -59,6 +59,24 @@ export const getLiveNumbers = cache(async (): Promise<LiveNumbers> => {
 
   if (packages.length) out.PACKAGE_COUNT = String(packages.length);
 
+  // Per-origin counts. {PACKAGE_COUNT} is the catalogue total, so a sentence on
+  // an origin page that says "13 private itineraries" cannot use it — following
+  // that advice would publish the wrong number. These are the tokens that fit.
+  // Both are derived from the same list, so neither can drift from the total.
+  const perOrigin = { PACKAGE_COUNT_BALI: 0, PACKAGE_COUNT_SURABAYA: 0 };
+  for (const pkg of packages) {
+    const origin = String((pkg as { startDestination?: unknown }).startDestination ?? "")
+      .toLowerCase();
+    if (origin.includes("bali")) perOrigin.PACKAGE_COUNT_BALI += 1;
+    else if (origin.includes("surabaya")) perOrigin.PACKAGE_COUNT_SURABAYA += 1;
+  }
+  if (perOrigin.PACKAGE_COUNT_BALI) {
+    out.PACKAGE_COUNT_BALI = String(perOrigin.PACKAGE_COUNT_BALI);
+  }
+  if (perOrigin.PACKAGE_COUNT_SURABAYA) {
+    out.PACKAGE_COUNT_SURABAYA = String(perOrigin.PACKAGE_COUNT_SURABAYA);
+  }
+
   // Catalogue floor, derived rather than stored. A price written into a
   // sentence is stale the day a cheaper package is published — which is
   // exactly how "From IDR 1.55M" outlived a 1.0M package on this site.

@@ -45,6 +45,10 @@ jobs:
               sleep 3
             done
             npm run validate:jsonld-schema
+            # 217 review permalinks are public, indexed URLs whose numeric ids are
+            # baked into their JSON-LD @ids. This validator existed but no workflow
+            # ran it, so a break in those pages would only have surfaced by chance.
+            npm run validate:review-pages
       - name: Ping IndexNow (best-effort, non-blocking)
         continue-on-error: true
         run: |

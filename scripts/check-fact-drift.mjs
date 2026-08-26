@@ -82,9 +82,15 @@ function extractLiteral(source, fieldPattern) {
 }
 
 const entityGraphTaxId = extractLiteral(entityGraphSrc, /taxID:\s*'([^']+)'/);
+// Anchored on AGUNG_ID rather than on a named constant. This used to match
+// `export const FOUNDER_SCHEMA`, which became `buildFounderSchema(facts)` in a
+// refactor. The pattern then matched nothing, the check reported "could not
+// extract — treat as a failure to investigate", and it stayed red without
+// anything actually being wrong. A checker anchored on a name breaks the day
+// that name changes; anchoring on the @id it emits survives the rename.
 const entityGraphFounderName = (() => {
   const founderBlockMatch = entityGraphSrc.match(
-    /export const FOUNDER_SCHEMA[\s\S]*?name:\s*'([^']+)'/,
+    /'@id':\s*AGUNG_ID,[\s\S]{0,200}?name:\s*'([^']+)'/,
   );
   return founderBlockMatch ? founderBlockMatch[1] : null;
 })();
@@ -129,7 +135,7 @@ if (ecosystemAvailable) {
     founder?.name,
     "jvto-ekosistem people-and-crew/people.json (leadership[roles includes Founder])",
     entityGraphFounderName,
-    "entityGraph.ts FOUNDER_SCHEMA.name",
+    "entityGraph.ts buildFounderSchema (anchored on AGUNG_ID)",
   );
 
   checkFact(

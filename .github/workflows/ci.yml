@@ -52,15 +52,18 @@ jobs:
         continue-on-error: true
         run: npm run lint
 
+      # sync:trust and src/data/trust-bundle were removed on 2026-08-15 in
+      # 1542fb08 — trust content flows through ekosistem now — but this step
+      # kept calling them, so every run since has failed on a missing script.
+      # The last green run of this workflow was 2026-08-11.
       - name: Sync bundles and check for drift
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
         run: |
           npm run sync:packages
-          npm run sync:trust
           npm run sync:blog
-          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog' and commit."; exit 1; }
+          git diff --exit-code src/data/package-readiness src/data/blog \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:blog' and commit."; exit 1; }
 
       - name: Validate package-readiness artifacts (offline)
         run: npm run validate:packages -- --offline
