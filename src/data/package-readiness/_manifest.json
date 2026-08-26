@@ -1,16 +1,16 @@
 {
   "schema_version": "package-readiness/v1.3",
   "generated_by": "scripts/compile_packages.py",
-  "generated_at": "2026-06-15T14:30:19.515689+00:00",
+  "generated_at": "2026-08-22T20:02:51.926720+00:00",
   "dry_run": false,
   "canonical_package_count": 16,
   "source_hashes": {
-    "packages-overview": "c27b40068df6",
+    "packages-overview": "f110f19d6fc4",
     "packages-full-pricing": "c78771b3c396",
     "packages-itineraries": "627317e792f2",
     "sitemap": "b60018b623d0",
     "route-data": "78a6b50ada57",
-    "policy-source-ownership": "fb3a6e84deb5",
+    "policy-source-ownership": "546d94a634cb",
     "db-export": "555d2d9dfa66"
   },
   "findings_by_rule": {},
@@ -22,6 +22,35 @@
     "booking-compatibility.json",
     "gap-report.json"
   ],
+  "sync_contract": {
+    "recommended_consumers": [
+      "jvto-web",
+      "jvto-ekosistem"
+    ],
+    "source_path": "output/products/package-readiness/",
+    "targets": {
+      "jvto-web": "src/data/package-readiness/",
+      "jvto-ekosistem": "archive/llm-wiki-snapshot/package-readiness/"
+    },
+    "required_gate": {
+      "schema_version": "package-readiness/v1.3",
+      "clean": true
+    },
+    "required_files": [
+      "package-registry.json",
+      "package-pricing.json",
+      "package-itineraries.json",
+      "package-operational-days.json",
+      "booking-compatibility.json",
+      "gap-report.json",
+      "_manifest.json"
+    ],
+    "consumer_entrypoint": "package-registry.json",
+    "validation_files": [
+      "gap-report.json"
+    ],
+    "failure_rule": "Refuse sync if schema_version mismatches, clean is not true, any required file is missing, or gap-report.json reports any error-severity finding."
+  },
   "clean": true,
   "record_counts": {
     "registry": 16,
