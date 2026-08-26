@@ -17,15 +17,21 @@ jobs:
       - name: Checkout jvto-web (live)
         uses: actions/checkout@v4
 
-      # Producer repo, so the drift check can re-sync and compare. Reuses GH_PAT
-      # (same secret used by update-volcanic-status.yml).
+      # Producer repo, so the drift check can re-sync and compare.
+      #
+      # No `token:` here on purpose. sambuko82/llm-wiki is public, so the
+      # default checkout credentials reach it. This step used to pass
+      # secrets.GH_PAT; that secret no longer authenticates, and handing
+      # actions/checkout an unusable token makes it attempt auth and fail with
+      # "could not read Username" rather than falling back to anonymous access.
+      # Every CI run from at least 2026-08-19 died here, before reaching any
+      # check this workflow exists to run.
       - name: Checkout llm-wiki (producer)
         uses: actions/checkout@v4
         with:
           repository: sambuko82/llm-wiki
           ref: master
           path: llm-wiki
-          token: ${{ secrets.GH_PAT }}
 
       - uses: actions/setup-node@v4
         with:
