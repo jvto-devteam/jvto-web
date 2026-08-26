@@ -36,7 +36,7 @@
  *   - Required-field checks are skipped for object literals using spread (`...`).
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -590,7 +590,24 @@ const cmd = process.argv[2] ?? 'schema';
 if (cmd === 'schema') {
   runSchema();
 } else if (cmd === 'routes') {
-  runRoutes();
+  // src/lib/registry/pages.ts was deleted on 2026-08-15 in 3925805f, a
+  // dead-code sweep — nothing under src/ imports the registry any more. This
+  // check reconciles that registry against the filesystem router, next.config
+  // redirects and middleware, so with the registry gone it has nothing to
+  // reconcile and was failing with a raw ENOENT stack trace instead of saying
+  // so. Skipping loudly is honest; crashing was not, and neither would be
+  // deleting the check while the redirect coverage it also provided is
+  // unreplaced. Tracked in jvto-ekosistem/state/goals.json as
+  // validate-routes-registry-gone — restore the registry or retire the check.
+  if (!existsSync(REGISTRY_FILE)) {
+    console.log(
+      'validate routes: skipped — src/lib/registry/pages.ts does not exist ' +
+        '(removed 2026-08-15 in 3925805f). This check has validated nothing since. ' +
+        'Restore the registry or retire the check; see state/goals.json.',
+    );
+  } else {
+    runRoutes();
+  }
 } else {
   console.error(`Unknown subcommand "${cmd}". Usage: node scripts/validate.mjs <schema|routes>`);
   process.exitCode = 2;
