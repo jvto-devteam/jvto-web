@@ -4,13 +4,15 @@
  *
  * Usage: node scripts/validate.mjs <schema|routes>
  *
- * `routes` reads src/lib/registry/pages.ts and reconciles it against the
- * filesystem router, next.config.ts redirects() and middleware.ts
- * (redirectMap + goneUrls). FAILS on: a redirect/gone source whose registry
- * status is 'live' (or that has a page.tsx but no registry entry),
- * duplicate-intent routes lacking/disagreeing on a canonical, and
- * registry<->filesystem drift. Redirect sources whose page.tsx is
- * acknowledged as status 'dead' in the registry are warnings, not failures.
+ * `routes` reconciles next.config.ts redirects() and middleware.ts
+ * (redirectMap + goneUrls) against the filesystem router. FAILS on a
+ * redirect or gone source that still serves a page.tsx — the redirect is
+ * unreachable, and one of the two is wrong.
+ *
+ * It also read src/lib/registry/pages.ts for canonicals and duplicate-intent
+ * families until 2026-08-26. That registry was deleted on 2026-08-15 in
+ * 3925805f and nothing imported it; those two checks are retired, not
+ * paused.
  *
  * `schema` statically resolves the JSON-LD each (website) route emits:
  *   - inline @type literals in the route's page.tsx (incl. inline @graph)
@@ -36,7 +38,7 @@
  *   - Required-field checks are skipped for object literals using spread (`...`).
  */
 
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -419,46 +421,12 @@ function runSchema() {
 
 // ── subcommand: routes ────────────────────────────────────────────────────────
 
-const REGISTRY_FILE = path.join(ROOT, 'src', 'lib', 'registry', 'pages.ts');
 const NEXT_CONFIG_FILE = path.join(ROOT, 'next.config.ts');
 const MIDDLEWARE_FILE = path.join(ROOT, 'src', 'middleware.ts');
 
 /** Substring of the balanced `[...]` block starting at `start`. */
 function bracketBlockAt(src, start) {
   return scanBlock(src, start, '[', ']');
-}
-
-/** Parse PAGE_REGISTRY entries out of the TS source (field-regex per entry block). */
-function parseRegistry(src) {
-  // skip past `=` so the `[` in the `PageEntry[]` type annotation isn't matched
-  const arrStart = src.indexOf('[', src.indexOf('=', src.indexOf('PAGE_REGISTRY')));
-  if (arrStart === -1) throw new Error('PAGE_REGISTRY array not found in registry/pages.ts');
-  const arr = bracketBlockAt(src, arrStart);
-  const entries = [];
-  let depth = 0;
-  for (let i = 0; i < arr.length; i++) {
-    const c = arr[i];
-    if (c === '{') {
-      if (depth === 0) {
-        const block = blockAt(arr, i);
-        const field = (name) => {
-          const m = block.match(new RegExp(`\\b${name}:\\s*'([^']*)'`));
-          return m ? m[1] : undefined;
-        };
-        entries.push({
-          key: field('key'),
-          route: field('route'),
-          canonical: field('canonical'),
-          status: field('status'),
-          redirectsTo: field('redirectsTo'),
-        });
-        i += block.length - 1;
-        continue;
-      }
-      depth++;
-    } else if (c === '}') depth--;
-  }
-  return entries;
 }
 
 /** Redirect/gone sources from next.config.ts and middleware.ts, with layer labels. */
@@ -495,111 +463,40 @@ function parseRedirectSources() {
   return sources;
 }
 
-/** Duplicate-intent key: order-insensitive, singularized route tokens. */
-function intentKey(route) {
-  return route
-    .toLowerCase()
-    .split(/[/-]/)
-    .filter(Boolean)
-    .map((t) => t.replace(/s$/, ''))
-    .sort()
-    .join('|');
-}
-
+/**
+ * Redirect tables against the filesystem router.
+ *
+ * This check used to reconcile src/lib/registry/pages.ts as well — canonicals
+ * and duplicate-intent families. That registry was deleted on 2026-08-15 in
+ * 3925805f, a dead-code sweep, and nothing under src/ has imported it since;
+ * on the owner's decision those two jobs are retired rather than restored.
+ *
+ * What remains is the job that never needed the registry: a URL you redirect
+ * away from that still serves a page.tsx is a conflict the filesystem and the
+ * redirect tables prove between themselves. The redirect is unreachable, and
+ * whichever of the two is wrong, one of them is.
+ */
 function runRoutes() {
-  // src/lib/registry/pages.ts was deleted on 2026-08-15 in 3925805f, a
-  // dead-code sweep, and nothing under src/ imports it any more. Two of this
-  // check's three jobs — canonicals and duplicate-intent families — read that
-  // registry and have nothing to work on without it.
-  //
-  // The third does not need it: a URL you redirect away from that still serves
-  // a page.tsx is a bug the filesystem and the redirect tables can prove on
-  // their own. That coverage is worth keeping, so the registry parts degrade
-  // to a notice rather than taking the whole check down with them.
-  const registry = existsSync(REGISTRY_FILE)
-    ? parseRegistry(readFileSync(REGISTRY_FILE, 'utf8'))
-    : null;
   const fsRoutes = new Set(
     walkPageFiles(WEBSITE_DIR)
       .map(routeFromFile)
-      .filter((r) => !r.includes('[')), // dynamic routes out of PR-1 registry scope
+      .filter((r) => !r.includes('[')), // dynamic routes have no single source path
   );
-  const byRoute = new Map((registry ?? []).map((e) => [e.route, e]));
   const redirectSources = parseRedirectSources();
 
   const failures = [];
-  const warnings = [];
 
-  // 1. redirect/gone source that is also a live page
   for (const { path: src, layer } of redirectSources) {
-    const hasPage = fsRoutes.has(src);
-    if (!hasPage) continue;
-    const entry = byRoute.get(src);
-    if (!entry) {
-      // Without a registry there is nothing to consult about intent, but the
-      // conflict itself is still real and still a failure.
-      failures.push(
-        registry
-          ? `${src} — redirect source (${layer}) has a page.tsx but no registry entry`
-          : `${src} — redirect source (${layer}) still serves a page.tsx; the redirect is unreachable`,
-      );
-    } else if (entry.status === 'live') {
-      failures.push(
-        `${src} — registry says status 'live' but it is a redirect source (${layer}); page is unreachable`,
-      );
-    } else {
-      warnings.push(
-        `${src} — page.tsx masked by ${layer}; acknowledged as status '${entry.status}' (redirectsTo: ${entry.redirectsTo ?? 'n/a'})`,
-      );
-    }
+    if (!fsRoutes.has(src)) continue;
+    failures.push(
+      `${src} — redirect source (${layer}) still serves a page.tsx; the redirect is unreachable`,
+    );
   }
 
-  // 2. duplicate-intent routes must agree on one non-empty canonical
-  const groups = new Map();
-  for (const e of registry ?? []) {
-    const k = intentKey(e.route);
-    if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(e);
-  }
-  for (const [, members] of groups) {
-    if (members.length < 2) continue;
-    const canonicals = new Set(members.map((m) => m.canonical || ''));
-    const routes = members.map((m) => m.route).join(', ');
-    if (canonicals.has('')) {
-      failures.push(`duplicate-intent family [${routes}] has a member lacking a canonical`);
-    } else if (canonicals.size > 1) {
-      failures.push(
-        `duplicate-intent family [${routes}] disagrees on canonical: ${[...canonicals].join(' vs ')}`,
-      );
-    } else {
-      warnings.push(
-        `duplicate-intent family [${routes}] → canonical ${[...canonicals][0]} (no redirects yet — GSC-gated)`,
-      );
-    }
-  }
-  for (const e of registry ?? []) {
-    if (!e.canonical) failures.push(`${e.route} — registry entry lacks a canonical`);
-  }
-
-  // 3. registry <-> filesystem drift
-  for (const e of registry ?? []) {
-    if (!fsRoutes.has(e.route) && e.status !== 'redirect') {
-      failures.push(`${e.route} — in registry (status '${e.status}') but no page.tsx on disk`);
-    }
-  }
-  // Drift only means something against a registry that exists. Without one
-  // every route on disk would be "missing", which is noise, not a finding.
-  if (registry) {
-    for (const r of fsRoutes) {
-      if (!byRoute.has(r)) failures.push(`${r} — page.tsx on disk but missing from registry`);
-    }
-  }
-
-  for (const w of warnings) console.log(`⚠ ${w}`);
   for (const f of failures) console.log(`✗ ${f}`);
   console.log(
-    `\n[routes] ${registry ? `${registry.length} registry entries, ` : 'registry absent, '}${fsRoutes.size} static routes on disk, ` +
-      `${redirectSources.length} redirect/gone sources — ${failures.length} failure(s), ${warnings.length} warning(s)`,
+    `\n[routes] ${fsRoutes.size} static routes on disk, ` +
+      `${redirectSources.length} redirect/gone sources — ${failures.length} failure(s)`,
   );
   if (failures.length) process.exitCode = 1;
   else console.log('[routes] PASS');
@@ -620,13 +517,6 @@ if (cmd === 'schema') {
   // deleting the check while the redirect coverage it also provided is
   // unreplaced. Tracked in jvto-ekosistem/state/goals.json as
   // validate-routes-registry-gone — restore the registry or retire the check.
-  if (!existsSync(REGISTRY_FILE)) {
-    console.log(
-      'validate routes: registry absent (src/lib/registry/pages.ts, removed ' +
-        '2026-08-15 in 3925805f). Canonical and duplicate-intent checks are ' +
-        'skipped; the redirect-vs-filesystem reconciliation still runs.',
-    );
-  }
   runRoutes();
 } else {
   console.error(`Unknown subcommand "${cmd}". Usage: node scripts/validate.mjs <schema|routes>`);
