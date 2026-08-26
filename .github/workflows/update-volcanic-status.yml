@@ -10,11 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # To dispatch deploy.yml at the end — see the last step for why that is
+      # not automatic.
+      actions: write
 
     steps:
+      # No `token:` here. This checks out its OWN repo, which github.token
+      # already reaches, and it used to pass secrets.GH_PAT — a secret that no
+      # longer authenticates. Handing actions/checkout an unusable token makes
+      # it attempt auth and die with "could not read Username for
+      # https://github.com" rather than falling back, which is how this job has
+      # failed every night since 2026-08-15, leaving the published volcanic
+      # status eleven days stale on a feed that tells readers to distrust
+      # anything older than 48 hours.
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_PAT }}
 
       - uses: actions/setup-node@v4
         with:
@@ -24,11 +33,30 @@ jobs:
         run: node scripts/update-volcanic-status.mjs
 
       - name: Commit if changed
+        id: commit
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/ops/volcanic-status.json
-          git diff --staged --quiet \
-            && echo "No status changes today." \
-            || git commit -m "chore: update volcanic status $(date -u +%Y-%m-%d)"
-          git push
+          if git diff --staged --quiet; then
+            echo "No status changes today."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore(ops): update volcanic status $(date -u +%Y-%m-%d)"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The page reads this file off the VPS disk
+      # (src/app/(website)/destinations/[slug]/page.tsx joins process.cwd()),
+      # so it only reaches readers through a deploy. A push made with
+      # github.token does NOT trigger workflows — deploy.yml watches pushes to
+      # `live` and would never see this one — so ask for the deploy explicitly.
+      # Without this the job would go green nightly while the published status
+      # stayed frozen: quieter than the current failure, and worse.
+      - name: Deploy the refreshed status
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref live
