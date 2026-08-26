@@ -507,13 +507,24 @@ function intentKey(route) {
 }
 
 function runRoutes() {
-  const registry = parseRegistry(readFileSync(REGISTRY_FILE, 'utf8'));
+  // src/lib/registry/pages.ts was deleted on 2026-08-15 in 3925805f, a
+  // dead-code sweep, and nothing under src/ imports it any more. Two of this
+  // check's three jobs — canonicals and duplicate-intent families — read that
+  // registry and have nothing to work on without it.
+  //
+  // The third does not need it: a URL you redirect away from that still serves
+  // a page.tsx is a bug the filesystem and the redirect tables can prove on
+  // their own. That coverage is worth keeping, so the registry parts degrade
+  // to a notice rather than taking the whole check down with them.
+  const registry = existsSync(REGISTRY_FILE)
+    ? parseRegistry(readFileSync(REGISTRY_FILE, 'utf8'))
+    : null;
   const fsRoutes = new Set(
     walkPageFiles(WEBSITE_DIR)
       .map(routeFromFile)
       .filter((r) => !r.includes('[')), // dynamic routes out of PR-1 registry scope
   );
-  const byRoute = new Map(registry.map((e) => [e.route, e]));
+  const byRoute = new Map((registry ?? []).map((e) => [e.route, e]));
   const redirectSources = parseRedirectSources();
 
   const failures = [];
@@ -525,7 +536,13 @@ function runRoutes() {
     if (!hasPage) continue;
     const entry = byRoute.get(src);
     if (!entry) {
-      failures.push(`${src} — redirect source (${layer}) has a page.tsx but no registry entry`);
+      // Without a registry there is nothing to consult about intent, but the
+      // conflict itself is still real and still a failure.
+      failures.push(
+        registry
+          ? `${src} — redirect source (${layer}) has a page.tsx but no registry entry`
+          : `${src} — redirect source (${layer}) still serves a page.tsx; the redirect is unreachable`,
+      );
     } else if (entry.status === 'live') {
       failures.push(
         `${src} — registry says status 'live' but it is a redirect source (${layer}); page is unreachable`,
@@ -539,7 +556,7 @@ function runRoutes() {
 
   // 2. duplicate-intent routes must agree on one non-empty canonical
   const groups = new Map();
-  for (const e of registry) {
+  for (const e of registry ?? []) {
     const k = intentKey(e.route);
     if (!groups.has(k)) groups.set(k, []);
     groups.get(k).push(e);
@@ -560,24 +577,28 @@ function runRoutes() {
       );
     }
   }
-  for (const e of registry) {
+  for (const e of registry ?? []) {
     if (!e.canonical) failures.push(`${e.route} — registry entry lacks a canonical`);
   }
 
   // 3. registry <-> filesystem drift
-  for (const e of registry) {
+  for (const e of registry ?? []) {
     if (!fsRoutes.has(e.route) && e.status !== 'redirect') {
       failures.push(`${e.route} — in registry (status '${e.status}') but no page.tsx on disk`);
     }
   }
-  for (const r of fsRoutes) {
-    if (!byRoute.has(r)) failures.push(`${r} — page.tsx on disk but missing from registry`);
+  // Drift only means something against a registry that exists. Without one
+  // every route on disk would be "missing", which is noise, not a finding.
+  if (registry) {
+    for (const r of fsRoutes) {
+      if (!byRoute.has(r)) failures.push(`${r} — page.tsx on disk but missing from registry`);
+    }
   }
 
   for (const w of warnings) console.log(`⚠ ${w}`);
   for (const f of failures) console.log(`✗ ${f}`);
   console.log(
-    `\n[routes] ${registry.length} registry entries, ${fsRoutes.size} static routes on disk, ` +
+    `\n[routes] ${registry ? `${registry.length} registry entries, ` : 'registry absent, '}${fsRoutes.size} static routes on disk, ` +
       `${redirectSources.length} redirect/gone sources — ${failures.length} failure(s), ${warnings.length} warning(s)`,
   );
   if (failures.length) process.exitCode = 1;
@@ -601,13 +622,12 @@ if (cmd === 'schema') {
   // validate-routes-registry-gone — restore the registry or retire the check.
   if (!existsSync(REGISTRY_FILE)) {
     console.log(
-      'validate routes: skipped — src/lib/registry/pages.ts does not exist ' +
-        '(removed 2026-08-15 in 3925805f). This check has validated nothing since. ' +
-        'Restore the registry or retire the check; see state/goals.json.',
+      'validate routes: registry absent (src/lib/registry/pages.ts, removed ' +
+        '2026-08-15 in 3925805f). Canonical and duplicate-intent checks are ' +
+        'skipped; the redirect-vs-filesystem reconciliation still runs.',
     );
-  } else {
-    runRoutes();
   }
+  runRoutes();
 } else {
   console.error(`Unknown subcommand "${cmd}". Usage: node scripts/validate.mjs <schema|routes>`);
   process.exitCode = 2;

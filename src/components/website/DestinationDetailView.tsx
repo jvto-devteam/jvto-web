@@ -51,7 +51,12 @@ const FALLBACK_HERO_META: Record<string, {
     fromSurabaya: "~4 hours", difficulty: "Moderate to Hard",
   },
   "madakaripura-waterfall": {
-    elevation: "~100 m waterfall", viewpoint: "Horseshoe basin",
+    // 200 m, not the "~100 m" this carried: the figure agrees with
+    // display_height_m and the summary in ekosistem, and with independent
+    // tourism references that rank it the tallest waterfall on Java. The
+    // ~620-1000 m figures in circulation are the site's elevation above sea
+    // level, not the drop.
+    elevation: "200 m waterfall", viewpoint: "Horseshoe basin",
     fromSurabaya: "~3 hours", difficulty: "Easy to Moderate",
   },
   "papuma-beach": {

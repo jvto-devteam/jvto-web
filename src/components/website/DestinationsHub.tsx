@@ -46,12 +46,12 @@ const FALLBACK_DEST_DISPLAY: Record<
     chips: ["Java's Niagara", "Rim viewpoint", "Canyon descent", "Fitness-assessed"],
   },
   "madakaripura-waterfall": {
-    index: "04", region: "Probolinggo", elevation: "~100 m",
+    index: "04", region: "Probolinggo", elevation: "200 m",
     diff: "Tallest in Java · Easy–Moderate",
     chips: ["Tallest waterfall in Java", "Canyon walk", "Horseshoe curtain", "Gajah Mada heritage"],
   },
   "madakaripura": {
-    index: "04", region: "Probolinggo", elevation: "~100 m",
+    index: "04", region: "Probolinggo", elevation: "200 m",
     diff: "Tallest in Java · Easy–Moderate",
     chips: ["Tallest waterfall in Java", "Canyon walk", "Horseshoe curtain", "Gajah Mada heritage"],
   },
