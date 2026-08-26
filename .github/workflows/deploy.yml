@@ -6,6 +6,17 @@ on:
       - live
   workflow_dispatch:
 
+# One deploy at a time. Every run does `git reset --hard` and `npm ci` in the
+# same /var/www/jvto-web, so two overlapping runs fight over one node_modules:
+# on 2026-08-26 a push and a dispatched deploy landed a minute apart and both
+# died with `ENOTEMPTY: directory not empty, rmdir .../@prisma/client/runtime`,
+# leaving pm2 serving the previous build. Queue instead of cancel — a cancelled
+# run has already reset the checkout and may have started building, so killing
+# it is how you get a half-deployed tree.
+concurrency:
+  group: jvto-web-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,6 +45,12 @@ jobs:
                 printf '\nECOSYSTEM_REVALIDATE_SECRET=%s\n' "$ECOSYSTEM_REVALIDATE_SECRET" >> .env
               fi
             fi
+            # npm ci removes node_modules itself, but cannot recover a tree a
+            # previous concurrent run left mid-delete — that is the ENOTEMPTY
+            # above, and it persists until the directory is cleared by hand.
+            # Clearing it here makes a broken server self-healing on the next
+            # deploy rather than needing someone to SSH in.
+            rm -rf node_modules
             npm ci
             npm run build
             npm run audit:ecosystem-visible-content
