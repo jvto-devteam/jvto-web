@@ -55,3 +55,6 @@ docs/design_atlas/manifest.json
 .claude/settings.local.json
 env
 env.download
+
+# scratch HTML for scripts/audit-answer-structure.py
+.answer-audit/

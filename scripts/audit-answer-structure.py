@@ -98,6 +98,56 @@ def page_type(route):
 TARGET={"destination":1.0,"travel-guide":1.0,"pdp":0.8,"trust":1.2,"why-jvto":0.5,
         "homepage":1.0,"crew":0.5,"blog":0.5,"policy":0.5,"other":0.5,"review-permalink":0.0}
 
+# ── fetch ────────────────────────────────────────────────────────────────────
+# The docstring has always advertised a plain run as "fetch + measure", but
+# there was no fetch: the script went straight to os.listdir(D) and died with
+# FileNotFoundError on any machine that had not populated .answer-audit/html by
+# some other means. Whatever produced the 2026-08-24 baseline in
+# jvto-ekosistem's state/goals.json was never committed, which made that
+# baseline unreproducible — and a baseline nobody can re-take is not a baseline,
+# it is a number. Rule 1 of the measure skill ("baseline before, same tool
+# after") cannot hold without this.
+#
+# Routes come from the live sitemap rather than a hardcoded list so the set
+# measured is the set actually published.
+def route_to_filename(route):
+    r = route.strip("/")
+    return "_root.html" if not r else r.replace("/", "__") + ".html"
+
+def fetch_all(dest):
+    import urllib.request, urllib.error
+    os.makedirs(dest, exist_ok=True)
+    def get(url):
+        req = urllib.request.Request(url, headers={"User-Agent": "jvto-answer-audit/1.0"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return r.read().decode("utf-8", "replace")
+    sm = get(f"{SITE}/sitemap.xml")
+    routes = []
+    for loc in re.findall(r"<loc>\s*([^<]+?)\s*</loc>", sm):
+        if loc.startswith(SITE):
+            routes.append(loc[len(SITE):] or "/")
+    routes = sorted(set(routes))
+    if not routes:
+        sys.exit("sitemap.xml yielded no routes under " + SITE)
+    ok = 0
+    for i, route in enumerate(routes, 1):
+        try:
+            body = get(SITE + route)
+        except Exception as e:
+            print(f"  [{i}/{len(routes)}] SKIP {route}: {e}", file=sys.stderr)
+            continue
+        with open(os.path.join(dest, route_to_filename(route)), "w", encoding="utf-8") as fh:
+            fh.write(body)
+        ok += 1
+    print(f"fetched {ok} of {len(routes)} routes into {dest}", file=sys.stderr)
+    if ok == 0:
+        sys.exit("fetched nothing; refusing to measure")
+
+if "--cached" not in sys.argv:
+    fetch_all(D)
+elif not os.path.isdir(D):
+    sys.exit(f"--cached given but {D} does not exist; run without --cached to fetch first")
+
 rows=[]
 for fn in sorted(os.listdir(D)):
     route="/" if fn=="_root.html" else "/"+fn[:-5].replace("__","/").lstrip("/")
