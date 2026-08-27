@@ -38,8 +38,14 @@ const LEGAL_CREDENTIALS = [
     label: "TDUP",
     name: "Tanda Daftar Usaha Pariwisata",
     ref: "1102230032918",
-    issuer: "Kementerian Pariwisata dan Ekonomi Kreatif",
-    issuerHref: "https://kemenparekraf.go.id",
+    // Read from the licence, not from who regulates the sector: the TDUP PDF
+    // states "untuk dan atas nama Menteri, Pimpinan Lembaga, Gubernur,
+    // Bupati/Walikota, Lembaga OSS menerbitkan Izin Usaha Tanda Daftar Usaha
+    // Pariwisata" under PP 24/2018, and its annex names the Pejabat Berwenang
+    // as the Bupati of Kabupaten Bondowoso. Kemenparekraf appears nowhere on
+    // the document — it regulates tourism, it did not issue this.
+    issuer: "OSS Indonesia (Online Single Submission)",
+    issuerHref: "https://oss.go.id",
     docHref: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
     termId: "term-tdup",
   },

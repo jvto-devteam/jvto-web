@@ -130,7 +130,7 @@ const HISTORY_TIMELINE_SCHEMA = {
         name: "PT Java Volcano Rendezvous Incorporated",
         startDate: "2023-02",
         description:
-          "Formal PT incorporation: NIB 1102230032918 registered via OSS Indonesia and TDUP (tourism business license) issued by Kementerian Pariwisata dan Ekonomi Kreatif.",
+          "Formal PT incorporation: NIB 1102230032918 and TDUP (tourism business license) both issued through OSS Indonesia, the TDUP on behalf of the Bupati of Kabupaten Bondowoso under PP 24/2018.",
         about: { "@id": `${BASE_URL}/#organization` },
         url: "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
       },
