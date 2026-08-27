@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AnswerBlock from "../AnswerBlock";
 import Button from "../UI/Button";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 
@@ -63,22 +62,21 @@ const Hero: React.FC<HeroProps> = async ({
           {description}
         </p>
 
-        {/* The entity answer. The homepage opened on a positioning line and
-            left the legal identity, the founding year and the rating to be
-            gathered from four sections further down.
+        {/* NOT AN OVERSIGHT — DO NOT RE-ADD.
+            The homepage renders no answer-first block. `answerFirst` is still
+            accepted and still reaches this component from page.tsx, but the
+            owner removed the block from the hero deliberately (2026-08-27);
+            the entity answer lives on in the ekosistem source and the
+            knowledge feed, where machine consumers read it, and the hero
+            stays a positioning line.
 
-            This comment shipped without the block it explains: `answerFirst`
-            is typed, documented and destructured above, and was then never
-            rendered — so page.tsx handed the block to a component that
-            dropped it on the floor. The 2026-08-27 live measurement caught
-            it: the homepage was the only page type to move backwards
-            (density 0.52 -> 0.42, and 1/1 -> 0/1 on three numbers in the
-            first 120 words) while its source block sat correct and unused.
-            Position is the point — directly under the hero lede, not four
-            sections down. */}
-        <AnswerBlock tone="dark" className="mb-5">
-          {answerFirst}
-        </AnswerBlock>
+            Consequence, so nobody reads it as a defect later: the live
+            answer-structure audit scores this page 0/1 on
+            three-numbers-in-the-first-120-words and around 0.42 density.
+            That is the intended shape of this page, not a regression to fix
+            — see the homepage-answer-block decision in jvto-ekosistem's
+            state/goals.json. It was re-added once on the strength of the
+            measurement alone and reverted the same day. */}
 
         {/* Body paragraph 1 */}
         {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">
