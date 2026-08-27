@@ -167,7 +167,15 @@ export const ORGANIZATION_HAS_CREDENTIAL: IssuedCredential[] = [
     dateIssued: '2023-02-11',
     url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
     credentialCategory: 'Indonesian Tourism Business Licence',
-    recognizedBy: EXTERNAL_ENTITIES.kemenparekraf,
+    // OSS, not Kemenparekraf. The licence reads "Lembaga OSS menerbitkan Izin
+    // Usaha Tanda Daftar Usaha Pariwisata" under PP 24/2018, with the Bupati of
+    // Kabupaten Bondowoso as Pejabat Berwenang; Kemenparekraf appears nowhere on
+    // it and only regulates the sector. This list is the FALLBACK
+    // attachOrgCredentials() uses when the live node has no hasCredential of its
+    // own — production reads the ekosistem node, which was corrected on
+    // 2026-08-27, so this copy was dormant and would have shipped the wrong
+    // issuer the first time ekosistem was unavailable.
+    recognizedBy: EXTERNAL_ENTITIES.ossIndonesia,
   },
   {
     '@type': 'EducationalOccupationalCredential',

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "../UI/Button";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
+import { getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 
 interface HeroProps {
   title?: string;
@@ -12,11 +13,26 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = async ({
   title = "Tourist Police-Led Private Volcano Tours in East Java",
   description = "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (NIB 1102230032918), led by an active Tourist Police officer.",
+  // Deliberately not rendered — see the DO-NOT-RE-ADD note below and the
+  // homepage-answer-block decision in jvto-ekosistem/state/goals.json. The prop
+  // stays accepted so the block can be turned back on without rewiring page.tsx.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   answerFirst = null,
 }) => {
   // Resolve platform data at render time — live ekosistem record, not the
   // deleted jvtoReviews.ts snapshot (which had drifted stale).
   const profiles = await getEcosystemReviewProfiles();
+  // The itinerary count was the literal "16" while /tours, /tours/from-bali and
+  // /tours/from-surabaya all render 17 from {PACKAGE_COUNT} — one site, two
+  // numbers for one fact, which is the exact failure liveNumbers.ts was written
+  // to end. 16 is the count of contracts marked status "active"; the
+  // seventeenth, tumpak-sewu-bromo-3d2n, carries
+  // "excluded_from_jvto_web_main_public_snapshot" but nothing anywhere filters
+  // on that flag — its PDP serves 200 and it is listed on /tours — so 17 is
+  // what a visitor can actually book, and the homepage was the page that
+  // disagreed. Reading the same token means both move together if that package
+  // is ever really withdrawn.
+  const liveNumbers = await getLiveNumbers();
   const _tp = profiles.find((p) => p.platform === "Trustpilot");
   const _gm = profiles.find((p) => p.platform === "Google Maps");
   const _ta = profiles.find((p) => p.platform === "TripAdvisor");
@@ -126,7 +142,7 @@ const Hero: React.FC<HeroProps> = async ({
             { val: _tp?.rating?.toFixed(2) ?? "4.93", lbl: `Trustpilot · ${_tp?.reviewCount ?? 44} reviews` },
             { val: _gm?.rating?.toFixed(2) ?? "4.90", lbl: `Google Maps · ${_gm?.reviewCount ?? 138} reviews` },
             { val: _ta?.rating?.toFixed(2) ?? "4.95", lbl: `TripAdvisor · ${_ta?.reviewCount ?? 21} reviews` },
-            { val: "16", lbl: "Private itineraries" },
+            { val: liveNumbers.PACKAGE_COUNT ?? "17", lbl: "Private itineraries" },
           ].map((stat, i) => (
             <div
               key={stat.lbl}
