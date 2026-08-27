@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AnswerBlock from "../AnswerBlock";
 import Button from "../UI/Button";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 
@@ -64,7 +65,20 @@ const Hero: React.FC<HeroProps> = async ({
 
         {/* The entity answer. The homepage opened on a positioning line and
             left the legal identity, the founding year and the rating to be
-            gathered from four sections further down. */}
+            gathered from four sections further down.
+
+            This comment shipped without the block it explains: `answerFirst`
+            is typed, documented and destructured above, and was then never
+            rendered — so page.tsx handed the block to a component that
+            dropped it on the floor. The 2026-08-27 live measurement caught
+            it: the homepage was the only page type to move backwards
+            (density 0.52 -> 0.42, and 1/1 -> 0/1 on three numbers in the
+            first 120 words) while its source block sat correct and unused.
+            Position is the point — directly under the hero lede, not four
+            sections down. */}
+        <AnswerBlock tone="dark" className="mb-5">
+          {answerFirst}
+        </AnswerBlock>
 
         {/* Body paragraph 1 */}
         {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">

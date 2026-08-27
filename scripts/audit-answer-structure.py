@@ -114,13 +114,34 @@ def route_to_filename(route):
     r = route.strip("/")
     return "_root.html" if not r else r.replace("/", "__") + ".html"
 
+# Politeness is not optional here. The 200-odd /why-jvto/reviews/<id> routes are
+# server-rendered on demand, and fetching the sitemap flat out put the live site
+# into 502 Bad Gateway on 60 of them within minutes of this fetcher being
+# written. An auditor that measures a site by knocking it over measures nothing.
+DELAY = float(os.environ.get("ANSWER_AUDIT_DELAY", "0.35"))
+RETRIES = 3
+
 def fetch_all(dest):
-    import urllib.request, urllib.error
+    import urllib.request, urllib.error, time
     os.makedirs(dest, exist_ok=True)
     def get(url):
         req = urllib.request.Request(url, headers={"User-Agent": "jvto-answer-audit/1.0"})
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return r.read().decode("utf-8", "replace")
+        last = None
+        for attempt in range(RETRIES):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    return r.read().decode("utf-8", "replace")
+            except urllib.error.HTTPError as e:
+                last = e
+                # 5xx here usually means we are the load, so back off rather
+                # than retry immediately; 4xx will not improve with waiting.
+                if e.code < 500:
+                    raise
+                time.sleep(DELAY * (2 ** attempt) * 4)
+            except Exception as e:
+                last = e
+                time.sleep(DELAY * (2 ** attempt) * 4)
+        raise last
     sm = get(f"{SITE}/sitemap.xml")
     routes = []
     for loc in re.findall(r"<loc>\s*([^<]+?)\s*</loc>", sm):
@@ -139,9 +160,16 @@ def fetch_all(dest):
         with open(os.path.join(dest, route_to_filename(route)), "w", encoding="utf-8") as fh:
             fh.write(body)
         ok += 1
+        time.sleep(DELAY)
     print(f"fetched {ok} of {len(routes)} routes into {dest}", file=sys.stderr)
     if ok == 0:
         sys.exit("fetched nothing; refusing to measure")
+    # A partial fetch skews every per-type median without saying so. Measuring
+    # 235 of 295 routes and reporting it as the site is how a baseline becomes
+    # a number nobody can trust.
+    if ok < len(routes):
+        sys.exit(f"fetched only {ok} of {len(routes)} routes; refusing to publish a partial measurement "
+                 f"(raise ANSWER_AUDIT_DELAY and retry)")
 
 if "--cached" not in sys.argv:
     fetch_all(D)
