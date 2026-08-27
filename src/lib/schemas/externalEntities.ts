@@ -88,6 +88,18 @@ export const EXTERNAL_ENTITIES = {
     url: 'https://www.bkpm.go.id',
     sameAs: 'https://www.bkpm.go.id',
   },
+  // Issuer of both the NIB and the TDUP. Mirrors external-entities.json key
+  // "oss-indonesia" — the @id must match that registry exactly, or the same
+  // institution ships as two nodes on one page. sameAs verified 2026-08-27:
+  // HTTP 200, title "OSS RBA - Sistem Perizinan Berusaha Terintegrasi Secara
+  // Elektronik", which is the system PP 24/2018 names on the licence itself.
+  ossIndonesia: {
+    '@type': 'GovernmentOrganization',
+    '@id': `${BASE_URL}/entity/#org-oss-indonesia`,
+    name: 'OSS Indonesia (Online Single Submission)',
+    url: 'https://oss.go.id',
+    sameAs: 'https://oss.go.id',
+  },
   kemenparekraf: {
     '@type': 'GovernmentOrganization',
     '@id': `${BASE_URL}/entity/#org-kemenparekraf`,

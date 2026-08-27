@@ -33,7 +33,11 @@ export const FALLBACK_LEGAL_FACTS = {
     name: 'JVTO TDUP Document (Tanda Daftar Usaha Pariwisata)',
     url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
     dateCreated: '2023-02-11',
-    publisherName: 'Kementerian Pariwisata dan Ekonomi Kreatif',
+    // Read from the licence: "Lembaga OSS menerbitkan Izin Usaha Tanda Daftar
+    // Usaha Pariwisata" under PP 24/2018, annex naming the Bupati of Kabupaten
+    // Bondowoso as Pejabat Berwenang. Kemenparekraf appears nowhere on it.
+    publisherName: 'OSS Indonesia (Online Single Submission)',
+    publisherUrl: 'https://oss.go.id',
   },
   hpwkiDocument: {
     name: 'JVTO HPWKI Approval Document (Himpunan Pelaku Wisata Khusus Ijen)',
@@ -69,11 +73,7 @@ export function buildLegalDigitalDocuments(facts?: {
       url: nib.url,
       encodingFormat: 'application/pdf',
       about: { '@id': `${BASE_URL}/#term-nib` },
-      publisher: {
-        '@type': 'GovernmentOrganization',
-        name: nib.publisherName,
-        url: nib.publisherUrl,
-      },
+      publisher: entityRef('ossIndonesia'),
       inLanguage: 'id',
     },
     {
@@ -85,7 +85,7 @@ export function buildLegalDigitalDocuments(facts?: {
       encodingFormat: 'application/pdf',
       dateCreated: tdup.dateCreated,
       about: { '@id': `${BASE_URL}/#term-tdup` },
-      publisher: entityRef('kemenparekraf'),
+      publisher: entityRef('ossIndonesia'),
       inLanguage: 'id',
     },
     {
