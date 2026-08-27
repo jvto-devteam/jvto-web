@@ -1,5 +1,6 @@
 import { ListTourPackage } from "@/types";
 import AnswerBlock from "@/components/website/AnswerBlock";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import Link from "@/components/website/AppLink";
@@ -233,7 +234,7 @@ export default async function ToursPageBali() {
 
           <AnswerBlock className="mb-8">
             {typeof (page?.raw as any)?.page?.answerFirst === "string"
-              ? ((page!.raw as any).page.answerFirst as string)
+              ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), await getLiveNumbers())
               : null}
           </AnswerBlock>
 

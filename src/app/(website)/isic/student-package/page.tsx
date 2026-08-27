@@ -1,5 +1,6 @@
 import Link from "@/components/website/AppLink";
 import AnswerBlock from "@/components/website/AnswerBlock";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import { type Metadata } from "next";
 import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
@@ -178,7 +179,7 @@ export default async function IsicStudentPackagePage() {
             </p>
             <AnswerBlock className="text-white/85">
               {typeof (page?.raw as any)?.page?.answerFirst === "string"
-                ? ((page!.raw as any).page.answerFirst as string)
+                ? applyLiveNumbers(((page!.raw as any).page.answerFirst as string).trim(), await getLiveNumbers())
                 : null}
             </AnswerBlock>
           </div>

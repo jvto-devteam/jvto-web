@@ -27,9 +27,14 @@ const WHY_JVTO_NAV = [
 export async function generateMetadata(): Promise<Metadata> {
   const page = await loadEcosystemPage(ROUTE);
   const title = page?.meta.browserTitle ?? page?.meta.title ?? "Guest Reviews · Why JVTO";
-  const description =
+  // Same tokens as the page body. generateMetadata runs in its own pass, so it
+  // needs its own resolve — without it the description shipped to search engines
+  // and social cards reads "Trustpilot {TRUSTPILOT_RATING}/5".
+  const description = applyLiveNumbers(
     page?.meta.description ??
-    "Reviews organized by platform and by theme — Trustpilot 4.8, Google 4.90, TripAdvisor 4.95. Five recurring patterns across 195+ verified reviews from independent guests.";
+      "Reviews organized by platform and by theme — Trustpilot 4.8, Google 4.90, TripAdvisor 4.95. Five recurring patterns across 195+ verified reviews from independent guests.",
+    await getLiveNumbers(),
+  );
   return buildStaticRouteMetadata(ROUTE, { title, description });
 }
 
@@ -93,7 +98,9 @@ export default async function WhyJvtoReviewsPage() {
   const pageRow = {
     route: ROUTE,
     lang: "en",
-    seo: { title: page?.meta.title, description: page?.meta.description },
+    // description carries {TOKEN} placeholders in ekosistem prose; resolving it
+    // here keeps the JSON-LD from publishing "{GOOGLE_RATING}/5" as a literal.
+    seo: { title: page?.meta.title, description: applyLiveNumbers(page?.meta.description ?? "", await getLiveNumbers()) },
     content: { h1: page?.meta.title ?? "Reviews" },
   };
   // Per-platform figures are {TOKEN} placeholders in ekosistem prose, resolved
@@ -147,7 +154,10 @@ export default async function WhyJvtoReviewsPage() {
                 {page?.meta.title ?? "Guest Reviews"}
               </h1>
               <p className="text-white/60 text-[17px] font-light leading-relaxed max-w-[50ch]">
-                {whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts."}
+                {applyLiveNumbers(
+                  whyLede(page) || page?.meta.description || "Reviews organized by platform and by theme — so you can check patterns, not cherry-picked excerpts.",
+                  liveNumbers,
+                )}
               </p>
               {/* Answer first, supporting lines after — one box, so the
                   opening states the finding before it elaborates. The lede
