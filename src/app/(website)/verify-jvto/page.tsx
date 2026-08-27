@@ -1,5 +1,6 @@
 // src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
+import { applyLiveNumbers, getLiveNumbers } from "@/lib/publicContent/liveNumbers";
 import AnswerBlock from "@/components/website/AnswerBlock";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
@@ -924,9 +925,15 @@ export default async function VerifyJvtoPage() {
     return acc;
   }, {});
 
+  // applyLiveNumbers, not a hand-rolled replace. This read
+  // `item.p.replace("{PACKAGE_COUNT}", String(packages.length))`, which resolved
+  // the one token it named and would have shipped any other token in this prose
+  // to the reader verbatim — the same failure four other routes were doing
+  // openly on 2026-08-27. check-live-tokens reports this shape for that reason.
+  const timelineNumbers = await getLiveNumbers();
   const TIMELINE = (pc.timeline ?? FALLBACK.timeline).map((item) => ({
     ...item,
-    p: item.p.replace("{PACKAGE_COUNT}", String(packages.length)),
+    p: applyLiveNumbers(item.p, timelineNumbers),
   }));
   const FAQ_ITEMS = pc.faq ?? FALLBACK.faq;
 
