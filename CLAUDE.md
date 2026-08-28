@@ -30,7 +30,7 @@ Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**.
 |---|---|
 | Everything the site displays — tour packages, destinations, travel guides, policies, reviews, crew, credentials, claims, ratings | **`jvto-ekosistem`** via `src/lib/ecosystemContent/*` |
 | Bookings, invoices, payments | **legacy API** (`NEXT_PUBLIC_LEGACY_URL_DOMAIN`) — not this database |
-| Customer login sessions (Google SSO + email magic link) | **PostgreSQL via Prisma** — used by checkout, `/my-booking`, and the navbar |
+| Customer login sessions (Google SSO + email magic link) | **PostgreSQL via Prisma** |
 
 As of 2026-08-28 **no application code queries Prisma at all**. If you are about to
 write `prisma.something.findMany()` for content, you are working against the

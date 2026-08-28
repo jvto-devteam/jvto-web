@@ -142,8 +142,7 @@ Yang tersisa di Prisma:
 
 - `User` (→ tabel `customers`), `Account`, `Session`, `VerificationToken` — dipakai
   `PrismaAdapter` milik NextAuth. Sesi disimpan di database (`strategy: "database"`), dan
-  login tautan-email butuh tabel verification token. Dipakai di halaman **checkout**,
-  **/my-booking**, dan tombol login di navbar.
+  login tautan-email butuh tabel verification token.
 - `packages`, `durations` — **tidak dibaca aplikasi sama sekali**. Hanya dipakai
   `scripts/validate-package-readiness-consumption.mjs`, pemeriksa DB-vs-registry.
 
