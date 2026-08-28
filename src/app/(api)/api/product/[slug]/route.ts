@@ -1,8 +1,9 @@
 // Migrated 2026-08-18: no internal caller found for this route (checked fetch calls,
 // imports, git history) — sourced from ekosistem per owner decision. aggregateRating
-// is the one field kept live from Prisma (review_stats): review counts are genuinely
-// operational data, not catalog content, same distinction applied throughout this
-// migration for the tour-detail and destination pages.
+// used to be the one field kept live from Prisma (review_stats), on the reasoning
+// that review counts are operational data rather than catalog content. That Prisma
+// fallback was removed 2026-08-28 — the workflow feeding the table was gone and the
+// figure had frozen — so this route now reads the rating from ekosistem too.
 import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
 import { getPublicAggregateRating } from "@/lib/publicContent/getAggregateRating";
 

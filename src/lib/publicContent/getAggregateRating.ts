@@ -6,25 +6,25 @@
 // jvto-ekosistem/1-knowledge-and-evidence-core/organization-identity/organization.json).
 // A blended cross-platform average is explicitly NOT that figure.
 //
-// This module invents no data. It only composes the two existing readers:
-//   1. getEcosystemReviewProfiles()  — ekosistem's review-platforms.json,
-//                                      synced daily from the Google Business
-//                                      Profile API by ekosistem's own
-//                                      sync-google-rating.yml (2026-08-19) —
-//                                      the PRIMARY source, per the
-//                                      single-content-source-of-truth
-//                                      migration this repo underwent 2026-08.
-//   2. getGoogleReviewStats()        — Prisma `review_stats` row, written by
-//                                      jvto-web's own (older) sync-google-
-//                                      reviews.yml. Kept only as a fallback
-//                                      for the window where ekosistem's daily
-//                                      sync hasn't run yet or is unreachable;
-//                                      not the source of truth.
-// When neither source answers, this returns null. Callers (public API + visible
-// "4.9 ★" text) display nothing or a fallback. AggregateRating JSON-LD is built by
-// the sibling jvto-ekosistem repo's Organization node; this file's role is read-only.
+// This module invents no data. It reads exactly one source:
+//   getEcosystemReviewProfiles() — ekosistem's review-platforms.json, synced
+//   daily from the Google Business Profile API by ekosistem's own
+//   sync-google-rating.yml (2026-08-19), per the single-content-source-of-truth
+//   migration this repo underwent 2026-08.
+//
+// A second reader used to sit behind it: getGoogleReviewStats(), the Prisma
+// `review_stats` row written by jvto-web's own older sync-google-reviews.yml.
+// Removed 2026-08-28. That workflow lived only on the `main` branch, which was
+// deleted the same day, and it had already been failing — its endpoint
+// POST /api/review/sync-google returns 404 in production. So the table it fed
+// was frozen, and a fallback that serves a frozen number is worse than no
+// fallback: it answers with stale data exactly when the live source is down,
+// and nothing tells the reader which one they got.
+//
+// When ekosistem does not answer, this returns null. Callers (public API +
+// visible "4.9 ★" text) render nothing. AggregateRating JSON-LD is built by the
+// sibling jvto-ekosistem repo's Organization node; this file is read-only.
 import { cache } from "react";
-import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 
 /** The platform whose figure is the public aggregate. Matches `profiles[].platform`. */
@@ -33,8 +33,12 @@ export const AGGREGATE_PLATFORM = "Google Maps";
 export interface PublicAggregateRating {
   rating: number;
   count: number;
-  /** Which source answered — useful when debugging a schema diff. */
-  source: "ekosistem" | "review_stats";
+  /**
+   * Which source answered. Only one remains; the field is kept so a schema diff
+   * still says where the figure came from, and so a second source can be added
+   * back without changing the shape callers already read.
+   */
+  source: "ekosistem";
 }
 
 export const getPublicAggregateRating = cache(
@@ -51,11 +55,6 @@ export const getPublicAggregateRating = cache(
         count: google.reviewCount,
         source: "ekosistem",
       };
-    }
-
-    const live = await getGoogleReviewStats();
-    if (live) {
-      return { rating: live.rating, count: live.count, source: "review_stats" };
     }
 
     return null;

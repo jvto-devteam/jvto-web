@@ -9,9 +9,11 @@
 // record (Trustpilot 51 / Google 149). That module has been deleted; every
 // per-platform figure on the site now reads through here, so the badges can never
 // go stale again. The PRIMARY aggregate rating is Google-only, via
-// getPublicAggregateRating() (which prefers the "Google Maps" profile below —
-// synced daily by ekosistem's own sync-google-rating.yml, 2026-08-19 — and
-// falls back to Prisma's getGoogleReviewStats() only if that's unavailable).
+// getPublicAggregateRating(), which reads the "Google Maps" profile below —
+// synced daily by ekosistem's own sync-google-rating.yml, 2026-08-19. Its
+// former Prisma fallback (getGoogleReviewStats) was removed 2026-08-28: the
+// workflow that fed `review_stats` lived only on the deleted `main` branch and
+// had already been failing, so the table it wrote was frozen.
 //
 // Same local-first / HTTP-fallback pattern as ecosystemContent/people.ts.
 import { readFile } from "node:fs/promises";

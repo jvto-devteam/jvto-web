@@ -4,9 +4,9 @@
 // and-public-evidence/trust-claims.json + people-and-crew/people.json (the
 // single read source for org/trust content -- see jvto-web/README.md's
 // "Content sources" section) for a small, named set of facts that exist in
-// both places. It also attempts a fourth comparison against the DB-driven
-// organization profile (getPublicOrganizationProfile()), degrading to a WARN
-// (not a failure) if that source can't be reached from this environment.
+// both places. It used to attempt a third comparison against a "DB source";
+// that block was removed 2026-08-28 — see the tombstone further down for why it
+// could never have failed.
 //
 // Until Task 5.3 of the data-source-consolidation plan (2026-08-15), the
 // jvto-ekosistem side of this check read jvto-web's own
@@ -164,106 +164,20 @@ if (ecosystemAvailable) {
   );
 }
 
-// ---- Third source: the DB-driven organization profile (Prisma) ----
-// Gracefully skipped (WARN, not FAIL) if it can't be reached -- see the
-// task's own note on why this must never hard-fail the whole script.
+// ---- Third source: REMOVED 2026-08-28 ----
+// This block compared jvto-ekosistem against getPublicOrganizationProfile(),
+// labelled "the DB source". It never ran: the dynamic import of a .ts file using
+// the "@/..." alias always threw, so every run emitted the same WARN telling the
+// reader to install `tsx` to make it work.
 //
-// Important nuance discovered while wiring this up: getPublicOrganizationProfile()
-// (src/lib/publicContent/getPublicOrganizationProfile.ts) is TypeScript and
-// imports via the "@/..." path alias (e.g. "@/lib/prisma"), which is a
-// TypeScript/Next.js-only resolution feature -- plain Node cannot resolve it
-// even though Node 22+ can strip TS syntax natively. There is also no
-// tsx/ts-node devDependency in this repo's package.json today, and no
-// existing script in scripts/ imports a .ts file directly (they all import
-// PrismaClient from the generated relative path instead, e.g.
-// "../src/generated/prisma/index.js" in scripts/insert-content-moat-pages.mjs).
-// Per the task's own guidance, this is left as a documented WARN-only
-// limitation rather than adding a new dependency just for this check.
+// Installing tsx would have made it worse, not better. getPublicOrganizationProfile()
+// stopped reading Prisma on 2026-08-19 — it now composes getEcosystemOrganizationNode()
+// with a static snapshot fallback. So the "DB vs ekosistem" comparison would have
+// compared ekosistem against ekosistem and passed by construction, while reporting
+// itself as an independent third source.
 //
-// Separately (independent of whether the import succeeds): even when
-// getPublicOrganizationProfile() runs for real, it only queries
-// prisma.organization_profile when NODE_ENV !== 'production' (or an explicit
-// opt-in env flag is set) AND process.env.PUBLIC_CONTENT_PREFER_DB_ORGANIZATION
-// === 'true'. With neither flag set, it returns the hardcoded
-// publicOrganizationProfileSnapshot object instead of a live DB row. And the
-// organization_profile Prisma model itself (prisma/schema.prisma) has no
-// nib/founder columns at all -- only legal_name is realistically comparable
-// against this source; NIB and founder are not tracked there today.
-async function checkDbSource() {
-  let getPublicOrganizationProfile;
-  try {
-    ({ getPublicOrganizationProfile } = await import(
-      "../src/lib/publicContent/getPublicOrganizationProfile.ts"
-    ));
-  } catch (e) {
-    warnings.push(
-      `WARN  DB source: could not import getPublicOrganizationProfile.ts (${e.message}). Skipping DB-vs-file comparison. This file is TypeScript and uses the "@/..." path alias, which plain Node cannot resolve -- if this import fails specifically because Node can't load .ts/alias imports directly, re-run this script with a TS+paths loader (e.g. \`node --import tsx scripts/check-fact-drift.mjs\`) if the tsx package is available in this repo; as of this writing it is not a devDependency here.`,
-    );
-    return;
-  }
-
-  try {
-    const dbOrg = await getPublicOrganizationProfile();
-    if (!dbOrg) {
-      warnings.push("WARN  DB source: getPublicOrganizationProfile() returned null/empty -- skipping DB comparison.");
-      return;
-    }
-
-    if (!ecosystemAvailable) {
-      warnings.push(
-        "WARN  DB source: jvto-ekosistem checkout unavailable -- skipping DB-vs-ekosistem comparisons (legal name / NIB / founder).",
-      );
-      return;
-    }
-
-    // Real field name on the Prisma organization_profile row / snapshot
-    // fallback is `legal_name` (see prisma/schema.prisma and
-    // src/lib/publicContent/organizationSnapshot.ts) -- not `legalName`.
-    checkFact(
-      "Organization legal name (DB source)",
-      dbOrg.legal_name,
-      "getPublicOrganizationProfile()",
-      org.legalName,
-      ORG_SOURCE_LABEL,
-    );
-
-    // organization_profile has no nib/founder columns today (confirmed via
-    // prisma/schema.prisma), so these can only ever resolve from a
-    // best-effort schema_json blob if one is populated. Left as a WARN
-    // (not a FAIL) when absent, rather than guessing at field names that
-    // don't exist on the model.
-    const schemaJson = dbOrg.schema_json;
-    const dbNib =
-      dbOrg.nib ??
-      dbOrg.taxId ??
-      (schemaJson &&
-        (Array.isArray(schemaJson?.identifier)
-          ? schemaJson.identifier.find((i) => i.propertyID === "NIB")?.value
-          : undefined));
-    const dbFounderName = dbOrg.founderName ?? dbOrg.founder?.name ?? schemaJson?.founder?.name;
-
-    checkFact(
-      "NIB number (DB source)",
-      dbNib,
-      "getPublicOrganizationProfile()",
-      nibIdentifier?.value,
-      ORG_SOURCE_LABEL,
-    );
-    checkFact(
-      "Founder name (DB source)",
-      dbFounderName,
-      "getPublicOrganizationProfile()",
-      founder?.name,
-      "jvto-ekosistem people-and-crew/people.json (leadership[roles includes Founder])",
-    );
-  } catch (e) {
-    warnings.push(
-      `WARN  DB source: query failed (${e.message}) -- likely no DATABASE_URL / no DB reachable from this environment. Skipping DB comparison; this is expected and acceptable in a DB-less context, do not invent credentials to force it to connect.`,
-    );
-  }
-}
-
-await checkDbSource();
+// A check that cannot fail is not a check. The real DB-vs-registry comparison still
+// exists and still runs: scripts/validate-package-readiness-consumption.mjs.
 
 if (warnings.length) {
   console.log("\n--- Warnings (not failures) ---");

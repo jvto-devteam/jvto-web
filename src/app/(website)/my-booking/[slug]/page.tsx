@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { BookingData } from "./types";
-import { prisma } from "@/lib/prisma";
+import { getEcosystemTourPackageDetail } from "@/lib/ecosystemContent/tourPackageDetail";
 import BookingPaymentAction from "./BookingPaymentAction";
 import EditBookingModals from "./EditBookingModals";
 import ItineraryAccordion from "./ItineraryAccordion";
@@ -70,17 +70,22 @@ export default async function MyBookingPage({
   const isConfirmed = booking.status === "booked";
 
   // --- PRODUCT SCHEMA: lookup packageId from package_link slug ---
+  // Sourced from ekosistem since 2026-08-28; was `prisma.packages.findFirst({
+  // where: { slug }, select: { code: true } })`. The identifier is the same
+  // string in both places — ekosistem's `packageId` and Prisma's `packages.code`
+  // agreed on all 15 codes that middleware.ts pins as /trips/trip-*.json, with
+  // no mismatches, which is what made the swap safe to do without a DB read.
+  // (Ekosistem also carries `2D1N` and `SUB-3D2N-005`, which middleware does not
+  // pin; the latter is the package validate:packages reports as present in the
+  // DB but absent from the registry.)
   const pkgSlug = booking.package_link
     ?.replace(/^https?:\/\/[^/]+/, "")
     ?.replace(/^\//, "")
     ?.replace(/\/$/, "");
-  const pkgRow = pkgSlug
-    ? await prisma.packages.findFirst({
-        where: { slug: pkgSlug },
-        select: { code: true },
-      })
+  const pkgDetail = pkgSlug
+    ? await getEcosystemTourPackageDetail(pkgSlug)
     : null;
-  const pkgProductId: string | undefined = pkgRow?.code ?? undefined;
+  const pkgProductId: string | undefined = pkgDetail?.packageId ?? undefined;
   const productSchema = pkgProductId
     ? {
         "@context": "https://schema.org",
