@@ -191,19 +191,25 @@ export async function PageJsonLdCombined({
   const faqJson = suppressCmsFaq
     ? null
     : buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
-  // reviewedBy: E-E-A-T provenance signal.
-  // This reads from pageRow.content.reviewedBy if a page threads it through,
-  // else falls back to "JVTO Editorial". As of this task, NO page.tsx actually
-  // threads page.meta.reviewedBy into its content object — every page currently
-  // emits this hardcoded fallback. Wiring a real per-page value would require
-  // updating each page.tsx's `content: { ... }` literal to include
-  // `reviewedBy: page?.meta.reviewedBy`, which is out of this task's scope (~30 files).
+  // reviewedBy: E-E-A-T provenance signal, emitted only when the page actually
+  // threads one. EcosystemTravelGuidePage derives it from ekosistem's own
+  // `page.owner` field ("JVTO operations"); pages that thread nothing emit no
+  // reviewedBy node at all.
+  //
+  // It used to fall back to a hardcoded "JVTO Editorial" whenever nothing was
+  // threaded, which named a reviewer no source had recorded. An absent
+  // reviewedBy says "not attributed" — true. A blanket one asserts provenance
+  // the data does not support.
+  //
+  // Note this branch runs only when ekosistem is unreachable: when a
+  // schema-output exists the function returns above, and that graph carries
+  // whatever provenance ekosistem itself rendered.
+  const reviewedByName = pageRow.content?.reviewedBy;
   const webPageJson = {
     ...buildWebPageJsonLd(pageRow as any, org as any, SITE_URL),
-    reviewedBy: {
-      "@type": "Organization",
-      name: pageRow.content?.reviewedBy ?? "JVTO Editorial",
-    },
+    ...(reviewedByName
+      ? { reviewedBy: { "@type": "Organization", name: reviewedByName } }
+      : {}),
   };
   const webSiteJson = buildWebSiteJsonLd(SITE_URL);
   const contentPageExtraSchemas = buildContentPageExtraJsonLd(
