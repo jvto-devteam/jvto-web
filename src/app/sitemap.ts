@@ -2,6 +2,7 @@
 import type { MetadataRoute } from "next";
 import { now } from "@/lib/site";
 import { getContentPageLastModifiedMap } from "./sitemap-utils";
+import { getEcosystemWebsiteRoutes } from "@/lib/ecosystemContent/website";
 
 import { sitemapRoot } from "./sitemap.data";
 import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
@@ -18,45 +19,24 @@ export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const t = now();
-  const lastModifiedMap = await getContentPageLastModifiedMap(
-    [
-      "/",
-      "/contact",
-      "/destinations",
-      "/isic/student-package",
-      "/tours",
-      "/tours/from-surabaya",
-      "/tours/from-bali",
-      "/travel-guide",
-      "/travel-guide/faq",
-      "/travel-guide/safety-on-tours",
-      "/travel-guide/weather-and-closures",
-      "/travel-guide/packing-and-fitness",
-      "/travel-guide/booking-information",
-      "/travel-guide/police-escort-for-groups",
-      "/travel-guide/ijen-health-screening",
-      "/travel-guide/mount-bromo-logistics",
-      "/travel-guide/tumpak-sewu-logistics",
-      "/policy",
-      "/policy/privacy",
-      "/policy/inclusions-exclusions",
-      "/policy/booking-payment-cancellation",
-      "/why-jvto",
-      "/why-jvto/the-jvto-difference",
-      "/why-jvto/reviews",
-      "/why-jvto/our-story",
-      "/why-jvto/our-team",
-      "/why-jvto/community-standards",
-      "/verify-jvto",
-      "/verify-jvto/legal",
-      "/verify-jvto/press-recognition",
-      "/verify-jvto/history-artifacts",
-      "/verify-jvto/police-safety",
-      "/markets/singapore",
-      "/markets/malaysia",
-    ],
-    t,
-  );
+  // Every route ekosistem publishes prose for: the entries in its route index
+  // that carry a `websiteOutput`. This list used to be typed out by hand, and
+  // it drifted — /travel-guide/best-time-to-visit and
+  // /travel-guide/rijik-monthly-closure were in the sitemap but missing from
+  // the list, so their `lastmod` fell back to request time and changed on
+  // every fetch, which is exactly the signal that teaches a crawler to stop
+  // trusting lastmod at all.
+  //
+  // Routes without a `websiteOutput` (review permalinks, tour PDPs, crew and
+  // destination detail pages) are deliberately excluded: they have no
+  // `page.lastReviewed` to read, and getEcosystemWebsitePage() falls through
+  // to an HTTP fetch on every miss — 238 of them per sitemap request.
+  const routeIndex = await getEcosystemWebsiteRoutes();
+  const proseRoutes = (routeIndex.routes ?? [])
+    .filter((item) => item.websiteOutput)
+    .map((item) => item.route);
+
+  const lastModifiedMap = await getContentPageLastModifiedMap(proseRoutes, t);
 
   const [
     root,
