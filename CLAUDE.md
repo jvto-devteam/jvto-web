@@ -22,6 +22,20 @@ This is the **canonical JVTO codebase**. As of 2026-04-29, the AEO/GEO architect
 
 Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**. When schemas/copy reference "since" or `foundingDate`, use 2015.
 
+### Where data comes from — read this before adding any query
+
+**The database stores customer login. Nothing else the site displays.**
+
+| What | Source |
+|---|---|
+| Everything the site displays — tour packages, destinations, travel guides, policies, reviews, crew, credentials, claims, ratings | **`jvto-ekosistem`** via `src/lib/ecosystemContent/*` |
+| Bookings, invoices, payments | **legacy API** (`NEXT_PUBLIC_LEGACY_URL_DOMAIN`) — not this database |
+| Customer login sessions (Google SSO + email magic link) | **PostgreSQL via Prisma** — used by checkout, `/my-booking`, and the navbar |
+
+As of 2026-08-28 **no application code queries Prisma at all**. If you are about to
+write `prisma.something.findMany()` for content, you are working against the
+architecture — read it from ekosistem instead. See "Prisma is pruned" below.
+
 ## Commands
 
 ```bash
@@ -33,7 +47,8 @@ npx prisma generate   # regenerate Prisma client (after schema.prisma edits)
 # npx prisma db pull  # ⚠️ DO NOT RUN — see "Prisma is pruned" below
 ```
 
-Database connection: PostgreSQL at `31.97.223.43:5432/jvto_dev`, configured via `DATABASE_URL` in `.env.local`.
+Database connection: PostgreSQL at `31.97.223.43`, configured via `DATABASE_URL` in
+`.env.local`. It backs customer login only — see "Where data comes from" above.
 
 ## Tech Stack
 
@@ -80,14 +95,20 @@ When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally
 | Tour detail | `src/lib/schemas/buildTourSchemas.ts` | `src/lib/tourFaqs.ts` (`getTourSpineQaPairs`) |
 | Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
 | Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
-| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | DB `narrative_claims` + individual `@type:Review` nodes on `/reviews` |
-| Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | DB `narrative_claims` |
-| Policy | `src/lib/schemas/buildPolicySchemas.ts` | DB `narrative_claims` |
-| Destinations | `src/lib/schemas/buildDestinationsSchemas.ts` | DB `schema_json` per row |
+| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | ekosistem `why-jvto/*.source.json` + individual `@type:Review` nodes on `/reviews` |
+| Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | ekosistem `travel-guide/*.source.json` |
+| Policy | `src/lib/schemas/buildPolicySchemas.ts` | ekosistem `policies/*` |
+| Destinations | `src/lib/schemas/buildDestinationsSchemas.ts` | `getEcosystemDestinationDetail()` |
 
-**Rule:** edit Q&A copy → only `src/lib/*Faqs.ts` or DB `narrative_claims`. Edit schema fields → only `src/lib/schemas/build*.ts`. FAQ source resolution is centralized.
+> The "DB `narrative_claims`" / "DB `schema_json`" entries this table used to carry were
+> corrected on 2026-08-28. Those Prisma models no longer exist — the schema was pruned to
+> 6 models and nothing in `src/` imports them. The 26 narrative claims are read by
+> `getEcosystemNarrativeClaims()` (used by the two tour-detail pages); everything else
+> reads its own ekosistem source file.
 
-New query helper: `src/lib/queries/schemaReviews.ts` — minimal Prisma query (no joins) feeding `buildIndividualReviewSchemas()`. Activated 2026-05-03; individual `@type:Review` schema is now live on `/why-jvto/reviews`.
+**Rule:** edit Q&A copy → in `jvto-ekosistem`, or `src/lib/*Faqs.ts` for the hand-written spine pairs. Edit schema fields → only `src/lib/schemas/build*.ts`. Never add a Prisma query for content.
+
+`src/lib/queries/schemaReviews.ts` feeds `buildIndividualReviewSchemas()`; individual `@type:Review` schema is live on `/why-jvto/reviews`. Despite living under `queries/`, it is **not** a Prisma query — it was `prisma.reviews.findMany` until 2026-08-19 and now filters and sorts in application code over `getEcosystemReviews()`, keeping the same return shape.
 
 ### Content Layer (ekosistem-content) — replaces the retired FAQ resolver
 
@@ -126,7 +147,7 @@ always be wrong — the claims live in
 `src/components/seo/PageJsonLdCombined.tsx` is the standard schema injection component for all `(website)/*` pages. It auto-injects: Organization + WebSite + WebPage + BreadcrumbList + (optional) CMS-FAQ + page extras passed via `extraSchemas`.
 
 Accepts:
-- `pageRow` — content_pages row (for SEO + content.faq)
+- `pageRow` — page SEO + FAQ, sourced from ekosistem (was a `content_pages` DB row before the 2026-08-18 migration)
 - `extraSchemas` — per-page schema nodes
 - `suppressCmsFaq` — opt-out for CMS FAQ when canonical takes over (Phase 5 addition)
 
@@ -232,7 +253,9 @@ Update memory when significant work completes. They persist across sessions.
 
 - **Pre-existing 42 TypeScript errors** in `(website)/checkout/page.tsx` + booking flow files (unrelated to AEO/GEO port). Don't fix opportunistically — out of scope per pivot. Track separately if owner asks for cleanup.
 - **`(cms)` route group** is a separate concern from `(website)` schema work. Don't add AEO/GEO logic into CMS pages.
-- **content_pages.content.faq** is admin-editable; per FAQ resolver precedence, it's the lowest-priority source. Admin edits affect only routes that have neither `narrative_claims` wired nor canonical hardcoded registered. Communicate this when training admins.
+- **`content_pages.content.faq` is gone.** The admin-editable CMS FAQ and its precedence
+  rules died with the FAQ resolver on 2026-08-18. FAQ copy is edited in `jvto-ekosistem`
+  now — tell admins that, not the old CMS story.
 - **Sed-based file copies truncate large TSX files** in this Windows/Bash setup. For files >100 lines, use `Read` + `Write` directly, not shell pipelines.
 - **`page copy.tsx` clutter files** in `src/app/(website)/why-jvto/our-story/` — pre-existing backup files with TS errors. Ignore unless owner asks for cleanup.
 - **Live dev server on Windows can be slow** with Turbopack + path resolution; verify changes via `npm run build` (SSG-safe post-port) rather than relying on dev server smoke tests.

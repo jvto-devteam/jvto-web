@@ -74,10 +74,10 @@ open_items:
       fact-density.js membaca baseline terukur dari ekosistem state/goals.json (floor = median -
       0.05), bukan target aspiratif; homepage dan crew ditandai low-by-design (2026-08-28).
   - id: CLAUDE_MD_QA_TABLE_STALE
-    status: TODO
+    status: DONE
     note: >-
-      Tabel "Per-cluster Schema Builders + Canonical Q&A" di CLAUDE.md masih menunjuk
-      src/lib/*Faqs.ts dan DB narrative_claims — bertentangan dengan section Content Layer.
+      Tabel Q&A dan baris Rule dikoreksi ke sumber ekosistem 2026-08-28; content_pages.content.faq
+      dan deskripsi schemaReviews sebagai query Prisma ikut diperbaiki.
   - id: PRISMA_AUTH_ONLY
     status: NEEDS_OWNER
     note: >-

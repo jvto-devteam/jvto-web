@@ -120,8 +120,42 @@ Jika terjadi error kritis setelah deployment, lakukan langkah-langkah berikut un
 
 ### Version Control (Git) & Kolaborasi
 - **Repository:** https://github.com/jvto-devteam/jvto-web.git
-- **Alur Kerja:** Perubahan kode dilakukan di branch terpisah. Setelah selesai, dibuat Pull Request ke branch main. Review dan merge dilakukan melalui antarmuka GitHub. Setelah di-merge, barulah prosedur deployment di server dijalankan.
+- **Alur Kerja:** Perubahan kode dilakukan di branch terpisah, lalu Pull Request ke branch **`live`**. Branch `main` dihapus 2026-08-28 (riwayatnya tersimpan di tag `archive/main-2026-08-19`) dan `live` kini menjadi default branch. **Push ke `live` otomatis men-deploy ke produksi** lewat `.github/workflows/deploy.yml` — tidak ada langkah manual di server lagi.
 - **Manajemen Kolaborator:** Penambahan anggota tim dilakukan melalui menu Settings > Collaborators di halaman repository GitHub.
+
+### Peran Database (PostgreSQL + Prisma)
+
+> **Ringkasnya: database hanya untuk login pelanggan. Semua isi website datang dari `jvto-ekosistem`.**
+
+| | Sumbernya |
+|---|---|
+| Isi website — paket tur, destinasi, travel guide, policy, review, crew, kredensial, klaim, rating | **`jvto-ekosistem`** lewat `src/lib/ecosystemContent/*` |
+| Booking, invoice, pembayaran | **API legacy** (`NEXT_PUBLIC_LEGACY_URL_DOMAIN`), bukan database ini |
+| Sesi login pelanggan (Google SSO + magic link) | **PostgreSQL via Prisma** |
+
+Per 2026-08-28 **tidak ada satu pun query Prisma di kode aplikasi.** Dua pembaca terakhir
+dipindah ke ekosistem: fallback rating `review_stats` (dihapus — workflow yang mengisinya
+sudah mati, jadi angkanya beku) dan lookup `packages.code` di `/my-booking/[slug]` yang
+hanya mengisi `productID` pada JSON-LD.
+
+Yang tersisa di Prisma:
+
+- `User` (→ tabel `customers`), `Account`, `Session`, `VerificationToken` — dipakai
+  `PrismaAdapter` milik NextAuth. Sesi disimpan di database (`strategy: "database"`), dan
+  login tautan-email butuh tabel verification token. Dipakai di halaman **checkout**,
+  **/my-booking**, dan tombol login di navbar.
+- `packages`, `durations` — **tidak dibaca aplikasi sama sekali**. Hanya dipakai
+  `scripts/validate-package-readiness-consumption.mjs`, pemeriksa DB-vs-registry.
+
+`prisma/schema.prisma` dipangkas dari **103 model menjadi 6** pada 2026-08-28. Databasenya
+tidak disentuh — 103 tabel masih utuh di Postgres, hanya berhenti dimodelkan.
+
+> ⚠️ **Jangan jalankan `npx prisma db pull`.** Perintah itu membaca ulang seluruh database
+> dan menulis balik 103 model, membatalkan pemangkasan tanpa peringatan. Kalau butuh tabel
+> yang belum dimodelkan, tambahkan satu model itu saja secara manual.
+
+Artinya: kalau login pelanggan suatu saat tidak lagi dibutuhkan, repo ini bisa lepas dari
+database sepenuhnya. Dilacak sebagai `PRISMA_AUTH_ONLY` di `STATUS.yaml`.
 
 ### Sumber Konten (Content Sources)
 - **Trust/verification content** (claims, evidence, FAQ, org identity, credentials) mengalir melalui satu rantai: **`llm-wiki`** (authoring + compiler) → **`jvto-ekosistem`** (single read source) → **`jvto-web`** (this repo, read-only consumer).
