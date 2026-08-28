@@ -84,7 +84,6 @@
     ],
     "disallowed_paths": [
       "/cms",
-      "/customer",
       "/api/checkout",
       "/api/booking",
       "/my-booking"

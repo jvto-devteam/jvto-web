@@ -53,40 +53,6 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  const rawHost = req.headers.get("host") || "";
-  const host = rawHost.split(":")[0];
-  const domain = "javavolcano-touroperator";
-
-  const isCustomerHost =
-    host === `my.${domain}.local` || host === `my.${domain}.com`;
-
-  if (!isCustomerHost && pathname.startsWith("/customer")) {
-    const res = new NextResponse("404 Not Found", { status: 404 });
-    if (isNonProduction) {
-      res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    }
-    trackVisit(req, res);
-    return res;
-  }
-
-  if (isCustomerHost) {
-    if (pathname === "/") {
-      url.pathname = "/customer";
-      const res = NextResponse.rewrite(url);
-      if (isNonProduction) {
-        res.headers.set("X-Robots-Tag", "noindex, nofollow");
-      }
-      trackVisit(req, res);
-      return res;
-    }
-    const res = NextResponse.next();
-    if (isNonProduction) {
-      res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    }
-    trackVisit(req, res);
-    return res;
-  }
-
   // daftar exact URL delete permanent
   const goneUrls = [
     "/&",
