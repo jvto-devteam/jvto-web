@@ -1,0 +1,86 @@
+# STATUS.yaml — Living Status of Open Items
+# Update via: npm run status:set -- <id> <status> "note"
+# List via:   npm run status:list
+last_updated: '2026-08-28'
+open_items:
+  - id: PT_INCORPORATION_ASSERTIONS
+    status: NEEDS_OWNER
+    note: >-
+      "PT incorporated 2016-01-01" diasersikan di 12 tempat (jvto-web: verify-jvto/page.tsx:22,
+      verify-jvto/legal/page.tsx:72+87, history-artifacts/page.tsx:166+201,
+      WhyJvtoInteractive.tsx:198; ekosistem: verify-jvto.source.json, history-artifacts.source.json,
+      legal.source.json, trust-claims.json legal_incorporation_year,
+      verify-jvto-assets-inventory.json founding_date). Melanggar keputusan 2026-08-03 (tidak ada
+      tahun inkorporasi PT yang diasersikan) dan bertentangan dengan dekrit yang dipegang
+      AHU-0010187.AH.01.01.TAHUN 2023, terbit 2023-02-08. Semuanya di halaman verifikasi.
+  - id: SIP_DOCUMENT_PERSONAL_DATA
+    status: NEEDS_OWNER
+    note: >-
+      SIP dokter yang dipublikasikan memuat alamat rumah, tanggal lahir, dan foto pihak ketiga. PDF
+      dan turunan PNG-nya sama-sama publik. Ditandai ekosistem "deliberately not actioned": garis
+      redaksi tidak bisa diotomatiskan, dan SHA-256 harus dihitung ulang setelah redaksi. Sumber:
+      goals.json backlog sip-document-personal-data.
+  - id: SE_35_DOCUMENT_NOT_HELD
+    status: NEEDS_OWNER
+    note: >-
+      Surat edaran BBKSDA SE.35/K2/BIDTEK.1/KSA/1/2024 disitir di 12+ tempat tapi credentials.json
+      membawanya sebagai evidenceStatus media_sourced tanpa documentUrl maupun sha256. Sumber:
+      goals.json backlog se-35-document.
+  - id: PDP_REVIEWS_UNATTRIBUTED
+    status: NEEDS_OWNER
+    note: >-
+      7 dari 17 produk belum punya review teratribusi. 169/221 review sudah ber-packageSlug. 52
+      sisanya tidak bisa ditempatkan (47 tanpa destinasi, 5 kombinasi multi-produk). Penutupannya
+      butuh penangkapan paket saat review, bukan kode. Sumber: goals.json backlog
+      pdp-reviews-twelve-packages-unattributed.
+  - id: REVIEW_FIGURES_HARDCODED
+    status: TODO
+    note: >-
+      why-jvto/reviews/page.tsx:35 menulis "195+ verified reviews" dan line 108 menulis 152. Live
+      ekosistem: 221 review, Google 4.9/156, Trustpilot 4.8/51, TripAdvisor 4.95/21. Perbaikan: baca
+      dari review-platforms.json, hilangkan hardcode.
+  - id: LASTREVIEWED_MISSING
+    status: TODO
+    note: >-
+      audit:geo-visibility — 7 dari 11 rute tidak mengekspos lastReviewed: /, /why-jvto,
+      /verify-jvto, /tours/from-surabaya, /tours/from-bali, /markets/malaysia, /markets/singapore.
+  - id: PACKAGE_REGISTRY_DRIFT
+    status: TODO
+    note: >-
+      validate:packages 0 error 4 warning — DB aktif 17 vs manifest kanonik 16;
+      tours/from-surabaya/tumpak-sewu-bromo-3d2n ada di DB tapi tidak di registry; judul beda untuk
+      ijen-2d1n dan taman-safari-prigen-bromo-madakaripura-3d2n.
+  - id: META_DESCRIPTION_LENGTH
+    status: TODO
+    note: audit:geo-visibility warning — / panjangnya 203, /verify-jvto 265
+  - id: FACT_DRIFT_CHECKER_FALSE_ALARM
+    status: TODO
+    note: >-
+      check-fact-drift memperingatkan NIB dan TDUP bernilai sama. Itu by design (rezim OSS: TDUP
+      diterbitkan atas NIB yang ada), sudah didokumentasikan di organization.json. Checker harus
+      membaca catatan itu, bukan menyalak.
+  - id: CHECK_FACT_DRIFT_TS_LOADER
+    status: DONE
+    note: >-
+      Tidak berlaku lagi — cabang DB-vs-file dihapus 2026-08-28. getPublicOrganizationProfile sudah
+      lepas Prisma sejak 2026-08-19, jadi loader TS hanya akan membuatnya membandingkan ekosistem
+      dengan dirinya sendiri.
+  - id: STALE_FACTS_TEST_IN_CI
+    status: TODO
+    note: npm run test:stale hijau 11/11 lokal (node --test, tanpa dependency baru); belum di CI.
+  - id: DENSITY_CHECKER_CALIBRATED
+    status: DONE
+    note: >-
+      fact-density.js membaca baseline terukur dari ekosistem state/goals.json (floor = median -
+      0.05), bukan target aspiratif; homepage dan crew ditandai low-by-design (2026-08-28).
+  - id: CLAUDE_MD_QA_TABLE_STALE
+    status: TODO
+    note: >-
+      Tabel "Per-cluster Schema Builders + Canonical Q&A" di CLAUDE.md masih menunjuk
+      src/lib/*Faqs.ts dan DB narrative_claims — bertentangan dengan section Content Layer.
+  - id: PRISMA_AUTH_ONLY
+    status: NEEDS_OWNER
+    note: >-
+      Prisma tinggal dipakai NextAuth PrismaAdapter (session strategy database + EmailProvider magic
+      link). Semua query model aplikasi sudah hilang per 2026-08-28. Melepas DB sepenuhnya =
+      memutuskan apakah login pelanggan (Google SSO + magic link) masih dipakai.
