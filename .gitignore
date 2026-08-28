@@ -41,6 +41,12 @@ yarn-error.log*
 next-env.d.ts
 
 !src/generated/prisma
+# ...but not the engine binaries for platforms this repo does not run on, nor
+# the .tmp* files an interrupted `prisma generate` leaves behind. `npm ci` runs
+# @prisma/client's own postinstall, which regenerates the right engine for the
+# host — the VPS gets its Linux engine that way, not from git.
+src/generated/prisma/query_engine-windows.dll.node
+src/generated/prisma/*.tmp*
 
 # Remember plugin runtime logs
 .remember/logs/

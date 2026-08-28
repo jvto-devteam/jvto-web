@@ -16,7 +16,11 @@
     "validate": "node scripts/validate.mjs",
     "validate:packages": "node scripts/validate-package-readiness-consumption.mjs",
     "validate:jsonld-schema": "node scripts/validate-jsonld-schema.mjs",
-    "validate:review-pages": "node scripts/validate-review-detail-pages.mjs"
+    "validate:review-pages": "node scripts/validate-review-detail-pages.mjs",
+    "test:stale": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test scripts/validate-stale-facts.test.ts",
+    "check:density": "node scripts/tools/fact-density.js",
+    "status:list": "node scripts/update-status.mjs --list",
+    "status:set": "node scripts/update-status.mjs --set"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

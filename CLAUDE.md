@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Claude Code Rules — read these first
+
+- **ALWAYS READ**: [.claude/rules/GLOBAL-CONSTRAINTS.md](.claude/rules/GLOBAL-CONSTRAINTS.md).
+  It is the constitution and **overrides any section of this file it contradicts**.
+- **Stale values**: [.claude/rules/STALE-FACTS-CHECKLIST.md](.claude/rules/STALE-FACTS-CHECKLIST.md)
+  before quoting any count, rating, date, or commit hash.
+- **Check status**: [STATUS.yaml](STATUS.yaml) for current open items
+  (`npm run status:list`).
+- **Commands**: `/audit-schema`, `/check-density`, `/resolve-stale`
+  (see [.claude/README.md](.claude/README.md)).
+- **Tests**: `npm run test:stale` to prevent stale-fact regressions.
+
 ## Project Overview
 
 **Java Volcano Tour Operator (JVTO)** — Next.js 16 site for `PT Java Volcano Rendezvous`, a licensed East Java private volcano tour operator (Ijen, Bromo, Tumpak Sewu). Site emphasizes verifiable trust signals (NIB, police credentials, BBKSDA compliance) over generic marketing.
@@ -18,7 +30,7 @@ npm run build         # production build
 npm start             # serve the production build
 npm run lint          # ESLint check
 npx prisma generate   # regenerate Prisma client (after schema.prisma edits)
-npx prisma db pull    # sync schema.prisma from DB
+# npx prisma db pull  # ⚠️ DO NOT RUN — see "Prisma is pruned" below
 ```
 
 Database connection: PostgreSQL at `31.97.223.43:5432/jvto_dev`, configured via `DATABASE_URL` in `.env.local`.
@@ -27,7 +39,7 @@ Database connection: PostgreSQL at `31.97.223.43:5432/jvto_dev`, configured via 
 
 - **Next.js 16** App Router with route groups: `(website)`, `(api)`, `(cms)`, `(customer)`
 - **Bundler**: Turbopack (default)
-- **Data layer**: Prisma 6.18 (`prisma/schema.prisma` covers 105+ models including booking flow, CMS content, narrative_claims)
+- **Data layer**: Prisma 6.18 — **pruned to 6 models** on 2026-08-28 (see below). Content comes from `jvto-ekosistem`; Prisma is auth plus one validator
 - **Auth**: NextAuth (Google SSO) for customer dashboard + admin CMS
 - **Editor**: TipTap (admin CMS WYSIWYG)
 - **Email**: Mailgun + Nodemailer
@@ -49,9 +61,15 @@ All entities have stable `@id` so any page can cross-reference via `{ '@id': ...
 | `DOCTOR_SCHEMA` | `/#dr-ahmad-irwandanu` | `(website)/layout.tsx` (global) |
 | `BBKSDA_REGULATION_SCHEMA` | n/a | `(website)/layout.tsx` (global) |
 | `DEFINED_TERMS.NIB` / `TDUP` / `HPWKI` / `KTA` / `POLPAR` / `BBKSDA` / `SE1658` (×7) | `/#term-{key}` | `(website)/layout.tsx` (global) |
+| `DEFINED_TERMS.ISIC` | `/#term-isic` | `(website)/layout.tsx` (global) |
+| `DEFINED_TERMS.INDECON` | `/#term-indecon` | `(website)/layout.tsx` (global) |
 | `DEFINED_TERMS.JVTO_TRAVEL_CREDIT` | `/#term-jvto-travel-credit` | `(website)/layout.tsx` (global) — **brand-custom** |
 | `DEFINED_TERMS.JVTO_FOC_SCHEME` | `/#term-jvto-foc-scheme` | `(website)/layout.tsx` (global) — **brand-custom** |
 | `buildCrewPersonSchema()` | `/#crew-{code}` | `/why-jvto/our-team` (per active crew) |
+
+`DEFINED_TERMS` currently holds **11** keys (7 credential/regulatory + ISIC + INDECON +
+2 brand-custom). `npm run test:stale` asserts that count — update the test when the set
+legitimately grows.
 
 When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally) AND to `@id Registry` in `~/.claude/projects/f--jvto-web/memory/cluster_role_contracts.md`. Don't inline schema in pages.
 
@@ -71,33 +89,37 @@ When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally
 
 New query helper: `src/lib/queries/schemaReviews.ts` — minimal Prisma query (no joins) feeding `buildIndividualReviewSchemas()`. Activated 2026-05-03; individual `@type:Review` schema is now live on `/why-jvto/reviews`.
 
-### FAQ Source Resolver (CRITICAL): `src/lib/content/resolveFaqs.ts`
+### Content Layer (ekosistem-content) — replaces the retired FAQ resolver
 
-Single source of truth for FAQ source resolution. Deterministic precedence (highest → lowest):
+> The former "FAQ Source Resolver (CRITICAL)" section documented
+> `src/lib/content/resolveFaqs.ts`, `resolveFaqsForPage()`, `CANONICAL_FAQ_REGISTRY`,
+> and DB-`narrative_claims` precedence. All of it was **retired 2026-08-18**. Do not
+> reintroduce that pattern.
 
-1. **`narrative_claims`** (DB, primary_page-wired) — canonical AEO-tuned brand voice
-2. **Canonical hardcoded** (`HOMEPAGE_FAQS`, `LEGAL_FAQS`, etc. registered in `CANONICAL_FAQ_REGISTRY`)
-3. **CMS** (`content.faq` from `content_pages` row, auto-injected by `PageJsonLdCombined` unless suppressed)
+**Single source of truth**: the `jvto-ekosistem` repo.
 
-**Single FAQPage per page rule.** Pages MUST pass `suppressCmsFaq={faqResolution.suppressCmsFaq}` to `<PageJsonLdCombined>` to prevent double FAQPage emission when a higher-precedence source fires.
+- Local checkout first (`../jvto-ekosistem`, overridable via `JVTO_EKOSYSTEM_CONTENT_ROOT`)
+- HTTP fallback to `ekosistem.javavolcano-touroperator.com/api/file`
+- **No live sync** between Prisma and the ekosistem files, by design — edits go into
+  the ekosistem source, not into this repo
 
-Pattern (per page handler):
-```ts
-import { resolveFaqsForPage, buildResolvedFaqSchema } from '@/lib/content/resolveFaqs';
+**Reader layer**: `src/lib/ecosystemContent/*` (18 files as of 2026-08-28).
 
-const faqResolution = await resolveFaqsForPage(route);
-const faqNode = buildResolvedFaqSchema(faqResolution, route);
+| File | Reads |
+|---|---|
+| `narrativeClaims.ts` | 26 claims — C1–C9 + POL-BPC-01..11 + POL-IE-01..06 |
+| `externalEntities.ts` | external organisation/entity records |
+| `people.ts` | crew roster |
+| `reviewPlatforms.ts` | per-platform rating data |
+| `tourPackageDetail.ts` / `destinationDetail.ts` | package + destination editorial |
+| `staticPageAdapter.ts` | generic page content adapter |
 
-return (
-  <PageJsonLdCombined
-    pageRow={pageRow}
-    extraSchemas={[..., faqNode]}
-    suppressCmsFaq={faqResolution.suppressCmsFaq}
-  />
-);
-```
+**These are fetchers, not data.** Grepping `narrativeClaims.ts` to count claims will
+always be wrong — the claims live in
+`../jvto-ekosistem/1-knowledge-and-evidence-core/narrative-claims/narrative-claims.json`.
 
-**Adding a new canonical Q&A file** = 1 entry in `CANONICAL_FAQ_REGISTRY`. **Adding a narrative_claim** = DB row, zero code change. **Removing a Q&A** = remove from highest-precedence source for that route.
+**Architecture note**: FAQ pages, policy pages, and `llms.txt` are thin wrappers around
+`EcosystemTravelGuidePage` / `PolicyEcosystemPage` / `getEcosystemLlmsTxt()`.
 
 ### `PageJsonLdCombined` Component
 
@@ -140,13 +162,42 @@ Helpers extracted from API routes (Server Components call directly; routes still
 
 Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt by default. Fix in `src/lib/prisma.ts` monkey-patches `BigInt.prototype.toJSON` to return `.toString()`. Don't override or remove this.
 
-### Prisma Models (notable)
+### Prisma is pruned — do NOT run `prisma db pull`
 
-- `narrative_claims` — added Phase 3 of port. 9 canonical brand claims (C1–C9) with `primary_page` field for FAQ wiring.
-- `packages` (16 active + 12 soft-deleted) — slug shape uniform full-path: both Surabaya (`tours/from-surabaya/bromo-1d1n`) and Bali (`tours/from-bali/bromo-ijen-3d2n`) use the full prefix. Fixed 2026-05-02 (jvto_dev Surabaya slugs were bare, causing 404).
-- `destinations` (5 published + 5 NULL-slug city/departure refs) — `id IN (3, 4)` filtered out (Bali / Surabaya departure refs, not real destinations).
-- `crew_members` — used by `/why-jvto/our-team` Person schema injection via `getActiveCrewMembers()`.
-- `content_pages` — CMS-managed SEO + content.faq per route.
+`prisma/schema.prisma` models **6 tables**, down from 103 on 2026-08-28. The
+database itself was not touched: all 103 tables are still in Postgres, unchanged.
+The schema simply stopped modelling the ones nothing reads.
+
+> ⚠️ **`npx prisma db pull` reintrospects the live database and writes all 103
+> models back**, silently undoing this. If you need a table that is not modelled,
+> add that one model by hand. Never re-pull the whole schema.
+
+| Model | Why it survives |
+|---|---|
+| `User` (→ `customers`) · `Account` · `Session` · `VerificationToken` | NextAuth `PrismaAdapter`. `session.strategy = "database"` plus an EmailProvider magic link, so these cannot move to JWT-only without dropping magic-link sign-in |
+| `packages` · `durations` | Not read by the app. Only `scripts/validate-package-readiness-consumption.mjs` — the DB-vs-registry check |
+
+**No application code queries Prisma any more.** The last two callers moved to
+`jvto-ekosistem` on 2026-08-28:
+
+- `getReviewStats.ts` (`review_stats`) — deleted. Its writer, `sync-google-reviews.yml`,
+  lived only on the `main` branch (deleted the same day) and had already been failing
+  with a 404, so the table it fed was frozen.
+- `my-booking/[slug]` (`packages.code` → JSON-LD `productID`) — now reads
+  `getEcosystemTourPackageDetail().packageId`. The identifier is the same string in
+  both places: it agreed on all 15 codes `middleware.ts` pins as `/trips/trip-*.json`,
+  with no mismatches.
+
+So the only thing standing between this repo and no database at all is customer
+login. Tracked as `PRISMA_AUTH_ONLY` in `STATUS.yaml`.
+
+### Generated client
+
+`src/generated/prisma` is committed (`.gitignore` un-ignores it), but the engine
+binaries are not portable. `npm ci` runs `@prisma/client`'s own postinstall, which
+regenerates the engine for the host — that is how the VPS gets its Linux engine.
+The Windows engine (20 MB) and an abandoned `.tmp*` file (another 20 MB) were removed
+on 2026-08-28 and are now gitignored.
 
 ## Routing
 
@@ -264,22 +315,30 @@ Key routing rules:
 - Save progress → invoke /context-save
 - Resume context → invoke /context-restore
 
-## Guardrails (feat/schema-spine worktree — from 2026-06-12 handoff)
+## Guardrails (Package-1 Schema Scope)
 
-> Note: the handoff referenced a "Guardrails section" to copy verbatim, but the section
-> itself was not included in the handoff message and was not found in `.remember/`,
-> `docs/`, or `~/.claude/plans/`. The constraints below are transcribed verbatim from the
-> handoff's own explicit instructions, which function as the guardrails.
+> Supersedes the 2026-06-12 schema-spine handoff note, which recorded that its
+> "Guardrails section" could not be located. The list below is the current one.
+> `.claude/rules/GLOBAL-CONSTRAINTS.md` is the authority; this is a pointer copy.
+
+- No content/copy rewrites
+- No legacy-route deletion or new 301s
+- No changes to `sync-llm-wiki.yml` / `sync-trust-bundle.mjs`
+- No deploy/CI workflow changes
+- No dependency changes without written approval
+- Conversion scope: `travel-guide/faq` only
+- No hiding TS/build errors
+- No broad SEO edits
+
+### Working posture
 
 - Do not ask questions unless you hit a real blocker (credentials, new deps, deletion,
   live branch, sync/deploy workflow, env failure, PR merge). Otherwise assume the safest
   in-scope option, document it, and continue.
-- Work only in this worktree (`../jvto-web-schema-spine`, branch `feat/schema-spine`).
-  Never touch the live branch.
-- NO dummy/fake DB — Package 1 needs no production DB.
-- If Prisma requires DATABASE_URL:
-  - use an existing local/dev .env ONLY if already present and clearly not production
-  - do NOT invent or hardcode a fake DATABASE_URL
+- NO dummy/fake DB.
+- If Prisma requires `DATABASE_URL`:
+  - use an existing local/dev `.env` ONLY if already present and clearly not production
+  - do NOT invent or hardcode a fake `DATABASE_URL`
   - do NOT ask for production credentials
   - document the exact error verbatim, then continue to non-DB / file-based steps
 - Do NOT stop unless deps cannot install OR basic file-based validation cannot run.

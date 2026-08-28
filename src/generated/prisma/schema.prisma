@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PRUNED 2026-08-28: 103 models -> 6. Read this before running `prisma db pull`.
+//
+// The database still has all 103 tables. Nothing was migrated, dropped, or
+// renamed — this file simply stopped modelling the tables nothing reads any
+// more. Every application query against Prisma was removed on 2026-08-28 when
+// the last two (review_stats and a packages.code lookup in my-booking) moved to
+// jvto-ekosistem. What is left is auth plus one validator.
+//
+// ⚠️  `npx prisma db pull` WILL UNDO THIS. It reintrospects the live database
+//     and writes all 103 models back. If you need a table that is not here, add
+//     that one model by hand — do not re-pull the whole schema.
+//
+// Why each model survives:
+//   User / Account / Session / VerificationToken
+//       NextAuth's PrismaAdapter. `session: { strategy: "database" }` plus an
+//       EmailProvider magic link, so these cannot move to a JWT-only setup
+//       without dropping magic-link sign-in. User maps to the existing
+//       `customers` table, so no customer data moved either.
+//   packages / durations
+//       Not read by the app. Used only by
+//       scripts/validate-package-readiness-consumption.mjs, the DB-vs-registry
+//       check that reports "DB active+published count != manifest count".
+//
+// Relation fields pointing at dropped models were removed with them (e.g.
+// User.bookings, packages.package_addons). The underlying foreign keys are
+// untouched in Postgres.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model User {
+  id    BigInt  @id @default(autoincrement())
+  name  String?
+  email String? @unique // Wajib tambah unique
+  phone String?
+
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+
+  country_id       BigInt?
+  order_channel_id BigInt?
+  created_at       DateTime? @default(now()) @db.Timestamp(6)
+  updated_at       DateTime? @updatedAt @db.Timestamp(6)
+  deleted_at       DateTime? @db.Timestamp(6)
+
+  accounts Account[]
+  sessions Session[]
+
+  // PENTING: Map ke tabel lama agar data tidak hilang
+  @@map("customers")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            BigInt  @map("user_id") // Sesuaikan tipe data ID User (BigInt)
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       BigInt   @map("user_id") // Sesuaikan tipe data ID User (BigInt)
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model packages {
+  id                             BigInt     @id @default(autoincrement())
+  uuid                           String?
+  code                           String?    @unique
+  slug                           String?    @unique
+  name                           String
+  description                    String?
+  short_label                    String?
+  duration_id                    BigInt?
+  order_channel_id               BigInt?
+  package_category_id            BigInt?
+  start_destination_id           BigInt?
+  end_destination_id             BigInt?
+  key_highlights                 String?
+  ideal_arrival                  String?
+  physicality                    String?
+  suitable_for                   String?
+  is_publish                     Boolean?
+  total_breakfast                Int?
+  total_lunch                    Int?
+  total_dinner                   Int?
+  google_merchant_product_id     String?
+  meta_catalogue_id              String?
+  perfect_for                    String[] // maps to text[]
+  highlights_bullets             String[] // maps to text[]
+  safety_positioning             String? // single text
+  unique_selling_points          String[] // maps to text[]
+  created_at                     DateTime   @default(now()) @db.Timestamp(6)
+  updated_at                     DateTime?  @db.Timestamp(6)
+  deleted_at                     DateTime?  @db.Timestamp(6)
+  aggregate_rating_value         Decimal?   @default(0) @db.Decimal(3, 2)
+  aggregate_rating_count         Int?       @default(0)
+  traveler_requirements          String[]   @db.Text
+  tags                           String[]   @db.Text
+  operational_complexity_note    String?    @db.Text
+  first_day_last_pickup_guidance String?    @db.Text
+  last_day_safe_flight_note      String?    @db.Text
+  health_requirements            String[]   @db.Text
+  environmental_risks            String[]   @db.Text
+  safety_mitigation              String[]   @db.Text
+  handover_notes                 String[]   @db.Text
+  emergency_protocols            String[]   @db.Text
+  seo_title                      String?    @db.Text
+  seo_meta                       String?    @db.Text
+  durations                      durations? @relation(fields: [duration_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_duration_id")
+
+  @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_packages_name", type: Gin)
+  @@index([slug(ops: raw("gin_trgm_ops"))], map: "trgm_packages_slug", type: Gin)
+}
+
+model durations {
+  id         BigInt     @id @default(autoincrement())
+  name       String?
+  day        Int?
+  night      Int?
+  created_at DateTime?  @db.Timestamp(6)
+  updated_at DateTime?  @db.Timestamp(6)
+  deleted_at DateTime?  @db.Timestamp(6)
+  packages   packages[]
+}
