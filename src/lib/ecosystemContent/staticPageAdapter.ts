@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {
   getEcosystemWebsitePage,
   getEcosystemWebsiteRoutes,
+  resolveOgImage,
   type EcosystemSection,
   type EcosystemStaticPage,
 } from "@/lib/ecosystemContent/website";
@@ -88,18 +89,25 @@ export function buildStaticRouteMetadata(
   const title = overrides.title;
   const description = overrides.description;
   const canonical = staticRouteCanonical(route);
+  const openGraph = overrides.openGraph ?? {
+    title,
+    description,
+    url: canonical,
+    siteName: "Java Volcano Tour Operator",
+    locale: "en_US",
+    type: "article",
+  };
 
   return {
     title,
     description,
     alternates: { canonical, languages: hreflangFor(canonical) },
-    openGraph: overrides.openGraph ?? {
-      title,
-      description,
-      url: canonical,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "article",
-    },
+    // Next.js does not merge openGraph.images from the root layout into a
+    // route that defines its own openGraph object, so every caller — whether
+    // it uses the default above or passes its own override — must end up
+    // with an images array or the page silently ships with no og:image.
+    openGraph: "images" in openGraph && openGraph.images
+      ? openGraph
+      : { ...openGraph, images: resolveOgImage(route, title ?? "Java Volcano Tour Operator") },
   };
 }

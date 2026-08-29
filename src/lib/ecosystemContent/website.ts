@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 
@@ -424,6 +425,43 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
   return { generated_at: "unavailable", routes: [] };
 }
 
+const OG_IMAGE_DIR = path.join(process.cwd(), "public", "assets", "img", "og");
+const OG_IMAGE_WIDTH = 1200;
+const OG_IMAGE_HEIGHT = 630;
+
+// A handful of /public/assets/img/og/*.webp files predate this lookup and
+// don't share their route's final path segment. Map the known mismatches
+// explicitly rather than leaving an already-produced asset to sit unused.
+const OG_IMAGE_SLUG_ALIASES: Record<string, string> = {
+  "inclusions-exclusions": "include-exclude",
+};
+
+export type OgImage = { url: string; width: number; height: number; alt: string };
+
+/**
+ * Resolves the Open Graph image for a route: a dedicated per-route asset at
+ * /assets/img/og/{slug}.webp if one exists on disk, else the sitewide
+ * default. Every metadata builder must call this (or pass its own images)
+ * — Next.js does not merge openGraph.images from the root layout into a
+ * route that defines its own openGraph object, so omitting this here means
+ * the page silently ships with no og:image at all.
+ */
+export function resolveOgImage(route: string, alt: string): OgImage[] {
+  const lastSegment = route.split("/").filter(Boolean).pop() ?? "";
+  const slug = OG_IMAGE_SLUG_ALIASES[lastSegment] ?? lastSegment;
+  const hasDedicatedImage =
+    slug.length > 0 && existsSync(path.join(OG_IMAGE_DIR, `${slug}.webp`));
+  const filename = hasDedicatedImage ? `${slug}.webp` : "default.jpg";
+  return [
+    {
+      url: `${PRODUCTION_ORIGIN}/assets/img/og/${filename}`,
+      width: OG_IMAGE_WIDTH,
+      height: OG_IMAGE_HEIGHT,
+      alt,
+    },
+  ];
+}
+
 export function buildEcosystemRouteMetadata(
   page: EcosystemStaticPage,
   type: "article" | "website" = "article",
@@ -447,6 +485,7 @@ export function buildEcosystemRouteMetadata(
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type,
+      images: resolveOgImage(page.meta.route, title ?? "Java Volcano Tour Operator"),
     },
   };
 }

@@ -55,9 +55,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const packageName = review.packageName ?? "Java Volcano Tour Package";
   const title = `${review.customerName} Review | ${packageName}`;
-  const description =
-    review.review?.slice(0, 160) ??
-    `Customer review for ${packageName} with Java Volcano Tour Operator.`;
+  // review.review is "" (not null/undefined) for star-only reviews with no
+  // written text — `??` doesn't catch an empty string, so it was passing
+  // through as an empty meta description instead of falling back.
+  const reviewExcerpt = review.review?.trim();
+  const description = reviewExcerpt
+    ? reviewExcerpt.slice(0, 160)
+    : `Customer review for ${packageName} with Java Volcano Tour Operator.`;
 
   return {
     title,
@@ -143,9 +147,12 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         "@id": `${SITE_URL}/why-jvto/reviews/${review.id}#webpage`,
         url: `${SITE_URL}/why-jvto/reviews/${review.id}`,
         name: `${review.customerName} Review | ${packageName}`,
-        description:
-          review.review?.slice(0, 160) ??
-          `Customer review for ${packageName} with Java Volcano Tour Operator.`,
+        description: (() => {
+          const excerpt = review.review?.trim();
+          return excerpt
+            ? excerpt.slice(0, 160)
+            : `Customer review for ${packageName} with Java Volcano Tour Operator.`;
+        })(),
         isPartOf: { "@id": `${SITE_URL}/#website` },
         about: { "@id": `${SITE_URL}/#organization` },
         ...(nestedReview ? { mainEntity: { "@id": nestedReview } } : {}),
