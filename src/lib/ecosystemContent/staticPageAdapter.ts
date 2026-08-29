@@ -98,6 +98,13 @@ export function buildStaticRouteMetadata(
     type: "article",
   };
 
+  // An empty `images: []` is truthy but has no actual image, so a plain
+  // `openGraph.images` check would wrongly treat it as "already handled"
+  // and skip the fallback.
+  const hasImages = Array.isArray(openGraph.images)
+    ? openGraph.images.length > 0
+    : Boolean(openGraph.images);
+
   return {
     title,
     description,
@@ -106,7 +113,7 @@ export function buildStaticRouteMetadata(
     // route that defines its own openGraph object, so every caller — whether
     // it uses the default above or passes its own override — must end up
     // with an images array or the page silently ships with no og:image.
-    openGraph: "images" in openGraph && openGraph.images
+    openGraph: hasImages
       ? openGraph
       : { ...openGraph, images: resolveOgImage(route, title ?? "Java Volcano Tour Operator") },
   };
