@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 
@@ -426,8 +426,6 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
 }
 
 const OG_IMAGE_DIR = path.join(process.cwd(), "public", "assets", "img", "og");
-const OG_IMAGE_WIDTH = 1200;
-const OG_IMAGE_HEIGHT = 630;
 
 // A handful of /public/assets/img/og/*.webp files predate this lookup and
 // don't share their route's final path segment. Map the known mismatches
@@ -436,7 +434,67 @@ const OG_IMAGE_SLUG_ALIASES: Record<string, string> = {
   "inclusions-exclusions": "include-exclude",
 };
 
-export type OgImage = { url: string; width: number; height: number; alt: string };
+export type OgImage = { url: string; width?: number; height?: number; alt: string };
+
+type ImageDimensions = { width: number; height: number };
+
+const ogImageDimensionCache = new Map<string, ImageDimensions | null>();
+
+function readJpegDimensions(data: Buffer): ImageDimensions | null {
+  const SOF_MARKERS = new Set([
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf,
+  ]);
+  let i = 2;
+  while (i + 9 < data.length) {
+    if (data[i] !== 0xff) {
+      i += 1;
+      continue;
+    }
+    const marker = data[i + 1];
+    if (SOF_MARKERS.has(marker)) {
+      return { height: data.readUInt16BE(i + 5), width: data.readUInt16BE(i + 7) };
+    }
+    if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) {
+      i += 2;
+      continue;
+    }
+    const segmentLength = data.readUInt16BE(i + 2);
+    i += 2 + segmentLength;
+  }
+  return null;
+}
+
+/**
+ * Reads real pixel dimensions straight from the file so social crawlers
+ * aren't told the wrong aspect ratio. Only JPEG and the WebP "extended"
+ * (VP8X) container are handled — the only two formats actually present
+ * under /public/assets/img/og at the time this was written; an
+ * unrecognized format returns null and the caller omits width/height
+ * rather than guess.
+ */
+function readImageDimensions(filePath: string): ImageDimensions | null {
+  const cached = ogImageDimensionCache.get(filePath);
+  if (cached !== undefined) return cached;
+
+  let dimensions: ImageDimensions | null = null;
+  try {
+    const data = readFileSync(filePath);
+    if (data.subarray(0, 4).toString("latin1") === "RIFF" && data.subarray(8, 12).toString("latin1") === "WEBP") {
+      if (data.subarray(12, 16).toString("latin1") === "VP8X" && data.length >= 30) {
+        const width = data.readUIntLE(24, 3) + 1;
+        const height = data.readUIntLE(27, 3) + 1;
+        dimensions = { width, height };
+      }
+    } else if (data[0] === 0xff && data[1] === 0xd8) {
+      dimensions = readJpegDimensions(data);
+    }
+  } catch {
+    dimensions = null;
+  }
+
+  ogImageDimensionCache.set(filePath, dimensions);
+  return dimensions;
+}
 
 /**
  * Resolves the Open Graph image for a route: a dedicated per-route asset at
@@ -449,14 +507,15 @@ export type OgImage = { url: string; width: number; height: number; alt: string 
 export function resolveOgImage(route: string, alt: string): OgImage[] {
   const lastSegment = route.split("/").filter(Boolean).pop() ?? "";
   const slug = OG_IMAGE_SLUG_ALIASES[lastSegment] ?? lastSegment;
-  const hasDedicatedImage =
-    slug.length > 0 && existsSync(path.join(OG_IMAGE_DIR, `${slug}.webp`));
+  const dedicatedPath = path.join(OG_IMAGE_DIR, `${slug}.webp`);
+  const hasDedicatedImage = slug.length > 0 && existsSync(dedicatedPath);
+  const filePath = hasDedicatedImage ? dedicatedPath : path.join(OG_IMAGE_DIR, "default.jpg");
   const filename = hasDedicatedImage ? `${slug}.webp` : "default.jpg";
+  const dimensions = readImageDimensions(filePath);
   return [
     {
       url: `${PRODUCTION_ORIGIN}/assets/img/og/${filename}`,
-      width: OG_IMAGE_WIDTH,
-      height: OG_IMAGE_HEIGHT,
+      ...(dimensions ? { width: dimensions.width, height: dimensions.height } : {}),
       alt,
     },
   ];
