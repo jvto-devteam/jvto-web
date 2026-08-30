@@ -530,18 +530,44 @@ export function resolveOgImage(route: string, alt: string): OgImage[] {
  * origin isn't this site's own returns null, and the caller omits
  * width/height rather than repeat the old hardcoded-1200x630 guess.
  */
+function siteOrigins(): Set<string> {
+  const origins = new Set<string>();
+  for (const value of [PRODUCTION_ORIGIN, process.env.NEXT_PUBLIC_SITE_URL]) {
+    if (!value) continue;
+    try {
+      origins.add(new URL(value).origin);
+    } catch {
+      // Not a parseable URL (e.g. a malformed env var) — ignore rather than throw.
+    }
+  }
+  return origins;
+}
+
 export function resolveLocalImageDimensions(imageUrl: string): ImageDimensions | null {
-  let pathname = imageUrl;
+  let pathname: string;
   if (/^https?:\/\//i.test(imageUrl)) {
-    const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL;
-    const origin = [PRODUCTION_ORIGIN, siteOrigin].find(
-      (candidate): candidate is string => !!candidate && imageUrl.startsWith(`${candidate}/`),
-    );
-    if (!origin) return null;
-    pathname = imageUrl.slice(origin.length);
+    let parsed: URL;
+    try {
+      parsed = new URL(imageUrl);
+    } catch {
+      return null;
+    }
+    // URL parsing also strips any query/hash and normalizes the origin
+    // (trailing-slash-safe), unlike a plain startsWith prefix check.
+    if (!siteOrigins().has(parsed.origin)) return null;
+    pathname = parsed.pathname;
+  } else {
+    pathname = imageUrl.split(/[?#]/)[0] ?? "";
   }
   if (!pathname.startsWith("/")) pathname = `/${pathname}`;
-  return readImageDimensions(path.join(PUBLIC_DIR, pathname));
+
+  // path.join resolves ".." segments, so a traversal attempt (e.g.
+  // "/../../etc/passwd") collapses here; confirm the result still lands
+  // under PUBLIC_DIR before ever touching the filesystem with it.
+  const resolved = path.join(PUBLIC_DIR, pathname);
+  if (resolved !== PUBLIC_DIR && !resolved.startsWith(PUBLIC_DIR + path.sep)) return null;
+
+  return readImageDimensions(resolved);
 }
 
 export function buildEcosystemRouteMetadata(
