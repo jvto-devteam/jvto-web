@@ -426,6 +426,7 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
 }
 
 const OG_IMAGE_DIR = path.join(process.cwd(), "public", "assets", "img", "og");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 
 // A handful of /public/assets/img/og/*.webp files predate this lookup and
 // don't share their route's final path segment. Map the known mismatches
@@ -465,12 +466,30 @@ function readJpegDimensions(data: Buffer): ImageDimensions | null {
 }
 
 /**
+ * Reads width/height from a simple lossy WebP's "VP8 " chunk (as opposed
+ * to the "VP8X" extended container, which carries its own dimensions in
+ * the RIFF header and doesn't need this). The VP8 keyframe header starts
+ * 20 bytes into the file (after the 12-byte RIFF/WEBP prologue and the
+ * 8-byte "VP8 "+size chunk header): a 3-byte frame tag, a 3-byte
+ * 0x9d 0x01 0x2a start code, then 14-bit little-endian width and height
+ * fields (the top 2 bits of each are an unrelated scale factor).
+ * https://datatracker.ietf.org/doc/html/rfc6386#section-9.1
+ */
+function readVp8Dimensions(data: Buffer): ImageDimensions | null {
+  if (data.length < 30) return null;
+  if (data[23] !== 0x9d || data[24] !== 0x01 || data[25] !== 0x2a) return null;
+  const width = data.readUInt16LE(26) & 0x3fff;
+  const height = data.readUInt16LE(28) & 0x3fff;
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+/**
  * Reads real pixel dimensions straight from the file so social crawlers
- * aren't told the wrong aspect ratio. Only JPEG and the WebP "extended"
- * (VP8X) container are handled — the only two formats actually present
- * under /public/assets/img/og at the time this was written; an
- * unrecognized format returns null and the caller omits width/height
- * rather than guess.
+ * aren't told the wrong aspect ratio. Only JPEG and WebP (both the
+ * "extended" VP8X container and the simple lossy VP8 one — the two
+ * variants actually present under /public) are handled; an unrecognized
+ * format returns null and the caller omits width/height rather than guess.
  */
 function readImageDimensions(filePath: string): ImageDimensions | null {
   const cached = ogImageDimensionCache.get(filePath);
@@ -480,10 +499,13 @@ function readImageDimensions(filePath: string): ImageDimensions | null {
   try {
     const data = readFileSync(filePath);
     if (data.subarray(0, 4).toString("latin1") === "RIFF" && data.subarray(8, 12).toString("latin1") === "WEBP") {
-      if (data.subarray(12, 16).toString("latin1") === "VP8X" && data.length >= 30) {
+      const webpFormat = data.subarray(12, 16).toString("latin1");
+      if (webpFormat === "VP8X" && data.length >= 30) {
         const width = data.readUIntLE(24, 3) + 1;
         const height = data.readUIntLE(27, 3) + 1;
         dimensions = { width, height };
+      } else if (webpFormat === "VP8 ") {
+        dimensions = readVp8Dimensions(data);
       }
     } else if (data[0] === 0xff && data[1] === 0xd8) {
       dimensions = readJpegDimensions(data);
@@ -519,6 +541,54 @@ export function resolveOgImage(route: string, alt: string): OgImage[] {
       alt,
     },
   ];
+}
+
+/**
+ * Reads real pixel dimensions for an og:image URL that isn't a fixed
+ * /assets/img/og asset — a per-item tour or destination photo, which may be
+ * an absolute URL on this site's own origin (e.g. an /uploads/* upload) or a
+ * genuinely external one. Only the former can be read off disk; a URL whose
+ * origin isn't this site's own returns null, and the caller omits
+ * width/height rather than repeat the old hardcoded-1200x630 guess.
+ */
+function siteOrigins(): Set<string> {
+  const origins = new Set<string>();
+  for (const value of [PRODUCTION_ORIGIN, process.env.NEXT_PUBLIC_SITE_URL]) {
+    if (!value) continue;
+    try {
+      origins.add(new URL(value).origin);
+    } catch {
+      // Not a parseable URL (e.g. a malformed env var) — ignore rather than throw.
+    }
+  }
+  return origins;
+}
+
+export function resolveLocalImageDimensions(imageUrl: string): ImageDimensions | null {
+  let pathname: string;
+  if (/^https?:\/\//i.test(imageUrl)) {
+    let parsed: URL;
+    try {
+      parsed = new URL(imageUrl);
+    } catch {
+      return null;
+    }
+    // URL parsing also strips any query/hash and normalizes the origin
+    // (trailing-slash-safe), unlike a plain startsWith prefix check.
+    if (!siteOrigins().has(parsed.origin)) return null;
+    pathname = parsed.pathname;
+  } else {
+    pathname = imageUrl.split(/[?#]/)[0] ?? "";
+  }
+  if (!pathname.startsWith("/")) pathname = `/${pathname}`;
+
+  // path.join resolves ".." segments, so a traversal attempt (e.g.
+  // "/../../etc/passwd") collapses here; confirm the result still lands
+  // under PUBLIC_DIR before ever touching the filesystem with it.
+  const resolved = path.join(PUBLIC_DIR, pathname);
+  if (resolved !== PUBLIC_DIR && !resolved.startsWith(PUBLIC_DIR + path.sep)) return null;
+
+  return readImageDimensions(resolved);
 }
 
 export function buildEcosystemRouteMetadata(
