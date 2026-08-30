@@ -7,6 +7,7 @@ import Link from "@/components/website/AppLink";
 import { notFound } from "next/navigation";
 import { getEcosystemVerifyAssetsInventory } from "@/lib/ecosystemContent/verifyAssetsInventory";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
+import { resolveOgImage } from "@/lib/ecosystemContent/website";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildDoctorSchema, buildFounderSchema, getEntityGraphFacts } from "@/lib/schemas/entityGraph";
@@ -92,14 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
-      images: [
-        {
-          url: `${siteUrl}/assets/img/og/verify-jvto.webp`,
-          width: 1200,
-          height: 630,
-          alt: seo.h1,
-        },
-      ],
+      images: resolveOgImage("/verify-jvto", seo.h1),
     },
   };
 }

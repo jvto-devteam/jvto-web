@@ -426,6 +426,7 @@ export async function getEcosystemWebsiteRoutes(): Promise<EcosystemRouteIndex> 
 }
 
 const OG_IMAGE_DIR = path.join(process.cwd(), "public", "assets", "img", "og");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 
 // A handful of /public/assets/img/og/*.webp files predate this lookup and
 // don't share their route's final path segment. Map the known mismatches
@@ -519,6 +520,28 @@ export function resolveOgImage(route: string, alt: string): OgImage[] {
       alt,
     },
   ];
+}
+
+/**
+ * Reads real pixel dimensions for an og:image URL that isn't a fixed
+ * /assets/img/og asset — a per-item tour or destination photo, which may be
+ * an absolute URL on this site's own origin (e.g. an /uploads/* upload) or a
+ * genuinely external one. Only the former can be read off disk; a URL whose
+ * origin isn't this site's own returns null, and the caller omits
+ * width/height rather than repeat the old hardcoded-1200x630 guess.
+ */
+export function resolveLocalImageDimensions(imageUrl: string): ImageDimensions | null {
+  let pathname = imageUrl;
+  if (/^https?:\/\//i.test(imageUrl)) {
+    const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL;
+    const origin = [PRODUCTION_ORIGIN, siteOrigin].find(
+      (candidate): candidate is string => !!candidate && imageUrl.startsWith(`${candidate}/`),
+    );
+    if (!origin) return null;
+    pathname = imageUrl.slice(origin.length);
+  }
+  if (!pathname.startsWith("/")) pathname = `/${pathname}`;
+  return readImageDimensions(path.join(PUBLIC_DIR, pathname));
 }
 
 export function buildEcosystemRouteMetadata(
