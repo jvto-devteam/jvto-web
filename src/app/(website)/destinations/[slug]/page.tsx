@@ -236,10 +236,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     data.summary ||
     data.highlight ||
     "";
-  const imageUrl = data.banner?.url
-    ? data.banner.url.startsWith("http")
-      ? data.banner.url
-      : `${SITE_URL}${data.banner.url}`
+  const rawImageUrl = data.banner?.url || data.featured_image;
+  const imageUrl = rawImageUrl
+    ? rawImageUrl.startsWith("http")
+      ? rawImageUrl
+      : `${SITE_URL}${rawImageUrl}`
     : `${SITE_URL}/assets/img/og/destinations.webp`;
 
   return {
