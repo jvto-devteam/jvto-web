@@ -58,8 +58,6 @@ const Footer: React.FC = () => {
               <li><Link href="/travel-guide/faq" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">FAQ</Link></li>
               <li><Link href="/travel-guide/booking-information" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Booking &amp; Payments</Link></li>
               <li><Link href="/travel-guide/ijen-health-screening" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Ijen Health Screening</Link></li>
-              <li><Link href="/isic/student-package" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Student Deals (ISIC)</Link></li>
-              <li><Link href="/blog" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Insights</Link></li>
               <li><Link href="/policy" prefetch={false} className="text-white/70 hover:text-jvto-orange transition-colors">Policy</Link></li>
             </ul>
           </div>
