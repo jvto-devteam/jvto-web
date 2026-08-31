@@ -1045,7 +1045,7 @@ export default async function VerifyJvtoPage() {
               >
                 History &amp; <span className="text-jvto-orange">continuity.</span>
               </h2>
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Since 2016</span>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Since 2015</span>
             </div>
           </div>
           <p className="max-w-[64ch] text-[#6b7280] text-[18px] font-light mb-10">
