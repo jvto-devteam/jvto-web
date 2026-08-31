@@ -15,7 +15,6 @@ import type { Metadata } from "next";
 import Link from "@/components/website/AppLink";
 import StructuredData from "@/components/website/StructuredData";
 import { getEcosystemExternalEntities } from "@/lib/ecosystemContent/externalEntities";
-import { resolveOgImage } from "@/lib/ecosystemContent/website";
 
 export const revalidate = 86400;
 
@@ -40,7 +39,6 @@ export const metadata: Metadata = {
     siteName: "Java Volcano Tour Operator",
     locale: "en_US",
     type: "website",
-    images: resolveOgImage("/entity", TITLE),
   },
 };
 

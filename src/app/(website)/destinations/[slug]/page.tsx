@@ -23,7 +23,6 @@ import {
   buildTouristAttractionSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
-import { resolveLocalImageDimensions } from "@/lib/ecosystemContent/website";
 import fs from "fs";
 import path from "path";
 export const revalidate = 3600;
@@ -237,13 +236,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     data.summary ||
     data.highlight ||
     "";
-  const rawImageUrl = data.banner?.url || data.featured_image;
-  const imageUrl = rawImageUrl
-    ? rawImageUrl.startsWith("http")
-      ? rawImageUrl
-      : `${SITE_URL}${rawImageUrl}`
+  const imageUrl = data.banner?.url
+    ? data.banner.url.startsWith("http")
+      ? data.banner.url
+      : `${SITE_URL}${data.banner.url}`
     : `${SITE_URL}/assets/img/og/destinations.webp`;
-  const imageDimensions = resolveLocalImageDimensions(imageUrl);
 
   return {
     title,
@@ -262,7 +259,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [
         {
           url: imageUrl,
-          ...(imageDimensions ? { width: imageDimensions.width, height: imageDimensions.height } : {}),
+          width: 1200,
+          height: 630,
           alt: data.banner?.alt ?? data.name,
         },
       ],

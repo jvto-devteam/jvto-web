@@ -9,7 +9,6 @@ import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
 import { Providers } from "@/app/providers";
-import { resolveOgImage } from "@/lib/ecosystemContent/website";
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl =
@@ -36,7 +35,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Java Volcano Tour Operator",
-    images: resolveOgImage("/", "Java Volcano Tour Operator - JVTO"),
+    images: [
+      {
+        url: "/assets/img/og/default.jpg", // Karena ada metadataBase, ini otomatis jadi absolute URL
+        width: 1200,
+        height: 630,
+        alt: "Java Volcano Tour Operator - JVTO",
+      },
+    ],
   },
 
   twitter: {

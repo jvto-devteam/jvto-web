@@ -7,7 +7,6 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import {
   buildEcosystemRouteMetadata,
   getEcosystemWebsitePage,
-  resolveOgImage,
 } from "@/lib/ecosystemContent/website";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
 
@@ -413,7 +412,14 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
-      images: resolveOgImage(ROUTE, h1),
+      images: [
+        {
+          url: `${siteUrl}/assets/img/og/travel-guide.webp`,
+          width: 1200,
+          height: 630,
+          alt: h1,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

@@ -27,7 +27,6 @@ import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
 import { getEcosystemTourSchemaNodes } from "@/lib/ecosystemContent/tourSchemaOutput";
-import { resolveLocalImageDimensions } from "@/lib/ecosystemContent/website";
 
 export const revalidate = 3600;
 
@@ -271,7 +270,6 @@ export async function generateMetadata(
   const imageUrl = rawImage.startsWith("http")
     ? rawImage
     : `${siteUrl}${rawImage.startsWith("/") ? "" : "/"}${rawImage}`;
-  const imageDimensions = resolveLocalImageDimensions(imageUrl);
 
   return {
     title: metaTitle,
@@ -286,7 +284,8 @@ export async function generateMetadata(
       images: [
         {
           url: imageUrl,
-          ...(imageDimensions ? { width: imageDimensions.width, height: imageDimensions.height } : {}),
+          width: 1200,
+          height: 630,
           alt: pkg.name,
         },
       ],

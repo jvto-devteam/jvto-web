@@ -11,7 +11,7 @@ import {
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
-import { getEcosystemWebsitePage, resolveOgImage } from "@/lib/ecosystemContent/website";
+import { getEcosystemWebsitePage } from "@/lib/ecosystemContent/website";
 import DestinationsHub from "@/components/website/DestinationsHub";
 
 const SITE_URL =
@@ -47,7 +47,14 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
-      images: resolveOgImage(ROUTE, seo.h1),
+      images: [
+        {
+          url: `${SITE_URL}/assets/img/og/destinations.webp`,
+          width: 1200,
+          height: 630,
+          alt: seo.h1,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

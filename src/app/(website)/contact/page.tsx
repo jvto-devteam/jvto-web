@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getEcosystemPageSeo } from "@/lib/content/getEcosystemPageSeo";
 import { loadEcosystemPage } from "@/lib/ecosystemContent/staticPageAdapter";
-import { resolveOgImage } from "@/lib/ecosystemContent/website";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const ROUTE = "/contact";
@@ -31,7 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",
-      images: resolveOgImage(ROUTE, h1),
+      images: [
+        {
+          url: siteUrl + "/assets/img/og/contact.webp",
+          width: 1200,
+          height: 630,
+          alt: h1,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
