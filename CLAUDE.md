@@ -38,11 +38,9 @@ architecture — read it from ekosistem instead. See "Prisma is pruned" below.
 
 ## Commands
 
+Standard npm scripts (`dev`/`build`/`start`/`lint`) — see `package.json`.
+
 ```bash
-npm run dev           # dev server on :3000 (Turbopack)
-npm run build         # production build
-npm start             # serve the production build
-npm run lint          # ESLint check
 npx prisma generate   # regenerate Prisma client (after schema.prisma edits)
 # npx prisma db pull  # ⚠️ DO NOT RUN — see "Prisma is pruned" below
 ```
@@ -50,106 +48,12 @@ npx prisma generate   # regenerate Prisma client (after schema.prisma edits)
 Database connection: PostgreSQL at `31.97.223.43`, configured via `DATABASE_URL` in
 `.env.local`. It backs customer login only — see "Where data comes from" above.
 
-## Tech Stack
+## Architecture: Schema Layer, Content Layer & Schema Builders
 
-- **Next.js 16** App Router with route groups: `(website)`, `(api)`, `(cms)`, `(customer)`
-- **Bundler**: Turbopack (default)
-- **Data layer**: Prisma 6.18 — **pruned to 6 models** on 2026-08-28 (see below). Content comes from `jvto-ekosistem`; Prisma is auth plus one validator
-- **Auth**: NextAuth (Google SSO) for customer dashboard + admin CMS
-- **Editor**: TipTap (admin CMS WYSIWYG)
-- **Email**: Mailgun + Nodemailer
-- **Payments**: Xendit Gateway (booking + travel-credit issuance)
-- **Storage**: local `public/` for static assets; absolute URLs in schema for production-domain references
+The AEO/GEO schema architecture (entity graph `@id`s, `DEFINED_TERMS`, per-cluster schema builders + canonical Q&A, the `jvto-ekosistem` content-reader layer, `PageJsonLdCombined`) is documented in
+[.claude/rules/schema-and-content-layer.md](.claude/rules/schema-and-content-layer.md) — it loads automatically when you touch `src/lib/schemas/`, `src/lib/ecosystemContent/`, `src/components/seo/`, or `src/lib/*Faqs.ts`.
 
-## Architecture: Schema Layer (post-port)
-
-The AEO/GEO schema architecture is the most important addition from the port. Every public page emits structured JSON-LD that maximizes AI search (AEO) signal density via cross-referenced entity graph.
-
-### Master Entity Graph: `src/lib/schemas/entityGraph.ts`
-
-All entities have stable `@id` so any page can cross-reference via `{ '@id': ... }` instead of re-inlining.
-
-| Export | `@id` | Where injected |
-|---|---|---|
-| `ORGANIZATION_SCHEMA` | `/#organization` | Per-page via `PageJsonLdCombined` |
-| `FOUNDER_SCHEMA` | `/#agung-sambuko` | `(website)/layout.tsx` (global) |
-| `DOCTOR_SCHEMA` | `/#dr-ahmad-irwandanu` | `(website)/layout.tsx` (global) |
-| `BBKSDA_REGULATION_SCHEMA` | n/a | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.NIB` / `TDUP` / `HPWKI` / `KTA` / `POLPAR` / `BBKSDA` / `SE1658` (×7) | `/#term-{key}` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.ISIC` | `/#term-isic` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.INDECON` | `/#term-indecon` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.JVTO_TRAVEL_CREDIT` | `/#term-jvto-travel-credit` | `(website)/layout.tsx` (global) — **brand-custom** |
-| `DEFINED_TERMS.JVTO_FOC_SCHEME` | `/#term-jvto-foc-scheme` | `(website)/layout.tsx` (global) — **brand-custom** |
-| `buildCrewPersonSchema()` | `/#crew-{code}` | `/why-jvto/our-team` (per active crew) |
-
-`DEFINED_TERMS` currently holds **11** keys (7 credential/regulatory + ISIC + INDECON +
-2 brand-custom). `npm run test:stale` asserts that count — update the test when the set
-legitimately grows.
-
-When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally) AND to `@id Registry` in `~/.claude/projects/f--jvto-web/memory/cluster_role_contracts.md`. Don't inline schema in pages.
-
-### Per-cluster Schema Builders + Canonical Q&A
-
-| Cluster | Schema builders | Canonical Q&A |
-|---|---|---|
-| Tour detail | `src/lib/schemas/buildTourSchemas.ts` | `src/lib/tourFaqs.ts` (`getTourSpineQaPairs`) |
-| Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
-| Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
-| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | ekosistem `why-jvto/*.source.json` + individual `@type:Review` nodes on `/reviews` |
-| Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | ekosistem `travel-guide/*.source.json` |
-| Policy | `src/lib/schemas/buildPolicySchemas.ts` | ekosistem `policies/*` |
-| Destinations | `src/lib/schemas/buildDestinationsSchemas.ts` | `getEcosystemDestinationDetail()` |
-
-> The "DB `narrative_claims`" / "DB `schema_json`" entries this table used to carry were
-> corrected on 2026-08-28. Those Prisma models no longer exist — the schema was pruned to
-> 6 models and nothing in `src/` imports them. The 26 narrative claims are read by
-> `getEcosystemNarrativeClaims()` (used by the two tour-detail pages); everything else
-> reads its own ekosistem source file.
-
-**Rule:** edit Q&A copy → in `jvto-ekosistem`, or `src/lib/*Faqs.ts` for the hand-written spine pairs. Edit schema fields → only `src/lib/schemas/build*.ts`. Never add a Prisma query for content.
-
-`src/lib/queries/schemaReviews.ts` feeds `buildIndividualReviewSchemas()`; individual `@type:Review` schema is live on `/why-jvto/reviews`. Despite living under `queries/`, it is **not** a Prisma query — it was `prisma.reviews.findMany` until 2026-08-19 and now filters and sorts in application code over `getEcosystemReviews()`, keeping the same return shape.
-
-### Content Layer (ekosistem-content) — replaces the retired FAQ resolver
-
-> The former "FAQ Source Resolver (CRITICAL)" section documented
-> `src/lib/content/resolveFaqs.ts`, `resolveFaqsForPage()`, `CANONICAL_FAQ_REGISTRY`,
-> and DB-`narrative_claims` precedence. All of it was **retired 2026-08-18**. Do not
-> reintroduce that pattern.
-
-**Single source of truth**: the `jvto-ekosistem` repo.
-
-- Local checkout first (`../jvto-ekosistem`, overridable via `JVTO_EKOSYSTEM_CONTENT_ROOT`)
-- HTTP fallback to `ekosistem.javavolcano-touroperator.com/api/file`
-- **No live sync** between Prisma and the ekosistem files, by design — edits go into
-  the ekosistem source, not into this repo
-
-**Reader layer**: `src/lib/ecosystemContent/*` (18 files as of 2026-08-28).
-
-| File | Reads |
-|---|---|
-| `narrativeClaims.ts` | 26 claims — C1–C9 + POL-BPC-01..11 + POL-IE-01..06 |
-| `externalEntities.ts` | external organisation/entity records |
-| `people.ts` | crew roster |
-| `reviewPlatforms.ts` | per-platform rating data |
-| `tourPackageDetail.ts` / `destinationDetail.ts` | package + destination editorial |
-| `staticPageAdapter.ts` | generic page content adapter |
-
-**These are fetchers, not data.** Grepping `narrativeClaims.ts` to count claims will
-always be wrong — the claims live in
-`../jvto-ekosistem/1-knowledge-and-evidence-core/narrative-claims/narrative-claims.json`.
-
-**Architecture note**: FAQ pages, policy pages, and `llms.txt` are thin wrappers around
-`EcosystemTravelGuidePage` / `PolicyEcosystemPage` / `getEcosystemLlmsTxt()`.
-
-### `PageJsonLdCombined` Component
-
-`src/components/seo/PageJsonLdCombined.tsx` is the standard schema injection component for all `(website)/*` pages. It auto-injects: Organization + WebSite + WebPage + BreadcrumbList + (optional) CMS-FAQ + page extras passed via `extraSchemas`.
-
-Accepts:
-- `pageRow` — page SEO + FAQ, sourced from ekosistem (was a `content_pages` DB row before the 2026-08-18 migration)
-- `extraSchemas` — per-page schema nodes
-- `suppressCmsFaq` — opt-out for CMS FAQ when canonical takes over (Phase 5 addition)
+Tech stack (Next.js 16, Prisma 6.18 pruned to 6 models, NextAuth, TipTap, Mailgun, Xendit) is in `package.json` — see "Prisma is pruned" below for the one non-obvious part.
 
 ## Architecture: Server + Client Split Pattern
 
@@ -222,11 +126,7 @@ on 2026-08-28 and are now gitignored.
 
 ## Routing
 
-- `/tours/from-bali/[slug]` and `/tours/from-surabaya/[slug]` — separate folders with shared client `src/components/website/TourDetail.tsx`
-- `/tours/page.tsx` (root hub), `/tours/from-bali/page.tsx`, `/tours/from-surabaya/page.tsx` — hub listings
-- `/destinations/[slug]` — dynamic destination detail
-- `/why-jvto/[slug]`, `/travel-guide/[slug]`, `/policy/[slug]` — dynamic CMS-driven sub-pages with per-slug schema augmentation
-- `/verify-jvto/{legal,police-safety,press-recognition,history-artifacts}/page.tsx` — separate folders (not [slug] dynamic)
+Route folder layout matches `src/app/(website)/` — `ls`/`Glob` it directly.
 
 Slug shape: both cities use full-path format — `tours/from-surabaya/{slug}` and `tours/from-bali/{slug}`. The bare-name format for Surabaya was a jvto_dev data bug (fixed 2026-05-02), not intentional design.
 
@@ -307,18 +207,6 @@ Do NOT: [what must stay unchanged]
 ```
 
 Use `/phase-start` to run this automatically. Use `/session-close` to commit + handoff.
-
-## Current Sprint
-
-**Last completed:** DB-only content sprint — backfilled body_md into mount-bromo-logistics (3565 chars compiled from existing sections) and tumpak-sewu-logistics (3807 chars); populated and activated packing-list (was inactive empty `{}`); build 137→138/138 ✓ (2026-05-05)
-**Completed date:** 2026-05-05
-**Next task:** Port remaining undeployed travel-guide DB rows — safety-on-tours, weather-and-closures, packing-and-fitness already have body_md; check if other content_pages need body_md backfill; OR begin next AEO cluster work
-**Build status:** ✓ Compiled (138/138 static pages — DB update only, no code change, at commit e27e393)
-**Open items:**
-- Design atlas screenshots gitignored — regenerate after server restart: `npm run dev` → `node scripts/generate-design-atlas.mjs`
-- booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
-- /travel-guide/best-time-to-visit page exists in code but has no DB row — content needed if publishing
 
 ## Skill routing
 
