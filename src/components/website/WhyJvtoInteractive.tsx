@@ -195,7 +195,7 @@ export type StoryTabItem = {
 
 const STORY_TABS_DATA: StoryTabItem[] = [
   { year: "'15", label: "Homestay", title: "The Guesthouse", text: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102 — the same address JVTO operates from today. Booking.com guests rate the property 9.4 / 10." },
-  { year: "'16", label: "PT formed", title: "PT Java Volcano Rendezvous", text: "The company is incorporated on 2016-01-01. Stefan Loose Reiseführer Indonesien (4th Ed., 2018) names “Agung” as operator at the same address — an independent German guidebook." },
+  { year: "'23", label: "PT formed", title: "PT Java Volcano Rendezvous", text: "The company is incorporated on 2023-02-08. Stefan Loose Reiseführer Indonesien (4th Ed., 2018) names “Agung” as operator at the same address — an independent German guidebook." },
   { year: "'23", label: "TDUP", title: "TDUP Formalization", text: "The Tourism Business Permit is formalized, completing the regulatory chain. NIB 1102230032918 is OSS-verifiable through Indonesia’s government system." },
 ] as const;
 

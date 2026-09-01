@@ -93,9 +93,9 @@ const HISTORY_TIMELINE_SCHEMA = {
       position: 2,
       item: {
         "@type": "Event",
-        "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-2016-stefan-loose`,
+        "@id": `${BASE_URL}/verify-jvto/history-artifacts#event-2018-stefan-loose`,
         name: "Stefan Loose European Travel Guide — First Editorial Mention",
-        startDate: "2016",
+        startDate: "2018",
         description:
           "Earliest independent editorial citation of the founder as operator for Ijen tours, appearing in a European travel guide — pre-digital third-party corroboration that predates social media review platforms.",
         about: { "@id": `${BASE_URL}/#organization` },
@@ -163,7 +163,7 @@ const FALLBACK = {
   articleIntro: "JVTO is not a new operator. We have a documented operational history dating to 2015, with public web archives that anyone can audit.",
   timeline: [
     { year: "'15", h4: "2015", p: "Ijen Bondowoso Homestay opens on Jl. Khairil Anwar No.102. Booking.com guest score 9.4/10; award shipped to the Bondowoso address." },
-    { year: "'16", h4: "2016", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same address." },
+    { year: "'23", h4: "2023", p: "PT Java Volcano Rendezvous incorporated 2023-02-08 (AHU-0010187.AH.01.01.TAHUN 2023) at the same address." },
     { year: "'18", h4: "2018", p: "Stefan Loose Reiseführer Indonesien (4th ed., ISBN 978-3-7701-7881-0, p. 287) names \"Agung\" as operator." },
     { year: "'21", h4: "2021", p: "Independent press: Detik.com (2021-03-14) and Radar Jember (2021-03-24) name Bripka Agung Sambuko in Tourist Police duties." },
     { year: "'23", h4: "2023", p: "TDUP formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
@@ -192,13 +192,13 @@ const FALLBACK = {
   archiveIntroSegments: [
     { text: "The Wayback Machine (web.archive.org) holds 27+ snapshots of " },
     { text: "javavolcano-touroperator.com", strong: true },
-    { text: " dating from 2016 forward. Anyone can audit:" },
+    { text: " dating from 2015 forward. Anyone can audit:" },
   ] as RichSegment[],
   archiveList: [
     "Domain age and continuity",
     "Founder name consistency",
     "Address consistency",
-    "NIB displayed after 2016 incorporation",
+    "NIB displayed after 2023 incorporation",
   ],
   rulesOutText: "The Wayback footprint rules out the \"scammer registered a domain last month\" pattern. Anyone running a years-long operation under one name, at one address, with one founder, is publicly auditable. Anyone who isn't, isn't.",
 };
