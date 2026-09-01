@@ -17,7 +17,7 @@ import {
 import {
   listPublishedStaticPages,
   loadEcosystemPage,
-  staticRouteCanonical,
+  buildStaticRouteMetadata,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/ecosystemContent/staticPageAdapter";
@@ -103,14 +103,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!page || page.meta.status !== "published") {
     return { title: "Page Not Found" };
   }
-  return {
+  // Phase 0 steril audit P3-WHYJVTO-METADATA (2026-09-02): this route had no
+  // assigned metadata owner and never resolved an og:image, unlike every
+  // other static-content route (policy, verify-jvto) which already go
+  // through buildStaticRouteMetadata(). Switching to it is additive only —
+  // canonical/hreflang shape is unchanged (same staticRouteCanonical() call
+  // internally), openGraph is new.
+  return buildStaticRouteMetadata(`/why-jvto/${slug}`, {
     title: page.meta.browserTitle ?? page.meta.title,
     description: page.meta.description,
-    alternates: {
-      canonical: staticRouteCanonical(`/why-jvto/${slug}`),
-      languages: { en: staticRouteCanonical(`/why-jvto/${slug}`), "x-default": staticRouteCanonical(`/why-jvto/${slug}`) },
-    },
-  };
+  });
 }
 
 /**
