@@ -65,6 +65,13 @@ env.download
 # scratch HTML for scripts/audit-answer-structure.py
 .answer-audit/
 
-# local file-edit backups (auto-generated before edits), scratch audit exports
+# local file-edit backups (auto-generated before edits)
 .claude/backups/
-docs/audit/baseline-2026-08-30/
+
+# baseline-2026-08-30 audit export: most of it is scratch, but 3 files are an
+# active, verified backlog (render_chain_audit.md, conflict_register.csv,
+# handoff_register.csv) — keep those tracked, ignore the rest
+docs/audit/baseline-2026-08-30/*
+!docs/audit/baseline-2026-08-30/render_chain_audit.md
+!docs/audit/baseline-2026-08-30/conflict_register.csv
+!docs/audit/baseline-2026-08-30/handoff_register.csv

@@ -1,5 +1,13 @@
 # JVTO Repo Recon Findings — 2026-07-14
 
+> **ARSIP — sebagian besar usang per 2026-08-18/2026-08-28.** Bagian B (Review & Schema)
+> dan E (Content System) mendeskripsikan `getReviewStats.ts`/`review_stats` dan model CMS
+> `content_pages.content.faq` — keduanya sudah dihapus (lihat `CLAUDE.md` "Prisma is
+> pruned" dan "Things that bite"). Folder rute duplikat di Bagian A juga sudah tidak ada.
+> Untuk audit yang aktual per repo saat ini, lihat `docs/audit/baseline-2026-08-30/`
+> (`render_chain_audit.md`, `conflict_register.csv`, `handoff_register.csv`).
+> Dibiarkan di sini sebagai riwayat, bukan referensi kerja. — ditandai 2026-09-01
+
 Status per-item: [CONFIRMED] = ada sesuai dugaan | [DIFFERENT] = ada tapi berbeda | [NOT FOUND] = tidak ada
 
 ---
