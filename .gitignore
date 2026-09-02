@@ -52,7 +52,10 @@ src/generated/prisma/*.tmp*
 # Remember plugin runtime logs
 .remember/logs/
 
-# Design atlas — screenshots are large, regenerate with: node scripts/generate-design-atlas.mjs
+# Design atlas — screenshots are large, so they stay out of git. The regenerator
+# this line used to name (scripts/generate-design-atlas.mjs) does not exist and is
+# not in the repo's history; docs/design_atlas/index.html is therefore a viewer
+# with no way to produce its data. Verified 2026-09-02.
 docs/design_atlas/screenshots/
 docs/design_atlas/manifest.json
 .playwright-mcp/

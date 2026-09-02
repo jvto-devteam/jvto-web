@@ -57,7 +57,7 @@ Both cities use full-path slugs. The bare-name Surabaya format was a jvto_dev da
 
 - **Prisma nullable narrowing**: `where: { star: { not: null } }` does NOT narrow the TypeScript return type — the field stays `number | null`. Always `.filter(r => r.field != null)` before `.map()`, then use `r.field!`. See `buildIndividualReviewSchemas()`.
 - **`content_pages.content.faq` is gone** — it died with the FAQ resolver on 2026-08-18. FAQ copy is edited in `jvto-ekosistem` now; tell admins that, not the old CMS story.
-- **Adding an AI crawler to `public/robots.txt`** → also update `images.remotePatterns` in `next.config.mjs` if its bot fetches avatars from external CDNs. Nothing in `next.config.mjs` hints at this.
+- **Adding an AI crawler to `public/robots.txt`** → also update `images.remotePatterns` in `next.config.ts` if its bot fetches avatars from external CDNs. Nothing in `next.config.ts` hints at this.
 - **Turbopack dev server is slow on Windows.** Verify changes with `npm run build` (SSG-safe post-port) rather than dev-server smoke tests.
 - **Never trust a tsc baseline written in a document.** Run `npx tsc --noEmit` fresh before calling anything a regression.
 
@@ -65,7 +65,7 @@ Both cities use full-path slugs. The bare-name Surabaya format was a jvto_dev da
 
 - No content or copy rewrites
 - No legacy-route deletion, no new 301s
-- No changes to `sync-llm-wiki.yml` / `sync-trust-bundle.mjs`
+- No changes to the sync/deploy workflows: `.github/workflows/ci.yml`, `deploy.yml`, `update-volcanic-status.yml` (the old `sync-llm-wiki.yml` and `scripts/sync-trust-bundle.mjs` this line used to name were deleted 2026-08-15; verified gone 2026-09-02)
 - No deploy or CI workflow changes
 - No dependency changes without written approval
 - No hiding TS or build errors
