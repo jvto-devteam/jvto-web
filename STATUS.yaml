@@ -161,3 +161,19 @@ open_items:
       working tree pada full clone baru. Yang BENAR-BENAR berulang menghematkan adalah 792c98ed: 249
       paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
       ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
+  - id: JVTO_WEB_VPS_MIGRATION
+    status: NEEDS_OWNER
+    note: >-
+      REKOMENDASI: pindahkan jvto-web dari VPS. Nol perubahan kode. DIBUKTIKAN 2026-09-02, bukan
+      diteorikan: JVTO_EKOSYSTEM_CONTENT_ROOT="/nonexistent-forces-http" npm run build → exit 0,
+      106/106 halaman, 104 entri rute, paritas identik dengan build normal. Artinya jvto-web
+      memproduksi seluruh situs tanpa akses apa pun ke repo saudara; jalur HTTP /api/file sudah
+      cukup sendirian. Ditopang: nol tulis disk saat runtime, 17/17 pembaca punya fallback,
+      public/uploads 191 file ter-track ikut bundle, tanpa output standalone, Prisma hanya untuk
+      login ke Postgres yang tidak ada di repo. ALASAN UTAMA bukan arsitektur melainkan biaya
+      kegagalan: 2026-09-02 SSH tak terjangkau EMPAT kali sementara HTTPS tetap 200, dan login
+      bergantung pada satu engine untracked. Deploy git-push tidak punya port 22 untuk mati; build
+      bersih tidak punya engine untuk hilang. YANG TIDAK HILANG: ekosistem tetap butuh host
+      (melayani /api/file + target rsync), jadi VPS tidak lenyap — hanya jvto-web yang pindah, dan
+      endpoint itu jadi jalur tunggal sehingga uptime-nya naik jadi kritis. Keputusan infrastruktur
+      pemilik, bukan engineering.

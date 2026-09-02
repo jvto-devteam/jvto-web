@@ -79,6 +79,30 @@ maksimal 30 percobaan, sebelum memberi tahu konsumen.
 Setelah itu jvto-web membaca ulang, tag cache `jvto-ekosistem-content` di-bust, halaman
 ter-render ulang.
 
+## Bukti terkuat: build penuh tanpa repo saudara sama sekali
+
+Diukur 2026-09-02. Jalur file dimatikan dengan menunjuknya ke direktori yang tidak ada,
+sehingga **setiap** pembacaan konten terpaksa lewat HTTP:
+
+```bash
+JVTO_EKOSYSTEM_CONTENT_ROOT="/nonexistent-forces-http" npm run build
+```
+
+| Hasil | Nilai |
+|---|---|
+| Exit | **0** |
+| Halaman statis | **106/106** |
+| Entri tabel rute | **104** |
+| Paritas terhadap build normal | **identik, nol diff** |
+
+Ini menutup satu-satunya keberatan teknis terhadap pemindahan: kekhawatiran bahwa 296 rute
+yang membaca lewat jaringan akan membuat build lambat atau flaky. Build-nya selesai dan
+outputnya sama persis. (Durasi 29 detik diukur dengan `.next` hangat, jadi angka itu bukan
+pembanding bersih — yang menentukan adalah build **selesai dengan output identik**.)
+
+Kesimpulannya bukan lagi "secara teori tidak terikat". Kesimpulannya: **sudah dibuktikan
+berjalan tanpa repo saudara.**
+
 ## Yang terikat VPS, dan yang tidak
 
 **Terikat:**
