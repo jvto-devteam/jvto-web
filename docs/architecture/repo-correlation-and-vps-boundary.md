@@ -69,9 +69,15 @@ Setelah render + rsync + `pm2 reload`, ekosistem **menunggu app benar-benar list
 POST /api/revalidate/ecosystem-content     (deploy-vps.yml:383-429)
 ```
 
-Urutan tunggu-dulu itu bukan hiasan: pada 2026-08-21 revalidasi ditembakkan sebelum server
-siap dan merusak 11 rute. jvto-web membaca ulang, tag cache `jvto-ekosistem-content`
-di-bust, halaman ter-render ulang.
+Urutan tunggu-dulu itu bukan hiasan, dan kegagalannya tidak sembuh sendiri. Pada
+2026-08-21 revalidasi ditembakkan sebelum server siap: **11 halaman crew jadi 404**, render
+gagalnya **ter-cache sebagai `notFound()`**, dan karena rute-rute itu ada di dalam himpunan
+revalidasi, **setiap deploy ekosistem berikutnya memicu ulang race yang sama alih-alih
+memulihkannya**. Probe-nya sekarang menembak `/api/file?path=…/people.json` sampai 200,
+maksimal 30 percobaan, sebelum memberi tahu konsumen.
+
+Setelah itu jvto-web membaca ulang, tag cache `jvto-ekosistem-content` di-bust, halaman
+ter-render ulang.
 
 ## Yang terikat VPS, dan yang tidak
 
