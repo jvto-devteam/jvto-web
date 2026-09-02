@@ -318,6 +318,13 @@ export function middleware(req: NextRequest) {
 }
 
 function trackVisit(request: NextRequest, response: NextResponse) {
+  // Without the token this call ships the visitor's IP to a third party under
+  // `Bearer undefined` — unauthenticated, so it leaks the address and fails
+  // anyway, then logs the failure once per request. The token is set nowhere in
+  // this repo (no .env.example, not injected by deploy.yml or ci.yml), so an
+  // unset value is the likely case, not the exception. Send nothing instead.
+  if (!process.env.KNOWN_AGENTS_TOKEN) return;
+
   void fetch("https://api.knownagents.com/visits", {
     method: "POST",
     headers: {

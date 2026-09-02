@@ -119,7 +119,9 @@ Kejadian nyata 2026-09-02: inventaris warisan menyebut `@types/mapbox-gl` mati. 
 | Dihapus di Fase 5a | **139 file · 378.498 byte** |
 | Commit Fase 5a | **4** — `bae18b71`, `690efb1e` (jvto-web) · `c6c60d57`, `457080dc` (ekosistem) |
 
-Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum itu: pakai angkanya, jangan bangun ulang baseline-nya.
+**Jangkar diperbarui 2026-09-02:** angka di atas diukur ulang pada hasil merge `0e646a22` di `live` — yang sudah memuat penghapusan 28 dependency (`792c98ed`) **dan** PR #194 (`7d19b466`). Commit sesudahnya di `live` hanya menyentuh dokumen.
+
+Verifikasi ulang wajib bila ada perubahan **kode** setelah `0e646a22`. Angka ini bukan pengecualian dari `STALE-FACTS-CHECKLIST.md` — ia berlaku selama jangkarnya masih HEAD; begitu ada commit kode baru, jangkarnya batal dan checklist yang berlaku lagi. Kalau tidak yakin jangkarnya masih HEAD, **ukur**, jangan kutip.
 
 ## Deploy — biaya setiap commit
 
@@ -154,12 +156,20 @@ Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum i
   - 🟢 **Bisa ditunda** — tapi dicatat supaya tidak jadi debt tak terlihat
 
   Kalau tidak ada satu pun yang masuk kategori mana pun, tulis eksplisit **"Tidak ada urgent next steps"**. Diam bukan jawaban — pembaca tidak bisa membedakan "sudah bersih" dari "belum diperiksa".
+
+  **Bagian ini kebal ringkas.** Laporan boleh sependek mungkin, tapi `Urgent Next Steps` tidak boleh dipangkas, digabung ke paragraf lain, atau diringkas jadi satu baris "ada beberapa hal". Perlakuannya sama seperti pesan error, peringatan keamanan, dan konfirmasi aksi destruktif: gaya ringkas memangkas basa-basi, **bukan** isi yang menentukan tindakan. Kalau harus memilih antara memotong bagian ini atau memanjangkan laporan — panjangkan laporan.
+- **Temuan risiko dicatat ke tempat yang bertahan, bukan cuma prosa.** Task list repo adalah `STATUS.yaml` — `npm run status:list`, dan `npm run status:set -- <ID> <STATUS> "catatan"` yang **membuat item baru kalau ID-nya belum ada** (status sah: `TODO`, `IN_PROGRESS`, `DONE`, `BLOCKED`, `NEEDS_OWNER`). Temuan yang hanya hidup di prosa hilang saat context di-compact. Catatan: `TodoWrite`/`TaskCreate` tidak selalu ada di sesi ini — periksa tool list, jangan asumsikan.
+- **Review adversarial adalah gerbang, bukan pilihan.** Sebelum melaporkan pekerjaan besar selesai — penghapusan massal, perubahan dependency, merge ke `live`/`main` — jalankan subagent **`Explore`** (read-only, sesuai RULE 4) dengan brief yang secara eksplisit menyuruhnya **menyerang bukti sesi ini**, bukan mengulanginya. Sesi utama sudah terbiasa dengan asumsinya sendiri; fresh context yang menangkap sisanya. Brief-nya wajib menyebut apa yang `tsc` dan `build` **tidak bisa** tangkap: `import()` dinamis, referensi lewat string, konsumen non-JS (workflow, script npm, `public/`), rantai CSS/aset, dan kebocoran kredensial. Laporkan hanya yang berdampak produksi/keamanan/biaya.
 - **Simulasikan, jangan tanya.** Kalau ada alat yang bisa membuktikan sesuatu aman — `git merge-tree --write-tree`, `npm run build`, `--dry-run`, merge lokal yang belum di-push — jalankan alatnya. Simulasi **menggantikan** pertanyaan, bukan mendahuluinya. Simulasi bersih + tujuan akhir tunggal = **eksekusi, lapor hasilnya**.
-- **Jangan pecah satu tujuan jadi menu langkah.** "Push branch saja" vs "push + merge" bukan dua pilihan kalau kodenya memang untuk dipakai — itu satu tujuan yang dipaksa diputuskan dua kali, dan menyisakan branch menggantung. Yang tetap wajib gerbang hanya keputusan yang benar-benar milik pemilik: dependency, izin, penghapusan data, biaya keluar-repo. Bukan urutan langkah.
+- **Jangan pecah satu tujuan jadi menu langkah.** "Push branch saja" vs "push + merge" bukan dua pilihan kalau kodenya memang untuk dipakai — itu satu tujuan yang dipaksa diputuskan dua kali, dan menyisakan branch menggantung. Tanyakan **tujuannya sekali** ("tayangkan sekarang?"), bukan tiap langkah menuju ke sana. Daftar gerbang yang mengikat ada di *Working posture* di bawah — dan `GLOBAL-CONSTRAINTS.md` tetap menang: **kalau ragu, TANYA.** "Simulasikan, jangan tanya" berlaku ketika alatnya bisa menjawab; keraguan yang tidak bisa dijawab alat tetap jadi pertanyaan.
 - **Bedah dulu, baru tanya.** Sebelum meminta keputusan: sebutkan file apa yang disentuh, apa yang bisa rusak, dan berapa biayanya (termasuk deploy yang terpicu). Menyodorkan menu tanpa membedah opsinya menghasilkan keputusan yang lebih buruk, bukan lebih cepat.
 - **Satu opsi = satu jenis keputusan.** Perubahan izin, dependency, atau kredensial TIDAK BOLEH menumpang opsi rutin.
 - **Yang butuh persetujuan tertulis bukan item menu.** Kalau guardrail mensyaratkan persetujuan (mis. dependency), sajikan sebagai permintaan izin, bukan pilihan setara.
-- Don't ask questions unless you hit a real blocker (credentials, new deps, deletion, live branch, sync/deploy workflow, env failure, PR merge). Otherwise take the safest in-scope option, document it, and continue.
+- **Daftar gerbang yang mengikat — satu daftar, bukan dua.** Berhenti dan minta keputusan hanya untuk: kredensial · dependency baru atau dibuang · perubahan izin · penghapusan **data** · perubahan workflow sync/deploy · kegagalan env · **push/merge ke `live` atau `main`**. Selain itu: ambil opsi teraman yang masih dalam scope, catat, lanjut.
+
+  Dua klarifikasi, karena daftar ini pernah bertabrakan dengan "Simulasikan, jangan tanya" di atas:
+  - **"Penghapusan" di daftar ini berarti penghapusan DATA**, bukan penghapusan kode mati yang sudah dibuktikan tak terjangkau. Menghapus 139 file mati dengan bukti grep-simbol + paritas rute adalah pekerjaan biasa, bukan gerbang.
+  - **Push/merge ke branch produksi TETAP gerbang**, meskipun `git merge-tree` bersih. Simulasi membuktikan *tidak ada konflik*; ia tidak membuktikan *pemilik ingin ini tayang sekarang*. Simulasi menghapus pertanyaan tentang **caranya**, bukan tentang **kapannya**.
 - No dummy or fake DB. Never invent or hardcode a `DATABASE_URL`, never ask for production credentials. If Prisma needs it and it is absent, quote the error verbatim and continue with non-DB steps.
 - Stop only if dependencies cannot install or file-based validation cannot run.
 - No long SEO reports — doc stubs link to `docs/_audit/package1-audit.md`.

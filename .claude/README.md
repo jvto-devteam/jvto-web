@@ -39,7 +39,7 @@ Tidak ada sync hidup antara Prisma dan file ekosistem, by design.
     npm run test:stale               # 11 asersi regresi (baseline: 11/11 hijau)
     npm run validate                 # 52 rute JSON-LD (baseline: 52 ok, 0 gagal)
     npm run validate:packages        # registry vs DB (baseline: 0 error, 4 warning)
-    npm run validate:review-pages    # 221 halaman review (baseline: semua ok)
+    npm run validate:review-pages    # 228 halaman review (baseline: semua ok) — angka ini bergerak tiap sync ekosistem; jalankan, jangan kutip
     npm run audit:geo-visibility     # rute live (baseline: 0 gagal, 3 warning)
     npm run audit:ecosystem-visible-content
     npm run check:fact-drift
@@ -59,7 +59,11 @@ Perhatikan `--` sebelum argumen — npm butuh itu untuk meneruskannya.
 ## Aturan yang paling sering dilanggar
 
 1. **Jangan emit `aggregateRating: 0`** — hilangkan node-nya (keputusan 2026-08-26)
-2. **Jangan asersikan tahun inkorporasi PT** (keputusan 2026-08-03); `foundingDate` = 2015
+2. **Tiga tahun untuk tiga hal, jangan saling menggantikan** (DEC-002, 2026-08-03):
+   `marketing_founding_year` / `foundingDate` = **2015** · `legal_incorporation_year` = **2016** ·
+   `tdup_issued_year` = **2023**. Baris ini dulu berbunyi *"jangan asersikan tahun inkorporasi PT"* —
+   **itu salah**, keputusan semacam itu tidak ada di `goals.json`; yang tercatat DEC-002 di
+   `trust-claims.json` C8, dikunci `trust-claims.test.mjs:164`. Dikoreksi 2026-09-02
 3. **Rating publik = Google Maps saja**, tidak pernah rata-rata gabungan (2026-08-15)
 4. **Jangan bekukan policy di dalam checker** — baca `state/goals.json`. Pola ini pernah
    menghasilkan 11 kegagalan palsu selama 8 hari

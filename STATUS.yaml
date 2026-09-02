@@ -1,18 +1,20 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-08-28'
+last_updated: '2026-09-02'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: NEEDS_OWNER
     note: >-
-      "PT incorporated 2016-01-01" diasersikan di 12 tempat (jvto-web: verify-jvto/page.tsx:22,
-      verify-jvto/legal/page.tsx:72+87, history-artifacts/page.tsx:166+201,
-      WhyJvtoInteractive.tsx:198; ekosistem: verify-jvto.source.json, history-artifacts.source.json,
-      legal.source.json, trust-claims.json legal_incorporation_year,
-      verify-jvto-assets-inventory.json founding_date). Melanggar keputusan 2026-08-03 (tidak ada
-      tahun inkorporasi PT yang diasersikan) dan bertentangan dengan dekrit yang dipegang
-      AHU-0010187.AH.01.01.TAHUN 2023, terbit 2023-02-08. Semuanya di halaman verifikasi.
+      PREMIS LAMA SALAH, DIKOREKSI 2026-09-02. Item ini dulu berbunyi "melanggar keputusan
+      2026-08-03 (tidak ada tahun inkorporasi PT yang diasersikan)". Keputusan itu TIDAK ADA di
+      goals.json. Yang tercatat adalah DEC-002 di trust-claims.json klaim C8:
+      marketing_founding_year 2015, legal_incorporation_year 2016, tdup_issued_year 2023 — tiga
+      tahun untuk tiga hal, dikunci scripts/test/llm-wiki-sync/trust-claims.test.mjs:164. Jadi "PT
+      incorporated 2016" BENAR, bukan pelanggaran. Yang salah adalah mengisi slot Incorporated
+      dengan 2023 (tahun TDUP/AHU) — itu pernah ter-commit di 485b2f85 dan sudah di-revert di
+      7ebcab94. Sisa keputusan pemilik: Booking.com award di 485b2f85 diubah dari 2016/9.2 ke
+      2015/9.4, tahun DAN skor, tanpa bukti tercatat.
   - id: SIP_DOCUMENT_PERSONAL_DATA
     status: NEEDS_OWNER
     note: >-
