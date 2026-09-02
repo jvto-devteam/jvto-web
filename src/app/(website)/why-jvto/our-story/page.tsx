@@ -5,7 +5,11 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
-import { loadEcosystemPage, buildStaticRouteMetadata } from "@/lib/ecosystemContent/staticPageAdapter";
+import {
+  loadEcosystemPage,
+  buildStaticRouteMetadata,
+  staticRouteCanonical,
+} from "@/lib/ecosystemContent/staticPageAdapter";
 import { whyLede } from "@/lib/ecosystemContent/whyJvto";
 
 export const revalidate = 86400;
@@ -39,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: "https://javavolcano-touroperator.com/why-jvto/our-story",
+      url: staticRouteCanonical(ROUTE),
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",

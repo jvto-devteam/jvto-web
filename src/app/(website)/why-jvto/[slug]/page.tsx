@@ -18,6 +18,7 @@ import {
   listPublishedStaticPages,
   loadEcosystemPage,
   buildStaticRouteMetadata,
+  staticRouteCanonical,
   PRODUCTION_ORIGIN,
   type StaticPage,
 } from "@/lib/ecosystemContent/staticPageAdapter";
@@ -99,19 +100,44 @@ function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await loadEcosystemPage(`/why-jvto/${slug}`);
+  const route = `/why-jvto/${slug}`;
+  const page = await loadEcosystemPage(route);
   if (!page || page.meta.status !== "published") {
-    return { title: "Page Not Found" };
+    return { title: "Page Not Found | Java Volcano Tour Operator" };
   }
+  const title = page.meta.browserTitle ?? page.meta.title;
+  const description = page.meta.description;
   // Phase 0 steril audit P3-WHYJVTO-METADATA (2026-09-02): this route had no
   // assigned metadata owner and never resolved an og:image, unlike every
   // other static-content route (policy, verify-jvto) which already go
   // through buildStaticRouteMetadata(). Switching to it is additive only —
   // canonical/hreflang shape is unchanged (same staticRouteCanonical() call
   // internally), openGraph is new.
-  return buildStaticRouteMetadata(`/why-jvto/${slug}`, {
-    title: page.meta.browserTitle ?? page.meta.title,
-    description: page.meta.description,
+  //
+  // Revisi 3 of that audit established what the finding itself had missed:
+  // the three why-jvto pages it sampled (our-story, the-jvto-difference,
+  // community-standards) are served by their own folder pages, which had
+  // been calling buildStaticRouteMetadata() all along. This catch-all
+  // currently generates zero static params, so everything here applies to
+  // the NEXT why-jvto slug published from ekosistem, not to any live URL.
+  //
+  // openGraph is therefore spelled out rather than left to the builder's
+  // default: that default is `type: "article"`, while all three sibling
+  // pages set `type: "website"`. Without this override the first new slug
+  // would be typed differently from the rest of its own cluster. Images are
+  // deliberately omitted so buildStaticRouteMetadata() still resolves the
+  // og:image fallback.
+  return buildStaticRouteMetadata(route, {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: staticRouteCanonical(route),
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+    },
   });
 }
 
