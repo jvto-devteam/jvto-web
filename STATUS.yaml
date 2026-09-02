@@ -58,15 +58,20 @@ open_items:
   - id: META_DESCRIPTION_LENGTH
     status: TODO
     note: >-
-      Diukur ulang live 2026-09-03 (angka lama 203/265 dari audit:geo-visibility sudah bergeser): /
-      = 199 karakter, /verify-jvto = 260. Dua pelanggar BARU yang belum pernah tercatat: PDP
-      /tours/from-surabaya/ijen-bromo-madakaripura-3d2n = 242 karakter DAN berakhir dengan elipsis
-      literal "hotel...." — potongannya sudah terjadi di sumber, jadi Google memotong teks yang
-      memang sudah terpotong. Batas praktis 155-160. Judul juga lewat batas dan belum pernah
-      dicatat: homepage 82 karakter, PDP yang sama 95 karakter (batas ~60), /verify-jvto 67. Judul
-      dan deskripsi PDP dirakit dari data paket ekosistem, bukan literal repo — cek sumbernya dulu
-      sebelum mengedit page.tsx, karena pola yang sama sudah terbukti di
-      TOURS_SURABAYA_PACKAGE_COUNT_STALE: literal repo hanya fallback yang tidak menyala.
+      Diukur pada SELURUH 302 rute live 2026-09-03 lewat npm run verify:live -- --sitemap (bukan
+      sampel, bukan angka warisan). Judul lebih dari 60 karakter: 204 dari 302, terpanjang 115
+      (/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n). Sebarannya: why-jvto 171,
+      tours 16, travel-guide 5, verify-jvto 4, blog 3, destinations 2, markets 2, homepage 1.
+      Deskripsi lebih dari 160: 26 dari 302, terpanjang 274; tours 15, why-jvto 3, blog 3,
+      verify-jvto 2, entity 1, policy 1, homepage 1. Nol halaman tanpa deskripsi. Angka lama di item
+      ini (/ = 199, /verify-jvto = 260) masih benar tapi ternyata cuma dua dari populasi yang jauh
+      lebih besar. CATATAN PENTING sebelum ada yang memperbaiki massal: 171 dari 204 judul panjang
+      ada di why-jvto, dan mayoritasnya permalink review yang judulnya memang memuat kutipan tamu —
+      itu kemungkinan besar disengaja, bukan cacat. Pisahkan dulu permalink review dari halaman
+      komersial sebelum mengusulkan perubahan apa pun. Sumber judul/deskripsi PDP dan hub ada di
+      ekosistem, bukan literal repo — lihat TOURS_SURABAYA_PACKAGE_COUNT_STALE, literal repo hanya
+      fallback yang tidak menyala. Ini peringatan verify-live, bukan kegagalan: exit code tidak
+      terpengaruh.
   - id: FACT_DRIFT_CHECKER_FALSE_ALARM
     status: TODO
     note: >-
@@ -157,22 +162,20 @@ open_items:
       paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
       ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
   - id: SEO_OG_URL_HOMEPAGE_SITEWIDE
-    status: IN_PROGRESS
+    status: DONE
     note: >-
-      Perbaikan sudah di-commit 61010de4, BELUM di-push — menunggu gerbang deploy pemilik. Satu
-      baris di src/app/(website)/layout.tsx: openGraph.url dari siteUrl absolut jadi "./" relatif,
-      pola yang sama dengan alternates.canonical di baris 22. Mata rantai penentu diverifikasi di
-      sumber Next.js 16.3.3 terpasang, bukan dari ingatan: resolve-opengraph.js:153 dan
-      resolve-basics.js:61 sama-sama memanggil resolveAbsoluteUrlWithPathname, dan
-      resolve-url.js:87-92 memberi perlakuan khusus pada awalan "./" dengan me-resolve-nya terhadap
-      pathname berjalan. trailingSlash tidak diset, jadi tidak ada slash tambahan. Bukti lokal: tsc
-      0 error sebelum dan sesudah; build exit 0, 106/106 halaman statis, 104 entri rute — identik
-      jangkar; validate 52/52; test:stale 11/11; og:url disampel di 13 halaman dari server produksi
-      lokal (1 permalink review, 1 crew, 2 hub tours, markets, isic, blog, subhalaman verify-jvto,
-      plus 3 kontrol yang punya openGraph sendiri) — 13/13 cocok dengan canonical masing-masing, nol
-      nilai non-absolut. Homepage tetap mengirim origin telanjang karena resolve-url.js:109
-      mengembalikan result.origin saat pathname hasil resolve adalah "/". SISA: setelah deploy,
-      ulangi sapuan 302 URL untuk mengonfirmasi 253 yang rusak jadi nol.
+      DITUTUP 2026-09-03 dengan bukti server hidup, sesuai Rule 9. Perbaikan 61010de4 (satu baris di
+      src/app/(website)/layout.tsx: openGraph.url dari siteUrl absolut jadi "./" relatif) di-push
+      dalam 43c94d14 dan ter-deploy pada run 33665641765, sukses 1m29s. Sapuan ulang dijalankan pada
+      CAKUPAN YANG SAMA dengan saat cacat ditemukan — 302 URL sitemap, bukan sampel: npm run
+      verify:live -- --sitemap → 302 route checked, 302 pass, 0 fail, 16,8 detik, exit 0. Sebelumnya
+      253 dari 302 mengirim og:url homepage (228 permalink review, 11 crew, 4 blog, 4 subhalaman
+      verify-jvto, 3 hub tours, 2 markets, 1 isic). Sekarang nol. Canonical tetap benar di ke-302
+      seperti sebelumnya, dan og:url kini selalu sama dengan canonical-nya. Alat sapuannya sendiri
+      sekarang ada di repo: scripts/verify-live.mjs (6d7a6a74, exit code diperbaiki di 43c94d14).
+      Temuan sampingan dari sapuan yang sama, BUKAN bagian dari cacat ini: 204 dari 302 judul lebih
+      dari 60 karakter (maks 115) dan 26 deskripsi lebih dari 160 (maks 274) — dilacak di
+      META_DESCRIPTION_LENGTH, nol halaman tanpa deskripsi.
   - id: TOURS_SURABAYA_PACKAGE_COUNT_STALE
     status: TODO
     note: >-
