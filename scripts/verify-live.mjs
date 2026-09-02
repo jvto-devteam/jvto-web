@@ -87,20 +87,23 @@ async function readStdin() {
   return Buffer.concat(chunks).toString("utf8");
 }
 
+/** Thrown for conditions that must abort with code 2 rather than report a pass. */
+class UsageError extends Error {}
+
 async function loadRoutes(opts) {
   if (opts.sitemap) {
-    const res = await fetch(`${opts.base}/sitemap.xml`);
+    const res = await get(`${opts.base}/sitemap.xml`);
     if (!res.ok) {
-      console.error(`sitemap fetch failed: HTTP ${res.status} at ${opts.base}/sitemap.xml`);
-      process.exit(2);
+      throw new UsageError(
+        `sitemap fetch failed: HTTP ${res.status} at ${opts.base}/sitemap.xml`,
+      );
     }
     const xml = await res.text();
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
     if (locs.length === 0) {
       // A sitemap that parses to nothing is the silent-zero failure Rule 8 warns
       // about: it would report "0 failures" and look like a pass.
-      console.error("sitemap contained zero <loc> entries — refusing to report a pass");
-      process.exit(2);
+      throw new UsageError("sitemap contained zero <loc> entries — refusing to report a pass");
     }
     return locs;
   }
@@ -111,11 +114,27 @@ async function loadRoutes(opts) {
     .map((l) => l.trim())
     .filter((l) => l && !l.startsWith("#"));
   if (lines.length === 0) {
-    console.error("route list was empty — refusing to report a pass");
-    process.exit(2);
+    throw new UsageError("route list was empty — refusing to report a pass");
   }
   return lines;
 }
+
+/**
+ * All fetching goes through here for one reason: `connection: close`.
+ * With keep-alive left on, undici holds sockets open past the last response,
+ * and calling process.exit() while they are still closing aborts the process on
+ * Windows — `Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)` in
+ * uv/src/win/async.c, surfacing to the shell as exit code 127. Measured
+ * 2026-09-03: three of four input modes returned 127 regardless of whether the
+ * checks passed or failed, which would make this script useless in CI, since CI
+ * reads nothing but the exit code. Closing each connection, and setting
+ * process.exitCode instead of calling process.exit(), removes the race.
+ */
+const get = (url, init = {}) =>
+  fetch(url, {
+    ...init,
+    headers: { "user-agent": "jvto-verify-live", connection: "close", ...(init.headers ?? {}) },
+  });
 
 // ------------------------------------------------------------- extraction
 
@@ -242,8 +261,22 @@ function checkRoute(target, status, html) {
 // -------------------------------------------------------------------- run
 
 const opts = parseArgs(process.argv.slice(2));
-let routes = await loadRoutes(opts);
-if (opts.limit > 0) routes = routes.slice(0, opts.limit);
+
+let routes;
+try {
+  routes = await loadRoutes(opts);
+} catch (e) {
+  console.error(e instanceof UsageError ? e.message : String(e));
+  process.exitCode = 2;
+  routes = null;
+}
+
+if (routes) await run(routes);
+
+// Wrapped in a function only so the loader can bail out above without a
+// top-level return, which ESM does not allow.
+async function run(routeList) {
+const routes = opts.limit > 0 ? routeList.slice(0, opts.limit) : routeList;
 
 const targets = routes.map((r) =>
   /^https?:\/\//i.test(r) ? r : `${opts.base}${r.startsWith("/") ? r : `/${r}`}`,
@@ -256,10 +289,7 @@ async function worker() {
   while (cursor < targets.length) {
     const target = targets[cursor++];
     try {
-      const res = await fetch(target, {
-        redirect: "manual",
-        headers: { "user-agent": "jvto-verify-live" },
-      });
+      const res = await get(target, { redirect: "manual" });
       const html = res.status === 200 ? await res.text() : "";
       results.push({ target, status: res.status, ...checkRoute(target, res.status, html) });
     } catch (e) {
@@ -347,4 +377,6 @@ if (opts.json) {
   console.log(`full results written to ${opts.json}`);
 }
 
-process.exit(failed.length > 0 ? 1 : 0);
+// process.exitCode, never process.exit — see the note on `get()` above.
+process.exitCode = failed.length > 0 ? 1 : 0;
+}
