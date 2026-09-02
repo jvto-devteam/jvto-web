@@ -138,13 +138,18 @@ open_items:
       Co-location adalah mekanisme deploy dan tempat melayani endpoint, BUKAN syarat aplikasi
       berjalan. Detail: docs/architecture/repo-correlation-and-vps-boundary.md
   - id: BOOKINGCOM_AWARD_UNSOURCED
-    status: NEEDS_OWNER
+    status: DONE
     note: >-
-      Commit 485b2f85 mengubah "Booking.com Guest Review Award 2016 (Score 9.2/10)" menjadi "2015
-      (Score 9.4/10)" — tahun DAN skor — tanpa bukti tercatat di mana pun. Tidak berhubungan dengan
-      urusan inkorporasi, jadi sengaja tidak ikut di-revert oleh 7ebcab94. Ini klaim publik di
-      halaman verifikasi; yang bisa memutuskan mana yang benar hanya pemilik yang memegang dokumen
-      award-nya.
+      DITUTUP 2026-09-02 — labelnya SALAH, bukan temuannya. Item ini menuduh 485b2f85 mengubah
+      "Booking.com Guest Review Award 2016 (9.2/10)" jadi "2015 (9.4/10)" tanpa bukti. Bukti itu
+      ADA, dan saya melabelinya NEEDS_OWNER tanpa membuka satu file pun. Sumber kanoniknya
+      organization.json:122 "Booking.com Guest Review Award 2015 - Ijen Bondowoso Homestay (Score
+      9.4/10)". Dikuatkan verify-jvto-assets-inventory.json:825-840 (foto kotak award + label kirim
+      dari IGC Global Promotions Rotterdam ke Ijen Bondowoso Home Stay, plus plakat dan surat
+      award), history-artifacts.source.json:49, legal.source.json:69,
+      verify-jvto-pages/index.json:28, dan blog why-not-unlicensed-ijen-operator.source.json:68.
+      Pesan commit 485b2f85 bahkan menyebut sumbernya sendiri. Nilai 2015/9.4 BENAR; 2016/9.2 yang
+      basi. Pelajaran: sebelum menulis "tanpa bukti", cari dulu di ekosistem.
   - id: GIT_HISTORY_SIZE_CLAIM_OVERSTATED
     status: TODO
     note: >-
