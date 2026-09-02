@@ -57,7 +57,16 @@ open_items:
       ijen-2d1n dan taman-safari-prigen-bromo-madakaripura-3d2n.
   - id: META_DESCRIPTION_LENGTH
     status: TODO
-    note: audit:geo-visibility warning — / panjangnya 203, /verify-jvto 265
+    note: >-
+      Diukur ulang live 2026-09-03 (angka lama 203/265 dari audit:geo-visibility sudah bergeser): /
+      = 199 karakter, /verify-jvto = 260. Dua pelanggar BARU yang belum pernah tercatat: PDP
+      /tours/from-surabaya/ijen-bromo-madakaripura-3d2n = 242 karakter DAN berakhir dengan elipsis
+      literal "hotel...." — potongannya sudah terjadi di sumber, jadi Google memotong teks yang
+      memang sudah terpotong. Batas praktis 155-160. Judul juga lewat batas dan belum pernah
+      dicatat: homepage 82 karakter, PDP yang sama 95 karakter (batas ~60), /verify-jvto 67. Judul
+      dan deskripsi PDP dirakit dari data paket ekosistem, bukan literal repo — cek sumbernya dulu
+      sebelum mengedit page.tsx, karena pola yang sama sudah terbukti di
+      TOURS_SURABAYA_PACKAGE_COUNT_STALE: literal repo hanya fallback yang tidak menyala.
   - id: FACT_DRIFT_CHECKER_FALSE_ALARM
     status: TODO
     note: >-
@@ -147,3 +156,48 @@ open_items:
       working tree pada full clone baru. Yang BENAR-BENAR berulang menghematkan adalah 792c98ed: 249
       paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
       ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
+  - id: SEO_OG_URL_HOMEPAGE_SITEWIDE
+    status: TODO
+    note: >-
+      Diukur live 2026-09-03: 253 dari 302 URL sitemap mengirim og:url = homepage, bukan URL halaman
+      sendiri. Sebaran: 228 permalink review /why-jvto/reviews/<id>, 11 halaman crew
+      /why-jvto/our-team/*, 4 blog, 4 subhalaman verify-jvto (legal, press-recognition,
+      history-artifacts, police-safety), 3 hub tours (/tours, /tours/from-bali,
+      /tours/from-surabaya), 2 markets, 1 isic. Canonical BENAR di ke-302 halaman, jadi Google tetap
+      memakai URL yang tepat; yang rusak adalah kartu share (Facebook, LinkedIn, WhatsApp, Slack)
+      dan crawler AI yang membaca og:url — semuanya menunjuk balik ke homepage. SEBAB TERVERIFIKASI:
+      src/app/(website)/layout.tsx:37 menyetel openGraph.url ke siteUrl (absolut), sementara baris
+      22 menyetel alternates.canonical ke "./" (relatif, resolve per-path). Itu persis kenapa
+      canonical benar dan og:url tidak. Hanya 14 dari 53 page.tsx mendeklarasikan openGraph sendiri;
+      39 sisanya mewarisi default homepage. PERBAIKAN: ganti url: siteUrl jadi url: "./" di baris 37
+      — trik relatif yang sudah dipakai canonical dua baris di atasnya. Satu baris, nol dependency,
+      tidak menyentuh workflow. Sudah diverifikasi lewat sapuan penuh 302 URL: 0 fetch error, 0
+      canonical hilang.
+  - id: TOURS_SURABAYA_PACKAGE_COUNT_STALE
+    status: TODO
+    note: >-
+      Judul live /tours/from-surabaya berbunyi "Bromo Ijen Tour from Surabaya - 12 Private Packages
+      | JVTO", tapi paketnya 13. Tiga sumber sepakat 13, judulnya sendiri yang salah: sitemap live
+      memuat 13 PDP di bawah /tours/from-surabaya/, JSON-LD halaman itu mengirim ItemList
+      numberOfItems 13 dengan 13 itemListElement nyata, dan daftar rendernya juga 13. Undercount 1
+      paket di judul SERP. SUMBER ADA DI EKOSISTEM, bukan di repo web:
+      1-knowledge-and-evidence-core/tours/from-surabaya.source.json baris 15 (browserTitle) dan 24
+      (title), lalu terkompilasi ke
+      5-experience-engine/public-website/pages/tours__from-surabaya.website-output.json baris 10.
+      Literal kembar di jvto-web src/app/(website)/tours/from-surabaya/page.tsx:26 hanya fallback
+      dan tidak menyala selama ekosistem memasok SEO. Memperbaiki repo saja = nol perubahan live.
+      Pembanding: from-bali.source.json:24 berbunyi "4 Private Packages" dan sitemap memang 4 PDP —
+      jadi yang salah cuma Surabaya. Perbaikan = edit ekosistem, commit ekosistem memicu deploy
+      penuh + revalidasi, jadi gabungkan dengan pekerjaan ekosistem lain.
+  - id: REVIEWS_PAGE_TTFB_OUTLIER
+    status: TODO
+    note: >-
+      Diukur live 2026-09-03, tiga kali: /why-jvto/reviews TTFB 853 ms, total 964 ms, 77,6 KB
+      terkompresi (735 KB HTML mentah, 265 tautan internal). Enam rute lain di sampel yang sama
+      berada di 148-272 ms TTFB dan 23-51 KB. Jadi halaman ini kira-kira 3-5x lebih lambat daripada
+      tetangganya, bukan lambat secara absolut. Bukan kegagalan dan bukan regresi yang terbukti —
+      tidak ada baseline sebelumnya untuk dibandingkan. Dicatat karena halaman ini target redirect
+      /reviews dan salah satu halaman trust utama. Core Web Vitals TIDAK bisa diukur sesi ini:
+      PageSpeed Insights API menolak dengan "Quota exceeded for quota metric Queries and limit
+      Queries per day" (kuota bersama tanpa API key), jadi LCP/CLS/skor performa tetap TIDAK
+      DIKETAHUI. Jangan kutip angka CWV mana pun sampai benar-benar diukur.
