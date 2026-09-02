@@ -157,22 +157,22 @@ open_items:
       paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
       ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
   - id: SEO_OG_URL_HOMEPAGE_SITEWIDE
-    status: TODO
+    status: IN_PROGRESS
     note: >-
-      Diukur live 2026-09-03: 253 dari 302 URL sitemap mengirim og:url = homepage, bukan URL halaman
-      sendiri. Sebaran: 228 permalink review /why-jvto/reviews/<id>, 11 halaman crew
-      /why-jvto/our-team/*, 4 blog, 4 subhalaman verify-jvto (legal, press-recognition,
-      history-artifacts, police-safety), 3 hub tours (/tours, /tours/from-bali,
-      /tours/from-surabaya), 2 markets, 1 isic. Canonical BENAR di ke-302 halaman, jadi Google tetap
-      memakai URL yang tepat; yang rusak adalah kartu share (Facebook, LinkedIn, WhatsApp, Slack)
-      dan crawler AI yang membaca og:url — semuanya menunjuk balik ke homepage. SEBAB TERVERIFIKASI:
-      src/app/(website)/layout.tsx:37 menyetel openGraph.url ke siteUrl (absolut), sementara baris
-      22 menyetel alternates.canonical ke "./" (relatif, resolve per-path). Itu persis kenapa
-      canonical benar dan og:url tidak. Hanya 14 dari 53 page.tsx mendeklarasikan openGraph sendiri;
-      39 sisanya mewarisi default homepage. PERBAIKAN: ganti url: siteUrl jadi url: "./" di baris 37
-      — trik relatif yang sudah dipakai canonical dua baris di atasnya. Satu baris, nol dependency,
-      tidak menyentuh workflow. Sudah diverifikasi lewat sapuan penuh 302 URL: 0 fetch error, 0
-      canonical hilang.
+      Perbaikan sudah di-commit 61010de4, BELUM di-push — menunggu gerbang deploy pemilik. Satu
+      baris di src/app/(website)/layout.tsx: openGraph.url dari siteUrl absolut jadi "./" relatif,
+      pola yang sama dengan alternates.canonical di baris 22. Mata rantai penentu diverifikasi di
+      sumber Next.js 16.3.3 terpasang, bukan dari ingatan: resolve-opengraph.js:153 dan
+      resolve-basics.js:61 sama-sama memanggil resolveAbsoluteUrlWithPathname, dan
+      resolve-url.js:87-92 memberi perlakuan khusus pada awalan "./" dengan me-resolve-nya terhadap
+      pathname berjalan. trailingSlash tidak diset, jadi tidak ada slash tambahan. Bukti lokal: tsc
+      0 error sebelum dan sesudah; build exit 0, 106/106 halaman statis, 104 entri rute — identik
+      jangkar; validate 52/52; test:stale 11/11; og:url disampel di 13 halaman dari server produksi
+      lokal (1 permalink review, 1 crew, 2 hub tours, markets, isic, blog, subhalaman verify-jvto,
+      plus 3 kontrol yang punya openGraph sendiri) — 13/13 cocok dengan canonical masing-masing, nol
+      nilai non-absolut. Homepage tetap mengirim origin telanjang karena resolve-url.js:109
+      mengembalikan result.origin saat pathname hasil resolve adalah "/". SISA: setelah deploy,
+      ulangi sapuan 302 URL untuk mengonfirmasi 253 yang rusak jadi nol.
   - id: TOURS_SURABAYA_PACKAGE_COUNT_STALE
     status: TODO
     note: >-
