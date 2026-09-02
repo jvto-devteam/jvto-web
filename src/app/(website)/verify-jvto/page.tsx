@@ -20,7 +20,7 @@ import { getAllDocs } from "@/lib/data-loader";
 const FALLBACK = {
   timeline: [
     { year: "'15", h4: "2015 · Guesthouse", p: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102. Booking.com guests rate it 9.4/10." },
-    { year: "'23", h4: "2023 · PT incorporation", p: "PT Java Volcano Rendezvous incorporated 2023-02-08 (AHU-0010187.AH.01.01.TAHUN 2023) at the same Bondowoso address." },
+    { year: "'16", h4: "2016 · PT incorporation", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same Bondowoso address." },
     { year: "'18", h4: "2018 · Stefan Loose listing", p: "Stefan Loose Reiseführer Indonesien (4th ed., p. 287) names \"Agung\" as operator — an independent German guidebook." },
     { year: "'21", h4: "2021 · Independent press", p: "Detik.com and Radar Jember name Bripka Agung Sambuko in Tourist Police duties at Ijen Geopark." },
     { year: "'23", h4: "2023 · TDUP formalized", p: "Tourism Business Permit formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },

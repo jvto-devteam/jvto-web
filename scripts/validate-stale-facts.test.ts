@@ -172,7 +172,11 @@ test('organization asserts foundingDate 2015 and no PT incorporation year', (t) 
   assert.equal(org.foundingDate, '2015', 'foundingDate = 2015 (era brand/guesthouse)');
   assert.ok(
     !JSON.stringify(org).includes('2016'),
-    'keputusan 2026-08-03: tidak ada tahun inkorporasi PT yang diasersikan',
+    // DEC-002 (trust-claims.json C8) memisahkan tiga tahun: marketing_founding_year
+    // 2015, legal_incorporation_year 2016, tdup_issued_year 2023. organization.json
+    // hanya memegang yang pertama — tahun inkorporasi tinggal di trust-claims.json,
+    // bukan di sini. Assert ini menjaga pemisahan itu, bukan melarang angka 2016.
+    'organization.json hanya memegang foundingDate 2015; legal_incorporation_year ada di trust-claims.json DEC-002',
   );
 });
 
