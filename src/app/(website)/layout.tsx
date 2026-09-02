@@ -34,7 +34,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteUrl,
+    // "./" for the same reason `alternates.canonical` above uses it: it resolves
+    // against metadataBase *and the current path*. An absolute siteUrl here does
+    // not — it names the homepage, so every page inheriting this block claimed to
+    // be the homepage. Measured live 2026-09-03: 253 of the 302 sitemap URLs sent
+    // og:url pointing at "/" while their canonical was correct, because only 14 of
+    // 53 page.tsx files declare an `openGraph` of their own and the other 39
+    // inherit this one. Canonical was right the whole time; share cards were not.
+    url: "./",
     siteName: "Java Volcano Tour Operator",
     images: resolveOgImage("/", "Java Volcano Tour Operator - JVTO"),
   },
