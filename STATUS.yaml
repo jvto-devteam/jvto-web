@@ -90,23 +90,16 @@ open_items:
       link). Semua query model aplikasi sudah hilang per 2026-08-28. Melepas DB sepenuhnya =
       memutuskan apakah login pelanggan (Google SSO + magic link) masih dipakai.
   - id: PRISMA_ENGINE_UNREPLACEABLE_ON_VPS
-    status: NEEDS_OWNER
+    status: DONE
     note: >-
-      Login pelanggan bergantung pada SATU file untracked di VPS yang tidak ada yang bisa membuat
-      ulang. Rantai terverifikasi 2026-09-02: (1) deploy.yml TIDAK punya prisma generate —
-      satu-satunya kata "prisma" di sana adalah komentar; ci.yml:55 justru punya, dengan
-      DATABASE_URL dummy. (2) Klaim .gitignore:44-47 "npm ci runs postinstall which regenerates the
-      right engine" TERFALSIFIKASI lokal: src/generated/prisma/ di mesin dev tidak punya engine
-      native sama sekali setelah beberapa npm ci hari ini, hanya query_engine_bg.wasm. (3) Engine
-      linux .so.node TIDAK di-gitignore dan 0 ter-track. (4) deploy.yml:38 hanya git reset --hard
-      origin/live, tanpa -fdx dan tanpa git clean — jadi file untracked SELAMAT tiap deploy.
-      Kesimpulan: sign-in hidup karena engine linux yang pernah dibuat entah kapan masih menempel di
-      /var/www/jvto-web. Kalau file itu hilang, npm ci tidak membuatnya lagi, build tetap 106/106
-      lulus, health check deploy.yml:59-63 tetap lulus karena hanya cek homepage 200, dan login mati
-      DIAM-DIAM. Nol halaman menyentuh Prisma (schema dipangkas 103->6 model, sisanya NextAuth + 1
-      validator), jadi tidak ada gerbang yang bisa menangkapnya. PERBAIKAN: tambah "npx prisma
-      generate" sebelum npm run build di deploy.yml + asersi ls src/generated/prisma/*.so.node.
-      Butuh pemilik karena guardrail melarang perubahan workflow deploy.
+      Ditutup 2026-09-02. deploy.yml kini menjalankan "npx --no-install prisma generate" sebelum npm
+      run build, dengan penjaga yang menolak deploy kalau tidak ada engine native (ls
+      src/generated/prisma/*query_engine*.node). Terverifikasi BERJALAN DI VPS pada run 33653841358:
+      log 16:16:35 "Generated Prisma Client (v6.18.0) to ./src/generated/prisma in 162ms", penjaga
+      tidak menyala, deploy lanjut dan sukses. Sebelumnya login pelanggan bergantung pada satu file
+      untracked yang selamat hanya karena git reset --hard tidak memakai -fdx; sekarang engine
+      dibuat ulang tiap deploy dan ketiadaannya menghentikan deploy alih-alih mematikan login
+      diam-diam.
   - id: INDEXNOW_ENDPOINT_UNAUTHENTICATED
     status: TODO
     note: >-
