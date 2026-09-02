@@ -4,17 +4,17 @@
 last_updated: '2026-09-02'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
-    status: NEEDS_OWNER
+    status: DONE
     note: >-
-      PREMIS LAMA SALAH, DIKOREKSI 2026-09-02. Item ini dulu berbunyi "melanggar keputusan
-      2026-08-03 (tidak ada tahun inkorporasi PT yang diasersikan)". Keputusan itu TIDAK ADA di
-      goals.json. Yang tercatat adalah DEC-002 di trust-claims.json klaim C8:
-      marketing_founding_year 2015, legal_incorporation_year 2016, tdup_issued_year 2023 — tiga
-      tahun untuk tiga hal, dikunci scripts/test/llm-wiki-sync/trust-claims.test.mjs:164. Jadi "PT
-      incorporated 2016" BENAR, bukan pelanggaran. Yang salah adalah mengisi slot Incorporated
-      dengan 2023 (tahun TDUP/AHU) — itu pernah ter-commit di 485b2f85 dan sudah di-revert di
-      7ebcab94. Sisa keputusan pemilik: Booking.com award di 485b2f85 diubah dari 2016/9.2 ke
-      2015/9.4, tahun DAN skor, tanpa bukti tercatat.
+      SELESAI 2026-09-02. Premis lama item ini SALAH: menyebut "melanggar keputusan 2026-08-03
+      (tidak ada tahun inkorporasi PT yang diasersikan)" — keputusan itu tidak ada di goals.json.
+      Yang tercatat DEC-002 di trust-claims.json C8: marketing_founding_year 2015,
+      legal_incorporation_year 2016, tdup_issued_year 2023, dikunci trust-claims.test.mjs:164. Jadi
+      "PT incorporated 2016" BENAR. Yang keliru adalah mengisi slot Incorporated dengan 2023 (tahun
+      TDUP/AHU); ter-commit di 485b2f85, di-revert di 7ebcab94. Empat file kini menulis 2016. Dua
+      file aturan yang mengajarkan premis salah ikut dikoreksi, plus .claude/README.md yang masih
+      menyuruh "jangan asersikan tahun inkorporasi". SISA TERPISAH (bukan item ini): Booking.com
+      award di 485b2f85 diubah 2016/9.2 -> 2015/9.4, tahun DAN skor, tanpa bukti.
   - id: SIP_DOCUMENT_PERSONAL_DATA
     status: NEEDS_OWNER
     note: >-
@@ -38,9 +38,12 @@ open_items:
   - id: REVIEW_FIGURES_HARDCODED
     status: TODO
     note: >-
-      why-jvto/reviews/page.tsx:35 menulis "195+ verified reviews" dan line 108 menulis 152. Live
-      ekosistem: 221 review, Google 4.9/156, Trustpilot 4.8/51, TripAdvisor 4.95/21. Perbaikan: baca
-      dari review-platforms.json, hilangkan hardcode.
+      why-jvto/reviews/page.tsx:35 menulis "195+ verified reviews". Angka hidup 2026-09-02 sore: 228
+      review (169 ber-packageSlug, 59 tak teratribusi), Google 4.9/163 verified 2026-09-02,
+      Trustpilot 4.8/51, TripAdvisor 4.95/21. Angka ini bergerak tiap sync ekosistem — hitung ulang,
+      jangan kutip. Literal itu ada di sisi kanan ?? yang tidak pernah menyala selama ekosistem
+      memasok deskripsi. Rujukan lama "line 108 menulis 152" DIHAPUS: baris itu komentar yang
+      menjelaskan bug yang sudah beres, bukan nilai.
   - id: LASTREVIEWED_MISSING
     status: TODO
     note: >-
@@ -86,3 +89,76 @@ open_items:
       Prisma tinggal dipakai NextAuth PrismaAdapter (session strategy database + EmailProvider magic
       link). Semua query model aplikasi sudah hilang per 2026-08-28. Melepas DB sepenuhnya =
       memutuskan apakah login pelanggan (Google SSO + magic link) masih dipakai.
+  - id: PRISMA_ENGINE_UNREPLACEABLE_ON_VPS
+    status: NEEDS_OWNER
+    note: >-
+      Login pelanggan bergantung pada SATU file untracked di VPS yang tidak ada yang bisa membuat
+      ulang. Rantai terverifikasi 2026-09-02: (1) deploy.yml TIDAK punya prisma generate —
+      satu-satunya kata "prisma" di sana adalah komentar; ci.yml:55 justru punya, dengan
+      DATABASE_URL dummy. (2) Klaim .gitignore:44-47 "npm ci runs postinstall which regenerates the
+      right engine" TERFALSIFIKASI lokal: src/generated/prisma/ di mesin dev tidak punya engine
+      native sama sekali setelah beberapa npm ci hari ini, hanya query_engine_bg.wasm. (3) Engine
+      linux .so.node TIDAK di-gitignore dan 0 ter-track. (4) deploy.yml:38 hanya git reset --hard
+      origin/live, tanpa -fdx dan tanpa git clean — jadi file untracked SELAMAT tiap deploy.
+      Kesimpulan: sign-in hidup karena engine linux yang pernah dibuat entah kapan masih menempel di
+      /var/www/jvto-web. Kalau file itu hilang, npm ci tidak membuatnya lagi, build tetap 106/106
+      lulus, health check deploy.yml:59-63 tetap lulus karena hanya cek homepage 200, dan login mati
+      DIAM-DIAM. Nol halaman menyentuh Prisma (schema dipangkas 103->6 model, sisanya NextAuth + 1
+      validator), jadi tidak ada gerbang yang bisa menangkapnya. PERBAIKAN: tambah "npx prisma
+      generate" sebelum npm run build di deploy.yml + asersi ls src/generated/prisma/*.so.node.
+      Butuh pemilik karena guardrail melarang perubahan workflow deploy.
+  - id: INDEXNOW_ENDPOINT_UNAUTHENTICATED
+    status: TODO
+    note: >-
+      POST /api/indexnow (src/app/(api)/api/indexnow/route.ts:42-60) tanpa auth, tanpa rate limit,
+      tanpa cek origin. middleware matcher mengecualikan /api, jadi tidak ada penjaga di hulu.
+      Terbuka karena deploy.yml:90-93 memanggilnya anonim dari GitHub Actions. Mitigasi yang sudah
+      ada: indexnow.ts:18 memfilter URL ke BASE_URL, jadi penyerang tidak bisa menyuntik URL asing,
+      dan INDEXNOW_KEY memang publik by design (public/f6d885656876420a925cbbd9b27a2139.txt). Risiko
+      sisa: loop-abuse — build sitemap penuh berulang di VPS + submit berulang yang bisa membuat key
+      di-throttle Bing. Perbaikan tanpa menyentuh workflow: rate limit atau shared-secret header;
+      kalau pakai header, deploy.yml ikut berubah dan itu jadi gerbang pemilik.
+  - id: MATERIAL_SYMBOLS_ICON_BROKEN
+    status: TODO
+    note: >-
+      BookingForm.tsx:195 me-render <span className="material-symbols-outlined">lock</span>, tapi
+      CSS paket material-symbols tidak di-import di mana pun — globals.css hanya @import tailwindcss
+      + 2 scss lokal, layout.tsx hanya memuat Inter/Raleway/JetBrains via next/font/google. Jadi
+      form booking menampilkan tulisan "lock", bukan gambar gembok. Verifikasi: grep
+      material-symbols di src/ = 1 hit, class itu saja. Dua jalan: import CSS-nya, atau buang class
+      + dependency material-symbols. Catatan jujur: paket ini lolos dari pembersihan 28 dependency
+      karena tidak ada di inventaris warisan — kriteria grep-specifier saya terapkan hanya pada
+      daftar yang diwariskan, bukan pada seluruh package.json. Sapuan berikutnya harus dimulai dari
+      package.json.
+  - id: DEPLOY_VPS_SHARED_NO_CROSS_REPO_QUEUE
+    status: BLOCKED
+    note: >-
+      jvto-web dan jvto-ekosistem deploy ke SATU VPS; concurrency di deploy.yml hanya mengantre
+      dalam satu repo, tidak lintas repo. 2026-09-02: tiga deploy dalam 6 menit, yang pertama
+      menjalankan rm -rf node_modules + npm ci + next build sampai sshd berhenti menerima koneksi;
+      dua berikutnya mati (ekosistem "Connection timed out" exit 255, web "dial tcp ***:22: i/o
+      timeout"). Produksi TIDAK pernah turun dan keduanya pulih setelah di-rerun berurutan. MITIGASI
+      SUDAH JALAN: urutan manual, sudah ditulis di CLAUDE.md. BLOCKED bukan NEEDS_OWNER — tidak ada
+      yang perlu ditimbang pemilik; perbaikan permanennya sekadar tertahan guardrail "no deploy or
+      CI workflow changes". Catatan arsitektur: keduanya sengaja satu VPS karena
+      ecosystemContent/website.ts:141-146 membaca konten ekosistem sebagai direktori saudara
+      (../jvto-ekosistem), bukan lewat jaringan.
+  - id: BOOKINGCOM_AWARD_UNSOURCED
+    status: NEEDS_OWNER
+    note: >-
+      Commit 485b2f85 mengubah "Booking.com Guest Review Award 2016 (Score 9.2/10)" menjadi "2015
+      (Score 9.4/10)" — tahun DAN skor — tanpa bukti tercatat di mana pun. Tidak berhubungan dengan
+      urusan inkorporasi, jadi sengaja tidak ikut di-revert oleh 7ebcab94. Ini klaim publik di
+      halaman verifikasi; yang bisa memutuskan mana yang benar hanya pemilik yang memegang dokumen
+      award-nya.
+  - id: GIT_HISTORY_SIZE_CLAIM_OVERSTATED
+    status: TODO
+    note: >-
+      Pesan commit 13299840 mengklaim ~31 MB bobot repo hilang. Klaim itu MENYESATKAN: git rm
+      --cached hanya melepas dari index, bukan dari riwayat. Blob-nya masih resolvable lewat git
+      rev-list --objects --all, dan .git tetap ~166 MB. Tidak ada pipeline yang jadi lebih cepat:
+      deploy.yml:36-38 memakai clone yang sudah ada + git fetch, dan ci.yml memakai
+      actions/checkout@v4 yang shallow by default. Penghematan nyata satu-satunya adalah ukuran
+      working tree pada full clone baru. Yang BENAR-BENAR berulang menghematkan adalah 792c98ed: 249
+      paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
+      ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
