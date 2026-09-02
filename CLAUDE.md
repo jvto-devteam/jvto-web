@@ -141,6 +141,32 @@ Prosedur wajib sebelum menyimpulkan "aplikasi ini butuh `<host>`":
 
 Kalau langkah 1-3 nol dan yang tersisa cuma langkah 4, itu **deployment dependency**. Melaporkannya sebagai keterikatan arsitektur adalah kesalahan yang sudah pernah terjadi. Peta lengkapnya: `docs/architecture/repo-correlation-and-vps-boundary.md`.
 
+**8. Output HTML diverifikasi dari server yang BERJALAN, tidak pernah dari file `.next`.**
+
+Berlaku untuk apa pun yang keluar sebagai markup: `og:*`, `canonical`, `hreflang`, `robots` meta, JSON-LD, `<title>`, deskripsi.
+
+| Cara | Boleh? |
+|---|---|
+| `npm run build` lalu `npx next start`, fetch URL-nya | ✅ satu-satunya cara yang sah untuk lokal |
+| `curl` ke produksi | ✅ |
+| Membaca `.next/server/app/**/*.html` | ❌ **jangan** |
+| Membaca `page.tsx` lalu menyimpulkan output | ❌ itu prediksi, bukan verifikasi |
+
+**Sebabnya bukan preferensi gaya.** Rute `ƒ (Dynamic)` tidak punya file HTML sama sekali — ia dirender saat diminta. Build 2026-09-03 menghasilkan **106 halaman statis** sementara sitemap memuat **302 URL**; `/why-jvto/reviews/[id]` sendiri `ƒ Dynamic`, jadi pemeriksaan berbasis file akan diam-diam melewatkan **228 halaman** — persis himpunan yang paling rusak saat bug `og:url` ditemukan. Nol hasil dari pemeriksaan file terlihat sama persis dengan "semuanya benar". Itu mode kegagalan yang sama dengan pola grep rute yang mengembalikan nol baris (lihat *Things that bite*).
+
+Sampel wajib menyertakan **kontrol**: minimal satu halaman yang seharusnya TIDAK berubah. Sampel yang semuanya "sebelumnya rusak" tidak bisa membedakan perbaikan dari kerusakan menyeluruh.
+
+**9. `DONE`/tertutup hanya setelah bukti dari server hidup — bukti lokal tidak pernah cukup.**
+
+`tsc` hijau, `build` exit 0, `validate` 52/52, `test:stale` 11/11, bahkan sampling di `next start` lokal — semuanya membuktikan **kode yang benar**, bukan **produksi yang benar**. Di antara keduanya ada deploy, dan deploy repo ini sudah pernah gagal total selama berjam-jam sementara HTTPS tetap 200 (2026-09-02, empat kali).
+
+Aturannya, untuk **semua** temuan, bukan hanya yang sedang disorot:
+
+- Bukti lokal lengkap → status maksimal `IN_PROGRESS`, dengan catatan apa yang masih kurang.
+- `DONE` hanya setelah observasi langsung ke server hidup — dan catatannya menyebut **apa yang diukur, berapa nilainya, kapan**.
+- Perbaikan yang cakupannya terukur wajib diukur ulang pada cakupan yang sama. `og:url` ditemukan lewat sapuan 302 URL; menutupnya menuntut sapuan 302 URL lagi, bukan sampel 13.
+- Kalau verifikasi live belum mungkin (belum di-push, akses tidak ada), katakan itu sebagai alasan — jangan naikkan statusnya.
+
 ## Deploy — biaya setiap commit
 
 - **🔒 KEPUTUSAN PEMILIK 2026-09-02: jvto-web TIDAK memakai VPS.** Final. Jangan ditanyakan ulang, jangan disajikan sebagai pilihan, jangan dibuka lagi tanpa pemilik yang membukanya. Dibuktikan sebelum diputuskan: `JVTO_EKOSYSTEM_CONTENT_ROOT="/nonexistent-forces-http" npm run build` → exit 0, 106/106 halaman, paritas rute identik. Nol perubahan `src/`. **Ekosistem tetap di VPS** — ia melayani `/api/file` dan jadi target rsync. Konsekuensi lengkapnya di `docs/architecture/repo-correlation-and-vps-boundary.md` dan item `JVTO_WEB_VPS_MIGRATION` di `STATUS.yaml`. Aturan deploy di bawah berlaku sampai pemindahan itu benar-benar dikerjakan.
@@ -198,6 +224,7 @@ Kalau langkah 1-3 nol dan yang tersisa cuma langkah 4, itu **deployment dependen
   Dua klarifikasi, karena daftar ini pernah bertabrakan dengan "Simulasikan, jangan tanya" di atas:
   - **"Penghapusan" di daftar ini berarti penghapusan DATA**, bukan penghapusan kode mati yang sudah dibuktikan tak terjangkau. Menghapus 139 file mati dengan bukti grep-simbol + paritas rute adalah pekerjaan biasa, bukan gerbang.
   - **Push/merge ke branch produksi TETAP gerbang**, meskipun `git merge-tree` bersih. Simulasi membuktikan *tidak ada konflik*; ia tidak membuktikan *pemilik ingin ini tayang sekarang*. Simulasi menghapus pertanyaan tentang **caranya**, bukan tentang **kapannya**.
+- **Sebelum menjawab "ya" untuk push produksi, tinjau diff kumulatifnya lewat `/rewind`.** Laporan teks adalah ringkasan yang ditulis oleh pihak yang melakukan perubahan; `/rewind` menunjukkan perubahannya sendiri. Satu pemeriksaan visual terakhir atas seluruh tumpukan commit yang akan tayang — bukan per commit, melainkan hasil akhirnya.
 - No dummy or fake DB. Never invent or hardcode a `DATABASE_URL`, never ask for production credentials. If Prisma needs it and it is absent, quote the error verbatim and continue with non-DB steps.
 - Stop only if dependencies cannot install or file-based validation cannot run.
 - No long SEO reports — doc stubs link to `docs/_audit/package1-audit.md`.

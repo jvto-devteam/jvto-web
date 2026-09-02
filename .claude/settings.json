@@ -6,5 +6,19 @@
       "Bash(git commit -m ' *)",
       "Bash(git push origin live)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/typecheck.mjs",
+            "timeout": 180
+          }
+        ]
+      }
+    ]
   }
 }
