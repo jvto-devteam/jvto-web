@@ -133,16 +133,17 @@ open_items:
   - id: DEPLOY_VPS_SHARED_NO_CROSS_REPO_QUEUE
     status: BLOCKED
     note: >-
-      jvto-web dan jvto-ekosistem deploy ke SATU VPS; concurrency di deploy.yml hanya mengantre
-      dalam satu repo, tidak lintas repo. 2026-09-02: tiga deploy dalam 6 menit, yang pertama
-      menjalankan rm -rf node_modules + npm ci + next build sampai sshd berhenti menerima koneksi;
-      dua berikutnya mati (ekosistem "Connection timed out" exit 255, web "dial tcp ***:22: i/o
-      timeout"). Produksi TIDAK pernah turun dan keduanya pulih setelah di-rerun berurutan. MITIGASI
-      SUDAH JALAN: urutan manual, sudah ditulis di CLAUDE.md. BLOCKED bukan NEEDS_OWNER — tidak ada
-      yang perlu ditimbang pemilik; perbaikan permanennya sekadar tertahan guardrail "no deploy or
-      CI workflow changes". Catatan arsitektur: keduanya sengaja satu VPS karena
-      ecosystemContent/website.ts:141-146 membaca konten ekosistem sebagai direktori saudara
-      (../jvto-ekosistem), bukan lewat jaringan.
+      jvto-web dan jvto-ekosistem deploy ke satu VPS; concurrency di deploy.yml hanya mengantre
+      dalam satu repo, tidak lintas repo. TERAMATI 2026-09-02 (bukan diagnosis): 13:14 dua deploy
+      gagal saat deploy lain sedang npm ci + next build; 15:47 dan 15:51 dua deploy gagal LAGI tanpa
+      deploy lain berjalan. Pesan sama: "dial tcp ***:22 i/o timeout" dan "ssh Connection timed out"
+      exit 255. Sepanjang itu HTTPS kedua app tetap 200. Sebabnya BELUM terbukti — beban bersamaan
+      tidak menjelaskan yang 15:47/15:51. KOREKSI ARSITEKTUR: catatan lama item ini menyebut
+      keduanya "sengaja satu VPS karena membaca direktori saudara". Itu SALAH. Ke-19 pembaca konten
+      ekosistem punya dua jalur (readLocal ?? fetchRemote lewat /api/file), nol tulis ke disk saat
+      runtime, public/uploads 191 file ter-track ikut bundle, tidak ada output standalone.
+      Co-location adalah mekanisme deploy dan tempat melayani endpoint, BUKAN syarat aplikasi
+      berjalan. Detail: docs/architecture/repo-correlation-and-vps-boundary.md
   - id: BOOKINGCOM_AWARD_UNSOURCED
     status: NEEDS_OWNER
     note: >-
