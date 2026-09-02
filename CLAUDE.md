@@ -123,6 +123,24 @@ Kejadian nyata 2026-09-02: inventaris warisan menyebut `@types/mapbox-gl` mati. 
 
 Verifikasi ulang wajib bila ada perubahan **kode** setelah `0e646a22`. Angka ini bukan pengecualian dari `STALE-FACTS-CHECKLIST.md` — ia berlaku selama jangkarnya masih HEAD; begitu ada commit kode baru, jangkarnya batal dan checklist yang berlaku lagi. Kalau tidak yakin jangkarnya masih HEAD, **ukur**, jangan kutip.
 
+**7. Bedakan runtime dependency dari deployment dependency — jangan tertukar.**
+
+| | Runtime dependency | Deployment dependency |
+|---|---|---|
+| Artinya | aplikasi butuh data/file/service ini untuk **menjalankan fitur** | proses **rilis** butuh host/jalur tertentu |
+| Contoh di repo ini | `/api/file` ekosistem, Postgres untuk login pelanggan | SSH ke VPS, `git reset --hard`, `npm ci`, pm2 |
+| Kalau hilang | fitur rusak bagi pengunjung | tidak ada rilis baru; versi lama tetap melayani |
+
+Prosedur wajib sebelum menyimpulkan "aplikasi ini butuh `<host>`":
+
+1. **Tulis ke disk saat runtime?** grep `writeFile|writeFileSync|mkdir|createWriteStream|unlink|rename\(|appendFile|rmdir|copyFile` di `src/app`, `src/lib`, `src/components`, `src/middleware.ts`. Nol = tidak ada state di disk.
+2. **Butuh repo saudara?** cari `path.resolve(.*"\.\.")` dan `process.cwd(), ".."`. Untuk **setiap** hit, periksa apakah ada jalur `fetch` pendamping. **Cari di seluruh `src/`, bukan hanya `src/lib/ecosystemContent/`** — `src/lib/people/crewReviews.ts` lolos dari survei 2026-09-02 justru karena dibatasi ke direktori itu. Ia ternyata punya pola yang sama, tapi survei tersaring akan melaporkan 19 pembaca sebagai 18.
+3. **Baca dari `public/`?** `path.join(process.cwd(), "public", …)` ikut bundle. Itu bukan keterikatan host.
+4. **Mana yang cuma deploy?** `git reset --hard`, `npm ci`, `pm2`, `scp`, `rsync`, `ssh` — semuanya deployment, bukan runtime.
+5. **HTTP 200 membuktikan apa?** Bahwa app dan infra hidup. **Bukan** bahwa repo harus menyatu, dan bukan bahwa jalur deploy sehat. Deploy bisa mati total sementara situs melayani normal — itu terjadi 2026-09-02.
+
+Kalau langkah 1-3 nol dan yang tersisa cuma langkah 4, itu **deployment dependency**. Melaporkannya sebagai keterikatan arsitektur adalah kesalahan yang sudah pernah terjadi. Peta lengkapnya: `docs/architecture/repo-correlation-and-vps-boundary.md`.
+
 ## Deploy — biaya setiap commit
 
 - **Push ke `live` (jvto-web) = deploy produksi.** `deploy.yml` SSH ke VPS, `git reset --hard`, `npm ci`, build, restart pm2. Antre, tidak membatalkan. **Tidak ada `paths-ignore`** — commit dokumen, `CLAUDE.md`, atau `.claude/rules/` pun membayar satu siklus deploy penuh. Gabungkan pekerjaan dokumen dengan pekerjaan kode; jangan push satu paragraf sendirian.

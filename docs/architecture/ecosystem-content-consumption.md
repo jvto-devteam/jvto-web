@@ -2,6 +2,10 @@
 
 Last updated: 2026-08-15 (Task 5.3, data-source-consolidation plan)
 
+> Batas antara *runtime dependency* dan *deployment dependency* — dan kenapa co-location di
+> VPS bukan syarat arsitektur — ada di
+> [`repo-correlation-and-vps-boundary.md`](./repo-correlation-and-vps-boundary.md).
+
 `jvto-ekosistem` is now the preferred runtime source for these public website surfaces:
 
 - JSON-LD page graph through `GET /api/schema/page?route=...`, consumed by `src/components/seo/PageJsonLdCombined.tsx`.
