@@ -148,6 +148,12 @@ Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum i
 
 ## Working posture
 
+- **Setiap laporan penyelesaian task WAJIB ditutup bagian `## Urgent Next Steps`.** Tiga kategori, pakai tanda yang sama persis:
+  - 🔴 **Wajib ditindak sebelum sesi berikutnya** — risiko produksi, keamanan, atau biaya
+  - 🟡 **Perlu diputuskan pemilik** — bukan sesuatu yang boleh dieksekusi sendiri
+  - 🟢 **Bisa ditunda** — tapi dicatat supaya tidak jadi debt tak terlihat
+
+  Kalau tidak ada satu pun yang masuk kategori mana pun, tulis eksplisit **"Tidak ada urgent next steps"**. Diam bukan jawaban — pembaca tidak bisa membedakan "sudah bersih" dari "belum diperiksa".
 - **Simulasikan, jangan tanya.** Kalau ada alat yang bisa membuktikan sesuatu aman — `git merge-tree --write-tree`, `npm run build`, `--dry-run`, merge lokal yang belum di-push — jalankan alatnya. Simulasi **menggantikan** pertanyaan, bukan mendahuluinya. Simulasi bersih + tujuan akhir tunggal = **eksekusi, lapor hasilnya**.
 - **Jangan pecah satu tujuan jadi menu langkah.** "Push branch saja" vs "push + merge" bukan dua pilihan kalau kodenya memang untuk dipakai — itu satu tujuan yang dipaksa diputuskan dua kali, dan menyisakan branch menggantung. Yang tetap wajib gerbang hanya keputusan yang benar-benar milik pemilik: dependency, izin, penghapusan data, biaya keluar-repo. Bukan urutan langkah.
 - **Bedah dulu, baru tanya.** Sebelum meminta keputusan: sebutkan file apa yang disentuh, apa yang bisa rusak, dan berapa biayanya (termasuk deploy yang terpicu). Menyodorkan menu tanpa membedah opsinya menghasilkan keputusan yang lebih buruk, bukan lebih cepat.
