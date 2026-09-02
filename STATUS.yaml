@@ -123,20 +123,6 @@ open_items:
       karena tidak ada di inventaris warisan — kriteria grep-specifier saya terapkan hanya pada
       daftar yang diwariskan, bukan pada seluruh package.json. Sapuan berikutnya harus dimulai dari
       package.json.
-  - id: DEPLOY_VPS_SHARED_NO_CROSS_REPO_QUEUE
-    status: BLOCKED
-    note: >-
-      jvto-web dan jvto-ekosistem deploy ke satu VPS; concurrency di deploy.yml hanya mengantre
-      dalam satu repo, tidak lintas repo. TERAMATI 2026-09-02 (bukan diagnosis): 13:14 dua deploy
-      gagal saat deploy lain sedang npm ci + next build; 15:47 dan 15:51 dua deploy gagal LAGI tanpa
-      deploy lain berjalan. Pesan sama: "dial tcp ***:22 i/o timeout" dan "ssh Connection timed out"
-      exit 255. Sepanjang itu HTTPS kedua app tetap 200. Sebabnya BELUM terbukti — beban bersamaan
-      tidak menjelaskan yang 15:47/15:51. KOREKSI ARSITEKTUR: catatan lama item ini menyebut
-      keduanya "sengaja satu VPS karena membaca direktori saudara". Itu SALAH. Ke-19 pembaca konten
-      ekosistem punya dua jalur (readLocal ?? fetchRemote lewat /api/file), nol tulis ke disk saat
-      runtime, public/uploads 191 file ter-track ikut bundle, tidak ada output standalone.
-      Co-location adalah mekanisme deploy dan tempat melayani endpoint, BUKAN syarat aplikasi
-      berjalan. Detail: docs/architecture/repo-correlation-and-vps-boundary.md
   - id: BOOKINGCOM_AWARD_UNSOURCED
     status: DONE
     note: >-
@@ -161,18 +147,3 @@ open_items:
       working tree pada full clone baru. Yang BENAR-BENAR berulang menghematkan adalah 792c98ed: 249
       paket lebih sedikit di setiap npm ci saat deploy. Tidak perlu tindakan kode — cukup jangan
       ulangi klaim itu, dan jangan pakai git rm --cached sebagai alasan penghematan CI.
-  - id: JVTO_WEB_VPS_MIGRATION
-    status: TODO
-    note: >-
-      KEPUTUSAN PEMILIK 2026-09-02: jvto-web TIDAK memakai VPS. Final — jangan ditanyakan ulang.
-      Dibuktikan lebih dulu: JVTO_EKOSYSTEM_CONTENT_ROOT="/nonexistent-forces-http" npm run build →
-      exit 0, 106/106 halaman, 104 entri rute, paritas identik. Nol perubahan kode src/. YANG
-      BERUBAH: (1) deploy pindah dari SSH+pm2 ke git-push; deploy.yml jvto-web dipensiunkan. (2)
-      JVTO_EKOSYSTEM_CONTENT_BASE_URL jadi jalur TUNGGAL — /api/file ekosistem berhenti jadi
-      cadangan, uptime-nya jadi kritis. (3) Engine Prisma dibuat tiap build bersih, jadi langkah
-      prisma generate (1f85f4a2) tetap perlu di host baru. (4) Env yang harus dipindah:
-      DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL, kredensial Google SSO, SMTP nodemailer,
-      ECOSYSTEM_REVALIDATE_SECRET, INDEXNOW_KEY, NEXT_PUBLIC_LEGACY_URL_DOMAIN, token mapbox, dan
-      KNOWN_AGENTS_TOKEN — yang terakhir sebaiknya dibuang sekalian bersama trackVisit karena tidak
-      pernah diset. EKOSISTEM TETAP DI VPS: ia melayani /api/file dan jadi target rsync; yang pindah
-      hanya jvto-web.
