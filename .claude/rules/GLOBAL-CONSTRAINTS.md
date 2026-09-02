@@ -8,9 +8,16 @@ Sumber otoritatif: `../jvto-ekosistem/state/goals.json` → `decisions[]` (9 kep
 tercatat). **Jangan salin fakta dari sini ke dalam checker** — baca file itu langsung.
 Keputusan yang membekukan sendiri sebuah policy akan bertentangan dengan pemiliknya.
 
+⚠️ `goals.json` **tidak memuat semua keputusan**. Kesembilan isinya bertanggal
+2026-08-18, 08-26, dan 08-27. Keputusan tahun pendirian (DEC-002, 2026-08-03) hidup
+di tempat lain: `credentials-and-public-evidence/trust-claims.json` → klaim `C8` →
+`decisions[]`. Diverifikasi 2026-09-02. Kalau sebuah baris di tabel bawah tidak
+ketemu di `goals.json`, cari dulu di `trust-claims.json` sebelum menyimpulkan
+keputusannya tidak ada.
+
 | Tanggal | Keputusan |
 |---|---|
-| 2026-08-03 | **Tidak ada tahun inkorporasi PT yang diasersikan.** `foundingDate` 2015 = era brand/guesthouse; 2023 = formalisasi TDUP |
+| 2026-08-03 | **DEC-002 `founding_year_canonical` — tiga tahun untuk tiga hal berbeda.** `marketing_founding_year` **2015** (era brand/guesthouse) · `legal_incorporation_year` **2016** · `tdup_issued_year` **2023**. Sumber: `trust-claims.json` C8 → DEC-002, dikunci `scripts/test/llm-wiki-sync/trust-claims.test.mjs:164` |
 | 2026-08-15 | Rating publik **Google Maps saja**, tidak pernah rata-rata gabungan |
 | 2026-08-18 | Content-Signal = `search=yes,ai-train=yes,use=reference` |
 | 2026-08-26 | Aturan tiga-fakta pada answer-first = **warning**, bukan error. Word count (40–60) dan angka volatil literal tetap error |
@@ -23,7 +30,7 @@ Keputusan yang membekukan sendiri sebuah policy akan bertentangan dengan pemilik
 
 ### Turunan yang tidak boleh dilanggar
 - ❌ **`aggregateRating: 0` dilarang** — hilangkan node-nya, jangan emit rating nol
-- ❌ **Jangan asersikan tahun inkorporasi PT** (lihat 2026-08-03)
+- ❌ **Jangan isi slot "Incorporated" dengan 2023** — 2023 adalah tahun terbit TDUP/AHU, bukan inkorporasi. DEC-002 menetapkan `legal_incorporation_year` = **2016**. Ketiga tahun itu tidak boleh saling menggantikan (lihat 2026-08-03)
 - ✅ Schema hanya untuk konten yang tampil di UI — tidak ada nilai karangan
 - ✅ `llms.txt` = alat penemuan, **bukan** standar ranking
 
@@ -37,8 +44,12 @@ Keputusan yang membekukan sendiri sebuah policy akan bertentangan dengan pemilik
 ## ⚠️ Dokumentasi usang di root CLAUDE.md
 
 **Mati sejak 2026-08-18** — jangan diperkenalkan lagi:
-`src/lib/content/resolveFaqs.ts` · `resolveFaqsForPage()` · `CANONICAL_FAQ_REGISTRY` ·
-presedensi DB-`narrative_claims`.
+`resolveFaqsForPage()` · `CANONICAL_FAQ_REGISTRY` · presedensi DB-`narrative_claims`.
+
+⚠️ **File `src/lib/content/resolveFaqs.ts` masih hidup — jangan dihapus.** Yang pensiun
+fungsi resolver-nya, bukan filenya. File itu tetap mengekspor `buildResolvedFaqSchema()`,
+di-import `markets/malaysia/page.tsx:6,46` dan `markets/singapore/page.tsx:6,46`, serta
+dirujuk `components/seo/PageJsonLdCombined.tsx:130`. Diverifikasi 2026-09-02.
 
 **🔴 Bila root CLAUDE.md bertentangan dengan file ini → ABAIKAN root CLAUDE.md.**
 

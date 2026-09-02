@@ -1,6 +1,11 @@
 # Stale Facts Checklist
-> Angka di kolom "live" diverifikasi dari `jvto-web` + `jvto-ekosistem` pada **2026-08-28**.
+> Angka di kolom "live" diverifikasi dari `jvto-web` + `jvto-ekosistem` pada **2026-09-02**.
 > Kolom itu pun akan basi. **Selalu jalankan perintah verifikasinya**, jangan kutip tabel ini.
+>
+> Bukan teori: pada 2026-09-02 tabel ini sendiri kedapatan basi (Google 156→161,
+> reviews 221→226) dan dua barisnya salah sasaran. Satu baris yang keliru — yang
+> menyuruh memperlakukan `legal_incorporation_year: 2016` sebagai nilai basi —
+> sempat menyebabkan satu commit mengisi slot inkorporasi dengan tahun TDUP.
 
 ## Nilai hidup per 2026-08-28
 
@@ -12,8 +17,8 @@
 | External entities | **16** | `organization-identity/external-entities.json` |
 | Crew | **11 published** (7 guide + 4 driver) + **3 unpublished** | `people-and-crew/people.json` |
 | Destinations | **10** | `destination-knowledge/destinations-master.json` |
-| Reviews | **221** record; 169 ber-`packageSlug`; 52 tak teratribusi | `credentials-and-public-evidence/reviews.json` |
-| Google Maps | **4.9 / 156** (verified 2026-08-25) — satu-satunya sumber rating publik | `review-platforms.json` |
+| Reviews | **226** record; 169 ber-`packageSlug`; 57 tak teratribusi | `credentials-and-public-evidence/reviews.json` |
+| Google Maps | **4.9 / 161** (verified 2026-09-01) — satu-satunya sumber rating publik | `review-platforms.json` |
 | Trustpilot | 4.8 / 51 (verified 2026-05-09) | `review-platforms.json` |
 | TripAdvisor | 4.95 / 21 | `review-platforms.json` |
 | `DEFINED_TERMS` | **11** | `src/lib/schemas/entityGraph.ts` |
@@ -28,14 +33,11 @@
 
 | Nilai basi | Di mana | Yang benar |
 |---|---|---|
-| `"PT incorporated 2016-01-01"` | 12 tempat: `verify-jvto/page.tsx:22`, `verify-jvto/legal/page.tsx:72,87`, `history-artifacts/page.tsx:166,201`, `WhyJvtoInteractive.tsx:198`, + 6 file ekosistem | Keputusan 2026-08-03: **tidak ada tahun inkorporasi PT yang diasersikan**. Dekrit yang dipegang berbunyi TAHUN **2023** |
-| `founding_date: "2016-01-01"` | `verify-jvto-assets-inventory.json:14` | idem |
-| `legal_incorporation_year: 2016` | `trust-claims.json:452` | idem |
-| `"195+ verified reviews"`, `152` | `why-jvto/reviews/page.tsx:35,108` | 221 review; Google 156 |
+| `"Incorporated: 2023"` di slot inkorporasi | `verify-jvto/legal/page.tsx`, `verify-jvto/page.tsx`, `history-artifacts/page.tsx`, `WhyJvtoInteractive.tsx` (konstanta `FALLBACK`) | **2016.** DEC-002 menetapkan `legal_incorporation_year` = 2016; 2023 adalah `tdup_issued_year` (terbit AHU/TDUP). Ketiga tahun tidak boleh saling menggantikan |
+| `"195+ verified reviews"` | `why-jvto/reviews/page.tsx:35` | 226 review; Google 161. Catatan: literal ini ada di sisi kanan `??` yang tidak pernah menyala selama ekosistem memasok deskripsi |
 | `4.9/112`, `4.91/203`, `56 reviews/251 media`, Trustpilot 44, Google 138/149 | arsip lama | tabel di atas |
-| `"2016-01-01"` sebagai founding date | mana pun | 2015 |
-| `aggregateRating: { ratingValue: 0 }` | mana pun yang di-emit | hilangkan node-nya |
-| `"... | JVTO"` di title | — | `"... | Java Volcano Tour Operator"` |
+| `founding_date: "2016-01-01"` | ekosistem `verify-jvto-assets-inventory.json:14` | **2015.** `foundingDate` (era brand) ≠ `legal_incorporation_year` (2016). Field ini bernama *founding*, jadi 2015 — jangan disamakan dengan baris inkorporasi di atas |
+| `"... \| JVTO"` sebagai sufiks title | **14 kemunculan di 8 file** (diverifikasi 2026-09-02): `destinations/[slug]/page.tsx:58-62` (5), `travel-guide/page.tsx:395,439`, `blog/[slug]/page.tsx:39,62`, `tours/from-bali/page.tsx:26`, `tours/from-surabaya/page.tsx:26`, `isic/student-package/page.tsx:23`, `verify-jvto/legal/page.tsx:19`, `verify-jvto/press-recognition/page.tsx:18` | `"... \| Java Volcano Tour Operator"`. **Tes hanya menjaga homepage** (`validate-stale-facts.test.ts:97-107`), jadi sisanya menyimpang tanpa terdeteksi. ⚠️ BUKAN pelanggaran, jangan diubah: `blog/page.tsx:13` (`"Insights \| JVTO's Blog…"`, posesif di tengah) dan `blog/why-not-unlicensed-ijen-operator/page.tsx:12` (`"… \| JVTO Field Notes"`) |
 | `"8% coverage"`, `"118/1418 nodes"`, `"431→~51 Organization nodes"` | arsip | jalankan audit ulang |
 | commit `0e36a9b`, `d3fd6d9`, `205172f0` | arsip | `git log -1` |
 | "Fable 5 gratis sampai 2026-06-22" | arsip | buang, sudah kedaluwarsa |
@@ -47,7 +49,7 @@
     npm run check:fact-drift                 # NIB / founder / legal name lintas repo
     npm run validate:packages                # registry vs DB
     npm run audit:geo-visibility             # rute live, contentSignal, lastReviewed
-    npm run validate:review-pages            # 221 halaman review
+    npm run validate:review-pages            # 226 halaman review
 
 Angka mentah dari ekosistem:
 

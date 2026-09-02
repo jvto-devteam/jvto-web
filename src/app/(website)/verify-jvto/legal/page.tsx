@@ -69,7 +69,7 @@ const FALLBACK = {
   heroStats: [
     { label: "Entity", value: "PT Java Volcano Rendezvous" },
     { label: "NIB", value: "1102230032918" },
-    { label: "Incorporated", value: "2023" },
+    { label: "Incorporated", value: "2016" },
     { label: "Status", value: "Active" },
   ],
   proofCards: [
@@ -84,7 +84,7 @@ const FALLBACK = {
     { k: "TDUP (Tourism License)", v: "Issued 2023-02-11" },
     { k: "Company registry (AHU)", v: "AHU-0010187.AH.01.01.TAHUN 2023" },
     { k: "Domicile", v: "Bondowoso, East Java" },
-    { k: "Incorporated", v: "2023" },
+    { k: "Incorporated", v: "2016" },
   ],
   businessRegIntro: "Three government records establish JVTO as a legal entity with a registered office, a tax identity, and a documented chain of responsibility — the things a roadside agent or a SIM-card WhatsApp number cannot produce.",
   businessRegTable: [
