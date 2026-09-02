@@ -204,3 +204,32 @@ open_items:
       PageSpeed Insights API menolak dengan "Quota exceeded for quota metric Queries and limit
       Queries per day" (kuota bersama tanpa API key), jadi LCP/CLS/skor performa tetap TIDAK
       DIKETAHUI. Jangan kutip angka CWV mana pun sampai benar-benar diukur.
+  - id: DEPENDABOT_NODEMAILER_UNREACHABLE
+    status: NEEDS_OWNER
+    note: >-
+      Diperiksa 2026-09-03. 7 alert Dependabot terbuka: 6 nodemailer (1 high, 4 medium, 1 low) + 1
+      @humanfs/node (medium, dev-only via eslint@9.34.0). Selisih 6 ke 7 BUKAN akibat push terakhir:
+      alert @humanfs/node #124 dibuat 2026-09-02T16:15:59Z, sedangkan push ada di 18:10:59Z dan push
+      sebelumnya 17:07:44Z. Push itu sendiri nol perubahan dependency — package-lock.json tidak
+      tersentuh sama sekali, package.json cuma bertambah satu baris script verify:live. KEENAM
+      ADVISORY NODEMAILER TIDAK TERJANGKAU pada konfigurasi sekarang, diverifikasi di titik
+      panggilnya (node_modules/next-auth/providers/email.js:34-45), bukan disimpulkan dari grep
+      src/: sendVerificationRequest bawaan memanggil transport.sendMail dengan tepat lima field —
+      to, from, subject, text, html. Tidak ada raw (menutup #78 high GHSA-p6gq-j5cr-w38f), tidak ada
+      envelope (#43 low), tidak ada header List-* (#74), bukan jsonTransport melainkan SMTP
+      sungguhan (#73), createTransport dipanggil dengan {host,port,auth:{user,pass}} dari env tanpa
+      opsi name (#49), dan auth-nya user/pass bukan type OAuth2 (#76). Nol sendVerificationRequest
+      kustom di src/. BATAS KLAIM INI: berlaku selama konfigurasi itu tidak berubah. Menambahkan
+      sendVerificationRequest kustom, memindah SMTP ke OAuth2, atau menyetel transport name akan
+      membuka kembali keenamnya sekaligus. Satu-satunya input pengguna yang mencapai nodemailer
+      adalah alamat penerima (to: identifier); tidak ada di antara keenam advisory ini yang membahas
+      field itu. TIDAK ADA JALUR PATCH di ^7: npm audit menjawab "No fix available", patch ada di
+      8.0.4/8.0.5/8.0.8/8.0.9/9.0.1, sementara next-auth@4.24.15 mendeklarasikan
+      peerDependencies.nodemailer ^7.0.7 (optional) dan package.json repo ini menahan ^7.0.12
+      (terpasang 7.0.13). Memaksa 9.0.1 menempatkan login pelanggan pada kombinasi peer yang tidak
+      didukung. Perbaikan sebenarnya = migrasi next-auth v4 ke Auth.js v5; itu proyek, bukan patch.
+      REKOMENDASI: jangan sentuh nodemailer sekarang. Yang layak dikerjakan justru @humanfs/node —
+      dev-only, nol risiko runtime, dan satu-satunya yang punya jalur patch nyata (0.16.6 ke 0.16.8,
+      ikut naik lewat eslint ^9). Tetap perubahan dependency, jadi tetap butuh persetujuan tertulis.
+      CATATAN ANGKA: catatan lama "npm audit lokal 2 (1 moderate 1 high)" sudah basi — diukur hari
+      ini npm audit penuh 5 (1 moderate, 4 high), --omit=dev 4 high. Jangan kutip angka 2 lagi.
