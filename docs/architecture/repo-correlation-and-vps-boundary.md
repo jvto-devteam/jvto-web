@@ -4,8 +4,20 @@ Diverifikasi 2026-09-02. Dokumen ini ada karena kesimpulan yang salah pernah dit
 file aturan yang selalu aktif: bahwa kedua repo "sengaja satu VPS karena jvto-web membaca
 ekosistem sebagai direktori saudara". Itu keliru, dan koreksinya perlu satu tempat tinggal.
 
-**Ini bukan rekomendasi migrasi.** Apakah jvto-web tetap di VPS adalah keputusan
-infrastruktur pemilik. Dokumen ini hanya memastikan keputusan itu diambil dari fakta.
+## 🔒 Keputusan pemilik 2026-09-02 — jvto-web TIDAK memakai VPS
+
+Sudah diputuskan. **Jangan ditanyakan ulang, jangan disajikan lagi sebagai pilihan.**
+Dasarnya bukti di dokumen ini, terutama build yang selesai tanpa akses apa pun ke repo
+saudara. Nol baris `src/` perlu berubah.
+
+Konsekuensi yang mengikat pekerjaan berikutnya:
+
+- Deploy jvto-web pindah dari SSH + pm2 ke git-push. `deploy.yml` dipensiunkan.
+- `/api/file` ekosistem berhenti jadi cadangan dan menjadi **jalur tunggal** — uptime-nya
+  berhenti opsional.
+- Langkah `prisma generate` tetap wajib di host baru; build bersih tidak mewarisi engine.
+- **Ekosistem tetap di VPS.** Ia melayani `/api/file` dan jadi target rsync. Yang pindah
+  hanya jvto-web.
 
 ## Rantainya
 
