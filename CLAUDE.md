@@ -62,6 +62,18 @@ Both cities use full-path slugs. The bare-name Surabaya format was a jvto_dev da
 - **Never trust a tsc baseline written in a document.** Run `npx tsc --noEmit` fresh before calling anything a regression.
 - **`src/lib/content/resolveFaqs.ts` is LIVE — never delete it.** `resolveFaqsForPage()` and `CANONICAL_FAQ_REGISTRY` were retired 2026-08-18, but the file survives and exports `buildResolvedFaqSchema()`, imported by `markets/malaysia/page.tsx` and `markets/singapore/page.tsx`. A retired function is not a retired module.
 - **Local builds always log `PrismaClientInitializationError` for runtime "windows".** `src/generated/prisma/query_engine-windows.dll.node` is gitignored and absent on this machine. The build still completes. Never report it as a regression.
+- **Mengekstrak daftar rute dari output `npm run build` — satu pola yang GAGAL, satu yang bekerja.** Diuji 2026-09-02 pada Next.js 16.
+
+  ❌ **JANGAN pakai** `grep -E '^[├└│ ]*[○●ƒλ] '` — mengembalikan **nol baris**, bukan error. Dua sebabnya: baris pertama tabel diawali `┌` (tidak ada di kelas karakter itu), dan baris turunan `│ ├ /3d/ijen-crater` tidak punya penanda `○●ƒλ` sama sekali. Nol baris yang diam itulah bahayanya — terlihat seperti "tidak ada rute yang berubah".
+
+  ✅ **Pakai ini:**
+
+  ```bash
+  awk '/^Route \(app\)/,/^$/' build.log \
+    | grep -oE '(/[^ ]*|\[\+[0-9]+ more paths\])' | sort > routes.txt
+  ```
+
+  Menghasilkan **104 entri** (rute + placeholder `[+N more paths]`), kolom `Revalidate`/`Expire` terbuang sendiri. Untuk jumlah halaman, ambil dari log: `grep -oE "Generating static pages using [0-9]+ workers \([0-9]+/[0-9]+\)" build.log | tail -1`. **Selalu cek hasilnya bukan nol sebelum menyimpulkan paritas.**
 
 ## Verification rules — WAJIB, tidak bisa ditawar
 
@@ -85,6 +97,29 @@ Berhenti dan uji sendiri jika:
 Dikunci `jvto-ekosistem/scripts/test/llm-wiki-sync/trust-claims.test.mjs:164`. Mengisi slot "Incorporated" dengan 2023 adalah kesalahan yang sudah pernah terjadi (`485b2f85`), bukan hipotesis.
 
 **4. Presedensi rute sebelum klaim kode-vs-live.** Next.js App Router menyelesaikan segmen folder statis SEBELUM `[slug]` saudaranya. Sebelum melaporkan kontradiksi "kode bilang X, live bilang Y", jalankan `find <cluster> -name "page.tsx"` dan pastikan file yang dibaca memang yang melayani URL yang disampel. `why-jvto/[slug]` saat ini melayani **0 slug** — `our-story`, `the-jvto-difference`, `community-standards`, `our-team`, `reviews` punya folder sendiri.
+
+**5. Kode/dependency mati dibuktikan lewat SIMBOL, bukan nama.** Grep nama file atau nama paket sebagai kata telanjang selalu salah di repo ini — dan sudah pernah salah.
+
+| Yang dicari | Cara yang SALAH | Cara yang WAJIB |
+|---|---|---|
+| Modul lokal | `grep "runtime"` → 18 file tak relevan (`src/generated/prisma/runtime/`, `getVolcanicStatus.ts`) | grep tiap **simbol yang diekspor** file itu (`grep "^export" <file>`, lalu grep tiap namanya) |
+| Paket npm | `grep "mapbox"` di `src` saja | grep **specifier impor**: `grep -rE "[\"'](<pkg>)(/[^\"']*)?[\"']" src scripts` + `npm ls <pkg>` untuk pemakai transitif |
+| Paket `@types/*` | grep specifier — **selalu nol**, tipe ambient tidak pernah di-import | hidup/mati mengikuti paket runtime-nya. `@types/X` boleh dibuang **hanya** bila `X` juga dibuang |
+
+Kejadian nyata 2026-09-02: inventaris warisan menyebut `@types/mapbox-gl` mati. Grep simbol membuktikan sebaliknya — `mapbox-gl` diimpor `src/components/Route3DViewer.tsx`, yang melayani rute `src/app/3d/[slug]`. Membuangnya akan merusak rute produksi.
+
+**Nol importer bukan bukti tunggal.** Sebelum memutuskan sebuah paket bisa dibuang, jalankan `npm ls <pkg>` — paket yang nol importer bisa tetap wajib ada karena paket lain menuntutnya.
+
+**6. Fakta terukur 2026-09-02 — FINAL, jangan diverifikasi ulang.** Diukur langsung pada commit `690efb1e` (`fix/dec002-authority-and-dead-weight`), tiga kali build berturut-turut:
+
+| Fakta | Nilai |
+|---|---|
+| Halaman statis ter-generate | **106/106** |
+| Entri tabel rute build | **104** |
+| Dihapus di Fase 5a | **139 file · 378.498 byte** |
+| Commit Fase 5a | **4** — `bae18b71`, `690efb1e` (jvto-web) · `c6c60d57`, `457080dc` (ekosistem) |
+
+Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum itu: pakai angkanya, jangan bangun ulang baseline-nya.
 
 ## Deploy — biaya setiap commit
 
