@@ -123,7 +123,8 @@ Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum i
 
 ## Deploy — biaya setiap commit
 
-- **Push ke `live` (jvto-web) = deploy produksi.** `deploy.yml` SSH ke VPS, `git reset --hard`, `npm ci`, build, restart pm2. Antre, tidak membatalkan.
+- **Push ke `live` (jvto-web) = deploy produksi.** `deploy.yml` SSH ke VPS, `git reset --hard`, `npm ci`, build, restart pm2. Antre, tidak membatalkan. **Tidak ada `paths-ignore`** — commit dokumen, `CLAUDE.md`, atau `.claude/rules/` pun membayar satu siklus deploy penuh. Gabungkan pekerjaan dokumen dengan pekerjaan kode; jangan push satu paragraf sendirian.
+- **Merge beberapa branch = merge lokal semuanya dulu, lalu SATU push.** Verifikasi hasil merge (bukan hasil tiap branch), baru push. Dua push berurutan membayar dua deploy untuk hasil akhir yang sama.
 - **Commit apa pun ke `main` (ekosistem) = deploy penuh + revalidasi 294 rute ke jvto-web.** `paths-ignore` di `deploy-vps.yml` TIDAK memuat `docs/**`, jadi commit dokumen pun memicunya. Gabungkan pekerjaan ekosistem jadi satu commit; tiap commit terpisah membayar satu siklus deploy.
 
 ## Scope guardrails
@@ -146,6 +147,8 @@ Verifikasi ulang hanya bila ada perubahan kode **setelah** `690efb1e`. Sebelum i
 
 ## Working posture
 
+- **Simulasikan, jangan tanya.** Kalau ada alat yang bisa membuktikan sesuatu aman — `git merge-tree --write-tree`, `npm run build`, `--dry-run`, merge lokal yang belum di-push — jalankan alatnya. Simulasi **menggantikan** pertanyaan, bukan mendahuluinya. Simulasi bersih + tujuan akhir tunggal = **eksekusi, lapor hasilnya**.
+- **Jangan pecah satu tujuan jadi menu langkah.** "Push branch saja" vs "push + merge" bukan dua pilihan kalau kodenya memang untuk dipakai — itu satu tujuan yang dipaksa diputuskan dua kali, dan menyisakan branch menggantung. Yang tetap wajib gerbang hanya keputusan yang benar-benar milik pemilik: dependency, izin, penghapusan data, biaya keluar-repo. Bukan urutan langkah.
 - **Bedah dulu, baru tanya.** Sebelum meminta keputusan: sebutkan file apa yang disentuh, apa yang bisa rusak, dan berapa biayanya (termasuk deploy yang terpicu). Menyodorkan menu tanpa membedah opsinya menghasilkan keputusan yang lebih buruk, bukan lebih cepat.
 - **Satu opsi = satu jenis keputusan.** Perubahan izin, dependency, atau kredensial TIDAK BOLEH menumpang opsi rutin.
 - **Yang butuh persetujuan tertulis bukan item menu.** Kalau guardrail mensyaratkan persetujuan (mis. dependency), sajikan sebagai permintaan izin, bukan pilihan setara.
