@@ -233,3 +233,8 @@ open_items:
       ikut naik lewat eslint ^9). Tetap perubahan dependency, jadi tetap butuh persetujuan tertulis.
       CATATAN ANGKA: catatan lama "npm audit lokal 2 (1 moderate 1 high)" sudah basi — diukur hari
       ini npm audit penuh 5 (1 moderate, 4 high), --omit=dev 4 high. Jangan kutip angka 2 lagi.
+      MENUNGGU PEMINDAIAN ULANG DEPENDABOT (2026-09-03): eslint sudah naik ke 9.39.5 dan
+      @humanfs/node ke 0.16.8 lewat 95d6f5e3, ter-deploy pada run 33668759892. Angka 7 di atas BELUM
+      diperbarui dengan sengaja — Rule 9 melarang menutup klaim sebelum pemindai hidup
+      mengonfirmasinya. Jangan tulis angka final sampai Dependabot memindai ulang branch live dan
+      alert #124 benar-benar tertutup di sana.
