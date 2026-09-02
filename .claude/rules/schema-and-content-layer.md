@@ -47,7 +47,7 @@ When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally
 | Tour detail | `src/lib/schemas/buildTourSchemas.ts` | `src/lib/tourFaqs.ts` (`getTourSpineQaPairs`) |
 | Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
 | Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
-| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | ekosistem `why-jvto/*.source.json` + individual `@type:Review` nodes on `/reviews` |
+| Why-JVTO | **tidak ada builder lokal** — kesembilan `page.tsx` cluster ini menyuntik lewat `PageJsonLdCombined` (ekosistem). `buildWhyJvtoSchemas.ts` dihapus 2026-09-02: nol importer | ekosistem `why-jvto/*.source.json` + individual `@type:Review` nodes on `/reviews` |
 | Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | ekosistem `travel-guide/*.source.json` |
 | Policy | `src/lib/schemas/buildPolicySchemas.ts` | ekosistem `policies/*` |
 | Destinations | `src/lib/schemas/buildDestinationsSchemas.ts` | `getEcosystemDestinationDetail()` |
