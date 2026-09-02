@@ -46,6 +46,7 @@ next-env.d.ts
 # @prisma/client's own postinstall, which regenerates the right engine for the
 # host — the VPS gets its Linux engine that way, not from git.
 src/generated/prisma/query_engine-windows.dll.node
+src/generated/prisma/libquery_engine-darwin-arm64.dylib.node
 src/generated/prisma/*.tmp*
 
 # Remember plugin runtime logs
