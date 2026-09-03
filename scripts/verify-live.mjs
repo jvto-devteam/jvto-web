@@ -58,6 +58,7 @@ function parseArgs(argv) {
     quiet: false,
   };
   let rawConcurrency = null;
+  let rawLimit = null;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     // Consume the next argv entry as this flag's value, or refuse. Without this,
@@ -65,11 +66,14 @@ function parseArgs(argv) {
     // 1, which is the code that means "checks failed", while --routes and --json
     // were silently ignored — --json wrote no file and said nothing. Exit 2 keeps
     // "you invoked me wrong" separate from "the site is wrong".
+    // An empty string is rejected for the same reason: `--base ""` passed the
+    // undefined check, produced relative targets, and crashed later in new URL()
+    // as an unhandled rejection — exit 1 again, the site's code, for a usage error.
     // A lone "-" is a real value (stdin for --routes), so only "--" prefixes are
     // treated as a missing value.
     const value = (flag) => {
       const v = argv[i + 1];
-      if (v === undefined || v.startsWith("--")) {
+      if (v === undefined || v === "" || v.startsWith("--")) {
         console.error(`${flag} needs a value — refusing to run`);
         process.exit(2);
       }
@@ -85,7 +89,10 @@ function parseArgs(argv) {
       rawConcurrency = value("--concurrency");
       opts.concurrency = Number(rawConcurrency);
     }
-    else if (a === "--limit") opts.limit = Number(value("--limit"));
+    else if (a === "--limit") {
+      rawLimit = value("--limit");
+      opts.limit = Number(rawLimit);
+    }
     else {
       console.error(`unknown argument: ${a}`);
       process.exit(2);
@@ -104,6 +111,34 @@ function parseArgs(argv) {
   if (rawConcurrency !== null && (!Number.isFinite(opts.concurrency) || opts.concurrency < 1)) {
     console.error(
       `--concurrency must be a number >= 1, got ${JSON.stringify(rawConcurrency)} — refusing to run`,
+    );
+    process.exit(2);
+  }
+  // The same guard on --limit, which was left open when --concurrency got one.
+  // `--limit 0.5` reached routeList.slice(0, 0.5), which truncates to an empty
+  // array — so a non-empty route list still produced "0 pass, 0 fail" and exit 0,
+  // and the empty-list guard in loadRoutes could not see it because the list was
+  // full when it looked. `--limit abc` was ignored outright. Measured 2026-09-03.
+  if (rawLimit !== null && (!Number.isInteger(opts.limit) || opts.limit < 1)) {
+    console.error(
+      `--limit must be a whole number >= 1, got ${JSON.stringify(rawLimit)} — refusing to run`,
+    );
+    process.exit(2);
+  }
+  // Reject a --base that cannot be parsed, rather than letting every target
+  // become relative and fail one by one inside new URL() later. The protocol
+  // check is not redundant: new URL("localhost:3123") parses happily, taking
+  // "localhost:" as the scheme and "3123" as the path, and every route then came
+  // back FAIL — a bad argument reported as a broken site. Measured 2026-09-03.
+  let parsedBase = null;
+  try {
+    parsedBase = new URL(opts.base);
+  } catch {
+    /* handled below */
+  }
+  if (!parsedBase || (parsedBase.protocol !== "http:" && parsedBase.protocol !== "https:")) {
+    console.error(
+      `--base must be an http(s) URL, got ${JSON.stringify(opts.base)} — refusing to run`,
     );
     process.exit(2);
   }

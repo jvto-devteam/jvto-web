@@ -8,8 +8,11 @@
 // Exit codes are the contract with Claude Code:
 //   0 -> nothing to say
 //   2 -> blocking error; whatever we write to stderr is fed back to Claude
-// Any other non-zero is treated as a hook malfunction, so failures to *run*
-// tsc deliberately exit 0 with a note rather than masquerading as type errors.
+// A failure to *run* tsc exits 2, not 0: a gate that did not run is not a gate
+// that passed. The single exception is a project with no TypeScript installed,
+// which is detected before spawning and skipped quietly — see `tscBin` below.
+// (This paragraph said the opposite until 2026-09-03, when a 1 MB buffer
+// overflow made the hook report clean against 15,000 real type errors.)
 
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
@@ -61,41 +64,41 @@ if (filePath) {
 
 if (!existsSync(path.join(projectDir, "tsconfig.json"))) process.exit(0);
 
-const result = spawnSync(
-  process.platform === "win32" ? "npx.cmd" : "npx",
-  ["--no-install", "tsc", "--noEmit"],
-  {
-    cwd: projectDir,
-    encoding: "utf8",
-    shell: process.platform === "win32",
-    // The default is 1 MB, and this repo blew through it: 15,000 deliberate type
-    // errors produced 1,578,894 bytes of tsc output, spawnSync failed with
-    // ENOBUFS, and the hook exited 0 — reporting clean at the exact moment it had
-    // the most to catch. Measured 2026-09-03.
-    maxBuffer: 10 * 1024 * 1024,
-  },
-);
-
-// Absence of the toolchain is the ONLY reason to stay quiet: a repo without tsc
-// installed should not have every edit blocked. Everything else that stopped tsc
-// from running is a broken gate, and a broken gate must block rather than pass.
+// Run the project's OWN TypeScript, not whatever npx resolves. `npx --no-install
+// tsc` reaches out to PATH and can find an unrelated program of the same name —
+// on this machine a global `tsc` that prints a red "This is not the tsc command
+// you are looking for" banner. A checkout without node_modules therefore had
+// every Write/Edit blocked by that banner, presented as type errors, even for a
+// file with nothing wrong with it. Measured 2026-09-03.
 //
-// ENOENT alone does not detect absence here. With shell:true — which this hook
-// uses on Windows — a missing command returns status 1 with cmd.exe's "is not
-// recognized" on stderr and no `error` at all; ENOENT only surfaces when
-// shell:false. Verified 2026-09-03. So absence is matched on the message too.
-const NOT_INSTALLED = [
-  /is not recognized as an internal or external command/i,
-  /command not found/i,
-  /could not determine executable to run/i,
-];
+// This one existsSync is also the whole absence check. The previous version
+// matched cmd.exe's English error text, which was wrong twice over: it broke on
+// a non-English console, and it was tested against stdout as well as stderr — so
+// a genuine type error whose message merely contained "command not found" was
+// read as a missing toolchain and the hook exited 0, hiding it. Resolving the
+// binary by path removes both failure modes rather than narrowing them.
+const tscBin = path.join(projectDir, "node_modules", "typescript", "bin", "tsc");
+if (!existsSync(tscBin)) {
+  console.log("[typecheck hook] typescript not installed here; typecheck skipped");
+  process.exit(0);
+}
+
+const result = spawnSync(process.execPath, [tscBin, "--noEmit"], {
+  cwd: projectDir,
+  encoding: "utf8",
+  // The default is 1 MB, and this repo blew through it: 15,000 deliberate type
+  // errors produced 1,578,894 bytes of tsc output, spawnSync failed with
+  // ENOBUFS, and the hook exited 0 — reporting clean at the exact moment it had
+  // the most to catch. Measured 2026-09-03.
+  maxBuffer: 10 * 1024 * 1024,
+});
+
 const combined = `${result.stdout ?? ""}${result.stderr ?? ""}`;
 
+// Absence was already handled above, so anything that stops tsc here is a broken
+// gate, and a broken gate blocks. There is no quiet path left: the interpreter is
+// process.execPath and the script is one we just proved exists.
 if (result.error) {
-  if (result.error.code === "ENOENT") {
-    console.log("[typecheck hook] npx not found; typecheck skipped");
-    process.exit(0);
-  }
   process.stderr.write(
     [
       `typecheck hook could not run tsc: ${result.error.message}`,
@@ -104,11 +107,6 @@ if (result.error) {
     ].join("\n"),
   );
   process.exit(2);
-}
-
-if (result.status !== 0 && NOT_INSTALLED.some((re) => re.test(combined))) {
-  console.log("[typecheck hook] tsc not installed here; typecheck skipped");
-  process.exit(0);
 }
 
 if (result.status === 0) {
