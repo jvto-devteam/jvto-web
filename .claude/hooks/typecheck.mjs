@@ -64,11 +64,50 @@ if (!existsSync(path.join(projectDir, "tsconfig.json"))) process.exit(0);
 const result = spawnSync(
   process.platform === "win32" ? "npx.cmd" : "npx",
   ["--no-install", "tsc", "--noEmit"],
-  { cwd: projectDir, encoding: "utf8", shell: process.platform === "win32" },
+  {
+    cwd: projectDir,
+    encoding: "utf8",
+    shell: process.platform === "win32",
+    // The default is 1 MB, and this repo blew through it: 15,000 deliberate type
+    // errors produced 1,578,894 bytes of tsc output, spawnSync failed with
+    // ENOBUFS, and the hook exited 0 — reporting clean at the exact moment it had
+    // the most to catch. Measured 2026-09-03.
+    maxBuffer: 10 * 1024 * 1024,
+  },
 );
 
+// Absence of the toolchain is the ONLY reason to stay quiet: a repo without tsc
+// installed should not have every edit blocked. Everything else that stopped tsc
+// from running is a broken gate, and a broken gate must block rather than pass.
+//
+// ENOENT alone does not detect absence here. With shell:true — which this hook
+// uses on Windows — a missing command returns status 1 with cmd.exe's "is not
+// recognized" on stderr and no `error` at all; ENOENT only surfaces when
+// shell:false. Verified 2026-09-03. So absence is matched on the message too.
+const NOT_INSTALLED = [
+  /is not recognized as an internal or external command/i,
+  /command not found/i,
+  /could not determine executable to run/i,
+];
+const combined = `${result.stdout ?? ""}${result.stderr ?? ""}`;
+
 if (result.error) {
-  console.log(`[typecheck hook] could not run tsc: ${result.error.message}`);
+  if (result.error.code === "ENOENT") {
+    console.log("[typecheck hook] npx not found; typecheck skipped");
+    process.exit(0);
+  }
+  process.stderr.write(
+    [
+      `typecheck hook could not run tsc: ${result.error.message}`,
+      "The type-check gate did not run. Treat this as a failure, not a pass.",
+      "",
+    ].join("\n"),
+  );
+  process.exit(2);
+}
+
+if (result.status !== 0 && NOT_INSTALLED.some((re) => re.test(combined))) {
+  console.log("[typecheck hook] tsc not installed here; typecheck skipped");
   process.exit(0);
 }
 
@@ -79,7 +118,7 @@ if (result.status === 0) {
 
 // tsc prints diagnostics on stdout. Send them back on stderr, which is the
 // channel Claude Code reads on exit 2.
-const diagnostics = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
+const diagnostics = combined.trim();
 const lines = diagnostics.split(/\r?\n/);
 const shown = lines.slice(0, 40).join("\n");
 const omitted = lines.length > 40 ? `\n… ${lines.length - 40} more line(s)` : "";

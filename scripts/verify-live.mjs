@@ -60,16 +60,32 @@ function parseArgs(argv) {
   let rawConcurrency = null;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
+    // Consume the next argv entry as this flag's value, or refuse. Without this,
+    // a missing value became `undefined`: --base then threw a TypeError and exited
+    // 1, which is the code that means "checks failed", while --routes and --json
+    // were silently ignored — --json wrote no file and said nothing. Exit 2 keeps
+    // "you invoked me wrong" separate from "the site is wrong".
+    // A lone "-" is a real value (stdin for --routes), so only "--" prefixes are
+    // treated as a missing value.
+    const value = (flag) => {
+      const v = argv[i + 1];
+      if (v === undefined || v.startsWith("--")) {
+        console.error(`${flag} needs a value — refusing to run`);
+        process.exit(2);
+      }
+      i += 1;
+      return v;
+    };
     if (a === "--sitemap") opts.sitemap = true;
     else if (a === "--quiet") opts.quiet = true;
-    else if (a === "--base") opts.base = argv[++i];
-    else if (a === "--routes") opts.routes = argv[++i];
-    else if (a === "--json") opts.json = argv[++i];
+    else if (a === "--base") opts.base = value("--base");
+    else if (a === "--routes") opts.routes = value("--routes");
+    else if (a === "--json") opts.json = value("--json");
     else if (a === "--concurrency") {
-      rawConcurrency = argv[++i];
+      rawConcurrency = value("--concurrency");
       opts.concurrency = Number(rawConcurrency);
     }
-    else if (a === "--limit") opts.limit = Number(argv[++i]);
+    else if (a === "--limit") opts.limit = Number(value("--limit"));
     else {
       console.error(`unknown argument: ${a}`);
       process.exit(2);
@@ -204,6 +220,16 @@ const normalizePath = (p) => {
   return stripped === "" ? "/" : stripped;
 };
 
+// Compare canonical against og:url on the same footing the path check uses.
+// Byte equality after a normalized path check meant a pair differing only by a
+// trailing slash passed one test and failed the next, and got reported as
+// "disagrees" though both name the same page. Origin and query still count, so a
+// genuine mismatch is still caught.
+const normalizeUrl = (u) => {
+  const url = new URL(u);
+  return `${url.origin}${normalizePath(url.pathname)}${url.search}`;
+};
+
 // ------------------------------------------------------------------ checks
 
 function checkRoute(target, status, html) {
@@ -232,8 +258,8 @@ function checkRoute(target, status, html) {
   else if (!/^https?:\/\//i.test(ogUrl)) failures.push(`og:url not absolute: ${ogUrl}`);
   else if (normalizePath(new URL(ogUrl).pathname) !== wantPath)
     failures.push(`og:url points elsewhere: ${ogUrl}`);
-  else if (canonical && ogUrl !== canonical)
-    failures.push(`og:url disagrees with canonical: ${ogUrl}`);
+  else if (canonical && /^https?:\/\//i.test(canonical) && normalizeUrl(ogUrl) !== normalizeUrl(canonical))
+    failures.push(`og:url disagrees with canonical: ${ogUrl} vs ${canonical}`);
 
   // title
   if (!title) failures.push("title missing or empty");
