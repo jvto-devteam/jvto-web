@@ -47,6 +47,73 @@ const DESCRIPTION_MAX = 160;
 
 // ---------------------------------------------------------------- arguments
 
+// More parallel sockets than this against one origin stops being a measurement
+// and starts being a load test. The full 302-route sweep takes ~17s at the
+// default of 6, so the ceiling exists to bound the damage of a typo, not to
+// serve any real workload.
+const MAX_CONCURRENCY = 64;
+
+const wholeNumber = (min, max) => (n) =>
+  Number.isInteger(n) && n >= min && (max === undefined || n <= max);
+
+// A base has to be an origin and nothing more. `https://site/blog` parsed fine
+// and satisfied a protocol-only check, after which every target became
+// /blog/<route> and the run reported non-200s and exited 1 — an invalid argument
+// wearing the exit code that means the site is broken. Measured 2026-09-03.
+// new URL("localhost:3123") also parses, taking "localhost:" as the scheme, so
+// the protocol test is load-bearing too.
+const bareOrigin = (v) => {
+  let u;
+  try {
+    u = new URL(v);
+  } catch {
+    return false;
+  }
+  return (
+    (u.protocol === "http:" || u.protocol === "https:") &&
+    u.pathname === "/" &&
+    u.search === "" &&
+    u.hash === "" &&
+    u.username === "" &&
+    u.password === ""
+  );
+};
+
+const BASE_EXPECTED = "an http(s) origin with no path, query or fragment";
+
+// One table, one loop, one error path. Every flag declares how to read its value
+// and what counts as valid, because the previous shape — a hand-written block per
+// flag — guaranteed the omission it produced: --limit went unguarded while
+// --concurrency got a guard, and when both existed they disagreed, one testing
+// Number.isFinite and the other Number.isInteger. `--concurrency 1e10` walked
+// through that gap into Array.from({ length: 1e10 }) and an unhandled
+// RangeError at exit 1. A new flag added here cannot skip validation by being
+// forgotten; it can only skip it by declaring none.
+const FLAGS = {
+  "--sitemap": { boolean: true, key: "sitemap" },
+  "--quiet": { boolean: true, key: "quiet" },
+  "--base": { key: "base", validate: bareOrigin, expected: BASE_EXPECTED },
+  "--routes": { key: "routes" },
+  "--json": { key: "json" },
+  "--concurrency": {
+    key: "concurrency",
+    coerce: Number,
+    validate: wholeNumber(1, MAX_CONCURRENCY),
+    expected: `a whole number from 1 to ${MAX_CONCURRENCY}`,
+  },
+  "--limit": {
+    key: "limit",
+    coerce: Number,
+    validate: wholeNumber(1),
+    expected: "a whole number >= 1",
+  },
+};
+
+const refuse = (message) => {
+  console.error(`${message} — refusing to run`);
+  process.exit(2);
+};
+
 function parseArgs(argv) {
   const opts = {
     base: DEFAULT_BASE,
@@ -57,90 +124,40 @@ function parseArgs(argv) {
     json: null,
     quiet: false,
   };
-  let rawConcurrency = null;
-  let rawLimit = null;
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
-    // Consume the next argv entry as this flag's value, or refuse. Without this,
-    // a missing value became `undefined`: --base then threw a TypeError and exited
-    // 1, which is the code that means "checks failed", while --routes and --json
-    // were silently ignored — --json wrote no file and said nothing. Exit 2 keeps
-    // "you invoked me wrong" separate from "the site is wrong".
-    // An empty string is rejected for the same reason: `--base ""` passed the
-    // undefined check, produced relative targets, and crashed later in new URL()
-    // as an unhandled rejection — exit 1 again, the site's code, for a usage error.
-    // A lone "-" is a real value (stdin for --routes), so only "--" prefixes are
-    // treated as a missing value.
-    const value = (flag) => {
-      const v = argv[i + 1];
-      if (v === undefined || v === "" || v.startsWith("--")) {
-        console.error(`${flag} needs a value — refusing to run`);
-        process.exit(2);
-      }
-      i += 1;
-      return v;
-    };
-    if (a === "--sitemap") opts.sitemap = true;
-    else if (a === "--quiet") opts.quiet = true;
-    else if (a === "--base") opts.base = value("--base");
-    else if (a === "--routes") opts.routes = value("--routes");
-    else if (a === "--json") opts.json = value("--json");
-    else if (a === "--concurrency") {
-      rawConcurrency = value("--concurrency");
-      opts.concurrency = Number(rawConcurrency);
+    const flag = argv[i];
+    const spec = FLAGS[flag];
+    if (!spec) refuse(`unknown argument: ${flag}`);
+    if (spec.boolean) {
+      opts[spec.key] = true;
+      continue;
     }
-    else if (a === "--limit") {
-      rawLimit = value("--limit");
-      opts.limit = Number(rawLimit);
+    // A missing value used to become `undefined`: --base threw a TypeError and
+    // exited 1, the code that means "checks failed", while --routes and --json
+    // were swallowed. An empty string did the same. A lone "-" is a real value
+    // (stdin for --routes), so only "--" prefixes count as a missing value.
+    const raw = argv[i + 1];
+    if (raw === undefined || raw === "" || raw.startsWith("--")) {
+      refuse(`${flag} needs a value`);
     }
-    else {
-      console.error(`unknown argument: ${a}`);
-      process.exit(2);
+    i += 1;
+    const parsed = spec.coerce ? spec.coerce(raw) : raw;
+    if (spec.validate && !spec.validate(parsed)) {
+      refuse(`${flag} must be ${spec.expected}, got ${JSON.stringify(raw)}`);
     }
+    opts[spec.key] = parsed;
   }
   if (!opts.sitemap && !opts.routes) {
-    console.error("nothing to check: pass --sitemap or --routes <file|->");
-    process.exit(2);
+    refuse("nothing to check: pass --sitemap or --routes <file|->");
   }
-  // Guarded here for the same reason an empty route list is: a run that checks
-  // nothing must refuse, not report a pass. Number("abc") is NaN, and NaN reached
-  // Array.from({ length: NaN }) further down as an empty worker pool — zero fetches,
-  // "0 pass, 0 fail", exit 0. Measured 2026-09-03 with `--concurrency abc` against a
-  // known-404 route: it exited 0. A verification tool that can silently verify
-  // nothing is worse than no tool, because its exit code is what CI trusts.
-  if (rawConcurrency !== null && (!Number.isFinite(opts.concurrency) || opts.concurrency < 1)) {
-    console.error(
-      `--concurrency must be a number >= 1, got ${JSON.stringify(rawConcurrency)} — refusing to run`,
+  // The default base comes from the environment, so it has to clear the same bar
+  // as a supplied one; the loop above only sees --base when it is passed.
+  if (!bareOrigin(opts.base)) {
+    refuse(
+      `base must be ${BASE_EXPECTED}, got ${JSON.stringify(opts.base)} (from ${
+        process.env.NEXT_PUBLIC_SITE_URL ? "NEXT_PUBLIC_SITE_URL" : "the built-in default"
+      })`,
     );
-    process.exit(2);
-  }
-  // The same guard on --limit, which was left open when --concurrency got one.
-  // `--limit 0.5` reached routeList.slice(0, 0.5), which truncates to an empty
-  // array — so a non-empty route list still produced "0 pass, 0 fail" and exit 0,
-  // and the empty-list guard in loadRoutes could not see it because the list was
-  // full when it looked. `--limit abc` was ignored outright. Measured 2026-09-03.
-  if (rawLimit !== null && (!Number.isInteger(opts.limit) || opts.limit < 1)) {
-    console.error(
-      `--limit must be a whole number >= 1, got ${JSON.stringify(rawLimit)} — refusing to run`,
-    );
-    process.exit(2);
-  }
-  // Reject a --base that cannot be parsed, rather than letting every target
-  // become relative and fail one by one inside new URL() later. The protocol
-  // check is not redundant: new URL("localhost:3123") parses happily, taking
-  // "localhost:" as the scheme and "3123" as the path, and every route then came
-  // back FAIL — a bad argument reported as a broken site. Measured 2026-09-03.
-  let parsedBase = null;
-  try {
-    parsedBase = new URL(opts.base);
-  } catch {
-    /* handled below */
-  }
-  if (!parsedBase || (parsedBase.protocol !== "http:" && parsedBase.protocol !== "https:")) {
-    console.error(
-      `--base must be an http(s) URL, got ${JSON.stringify(opts.base)} — refusing to run`,
-    );
-    process.exit(2);
   }
   opts.base = opts.base.replace(/\/+$/, "");
   return opts;
