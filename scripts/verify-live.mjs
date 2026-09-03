@@ -57,6 +57,7 @@ function parseArgs(argv) {
     json: null,
     quiet: false,
   };
+  let rawConcurrency = null;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--sitemap") opts.sitemap = true;
@@ -64,7 +65,10 @@ function parseArgs(argv) {
     else if (a === "--base") opts.base = argv[++i];
     else if (a === "--routes") opts.routes = argv[++i];
     else if (a === "--json") opts.json = argv[++i];
-    else if (a === "--concurrency") opts.concurrency = Number(argv[++i]);
+    else if (a === "--concurrency") {
+      rawConcurrency = argv[++i];
+      opts.concurrency = Number(rawConcurrency);
+    }
     else if (a === "--limit") opts.limit = Number(argv[++i]);
     else {
       console.error(`unknown argument: ${a}`);
@@ -73,6 +77,18 @@ function parseArgs(argv) {
   }
   if (!opts.sitemap && !opts.routes) {
     console.error("nothing to check: pass --sitemap or --routes <file|->");
+    process.exit(2);
+  }
+  // Guarded here for the same reason an empty route list is: a run that checks
+  // nothing must refuse, not report a pass. Number("abc") is NaN, and NaN reached
+  // Array.from({ length: NaN }) further down as an empty worker pool — zero fetches,
+  // "0 pass, 0 fail", exit 0. Measured 2026-09-03 with `--concurrency abc` against a
+  // known-404 route: it exited 0. A verification tool that can silently verify
+  // nothing is worse than no tool, because its exit code is what CI trusts.
+  if (rawConcurrency !== null && (!Number.isFinite(opts.concurrency) || opts.concurrency < 1)) {
+    console.error(
+      `--concurrency must be a number >= 1, got ${JSON.stringify(rawConcurrency)} — refusing to run`,
+    );
     process.exit(2);
   }
   opts.base = opts.base.replace(/\/+$/, "");
