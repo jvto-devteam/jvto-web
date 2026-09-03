@@ -81,6 +81,14 @@ const bareOrigin = (v) => {
 
 const BASE_EXPECTED = "an http(s) origin with no path, query or fragment";
 
+// Strip trailing slashes BEFORE validating, not after. bareOrigin requires
+// pathname === "/", so `https://site//` was refused while the normalizer two
+// steps later existed precisely to accept it — the guard and the normalizer
+// disagreed, and `https://site/` passed only by luck of parsing to "/".
+// Running it as the flag's coerce puts it ahead of validation on the CLI path
+// too, which a normalizer placed after the loop would have missed.
+const normalizeBase = (v) => v.replace(/\/+$/, "");
+
 // One table, one loop, one error path. Every flag declares how to read its value
 // and what counts as valid, because the previous shape — a hand-written block per
 // flag — guaranteed the omission it produced: --limit went unguarded while
@@ -92,7 +100,12 @@ const BASE_EXPECTED = "an http(s) origin with no path, query or fragment";
 const FLAGS = {
   "--sitemap": { boolean: true, key: "sitemap" },
   "--quiet": { boolean: true, key: "quiet" },
-  "--base": { key: "base", validate: bareOrigin, expected: BASE_EXPECTED },
+  "--base": {
+    key: "base",
+    coerce: normalizeBase,
+    validate: bareOrigin,
+    expected: BASE_EXPECTED,
+  },
   "--routes": { key: "routes" },
   "--json": { key: "json" },
   "--concurrency": {
@@ -126,7 +139,12 @@ function parseArgs(argv) {
   };
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i];
-    const spec = FLAGS[flag];
+    // Object.hasOwn, not a bare lookup: FLAGS is an object literal, so
+    // FLAGS["toString"] resolves Object.prototype.toString — truthy, with no
+    // `key` — and `toString foo` sailed past the unknown-argument guard, wrote
+    // opts[undefined] and exited 0. The else-if chain this table replaced used
+    // strict equality and rejected it. Measured 2026-09-03.
+    const spec = Object.hasOwn(FLAGS, flag) ? FLAGS[flag] : undefined;
     if (!spec) refuse(`unknown argument: ${flag}`);
     if (spec.boolean) {
       opts[spec.key] = true;
@@ -150,8 +168,16 @@ function parseArgs(argv) {
   if (!opts.sitemap && !opts.routes) {
     refuse("nothing to check: pass --sitemap or --routes <file|->");
   }
+  // Both sources of routes were accepted together and --routes was then dropped
+  // without a word, so a curated list could be silently replaced by a 302-URL
+  // sitemap sweep. Say which one won.
+  if (opts.sitemap && opts.routes) {
+    console.warn("--sitemap and --routes both given; using the sitemap and ignoring --routes");
+    opts.routes = null;
+  }
   // The default base comes from the environment, so it has to clear the same bar
   // as a supplied one; the loop above only sees --base when it is passed.
+  opts.base = normalizeBase(opts.base);
   if (!bareOrigin(opts.base)) {
     refuse(
       `base must be ${BASE_EXPECTED}, got ${JSON.stringify(opts.base)} (from ${
@@ -159,7 +185,6 @@ function parseArgs(argv) {
       })`,
     );
   }
-  opts.base = opts.base.replace(/\/+$/, "");
   return opts;
 }
 
@@ -360,8 +385,14 @@ let routes;
 try {
   routes = await loadRoutes(opts);
 } catch (e) {
+  // A UsageError means the invocation was wrong: a route list that is empty, a
+  // sitemap that parsed to nothing. Anything else here is the site or the
+  // network failing to answer — an unreachable base exited 2, telling CI "you
+  // called me wrong" for the one condition that should read as "the site is
+  // down". Usage stays 2; a site that will not answer is 1, the same code a
+  // route failing its checks produces. Measured 2026-09-03.
   console.error(e instanceof UsageError ? e.message : String(e));
-  process.exitCode = 2;
+  process.exitCode = e instanceof UsageError ? 2 : 1;
   routes = null;
 }
 
@@ -466,11 +497,26 @@ console.log(
     `${results.length - failed.length} pass, ${failed.length} fail, ${warned.length} with warnings`,
 );
 
-if (opts.json) {
-  writeFileSync(opts.json, JSON.stringify(results, null, 2));
-  console.log(`full results written to ${opts.json}`);
-}
-
 // process.exitCode, never process.exit — see the note on `get()` above.
 process.exitCode = failed.length > 0 ? 1 : 0;
+
+if (opts.json) {
+  // An unwritable destination threw ENOENT out of here after every fetch had
+  // finished, and the process died at exit 127 — no summary, no usable code.
+  // A path that does not exist is a bad argument (2); anything else that stops
+  // the write is a real failure (1). Set after the exit code above so a write
+  // problem overrides a clean run rather than being overwritten by it.
+  try {
+    writeFileSync(opts.json, JSON.stringify(results, null, 2));
+    console.log(`full results written to ${opts.json}`);
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      console.error(`--json path is not writable: ${err.path} — refusing to report a pass`);
+      process.exitCode = 2;
+    } else {
+      console.error(`could not write ${opts.json}: ${err.message}`);
+      process.exitCode = 1;
+    }
+  }
+}
 }
