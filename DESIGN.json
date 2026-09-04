@@ -1,107 +1,53 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-05-02T00:00:00Z",
-  "title": "Design System: JVTO",
+  "generatedAt": "2026-09-04T11:00:00+07:00",
+  "title": "Design System: JVTO v2",
   "extensions": {
     "colorMeta": {
-      "phosphor-green": {
-        "role": "primary",
-        "displayName": "Phosphor Green",
-        "canonical": "oklch(79% 0.19 127)",
-        "tonalRamp": ["#0f2200", "#1e3c00", "#2f5500", "#437100", "#5d8f00", "#7cb00a", "#9fce33", "#c6e877"]
-      },
-      "phosphor-green-hover": {
-        "role": "primary-hover",
-        "displayName": "Phosphor Green (Pressed)",
-        "canonical": "oklch(72% 0.18 127)",
-        "tonalRamp": ["#0f2200", "#1c3a00", "#2d5500", "#406f00", "#598b00", "#74a600", "#8cb82b", "#b9d87a"]
-      },
-      "obsidian": {
-        "role": "neutral-dark",
-        "displayName": "Obsidian",
-        "canonical": "oklch(13% 0.002 0)",
-        "tonalRamp": ["#111111", "#1a1a1a", "#303030", "#494949", "#636363", "#888888", "#ababab", "#d4d4d4"]
-      },
-      "field-surface": {
-        "role": "neutral-bg",
-        "displayName": "Field Surface",
-        "canonical": "oklch(96% 0.002 0)",
-        "tonalRamp": ["#1c1c1c", "#323232", "#4e4e4e", "#6b6b6b", "#8e8e8e", "#b5b5b5", "#d9d9d9", "#f5f5f5"]
-      },
-      "field-text": {
-        "role": "neutral-text",
-        "displayName": "Field Text",
-        "canonical": "oklch(24% 0.003 0)",
-        "tonalRamp": ["#111111", "#1a1a1a", "#333333", "#4d4d4d", "#737373", "#999999", "#c4c4c4", "#e8e8e8"]
-      },
-      "neutral-white": {
-        "role": "neutral-surface",
-        "displayName": "Pure White",
-        "canonical": "oklch(100% 0 0)",
-        "tonalRamp": ["#1a1a1a", "#303030", "#505050", "#757575", "#9c9c9c", "#c0c0c0", "#e0e0e0", "#ffffff"]
-      },
-      "neutral-muted": {
-        "role": "neutral-secondary",
-        "displayName": "Muted Label",
-        "canonical": "oklch(51% 0.007 264)",
-        "tonalRamp": ["#111214", "#1f2025", "#2f3138", "#464850", "#6b7280", "#9ca3af", "#d1d5db", "#f9fafb"]
-      }
+      "jvto-navy": { "role": "ink/authority", "displayName": "Navy", "canonical": "#0D1B2A", "adopted": true },
+      "jvto-navy-mid": { "role": "secondary-dark", "displayName": "Navy Mid", "canonical": "#1C2E40", "adopted": true },
+      "jvto-navy-raise": { "role": "card-on-navy", "displayName": "Navy Raise", "canonical": "#17293B", "adopted": true },
+      "jvto-navy-deep": { "role": "dark-floor", "displayName": "Navy Deep", "canonical": "#071019", "adopted": true },
+      "jvto-navy-forensic": { "role": "verify-jvto-ground", "displayName": "Navy Forensic", "canonical": "#0A1520", "adopted": false, "note": "Declared for /verify-jvto; zero call sites outside website.css as of 2026-09-04." },
+      "jvto-orange": { "role": "secondary-accent", "displayName": "Orange", "canonical": "#E8650A", "adopted": true },
+      "jvto-orange-hover": { "role": "secondary-accent-hover", "displayName": "Orange Hover", "canonical": "#C4520A", "adopted": true },
+      "jvto-orange-ink": { "role": "orange-as-text", "displayName": "Orange Ink", "canonical": "#B64400", "adopted": true, "note": "AA-safe text variant: 5.50:1 on white, 5.05:1 on canvas." },
+      "jvto-lime": { "role": "primary-action", "displayName": "Lime", "canonical": "#8CC63F", "adopted": true },
+      "jvto-lime-ink": { "role": "lime-as-text", "displayName": "Lime Ink", "canonical": "#4E7A12", "adopted": true, "note": "AA-safe text variant: 5.10:1 on white." },
+      "jvto-gold": { "role": "reserved", "displayName": "Gold", "canonical": "#F5A623", "adopted": false, "note": "Declared, zero call sites outside website.css." },
+      "jvto-gold-ink": { "role": "reserved", "displayName": "Gold Ink", "canonical": "#8A6100", "adopted": false, "note": "AA-safe pairing for jvto-gold (5.54:1 white / 5.08:1 canvas); zero call sites." },
+      "jvto-wa-green": { "role": "reserved", "displayName": "WhatsApp Green", "canonical": "#25D366", "adopted": false, "note": "Presumably intended for a WhatsApp CTA; zero call sites outside website.css." },
+      "jvto-off": { "role": "canvas", "displayName": "Off White", "canonical": "#F6F5F2", "adopted": true },
+      "jvto-muted": { "role": "secondary-text", "displayName": "Muted", "canonical": "#4B5563", "adopted": true },
+      "jvto-ink-soft": { "role": "secondary-text-soft", "displayName": "Ink Soft", "canonical": "#5A6472", "adopted": true, "note": "Only 1 call site as of 2026-09-04 — thin adoption, not dead." },
+      "jvto-border": { "role": "hairline", "displayName": "Border", "canonical": "#E3E0DA", "adopted": true },
+      "jvto-rule": { "role": "reserved", "displayName": "Rule", "canonical": "#D4CFC5", "adopted": false, "note": "Declared, zero call sites outside website.css." },
+      "jvto-on-navy": { "role": "reserved", "displayName": "On Navy", "canonical": "#C3CBD4", "adopted": false, "note": "Declared for copy/chrome on navy; zero call sites — components on navy currently use text-white or Tailwind slate/emerald/amber/red directly." },
+      "jvto-on-navy-dim": { "role": "reserved", "displayName": "On Navy Dim", "canonical": "#9AA5B1", "adopted": false, "note": "Declared, zero call sites." },
+      "jvto-status-normal": { "role": "status-ladder", "displayName": "Status: Normal", "canonical": "#2F6B3A", "adopted": false, "note": "Declared status ladder not wired to VolcanicStatusBadge.tsx, which uses raw Tailwind emerald/amber/red instead." },
+      "jvto-status-advisory": { "role": "status-ladder", "displayName": "Status: Advisory", "canonical": "#8A6100", "adopted": false, "note": "No matching state exists in VolcanicStatusBadge's STATUS_CONFIG at all." },
+      "jvto-status-restricted": { "role": "status-ladder", "displayName": "Status: Restricted", "canonical": "#B64400", "adopted": false, "note": "See jvto-status-normal note." },
+      "jvto-status-closed": { "role": "status-ladder", "displayName": "Status: Closed", "canonical": "#9C2B1C", "adopted": false, "note": "See jvto-status-normal note." },
+      "jvto-status-unknown": { "role": "status-ladder", "displayName": "Status: Unknown", "canonical": "#5A6472", "adopted": false, "note": "No matching state exists in VolcanicStatusBadge's STATUS_CONFIG at all." }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "Hero headings and primary section titles. Weight 900 + uppercase creates authority without requiring extreme scale."
-      },
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "Section headings, feature card titles."
-      },
-      "title": {
-        "displayName": "Title",
-        "purpose": "Card headings, sub-section labels."
-      },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Narrative text, tour descriptions, FAQ answers. Cap at 65-75ch on reading-heavy pages."
-      },
-      "label": {
-        "displayName": "Label",
-        "purpose": "UI chrome only: buttons, badges, nav items, category tags. All-caps at 11px with wide tracking."
-      }
+      "sans": { "displayName": "Inter", "purpose": "Body copy, form controls, default UI text. Variable weight (no fixed weight array) so font-medium through font-black resolve to real cuts." },
+      "display": { "displayName": "Raleway", "purpose": "Editorial headings, prices, stat numbers, review quotes." },
+      "mono": { "displayName": "JetBrains Mono", "purpose": "UI chrome: labels, keys, section numbers, badges, footers, credential/verification data. Never narrative prose." }
     },
     "shadows": [
-      {
-        "name": "hover-lift",
-        "value": "0 20px 60px rgba(0,0,0,0.12)",
-        "purpose": "Interactive cards and tour items on hover. Paired with translateY(-4px)."
-      },
-      {
-        "name": "floating-surface",
-        "value": "0 25px 50px rgba(0,0,0,0.25)",
-        "purpose": "Mega menu dropdowns, modals — surfaces that communicate z-plane separation."
-      },
-      {
-        "name": "grounding-tint",
-        "value": "0 2px 8px rgba(0,0,0,0.06)",
-        "purpose": "Optional ambient anchor for cards in dense grids. Use conservatively."
-      }
+      { "name": "jvto", "value": "0 20px 40px -15px rgba(13,27,42,0.10)", "purpose": "Card at rest, .card-jvto." },
+      { "name": "jvto-hover", "value": "0 30px 60px -12px rgba(13,27,42,0.15)", "purpose": ".card-jvto:hover." },
+      { "name": "jvto-orange", "value": "0 20px 40px -10px rgba(232,101,10,0.25)", "purpose": "Orange circular action buttons." },
+      { "name": "jvto-cta", "value": "0 20px 40px -10px rgba(13,27,42,0.20)", "purpose": "Primary CTA emphasis." },
+      { "name": "jvto-stacked", "value": "rgba(13,27,42,0.04) 0 0 0 1px, rgba(13,27,42,0.06) 0 2px 6px 0, rgba(13,27,42,0.12) 0 4px 8px 0", "purpose": "Stacked/layered card treatment." },
+      { "name": "jvto-soft", "value": "0 12px 32px -16px rgba(13,27,42,0.12), 0 2px 6px -2px rgba(13,27,42,0.04)", "purpose": "Softer ambient card shadow (v2 elevation variant)." },
+      { "name": "jvto-card-hover", "value": "0 30px 60px -25px rgba(13,27,42,0.22), 0 4px 12px -4px rgba(13,27,42,0.06)", "purpose": "Newer hover variant, deliberately named apart from jvto-hover to avoid collision." }
     ],
     "motion": [
-      {
-        "name": "ease-default",
-        "value": "0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96)",
-        "purpose": "Default state transitions: color, border, background."
-      },
-      {
-        "name": "ease-quart",
-        "value": "0.2s cubic-bezier(0.77, 0, 0.18, 1)",
-        "purpose": "Hover lifts and card elevations."
-      },
-      {
-        "name": "ease-long",
-        "value": "0.64s cubic-bezier(0.65, 0.05, 0.36, 1)",
-        "purpose": "Navigation open/close, drawer slides."
-      }
+      { "name": "default-transition", "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Tailwind's default transition timing, redeclared unlayered in website.css to out-cascade a TipTap :root * { transition: none } injection." },
+      { "name": "card-jvto-hover", "value": "500ms ease", "purpose": "box-shadow and transform on .card-jvto hover." },
+      { "name": "dest-card-expand", "value": "500ms ease", "purpose": "flex-grow and border-radius on .dest-card hover — the one deliberate exception to 'never animate layout properties'." }
     ],
     "breakpoints": [
       { "name": "sm", "value": "640px" },
@@ -113,108 +59,63 @@
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Button — primary",
       "kind": "button",
-      "refersTo": "button-primary",
-      "description": "The sole conversion CTA. Phosphor green. Used for Book Now, submit, confirm actions.",
-      "html": "<button class=\"ds-btn-primary\">BOOK THIS TOUR</button>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background-color: #9fce33; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96), transform 0.15s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-primary:hover { background-color: #8cb82b; } .ds-btn-primary:focus-visible { outline: 2px solid #9fce33; outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(1px); }"
+      "refersTo": "UI/Button.tsx",
+      "description": "Default action variant. bg-jvto-lime, text-jvto-navy. Hover is a hardcoded #8Cb82b — a leftover v1 hex, not jvto-lime-ink. Flagged in DESIGN.md, not fixed here.",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; border-radius: 2px; background-color: #8CC63F; color: #0D1B2A; padding: 12px 24px; transition: background-color 200ms, color 200ms; } .ds-btn-primary:hover { background-color: #8Cb82b; }"
     },
     {
-      "name": "Secondary Button",
+      "name": "Button — secondary",
       "kind": "button",
-      "refersTo": "button-secondary",
-      "description": "Secondary action. Obsidian fill. Used for View All Tours, navigate, non-booking flows.",
-      "html": "<button class=\"ds-btn-secondary\">VIEW ALL TOURS</button>",
-      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; background-color: #1a1a1a; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-secondary:hover { background-color: #333333; } .ds-btn-secondary:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 3px; }"
+      "refersTo": "UI/Button.tsx",
+      "description": "bg-jvto-navy, white text. Hover bg-gray-800 (stock Tailwind, not a jvto token).",
+      "css": ".ds-btn-secondary { background-color: #0D1B2A; color: #ffffff; border-radius: 2px; padding: 12px 24px; font-weight: 700; text-transform: uppercase; } .ds-btn-secondary:hover { background-color: #1f2937; }"
     },
     {
-      "name": "Outline Button",
-      "kind": "button",
-      "refersTo": "button-outline",
-      "description": "Tertiary action. 2px obsidian border, transparent fill. Fills to obsidian on hover.",
-      "html": "<button class=\"ds-btn-outline\">LEARN MORE</button>",
-      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 10px 22px; border: 2px solid #1a1a1a; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96), color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-outline:hover { background-color: #1a1a1a; color: #ffffff; } .ds-btn-outline:focus-visible { outline: 2px solid #9fce33; outline-offset: 3px; }"
-    },
-    {
-      "name": "Tour Card",
+      "name": "Card — .card-jvto",
       "kind": "card",
-      "refersTo": "card",
-      "description": "Primary content unit for tour listings. Flat at rest, lifts on hover. Used in from-bali and from-surabaya listings.",
-      "html": "<div class=\"ds-tour-card\"><div class=\"ds-tour-card-img\">TOUR IMAGE</div><div class=\"ds-tour-card-body\"><span class=\"ds-tour-card-tag\">PRIVATE TOUR</span><h3 class=\"ds-tour-card-title\">Bromo + Ijen 3D2N</h3><p class=\"ds-tour-card-desc\">Overnight at Bromo, full Ijen trek. Medical check-up included.</p><div class=\"ds-tour-card-footer\"><span class=\"ds-tour-card-price\">From USD 195 / pax</span><button class=\"ds-btn-primary\">BOOK NOW</button></div></div></div>",
-      "css": ".ds-tour-card { background-color: #ffffff; border-radius: 4px; border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s cubic-bezier(0.77, 0, 0.18, 1), box-shadow 0.2s cubic-bezier(0.77, 0, 0.18, 1); } .ds-tour-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.12); } .ds-tour-card-img { width: 100%; height: 200px; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #6b7280; font-family: 'Inter', sans-serif; font-size: 0.75rem; } .ds-tour-card-body { padding: 24px; } .ds-tour-card-tag { display: inline-block; background-color: #f5f5f5; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; } .ds-tour-card-title { font-family: 'Inter', sans-serif; font-size: 1.125rem; font-weight: 800; color: #1a1a1a; margin: 0 0 8px 0; line-height: 1.3; } .ds-tour-card-desc { font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 400; color: #333333; line-height: 1.65; margin: 0 0 16px 0; } .ds-tour-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; } .ds-tour-card-price { font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; color: #1a1a1a; } .ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background-color: #9fce33; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 10px 18px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; } .ds-btn-primary:hover { background-color: #8cb82b; }"
+      "refersTo": "website.css:136",
+      "description": "Flat at rest. Fill jvto-off or white, border jvto-border, radius one of 16px/20px/32px chosen per context. Shadow + transform transition to --shadow-jvto-hover over 500ms.",
+      "css": ".card-jvto { background-color: #F6F5F2; border: 1px solid #E3E0DA; border-radius: 20px; box-shadow: 0 20px 40px -15px rgba(13,27,42,0.10); transition: box-shadow 500ms ease, transform 500ms ease; } .card-jvto:hover { box-shadow: 0 30px 60px -12px rgba(13,27,42,0.15); }"
     },
     {
-      "name": "Trust Badge",
+      "name": "Volcanic Status Badge",
       "kind": "custom",
-      "description": "Verification chip for legal credentials, police association, and review scores. Always links to source. The green checkmark is the signal — its presence means the claim is documented.",
-      "html": "<a href=\"#\" class=\"ds-trust-badge\"><svg class=\"ds-trust-badge-icon\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\" stroke=\"#9fce33\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span class=\"ds-trust-badge-label\">GOVERNMENT LICENSED</span></a>",
-      "css": ".ds-trust-badge { display: inline-flex; align-items: center; gap: 6px; background-color: #f5f5f5; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 10px; text-decoration: none; transition: border-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-trust-badge:hover { border-color: #9fce33; } .ds-trust-badge-icon { flex-shrink: 0; } .ds-trust-badge-label { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #333333; }"
-    },
-    {
-      "name": "Input Field",
-      "kind": "input",
-      "description": "Standard text input. Bordered, flat, 4px radius. Focus shifts border weight — no color glow.",
-      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-input-demo\">FULL NAME</label><input class=\"ds-field-input\" id=\"ds-input-demo\" type=\"text\" placeholder=\"Enter your full name\"/></div>",
-      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; } .ds-field-label { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1a1a; } .ds-field-input { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 400; color: #333333; background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px 14px; outline: none; transition: border-color 0.15s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-field-input::placeholder { color: #9ca3af; } .ds-field-input:focus { border-color: #6b7280; } .ds-field-input:focus-visible { outline: 2px solid #9fce33; outline-offset: 2px; }"
+      "refersTo": "VolcanicStatusBadge.tsx",
+      "description": "Business-domain status chip (operational / restricted / closed). Currently uses raw Tailwind emerald-950/amber-950/red-950, not the jvto-status-* ladder. advisory and unknown states declared in the theme have no matching UI state.",
+      "css": ".ds-status-operational { background-color: #022c22; border: 1px solid #065f46; } .ds-status-restricted { background-color: #451a03; border: 1px solid #92400e; } .ds-status-closed { background-color: #450a0a; border: 1px solid #991b1b; }"
     }
   ],
   "narrative": {
-    "northStar": "The Field Operator's Clipboard",
-    "overview": "This system treats every screen like a pre-expedition briefing document: purposeful, structured, nothing wasted. The visual language of a trusted operator who has run 200 tours doesn't need decoration — it needs clarity. Every element earns its place the same way a line item on a safety checklist earns its place: because it's true, not because it looks good.\n\nThe palette is deliberately minimal. Near-black for authority. A single phosphor green for action and verification. White for content surfaces. Off-white for section breathing room. The green functions like a trail marker in low-visibility conditions — not decorative, immediately readable, trusted because it's functional.\n\nThis system rejects warmth as a design strategy. Warmth compensates for weak trust signals. JVTO's trust signals are documented and verifiable — they don't need softening. The UI should feel the way the operator feels: direct, reliable, ready.",
+    "northStar": "Three surfaces, three jobs — navy for authority, lime for action, orange for warmth",
+    "overview": "v2 replaces a single-signal-color v1 system (near-black obsidian, one phosphor-lime, single-font Inter) that had drifted out of the codebase while its DESIGN.md kept describing it. v2 is documented here directly from the shipped theme: website.css's @theme block, layout.tsx's font wiring, and grep counts against src/. Roughly a third of the declared theme tokens (jvto-gold, jvto-wa-green, the five-state status ladder, jvto-rule, jvto-on-navy*) have zero real call sites — they are legitimate reserved tokens, not dead weight, but should not be presented as load-bearing system rules until something actually uses them.",
     "keyCharacteristics": [
-      "Single-font system (Inter) with weight as the primary hierarchy tool",
-      "Sharp edges throughout — no soft card corners, no rounded-xl on containers",
-      "One active color (phosphor green) as the sole signal color per screen",
-      "Flat surfaces at rest; elevation only appears on interaction",
-      "All-caps labels for UI chrome and buttons",
-      "Content-first layouts with zero decorative elements"
+      "Three-surface color system: navy (authority), lime (primary action), orange (secondary accent)",
+      "Three-typeface split by job: Inter body, Raleway display, JetBrains Mono chrome — not a single weight axis",
+      "Seven CSS custom-property shadows, not Tailwind's default shadow scale",
+      "Two coexisting radius conventions: stock Tailwind (2px/full) plus arbitrary card values (16/20/32px); a declared 12/18/28/40 scale exists but is unadopted",
+      "About a third of declared color tokens are reserved/unadopted, not dead — tracked explicitly rather than silently forgotten",
+      "One deliberate exception to 'never animate layout properties': .dest-card's hover flex-grow expansion"
     ],
     "rules": [
-      {
-        "name": "The One Signal Rule",
-        "body": "Phosphor green appears on at most one interactive element per viewport. Its scarcity is the signal. Decorative use on non-interactive elements is prohibited.",
-        "section": "colors"
-      },
-      {
-        "name": "The Lime Drift Rule",
-        "body": "Some legacy components use bg-lime-400 or bg-lime-600 instead of the canonical #9fce33. These are audit targets. Never mix Tailwind lime-scale utilities with the custom token on the same surface.",
-        "section": "colors"
-      },
-      {
-        "name": "The Weight-as-Hierarchy Rule",
-        "body": "Hierarchy is expressed through Inter's weight axis — not by introducing a second typeface. If a design requires a third weight step to create distinction, the layout has too many levels. Reduce levels; don't add fonts.",
-        "section": "typography"
-      },
-      {
-        "name": "The All-Caps Constraint",
-        "body": "All-caps is reserved for UI chrome: buttons, labels, badges, nav items. Never apply to body copy or any text block longer than six words.",
-        "section": "typography"
-      },
-      {
-        "name": "The Flat-By-Default Rule",
-        "body": "A surface with no interactive function has no shadow. Decorative box-shadows on static cards, dividers, or hero sections are prohibited.",
-        "section": "elevation"
-      }
+      { "name": "Three fonts, three jobs, not three choices", "body": "Inter is body copy and controls, Raleway is editorial display, JetBrains Mono is chrome and credential data. The split is by job, never by taste.", "section": "typography" },
+      { "name": "Reserved tokens are not the palette", "body": "jvto-gold, jvto-wa-green, jvto-rule, jvto-on-navy*, and the status ladder are declared but unadopted. Confirm intent before treating them as the system in new work.", "section": "colors" },
+      { "name": "No invented font-size ramp", "body": "The real type scale is Tailwind's stock text-xs through text-7xl. v1's custom clamp() ramp did not carry forward and should not be reintroduced without evidence.", "section": "typography" },
+      { "name": "TipTap purple stays in (cms)", "body": "--tt-brand-color-* must never appear on public-facing surfaces. Carried forward unchanged from v1.", "section": "elevation" }
     ],
     "dos": [
-      "Do use phosphor green (#9fce33) exclusively for interactive elements and verification markers. One green signal per viewport.",
-      "Do use Inter font-black (weight 900) + uppercase + tracking-wider for section headings and hero copy.",
-      "Do default to rounded-sm (4px) for all interactive and container elements.",
-      "Do keep surfaces flat at rest. Add elevation only on hover.",
-      "Do cap body text line-length at 65-75ch on content-heavy pages.",
-      "Do use bg-jvto-green (#9fce33) — not Tailwind's bg-lime-400 or bg-lime-600.",
-      "Do link every trust badge and credential chip to its source document."
+      "Do use jvto-lime only for primary action affordances — it is the one color reserved for 'go.'",
+      "Do use jvto-orange for secondary accents and meta glyphs, paired with --shadow-jvto-orange on circular buttons.",
+      "Do keep the three-typeface split by job.",
+      "Do reuse one of the seven radii already in DESIGN.md's frontmatter rather than introducing an eighth."
     ],
     "donts": [
-      "Don't use border-left or border-right greater than 1px as a colored stripe accent on cards or callouts.",
-      "Don't round cards or panels beyond rounded-sm. rounded-xl, rounded-2xl, rounded-3xl on containers is prohibited.",
-      "Don't style like a backpacker listing — Viator-style photo tiles with overlay price badges and orange CTAs are exactly what this system rejects.",
-      "Don't use gradient text (background-clip: text). Use a single solid color.",
-      "Don't apply the TipTap purple (--tt-brand-color-*) to public-facing surfaces — it is scoped to the (cms) route only.",
-      "Don't add shadows to non-interactive static elements.",
-      "Don't use identical icon-card grids (same size, repeated 4-8 times).",
-      "Don't animate layout properties (height, width, padding, margin)."
+      "Don't hardcode a lime-family hex as a hover state — UI/Button.tsx:39 already leaked v1's #8Cb82b this way.",
+      "Don't treat reserved/unadopted tokens as the live palette without confirming intent.",
+      "Don't invent a custom font-size ramp.",
+      "Don't apply TipTap's purple outside (cms).",
+      "Don't animate layout properties except .dest-card's one deliberate exception."
     ]
   }
 }
