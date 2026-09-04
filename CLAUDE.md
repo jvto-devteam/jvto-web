@@ -119,9 +119,11 @@ Kejadian nyata 2026-09-02: inventaris warisan menyebut `@types/mapbox-gl` mati. 
 | Dihapus di Fase 5a | **139 file · 378.498 byte** |
 | Commit Fase 5a | **4** — `bae18b71`, `690efb1e` (jvto-web) · `c6c60d57`, `457080dc` (ekosistem) |
 
-**Jangkar diperbarui 2026-09-02:** angka di atas diukur ulang pada hasil merge `0e646a22` di `live` — yang sudah memuat penghapusan 28 dependency (`792c98ed`) **dan** PR #194 (`7d19b466`). Commit sesudahnya di `live` hanya menyentuh dokumen.
+**Jangkar diperbarui 2026-09-04 → `16340ff0`.** Diukur ulang di HEAD `live` sesudah empat commit kode yang membatalkan jangkar sebelumnya (`d11a4d74` pagar `trackVisit`, `61010de4` og:url, `6d7a6a74` verify-live, `55429b20` komentar auth) ditambah bump eslint. Hasilnya **tidak bergeser**: build exit 0, **106/106** halaman, **104** entri rute. Baseline lain pada commit yang sama: `tsc` 0 error, `validate` 52/52, `test:stale` 11/11, `PrismaClientInitializationError` **0 kemunculan**.
 
-Verifikasi ulang wajib bila ada perubahan **kode** setelah `0e646a22`. Angka ini bukan pengecualian dari `STALE-FACTS-CHECKLIST.md` — ia berlaku selama jangkarnya masih HEAD; begitu ada commit kode baru, jangkarnya batal dan checklist yang berlaku lagi. Kalau tidak yakin jangkarnya masih HEAD, **ukur**, jangan kutip.
+Jangkar lama `0e646a22` beserta kalimat "commit sesudahnya hanya menyentuh dokumen" **sudah salah sejak 2026-09-03** — dibiarkan tercatat di sini supaya jelas bahwa aturan ini memang kedaluwarsa sendiri, bukan pengecualian abadi.
+
+Verifikasi ulang wajib bila ada perubahan **kode** setelah `16340ff0`. Angka ini bukan pengecualian dari `STALE-FACTS-CHECKLIST.md` — ia berlaku selama jangkarnya masih HEAD; begitu ada commit kode baru, jangkarnya batal dan checklist yang berlaku lagi. Kalau tidak yakin jangkarnya masih HEAD, **ukur**, jangan kutip.
 
 **7. Bedakan runtime dependency dari deployment dependency — jangan tertukar.**
 
@@ -156,6 +158,8 @@ Berlaku untuk apa pun yang keluar sebagai markup: `og:*`, `canonical`, `hreflang
 
 Sampel wajib menyertakan **kontrol**: minimal satu halaman yang seharusnya TIDAK berubah. Sampel yang semuanya "sebelumnya rusak" tidak bisa membedakan perbaikan dari kerusakan menyeluruh.
 
+**Alatnya sudah ada, jangan tulis ulang:** `npm run verify:live -- --sitemap` menyapu seluruh sitemap dan mengasersikan HTTP 200, `canonical`, `og:url`, `<title>`, dan JSON-LD per rute. Exit `0` lulus · `1` situs gagal · `2` argumen salah. Untuk sampel kecil: `--routes <file|->`. Kontrak lengkapnya — daftar flag, arti tiap exit code, apa yang **tidak** diperiksa (`og:image`, `twitter:image`, `hreflang`, `robots`, `og:type`) — di `docs/tooling/verify-live-spec.md`. **Sapuan hijau bukan bukti tentang tag yang tidak diperiksa alat ini.**
+
 **9. `DONE`/tertutup hanya setelah bukti dari server hidup — bukti lokal tidak pernah cukup.**
 
 `tsc` hijau, `build` exit 0, `validate` 52/52, `test:stale` 11/11, bahkan sampling di `next start` lokal — semuanya membuktikan **kode yang benar**, bukan **produksi yang benar**. Di antara keduanya ada deploy, dan deploy repo ini sudah pernah gagal total selama berjam-jam sementara HTTPS tetap 200 (2026-09-02, empat kali).
@@ -164,7 +168,8 @@ Aturannya, untuk **semua** temuan, bukan hanya yang sedang disorot:
 
 - Bukti lokal lengkap → status maksimal `IN_PROGRESS`, dengan catatan apa yang masih kurang.
 - `DONE` hanya setelah observasi langsung ke server hidup — dan catatannya menyebut **apa yang diukur, berapa nilainya, kapan**.
-- Perbaikan yang cakupannya terukur wajib diukur ulang pada cakupan yang sama. `og:url` ditemukan lewat sapuan 302 URL; menutupnya menuntut sapuan 302 URL lagi, bukan sampel 13.
+- Perbaikan yang cakupannya terukur wajib diukur ulang pada cakupan yang sama. `og:url` ditemukan lewat sapuan 302 URL; menutupnya menuntut sapuan 302 URL lagi (`npm run verify:live -- --sitemap`), bukan sampel 13. `--limit` menghasilkan bukti yang di file JSON terlihat identik dengan sapuan penuh — jangan pernah menutup temuan dengan run terbatas.
+- **Satu run gagal bukan otomatis regresi.** Alat ini tidak punya retry: satu kedipan origin membuat rute sehat gagal. Teramati 2026-09-04 — `299 pass, 3 fail` (satu `HTTP 522`, dua `fetch failed`), run ulang langsung `302 pass`, ketiga rute lulus saat diuji sendiri. Sebelum melaporkan regresi, jalankan ulang dan uji rute yang gagal satu per satu.
 - Kalau verifikasi live belum mungkin (belum di-push, akses tidak ada), katakan itu sebagai alasan — jangan naikkan statusnya.
 
 ## Deploy — biaya setiap commit
@@ -194,6 +199,8 @@ Aturannya, untuk **semua** temuan, bukan hanya yang sedang disorot:
 
 ## Tool discipline — Windows, multi-root workspace
 
+- **Ada hook `PostToolUse` yang menjalankan `tsc --noEmit` otomatis setiap `Write`/`Edit` file `.ts`/`.tsx`/`.mts`/`.cts` (plus `tsconfig.json`, `next-env.d.ts`).** Terdaftar di `.claude/settings.json`, kodenya `.claude/hooks/typecheck.mjs`, sekitar 4,4 detik per jalan. Kalau sebuah edit tiba-tiba dibalas diagnostik `TS####` dan gerbang exit 2, **itu hook-nya, bukan tool-nya rusak** — perbaiki type error-nya, jangan cari cara melewatinya. Edit `.md`/`.yaml`/`.json` dan file di luar repo dilewati. Kalau `node_modules/typescript` tidak ada, hook diam dan melewati (exit 0), jadi checkout bersih tidak terblokir.
+- **Jangan pakai heredoc Bash untuk menulis JS/TS yang mengandung `\n` di dalam string.** Terjadi 2026-09-03: `\\n` runtuh jadi newline sungguhan dan menghasilkan file yang gagal parse, dua kali berturut-turut. Untuk konten berisi escape, pakai tool `Write`/`Edit`, bukan heredoc.
 - **Setiap panggilan Bash yang menyentuh git/npm WAJIB diawali `cd <repo> &&` eksplisit.** Workspace ini punya 4 root dan cwd bertahan antar panggilan; panggilan paralel berbagi cwd. Tanpa `cd`, perintah jalan di repo yang salah — ini sudah terjadi berulang kali dalam satu sesi.
 - **Jangan pakai here-string PowerShell (`@'…'@`) di tool Bash.** Untuk teks multi-baris pakai heredoc `<<'EOF'`. Untuk pesan commit panjang: `git commit -F - <<'MSGEOF'`.
 - **Jangan parse output `ls` dengan `awk $9`.** Path Windows mengandung spasi. Pakai `git ls-files | while IFS= read -r f; do ... stat -c%s "$f" ...; done`.
