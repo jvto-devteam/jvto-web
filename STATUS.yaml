@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-02'
+last_updated: '2026-09-04'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -238,3 +238,30 @@ open_items:
       diperbarui dengan sengaja — Rule 9 melarang menutup klaim sebelum pemindai hidup
       mengonfirmasinya. Jangan tulis angka final sampai Dependabot memindai ulang branch live dan
       alert #124 benar-benar tertutup di sana.
+  - id: VERIFY_LIVE_SPEC_DOC
+    status: DONE
+    note: >-
+      Spec doc telah dibuat di docs/tooling/verify-live-spec.md. Referensi commit: c01dd5cd,
+      171d710d, dec984c0, bbc2a2c6, 3ce5f5cb. CATATAN: brief menyebut src/lib/cli/contract.mjs
+      sebagai sumber kedua — file itu TIDAK ADA di repo (dicari di seluruh pohon, nol hasil);
+      kontrak flag hidup di tabel FLAGS dalam verify-live.mjs sendiri. Brief juga menyebut og:image
+      dan twitter:image sebagai check — keduanya nol kemunculan di skrip dan TIDAK diperiksa;
+      dicatat eksplisit di bagian "Not checked" supaya sapuan hijau tidak dibaca sebagai bukti
+      tentang keduanya.
+  - id: VERIFY_LIVE_RETRY_NEEDED
+    status: TODO
+    note: >-
+      verify-live.mjs belum punya retry logic. Satu blip jaringan (522, fetch failed) bisa membuat
+      full sweep exit 1 meskipun semua rute sehat. Teramati 2026-09-04: sapuan mengembalikan 299
+      pass / 3 fail (1x HTTP 522 pada /why-jvto/our-team/kiki, 2x fetch failed pada
+      /why-jvto/reviews/227 dan /62); run ulang langsung 302 pass, dan ketiga rute lulus saat diuji
+      sendiri-sendiri. Exit code-nya benar di kedua run — yang menyesatkan adalah membaca run
+      pertama sebagai regresi. Tambahkan retry 3x dengan exponential backoff.
+  - id: VERIFY_LIVE_YELLOW_ITEMS
+    status: TODO
+    note: >-
+      5 temuan hijau dari code review: refuse() pakai process.exit() (sebaiknya process.exitCode),
+      expected opsional bisa mencetak "must be undefined", Math.max dead code, header usage kurang
+      lengkap, bareOrigin dievaluasi dua kali. Tambahan dari review yang sama dan sebentuk: new
+      URL(r.target) tanpa penjaga di tiga loop pelaporan bisa melempar setelah semua fetch selesai
+      dan membuang seluruh run. Perbaiki dalam satu commit terpisah.
