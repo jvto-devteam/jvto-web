@@ -87,7 +87,12 @@ const BASE_EXPECTED = "an http(s) origin with no path, query or fragment";
 // disagreed, and `https://site/` passed only by luck of parsing to "/".
 // Running it as the flag's coerce puts it ahead of validation on the CLI path
 // too, which a normalizer placed after the loop would have missed.
-const normalizeBase = (v) => v.replace(/\/+$/, "");
+// The trim is load-bearing, not tidiness: new URL() ignores surrounding
+// whitespace, so `" https://site/ "` satisfied bareOrigin with its trailing
+// slash still attached, and every target became " https://site/ /contact" →
+// https://site/%20/contact. A full sweep then reported all 302 routes as 404,
+// which reads as the whole site being down.
+const normalizeBase = (v) => v.trim().replace(/\/+$/, "");
 
 // One table, one loop, one error path. Every flag declares how to read its value
 // and what counts as valid, because the previous shape — a hand-written block per
@@ -216,8 +221,22 @@ async function loadRoutes(opts) {
     }
     return locs;
   }
-  const raw =
-    opts.routes === "-" ? await readStdin() : readFileSync(opts.routes, "utf8");
+  let raw;
+  if (opts.routes === "-") {
+    raw = await readStdin();
+  } else {
+    try {
+      raw = readFileSync(opts.routes, "utf8");
+    } catch (err) {
+      // A route file that cannot be read is a bad argument, and has to be raised
+      // as one. Classifying the top-level catch by UsageError alone sent a plain
+      // ENOENT from here down the "site is down" branch, so a typo in a path
+      // exited 1 and read as routes failing their checks. Measured 2026-09-03.
+      throw new UsageError(
+        `--routes ${opts.routes} could not be read: ${err.code ?? err.message}`,
+      );
+    }
+  }
   const lines = raw
     .split(/\r?\n/)
     .map((l) => l.trim())
@@ -510,13 +529,17 @@ if (opts.json) {
     writeFileSync(opts.json, JSON.stringify(results, null, 2));
     console.log(`full results written to ${opts.json}`);
   } catch (err) {
-    if (err.code === "ENOENT") {
-      console.error(`--json path is not writable: ${err.path} — refusing to report a pass`);
-      process.exitCode = 2;
-    } else {
-      console.error(`could not write ${opts.json}: ${err.message}`);
-      process.exitCode = 1;
-    }
+    // Raise-only. A run that already found route failures stays at 1: that is the
+    // more important signal, and overwriting it with 2 told CI "you called me
+    // wrong" about a run whose own summary said "0 pass, 1 fail". Only a run that
+    // was otherwise clean takes the write failure as its verdict.
+    const badPath = ["ENOENT", "EISDIR", "ENOTDIR", "EACCES", "EPERM"].includes(err.code);
+    console.error(
+      badPath
+        ? `--json path is not writable: ${err.path ?? opts.json} (${err.code})`
+        : `could not write ${opts.json}: ${err.message}`,
+    );
+    if (process.exitCode === 0) process.exitCode = badPath ? 2 : 1;
   }
 }
 }
