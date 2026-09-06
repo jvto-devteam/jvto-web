@@ -4,5 +4,11 @@
     "decision": "Use scripts-only resolver hook (B), not tsconfig allowImportingTsExtensions (A)",
     "task": "T01",
     "rationale": "zero source-file changes, zero config changes, complexity contained to scripts/"
+  },
+  {
+    "id": "D-2026-09-06-03",
+    "decision": "Registration shim (register-ts-hook.mjs) lives in scripts/lib/, invoked via node --import, not a top-level register() call",
+    "task": "T01",
+    "rationale": "ESM resolves the whole import graph before any statement runs, so a same-file top-level register() is always too late"
   }
 ]
