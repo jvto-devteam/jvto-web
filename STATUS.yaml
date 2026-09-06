@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-04'
+last_updated: '2026-09-06'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -265,3 +265,8 @@ open_items:
       lengkap, bareOrigin dievaluasi dua kali. Tambahan dari review yang sama dan sebentuk: new
       URL(r.target) tanpa penjaga di tiga loop pelaporan bisa melempar setelah semua fetch selesai
       dan membuang seluruh run. Perbaiki dalam satu commit terpisah.
+  - id: T01_PUBLIC_ROUTE_CONTRACT
+    status: IN_PROGRESS
+    note: >-
+      Task 1-2 selesai dan ter-commit (eb152826, 9c8e693d). Task 3 (builder) dan Task 4 (validator +
+      drift guard) belum dikerjakan.
