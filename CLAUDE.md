@@ -303,3 +303,35 @@ Update memory when significant work completes.
 Match the request to an available skill and invoke it. When in doubt, invoke. Skill names are listed in `~/.claude/CLAUDE.md`.
 
 Ideas → `/office-hours` · strategy → `/plan-ceo-review` · architecture → `/plan-eng-review` · design consultation → `/design-consultation` · visual polish → `/design-review` · full pipeline → `/autoplan` · bugs → `/investigate` · QA → `/qa`, `/qa-only` · code review → `/review` · ship → `/ship`, `/land-and-deploy` · context → `/context-save`, `/context-restore`.
+
+## Efficiency discipline — jangan menyelidiki berlebihan
+
+Untuk anomali/kecurigaan yang MUNCUL SENDIRI dari agen (bukan dari perintah
+eksplisit pemilik): lakukan MAKSIMAL 2 command pemeriksaan, lalu laporkan
+hasilnya apa adanya — jangan lanjut mencari di lokasi lain "untuk memastikan"
+kalau 2 command pertama sudah negatif.
+
+Contoh yang BENAR (2 command cukup):
+
+1. Cek working tree (`git status` / grep di repo)
+2. Cek riwayat sesi (jika relevan)
+
+→ Kalau keduanya negatif: laporkan "tidak ditemukan artefak, kemungkinan
+instruksi sesi yang tidak tersimpan sebagai file — ditolak sistem dengan benar"
+dan BERHENTI. Jangan cek `.claude/` global, gitignore, timestamp file, atau
+lokasi lain "untuk berjaga-jaga".
+
+Prinsip umum verifikasi ke depan:
+
+- Task read-only (test, lint, build, cek keamanan/anomali): jalankan, laporkan
+  HANYA tabel hasil vs ekspektasi. Jangan narasikan proses "curiga lalu ternyata
+  aman" — itu buang waktu pemilik membaca.
+- Kalau command pertama sudah menjawab pertanyaan dengan jelas, JANGAN jalankan
+  command kedua "untuk konfirmasi" kecuali hasil pertama ambigu atau
+  bertentangan dengan command lain.
+- Delegasikan investigasi panjang (>3 command) ke subagent `Explore`, laporkan
+  HANYA ringkasan akhirnya ke sesi utama — bukan tiap command.
+- Pengecualian: probe kegagalan yang memang bagian dari Definisi Selesai suatu
+  task (misal T01/T02) TETAP wajib dijalankan lengkap sesuai plan yang sudah
+  disetujui pemilik — aturan efisiensi ini hanya untuk investigasi REAKTIF di
+  luar plan, bukan verifikasi yang sudah direncanakan.

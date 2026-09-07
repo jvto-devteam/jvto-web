@@ -129,7 +129,11 @@ export function findUnparsableSitemapUrlCalls(source) {
  * same commit and say why. A floor that is edited to make a run pass without
  * that reason is the guard being disabled, not maintained.
  */
-const SOURCE_FLOORS = {
+// Exported 2026-09-07 so scripts/reconcile-route-outputs.mjs (T02) enforces the
+// SAME floors instead of carrying a second copy. Two copies drift, and a drifted
+// floor is a disabled guard that still looks like a guard. Zero behaviour change
+// here — the keyword is the only edit.
+export const SOURCE_FLOORS = {
   reviewIds: 231,
   crewCodes: 11,
   destinationSlugs: 5,
@@ -148,7 +152,13 @@ async function findSitemapDataFiles(dir) {
   return found.sort();
 }
 
-async function loadSources() {
+// Exported 2026-09-07 for the same reason as SOURCE_FLOORS: T02 needs the exact
+// inventory this validator builds, and a reimplementation would be a second
+// definition of "what the public routes are" in a repo whose whole point is
+// having one. Note getPublicCrewCodes throws when the sibling ekosistem repo is
+// missing while the review and blog readers return empty — so a caller cannot
+// treat a resolved promise as proof the sources were really read. Check floors.
+export async function loadSources() {
   const [reviews, destinations, crewCodes, websiteIndex] = await Promise.all([
     getEcosystemReviews(),
     getEcosystemDestinationRoutes(),
@@ -264,8 +274,11 @@ async function main(argv) {
   console.log(`families:    ${PUBLIC_ROUTE_CONTRACT.length}`);
   console.log(`static live: ${live.size}`);
   console.log(
+    // 2026-09-07: was "(T02 will declare these)". T02 declared all 15, so the
+    // line now describes what a NON-zero count would mean — a family added
+    // without measuring it — rather than promising work that is already done.
     `unconfirmed: ${unconfirmed.length} family/families${
-      strictExpectations ? " (strict)" : " (T02 will declare these)"
+      strictExpectations ? " (strict)" : " (undeclared — measure before merging)"
     }`,
   );
 

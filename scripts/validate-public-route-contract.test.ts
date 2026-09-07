@@ -210,3 +210,32 @@ test("builder: real contract with empty sources yields only static routes", () =
   assert.ok(inv.routes.every((r) => normalizeRoute(r.route) === r.route));
   assert.ok(inv.routes.every((r) => r.sourceRecord === null));
 });
+
+/**
+ * T02, 2026-09-07 — the deliverable of T02's contract task, written before the
+ * declarations so it is seen failing (14 unconfirmed families) before it passes.
+ *
+ * Every value asserted here was derived from route-output-index.json coverage
+ * measured per family on 2026-09-07, and for the two web-owned families from
+ * the live production markup (Rule 8) rather than from the manifest — see
+ * docs/audit/VERIFIED_FACTS.md. Guessing a value would put an invented claim
+ * into the file that acts as the authority on public routes.
+ *
+ * schemaOwner is deliberately NOT asserted: PageJsonLdCombined injects
+ * web-assembled nodes on every page, so ownership is genuinely split and its
+ * resolution belongs to T03/T06/T07. T01's --strict-expectations filter checks
+ * only the two artifact fields, so leaving it unconfirmed blocks nothing.
+ */
+test("contract: no family leaves an artifact expectation unconfirmed (T02)", () => {
+  const unconfirmed = PUBLIC_ROUTE_CONTRACT.filter(
+    (f) =>
+      f.websiteOutputExpected === "unconfirmed" ||
+      f.schemaOutputExpected === "unconfirmed",
+  ).map((f) => f.id);
+
+  assert.deepEqual(
+    unconfirmed,
+    [],
+    `families still unconfirmed: ${unconfirmed.join(", ")}`,
+  );
+});

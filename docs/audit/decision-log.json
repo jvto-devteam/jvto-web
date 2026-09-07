@@ -10,5 +10,35 @@
     "decision": "Registration shim (register-ts-hook.mjs) lives in scripts/lib/, invoked via node --import, not a top-level register() call",
     "task": "T01",
     "rationale": "ESM resolves the whole import graph before any statement runs, so a same-file top-level register() is always too late"
+  },
+  {
+    "id": "D-2026-09-07-01",
+    "decision": "Reconcile THREE sources (local inventory, live sitemap over HTTP, ekosistem manifest), not two",
+    "task": "T02",
+    "rationale": "all eight src/app/**/sitemap.data.ts read the same loaders the T01 validator reads, so a locally recomputed sitemap vs the inventory is a tautology for the 267 dynamic routes and already covered by T01 for the 38 static ones; Rule 8 independently requires rendered output to be observed from a running server"
+  },
+  {
+    "id": "D-2026-09-07-02",
+    "decision": "destination-detail and entity-static declared schemaOutputExpected/websiteOutputExpected = false, from live markup rather than from the manifest",
+    "task": "T02",
+    "rationale": "the manifest shows 0/5 and 0/1, but ekosistem holds source content for all five destinations, so absence alone could equally mean an unfinished generator; production serves full JSON-LD on /destinations/mount-bromo and /entity with no ekosistem schema-output behind them, which proves jvto-web assembles it. /travel-guide/faq sampled as the control. This is what the 2026-09-05 audit raised as a product decision; it turned out to be answerable by measurement"
+  },
+  {
+    "id": "D-2026-09-07-03",
+    "decision": "SITEMAP_PUBLICATION_LAG is a WARN, not a FAIL, and --fail-on-warn is the zero-tolerance path",
+    "task": "T02",
+    "rationale": "when this checkout and the ekosistem manifest both hold a route and only the deployed sitemap lacks it, two independent producers agree against one deployment state — a deployment dependency under Rule 7, not a repo defect. A gate that goes red after every ekosistem sync gets ignored. FAMILY_ABSENT_FROM_SITEMAP keeps this from being a silent pass at scale: a wholly missing family is a FAIL"
+  },
+  {
+    "id": "D-2026-09-07-04",
+    "decision": "schemaOwner stays \"unconfirmed\" for every family; T02 does not declare it",
+    "task": "T02",
+    "rationale": "PageJsonLdCombined injects Organization/WebSite/WebPage/BreadcrumbList from jvto-web on every page, so a route with an ekosistem schema-output still carries web-assembled nodes. Ownership is split per node, not per route; deriving it from schemaOutputExpected would be an invented value wearing an authoritative type. Belongs to T03/T06/T07. Costs nothing: --strict-expectations checks only the two artifact fields"
+  },
+  {
+    "id": "D-2026-09-07-05",
+    "decision": "No artifacts/ directory; --json and --csv take explicit paths with no defaults",
+    "task": "T02",
+    "rationale": "the spec proposed artifacts/route-reconciliation.{json,csv}, but no artifacts/ exists, .gitignore has no entry for it, and no script in the repo has a default output directory. Untracked-and-ungitignored output in a repo where every push is a production deploy is the worst combination"
   }
 ]

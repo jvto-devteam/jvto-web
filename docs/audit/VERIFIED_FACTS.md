@@ -255,3 +255,187 @@ measurement is what makes them decidable.
 
 The last two are one change: installing the CI step before raising Node just
 turns CI red.
+
+---
+
+## T02 closed locally — measured 2026-09-07
+
+`npm run reconcile:routes`, exit 0, against production:
+
+| Source | Count |
+|---|---|
+| Local T01 inventory | **305** |
+| Live sitemap (HTTP 200) | **302** |
+| Ekosistem `route-output-index.json` | **299** |
+| Union reconciled | **305** |
+
+Verdicts: **302 pass · 3 warn · 0 fail** — `EXPECTED_ECOSYSTEM_OUTPUT` ×296,
+`EXPECTED_WEB_OWNED_OUTPUT` ×6, `SITEMAP_PUBLICATION_LAG` ×3.
+
+**The union is 305, not the ~308 the plan predicted.** The manifest turns out to
+be exactly the inventory minus the six web-owned routes, and the live sitemap
+exactly the inventory minus the three lagging reviews — so neither observation
+contributes a route the inventory lacks. That is a stronger result than the
+estimate: today there is no route in production or in ekosistem that the
+contract does not declare. Recorded because a prediction that was wrong in the
+safe direction is still a prediction that was wrong.
+
+Same tree: `test:reconcile` 36/36, `test:routes` 16/16, `tsc` clean,
+`lint` 254/28/226 (baseline, no new findings), `test:stale`, `validate` 52/52,
+`build` exit 0 with **106/106** static pages and **104** route entries, 0
+`PrismaClientInitializationError`, and `git diff -- src/app` empty.
+
+## The 2026-09-05 audit's "8 mismatches" are 9 today, and the count itself is a finding
+
+| Direction | Audit 2026-09-05 | Measured 2026-09-07 | Classification |
+|---|---:|---:|---|
+| In sitemap, not in manifest | 6 | **6** | `EXPECTED_WEB_OWNED_OUTPUT` (PASS) |
+| In manifest, not in sitemap | 2 | **3** | `SITEMAP_PUBLICATION_LAG` (WARN) |
+
+The second direction grew because review `/335` entered the manifest and has not
+reached production's sitemap. Do not reconcile the arithmetic back to 8 — the
+DoD is met because every difference carries an explicit classification, and the
+difference in the count is itself explained by one of them.
+
+## `/entity` and `/destinations/*` are web-owned — verified from markup, not inferred from absence
+
+The manifest shows zero artifacts for these six routes, and that alone does not
+distinguish "web assembles the schema" from "the ekosistem generator is
+unfinished". The distinction matters: ekosistem **does** hold source content for
+all five destinations (`destination-knowledge/*.content.json`, `schema_version`
+`jvto/source/destination-detail/v1`), which is the shape of an unfinished
+generator. `/entity` has no ekosistem source at all.
+
+Measured against production instead (Rule 8 — never inferred from `page.tsx`):
+
+```bash
+curl -s https://javavolcano-touroperator.com/destinations/mount-bromo \
+  | grep -o 'application/ld+json' | wc -l          # 2
+curl -s https://javavolcano-touroperator.com/entity \
+  | grep -o 'application/ld+json' | wc -l          # 2
+curl -s https://javavolcano-touroperator.com/travel-guide/faq \
+  | grep -o 'application/ld+json' | wc -l          # 2  ← control
+```
+
+`/destinations/mount-bromo` serves `TouristTrip` ×16 and `ListItem` ×19;
+`/entity` serves `GovernmentOrganization` ×10, `Organization` ×6, `Place`,
+`PostalAddress`, `DigitalDocument`. `/travel-guide/faq` is the control — it
+**has** an ekosistem schema-output and also serves JSON-LD, so the sample
+separates the two cases instead of confirming one.
+
+Flipping `destination-detail.schemaOutputExpected` to `true` and re-running
+yields exactly **5 × `MISSING_SCHEMA_OUTPUT`, exit 1**. That probe is the
+standing evidence for the declaration; run it before arguing the other way.
+
+## The classifier is a total function over 234 cells — proven, not asserted
+
+Membership is `(I, S, M, SO, WO)` constrained by `M=0 ⟹ SO=WO=0` (SO and WO are
+read *from* the manifest entry, so a miss cannot claim an artifact — enforced by
+`lookupRouteOutput` returning all-false, not by a downstream assertion).
+`(I=0, S=0, M=0)` is out of domain: the universe is the union of the three
+sources.
+
+19 membership combinations → 9 cells with `I=0` (no declarations) and, with
+`I=1`, 10 × 2 (`sitemapExpected`) × 3 × 3 (the two expectations) = 180, plus the
+`familyFullyAbsent` split that applies only where `sitemapExpected=T ∧ S=0`
+(5 × 9 = 45 cells splitting in two) = **234**. `npm run test:reconcile`
+enumerates all 234, asserts the count, asserts every cell yields a name from the
+closed set, and asserts no rule is dead.
+
+**A row's status is the worst rule that fired, not the status of the first name.**
+A route that is both a publication lag (WARN) and a real artifact defect (FAIL)
+is filed under the FAIL — otherwise a production defect gets excused as a
+deployment state.
+
+## `npm run reconcile:routes` fails on purpose — probes run 2026-09-07
+
+Every one reverted afterwards and the contract file byte-compared:
+
+| Probe | Result |
+|---|---|
+| `--fail-on-warn` with the 3 lag routes | exit **1** |
+| `--json` with no path · unknown argument · `toString foo` | exit **2** |
+| `--base https://site/blog` | exit **2** |
+| `--base` and `--sitemap-file` together | exit **2** (refuses; does not pick) |
+| sitemap file with 2 URLs | exit **2**, names `LIVE_SITEMAP_FLOOR 302` |
+| empty sitemap file | exit **2**, "zero `<loc>` entries" |
+| sitemap whose `<loc>` origin is `staging.example.com` | exit **2** — a guard `verify-live.mjs` does **not** have |
+| manifest with 1 entry · `--manifest /nonexistent` | exit **2**, names `MANIFEST_ENTRY_FLOOR 299` |
+| `JVTO_EKOSYSTEM_CONTENT_ROOT=/nonexistent` | exit **2** — confirms a bad root does not throw for free |
+| flip `why-jvto-static` to `false` | exit **1**, 6 × `UNEXPECTED_SCHEMA_OUTPUT` |
+| delete family `blog-index` | exit **1**, `/blog` → `UNDECLARED_PUBLISHED_ROUTE` |
+| bare `node scripts/reconcile-route-outputs.mjs` | `ERR_MODULE_NOT_FOUND` — the npm flags are the contract |
+
+**`src/lib/routes/publicRouteContract.ts` has CRLF line endings.** A probe that
+anchored on `"  {\n    id: \"blog-index\""` got `indexOf` → `-1`, sliced from
+`-1`, and corrupted the file into `ERR_INVALID_TYPESCRIPT_SYNTAX`. The run still
+exited 1, which looked at a glance like the probe succeeding. Anchor on a single
+`id:` literal and expand outward; never trust a multi-line anchor in this file.
+
+## Production is three review URLs behind both repos — 2026-09-07
+
+The live sitemap publishes **228** review permalinks; this checkout and the
+ekosistem manifest both hold **231**. Missing: `/why-jvto/reviews/333`, `/334`,
+`/335`. The 2026-09-05 audit already saw two of the three, so this has persisted
+at least two days.
+
+Not a code defect: `why-jvto/sitemap.data.ts` emits every id `getEcosystemReviews`
+returns, and `src/app/sitemap.ts` is `force-dynamic`, so it is not a Next cache.
+What remains is the jvto-ekosistem checkout **on the jvto-web VPS** trailing
+`main`. Deployment dependency, not runtime (Rule 7): the site serves normally and
+only three URLs are absent from the sitemap. Tracked as
+`SITEMAP_PRODUCTION_LAG_REVIEWS`; closing it needs VPS access.
+
+## Adversarial review found three real defects in T02's own code — fixed 2026-09-07
+
+A fresh-context read-only review was run against this session's evidence, as
+`CLAUDE.md` requires before reporting large work complete. It found three, all
+in `scripts/reconcile-route-outputs.mjs`, all confirmed by probe before fixing:
+
+| # | Defect | Why it mattered |
+|---|---|---|
+| 1 | `buildPublicRouteInventory()` and `reconcileRoutes()` sat **outside** the try/catch | Both throw plain `Error`. An unhandled top-level-await rejection exits **1** — measured, not assumed — so "I could not measure" reported as "the contract is violated". Reachable: `SOURCE_FLOORS` counts array **length**, so a source carrying an empty-string record clears the floor and then throws inside the builder |
+| 2 | main-module guard dropped the `process.argv[1] &&` test that T01 carries | `path.resolve(undefined)` throws `ERR_INVALID_ARG_TYPE` when the module is imported rather than run |
+| 3 | `sitemapDuplicates` was collected, threaded through the report, and printed in the human summary **only** | Never reached `counts` or the exit code, and `--quiet` hid it entirely. T01 treats a route claimed twice as a violation; T02 observed the same defect in production and exited 0 |
+
+Proof each fix works, by probe:
+
+```bash
+# 1 — force the classifier to throw, then revert
+npm run reconcile:routes   # exit 2  (was exit 1)
+# 2 — import the module instead of running it
+node --import ./scripts/lib/register-ts-hook.mjs \
+     --input-type=module -e 'await import("./scripts/reconcile-route-outputs.mjs")'
+# 3 — a sitemap with one repeated <loc>
+npm run reconcile:routes -- --sitemap-file <dup.xml>   # exit 1, names /blog
+```
+
+**Claims that survived the attack**, each re-measured independently by the
+reviewer: every family's declaration matches the manifest (`root-static` at 5/5
+after `/entity` was removed); 305 = 38 static + 267 dynamic and `/entity` is
+declared exactly once; the `export` edit to T01's script is behaviour-neutral
+and its main-module guard does not fire on import; `--sitemap-file` passes
+through the same floor as the HTTP path; ESLint really does cover the new files
+(confirmed here too by appending an unused const, watching `no-unused-vars`
+fire, then reverting); `reconcile:routes` is GET-only; no new secret or PII
+exposure; disk writes stay opt-in behind `--json`/`--csv`.
+
+One cell is inert rather than unreachable: the driver can construct
+`familyFullyAbsent=true` together with `sitemapExpected=false`, which the 234-cell
+cube does not enumerate, but `reconcileRoute` reads that flag only inside the
+`sitemapExpected && !inSitemap` branch, so it cannot change an outcome.
+
+## Pre-existing hazard in T01's script — NOT fixed, needs a decision
+
+`scripts/validate-public-route-contract.mjs:303` ends with
+`process.exit(await main(...))`. That path can perform a `fetch`: every
+ekosistem reader has an HTTP fallback (`reviews.ts:95`, `website.ts:171`,
+`destinationDetail.ts:55`, `tourPackageDetail.ts:64`). This is the exact libuv
+`UV_HANDLE_CLOSING` hazard that `verify-live.mjs` and now
+`reconcile-route-outputs.mjs` both document themselves as avoiding by setting
+`process.exitCode` instead.
+
+It has not misfired — the local sibling checkout means the fallback never runs
+here. Left alone deliberately: changing the exit mechanics of a shipped gate is
+its own decision, and T02 reused `loadSources` from that file without needing to
+touch it.

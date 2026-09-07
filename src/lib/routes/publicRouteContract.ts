@@ -16,19 +16,52 @@
  */
 
 /**
- * Values T01 deliberately does not declare. The spec's own example flags
- * destination-detail's schemaOutputExpected as needing product confirmation,
- * and filling these from today's manifest would freeze current drift as
- * "correct" and leave T02 with nothing to find. T02 declares them; until then
- * `--strict-expectations` fails on anything still unconfirmed.
+ * T01 deliberately did not declare these. T02 did, on 2026-09-07.
+ *
+ * The union keeps "unconfirmed" because `schemaOwner` still carries it (see
+ * SchemaOwner below) and because a future family added without measurement
+ * must have a value that `--strict-expectations` can reject. No artifact
+ * expectation carries it any more; a test asserts that in both directions.
+ *
+ * How each declared value was obtained, since the distinction is the whole
+ * point of the field:
+ *
+ *   - Twelve families were derived from per-family coverage of
+ *     route-output-index.json measured 2026-09-07. Every one of them was
+ *     unanimous — 100% or 0%, never mixed — so the declaration records an
+ *     observed invariant rather than a majority vote. The fraction is written
+ *     into each family's comment so a later reader can tell a measured
+ *     declaration from an asserted one without re-measuring.
+ *
+ *   - The two web-owned families (destination-detail, entity-static) were NOT
+ *     derived from the manifest. Reading 0% coverage and declaring `false`
+ *     would freeze a possible generator gap as "correct" — the exact mistake
+ *     T01 refused to make. They were verified from live production markup
+ *     instead (Rule 8): /destinations/mount-bromo and /entity each serve two
+ *     application/ld+json blocks with no ekosistem schema-output behind them,
+ *     so jvto-web genuinely assembles their schema. /travel-guide/faq was
+ *     sampled as the control — it has an ekosistem schema-output and also
+ *     serves JSON-LD, so the sample distinguishes the two cases rather than
+ *     confirming one.
+ *
+ * Full evidence: docs/audit/VERIFIED_FACTS.md.
  */
 export type ArtifactExpectation = boolean | "unconfirmed";
 
 /**
- * Which repo assembles the JSON-LD for a route. Carries "unconfirmed" for the
- * same reason as ArtifactExpectation: it is knowable only by reading each
- * route's schema composition, which is T02's job. Guessing it here would be an
- * invented value wearing a type that looks authoritative.
+ * Which repo assembles the JSON-LD for a route.
+ *
+ * T02 examined this on 2026-09-07 and deliberately left every family
+ * "unconfirmed". The tempting derivation — schemaOutputExpected ? ekosistem :
+ * web — is wrong: PageJsonLdCombined injects Organization, WebSite, WebPage and
+ * BreadcrumbList from jvto-web on EVERY page, so a route that has an ekosistem
+ * schema-output file still carries web-assembled nodes. Ownership is genuinely
+ * split per node, not per route, and resolving it is what T03
+ * (schema-route-groups.json), T06 (entity graph composition) and T07
+ * (breadcrumb ownership) exist to do.
+ *
+ * Leaving it blocks nothing: --strict-expectations checks only the two artifact
+ * fields, and no classification in T02's reconciler reads schemaOwner.
  */
 export type SchemaOwner = "jvto-web" | "jvto-ekosistem" | "unconfirmed";
 
@@ -82,11 +115,13 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     kind: "static",
     group: "root",
     // src/app/sitemap.data.ts
+    // "/entity" was declared here until 2026-09-07. It is now its own family:
+    // it is the one route of this six that ekosistem generates nothing for, and
+    // a family-level boolean cannot say "five yes, one no". See entity-static.
     routes: [
       "/",
       "/contact",
       "/isic/student-package",
-      "/entity",
       "/markets/singapore",
       "/markets/malaysia",
     ],
@@ -94,8 +129,36 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 5/5 schema, 5/5 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
+    expectedStatus: 200,
+  },
+  {
+    // Split out of root-static 2026-09-07. Not an arbitrary regrouping: /entity
+    // is the only route in that file with no ekosistem artifact of either kind,
+    // and the T02 DoD forbids `if (route === "/entity")` in the validator, so
+    // the exception has to be expressible as data. A family IS the unit of
+    // "these routes behave the same", so the exception is this row.
+    //
+    // Precedent: T01 already split verify-jvto-static out of the why-jvto
+    // sitemap file — the file boundary is not the group boundary.
+    //
+    // Declared false/false from live markup, not from the manifest's absence:
+    // https://javavolcano-touroperator.com/entity serves 2 application/ld+json
+    // blocks (GovernmentOrganization ×10, Organization ×6, Place, PostalAddress,
+    // DigitalDocument) built by src/app/(website)/entity/page.tsx. Ekosistem
+    // also holds no /entity source file at all. Web-owned, verified, not assumed.
+    id: "entity-static",
+    kind: "static",
+    group: "entity",
+    routes: ["/entity"],
+    contentOwner: "jvto-ekosistem",
+    renderOwner: "jvto-web",
+    schemaOwner: "unconfirmed",
+    sitemapExpected: true,
+    websiteOutputExpected: false,
+    schemaOutputExpected: false,
     expectedStatus: 200,
   },
   {
@@ -115,8 +178,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 6/6 schema, 6/6 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -136,8 +200,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 5/5 schema, 5/5 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -163,8 +228,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 12/12 schema, 12/12 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -184,8 +250,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 4/4 schema, 4/4 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -198,8 +265,11 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 1/1 schema, 1/1 website in route-output-index.json. Note the
+    // contrast with destination-detail below — the hub has ekosistem artifacts,
+    // the five detail pages have none. Same URL prefix, opposite ownership.
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -212,8 +282,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 3/3 schema, 3/3 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -226,8 +297,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 1/1 schema, 1/1 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
 
@@ -244,8 +316,12 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 231/231 schema, 0/231 website in route-output-index.json.
+    // The zero is unanimous across 231 records, which is what makes it a
+    // declaration rather than a sample: review permalinks get schema output and
+    // never website output.
+    websiteOutputExpected: false,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -260,8 +336,11 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 11/11 schema, 11/11 website in route-output-index.json.
+    // Eleven is the published crew count — G2 excludes the 3 unpublished, and
+    // the manifest agrees, so this floor doubles as a check on that rule.
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -276,8 +355,29 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // Declared false/false 2026-09-07 from LIVE MARKUP, not from the manifest.
+    //
+    // The manifest shows 0/5 for both artifacts, and the 2026-09-05 drift audit
+    // reported these five as mismatches. Reading that zero and declaring false
+    // would have frozen a possible generator gap as "correct" — and the doubt is
+    // real, because ekosistem DOES hold the source content for all five
+    // (destination-knowledge/*.content.json, schema_version
+    // jvto/source/destination-detail/v1). Source present, output absent, is
+    // exactly the shape of an unfinished generator.
+    //
+    // So it was checked against production instead:
+    // /destinations/mount-bromo serves 2 application/ld+json blocks
+    // (TouristTrip ×16, ListItem ×19, Organization ×2, WebSite) assembled by
+    // src/app/(website)/destinations/[slug]/page.tsx via buildDestinationsSchemas.
+    // The schema exists and jvto-web builds it. Absent from the manifest is the
+    // correct state, not a gap.
+    //
+    // /travel-guide/faq was sampled as the control (has ekosistem schema-output,
+    // also serves JSON-LD), so the sample separates the two cases instead of
+    // confirming one. Flip this to true and T02 reports 5 MISSING_SCHEMA_OUTPUT
+    // — that probe is in the plan's verification table as the standing evidence.
+    websiteOutputExpected: false,
+    schemaOutputExpected: false,
     expectedStatus: 200,
   },
   {
@@ -292,8 +392,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 4/4 schema, 0/4 website in route-output-index.json
+    websiteOutputExpected: false,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -308,8 +409,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 13/13 schema, 0/13 website in route-output-index.json
+    websiteOutputExpected: false,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
   {
@@ -327,8 +429,9 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
     renderOwner: "jvto-web",
     schemaOwner: "unconfirmed",
     sitemapExpected: true,
-    websiteOutputExpected: "unconfirmed",
-    schemaOutputExpected: "unconfirmed",
+    // 2026-09-07: 3/3 schema, 3/3 website in route-output-index.json
+    websiteOutputExpected: true,
+    schemaOutputExpected: true,
     expectedStatus: 200,
   },
 ];

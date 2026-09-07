@@ -266,15 +266,14 @@ open_items:
       URL(r.target) tanpa penjaga di tiga loop pelaporan bisa melempar setelah semua fetch selesai
       dan membuang seluruh run. Perbaiki dalam satu commit terpisah.
   - id: T01_PUBLIC_ROUTE_CONTRACT
-    status: IN_PROGRESS
+    status: DONE
     note: >-
-      Task 1-4 selesai dan ter-commit (eb152826, 9c8e693d, 413620b6, 1cb447af). npm run
-      validate:public-routes exit 0: 305 rute = 38 statis + 267 dinamis, 14 family, drift guard
-      terbukti gagal di KEDUA arah lewat probe yang langsung direvert. Gate lokal hijau 2026-09-07:
-      test:routes 15/15, tsc clean, lint 254/28/226 (baseline, tanpa temuan baru), test:stale 11/11,
-      validate 52/52, build 106/106 + 104 entri rute. Tetap IN_PROGRESS, bukan DONE: T01 tidak
-      menghasilkan output ter-render sehingga verify:live tidak punya yang bisa diamati (Rule 9).
-      Naik DONE saat T02 memberi kontrak konsumen hidup. 4 commit belum di-push.
+      DITUTUP 2026-09-07 oleh T02. Alasan item ini tetap IN_PROGRESS adalah 'T01 tidak menghasilkan
+      output ter-render sehingga verify:live tidak punya yang bisa diamati; naik DONE saat T02
+      memberi kontrak konsumen hidup'. Konsumen itu sekarang ada: npm run reconcile:routes mem-fetch
+      sitemap produksi (302 URL, HTTP 200) dan merekonsiliasinya terhadap kontrak. Bukti pendamping:
+      --strict-expectations berbalik exit 1 -> exit 0 setelah keempat belas family dideklarasikan;
+      family 14 -> 15 (entity-static dipecah); rute 305 dan statis 38 TIDAK bergeser.
   - id: ROUTES_3D_INDEXABILITY
     status: NEEDS_OWNER
     note: >-
@@ -305,3 +304,40 @@ open_items:
       ERR_UNKNOWN_FILE_EXTENSION. Lokal Node 24.14.0 sehingga cacat ini tak terlihat sampai ada yang
       memasang step CI-nya. test:stale yang sudah ada berbagi cacat yang sama dan juga tidak
       terpasang di CI. Butuh izin tertulis - perubahan workflow CI.
+  - id: T02_ROUTE_RECONCILIATION
+    status: IN_PROGRESS
+    note: >-
+      Task 0-6 selesai 2026-09-07, termasuk review adversarial dan perbaikannya. npm run
+      reconcile:routes exit 0: 305 rute dari TIGA sumber independen (inventory lokal 305, sitemap
+      produksi 302, manifest ekosistem 299) - 302 pass, 3 warn, 0 fail. Kesembilan selisih audit
+      2026-09-05 punya nama: 6 x EXPECTED_WEB_OWNED_OUTPUT (/entity + 5 destination detail,
+      dideklarasikan dari markup produksi bukan dari manifest) dan 3 x SITEMAP_PUBLICATION_LAG.
+      Classifier fungsi total atas 234 sel, nol aturan mati. REVIEW ADVERSARIAL MENEMUKAN 3 CACAT
+      NYATA DI KODE SESI INI, ketiganya sudah diperbaiki dan dibuktikan: (1)
+      buildPublicRouteInventory dan reconcileRoutes berada DI LUAR try/catch sehingga lemparannya
+      jadi unhandled rejection yang keluar exit 1 - kode yang berarti 'kontrak dilanggar' untuk
+      kegagalan yang sebenarnya 'pengukuran tidak terjadi'; terjangkau karena SOURCE_FLOORS
+      menghitung panjang array sehingga record string kosong lolos floor lalu melempar di builder;
+      dibuktikan lewat probe: sekarang exit 2. (2) Penjaga main-module kehilangan 'process.argv[1]
+      &&' yang dipunyai T01, sehingga path.resolve(undefined) melempar ERR_INVALID_ARG_TYPE saat
+      modul diimpor. (3) Duplikat <loc> dikumpulkan dan dicetak tapi TIDAK pernah memengaruhi exit
+      code, dan --quiet menyembunyikannya sepenuhnya - padahal T01 memperlakukan rute ganda sebagai
+      pelanggaran; sekarang exit 1 lewat stderr, dibuktikan dengan sitemap ber-duplikat. Gerbang
+      lokal hijau sesudah perbaikan: test:reconcile 36/36, test:routes 16/16, tsc bersih, lint
+      254/28/226 baseline, test:stale, validate 52/52, src/app nol perubahan. Tetap IN_PROGRESS
+      bukan DONE: belum di-push (Rule 9).
+  - id: SITEMAP_PRODUCTION_LAG_REVIEWS
+    status: TODO
+    note: >-
+      Ditemukan 2026-09-07 oleh npm run reconcile:routes. Sitemap produksi menerbitkan 228 permalink
+      review, sementara checkout lokal DAN manifest ekosistem sama-sama membawa 231. Yang hilang:
+      /why-jvto/reviews/333, /334, /335. Audit 2026-09-05 sudah melihat 2 dari 3 ini, jadi ini
+      bertahan minimal dua hari, bukan kedipan. BUKAN cacat kode:
+      src/app/(website)/why-jvto/sitemap.data.ts memancarkan seluruh id yang dikembalikan
+      getEcosystemReviews, dan sitemap adalah force-dynamic sehingga bukan cache Next. Yang tersisa
+      sebagai penjelasan: checkout jvto-ekosistem DI VPS jvto-web tertinggal dari main. Ini
+      deployment dependency (Rule 7) - situs melayani normal, yang hilang cuma 3 URL dari sitemap.
+      Diklasifikasikan SITEMAP_PUBLICATION_LAG (WARN, bukan FAIL) supaya gerbang tidak merah tiap
+      sync ekosistem; npm run reconcile:routes -- --fail-on-warn memberi exit 1 untuk yang mau
+      toleransi nol. Penutupan butuh akses VPS: periksa apakah rsync/deploy ekosistem ke VPS
+      berjalan, lalu ukur ulang.
