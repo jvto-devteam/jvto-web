@@ -21,6 +21,10 @@ import {
   buildPublicRouteInventory,
   findDuplicateRoutes,
 } from "../src/lib/routes/buildPublicRouteInventory";
+// The .mjs extension is required here and is not the src-import asymmetry: this
+// specifier names a real file on disk that tsconfig's include (**/*.ts) never
+// covers, so tsc resolves it through allowJs and node needs the literal name.
+import { extractSitemapStaticRoutes } from "./validate-public-route-contract.mjs";
 
 test("normalizeRoute: adds leading slash, strips trailing, lowercases", () => {
   assert.equal(normalizeRoute("why-jvto"), "/why-jvto");
@@ -173,6 +177,30 @@ test("findDuplicateRoutes: reports a route claimed twice", () => {
   const dupContract = [FIXTURE_CONTRACT[0], { ...FIXTURE_CONTRACT[0], id: "root-static-copy" }] as const;
   const inv = buildPublicRouteInventory(EMPTY_SOURCES, { contract: dupContract });
   assert.deepEqual([...findDuplicateRoutes(inv)].sort(), ["/", "/contact"]);
+});
+
+// ── sitemap static-literal extractor (drift guard input) ────────────────────
+
+test("extractor: takes double-quoted routes, skips dynamic and commented", () => {
+  const fixture = [
+    'import { url } from "@/lib/site";',
+    "export function s(t, m) {",
+    "  return [",
+    '    { url: url("/"), lastModified: getLastModified(m, "/", t) },',
+    '    // { url: url("/ijen-crater-blue-fire-tour"), lastModified: t },',
+    '    { url: url("/contact"), lastModified: getLastModified(m, "/contact", t) },',
+    "    ...crewCodes.map((code) => ({ url: url(`/why-jvto/our-team/${code}`) })),",
+    '    /* { url: url("/block-commented") } */',
+    "  ];",
+    "}",
+  ].join("\n");
+
+  assert.deepEqual(extractSitemapStaticRoutes(fixture), ["/", "/contact"]);
+});
+
+test("extractor: does not mistake a getLastModified key for a url", () => {
+  const fixture = '{ lastModified: getLastModified(map, "/why-jvto/our-team", t) }';
+  assert.deepEqual(extractSitemapStaticRoutes(fixture), []);
 });
 
 test("builder: real contract with empty sources yields only static routes", () => {
