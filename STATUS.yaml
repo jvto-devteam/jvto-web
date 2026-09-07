@@ -341,3 +341,8 @@ open_items:
       sync ekosistem; npm run reconcile:routes -- --fail-on-warn memberi exit 1 untuk yang mau
       toleransi nol. Penutupan butuh akses VPS: periksa apakah rsync/deploy ekosistem ke VPS
       berjalan, lalu ukur ulang.
+  - id: PHASE_START_STALE_PATH
+    status: TODO
+    note: >-
+      phase-start.md menunjuk F:\jvto-web, repo sudah pindah ke D:\jvto-web. Perbaiki path saat
+      sempat, di luar scope T02.

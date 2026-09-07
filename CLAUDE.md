@@ -219,7 +219,7 @@ Aturannya, untuk **semua** temuan, bukan hanya yang sedang disorot:
 
   **Bagian ini kebal ringkas.** Laporan boleh sependek mungkin, tapi `Urgent Next Steps` tidak boleh dipangkas, digabung ke paragraf lain, atau diringkas jadi satu baris "ada beberapa hal". Perlakuannya sama seperti pesan error, peringatan keamanan, dan konfirmasi aksi destruktif: gaya ringkas memangkas basa-basi, **bukan** isi yang menentukan tindakan. Kalau harus memilih antara memotong bagian ini atau memanjangkan laporan — panjangkan laporan.
 - **Temuan risiko dicatat ke tempat yang bertahan, bukan cuma prosa.** Task list repo adalah `STATUS.yaml` — `npm run status:list`, dan `npm run status:set -- <ID> <STATUS> "catatan"` yang **membuat item baru kalau ID-nya belum ada** (status sah: `TODO`, `IN_PROGRESS`, `DONE`, `BLOCKED`, `NEEDS_OWNER`). Temuan yang hanya hidup di prosa hilang saat context di-compact. Catatan: `TodoWrite`/`TaskCreate` tidak selalu ada di sesi ini — periksa tool list, jangan asumsikan.
-- **Review adversarial adalah gerbang, bukan pilihan.** Sebelum melaporkan pekerjaan besar selesai — penghapusan massal, perubahan dependency, merge ke `live`/`main` — jalankan subagent **`Explore`** (read-only, sesuai RULE 4) dengan brief yang secara eksplisit menyuruhnya **menyerang bukti sesi ini**, bukan mengulanginya. Sesi utama sudah terbiasa dengan asumsinya sendiri; fresh context yang menangkap sisanya. Brief-nya wajib menyebut apa yang `tsc` dan `build` **tidak bisa** tangkap: `import()` dinamis, referensi lewat string, konsumen non-JS (workflow, script npm, `public/`), rantai CSS/aset, dan kebocoran kredensial. Laporkan hanya yang berdampak produksi/keamanan/biaya.
+- **Review adversarial adalah gerbang, bukan pilihan.** Sebelum melaporkan pekerjaan besar selesai — penghapusan massal, perubahan dependency, merge ke `live`/`main` — jalankan subagent **`Explore`** (read-only, sesuai RULE 4) dengan brief yang secara eksplisit menyuruhnya **menyerang bukti sesi ini**, bukan mengulanginya. Sesi utama sudah terbiasa dengan asumsinya sendiri; fresh context yang menangkap sisanya. **Isi brief-nya ada di skill `adversarial-review`** — panggil skill itu saat gerbang ini dijalankan. Laporkan hanya yang berdampak produksi/keamanan/biaya.
 - **Simulasikan, jangan tanya.** Kalau ada alat yang bisa membuktikan sesuatu aman — `git merge-tree --write-tree`, `npm run build`, `--dry-run`, merge lokal yang belum di-push — jalankan alatnya. Simulasi **menggantikan** pertanyaan, bukan mendahuluinya. Simulasi bersih + tujuan akhir tunggal = **eksekusi, lapor hasilnya**.
 - **Jangan pecah satu tujuan jadi menu langkah.** "Push branch saja" vs "push + merge" bukan dua pilihan kalau kodenya memang untuk dipakai — itu satu tujuan yang dipaksa diputuskan dua kali, dan menyisakan branch menggantung. Tanyakan **tujuannya sekali** ("tayangkan sekarang?"), bukan tiap langkah menuju ke sana. Daftar gerbang yang mengikat ada di *Working posture* di bawah — dan `GLOBAL-CONSTRAINTS.md` tetap menang: **kalau ragu, TANYA.** "Simulasikan, jangan tanya" berlaku ketika alatnya bisa menjawab; keraguan yang tidak bisa dijawab alat tetap jadi pertanyaan.
 - **`NEEDS_OWNER` hanya setelah mencari buktinya, bukan sebagai tempat parkir.** Sebelum melabeli apa pun "butuh keputusan pemilik" atau "tanpa bukti tercatat", cari dulu di `jvto-ekosistem` — `grep -rIn "<klaim>" --include="*.json"` — dan baca pesan commit yang membuatnya. Kejadian 2026-09-02: perubahan award Booking.com (`2016/9.2` → `2015/9.4`) dilabeli "tanpa bukti tercatat" dan diangkat ke pemilik **empat kali**, padahal buktinya ada di `organization.json:122`, di foto plakat + label kirim pada `verify-jvto-assets-inventory.json:825-840`, dan di lima file sumber lain — dan pesan commit-nya sendiri menyebut sumbernya. Nol file dibuka sebelum label itu ditulis.
@@ -271,17 +271,11 @@ Before any file edit at call N (multiple of 20):
 If you cannot connect them: flag drift and stop before continuing.
 
 **RULE 7 — Phase transition format**
-Before starting any new phase, output or require:
-```
-## PHASE START: [name]
-Previous phase completed: [1 sentence]
-Current state: [last file touched]
-This phase goal: [1 sentence]
-Scope: ONLY [files/folders]
-Do NOT: [what must stay unchanged]
-```
-
-Use `/phase-start` to run this automatically. Use `/session-close` to commit + handoff.
+Sebelum memulai fase baru, jalankan `/phase-start`. Templatenya hidup di
+`~/.claude/commands/phase-start.md` — file itu sudah memuat blok PHASE START,
+drift check, compact checkpoint, dan guard blind-continuation secara lengkap.
+Template yang dulu disalin di sini dihapus 2026-09-08 karena salinan kedua akan
+menyimpang dari aslinya tanpa ada yang tahu. `/session-close` untuk commit + handoff.
 
 **Audit / mapping tasks** → invoke the `analisis-steril` skill before measuring anything.
 
