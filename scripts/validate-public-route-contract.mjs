@@ -54,16 +54,89 @@ const ROOT = process.cwd();
 const APP_DIR = path.join(ROOT, "src", "app");
 
 /**
- * Route literals a sitemap.data.ts publishes as `url("/path")`.
- * Comments are stripped first — src/app/sitemap.data.ts holds commented-out
- * entries that must not count as published routes. Dynamic entries use
- * backticks and are excluded by requiring a double quote.
+ * Strips comments before extraction — src/app/sitemap.data.ts holds
+ * commented-out entries that must not count as published routes.
+ *
+ * The line-comment rule refuses to fire after ":" or a word character. The
+ * naive /\/\/.*$/gm ate everything following a "https://" inside a string:
+ * `{ url: url("/a"), note: "see https://x" }, { url: url("/b") }` silently lost
+ * "/b". A dropped route is the dangerous direction — it never reaches `live`,
+ * so a sitemap route missing from the contract reads as clean. Adversarial
+ * review 2026-09-07.
  */
-export function extractSitemapStaticRoutes(source) {
-  const withoutComments = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
-  const matches = withoutComments.matchAll(/\burl\("(\/[^"]*)"\)/g);
-  return [...matches].map((m) => m[1]);
+function stripComments(source) {
+  return source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(?<![:\w])\/\/.*$/gm, "");
 }
+
+/** Every `url(<arg>)` call. Spans lines: a call may be wrapped by a formatter. */
+const URL_CALL = /\burl\(\s*([\s\S]*?)\s*\)/g;
+
+/**
+ * Classifies one `url()` argument. Anything unrecognised is reported rather
+ * than ignored — the previous regex accepted only double-quoted single-line
+ * literals and silently dropped url('/x'), url(`/x`), a call split across
+ * lines, and url("/a/" + b). ESLint enforces no quote style here
+ * (eslint.config.mjs is next/core-web-vitals + next/typescript, no `quotes`
+ * rule), so every one of those shapes passes lint today.
+ */
+function classifyUrlCall(raw) {
+  const double = /^"(\/[^"]*)"$/.exec(raw);
+  if (double) return { kind: "route", route: double[1] };
+
+  const single = /^'(\/[^']*)'$/.exec(raw);
+  if (single) return { kind: "route", route: single[1] };
+
+  if (raw.startsWith("`")) {
+    // An interpolated template is a dynamic family, expanded from its source
+    // and never declared as a static route. Deliberately not a violation.
+    if (raw.includes("${")) return { kind: "dynamic" };
+    const staticTemplate = /^`(\/[^`]*)`$/.exec(raw);
+    if (staticTemplate) return { kind: "route", route: staticTemplate[1] };
+  }
+
+  return { kind: "unparsable" };
+}
+
+/** Route literals a sitemap.data.ts publishes as a static `url()` argument. */
+export function extractSitemapStaticRoutes(source) {
+  const routes = [];
+  for (const match of stripComments(source).matchAll(URL_CALL)) {
+    const classified = classifyUrlCall(match[1]);
+    if (classified.kind === "route") routes.push(classified.route);
+  }
+  return routes;
+}
+
+/**
+ * `url()` arguments the extractor cannot read, so the validator can fail loudly
+ * instead of treating an unreadable call as an absent route.
+ */
+export function findUnparsableSitemapUrlCalls(source) {
+  const unparsable = [];
+  for (const match of stripComments(source).matchAll(URL_CALL)) {
+    if (classifyUrlCall(match[1]).kind === "unparsable") unparsable.push(match[1]);
+  }
+  return unparsable;
+}
+
+/**
+ * Minimum record count per dynamic source. Measured 2026-09-06 and re-measured
+ * 2026-09-07; both runs identical, and their sum (267) plus the 38 static
+ * routes is the recorded 305.
+ *
+ * These are floors, not equalities: growth passes, shrinkage stops the run. If
+ * ekosistem legitimately publishes fewer records, lower the number here in the
+ * same commit and say why. A floor that is edited to make a run pass without
+ * that reason is the guard being disabled, not maintained.
+ */
+const SOURCE_FLOORS = {
+  reviewIds: 231,
+  crewCodes: 11,
+  destinationSlugs: 5,
+  tourSlugsFromBali: 4,
+  tourSlugsFromSurabaya: 13,
+  blogRoutes: 3,
+};
 
 async function findSitemapDataFiles(dir) {
   const found = [];
@@ -106,12 +179,22 @@ async function main(argv) {
   const sources = await loadSources();
   const violations = [];
 
-  // An empty dynamic source means the ekosistem read failed. Reporting an
-  // inventory built from nothing would look identical to "all clean" — the
-  // exact failure mode CLAUDE.md Rule 8 warns about.
-  for (const [key, values] of Object.entries(sources)) {
-    if (values.length === 0) {
+  // A short dynamic source means the ekosistem read failed. `length === 0` was
+  // the only integrity check until 2026-09-07, and it catches just the total
+  // wipe: a truncated HTTP payload from the fallback, or a stale sibling
+  // checkout, returns 1 review of 231 and prints "OK: 75 routes, 0 violations"
+  // — the exact silent pass CLAUDE.md Rule 8 warns about, and the one this
+  // file's own header claimed to prevent. Floors are what make the headline
+  // count mean something.
+  for (const [key, floor] of Object.entries(SOURCE_FLOORS)) {
+    const count = sources[key].length;
+    if (count === 0) {
       violations.push(`source "${key}" is empty — ekosistem read likely failed`);
+    } else if (count < floor) {
+      violations.push(
+        `source "${key}": ${count} record(s), below the recorded floor of ${floor} — ` +
+          `either the ekosistem read is partial, or the floor is stale and must be lowered deliberately`,
+      );
     }
   }
 
@@ -127,12 +210,32 @@ async function main(argv) {
   const declared = new Set(
     PUBLIC_ROUTE_CONTRACT.filter((f) => f.kind === "static").flatMap((f) => f.routes),
   );
-  const live = new Set();
+  // Occurrences, not a Set: two files emitting the same url() put a genuine
+  // duplicate <url> entry in sitemap.xml, and a Set would dedupe it away and
+  // report clean. findDuplicateRoutes only inspects the contract expansion, so
+  // nothing else would notice. Adversarial review 2026-09-07.
+  const occurrences = new Map();
   for (const file of await findSitemapDataFiles(APP_DIR)) {
-    for (const route of extractSitemapStaticRoutes(await readFile(file, "utf8"))) {
-      live.add(route);
+    const source = await readFile(file, "utf8");
+    const relative = path.relative(ROOT, file);
+    for (const route of extractSitemapStaticRoutes(source)) {
+      const emitters = occurrences.get(route) ?? [];
+      emitters.push(relative);
+      occurrences.set(route, emitters);
+    }
+    for (const raw of findUnparsableSitemapUrlCalls(source)) {
+      violations.push(
+        `${relative}: url(${raw}) is not a form the extractor can read — ` +
+          `it would be dropped, and a dropped route reads as "not published"`,
+      );
     }
   }
+  for (const [route, emitters] of occurrences) {
+    if (emitters.length > 1) {
+      violations.push(`${route} is published ${emitters.length}x, by ${emitters.join(" and ")}`);
+    }
+  }
+  const live = new Set(occurrences.keys());
   for (const route of [...live].sort()) {
     if (!declared.has(route)) {
       violations.push(`sitemap publishes ${route}; contract does not declare it`);
