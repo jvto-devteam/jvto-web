@@ -1,6 +1,6 @@
 # T01 — Public Route Contract Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Add `src/lib/routes/` — a declarative contract of every public/indexable route family plus a pure inventory builder — and a validator script that proves every public URL matches exactly one family.
 
@@ -209,7 +209,7 @@ Neither is pushed. `origin/live..HEAD` = 2 commits.
   - `type RouteFamilyContract`, `type ArtifactExpectation`, `type RouteSourceKey`
   - `const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[]`
 
-- [ ] **Step 0: Create the registration shim, and understand why it must exist**
+- [x] **Step 0: Create the registration shim, and understand why it must exist**
 
 `scripts/lib/ts-resolve-hooks.mjs` deliberately does not register itself. Something has to call `register()` — and **it cannot be a top-level call inside the file that needs the hook.** ES modules link the whole graph before any code runs, so every `import` specifier in a file is resolved *before* its first statement executes. A `register()` on line 1 is already too late for line 2's import.
 
@@ -232,7 +232,7 @@ import { register } from "node:module";
 register(new URL("./ts-resolve-hooks.mjs", import.meta.url));
 ```
 
-- [ ] **Step 0b: Prove the shim does something, both ways**
+- [x] **Step 0b: Prove the shim does something, both ways**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
@@ -247,7 +247,7 @@ cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
 ```
 Expected: fails with `Cannot find package '@/lib'`. Run both. A hook you have only ever seen succeed is indistinguishable from a hook that is not installed.
 
-- [ ] **Step 1: Write the failing normalizer test**
+- [x] **Step 1: Write the failing normalizer test**
 
 Create `scripts/validate-public-route-contract.test.ts`:
 
@@ -270,14 +270,14 @@ test("normalizeRoute: root stays a bare slash", () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts
 ```
 Expected: FAIL — cannot find `../src/lib/routes/normalizeRoute.ts`.
 
-- [ ] **Step 3: Write the normalizer**
+- [x] **Step 3: Write the normalizer**
 
 Create `src/lib/routes/normalizeRoute.ts`:
 
@@ -300,14 +300,14 @@ export function normalizeRoute(route: string): string {
 }
 ```
 
-- [ ] **Step 4: Run the test — it must pass**
+- [x] **Step 4: Run the test — it must pass**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts
 ```
 Expected: 2 pass, 0 fail.
 
-- [ ] **Step 5: Extract the real static route literals**
+- [x] **Step 5: Extract the real static route literals**
 
 Do not retype them from any document. Produce the list mechanically:
 
@@ -320,7 +320,7 @@ done
 
 `sed 's#//.*##'` drops the commented-out entries (e.g. `sitemap.data.ts:12-13`). Backtick-interpolated dynamic URLs are excluded automatically because the regex requires a double quote. **Record the total count** — it becomes the drift guard's expectation in Task 4.
 
-- [ ] **Step 6: Write the contract**
+- [x] **Step 6: Write the contract**
 
 Create `src/lib/routes/publicRouteContract.ts`. Fill the static `routes` arrays from Step 5's output, grouped by the file they came from. Do not invent a route that Step 5 did not print.
 
@@ -427,7 +427,7 @@ export const PUBLIC_ROUTE_CONTRACT: readonly RouteFamilyContract[] = [
 
 Do **not** add a family for `/my-booking/:slug`. It is transactional, absent from the sitemap, and has no `generateStaticParams` — it is non-public, and a contract entry would wrongly assert it should be indexed.
 
-- [ ] **Step 7: Add a contract-shape test**
+- [x] **Step 7: Add a contract-shape test**
 
 Append to the test file:
 
@@ -461,14 +461,14 @@ test("contract: no static route is declared by two families", () => {
 });
 ```
 
-- [ ] **Step 8: Run the tests**
+- [x] **Step 8: Run the tests**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts && npx tsc --noEmit
 ```
 Expected: 5 pass, 0 fail; tsc clean.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 cd /d/jvto-web && git add src/lib/routes/ scripts/lib/register-ts-hook.mjs scripts/validate-public-route-contract.test.ts
@@ -480,7 +480,7 @@ Claude-Session: https://claude.ai/code/session_01RDfJAM9hSdB5KqYFobKAdD"
 
 ---
 
-## Task 3: Pure inventory builder
+## Task 3: Pure inventory builder — ✅ DONE (`413620b6`)
 
 **Files:**
 - Create: `src/lib/routes/buildPublicRouteInventory.ts`
@@ -510,7 +510,7 @@ Claude-Session: https://claude.ai/code/session_01RDfJAM9hSdB5KqYFobKAdD"
   export function findDuplicateRoutes(inventory: PublicRouteInventory): readonly string[];
   ```
 
-- [ ] **Step 1: Write the failing builder tests**
+- [x] **Step 1: Write the failing builder tests**
 
 Append to the test file:
 
@@ -606,14 +606,14 @@ test("builder: real contract with empty sources yields only static routes", () =
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts
 ```
 Expected: FAIL — cannot find `buildPublicRouteInventory.ts`.
 
-- [ ] **Step 3: Write the builder**
+- [x] **Step 3: Write the builder**
 
 Create `src/lib/routes/buildPublicRouteInventory.ts`:
 
@@ -712,14 +712,14 @@ export function findDuplicateRoutes(inventory: PublicRouteInventory): readonly s
 }
 ```
 
-- [ ] **Step 4: Run the tests — all must pass**
+- [x] **Step 4: Run the tests — all must pass**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts && npx tsc --noEmit
 ```
 Expected: 12 pass, 0 fail; tsc clean.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /d/jvto-web && git add src/lib/routes/buildPublicRouteInventory.ts scripts/validate-public-route-contract.test.ts
@@ -731,7 +731,7 @@ Claude-Session: https://claude.ai/code/session_01RDfJAM9hSdB5KqYFobKAdD"
 
 ---
 
-## Task 4: Validator script + drift guard + npm scripts
+## Task 4: Validator script + drift guard + npm scripts — ✅ DONE (`1cb447af`)
 
 **Files:**
 - Create: `scripts/validate-public-route-contract.mjs`
@@ -742,7 +742,7 @@ Claude-Session: https://claude.ai/code/session_01RDfJAM9hSdB5KqYFobKAdD"
 - Consumes: `buildPublicRouteInventory`, `findDuplicateRoutes`, `PUBLIC_ROUTE_CONTRACT`, and the five loaders proven in Task 1
 - Produces: `npm run validate:public-routes`, plus an exported `extractSitemapStaticRoutes(source: string): string[]` used by both the script and its test
 
-- [ ] **Step 1: Write the failing extractor test**
+- [x] **Step 1: Write the failing extractor test**
 
 Append to the test file. The fixture reproduces every shape actually present in the real files — double-quoted static, backtick dynamic, and a commented-out entry:
 
@@ -772,14 +772,14 @@ test("extractor: does not mistake a getLastModified key for a url", () => {
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 ```bash
 cd /d/jvto-web && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts
 ```
 Expected: FAIL — cannot find `validate-public-route-contract.mjs`.
 
-- [ ] **Step 3: Write the validator script**
+- [x] **Step 3: Write the validator script**
 
 Create `scripts/validate-public-route-contract.mjs`. Static imports are fine because `--import` installs the hook first (Step 3a). The exit-code contract mirrors `scripts/verify-live.mjs` (0/1/2), and the crew/blog sourcing choices carry their reason inline:
 
@@ -963,7 +963,7 @@ if (isMainModule) {
 }
 ```
 
-- [ ] **Step 3c: Add the npm scripts**
+- [x] **Step 3c: Add the npm scripts**
 
 Both flags are load-bearing, and this lands before the script is ever run — every command from here on goes through npm, so the invocation that ships is the invocation that was tested. In `package.json`, alongside the existing `validate:*` entries:
 
@@ -972,14 +972,14 @@ Both flags are load-bearing, and this lands before the script is ever run — ev
 "test:routes": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts"
 ```
 
-- [ ] **Step 4: Run the tests — all must pass**
+- [x] **Step 4: Run the tests — all must pass**
 
 ```bash
 cd /d/jvto-web && npm run test:routes
 ```
 Expected: 14 pass, 0 fail.
 
-- [ ] **Step 5: Run the validator for real — the drift guard earns its keep here**
+- [x] **Step 5: Run the validator for real — the drift guard earns its keep here**
 
 ```bash
 cd /d/jvto-web && npm run validate:public-routes; echo "exit=$?"
@@ -991,7 +991,7 @@ Expected on first run: likely `exit=1` with `contract declares …` / `sitemap p
 
 Then confirm the route total equals Task 1 Step 4's six counts summed with the static count. If it does not, the discrepancy is real — investigate before proceeding.
 
-- [ ] **Step 6: Prove the failure path, not just the success path**
+- [x] **Step 6: Prove the failure path, not just the success path**
 
 A validator that has never been seen to fail is unverified.
 
@@ -1005,21 +1005,21 @@ cd /d/jvto-web && npm run validate:public-routes -- --json; echo "exit=$?"
 ```
 Expected: `exit=2`, `usage: --json requires a path`.
 
-- [ ] **Step 7: Confirm the shipped invocation is the tested one**
+- [x] **Step 7: Confirm the shipped invocation is the tested one**
 
 ```bash
 cd /d/jvto-web && node scripts/validate-public-route-contract.mjs; echo "exit=$?"
 ```
 Expected: **fails** with `Cannot find package '@/lib'`. That is correct — the flags in Step 3c are the contract, and anyone invoking the bare file is bypassing it. If this unexpectedly succeeds, the hook is being installed by something other than the npm script and the dependency is invisible; find out what before continuing.
 
-- [ ] **Step 8: Run the full local gate**
+- [x] **Step 8: Run the full local gate**
 
 ```bash
 cd /d/jvto-web && npm run test:routes && npm run validate:public-routes && npx tsc --noEmit && npm run lint && npm run test:stale && npm run validate && npm run build
 ```
 Expected: all green. `npm run build` must still report **106/106** static pages and **104** route-table entries — Task 1's import change is the only edit to existing runtime code, and it must move neither number.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 cd /d/jvto-web && git add scripts/validate-public-route-contract.mjs scripts/validate-public-route-contract.test.ts src/lib/routes/publicRouteContract.ts package.json
@@ -1093,3 +1093,110 @@ git diff --stat origin/live..HEAD -- src/app   # must be empty
 - `normalizeRoute` now exists in three places. Collapsing `staticPageAdapter.ts:39` and `website.ts:128` onto the exported one edits the reader layer — a separate change.
 - `PRODUCTION_ORIGIN` (`staticPageAdapter.ts:10`, hardcoded) and `BASE_URL` (`site.ts:9`, env-driven) disagree about the site origin. Not T01's to resolve, but T02 will have to pick one.
 - `scripts/validate-review-detail-pages.mjs:5-9` carries a stale header claiming review-detail routes are deliberately absent from the sitemap. That stopped being true on 2026-08-21. Correct it when that file is next opened.
+
+---
+
+## Execution record — 2026-09-07
+
+Tasks 3 and 4 executed this session. Tasks 1-2 were already committed
+(`eb152826`, `9c8e693d`); their checkboxes were flipped here rather than
+re-executed.
+
+| Commit | Contents |
+|---|---|
+| `413620b6` | Task 3 — `buildPublicRouteInventory.ts` + 7 builder tests |
+| `1cb447af` | Task 4 — validator, drift guard, extractor tests, 2 npm scripts |
+
+**Measured, not inherited:**
+
+| Fact | Value |
+|---|---|
+| `npm run test:routes` | 15 pass, 0 fail |
+| `npm run validate:public-routes` | exit 0 — 305 routes, 14 families, 38 static live |
+| Route arithmetic | 38 static + 267 dynamic (231 reviews · 11 crew · 5 destinations · 4 bali · 13 surabaya · 3 blog) = **305**, exactly the Task 1 baseline |
+| `npx tsc --noEmit` | clean |
+| `npm run lint` | 254 problems (28 errors, 226 warnings) — byte-identical to the Task 1 baseline, no new finding |
+| `npm run test:stale` | 11/11 |
+| `npm run validate` | 52/52 |
+| `npm run build` | exit 0 · **106/106** static pages · **104** route entries · 0 `PrismaClientInitializationError` |
+| `git diff --stat origin/live..HEAD -- src/app` | empty |
+
+**Step 5 did not play out as written.** The plan expected the first real run to
+exit 1 on hand-copied static lists. It exited 0 — the lists extracted in Task 2
+were already correct. That left the drift guard never observed failing, which is
+the condition the repo treats as unverified, so both directions were forced:
+
+| Probe | Result |
+|---|---|
+| add `/blog-drift-probe` to the contract | exit 1 — `contract declares /blog-drift-probe; no sitemap.data.ts publishes it` |
+| empty `blog-index.routes` | exit 1 — `sitemap publishes /blog; contract does not declare it` |
+
+Both mutations were reverted with `git checkout --`; `src/lib/routes/` is
+byte-identical to `9c8e693d` apart from the new builder.
+
+`--strict-expectations` exits 1 listing all 14 unconfirmed families; `--json`
+with no path exits 2; bare `node scripts/validate-public-route-contract.mjs`
+fails `ERR_MODULE_NOT_FOUND`, which is the intended proof that the two flags in
+the npm script are load-bearing.
+
+---
+
+## Adversarial review — 2026-09-07 (`77e1e097`)
+
+A read-only `Explore` agent was briefed to attack this session's evidence rather
+than repeat it. Seven confirmed findings; every one was reproduced
+independently before being acted on.
+
+**Fixed in `77e1e097`, all inside `scripts/validate-public-route-contract.mjs`:**
+
+| # | Defect | Why it was silent |
+|---|---|---|
+| 1 | Extractor read only `url("/x")` — double-quoted, one line. `url('/x')`, `` url(`/x`) ``, a split-line call and `url("/a/" + b)` all returned `[]` | A sitemap route the extractor drops never reaches `live`, is never compared, and the run exits 0. ESLint has no `quotes` rule here, so all those shapes pass lint |
+| 2 | Comment stripping was not string-aware — one `https://` deleted every `url()` later on the line | Same dropped-route direction as #1 |
+| 3 | Live routes accumulated into a `Set`, hiding a route published by two files | `sitemap.xml` would carry a real duplicate `<url>`; `findDuplicateRoutes` only inspects the contract side |
+| 4 | Nothing asserted 305/38/267 — the only source check was `length === 0` | 1 review of 231 prints `OK: 75 routes, 0 violations`. The total-zero case was the only one covered |
+
+Fix #1 classifies each `url()` call and reports anything unreadable through the
+new `findUnparsableSitemapUrlCalls`, converting a silent drop into a loud
+violation. #4 adds `SOURCE_FLOORS` (231/11/5/4/13/3 — floors, not equalities).
+
+**Failure paths exercised by injection, not assumed:**
+
+| Probe | Result |
+|---|---|
+| `url("/markets/" + code)`, `url(ROUTE)` | reported unparsable |
+| `url('/x')`, `` url(`/x`) ``, split-line call | now extracted |
+| `` url(`/x/${v}`) `` | still dynamic, still not a static route |
+| `https://` inside a string | following route survives |
+| file discovery duplicated in-place | 38 duplicate violations |
+| `reviewIds` floor raised to 999999 | exit 1, naming 231 against the floor |
+| the eight real `sitemap.data.ts` files | zero unparsable calls |
+
+Every probe was reverted; `scripts/validate-public-route-contract.mjs` was
+byte-compared against its pre-probe copy afterwards.
+
+**The baseline did not move.** 305 routes, 14 families, 38 static live, exit 0 —
+identical to `1cb447af`, because all eight files use the double-quoted
+single-line shape today. These changes add failure paths only.
+
+**Left open by owner instruction 2026-09-07** — recorded in `STATUS.yaml`, not
+acted on: `ROUTES_3D_INDEXABILITY` (`/3d/*` is statically generated and
+crawlable but in no sitemap and no contract family — a product decision),
+`ROUTE_CONTRACT_CI_WIRING` (neither npm script appears anywhere in `.github/`),
+`ROUTE_CONTRACT_CI_NODE_VERSION` (CI pins Node 20; unflagged type stripping
+needs ≥22.18, so both scripts would die `ERR_UNKNOWN_FILE_EXTENSION`). The last
+two are one change and are forbidden by the scope guardrails without written
+approval.
+
+**Cleared on inspection, not defects:** the blog-source substitution comment is
+accurate (`getAllPublishedBlogRoutes` *is* `getEcosystemWebsiteRoutes()` filtered
+on `/blog/`, `blog.ts:218-223`); `--strict-expectations` is not a no-op; the
+`fileURLToPath` spelling of `isMainModule` is correct; `ts-resolve-hooks.mjs`
+cannot mask a genuinely missing module; no credential material in any new file.
+
+**One verification gap, stated rather than papered over.** The duplicate-route
+branch (#3) was exercised by duplicating file *discovery* in place, not by two
+real `sitemap.data.ts` files emitting the same route. The counting logic under
+test was untouched by that injection, so the evidence holds — but a unit test
+over a two-file fixture would be stronger, and is blocked only because this
+session was scoped to the validator file alone.

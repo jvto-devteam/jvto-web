@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-06'
+last_updated: '2026-09-07'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -268,5 +268,40 @@ open_items:
   - id: T01_PUBLIC_ROUTE_CONTRACT
     status: IN_PROGRESS
     note: >-
-      Task 1-2 selesai dan ter-commit (eb152826, 9c8e693d). Task 3 (builder) dan Task 4 (validator +
-      drift guard) belum dikerjakan.
+      Task 1-4 selesai dan ter-commit (eb152826, 9c8e693d, 413620b6, 1cb447af). npm run
+      validate:public-routes exit 0: 305 rute = 38 statis + 267 dinamis, 14 family, drift guard
+      terbukti gagal di KEDUA arah lewat probe yang langsung direvert. Gate lokal hijau 2026-09-07:
+      test:routes 15/15, tsc clean, lint 254/28/226 (baseline, tanpa temuan baru), test:stale 11/11,
+      validate 52/52, build 106/106 + 104 entri rute. Tetap IN_PROGRESS, bukan DONE: T01 tidak
+      menghasilkan output ter-render sehingga verify:live tidak punya yang bisa diamati (Rule 9).
+      Naik DONE saat T02 memberi kontrak konsumen hidup. 4 commit belum di-push.
+  - id: ROUTES_3D_INDEXABILITY
+    status: NEEDS_OWNER
+    note: >-
+      Terverifikasi 2026-09-07 lewat review adversarial T01: src/app/3d/[slug] ter-generate statis
+      dari public/routes/index.json (5 slug: ijen-crater, madakaripura-waterfall, mount-bromo,
+      papuma-beach, tumpak-sewu-waterfall), src/app/robots.ts memberi allow '/', tidak ada noindex,
+      dan kelimanya TIDAK ada di sitemap.data.ts mana pun maupun di PUBLIC_ROUTE_CONTRACT. Jadi
+      crawlable tapi tak terdaftar. Dua arah keputusan saling berlawanan dan keduanya menyentuh
+      produksi: (a) memang publik -> masuk sitemap + kontrak, menambah 5 URL indexable; (b) tidak
+      publik -> perlu noindex. Menebak lalu menuliskannya ke kontrak berarti memasukkan klaim
+      karangan ke file yang berperan sebagai otoritas rute publik. Tidak dikerjakan di T01 atas
+      instruksi pemilik 2026-09-07.
+  - id: ROUTE_CONTRACT_CI_WIRING
+    status: NEEDS_OWNER
+    note: >-
+      Terverifikasi 2026-09-07: grep -rn 'validate:public-routes|test:routes|validate-public-route'
+      .github/ scripts/validate.mjs -> NOL referensi. Guard rute publik hanya jalan kalau manusia
+      mengetiknya, jadi keempat perbaikan silent-pass di 77e1e097 tidak menjaga apa pun di CI.
+      Terikat dengan ROUTE_CONTRACT_CI_NODE_VERSION: memasang step-nya tanpa menaikkan Node lebih
+      dulu menghasilkan CI merah seketika, jadi keduanya satu perubahan. Butuh izin tertulis - scope
+      guardrail CLAUDE.md melarang perubahan .github/workflows/ci.yml.
+  - id: ROUTE_CONTRACT_CI_NODE_VERSION
+    status: NEEDS_OWNER
+    note: >-
+      Terverifikasi 2026-09-07: ci.yml:38 dan update-volcanic-status.yml:30 pin node-version '20';
+      package.json tanpa field engines; tanpa .nvmrc. Type-stripping TypeScript tanpa flag butuh
+      Node >=22.18, jadi di Node 20 baik validate:public-routes maupun test:routes mati dengan
+      ERR_UNKNOWN_FILE_EXTENSION. Lokal Node 24.14.0 sehingga cacat ini tak terlihat sampai ada yang
+      memasang step CI-nya. test:stale yang sudah ada berbagi cacat yang sama dan juga tidak
+      terpasang di CI. Butuh izin tertulis - perubahan workflow CI.
