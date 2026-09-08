@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-07'
+last_updated: '2026-09-08'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -346,3 +346,53 @@ open_items:
     note: >-
       phase-start.md menunjuk F:\jvto-web, repo sudah pindah ke D:\jvto-web. Perbaiki path saat
       sempat, di luar scope T02.
+  - id: T02_CONFIG_PUSH_PENDING
+    status: TODO
+    note: >-
+      bed9929c (hook eslint+cadence, skill check-routes+adversarial-review, CLAUDE.md trim) belum
+      di-push. Nol perubahan src/. Tumpangkan ke commit T03 pertama, jangan bayar siklus deploy
+      sendiri.
+  - id: EKOSISTEM_TOURIST_TRIP_TEST_WINDOWS_PATH
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan 2026-09-08 saat T03 memasang route-schema-contract.test.mjs ke chain test:schema
+      jvto-ekosistem. FILE: jvto-ekosistem/scripts/test/generate-tourist-trip-schema.test.mjs.
+      GEJALA: node scripts/test/generate-tourist-trip-schema.test.mjs -> exit 1, ENOENT lstat pada
+      path 'D:\D:\jvto-ekosistem\2-product-and-commercial-core\tour-products' - drive letter GANDA,
+      jalur dibangun dengan menggabungkan path absolut ke path absolut lain (seedRealSources, baris
+      23, dipanggil dari withTempRoot baris 12). BUKAN REGRESI DARI T03: git diff --stat pada file
+      itu = 0 baris, sesi ini nol menyentuhnya; yang diubah T03 cuma package.json (menambah satu
+      entri di ujung chain), scripts/validate-schema.mjs, plus tiga file baru. Diukur satu per satu:
+      7 dari 8 anggota chain test:schema lulus, hanya file ini yang gagal, dan test T03 berada di
+      urutan TERAKHIR sehingga sebelum ini belum pernah dijalankan. AKIBAT NYATA: npm run
+      test:schema exit 1 di Windows, sehingga gerbang lokal itu tidak bisa dipakai apa adanya di
+      mesin ini - jalankan anggotanya satu per satu sampai diperbaiki. TIDAK MENYALA DI CI:
+      deploy-vps.yml menjalankan test:schema di ubuntu-latest, tempat pola path ini tidak
+      menghasilkan drive letter ganda, jadi CI tetap hijau dan bug ini hanya terlihat dari mesin
+      Windows. TIDAK DIKERJAKAN: di luar scope T03 (T03 = kontrak schema per URL group), dan
+      memperbaiki test milik generator orang lain menyentuh area T08 Generator hardening. Butuh
+      keputusan pemilik: perbaiki sekarang sebagai pekerjaan sendiri, atau gabungkan ke T08.
+  - id: T03_PROBE_J_REGEX_GUARD_INERT
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan 2026-09-08 oleh probe saya sendiri saat T03, BELUM DIPERBAIKI atas instruksi pemilik
+      - bukan bagian Definisi Selesai T03 yang disetujui. FILE:
+      jvto-ekosistem/scripts/lib/validate-route-schema-contract.mjs. GEJALA:
+      checkContractIntegrity() memuat penjaga yang menangkap pola regex tak sah dan melaporkannya
+      sebagai 'invalid pattern', tapi penjaga itu TIDAK PERNAH menyala lewat jalur npm run
+      validate:schema. Sebabnya urutan: validateArtifacts memanggil checkContractIntegrity lebih
+      dulu dan mengumpulkan pesannya, tetapi kemudian matchingGroups() menjalankan new
+      RegExp(rule.pattern) pada tiap rute tanpa try/catch, sehingga lemparannya membatalkan seluruh
+      proses sebelum daftar violation sempat dicetak. BUKTI TERUKUR: probe J mengubah
+      rules[0].pattern jadi '^/why-jvto/reviews/(' lalu menjalankan npm run validate:schema -> exit
+      1, tetapi nol baris memuat 'invalid pattern'; sepuluh probe lain (A, A2, B, C, D, E, F, G, H,
+      I) berperilaku persis seperti spesifikasinya. Kontrak dikembalikan byte-identik sesudah tiap
+      probe, diverifikasi sha256. DAMPAK: exit code-nya kebetulan tetap 1, jadi kontrak yang rusak
+      TETAP menghentikan run - tidak ada silent pass. Yang hilang adalah diagnostiknya: pembaca
+      mendapat stack trace ERR alih-alih kalimat yang menyebut rule ke berapa yang rusak. Kelas
+      cacat yang sama dengan yang ditemukan review adversarial T02 nomor 1: kegagalan 'pengukuran
+      tidak terjadi' menyamar sebagai kegagalan 'kontrak dilanggar'. PERBAIKAN YANG DISARANKAN (satu
+      baris): bungkus new RegExp di matchingGroups dengan try/catch dan kembalikan nol match,
+      sehingga pesan checkContractIntegrity yang sudah ada yang tampil. CATATAN PROSES: probe G, H,
+      I, dan J memang di luar daftar probe A-F yang pemilik setujui; keempatnya dijalankan tanpa
+      diminta.
