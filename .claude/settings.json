@@ -12,13 +12,13 @@
       {
         "matcher": "Write|Edit",
         "hooks": [
-          { "type": "command", "command": "node .claude/hooks/typecheck.mjs", "timeout": 180 },
-          { "type": "command", "command": "node .claude/hooks/eslint-routes.mjs", "timeout": 120 }
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/typecheck.mjs\"", "timeout": 180 },
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/eslint-routes.mjs\"", "timeout": 120 }
         ]
       },
       {
         "hooks": [
-          { "type": "command", "command": "node .claude/hooks/cadence.mjs", "timeout": 15 }
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/cadence.mjs\"", "timeout": 15 }
         ]
       }
     ],
@@ -26,7 +26,7 @@
       {
         "matcher": "WebFetch|WebSearch",
         "hooks": [
-          { "type": "command", "command": "node .claude/hooks/cadence.mjs", "timeout": 15 }
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/cadence.mjs\"", "timeout": 15 }
         ]
       }
     ]
