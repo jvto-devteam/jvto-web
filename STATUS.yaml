@@ -397,10 +397,11 @@ open_items:
       I, dan J memang di luar daftar probe A-F yang pemilik setujui; keempatnya dijalankan tanpa
       diminta.
   - id: T03_TOURS_SYNC_UNVERIFIED
-    status: NEEDS_OWNER
+    status: DONE
     note: >-
-      sync-booking-data.yml meng-git add seluruh 5-experience-engine +
-      2-product-and-commercial-core; belum diverifikasi apakah ini bisa memunculkan
-      product-contract.json BARU (bukan cuma regenerasi 17 PDP existing). Kalau bisa, tours/*-detail
-      butuh countRule floor yang sama seperti reviews-detail. Exact dipertahankan untuk sekarang
-      karena gagal keras, bukan gagal diam.
+      Terverifikasi 2026-09-09: sync-booking-data.mjs menulis hanya ke
+      archive/booking-overview-snapshot dan archive/customer-portal-detail-snapshot (writeFile baris
+      151-206). Nol tulisan ke 2-product-and-commercial-core. git log --diff-filter=A --
+      tour-products/: satu-satunya penambah adalah fd5c6f26 Initial commit, nol commit bot.
+      validate-schema.mjs read-only; 15 script test:booking-sync menulis hanya ke
+      mkdtemp(os.tmpdir()). countRule exact 17 untuk tours/*-detail DIPERTAHANKAN.
