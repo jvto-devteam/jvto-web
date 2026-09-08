@@ -405,3 +405,69 @@ open_items:
       tour-products/: satu-satunya penambah adalah fd5c6f26 Initial commit, nol commit bot.
       validate-schema.mjs read-only; 15 script test:booking-sync menulis hanya ke
       mkdtemp(os.tmpdir()). countRule exact 17 untuk tours/*-detail DIPERTAHANKAN.
+  - id: T04_LIVE_NODE_AUDIT
+    status: IN_PROGRESS
+    note: >-
+      Live Audit v2 selesai secara kode dan DI-COMMIT di jvto-ekosistem sebagai 5f67c19d (branch
+      main), BELUM di-push - jadi belum ada bukti server hidup, status tidak boleh DONE. Baru:
+      scripts/lib/extract-jsonld-nodes.mjs + scripts/test/live-html-audit.test.mjs (npm run
+      test:live-audit, hijau). Rewrite scripts/live-html-audit.mjs: daftar rute dari sitemap live
+      (307) bukan CSV beku 2026-08-29 (296); JSON-LD di-JSON.parse dan di-scope ke <script
+      type=application/ld+json>; node dihitung per @id; exit 0/1/2; floor kegagalan fetch 10 persen
+      supaya run yang tak terukur tidak terbaca sebagai nol perubahan. Termasuk fix probe-J di
+      matchingGroups (T03_PROBE_J_REGEX_GUARD_INERT) dengan test jalur nyata lewat
+      validateArtifacts, plus 4 cacat alat yang ditemukan saat menguji jalur gagal: sitemap fetch
+      yang melempar keluar sebagai exit 1 bukan 2; larangan tipe artefak diterapkan ke halaman
+      render (6 FAIL palsu); aturan dangling same-origin terlalu lebar (17 positif palsu di
+      homepage); direktori bertanggal pakai UTC. Diukur 2026-09-09 pada ekosistem 32b54118: 307/307
+      rute, FAIL 262 - NOT_ENFORCED 5 - PASS 38 - REVIEW 2, dua run berturut identik. Silang-cek DoD
+      lolos: /entity 17 node, /destinations/mount-bromo 8 node, sama persis dengan angka yang T03
+      ukur manual. npm run test:schema tetap merah di anggota ke-5 karena bug Windows lama, git diff
+      --stat file itu 0 baris. Kontrak schema-route-groups.json 0 baris berubah sesuai keputusan
+      pemilik. Artefak: jvto-ekosistem/docs/website-audit/2026-09-09/.
+  - id: T04_DANGLING_GLOBAL_IDS
+    status: TODO
+    note: >-
+      KLASIFIKASI: DEFECT, bukan desain yang disengaja. Ditetapkan pemilik 2026-09-09. BUKTI:
+      komentar exemption jvto-ekosistem/scripts/validate-schema.mjs:53-57 (commit a01d7dd4,
+      2026-08-21, davidsetyaahr) mengklaim node founder digabung ke combined @graph saat render
+      sehingga edge founder resolve di halaman. Terukur benar untuk 2 dari 23 rute tempat id itu
+      muncul (/ dan /verify-jvto), SALAH untuk 21 rute sisanya. PENGUKURAN (audit node-level, sapuan
+      sitemap penuh 307/307, 2026-09-09, ekosistem 32b54118 lalu di-commit 5f67c19d): 382 referensi
+      internal menggantung di 259 rute; nol duplicate @id; nol parse error. Per id: #review-N 233
+      rute, #agung-sambuko 21, #term-hpwki/nib/tdup 18 masing-masing, #term-polpar 17,
+      #term-bbksda/kta/se1658 13, #term-jvto-foc-scheme 2, #term-jvto-travel-credit 1,
+      /verify-jvto#asset-* 12 pada 1 rute, #dr-ahmad-irwandanu 1. Node-nya ADA tapi terpusat di
+      halaman hub: /#agung-sambuko didefinisikan di 2 rute, 12 #term-* hanya di /, #review-N hanya
+      di /why-jvto/reviews. Diverifikasi langsung dari HTML produksi dengan kontrol:
+      /tours/from-bali/ijen-bromo-madakaripura-3d2n mendefinisikan /#organization dan /#website tapi
+      tidak #term-nib maupun #agung-sambuko; kontrol /contact mendefinisikan semua yang dirujuknya.
+      SUB-CATATAN untuk task perbaikan nanti, JANGAN dikerjakan sekarang: komentar
+      validate-schema.mjs:53-57 itu sendiri wajib dikoreksi atau dihapus dalam task perbaikan,
+      karena klaimnya menyesatkan pembaca kode berikutnya - ia menyatakan sebagai fakta umum sesuatu
+      yang hanya berlaku di 2 rute hub. BELUM DIPERBAIKI: status tetap TODO, nol halaman render
+      disentuh.
+  - id: T04_ENTITY_NO_GLOBAL_NODES
+    status: TODO
+    note: >-
+      Backlog paragraf 8 menetapkan stopping condition '/entity tidak mempunyai dangling global
+      reference'. Diukur 2026-09-09: /entity merujuk
+      https://javavolcano-touroperator.com/#organization dan /#website tapi mendefinisikan NOL @id
+      root-level. Diverifikasi terpisah dari HTML produksi, bukan hanya lewat alat audit: /entity
+      200, 1 blok ld+json, 17 node ber-@id, root-level terdefinisi (none); kontrol /contact
+      mendefinisikan KEDUA id itu. Isi /entity: CollectionPage 1, GovernmentOrganization 10,
+      Organization 6. Group entity ber-enforcement not-enforced-here sehingga kontrak tipe tidak
+      dinilai, tapi referensi menggantung tetap dinilai - itu sebabnya barisnya FAIL, bukan
+      NOT_ENFORCED.
+  - id: T04_CONTRACT_GAPS_INDEX_PAGES
+    status: TODO
+    note: >-
+      Delapan pelanggaran kontrak non-dangling dari sapuan 307 rute, 2026-09-09. /destinations:
+      MISSING_REQUIRED_TYPE FAQPage 0, MISSING_REQUIRED_ID #webpage dan #faq (fragmen yang ada:
+      #breadcrumb #collectionpage #organization #website). /tours: MISSING_REQUIRED_TYPE WebPage 0,
+      MISSING_REQUIRED_ID #webpage (yang ada: #breadcrumb #collection #itemlist #organization
+      #website). SINGLETON_VIOLATION 2 node WebPage di /policy/booking-payment-cancellation,
+      /policy/inclusions-exclusions, /policy/privacy. Plus 2 REVIEW non-fatal: tipe Place tak
+      dideklarasikan group tours di /tours/from-bali dan /tours/from-surabaya. Belum ditentukan mana
+      yang cacat halaman dan mana kontrak T03 yang perlu menyusul - keduanya mungkin, dan T04 tidak
+      mengubah kontrak.
