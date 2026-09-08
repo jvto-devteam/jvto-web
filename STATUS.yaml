@@ -396,3 +396,11 @@ open_items:
       sehingga pesan checkContractIntegrity yang sudah ada yang tampil. CATATAN PROSES: probe G, H,
       I, dan J memang di luar daftar probe A-F yang pemilik setujui; keempatnya dijalankan tanpa
       diminta.
+  - id: T03_TOURS_SYNC_UNVERIFIED
+    status: NEEDS_OWNER
+    note: >-
+      sync-booking-data.yml meng-git add seluruh 5-experience-engine +
+      2-product-and-commercial-core; belum diverifikasi apakah ini bisa memunculkan
+      product-contract.json BARU (bukan cuma regenerasi 17 PDP existing). Kalau bisa, tours/*-detail
+      butuh countRule floor yang sama seperti reviews-detail. Exact dipertahankan untuk sekarang
+      karena gagal keras, bukan gagal diam.
