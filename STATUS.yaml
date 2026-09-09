@@ -472,22 +472,46 @@ open_items:
       yang cacat halaman dan mana kontrak T03 yang perlu menyusul - keduanya mungkin, dan T04 tidak
       mengubah kontrak.
   - id: T04_FIX_DANGLING_FOUNDER_REFS
+    status: IN_PROGRESS
+    note: >-
+      FASE 1 SELESAI SECARA LOKAL, belum di-push - status tidak boleh DONE (Rule 9: bukti lokal
+      bukan bukti produksi). Cakupan Fase 1: 24 rute yang menggantungkan #agung-sambuko,
+      #dr-ahmad-irwandanu, atau #term-*. AKAR PENYEBAB, terverifikasi: tiga tempat menyatakan node
+      ini disuntikkan global lewat src/app/(website)/layout.tsx -
+      .claude/rules/schema-and-content-layer.md, entityGraph.ts komentar DEFINED_TERM_IDS, dan
+      buildPolicySchemas.ts. layout.tsx tidak memuat JSON-LD sama sekali. Injeksi global itu tidak
+      pernah ada; hanya homepage yang mendefinisikan 11 term, dan hanya / plus /verify-jvto yang
+      mendefinisikan founder. PERBAIKAN: src/lib/schemas/globalEntityNodes.ts baru -
+      resolveGlobalEntityNodes() memindai graph yang sudah dirakit, dan menambahkan definisi hanya
+      untuk @id global yang DIRUJUK tapi belum terdefinisi. Bukan injeksi borongan. Aturan
+      referensinya sengaja disamakan dengan extract-jsonld-nodes.mjs di ekosistem supaya perbaikan
+      dan alat ukurnya tidak berbeda definisi. Dipanggil dari PageJsonLdCombined (kedua branch) dan
+      dari dua PDP tour yang melewati komponen itu. Nol percabangan khusus halaman hub: kedua
+      assembler sudah dedupe per @id first-wins, dan resolver melewati id yang sudah terdefinisi.
+      GLOBAL_ENTITY_IDS berisi 13 id, bukan 14 - buildBbksdaRegulationSchema tidak punya @id sama
+      sekali sehingga mustahil dirujuk. BUKTI LOKAL 2026-09-09: tsc 0 error; build exit 0 dengan
+      106/106 halaman dan 104 entri rute dan 0 PrismaClientInitializationError; test:global-entities
+      10/10 baru; test:stale 11/11; validate 52/52. Probe dari npx next start (Rule 8, bukan dari
+      file .next): 24 dari 24 rute Fase 1 nol dangling, 12 rute kontrol yang sudah bersih nol
+      regresi, nol non-200. Halaman hub / dan /verify-jvto nol node bertambah, diuji silang terhadap
+      produksi. Kontrak schema-route-groups.json 0 baris berubah. YANG MASIH KURANG untuk DONE:
+      sapuan penuh npm run audit:website-live sesudah deploy, tanpa --limit. Fase 2 (233 rute
+      #review-N) dan 26 id yatim belum dikerjakan.
+  - id: T04_INDEXBYID_TOPLEVEL_ONLY_GAP
     status: TODO
     note: >-
-      PRIORITAS: mengikuti urutan backlog SETELAH T04 ditutup. JANGAN disisipkan mendahului T05
-      tanpa persetujuan eksplisit pemilik. MASALAH: 382 referensi @id menggantung di 259 rute
-      produksi - #agung-sambuko, #term-*, #review-N. Node-nya hanya didefinisikan di 1-2 halaman hub
-      (/#agung-sambuko di / dan /verify-jvto; 12 #term-* hanya di /; #review-N hanya di
-      /why-jvto/reviews) sementara 21+ rute lain merujuknya tanpa definisi. BUKTI: lihat
-      T04_DANGLING_GLOBAL_IDS - klasifikasi DEFECT ditetapkan pemilik 2026-09-09, commit ekosistem
-      5f67c19d, data mentah di jvto-ekosistem/docs/website-audit/2026-09-09/nodes.json. SCOPE
-      PERBAIKAN (DIUSULKAN, BELUM DISETUJUI - jangan dikerjakan sebagai fakta): entityGraph.ts /
-      PageJsonLdCombined di jvto-web perlu menyertakan node founder/term secara konsisten di semua
-      rute yang merujuknya, ATAU pindahkan definisinya ke node yang di-inline per halaman. Dua
-      pendekatan itu belum dibandingkan dan belum dipilih. WAJIB DISERTAKAN dalam task ini: koreksi
-      atau hapus komentar menyesatkan di jvto-ekosistem/scripts/validate-schema.mjs:53-57 (commit
-      a01d7dd4, 2026-08-21) yang menyatakan 'so the Organization founder edge resolves there'
-      sebagai fakta umum - terukur hanya benar di 2 dari 23 rute tempat id itu muncul. DEPENDENCY:
-      task ini menyentuh DUA repo - jvto-ekosistem untuk komentarnya, jvto-web untuk entityGraph.ts.
-      Commit dan push tetap dua approve terpisah per repo, dan deploy keduanya tidak boleh
-      berdekatan karena satu VPS.
+      MASALAH: indexById() di jvto-ekosistem/scripts/lib/extract-jsonld-nodes.mjs hanya mengindeks
+      node TOP-LEVEL, karena ia menerima keluaran collectNodes() yang memang berhenti di level atas.
+      Akibatnya duplicate @id yang NESTED lolos tanpa terdeteksi. Contoh terukur: /verify-jvto
+      mengirim node #dr-ahmad-irwandanu DUA KALI. BUKTI: ditemukan 2026-09-09 saat verifikasi
+      T04_FIX_DANGLING_FOUNDER_REFS. Sapuan penuh 307 rute pada hari yang sama melaporkan 'routes
+      with duplicateIds: 0' padahal duplikat nested itu nyata ada. BUKAN REGRESI dari perbaikan hari
+      itu: probe yang sama dijalankan terhadap produksi yang masih memakai kode lama dan hasilnya
+      identik - #dr-ahmad-irwandanu x2 di kedua sisi, dan / tetap 27 node di kedua sisi. Jadi cacat
+      ini mendahului T04_FIX_DANGLING_FOUNDER_REFS dan tidak disebabkan olehnya. DAMPAK: npm run
+      audit:website-live tidak bisa dipercaya penuh untuk pemeriksaan duplicate-id sampai ini
+      diperbaiki - nol duplikat yang dilaporkannya berarti 'nol duplikat top-level', bukan 'nol
+      duplikat'. Kelas kegagalan yang sama dengan yang sudah berulang di repo ini: pemeriksaan yang
+      diam-diam melewatkan sebagian populasi terlihat identik dengan pemeriksaan yang bersih. Cek
+      dangling (collectReferences/collectDanglingIds) TIDAK terdampak - keduanya sudah menelusuri
+      seluruh pohon nilai; yang berhenti di top-level hanya pengindeksan definisi.

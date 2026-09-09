@@ -53,8 +53,12 @@ type IssuedCredential = EducationalOccupationalCredential & { dateIssued?: strin
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID   = `${BASE_URL}/#organization`;
-const AGUNG_ID = `${BASE_URL}/#agung-sambuko`;
-const DOCTOR_ID = `${BASE_URL}/#dr-ahmad-irwandanu`;
+// Exported so globalEntityNodes.ts can recognise a reference to these nodes and
+// append the definition to whatever page emitted it. Every founder reference in
+// the codebase used to be a hand-written `${siteUrl}/#agung-sambuko` literal, so
+// nothing could tell a reference from a typo.
+export const AGUNG_ID = `${BASE_URL}/#agung-sambuko`;
+export const DOCTOR_ID = `${BASE_URL}/#dr-ahmad-irwandanu`;
 // Renamed from #klinik-bakti-husada 2026-08-21. Screening is not done at a
 // clinic — the physician attends the guest's hotel in Bondowoso — so an id
 // naming a clinic described the wrong thing, and a stale identifier is how a
@@ -617,16 +621,27 @@ export function buildBbksdaRegulationSchema(
 }
 
 // ── DefinedTerm glossary — machine-readable definitions for key JVTO terms ───
-// Globally injected via (website)/layout.tsx so every page has stable @id refs to all 9 terms
-// (7 standard regulatory + 2 brand-custom JVTO operational policies).
-// Per-page enrichment (mentioning a term in copy) cross-references via @id, no re-inject needed.
+// 11 terms: 9 regulatory/standard + 2 brand-custom JVTO operational policies.
+//
+// CORRECTED 2026-09-09. This comment used to read "Globally injected via
+// (website)/layout.tsx so every page has stable @id refs to all 9 terms", and
+// the count was wrong as well as the mechanism. `(website)/layout.tsx` contains
+// no JSON-LD and never has. The only page that emitted these nodes was the
+// homepage, via a hand-written array at (website)/page.tsx. Every other route
+// referenced them by @id into empty space: measured 2026-09-09 across the live
+// sitemap, 20 routes carried a dangling #term-* reference and 21 a dangling
+// #agung-sambuko. Resolution now happens in globalEntityNodes.ts, which appends
+// the definition to any page that references it.
 
 /**
- * The `@id` values only — stable structural identifiers, NOT editorial content. Tour PDP
- * pages (tours/from-bali/[slug], tours/from-surabaya/[slug]) only ever cross-reference
- * DEFINED_TERMS.X["@id"] to build `mentions[]`; they never render the definition prose, so
- * they import this synchronous, ekosistem-independent map instead of calling
- * buildDefinedTerms() — no async fetch needed for an @id lookup.
+ * The `@id` values only — stable structural identifiers, NOT editorial content.
+ *
+ * Importing this map is how a page cross-references a term without paying for
+ * the async ekosistem read that buildDefinedTerms() needs. That is still fine:
+ * resolveGlobalEntityNodes() (globalEntityNodes.ts) sees the reference in the
+ * assembled graph and appends the matching node. What is NOT fine, and was the
+ * previous shape of this comment, is assuming something else already injected
+ * the node — nothing did.
  */
 export const DEFINED_TERM_IDS = {
   NIB: `${BASE_URL}/#term-nib`,

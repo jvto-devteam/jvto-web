@@ -21,24 +21,40 @@ The AEO/GEO schema architecture is the most important addition from the port. Ev
 
 All entities have stable `@id` so any page can cross-reference via `{ '@id': ... }` instead of re-inlining.
 
+> 🔴 **CORRECTED 2026-09-09.** Every row below used to read
+> `(website)/layout.tsx` (global) in the "Where injected" column. **That injection
+> point does not exist and never did** — `src/app/(website)/layout.tsx` contains no
+> JSON-LD at all. Builders across `verify-jvto`, `why-jvto`, `policy` and both tour
+> PDPs emitted `{"@id": …}` references trusting this table. Measured on the live
+> sitemap 2026-09-09: **21 routes** dangled `#agung-sambuko`, **20** dangled a
+> `#term-*`, **1** dangled the doctor. Only `/` defined the terms; only `/` and
+> `/verify-jvto` defined the founder. Tracked as `T04_FIX_DANGLING_FOUNDER_REFS`.
+
 | Export | `@id` | Where injected |
 |---|---|---|
 | `ORGANIZATION_SCHEMA` | `/#organization` | Per-page via `PageJsonLdCombined` |
-| `FOUNDER_SCHEMA` | `/#agung-sambuko` | `(website)/layout.tsx` (global) |
-| `DOCTOR_SCHEMA` | `/#dr-ahmad-irwandanu` | `(website)/layout.tsx` (global) |
-| `BBKSDA_REGULATION_SCHEMA` | n/a | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.NIB` / `TDUP` / `HPWKI` / `KTA` / `POLPAR` / `BBKSDA` / `SE1658` (×7) | `/#term-{key}` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.ISIC` | `/#term-isic` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.INDECON` | `/#term-indecon` | `(website)/layout.tsx` (global) |
-| `DEFINED_TERMS.JVTO_TRAVEL_CREDIT` | `/#term-jvto-travel-credit` | `(website)/layout.tsx` (global) — **brand-custom** |
-| `DEFINED_TERMS.JVTO_FOC_SCHEME` | `/#term-jvto-foc-scheme` | `(website)/layout.tsx` (global) — **brand-custom** |
+| `buildFounderSchema()` | `/#agung-sambuko` | `/` + `/verify-jvto` explicitly; elsewhere **on reference**, via `resolveGlobalEntityNodes()` |
+| `buildDoctorSchema()` | `/#dr-ahmad-irwandanu` | `/` + `/verify-jvto` explicitly; elsewhere **on reference** |
+| `buildBbksdaRegulationSchema()` | **none — the node carries no `@id`** | `/` + `/verify-jvto/legal` explicitly. Cannot be referenced or resolved |
+| `DEFINED_TERM_IDS.*` → `buildDefinedTerms()` (×11) | `/#term-{key}` | `/` explicitly; elsewhere **on reference**. `JVTO_TRAVEL_CREDIT` + `JVTO_FOC_SCHEME` are **brand-custom** |
 | `buildCrewPersonSchema()` | `/#crew-{code}` | `/why-jvto/our-team` (per active crew) |
 
-`DEFINED_TERMS` currently holds **11** keys (7 credential/regulatory + ISIC + INDECON +
-2 brand-custom). `npm run test:stale` asserts that count — update the test when the set
-legitimately grows.
+**"On reference" is the mechanism, and it is the only one.** `resolveGlobalEntityNodes()`
+(`src/lib/schemas/globalEntityNodes.ts`) scans an assembled graph for objects carrying
+`@id` and no key outside `{"@id","@type"}`, and appends the definitions for any global id
+that is referenced but undefined. It is called from `PageJsonLdCombined` (both branches)
+and from the two tour PDPs, which bypass that component. Nothing is injected on a page
+that does not reference it, and appending to a page that already defines it is a no-op —
+both assemblers dedupe by `@id`, first-occurrence-wins.
 
-When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally) AND to `@id Registry` in `~/.claude/projects/f--jvto-web/memory/cluster_role_contracts.md`. Don't inline schema in pages.
+Its reference rule must stay identical to the audit's in
+`jvto-ekosistem/scripts/lib/extract-jsonld-nodes.mjs`. If the fix and the check disagree
+about what a reference is, `npm run audit:website-live` proves nothing.
+
+`DEFINED_TERMS` currently holds **11** keys (9 credential/regulatory + 2 brand-custom).
+`npm run test:stale` asserts that count — update the test when the set legitimately grows.
+
+When adding new credentials/terms: add to `DEFINED_TERM_IDS` + `buildDefinedTerms()` AND to `@id Registry` in `~/.claude/projects/f--jvto-web/memory/cluster_role_contracts.md`. Don't inline schema in pages. A new id is resolved automatically once it is in `GLOBAL_ENTITY_IDS`.
 
 ### Per-cluster Schema Builders + Canonical Q&A
 

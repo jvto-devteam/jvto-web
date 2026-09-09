@@ -57,12 +57,19 @@ interface PolicyAnchorArgs {
   name: string;
   /** Page description used in schema. */
   description: string;
-  /** Globally-injected DefinedTerm @id paths to cross-ref via mentions. e.g. ['/#term-jvto-foc-scheme']. */
+  /**
+   * DefinedTerm @id paths to cross-ref via mentions. e.g. ['/#term-jvto-foc-scheme'].
+   *
+   * CORRECTED 2026-09-09: these were described as "globally-injected", which was
+   * never true — (website)/layout.tsx emits no JSON-LD. The two policy pages
+   * using this shipped dangling refs until resolveGlobalEntityNodes()
+   * (lib/schemas/globalEntityNodes.ts) started appending the definitions.
+   */
   mentionsTermIds?: string[];
 }
 
 /**
- * Brand-anchor WebPage schema with `mentions` cross-refs to globally-injected DefinedTerms.
+ * Brand-anchor WebPage schema with `mentions` cross-refs to the DefinedTerm nodes.
  * Emitted with `@id: ${url}#policy-anchor` so it does NOT collide with live's PageJsonLdCombined
  * WebPage (@id: ${url}#webpage). Two complementary nodes — same dual-source pattern as homepage FAQPage.
  */

@@ -1,6 +1,7 @@
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getEcosystemPageSchema, graphNodesFromSchema } from "@/lib/ecosystemContent/schema";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { resolveGlobalEntityNodes } from "@/lib/schemas/globalEntityNodes";
 import {
   buildOrganizationJsonLd,
   buildBreadcrumbJsonLd,
@@ -170,6 +171,15 @@ export async function PageJsonLdCombined({
       ...(extraSchemas || []),
     ]).filter((node) => shouldAppendRuntimeSchema(node, existingTypes));
 
+    // Resolve @id references to the global entity nodes (founder, doctor, the 11
+    // DefinedTerms). Several builders reaching this component emit those refs —
+    // buildVerifySchemas, buildTeamSchemas, buildPolicySchemas — against an
+    // injection point that does not exist; see globalEntityNodes.ts. Runs after
+    // the runtime filter so it sees exactly what is about to ship, and appends
+    // last so mergeGraphNodes' first-wins dedupe leaves an already-defined node
+    // alone.
+    const globalNodes = await resolveGlobalEntityNodes([...ecosystemNodes, ...runtimeSchemas]);
+
     return (
       <JsonLd
         data={{
@@ -177,6 +187,7 @@ export async function PageJsonLdCombined({
           "@graph": mergeGraphNodes([
             ...ecosystemNodes,
             ...runtimeSchemas,
+            ...globalNodes,
           ]),
         }}
       />
@@ -228,9 +239,13 @@ export async function PageJsonLdCombined({
     ...(extraSchemas || []),
   ].filter(Boolean);
 
+  // Same resolution in the fallback branch. This path runs only when ekosistem
+  // is unreachable, but extraSchemas still arrive from the same builders, so the
+  // references are identical — and this branch has no dedupe of its own, which
+  // is why resolveGlobalEntityNodes skips ids the graph already defines.
   const combined = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [...graph, ...(await resolveGlobalEntityNodes(graph))],
   };
 
   return <JsonLd data={combined} />;

@@ -23,6 +23,7 @@
     "test:stale": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test scripts/validate-stale-facts.test.ts",
     "test:routes": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/validate-public-route-contract.test.ts",
     "test:reconcile": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/reconcile-route-outputs.test.ts",
+    "test:global-entities": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/lib/register-ts-hook.mjs --test scripts/global-entity-nodes.test.ts",
     "check:density": "node scripts/tools/fact-density.js",
     "status:list": "node scripts/update-status.mjs --list",
     "status:set": "node scripts/update-status.mjs --set"

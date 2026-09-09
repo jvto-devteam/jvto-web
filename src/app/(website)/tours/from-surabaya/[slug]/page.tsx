@@ -24,6 +24,7 @@ import {
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
+import { resolveGlobalEntityNodes } from "@/lib/schemas/globalEntityNodes";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
 import { getEcosystemIjenCraterRequirements } from "@/lib/ecosystemContent/ijenCraterRequirements";
 import { getEcosystemTourSchemaNodes } from "@/lib/ecosystemContent/tourSchemaOutput";
@@ -388,9 +389,21 @@ export default async function Page({ params }: Props) {
     mentions: tourMentions,
   };
 
+  // Define what the refs above point at. This route does not go through
+  // PageJsonLdCombined, so it needs its own resolution step — the DEFINED_TERM_IDS
+  // comment used to say these nodes were injected globally from
+  // (website)/layout.tsx, which emits no JSON-LD at all. Measured 2026-09-09:
+  // all thirteen from-surabaya tours shipped 4-7 dangling #term-* refs plus a
+  // dangling #agung-sambuko. Scanning globalNodes too so an already-defined @id
+  // is skipped.
+  const resolvedGlobalNodes = [
+    ...globalNodes,
+    ...(await resolveGlobalEntityNodes([...globalNodes, tourAugment])),
+  ];
+
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
+      <StructuredData data={data} globalNodes={resolvedGlobalNodes} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
