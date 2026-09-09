@@ -472,31 +472,36 @@ open_items:
       yang cacat halaman dan mana kontrak T03 yang perlu menyusul - keduanya mungkin, dan T04 tidak
       mengubah kontrak.
   - id: T04_FIX_DANGLING_FOUNDER_REFS
-    status: IN_PROGRESS
+    status: DONE
     note: >-
-      FASE 1 SELESAI SECARA LOKAL, belum di-push - status tidak boleh DONE (Rule 9: bukti lokal
-      bukan bukti produksi). Cakupan Fase 1: 24 rute yang menggantungkan #agung-sambuko,
-      #dr-ahmad-irwandanu, atau #term-*. AKAR PENYEBAB, terverifikasi: tiga tempat menyatakan node
+      FASE 1 SELESAI DAN TERVERIFIKASI DI PRODUKSI 2026-09-09. Cakupan: 24 rute yang menggantungkan
+      #agung-sambuko, #dr-ahmad-irwandanu, atau #term-*. AKAR PENYEBAB: tiga tempat menyatakan node
       ini disuntikkan global lewat src/app/(website)/layout.tsx -
-      .claude/rules/schema-and-content-layer.md, entityGraph.ts komentar DEFINED_TERM_IDS, dan
-      buildPolicySchemas.ts. layout.tsx tidak memuat JSON-LD sama sekali. Injeksi global itu tidak
-      pernah ada; hanya homepage yang mendefinisikan 11 term, dan hanya / plus /verify-jvto yang
-      mendefinisikan founder. PERBAIKAN: src/lib/schemas/globalEntityNodes.ts baru -
-      resolveGlobalEntityNodes() memindai graph yang sudah dirakit, dan menambahkan definisi hanya
-      untuk @id global yang DIRUJUK tapi belum terdefinisi. Bukan injeksi borongan. Aturan
-      referensinya sengaja disamakan dengan extract-jsonld-nodes.mjs di ekosistem supaya perbaikan
-      dan alat ukurnya tidak berbeda definisi. Dipanggil dari PageJsonLdCombined (kedua branch) dan
-      dari dua PDP tour yang melewati komponen itu. Nol percabangan khusus halaman hub: kedua
-      assembler sudah dedupe per @id first-wins, dan resolver melewati id yang sudah terdefinisi.
-      GLOBAL_ENTITY_IDS berisi 13 id, bukan 14 - buildBbksdaRegulationSchema tidak punya @id sama
-      sekali sehingga mustahil dirujuk. BUKTI LOKAL 2026-09-09: tsc 0 error; build exit 0 dengan
-      106/106 halaman dan 104 entri rute dan 0 PrismaClientInitializationError; test:global-entities
-      10/10 baru; test:stale 11/11; validate 52/52. Probe dari npx next start (Rule 8, bukan dari
-      file .next): 24 dari 24 rute Fase 1 nol dangling, 12 rute kontrol yang sudah bersih nol
-      regresi, nol non-200. Halaman hub / dan /verify-jvto nol node bertambah, diuji silang terhadap
-      produksi. Kontrak schema-route-groups.json 0 baris berubah. YANG MASIH KURANG untuk DONE:
-      sapuan penuh npm run audit:website-live sesudah deploy, tanpa --limit. Fase 2 (233 rute
-      #review-N) dan 26 id yatim belum dikerjakan.
+      .claude/rules/schema-and-content-layer.md, komentar DEFINED_TERM_IDS di entityGraph.ts, dan
+      buildPolicySchemas.ts. layout.tsx tidak memuat JSON-LD sama sekali; injeksi itu tidak pernah
+      ada. PERBAIKAN: src/lib/schemas/globalEntityNodes.ts baru. resolveGlobalEntityNodes() memindai
+      graph yang sudah dirakit dan menambahkan definisi HANYA untuk @id global yang dirujuk tapi
+      belum terdefinisi - bukan injeksi borongan. Aturan referensinya sengaja identik dengan
+      extract-jsonld-nodes.mjs di ekosistem supaya perbaikan dan alat ukur tidak berbeda definisi.
+      Dipanggil dari PageJsonLdCombined (kedua branch) dan dua PDP tour yang melewati komponen itu.
+      Nol percabangan khusus halaman hub - kedua assembler sudah dedupe per @id first-wins.
+      GLOBAL_ENTITY_IDS berisi 13 id, bukan 14: buildBbksdaRegulationSchema tidak punya @id sama
+      sekali. Empat komentar menyesatkan dikoreksi, bukan dihapus. BUKTI PRODUKSI (Rule 9
+      terpenuhi): deploy jvto-web 04109221 sukses run 34306093332 1m42s; sapuan penuh npm run
+      audit:website-live tanpa --limit terhadap sitemap 307/307, artefak di
+      jvto-ekosistem/docs/website-audit/2026-09-09-postfix/, dibandingkan --baseline terhadap
+      docs/website-audit/2026-09-09/nodes.json. ANGKA: 24/24 rute Fase 1 danglingInternalIds kosong;
+      48/48 rute yang sudah bersih tidak regresi; 233/233 rute review tidak berubah (dangling,
+      nodeCount, contractStatus identik). FAIL 262 ke 239, PASS 38 tetap, NOT_ENFORCED 5 tetap,
+      REVIEW 2 ke 24. Kenaikan REVIEW itu SESUAI KEPUTUSAN 1 pemilik, bukan kemunduran: Person dan
+      DefinedTerm belum terdeklarasi di kontrak group tujuan sehingga muncul sebagai UNKNOWN_TYPE
+      non-fatal, dan schema-route-groups.json sengaja tidak disentuh (0 baris berubah). Satu rute
+      /policy/privacy sempat HTTP 0 di run pertama; run ulang mengembalikannya 200 - kedipan origin,
+      bukan temuan, sesuai aturan alat ini tidak punya retry. SISA, BELUM DIKERJAKAN: 247 referensi
+      menggantung di 235 rute = Fase 2 (233 #review-N) + 12 /verify-jvto#asset-* + /entity
+      (#organization, #website). Ketiganya butuh item terpisah; tidak tercakup di sini. Bukti lokal
+      pendamping: tsc 0 error, build 106/106 halaman dan 104 entri rute, test:global-entities 10/10
+      baru, test:stale 11/11, validate 52/52.
   - id: T04_INDEXBYID_TOPLEVEL_ONLY_GAP
     status: TODO
     note: >-
@@ -515,3 +520,25 @@ open_items:
       diam-diam melewatkan sebagian populasi terlihat identik dengan pemeriksaan yang bersih. Cek
       dangling (collectReferences/collectDanglingIds) TIDAK terdampak - keduanya sudah menelusuri
       seluruh pohon nilai; yang berhenti di top-level hanya pengindeksan definisi.
+  - id: T04_FIX_DANGLING_REVIEW_REFS
+    status: TODO
+    note: >-
+      MASALAH: 247 referensi menggantung di 235 rute, sisa dari T04_FIX_DANGLING_FOUNDER_REFS yang
+      sudah DONE. Terdiri tiga kelompok. (1) 233 rute #review-N di group why-jvto/reviews-detail,
+      tiap rute menggantungkan review-nya sendiri; hub /why-jvto/reviews hanya mendefinisikan 219
+      dari 233, jadi 14 id TIDAK TERDEFINISI DI MANA PUN dalam sapuan 307 rute - bukan sekadar belum
+      disalin. Id yang hilang dari hub: #review-83, 100, 103, 113, 116, 118, 119, 120, 121, 122,
+      123, 124, 125, 126. (2) 12 referensi /verify-jvto#asset-* pada satu rute; tipenya TIDAK BISA
+      ditentukan dari data audit karena nol rute mendefinisikannya, dan menebaknya dilarang. (3)
+      /entity merujuk /#organization dan /#website sambil mendefinisikan NOL @id root-level - ini
+      juga tercatat terpisah sebagai T04_ENTITY_NO_GLOBAL_NODES. PRASYARAT SEBELUM IMPLEMENTASI,
+      wajib: selidiki dulu kenapa hub reviews hanya memuat 219 dari 233 - apakah datanya memang
+      hilang, ter-filter (misal unpublished), atau mekanismenya berbeda dari founder/term. JANGAN
+      menyalin pola Fase 1 tanpa investigasi ini. Fase 1 berhasil karena node-nya sudah ada dan
+      tinggal diselesaikan referensinya; di sini 14 node sumbernya belum terbukti ada sama sekali,
+      sehingga 'salin dari hub' bisa jadi mustahil untuk sebagian id. BUKTI:
+      jvto-ekosistem/docs/website-audit/2026-09-09-postfix/nodes.json, sapuan produksi penuh 307/307
+      sesudah deploy 04109221. DEPENDENCY: kemungkinan menyentuh group why-jvto/reviews-detail, yang
+      routeCount kontraknya 231 sementara live 233 - selisih 2 ini juga belum ditelusuri dan bisa
+      punya sebab yang sama dengan 14 id yang hilang. Mengubah schema-route-groups.json tetap butuh
+      izin tertulis pemilik.
