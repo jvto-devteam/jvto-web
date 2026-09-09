@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-08'
+last_updated: '2026-09-09'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -471,3 +471,23 @@ open_items:
       dideklarasikan group tours di /tours/from-bali dan /tours/from-surabaya. Belum ditentukan mana
       yang cacat halaman dan mana kontrak T03 yang perlu menyusul - keduanya mungkin, dan T04 tidak
       mengubah kontrak.
+  - id: T04_FIX_DANGLING_FOUNDER_REFS
+    status: TODO
+    note: >-
+      PRIORITAS: mengikuti urutan backlog SETELAH T04 ditutup. JANGAN disisipkan mendahului T05
+      tanpa persetujuan eksplisit pemilik. MASALAH: 382 referensi @id menggantung di 259 rute
+      produksi - #agung-sambuko, #term-*, #review-N. Node-nya hanya didefinisikan di 1-2 halaman hub
+      (/#agung-sambuko di / dan /verify-jvto; 12 #term-* hanya di /; #review-N hanya di
+      /why-jvto/reviews) sementara 21+ rute lain merujuknya tanpa definisi. BUKTI: lihat
+      T04_DANGLING_GLOBAL_IDS - klasifikasi DEFECT ditetapkan pemilik 2026-09-09, commit ekosistem
+      5f67c19d, data mentah di jvto-ekosistem/docs/website-audit/2026-09-09/nodes.json. SCOPE
+      PERBAIKAN (DIUSULKAN, BELUM DISETUJUI - jangan dikerjakan sebagai fakta): entityGraph.ts /
+      PageJsonLdCombined di jvto-web perlu menyertakan node founder/term secara konsisten di semua
+      rute yang merujuknya, ATAU pindahkan definisinya ke node yang di-inline per halaman. Dua
+      pendekatan itu belum dibandingkan dan belum dipilih. WAJIB DISERTAKAN dalam task ini: koreksi
+      atau hapus komentar menyesatkan di jvto-ekosistem/scripts/validate-schema.mjs:53-57 (commit
+      a01d7dd4, 2026-08-21) yang menyatakan 'so the Organization founder edge resolves there'
+      sebagai fakta umum - terukur hanya benar di 2 dari 23 rute tempat id itu muncul. DEPENDENCY:
+      task ini menyentuh DUA repo - jvto-ekosistem untuk komentarnya, jvto-web untuk entityGraph.ts.
+      Commit dan push tetap dua approve terpisah per repo, dan deploy keduanya tidak boleh
+      berdekatan karena satu VPS.
