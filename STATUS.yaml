@@ -1,7 +1,7 @@
 # STATUS.yaml — Living Status of Open Items
 # Update via: npm run status:set -- <id> <status> "note"
 # List via:   npm run status:list
-last_updated: '2026-09-09'
+last_updated: '2026-09-10'
 open_items:
   - id: PT_INCORPORATION_ASSERTIONS
     status: DONE
@@ -517,28 +517,72 @@ open_items:
       audit:website-live tidak bisa dipercaya penuh untuk pemeriksaan duplicate-id sampai ini
       diperbaiki - nol duplikat yang dilaporkannya berarti 'nol duplikat top-level', bukan 'nol
       duplikat'. Kelas kegagalan yang sama dengan yang sudah berulang di repo ini: pemeriksaan yang
-      diam-diam melewatkan sebagian populasi terlihat identik dengan pemeriksaan yang bersih. Cek
-      dangling (collectReferences/collectDanglingIds) TIDAK terdampak - keduanya sudah menelusuri
-      seluruh pohon nilai; yang berhenti di top-level hanya pengindeksan definisi.
+      diam-diam melewatkan sebagian populasi terlihat identik dengan pemeriksaan yang bersih.
+      KOREKSI 2026-09-10: kalimat terakhir catatan ini dulu berbunyi "Cek dangling TIDAK terdampak -
+      keduanya sudah menelusuri seluruh pohon nilai". ITU SALAH. collectReferences() memang
+      menelusuri seluruh pohon, tapi collectDanglingIds() membangun himpunan `defined`-nya dari
+      keluaran collectNodes() yang berhenti di top-level - jadi definisi yang BERSARANG tidak
+      terlihat dan referensi ke sana dilaporkan menggantung. Itu sumber 247 "dangling" di 235 rute:
+      /why-jvto/reviews/62 mendefinisikan #review-62 di Product.review (node penuh, 8 key) dan
+      merujuknya dari WebPage.mainEntity. Sudah diperbaiki lewat collectDefinedIds() di
+      jvto-ekosistem/scripts/lib/extract-jsonld-nodes.mjs (bersifat aditif: hanya bisa menghapus
+      temuan dangling, tidak bisa memunculkan yang baru), dengan dua kontrol di
+      scripts/test/live-html-audit.test.mjs. Sapuan penuh 307 rute 2026-09-10: dangling 247 -> 2,
+      rute terdampak 235 -> 1, FAIL 239 -> 6, PASS 38 -> 272, REVIEW tetap 24 (kontrak T03 tidak
+      bergeser). YANG MASIH TERBUKA di item ini: indexById() sendiri BELUM diubah - ia tetap
+      top-level saja, jadi duplicate @id yang bersarang (#dr-ahmad-irwandanu x2 di /verify-jvto)
+      masih lolos. Perbaikan dangling tidak menutup celah duplikat.
   - id: T04_FIX_DANGLING_REVIEW_REFS
-    status: TODO
+    status: DONE
     note: >-
-      MASALAH: 247 referensi menggantung di 235 rute, sisa dari T04_FIX_DANGLING_FOUNDER_REFS yang
-      sudah DONE. Terdiri tiga kelompok. (1) 233 rute #review-N di group why-jvto/reviews-detail,
-      tiap rute menggantungkan review-nya sendiri; hub /why-jvto/reviews hanya mendefinisikan 219
-      dari 233, jadi 14 id TIDAK TERDEFINISI DI MANA PUN dalam sapuan 307 rute - bukan sekadar belum
-      disalin. Id yang hilang dari hub: #review-83, 100, 103, 113, 116, 118, 119, 120, 121, 122,
-      123, 124, 125, 126. (2) 12 referensi /verify-jvto#asset-* pada satu rute; tipenya TIDAK BISA
-      ditentukan dari data audit karena nol rute mendefinisikannya, dan menebaknya dilarang. (3)
-      /entity merujuk /#organization dan /#website sambil mendefinisikan NOL @id root-level - ini
-      juga tercatat terpisah sebagai T04_ENTITY_NO_GLOBAL_NODES. PRASYARAT SEBELUM IMPLEMENTASI,
-      wajib: selidiki dulu kenapa hub reviews hanya memuat 219 dari 233 - apakah datanya memang
-      hilang, ter-filter (misal unpublished), atau mekanismenya berbeda dari founder/term. JANGAN
-      menyalin pola Fase 1 tanpa investigasi ini. Fase 1 berhasil karena node-nya sudah ada dan
-      tinggal diselesaikan referensinya; di sini 14 node sumbernya belum terbukti ada sama sekali,
-      sehingga 'salin dari hub' bisa jadi mustahil untuk sebagian id. BUKTI:
-      jvto-ekosistem/docs/website-audit/2026-09-09-postfix/nodes.json, sapuan produksi penuh 307/307
-      sesudah deploy 04109221. DEPENDENCY: kemungkinan menyentuh group why-jvto/reviews-detail, yang
-      routeCount kontraknya 231 sementara live 233 - selisih 2 ini juga belum ditelusuri dan bisa
-      punya sebab yang sama dengan 14 id yang hilang. Mengubah schema-route-groups.json tetap butuh
-      izin tertulis pemilik.
+      PREMIS TASK INI TERBUKTI SALAH - jangan dikerjakan sebagai perbaikan sampai di-reframe. Status
+      sebelumnya TODO, dengan klaim "247 referensi menggantung di 235 rute" dan "14 id tidak
+      terdefinisi di mana pun". Investigasi prasyarat 2026-09-10 (subagent Explore, read-only)
+      menjatuhkan dua premis itu. (1) KE-14 ID ADALAH BY DESIGN, BUKAN DEFECT. Ke-14 record ADA di
+      reviews.json lengkap dengan star dan url; yang membedakannya cuma satu - field `review`
+      bertext kosong. Penyaringnya isHubEligible() di
+      jvto-ekosistem/scripts/lib/review-schema/build-review-nodes.mjs:31-38, klausa `review.review
+      !== ""`, dipakai untuk hub di :79. Simulasi keempat klausa atas 233 record: PASS 219, fail
+      star 0, fail platform 0, fail non-string 0, fail review==="" TEPAT 14 - dan 14 itu persis
+      #review-83, 100, 103, 113, 116, 118-126. Pemisahan sempurna, satu sebab, bukan dua: blok
+      118-126 yang terlihat kontigu itu insidental (rating Google star-only 2018-2023,
+      packageSlug null), bukan hasil slice/limit/batch. Perilaku ini sesuai GLOBAL-CONSTRAINTS.md
+      G3 (data kosong/null tidak dirender) dan sudah dikunci sejak commit 91396049 (2026-08-20),
+      yang menyebut ke-14 id itu secara harfiah. Asimetri hub 219 vs detail 233 juga disengaja dan
+      terdokumentasi di build-review-nodes.mjs:181-190. (2) ANGKA 233 "DANGLING" ADALAH ARTEFAK
+      ALAT, BUKAN 233 REFERENSI RUSAK. collectDanglingIds/DANGLING_INTERNAL_ID di
+      jvto-ekosistem/scripts/live-html-audit.mjs:391 memeriksa per-halaman ("expected <id> to be
+      defined on this page"), jadi ia tidak membedakan referensi ke hub dari referensi halaman ke
+      review-nya sendiri. Kontrol membuktikannya: /why-jvto/reviews/62 - id yang JELAS terdefinisi
+      di hub - melaporkan dangling yang identik dengan /why-jvto/reviews/83. Metrik itu menandai
+      ke-233 halaman detail secara seragam, sehingga ia sama sekali tidak memisahkan 14 dari 219 dan
+      tidak bisa dipakai sebagai bukti adanya cacat. (3) SEBAB PASTI ANGKA 247 SUDAH DITEMUKAN DAN
+      DIPERBAIKI, 2026-09-10. collectDanglingIds() membangun himpunan `defined`-nya dari keluaran
+      collectNodes(), yang berhenti di node top-level - sementara collectReferences() menelusuri
+      seluruh pohon. Definisi yang BERSARANG karena itu tak terlihat. Bentuk live
+      /why-jvto/reviews/62 (diambil 2026-09-10): 4 node top-level; #review-62 didefinisikan penuh
+      di Product.review (8 key) dan dirujuk dari WebPage.mainEntity - definisinya ADA, alatnya yang
+      buta. Karena tiap review baru dari sync Google Maps menambah satu rute berbentuk sama, angka
+      itu naik terus dan tidak akan pernah bisa ditutup oleh perubahan kode apa pun. Perbaikannya:
+      collectDefinedIds() di jvto-ekosistem/scripts/lib/extract-jsonld-nodes.mjs - indeks definisi
+      sendiri yang menelusuri seluruh pohon, memakai aturan referensi yang sama dengan
+      collectReferences(), dan bersifat ADITIF (top-level tetap dihitung seperti semula, jadi ia
+      hanya bisa menghapus temuan, tidak memunculkan yang baru). collectNodes() sengaja TIDAK
+      dilebarkan: ia memberi makan typeCounts yang dinilai kontrak T03, dan menghitung Review atau
+      AggregateRating bersarang sebagai node halaman akan menggeser tiap cek singleton dan
+      forbidden-type. HASIL, sapuan produksi penuh 307/307 rute 2026-09-10 (bukan --limit): dangling
+      247 -> 2, rute terdampak 235 -> 1, FAIL 239 -> 6, PASS 38 -> 272, REVIEW tetap 24 - kontrak
+      tidak bergeser, membuktikan perubahan itu benar-benar aditif. Ke-12 referensi
+      /verify-jvto#asset-* ikut bersih (definisinya juga bersarang). Dua dangling yang tersisa,
+      /#organization dan /#website di /entity, sudah tercatat sendiri sebagai
+      T04_ENTITY_NO_GLOBAL_NODES. Selisih routeCount kontrak 231 vs live 233 BUKAN drift: grup
+      why-jvto/reviews-detail memakai countRule "floor", jadi 231 adalah batas bawah dan pertumbuhan
+      memang diizinkan (validate-route-schema-contract.mjs:262-269). LANGKAH BERIKUTNYA - KEPUTUSAN
+      PEMILIK: dengan sebab dan perbaikannya terukur, item ini bisa ditutup, bukan sekadar
+      di-reframe. BUKTI: investigasi 2026-09-10 atas reviews.json (233 record, id 62-337, nextId
+      338), build-review-nodes.mjs, why-jvto__reviews.schema-output.json (Review=219),
+      jvto-ekosistem/docs/website-audit/2026-09-09-postfix/nodes.json (sebelum) dan
+      docs/website-audit/2026-09-10/nodes.json (sesudah). KOREKSI atas versi pertama catatan ini,
+      ditulis 2026-09-10 pagi: ia menyatakan node Review "nol muncul di HTML live pada ke-233
+      halaman detail". ITU SALAH - curl ke /why-jvto/reviews/62, /83 dan /337 mengembalikan
+      "@type":"Review" satu kali di tiap halaman. Yang nol adalah penglihatan alat auditnya.
