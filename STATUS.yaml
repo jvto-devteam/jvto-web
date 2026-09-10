@@ -545,10 +545,10 @@ open_items:
       !== ""`, dipakai untuk hub di :79. Simulasi keempat klausa atas 233 record: PASS 219, fail
       star 0, fail platform 0, fail non-string 0, fail review==="" TEPAT 14 - dan 14 itu persis
       #review-83, 100, 103, 113, 116, 118-126. Pemisahan sempurna, satu sebab, bukan dua: blok
-      118-126 yang terlihat kontigu itu insidental (rating Google star-only 2018-2023,
-      packageSlug null), bukan hasil slice/limit/batch. Perilaku ini sesuai GLOBAL-CONSTRAINTS.md
-      G3 (data kosong/null tidak dirender) dan sudah dikunci sejak commit 91396049 (2026-08-20),
-      yang menyebut ke-14 id itu secara harfiah. Asimetri hub 219 vs detail 233 juga disengaja dan
+      118-126 yang terlihat kontigu itu insidental (rating Google star-only 2018-2023, packageSlug
+      null), bukan hasil slice/limit/batch. Perilaku ini sesuai GLOBAL-CONSTRAINTS.md G3 (data
+      kosong/null tidak dirender) dan sudah dikunci sejak commit 91396049 (2026-08-20), yang
+      menyebut ke-14 id itu secara harfiah. Asimetri hub 219 vs detail 233 juga disengaja dan
       terdokumentasi di build-review-nodes.mjs:181-190. (2) ANGKA 233 "DANGLING" ADALAH ARTEFAK
       ALAT, BUKAN 233 REFERENSI RUSAK. collectDanglingIds/DANGLING_INTERNAL_ID di
       jvto-ekosistem/scripts/live-html-audit.mjs:391 memeriksa per-halaman ("expected <id> to be
@@ -560,8 +560,8 @@ open_items:
       DIPERBAIKI, 2026-09-10. collectDanglingIds() membangun himpunan `defined`-nya dari keluaran
       collectNodes(), yang berhenti di node top-level - sementara collectReferences() menelusuri
       seluruh pohon. Definisi yang BERSARANG karena itu tak terlihat. Bentuk live
-      /why-jvto/reviews/62 (diambil 2026-09-10): 4 node top-level; #review-62 didefinisikan penuh
-      di Product.review (8 key) dan dirujuk dari WebPage.mainEntity - definisinya ADA, alatnya yang
+      /why-jvto/reviews/62 (diambil 2026-09-10): 4 node top-level; #review-62 didefinisikan penuh di
+      Product.review (8 key) dan dirujuk dari WebPage.mainEntity - definisinya ADA, alatnya yang
       buta. Karena tiap review baru dari sync Google Maps menambah satu rute berbentuk sama, angka
       itu naik terus dan tidak akan pernah bisa ditutup oleh perubahan kode apa pun. Perbaikannya:
       collectDefinedIds() di jvto-ekosistem/scripts/lib/extract-jsonld-nodes.mjs - indeks definisi
@@ -586,3 +586,91 @@ open_items:
       ditulis 2026-09-10 pagi: ia menyatakan node Review "nol muncul di HTML live pada ke-233
       halaman detail". ITU SALAH - curl ke /why-jvto/reviews/62, /83 dan /337 mengembalikan
       "@type":"Review" satu kali di tiap halaman. Yang nol adalah penglihatan alat auditnya.
+  - id: T05A_FAQ_CANONICAL_PRODUCER
+    status: IN_PROGRESS
+    note: >-
+      Ekosistem-side producer for tour-detail FAQ (backlog T05A / PR-3). Plan:
+      ~/.claude/plans/majestic-bouncing-lobster.md. Source at
+      1-knowledge-and-evidence-core/tours/faq-spine/tour-spine-faq.source.json (nested one dir down
+      ON PURPOSE: listSourceFiles() non-recursive so it never becomes a route and the 51-route
+      assertion holds, while deploy-vps.yml case allowlist still matches it - both verified
+      2026-09-10). Output 5-experience-engine/knowledge-feed/tour-spine-faq.feed-output.json. Zero
+      workflow edits needed. Spec had two defects: its faqs/ path is a dead dir rendered by nothing,
+      and its {{placeholder}} resolver does not exist in the repo.
+  - id: T05B_FAQ_CONSUMER_MIGRATION
+    status: TODO
+    note: >-
+      Web-side consumer migration (backlog T05B / PR-4). BLOCKED on T05A being merged AND verified
+      live - backlog coding rule 12. Makes visible Quick Answers and FAQPage.mainEntity the same
+      array; drops narrative-claim pillars from Question.name (905/1162 Question nodes site-wide
+      currently have no on-page counterpart, 779 on the 17 PDPs). Owner decisions 2026-09-10:
+      Google-Maps-only rating per locked decision 2026-08-15; package FAQs rendered visibly and kept
+      in schema; TourRequirements Ijen block folded in with one shared Ijen gate.
+  - id: EKOSISTEM_SE1658_HEALTHCERT_CONFLATION
+    status: TODO
+    note: >-
+      Ditemukan 2026-09-10 saat T05. Dua file ekosistem menyebut SE.1658 sebagai dasar kewajiban
+      surat sehat, padahal trust-claims.json:190 menyatakan sebaliknya: SE.1658 adalah 'supporting
+      authority for the Ijen health screening, NOT its source' - ia membuka kembali kawah dan
+      menetapkan syarat akses (torch, mask, pakaian dingin); yang memperkenalkan kewajiban
+      sertifikat kesehatan adalah SE.35/K2/BIDTEK.1/KSA/1/2024. FILE:
+      1-knowledge-and-evidence-core/home/index.source.json:192 ('Under BBKSDA SE.1658 ... JVTO
+      coordinates the mandatory health certificate process') dan
+      stable-operational-guidance/travel-guide-pages/best-time-to-visit.json:190 (teks tautan 'Ijen
+      Health Screening (SE.1658 protocol)'). DI LUAR SCOPE T05 - keduanya bukan FAQ tour-detail.
+      CATATAN PENTING: SE.1658 BUKAN kutipan yang salah secara umum - untuk klaim gas mask ia justru
+      benar dan buktinya lebih kuat (documentUrl + sha256 ada; SE.35 media_sourced dengan keduanya
+      kosong). Larangan menyeluruh atas SE.1658 akan menghapus kutipan yang benar.
+  - id: EKOSISTEM_COMMITTED_OUTPUTS_STALE
+    status: TODO
+    note: >-
+      Ditemukan 2026-09-10 saat T05A menjalankan render:web-content. Output ter-commit di
+      5-experience-engine/ berasal dari 2026-08-27 dan sudah menyimpang dari canon: satu render
+      bersih mengubah 361 file - ~98 node Review yang hilang ditambahkan, dan reviewCount 156 -> 169
+      (nilai canon di review-platforms.json). BUKAN churn timestamp: diff berisi node schema yang
+      benar-benar baru. TIDAK ikut di-commit oleh T05A supaya diff-nya tetap bisa direview; sudah
+      di-revert lokal. DAMPAK PRODUKSI KEMUNGKINAN NOL: deploy-vps.yml menjalankan
+      render:web-content sebelum rsync, jadi yang dilayani VPS selalu hasil render segar - salinan
+      ter-commit adalah artefak review, bukan yang tayang. Yang perlu diputuskan pemilik: apakah
+      salinan ter-commit dibiarkan basi (dan diterima sebagai konvensi), atau di-refresh dalam satu
+      commit tersendiri. Verifikasi klaim 'produksi tidak terdampak' butuh sapuan live, belum
+      dilakukan.
+  - id: TOUR_SPINE_FAQ_OUTPUT_NEVER_COMMITTED
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan review adversarial 2026-09-10. Tidak ada satu pun workflow yang meng-commit
+      5-experience-engine/knowledge-feed/tour-spine-faq.feed-output.json. sync-google-reviews.yml
+      MENJALANKAN render:web-content (baris 60) sehingga file ini ikut ter-regenerate dengan angka
+      Google terbaru, tapi git add-nya (baris 73-78) adalah allowlist 5 entri yang tidak memuat file
+      ini - hasilnya dibuang. Salinan ter-commit membeku di render manual terakhir dan akan
+      menyimpang tiap sync Google. DAMPAK PUBLIK NOL: sync me-commit reviews.json yang di luar case
+      allowlist -> FULL_DEPLOY -> render:web-content jalan lagi di CI sebelum rsync, jadi yang
+      dilayani VPS selalu segar. Yang rusak adalah artefak git, dan tidak ada CI yang mengecek
+      artefak itu cocok dengan sumbernya. BUTUH KEPUTUSAN PEMILIK karena kedua solusinya menyentuh
+      hal yang di luar scope: (a) tambahkan file ke git add di sync-google-reviews.yml - EDIT
+      WORKFLOW, dilarang scope guardrail; atau (b) berhenti meng-commit output ini dan masukkan ke
+      .gitignore - melanggar konvensi 'semua output ter-commit'. Jangan dikerjakan tanpa izin.
+  - id: ENTITY_GRAPH_FACTS_ISIC_FORBIDDEN_PHRASE
+    status: TODO
+    note: >-
+      Ditemukan review adversarial 2026-09-10.
+      1-knowledge-and-evidence-core/organization-identity/entity-graph-schema-facts.json:115 masih
+      menuliskan 'JVTO is a verified ISIC partner (Provider ID 259268)'. Frasa itu DILARANG VERBATIM
+      oleh partners.json isic.claimBoundary: 'never "verified ISIC partner"'. Koreksi T05A hanya
+      menyentuh FAQ tour-detail yang baru, tidak menyapu file ini. Sudah dicek: string ini TIDAK
+      ter-emit ke 5-experience-engine/** (grep nol), jadi tidak muncul di JSON-LD yang tayang. Tapi
+      file ini ikut ter-rsync ke VPS dan bisa dibaca publik lewat /api/file yang tanpa allowlist.
+      Perbaikannya satu baris; di luar scope T05A karena bukan FAQ tour-detail.
+  - id: EKOSISTEM_API_FILE_NO_ALLOWLIST
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan review adversarial 2026-09-10, PRA-EKSISTING bukan dari T05. server.mjs handleFile
+      (baris 147-164) menyajikan file teks APA PUN di bawah root deploy - safeResolve (82-89) hanya
+      mencegah traversal ke atas root, tidak ada allowlist. deploy-vps.yml full deploy (244-253)
+      me-rsync SELURUH repo kecuali .git/.github/node_modules/.env. Konsekuensinya trust-claims.json
+      (memuat nomor SIP dokter 503.446/664/DRU/4/430.9.13/2026 dan STR QN00001073380217),
+      credentials.json, docs/, dan archive/ bisa dibaca publik lewat /api/file?path=. CATATAN
+      PENYEIMBANG: dokumen SIP itu sendiri memang sudah dipublikasikan JVTO dengan jangkar sha256,
+      jadi ini belum tentu kebocoran - tapi permukaannya jauh lebih luas dari yang dimaksudkan, dan
+      jvto-web cuma butuh segelintir path. Butuh keputusan pemilik: pasang allowlist di handleFile,
+      atau terima permukaan ini secara sadar.
