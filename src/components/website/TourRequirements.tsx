@@ -129,7 +129,7 @@ const TourRequirements = ({ pageContent }: Props) => {
                 <span className="transition group-open:rotate-180">▾</span>
               </summary>
               <p className="mt-3 text-sm text-gray-600 leading-relaxed">
-                {item.answerSegments.map((seg, i) =>
+                {(item.answerSegments ?? []).map((seg, i) =>
                   seg.strong ? <strong key={i}>{seg.text}</strong> : <React.Fragment key={i}>{seg.text}</React.Fragment>
                 )}
               </p>

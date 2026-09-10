@@ -60,7 +60,7 @@ When adding new credentials/terms: add to `DEFINED_TERM_IDS` + `buildDefinedTerm
 
 | Cluster | Schema builders | Canonical Q&A |
 |---|---|---|
-| Tour detail | `src/lib/schemas/buildTourSchemas.ts` | `src/lib/tourFaqs.ts` (`getTourSpineQaPairs`) |
+| Tour detail | `src/lib/schemas/buildTourSchemas.ts` | **ekosistem** `5-experience-engine/knowledge-feed/tour-spine-faq.feed-output.json` via `getEcosystemTourSpineFaq()`, assembled by `src/lib/tourFaqResolution.ts`. `getTourSpineQaPairs` was deleted by T05B (2026-09-11) |
 | Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
 | Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
 | Why-JVTO | **tidak ada builder lokal** — kesembilan `page.tsx` cluster ini menyuntik lewat `PageJsonLdCombined` (ekosistem). `buildWhyJvtoSchemas.ts` dihapus 2026-09-02: nol importer | ekosistem `why-jvto/*.source.json` + individual `@type:Review` nodes on `/reviews` |
@@ -71,8 +71,10 @@ When adding new credentials/terms: add to `DEFINED_TERM_IDS` + `buildDefinedTerm
 > The "DB `narrative_claims`" / "DB `schema_json`" entries this table used to carry were
 > corrected on 2026-08-28. Those Prisma models no longer exist — the schema was pruned to
 > 6 models and nothing in `src/` imports them. The 26 narrative claims are read by
-> `getEcosystemNarrativeClaims()` (used by the two tour-detail pages); everything else
-> reads its own ekosistem source file.
+> `getEcosystemNarrativeClaims()`; everything else reads its own ekosistem source file.
+> The two tour-detail pages stopped calling it in T05B (2026-09-11) — their FAQPage used to
+> emit narrative-claim **pillars** as `Question.name`, which are taxonomy labels, not
+> questions, and had no counterpart on the rendered page.
 
 **Rule:** edit Q&A copy → in `jvto-ekosistem`, or `src/lib/*Faqs.ts` for the hand-written spine pairs. Edit schema fields → only `src/lib/schemas/build*.ts`. Never add a Prisma query for content.
 

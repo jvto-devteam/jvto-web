@@ -11,18 +11,16 @@ import {
   toOrganizationReferenceOnly,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { getEcosystemNarrativeClaims } from "@/lib/ecosystemContent/narrativeClaims";
 import {
   getEcosystemTourPackageDetail,
   getEcosystemTourPackageRoutes,
 } from "@/lib/ecosystemContent/tourPackageDetail";
 import {
   buildTourFaqSchema,
-  pickTourRelevantClaims,
   type TourDetailSeed,
-  type FullPackageDbDataSeed,
-  type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
+import { resolveVisibleTourFaqs } from "@/lib/tourFaqResolution";
+import { getEcosystemTourSpineFaq } from "@/lib/ecosystemContent/tourSpineFaq";
 import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
 import { resolveGlobalEntityNodes } from "@/lib/schemas/globalEntityNodes";
 import { getEcosystemReviewProfiles } from "@/lib/ecosystemContent/reviewPlatforms";
@@ -333,11 +331,12 @@ function adaptToTourDetailSeed(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims, reviewProfiles, ijenCraterRequirements, ecosystemNodes] = await Promise.all([
+  const [data, reviews, org, spineItems, reviewProfiles, ijenCraterRequirements, ecosystemNodes] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
-    getEcosystemNarrativeClaims(),
+    // Compiled tour-detail FAQ spine (T05A). Answers arrive fully resolved.
+    getEcosystemTourSpineFaq(),
     // Per-platform badge figures for TrustBar (client bundle — must be drilled in).
     getEcosystemReviewProfiles(),
     // Ijen Crater mandatory-requirements table + FAQ for TourRequirements (client bundle — must be drilled in).
@@ -354,20 +353,23 @@ export default async function Page({ params }: Props) {
     buildWebSiteJsonLd(siteUrl),
   ].filter(Boolean);
 
-  // FAQPage composed from 3 sources: spine Q&A + narrative_claims relevant + published package_faqs.
-  // Spine pairs hand-written canonical (always present); narrative_claims wired per-tour-relevance;
-  // package faqs add tour-specific Q&A, both ekosistem-sourced as of 2026-08-18.
+  // FAQ (T05B): one array, resolved once here, handed to BOTH the renderer and the schema
+  // builder. Answers come already-resolved from the ekosistem tour-spine payload (T05A) — this
+  // repo substitutes nothing into them. Narrative-claim pillars are no longer emitted as
+  // Question.name: they are taxonomy labels, not questions, and had no on-page counterpart.
+  //
+  // tourSeed.ijenRelevant is THE Ijen gate for the page — it decides the schema augment below,
+  // the ijen_only FAQ item, and the requirements accordion inside TourDetail. One value, so the
+  // schema cannot claim a question the page does not render.
   const tourSeed = adaptToTourDetailSeed(data);
-  const claimsLite: NarrativeClaimLite[] = (allClaims ?? [])
-    .filter((c) => c.pillar && c.core_claim)
-    .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
-  const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
   const packageFaqs = (data.product as any).faqs as Array<{ question: string; answer: string }> ?? [];
-  const fullData: FullPackageDbDataSeed | null = {
-    destinations: [],
-    faqs: packageFaqs,
-  };
-  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims, reviewProfiles });
+  const visibleFaqs = resolveVisibleTourFaqs({
+    spineItems,
+    ijenRelevant: tourSeed.ijenRelevant,
+    ijenRequirementFaqs: tourSeed.ijenRelevant ? (ijenCraterRequirements?.faqItems ?? []) : [],
+    packageFaqs,
+  });
+  const faqSchema = buildTourFaqSchema({ route: `/tours/from-bali/${slug}`, visibleFaqs });
 
   // Augment the TouristTrip node (emitted inside StructuredData below) with
   // mentions[] (DefinedTerm @ids) + subjectOf founder — merged directly onto
@@ -402,15 +404,11 @@ export default async function Page({ params }: Props) {
     ...(await resolveGlobalEntityNodes([...globalNodes, tourAugment])),
   ];
 
-  // Spine Q&A pairs for client-side AnswerBlock rendering (single source of truth with FAQPage schema).
-  const spineQa = relevantClaims.length > 0 ? null : null; // computed inside TourDetail via getTourSpineQaPairs to avoid prop drilling
-  void spineQa;
-
   return (
     <>
       <StructuredData data={data} globalNodes={resolvedGlobalNodes} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
-      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} visibleFaqs={visibleFaqs} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
     </>
   );
 }

@@ -11,15 +11,21 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { getTourSpineQaPairs, type TourFaqSeed } from '@/lib/tourFaqs';
+import type { ResolvedFaq } from '@/lib/tourFaqResolution';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
 /**
  * Minimal tour shape this module needs. Live's pages should adapt their Prisma `packages` row
  * (or composite type from `getWebPackageDetailBySlug`) to this shape.
+ *
+ * `ijenRelevant` was inherited from tourFaqs.TourFaqSeed until T05B; it is declared inline now
+ * that the FAQ spine no longer lives in this repo. It remains THE Ijen gate for the whole page —
+ * the schema augment, the FAQ payload and the requirements accordion all read this one value.
  */
-export interface TourDetailSeed extends TourFaqSeed {
+export interface TourDetailSeed {
+  /** True for any tour touching Kawah Ijen. Derived once per page by adaptToTourDetailSeed. */
+  ijenRelevant: boolean;
   name: string;
   shortDesc: string;
   image: string;
@@ -42,59 +48,41 @@ export interface FullPackageDbDataSeed {
   faqs: Array<{ question: string; answer: string }>;
 }
 
-/** Minimal narrative-claim shape (matches live's narrative_claims table after Phase 3 Prisma model add). */
-export interface NarrativeClaimLite {
-  id: string;
-  pillar: string;
-  core_claim: string;
-}
-
 /**
- * FAQPage composed from three sources, in priority order so AI-extracted answers favor the most-curated content:
- *   1. Tour spine Q&A pairs (canonical, hand-written; identical to AnswerBlock copy on the page).
- *   2. Narrative claims relevant to the tour (filtered by tour properties — see tour-relevance rules).
- *   3. Published package_faqs from DB (caller filters is_published = true).
+ * FAQPage built from the ONE array the page also renders (backlog T05B).
  *
- * Returns null only if all three sources are empty (extremely rare — spine Q&A always non-empty).
+ * It used to concatenate three sources — the local spine, narrative-claim pillars, and package
+ * FAQs — while the page rendered only the first. That made the schema assert content no reader
+ * ever saw: 905 of 1162 Question nodes site-wide had no on-page counterpart, 779 of them on
+ * these 17 tour pages. Pillars are taxonomy labels ("Safety-led"), not questions, so they were
+ * never legitimate Question.name values.
+ *
+ * Now the caller resolves the visible list once via resolveVisibleTourFaqs() and passes it here
+ * unchanged. If a Q&A is in this node it is on the page, across both visible surfaces (the Quick
+ * Answers cluster and the Ijen requirements accordion).
+ *
+ * The `@id` is safe against the ekosistem dangling-reference audit: a top-level node registers
+ * its @id as *defined*, and definitions aggregate across every <script> block on the page, so it
+ * counts even though this FAQPage ships in its own tag. The one hazard is a duplicate — dedupe
+ * runs per <JsonLd> call, so nothing else on these routes may emit `#faq`.
  */
 export function buildTourFaqSchema({
-  tour,
-  fullData,
-  narrativeClaims,
-  reviewProfiles = [],
+  route,
+  visibleFaqs,
 }: {
-  tour: TourDetailSeed;
-  fullData: FullPackageDbDataSeed | null;
-  narrativeClaims: NarrativeClaimLite[];
-  reviewProfiles?: import('@/lib/tourFaqs').ReviewProfileLite[];
+  /** Absolute path of the page, e.g. "/tours/from-bali/bromo-ijen-3d2n". */
+  route: string;
+  visibleFaqs: readonly ResolvedFaq[];
 }): WithContext<FAQPage> | null {
-  const spinePairs = getTourSpineQaPairs(tour, reviewProfiles);
-  const claimPairs = narrativeClaims.map((c) => ({ question: c.pillar, answer: c.core_claim }));
-  const dbPairs = (fullData?.faqs ?? []).map((f) => ({ question: f.question, answer: f.answer }));
-  const all = [...spinePairs, ...claimPairs, ...dbPairs];
-  if (!all.length) return null;
+  if (visibleFaqs.length === 0) return null;
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: all.map((p) => ({
+    '@id': `${BASE_URL}${route}#faq`,
+    mainEntity: visibleFaqs.map(({ question, answer }) => ({
       '@type': 'Question',
-      name: p.question,
-      acceptedAnswer: { '@type': 'Answer', text: p.answer },
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
     })),
   };
-}
-
-/**
- * Picks narrative_claims relevant to the tour from the global C1–C9 set.
- *   - Always include: C1 (Safety-led), C2 (Private tours), C3 (All-inclusive), C5 (Proof-first), C7 (Our Team)
- *   - Ijen tours: add C4 (Ijen Health Screening)
- * Caller passes `getAllNarrativeClaims()` result; this function filters in-memory (no DB).
- */
-export function pickTourRelevantClaims(
-  tour: TourFaqSeed,
-  allClaims: NarrativeClaimLite[],
-): NarrativeClaimLite[] {
-  const relevantIds = new Set(['C1', 'C2', 'C3', 'C5', 'C7']);
-  if (tour.ijenRelevant) relevantIds.add('C4');
-  return allClaims.filter((c) => relevantIds.has(c.id));
 }

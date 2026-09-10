@@ -20,7 +20,7 @@ import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
 import Link from "next/link";
-import { getTourSpineQaPairs } from "@/lib/tourFaqs";
+import { quickAnswerFaqs, packageFaqEntries, type ResolvedFaq } from "@/lib/tourFaqResolution";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -119,8 +119,21 @@ function SectionHead({
 interface Props {
   initialData: TourPackageDetail;
   reviews?: any[];
-  /** AEO/GEO port (2026-04-29): when true, includes the Ijen-specific spine Q&A pair (BBKSDA SE.1658). */
+  /**
+   * THE Ijen gate for this page, derived once on the server. Decides both the ijen_only FAQ
+   * item (already applied in `visibleFaqs`) and whether the requirements accordion renders.
+   * It used to be checked here a second, different way — `pkg.route.includes("Ijen Crater")` —
+   * which could disagree with the regex the server uses and leave the schema asserting
+   * questions this page never showed.
+   */
   ijenRelevant?: boolean;
+  /**
+   * The resolved FAQ list, identical to the array behind FAQPage.mainEntity (T05B).
+   * Resolved once on the server by resolveVisibleTourFaqs() and drilled in — this component
+   * must not recompute it, or the page and the schema can drift apart again.
+   * Spans two visible surfaces: `quick-answers` renders below, `requirements` in TourRequirements.
+   */
+  visibleFaqs?: readonly ResolvedFaq[];
   /**
    * Per-platform review profiles from getEcosystemReviewProfiles(), fetched by the
    * Server Component page. Drilled through because TrustBar sits in the client bundle.
@@ -266,14 +279,16 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
-export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false, reviewProfiles = [], ijenCraterRequirements = null }: Props) {
+export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false, visibleFaqs = [], reviewProfiles = [], ijenCraterRequirements = null }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
 
-  // AEO/GEO port (2026-04-29): canonical spine Q&A pairs for visible AnswerBlock cluster.
-  // Same source as the FAQPage JSON-LD on the server (single source of truth via lib/tourFaqs.ts).
-  // Inlined here to avoid prop drilling 4-5 strings; pure data: zero runtime cost.
-  const spineQaPairs = getTourSpineQaPairs({ ijenRelevant }, reviewProfiles);
+  // T05B: the visible list is resolved ONCE on the server and drilled in. This component used
+  // to recompute it from `ijenRelevant` + `reviewProfiles`, which agreed with the server's copy
+  // only by coincidence — nothing enforced it. Now the same array backs both the cards below
+  // and FAQPage.mainEntity, so they cannot diverge.
+  const spineQaPairs = quickAnswerFaqs(visibleFaqs);
+  const packageEntries = packageFaqEntries(visibleFaqs);
 
   // --- STATE ---
   // State untuk Hero Background (tetap ada jika ingin bisa ganti hero, tapi trigger lightbox beda)
@@ -818,14 +833,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
             </div>
             {/* AEO/GEO port (2026-04-29): Quick Answers cluster: visible Q&A bridges that mirror */}
-            {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
+            {/* the FAQPage JSON-LD schema — literally the same resolved array (T05B).            */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
               <SectionHead>Quick Answers</SectionHead>
               <div className="space-y-5">
                 {spineQaPairs.map((qa) => (
                   <div
-                    key={qa.question}
+                    key={qa.id}
                     className="rounded-[20px] border border-jvto-border bg-white p-7 card-jvto"
                   >
                     <h3 className="text-base font-bold text-jvto-navy mb-3 leading-snug">
@@ -852,6 +867,34 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 ))}
               </div>
             </div>
+
+            {/* T05B: per-package FAQs. These are in FAQPage.mainEntity, so they must be  */}
+            {/* visible or the schema asserts content no reader can find. There are 13-71 */}
+            {/* of them per route (772 across the 17 PDPs), so they are folded rather than */}
+            {/* rendered as open cards — 80 stacked cards would bury the spine above.      */}
+            {/* <details> keeps the text in the HTML, which is what parity and crawlers    */}
+            {/* need; only the visual state is collapsed.                                  */}
+            {packageEntries.length > 0 && (
+              <div>
+                <SectionHead>Tour FAQs</SectionHead>
+                <div className="space-y-3">
+                  {packageEntries.map((qa) => (
+                    <details
+                      key={qa.id}
+                      className="group rounded-[16px] border border-jvto-border bg-white px-5 py-4"
+                    >
+                      <summary className="cursor-pointer text-sm font-bold text-jvto-navy flex justify-between items-center gap-4 leading-snug">
+                        {qa.question}
+                        <span className="shrink-0 text-jvto-ink-soft transition group-open:rotate-180">▾</span>
+                      </summary>
+                      <p className="mt-3 text-sm text-jvto-ink-soft leading-relaxed">
+                        {qa.answer}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Highlights (Design Gambar 2) */}
             <div>
               <SectionHead>Trip Highlights</SectionHead>
@@ -1546,7 +1589,11 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </div>
               </div>
             </div>
-            {pkg.route.includes("Ijen Crater") && <TourRequirements pageContent={ijenCraterRequirements} />}
+            {/* T05B: gated on the server-derived ijenRelevant, not a second exact-string test on */}
+            {/* pkg.route. This accordion is a visible FAQ surface whose items are also in       */}
+            {/* FAQPage.mainEntity, so if its condition disagreed with the one that built that   */}
+            {/* payload, the schema would assert questions this page never renders.              */}
+            {ijenRelevant && <TourRequirements pageContent={ijenCraterRequirements} />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-jvto-border mt-12">
               <SectionHead className="mb-8 hidden md:block">
