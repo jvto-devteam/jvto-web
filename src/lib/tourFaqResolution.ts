@@ -62,6 +62,22 @@ function flattenSegments(item: IjenRequirementFaqItem): string {
   return segments.map((s) => s?.text ?? "").join("");
 }
 
+/**
+ * The requirement items that will actually reach the schema.
+ *
+ * The page must pass THIS array to TourRequirements as well, not the raw
+ * ekosistem field. TourRequirements falls back to a hardcoded FALLBACK.faqItems
+ * when its `faqItems` is undefined, so if ekosistem is unreachable the accordion
+ * would render 2 questions that FAQPage.mainEntity does not contain — the exact
+ * inverse of the defect T05B fixed, and invisible to the build.
+ */
+export function usableIjenRequirementFaqs(
+  items: readonly IjenRequirementFaqItem[] | undefined | null,
+): IjenRequirementFaqItem[] {
+  if (!Array.isArray(items)) return [];
+  return items.filter((item) => Boolean(item?.question) && flattenSegments(item) !== "");
+}
+
 export function resolveVisibleTourFaqs({
   spineItems,
   ijenRelevant,

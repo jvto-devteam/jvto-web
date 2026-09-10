@@ -115,7 +115,9 @@ const TourRequirements = ({ pageContent }: Props) => {
         </table>
       </div>
 
-      {/* FAQ SECTION */}
+      {/* FAQ SECTION — skipped entirely when empty rather than rendering a bare */}
+      {/* heading (G3). The page passes exactly the items that reached the schema. */}
+      {faqItems.length > 0 && (
       <div className="border-t border-gray-100 pt-8">
         <h3 className="text-xl font-bold mb-6 text-slate-900">
           {faqHeading}
@@ -137,7 +139,7 @@ const TourRequirements = ({ pageContent }: Props) => {
           ))}
         </div>
       </div>
-
+      )}
     </section>
   );
 };

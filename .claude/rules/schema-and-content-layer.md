@@ -70,13 +70,17 @@ When adding new credentials/terms: add to `DEFINED_TERM_IDS` + `buildDefinedTerm
 
 > The "DB `narrative_claims`" / "DB `schema_json`" entries this table used to carry were
 > corrected on 2026-08-28. Those Prisma models no longer exist — the schema was pruned to
-> 6 models and nothing in `src/` imports them. The 26 narrative claims are read by
-> `getEcosystemNarrativeClaims()`; everything else reads its own ekosistem source file.
-> The two tour-detail pages stopped calling it in T05B (2026-09-11) — their FAQPage used to
-> emit narrative-claim **pillars** as `Question.name`, which are taxonomy labels, not
-> questions, and had no counterpart on the rendered page.
+> 6 models and nothing in `src/` imports them. Everything reads its own ekosistem source file.
+>
+> ⚠️ **`getEcosystemNarrativeClaims()` currently has ZERO callers** (verified 2026-09-11).
+> The two tour-detail pages were its last consumers and stopped calling it in T05B: their
+> FAQPage used to emit narrative-claim **pillars** as `Question.name`, which are taxonomy
+> labels, not questions, and had no counterpart on the rendered page. The reader is kept —
+> the 26 claims are still canonical content and a future page may want them — but do not
+> read this table as evidence that something consumes it today. Tracked as
+> `NARRATIVE_CLAIMS_READER_ORPHANED`.
 
-**Rule:** edit Q&A copy → in `jvto-ekosistem`, or `src/lib/*Faqs.ts` for the hand-written spine pairs. Edit schema fields → only `src/lib/schemas/build*.ts`. Never add a Prisma query for content.
+**Rule:** edit Q&A copy → in `jvto-ekosistem`. (`src/lib/*Faqs.ts` still holds hand-written pairs for the /tours hub and verify-jvto; tour **detail** left that pattern in T05B.) Edit schema fields → only `src/lib/schemas/build*.ts`. Never add a Prisma query for content.
 
 `src/lib/queries/schemaReviews.ts` feeds `buildIndividualReviewSchemas()`; individual `@type:Review` schema is live on `/why-jvto/reviews`. Despite living under `queries/`, it is **not** a Prisma query — it was `prisma.reviews.findMany` until 2026-08-19 and now filters and sorts in application code over `getEcosystemReviews()`, keeping the same return shape.
 

@@ -14,12 +14,18 @@
  * standalone <JsonLd>, out of the parser's reach. No test:* script runs in CI,
  * and tsc there is continue-on-error. This sweep is the only real evidence.
  *
- * HOW PARITY IS MEASURED. The primary check is text-based, not structural: each
- * Question.name must appear in the page's rendered text. That is the claim we
- * actually care about ("the schema does not assert unseen content") and it does
- * not depend on CSS class names, which change. A secondary structural count of
- * the two visible surfaces catches the inverse case — content rendered but left
- * out of the schema.
+ * HOW PARITY IS MEASURED. The primary check is text-based, not structural: every
+ * Question.name AND its acceptedAnswer.text must appear in the page's rendered
+ * text. That is the claim we actually care about ("the schema does not assert
+ * unseen content") and it does not depend on CSS class names, which change.
+ * Comparison ignores whitespace on both sides, because stripping inline markup
+ * such as <strong> inserts spaces a reader never sees.
+ *
+ * A secondary structural count catches the inverse case — content rendered but
+ * left out of the schema. The spine surface is bounded (8-9 open cards); the
+ * other two are not, because their sizes are per-route content, so only their
+ * sum against mainEntity is asserted. Do not describe this as a full per-surface
+ * check: it is not one.
  *
  * THREE VISIBLE SURFACES, on purpose. Open Quick Answers cards carry the 8-9
  * canonical spine items; a collapsed "Tour FAQs" section carries the 13-71
@@ -52,6 +58,13 @@ const MAX_CONCURRENCY = 64;
  * routes we expect to change cannot tell a fix from a site-wide break.
  */
 const CONTROL_ROUTE = "/travel-guide/ijen-health-screening";
+
+/**
+ * The canonical spine is 9 items, one of them ijen_only, so a PDP renders 8 or 9
+ * open cards. Anything else means another surface's content leaked into them.
+ */
+const SPINE_MIN = 8;
+const SPINE_MAX = 9;
 
 /** Floors from scripts/validate-public-route-contract.mjs — a partial read must not pass. */
 const PDP_FLOORS = { "tours/from-bali": 4, "tours/from-surabaya": 13 };
@@ -159,11 +172,21 @@ function renderedText(html) {
     .trim();
 }
 
-const normalizeQuestion = (s) =>
-  String(s)
-    .replace(/&#x?[0-9a-f]+;|&[a-z]+;/gi, (m) => ENTITIES[m.toLowerCase()] ?? m)
-    .replace(/\s+/g, " ")
-    .trim();
+const decodeEntities = (s) =>
+  String(s).replace(/&#x?[0-9a-f]+;|&[a-z]+;/gi, (m) => ENTITIES[m.toLowerCase()] ?? m);
+
+const normalizeQuestion = (s) => decodeEntities(s).replace(/\s+/g, " ").trim();
+
+/**
+ * Whitespace-insensitive form, for the containment tests.
+ *
+ * Stripping tags turns `<strong>x</strong>` into a space on either side, so an
+ * answer whose source string is "…absolutely mandatory. You…" renders as
+ * "…absolutely mandatory . You…". Comparing on the exact string reports a
+ * mismatch that does not exist for a reader. Dropping whitespace on BOTH sides
+ * compares the words themselves, which is the claim we actually make.
+ */
+const squash = (s) => decodeEntities(s).replace(/\s+/g, "");
 
 /** Same regex as verify-live.mjs — tolerates attribute order and quote style. */
 function extractJsonLd(html) {
@@ -225,22 +248,37 @@ function checkPdp(html) {
   if (mainEntity.length === 0) failures.push("FAQPage.mainEntity is empty");
 
   // PRIMARY CHECK: every claimed question is on the page.
-  const text = renderedText(html);
-  const missing = [];
+  const squashedText = squash(renderedText(html));
+  const missingQ = [];
+  const missingA = [];
   for (const q of mainEntity) {
     const name = normalizeQuestion(q?.name ?? "");
     if (!name) {
       failures.push("a Question has no name");
       continue;
     }
-    if (!text.includes(name)) missing.push(name);
+    if (!squashedText.includes(squash(name))) missingQ.push(name);
+
+    // The answer half. This was missing until 2026-09-11 and its absence hid a
+    // real mismatch: an answer is half the claim a FAQPage makes, and schema
+    // text that no reader can find is the whole defect T05B exists to remove.
     const answer = normalizeQuestion(q?.acceptedAnswer?.text ?? "");
-    if (!answer) failures.push(`Question has no acceptedAnswer.text: ${name.slice(0, 60)}`);
+    if (!answer) {
+      failures.push(`Question has no acceptedAnswer.text: "${name.slice(0, 60)}"`);
+      continue;
+    }
+    if (!squashedText.includes(squash(answer))) missingA.push(name);
   }
-  if (missing.length) {
+  if (missingQ.length) {
     failures.push(
-      `${missing.length}/${mainEntity.length} Question(s) not rendered: ` +
-        missing.map((m) => `"${m.slice(0, 50)}"`).join(", "),
+      `${missingQ.length}/${mainEntity.length} Question(s) not rendered: ` +
+        missingQ.map((m) => `"${m.slice(0, 50)}"`).join(", "),
+    );
+  }
+  if (missingA.length) {
+    failures.push(
+      `${missingA.length}/${mainEntity.length} Answer(s) not rendered, for: ` +
+        missingA.map((m) => `"${m.slice(0, 50)}"`).join(", "),
     );
   }
 
@@ -249,9 +287,17 @@ function checkPdp(html) {
   const pkg = countPackage(html);
   const accordion = countAccordion(html);
   const visible = quick + pkg + accordion;
-  if (quick === 0) failures.push("Quick Answers cluster rendered nothing");
-  // Each surface asserted on its own as well as in sum: a sum-only check passes
-  // if items silently migrate between surfaces.
+  // Per-surface, then the sum. The sum alone would pass if every package FAQ
+  // were misrouted into the open cards (quick=80, pkg=0) — so the spine bound
+  // below is what actually pins the surfaces apart. There is deliberately no
+  // bound on `pkg` or `accordion`: their sizes are per-route content (13-71 and
+  // 0-N), so any bound would be invented rather than derived.
+  if (quick < SPINE_MIN || quick > SPINE_MAX) {
+    failures.push(
+      `Quick Answers rendered ${quick} cards, expected the spine's ${SPINE_MIN}-${SPINE_MAX} ` +
+        `(package FAQs belong in their own folded section, not here)`,
+    );
+  }
   if (visible !== mainEntity.length) {
     failures.push(
       `visible ${quick} quick-answers + ${pkg} package + ${accordion} accordion = ${visible}, ` +

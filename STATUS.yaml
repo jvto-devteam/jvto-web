@@ -702,3 +702,33 @@ open_items:
       melapor lebih ringan dari sebenarnya'. PERBAIKAN BUTUH EDIT WORKFLOW - dilarang scope
       guardrail, harus izin pemilik. Mitigasi sementara: jangan akhiri push multi-commit dengan
       commit yang allowlisted kalau ada commit sebelumnya yang menyentuh package.json.
+  - id: EKOSISTEM_SE1658_DEFINEDTERM_CONTRADICTS_PAGE
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan review adversarial T05B 2026-09-11. Halaman PDP Ijen sekarang MENYATAKAN DUA HAL
+      BERBEDA untuk kewajiban yang sama. Teks terlihat (dari payload T05A): sertifikat kesehatan
+      wajib di bawah SE.35/K2/BIDTEK.1/KSA/1/2024 - BENAR menurut trust-claims.json:190. JSON-LD di
+      halaman yang sama memuat DefinedTerm #term-se1658 dengan description 'Requires all Kawah Ijen
+      visitors to present a health certificate...' - SALAH, karena SE.1658 adalah supporting
+      authority yang membuka kembali kawah dan menetapkan syarat peralatan, bukan sumber kewajiban
+      sertifikat. SUMBER STRING ITU DI EKOSISTEM, bukan jvto-web:
+      1-knowledge-and-evidence-core/organization-identity/entity-graph-schema-facts.json ->
+      definedTerms.SE1658.description. FALLBACK lokal di src/lib/schemas/entityGraph.ts:709 memuat
+      teks identik dan akan ditimpa ekosistem, jadi memperbaikinya di jvto-web PERCUMA. BUKAN
+      DICIPTAKAN T05B: sebelumnya spine juga mengutip SE.1658 sehingga halaman salah secara
+      konsisten; T05B membuat sisi terlihat benar, sehingga kontradiksinya jadi kasat mata.
+      Perbaikan = satu commit ekosistem pada file itu, lalu deploy ekosistem (jangan berdekatan
+      dengan deploy jvto-web). Catatan: src/lib/tourFaqs.ts:47 (fallback hub /tours, belum
+      dimigrasi) sudah mengutip SE.35 dengan benar.
+  - id: NARRATIVE_CLAIMS_READER_ORPHANED
+    status: TODO
+    note: >-
+      Ditemukan review adversarial T05B 2026-09-11. getEcosystemNarrativeClaims()
+      (src/lib/ecosystemContent/narrativeClaims.ts:84) kini NOL pemanggil - dua halaman tour-detail
+      adalah konsumen terakhirnya dan berhenti memakainya di T05B karena pillar narrative-claim
+      tidak layak jadi Question.name. Reader-nya SENGAJA DIPERTAHANKAN: 26 klaim itu tetap konten
+      kanonis dan halaman lain bisa memerlukannya; menghapus reader bukan keputusan T05B. Yang sudah
+      diperbaiki: .claude/rules/schema-and-content-layer.md tidak lagi menyatakan ada pemanggil
+      hidup. Keputusan yang tersisa: biarkan sebagai reader tanpa pemanggil, atau hapus setelah
+      grep-simbol ulang. test:stale masih mengasersi 26 klaim dari sumber ekosistem, jadi angkanya
+      tetap terjaga.

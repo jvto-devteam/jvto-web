@@ -22,6 +22,13 @@
 // placeholder. Do NOT add a build-time throw here. The thing that separates the
 // two cases is the live sweep, `npm run validate:tour-faq-parity`, which asserts
 // a non-zero FAQ count on every PDP against production.
+//
+// SHAPE corruption is a different matter and is NOT swallowed silently: both
+// readers below require `items` to be an array. Without that check a payload
+// carrying `items: {}` returns a non-iterable typed as an array, and the for-of
+// in tourFaqResolution throws — turning a content problem into a failed build
+// for all 17 PDPs. Returning null instead degrades to the same empty list as an
+// unreachable payload, which is what the contract above promises.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -86,7 +93,7 @@ async function readLocal(): Promise<TourSpineFaqItem[] | null> {
       "utf8",
     );
     const parsed = JSON.parse(raw) as TourSpineFaqPayload;
-    return parsed.items ?? null;
+    return Array.isArray(parsed.items) ? parsed.items : null;
   } catch {
     return null;
   }
@@ -114,7 +121,7 @@ async function fetchRemote(): Promise<TourSpineFaqItem[] | null> {
     const body = (await response.json()) as { content?: string };
     if (typeof body.content !== "string") return null;
     const parsed = JSON.parse(body.content) as TourSpineFaqPayload;
-    return parsed.items ?? null;
+    return Array.isArray(parsed.items) ? parsed.items : null;
   } catch {
     return null;
   }

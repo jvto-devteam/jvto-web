@@ -19,7 +19,7 @@ import {
   buildTourFaqSchema,
   type TourDetailSeed,
 } from "@/lib/schemas/buildTourSchemas";
-import { resolveVisibleTourFaqs } from "@/lib/tourFaqResolution";
+import { resolveVisibleTourFaqs, usableIjenRequirementFaqs } from "@/lib/tourFaqResolution";
 import { getEcosystemTourSpineFaq } from "@/lib/ecosystemContent/tourSpineFaq";
 import { DEFINED_TERM_IDS } from "@/lib/schemas/entityGraph";
 import { resolveGlobalEntityNodes } from "@/lib/schemas/globalEntityNodes";
@@ -364,10 +364,17 @@ export default async function Page({ params }: Props) {
   // schema cannot claim a question the page does not render.
   const tourSeed = adaptToTourDetailSeed(data);
   const packageFaqs = (data.product as any).faqs as Array<{ question: string; answer: string }> ?? [];
+  // ONE array feeds both the schema and the accordion. Passing the raw ekosistem
+  // field to TourRequirements instead would let its hardcoded FALLBACK render two
+  // questions that never reached mainEntity whenever that record is unreachable.
+  const ijenRequirementFaqs = tourSeed.ijenRelevant
+    ? usableIjenRequirementFaqs(ijenCraterRequirements?.faqItems)
+    : [];
+  const requirementsContent = { ...(ijenCraterRequirements ?? {}), faqItems: ijenRequirementFaqs };
   const visibleFaqs = resolveVisibleTourFaqs({
     spineItems,
     ijenRelevant: tourSeed.ijenRelevant,
-    ijenRequirementFaqs: tourSeed.ijenRelevant ? (ijenCraterRequirements?.faqItems ?? []) : [],
+    ijenRequirementFaqs,
     packageFaqs,
   });
   const faqSchema = buildTourFaqSchema({ route: `/tours/from-surabaya/${slug}`, visibleFaqs });
@@ -410,7 +417,7 @@ export default async function Page({ params }: Props) {
     <>
       <StructuredData data={data} globalNodes={resolvedGlobalNodes} tourAugment={tourAugment} ecosystemNodes={ecosystemNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
-      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} visibleFaqs={visibleFaqs} reviewProfiles={reviewProfiles} ijenCraterRequirements={ijenCraterRequirements} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} visibleFaqs={visibleFaqs} reviewProfiles={reviewProfiles} ijenCraterRequirements={requirementsContent} />
     </>
   );
 }

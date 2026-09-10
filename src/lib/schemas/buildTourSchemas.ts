@@ -13,7 +13,12 @@ import type {
 
 import type { ResolvedFaq } from '@/lib/tourFaqResolution';
 
-const BASE_URL = 'https://javavolcano-touroperator.com';
+// Must match the origin the PDP uses for its other @ids (#webpage, #breadcrumb,
+// #product, #tour), which is env-driven. A hardcoded literal here would put the
+// FAQPage on a different origin than the rest of the graph on any deployment
+// where NEXT_PUBLIC_SITE_URL differs.
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://javavolcano-touroperator.com';
 
 /**
  * Minimal tour shape this module needs. Live's pages should adapt their Prisma `packages` row
@@ -41,11 +46,6 @@ export interface TourDetailSeed {
     day?: string;
     summary?: string;
   }>;
-}
-
-export interface FullPackageDbDataSeed {
-  destinations: Array<{ name: string; slug: string }>;
-  faqs: Array<{ question: string; answer: string }>;
 }
 
 /**
