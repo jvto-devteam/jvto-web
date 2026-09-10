@@ -587,25 +587,37 @@ open_items:
       halaman detail". ITU SALAH - curl ke /why-jvto/reviews/62, /83 dan /337 mengembalikan
       "@type":"Review" satu kali di tiap halaman. Yang nol adalah penglihatan alat auditnya.
   - id: T05A_FAQ_CANONICAL_PRODUCER
+    status: DONE
+    note: >-
+      SELESAI 2026-09-10, bukti dari server hidup. Deploy jvto-ekosistem run 34478802476 sukses
+      1m23s pada 589c4174. Diverifikasi lewat GET
+      https://ekosistem.javavolcano-touroperator.com/api/file?path=5-experience-engine/knowledge-feed/tour-spine-faq.feed-output.json
+      : schema_version jvto/output/tour-spine-faq/v1, item_count 9, generated_at
+      2026-09-10T12:48:39.932Z (salinan hasil render CI, bukan render lokal), Google
+      4.9/170/2026-09-10, item Ijen mengutip SE.35 dan TIDAK mengutip SE.1658, klaim gas mask tetap
+      mengutip SE.1658 (benar dan disengaja), jawaban penutupan gunung sudah memuat klausa
+      sebelum-Hari-1, nol placeholder tersisa, nol frasa terlarang. Gerbang lokal sebelum push:
+      test:schema 8/9 (yang ke-9 cacat Windows pra-eksisting, 4 anggota sesudahnya dijalankan satuan
+      dan lulus; sudah dibuktikan sendiri bahwa D:\D: adalah artefak win32 saja sehingga CI Linux
+      menjalankannya), render:web-content dan render:llms exit 0, rute konten 51 sesuai asersi
+      deploy. Review adversarial menemukan 4 klaim patah termasuk salah saji pengembalian dana -
+      semuanya sudah diperbaiki sebelum push.
+  - id: T05B_FAQ_CONSUMER_MIGRATION
     status: IN_PROGRESS
     note: >-
-      Ekosistem-side producer for tour-detail FAQ (backlog T05A / PR-3). Plan:
-      ~/.claude/plans/majestic-bouncing-lobster.md. Source at
-      1-knowledge-and-evidence-core/tours/faq-spine/tour-spine-faq.source.json (nested one dir down
-      ON PURPOSE: listSourceFiles() non-recursive so it never becomes a route and the 51-route
-      assertion holds, while deploy-vps.yml case allowlist still matches it - both verified
-      2026-09-10). Output 5-experience-engine/knowledge-feed/tour-spine-faq.feed-output.json. Zero
-      workflow edits needed. Spec had two defects: its faqs/ path is a dead dir rendered by nothing,
-      and its {{placeholder}} resolver does not exist in the repo.
-  - id: T05B_FAQ_CONSUMER_MIGRATION
-    status: TODO
-    note: >-
-      Web-side consumer migration (backlog T05B / PR-4). BLOCKED on T05A being merged AND verified
-      live - backlog coding rule 12. Makes visible Quick Answers and FAQPage.mainEntity the same
-      array; drops narrative-claim pillars from Question.name (905/1162 Question nodes site-wide
-      currently have no on-page counterpart, 779 on the 17 PDPs). Owner decisions 2026-09-10:
-      Google-Maps-only rating per locked decision 2026-08-15; package FAQs rendered visibly and kept
-      in schema; TourRequirements Ijen block folded in with one shared Ijen gate.
+      Kode selesai dan ter-commit lokal (f7a94e7d), BELUM di-push. Bukti LOKAL saja - Rule 9
+      melarang DONE tanpa server hidup. Diukur 2026-09-11 dari 'npx next start' (bukan file .next):
+      npm run validate:tour-faq-parity --base localhost = 18/18 lulus, visible == schema PERSIS di
+      tiap rute (mis. 82/82 pada ijen-papuma-tumpak-sewu-bromo-5d4n). Sapuan yang sama ke PRODUKSI
+      lebih dulu = 17/17 GAGAL (contoh: visible 11 / schema 86) - itu yang membuktikan gerbangnya
+      mendeteksi cacat, bukan lulus kosong. Gate lain: build exit 0 106/106 halaman 104 entri rute,
+      tsc 0 error, validate schema 52/52, validate routes PASS, test:stale 11/11, test:tour-faq
+      14/14, nol temuan lint baru di file yang disentuh. PENEMUAN SAAT EKSEKUSI: package FAQ
+      ternyata 13-71 per rute (772 total), bukan segelintir seperti asumsi saat keputusan dikunci -
+      diangkat ke pemilik, diputuskan 2026-09-11 dirender sebagai section 'Tour FAQs' terlipat
+      (<details>), bukan kartu terbuka. CATATAN: TourDetail.tsx ber-@ts-nocheck, jadi tsc TIDAK
+      memvalidasi perubahan prop di sana; yang menutupinya sapuan runtime. Sisa: push (gerbang
+      pemilik) lalu sapuan paritas ke produksi.
   - id: EKOSISTEM_SE1658_HEALTHCERT_CONFLATION
     status: TODO
     note: >-
@@ -674,3 +686,19 @@ open_items:
       jadi ini belum tentu kebocoran - tapi permukaannya jauh lebih luas dari yang dimaksudkan, dan
       jvto-web cuma butuh segelintir path. Butuh keputusan pemilik: pasang allowlist di handleFile,
       atau terima permukaan ini secara sadar.
+  - id: DEPLOY_CLASSIFIES_LAST_COMMIT_ONLY
+    status: NEEDS_OWNER
+    note: >-
+      Ditemukan 2026-09-10 saat push T05A. Langkah 'Classify deployment mode' di
+      jvto-ekosistem/.github/workflows/deploy-vps.yml menghitung CHANGED_FILES dengan 'git diff
+      --name-only HEAD^ HEAD' - hanya COMMIT TERAKHIR, bukan seluruh rentang push. Push 6 commit
+      T05A diklasifikasikan FAST karena commit terakhirnya (589c4174) cuma menyentuh knowledge-feed/
+      yang ada di allowlist, padahal commit sebelumnya mengubah package.json dan scripts/. Akibatnya
+      'Install production dependencies and restart PM2' dilewati. TIDAK BERBAHAYA untuk T05A:
+      generator-nya nol-dependency, jalan di CI runner bukan di VPS, dan VPS hanya menyajikan file
+      statis - deploy sukses 1m23s, payload terverifikasi live. BERBAHAYA secara umum: push yang
+      menambah dependency lalu diakhiri commit dokumen akan melewati npm ci, dan VPS jalan dengan
+      node_modules basi tanpa ada yang tahu. Pola yang sama dengan kelas cacat 'kegagalan yang
+      melapor lebih ringan dari sebenarnya'. PERBAIKAN BUTUH EDIT WORKFLOW - dilarang scope
+      guardrail, harus izin pemilik. Mitigasi sementara: jangan akhiri push multi-commit dengan
+      commit yang allowlisted kalau ada commit sebelumnya yang menyentuh package.json.
